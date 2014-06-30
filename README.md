@@ -17,7 +17,7 @@ Getting started
 8. If everything went well, you can delete the list from Microting by clicking the "Delete from Microting (step 9)" button
 
 ![Screenshot]
-(https://github.com/microting/InSpectionCSharp/screenshot.png)
+(https://raw.githubusercontent.com/microting/InSpectionCSharp/master/screenshot.png)
 
 License
 =======
