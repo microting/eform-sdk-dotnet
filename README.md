@@ -1,12 +1,12 @@
-InSpectionCSharp
+eFormCSharp
 ================
 
-C# Example code to communicate with Microting InSpection API
+C# Example code to communicate with Microting eForm API
 
 Getting started
 ===============
 
-1. Get an account on https://developers.microting.com (Developers backend)
+1. Contact Microting at +45 66 11 10 66 and get an account for https://my.microting.com (Developers backend)
 2. Retrieve token, srv_name, site_id from above link
 3. Add a unit to your account
 4. Run the code and fill in "Config (step 1)" section with the information obtained from Developers backend:
@@ -17,7 +17,7 @@ Getting started
 8. If everything went well, you can delete the list from Microting by clicking the "Delete from Microting (step 9)" button
 
 ![Screenshot]
-(https://raw.githubusercontent.com/microting/InSpectionCSharp/master/screenshot.png)
+(https://raw.githubusercontent.com/microting/eFormCSharp/master/screenshot.png)
 
 License
 =======
