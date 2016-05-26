@@ -22,23 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    public class KeyValuePair
     {
-        public KeyValue(string id, string key, string value)
+        public KeyValuePair(string key, string valueOfKeyValuePair, bool selected, string displayOrder)
         {
-            this.Id = id;
-            this.Key = key;
-            this.Value = value;
+            DisplayOrder = displayOrder;
+            Key = key;
+            ValueOfKeyValuePair = valueOfKeyValuePair;
+            Selected = selected;
         }
 
-        public string Value { get; set; }
         public string Key { get; set; }
-        public string Id { get; set; }
+        public string ValueOfKeyValuePair { get; set; }
+        public bool Selected { get; set; }
+        public string DisplayOrder { get; set; }
     }
 }
+

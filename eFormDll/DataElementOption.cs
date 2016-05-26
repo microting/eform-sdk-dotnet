@@ -25,20 +25,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    class DataElementOption
     {
-        public KeyValue(string id, string key, string value)
+        public DataElementOption(string key, string value, bool selected)
         {
-            this.Id = id;
             this.Key = key;
             this.Value = value;
+            this.Selected = selected;
         }
 
-        public string Value { get; set; }
         public string Key { get; set; }
-        public string Id { get; set; }
+        public string Value { get; set; }
+        public bool Selected { get; set; }
+
+        public void toXml(XmlWriter writer)
+        {
+
+        }
     }
 }

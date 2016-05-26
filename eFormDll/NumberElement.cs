@@ -22,23 +22,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    public class NumberElement : DataElement
     {
-        public KeyValue(string id, string key, string value)
+        public NumberElement(string id, string label, string description, bool mandatory, int minValue, int maxValue, int value, int decimalCount, string unitName, int color, string element_id)
         {
-            this.Id = id;
-            this.Key = key;
-            this.Value = value;
+            Id = id;
+            Label = label;
+            Description = description;
+            Mandatory = mandatory;
+            MinValue = minValue;
+            MaxValue = maxValue;
+            Value = value;
+            DecimalCount = decimalCount;
+            UnitName = unitName;
+            setColor(color);
+            ElementId = element_id;
         }
-
-        public string Value { get; set; }
-        public string Key { get; set; }
-        public string Id { get; set; }
+        public int MinValue { get; set; }
+        public int MaxValue { get; set; }
+        public int Value { get; set; }
+        public int DecimalCount { get; set; }
+        public string UnitName { get; set; }
     }
 }
+

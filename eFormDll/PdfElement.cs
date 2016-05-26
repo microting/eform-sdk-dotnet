@@ -25,20 +25,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    public class PdfElement : DataElement
     {
-        public KeyValue(string id, string key, string value)
+        public PdfElement(string id, string label, string description, string path_value, bool mandatory, int color, string element_id)
         {
-            this.Id = id;
-            this.Key = key;
-            this.Value = value;
+            Id = id;
+            Label = label;
+            Description = description;
+            PathValue = path_value;
+            Mandatory = mandatory;
+            setColor(color);
+            ElementId = element_id;
         }
 
-        public string Value { get; set; }
-        public string Key { get; set; }
-        public string Id { get; set; }
+        public string PathValue { get; set; }
     }
 }

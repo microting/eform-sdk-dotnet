@@ -27,7 +27,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Inspection
+namespace eFormTester
 {
     static class Program
     {

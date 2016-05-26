@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inspection.Properties
+namespace eFormTester.Properties
 {
 
 

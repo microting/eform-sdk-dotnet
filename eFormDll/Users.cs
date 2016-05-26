@@ -25,20 +25,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    public class Users
     {
-        public KeyValue(string id, string key, string value)
+        public Users(int id, string name, string microting_uuid)
         {
             this.Id = id;
-            this.Key = key;
-            this.Value = value;
+            this.Name = name;
+            this.MicrotingUuid = microting_uuid;
         }
 
-        public string Value { get; set; }
-        public string Key { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string MicrotingUuid { get; set; }
     }
 }

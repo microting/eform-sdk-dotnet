@@ -22,23 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    public class TextElement : DataElement
     {
-        public KeyValue(string id, string key, string value)
+
+        public TextElement(string id, string label, string description, string element_id, bool mandatory, string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden, int color)
         {
-            this.Id = id;
-            this.Key = key;
-            this.Value = value;
+            Id = id;
+            Label = label;
+            Description = description;
+            ElementId = element_id;
+            setColor(color); 
+            Mandatory = mandatory;
+            Value = value;
+            MaxLength = maxLength;
+            GeolocationEnabled = geolocationEnabled;
+            GeolocationForced = geolocationForced;
+            GeolocationHidden = geolocationhidden;
         }
 
         public string Value { get; set; }
-        public string Key { get; set; }
-        public string Id { get; set; }
+        public int MaxLength { get; set; }
+        public bool GeolocationEnabled { get; set; }
+        public bool GeolocationForced { get; set; }
+        public bool GeolocationHidden { get; set; }
     }
 }
+

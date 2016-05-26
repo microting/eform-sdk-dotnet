@@ -25,20 +25,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class KeyValue
+    public class SignatureElement : DataElement
     {
-        public KeyValue(string id, string key, string value)
+        public SignatureElement(string id, string label, string description, bool mandatory, int color, string element_id)
         {
-            this.Id = id;
-            this.Key = key;
-            this.Value = value;
+            Id = id;
+            Label = label;
+            Description = description;
+            Mandatory = mandatory;
+            setColor(color);
+            ElementId = element_id;
         }
-
-        public string Value { get; set; }
-        public string Key { get; set; }
-        public string Id { get; set; }
     }
 }
