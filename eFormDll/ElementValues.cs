@@ -27,17 +27,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eFormTester
+namespace eFormDll
 {
-    public class SystemVariables
+    public class ElementValues
     {
-        public SystemVariables(string token, string server_address)
+        public ElementValues(int element_id, string value, string status, int case_id)
         {
-            this.Token = token;
-            this.ServerAddress = server_address;
+            this.ElementId = element_id;
+            this.Value = value;
+            this.Status = status;
+            this.CaseId = case_id;
         }
 
-        public string Token { get; set; }
-        public string ServerAddress { get; set; }
+        public int ElementId { get; set; }
+        public string Value { get; set; }
+        public string Status { get; set; }
+        public int CaseId { get; set; }
     }
 }

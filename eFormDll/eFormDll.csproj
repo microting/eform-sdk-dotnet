@@ -47,10 +47,12 @@
     <Compile Include="CommentElement.cs" />
     <Compile Include="DataElement.cs" />
     <Compile Include="DataElementOption.cs" />
+    <Compile Include="DataElementValues.cs" />
     <Compile Include="DateElement.cs" />
     <Compile Include="DbFacade.cs" />
     <Compile Include="eFormMain.cs" />
     <Compile Include="Element.cs" />
+    <Compile Include="ElementValues.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="KeyValuePair.cs" />
     <Compile Include="MultiSelectElement.cs" />
