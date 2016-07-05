@@ -1,10 +1,7 @@
+﻿/*
 The MIT License (MIT)
 
-<<<<<<< HEAD
 Copyright (c) 2014 microting
-=======
-Copyright (c) 2016 Microting A/S
->>>>>>> e83bb4f... Initial commit
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +19,36 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-<<<<<<< HEAD
 SOFTWARE.
-=======
-SOFTWARE.
->>>>>>> e83bb4f... Initial commit
+*/
+using System;
+using System.Xml;
+
+namespace eFormDll
+{
+    public class TextElement : DataElement
+    {
+
+        public TextElement(string id, string label, string description, string element_id, bool mandatory, string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden, int color)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            ElementId = element_id;
+            setColor(color); 
+            Mandatory = mandatory;
+            Value = value;
+            MaxLength = maxLength;
+            GeolocationEnabled = geolocationEnabled;
+            GeolocationForced = geolocationForced;
+            GeolocationHidden = geolocationhidden;
+        }
+
+        public string Value { get; set; }
+        public int MaxLength { get; set; }
+        public bool GeolocationEnabled { get; set; }
+        public bool GeolocationForced { get; set; }
+        public bool GeolocationHidden { get; set; }
+    }
+}
+

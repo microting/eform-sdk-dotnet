@@ -1,10 +1,7 @@
+﻿/*
 The MIT License (MIT)
 
-<<<<<<< HEAD
 Copyright (c) 2014 microting
-=======
-Copyright (c) 2016 Microting A/S
->>>>>>> e83bb4f... Initial commit
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +19,33 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-<<<<<<< HEAD
 SOFTWARE.
-=======
-SOFTWARE.
->>>>>>> e83bb4f... Initial commit
+*/
+using System;
+
+namespace eFormDll
+{
+    public class NumberElement : DataElement
+    {
+        public NumberElement(string id, string label, string description, bool mandatory, int minValue, int maxValue, int value, int decimalCount, string unitName, int color, string element_id)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            Mandatory = mandatory;
+            MinValue = minValue;
+            MaxValue = maxValue;
+            Value = value;
+            DecimalCount = decimalCount;
+            UnitName = unitName;
+            setColor(color);
+            ElementId = element_id;
+        }
+        public int MinValue { get; set; }
+        public int MaxValue { get; set; }
+        public int Value { get; set; }
+        public int DecimalCount { get; set; }
+        public string UnitName { get; set; }
+    }
+}
+

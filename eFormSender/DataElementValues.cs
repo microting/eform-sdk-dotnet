@@ -1,10 +1,7 @@
+﻿/*
 The MIT License (MIT)
 
-<<<<<<< HEAD
 Copyright (c) 2014 microting
-=======
-Copyright (c) 2016 Microting A/S
->>>>>>> e83bb4f... Initial commit
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +19,31 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-<<<<<<< HEAD
 SOFTWARE.
-=======
-SOFTWARE.
->>>>>>> e83bb4f... Initial commit
+*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace eFormDll
+{
+    public class DataElementValues
+    {
+        public DataElementValues(int element_id, int data_element_id, string value, int uploaded_data_id, int case_id)
+        {
+            this.ElementId = element_id;
+            this.DataElementId = data_element_id;
+            this.Value = value;
+            this.UploadedDataId = uploaded_data_id;
+            this.CaseId = case_id;
+        }
+
+        public int DataElementId { get; set; }
+        public string Value { get; set; }
+        public int UploadedDataId { get; set; }
+        public int CaseId { get; set; }
+        public int ElementId { get; set; }
+    }
+}
