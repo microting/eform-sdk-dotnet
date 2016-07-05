@@ -32,8 +32,7 @@ namespace eFormDll
     public sealed class DbFacade
     {
         public List<Element> elements;
-        public List<DataElement> dataElements = new List<DataElement>();
-
+        public List<DataElement> dataElements;
         static readonly DbFacade _dbFacade = new DbFacade();
 
         private DbFacade() {
@@ -45,6 +44,7 @@ namespace eFormDll
         {
             get { return _dbFacade; }
         }
+
         public List<Element> Elements { get; set; }
         public List<DataElement> DataElements { get; set; }
 

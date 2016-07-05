@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormTester", "Inspection\e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormDll", "eFormDll\eFormDll.csproj", "{BA524FAD-0323-4565-8ED2-2253E5460216}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormRequest", "Tester\eFormRequest.csproj", "{8B4A71AC-C214-4AB9-859D-66559F790133}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormResponse", "eFormResponse\eFormResponse.csproj", "{5290E431-A86D-480A-AFD5-673EF5CB6664}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BA524FAD-0323-4565-8ED2-2253E5460216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA524FAD-0323-4565-8ED2-2253E5460216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA524FAD-0323-4565-8ED2-2253E5460216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B4A71AC-C214-4AB9-859D-66559F790133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B4A71AC-C214-4AB9-859D-66559F790133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B4A71AC-C214-4AB9-859D-66559F790133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4A71AC-C214-4AB9-859D-66559F790133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5290E431-A86D-480A-AFD5-673EF5CB6664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5290E431-A86D-480A-AFD5-673EF5CB6664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5290E431-A86D-480A-AFD5-673EF5CB6664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5290E431-A86D-480A-AFD5-673EF5CB6664}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

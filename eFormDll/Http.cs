@@ -31,28 +31,35 @@ using System.Text;
 
 namespace eFormDll
 {
-    public class Http
+    internal class Http
     {
-        #region Private fields
-        private static string Protocol = "5";
+
+        #region var
+        private string protocolXml = "6";
+        private string protocolEntityType = "1";
+        
+        internal string Token { get; set; }
+        internal string SrvAdd { get; set; }
         #endregion
 
-        public Http(string token, string srv_name)
+        #region con
+        internal Http(string token, string serverAddress)
         {
-            this.Token = token;
-            this.SrvName = srv_name;
+            Token = token;
+            SrvAdd = serverAddress;
         }
+        #endregion
 
-        #region Public methods
+        #region internal
         /// <summary>
         /// Deletes a element and retrieve the XML encoded response from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to delete.</param>
-        public string Delete(string elementId, string site_id)
+        internal string Delete(string elementId, string siteId)
         {
             try
             {
-                WebRequest request = WebRequest.Create(SrvName + "/gwt/inspection_app/integration/" + elementId + "?token=" + Token + "&protocol=" + Protocol + "&site_id=" + site_id + "&download=false&delete=true");
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/inspection_app/integration/" + elementId + "?token=" + Token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=true");
                 request.Method = "GET";
 
                 return PostToServer(request);
@@ -67,11 +74,11 @@ namespace eFormDll
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to retrieve status of.</param>
-        public string Status(string elementId, string site_id)
+        internal string Status(string elementId, string siteId)
         {
             try
             {
-                WebRequest request = WebRequest.Create(SrvName + "/gwt/inspection_app/integration/" + elementId + "?token=" + Token + "&protocol=" + Protocol + "&site_id=" + site_id + "&download=false&delete=false");
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/inspection_app/integration/" + elementId + "?token=" + Token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false");
                 request.Method = "GET";
 
                 return PostToServer(request);
@@ -86,12 +93,11 @@ namespace eFormDll
         /// Posts the element to Microting and returns the XML encoded restponse.
         /// </summary>
         /// <param name="xmlData">Element converted to a xml encoded string.</param>
-        public string Post(string xmlData, string site_id)
+        internal string Post(string xmlData, string siteId)
         {
             try
             {
-                //return xmlData;
-                WebRequest request = WebRequest.Create(SrvName +"/gwt/inspection_app/integration/?token=" + Token + "&protocol=" + Protocol + "&site_id=" + site_id);
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/inspection_app/integration/?token=" + Token + "&protocol=" + protocolXml + "&site_id=" + siteId);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(xmlData);
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -110,11 +116,11 @@ namespace eFormDll
         /// </summary>
         /// <param name="microtingUuid">Identifier of the element to retrieve results from.</param>
         /// <param name="microtingCheckUuid">Identifier of the check to begin from.</param>
-        public string Retrieve(string microtingUuid, int microtingCheckUuid, string site_id)
+        internal string Retrieve(string microtingUuid, int microtingCheckUuid, string siteId)
         {
             try
             {
-                WebRequest request = WebRequest.Create(SrvName + "/gwt/inspection_app/integration/" + microtingUuid + "?token=" + Token + "&protocol=" + Protocol + "&site_id=" + site_id + "&download=true&delete=false&last_check_id=" + microtingCheckUuid);
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/inspection_app/integration/" + microtingUuid + "?token=" + Token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=true&delete=false&last_check_id=" + microtingCheckUuid);
                 request.Method = "GET";
 
                 return PostToServer(request);
@@ -125,9 +131,44 @@ namespace eFormDll
             }
         }
 
+        internal string CreatEntity(string xmlData, string organizationId)
+        {
+            try
+            {
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entities?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + organizationId);
+                request.Method = "POST";
+                byte[] content = Encoding.UTF8.GetBytes(xmlData);
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = content.Length;
+
+                return PostToServer(request, content);
+            }
+            catch (Exception ex)
+            {
+                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
+            }
+        }
+
+        internal string CreatEntityType(string xmlData, string organizationId)
+        {
+            try
+            {
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entity_types?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + organizationId);
+                request.Method = "POST";
+                byte[] content = Encoding.UTF8.GetBytes(xmlData);
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = content.Length;
+
+                return PostToServer(request, content);
+            }
+            catch (Exception ex)
+            {
+                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
+            }
+        }
         #endregion
 
-        #region Private methods
+        #region private
         private string PostToServer(WebRequest request)
         {
             // Hack for ignoring certificate validation.
@@ -189,9 +230,6 @@ namespace eFormDll
         }
 
         #endregion
-
-        public string Token { get; set; }
-        public string SrvName { get; set; }
     }
 }
 

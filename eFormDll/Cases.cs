@@ -43,7 +43,6 @@ namespace eFormDll
             this.MicrotingCheckUuid = microting_check_uuid;
             this.MicrotingUuid = microting_uuid;
             this.DbFacade = DbFacade.Instance;
-            
         }
 
         public Cases()

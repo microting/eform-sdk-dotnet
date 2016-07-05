@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Output\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,33 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioElement.cs" />
-    <Compile Include="Cases.cs" />
-    <Compile Include="CheckBoxElement.cs" />
-    <Compile Include="CommentElement.cs" />
-    <Compile Include="DataElement.cs" />
-    <Compile Include="DataElementOption.cs" />
-    <Compile Include="DataElementValues.cs" />
-    <Compile Include="DateElement.cs" />
-    <Compile Include="DbFacade.cs" />
-    <Compile Include="eFormMain.cs" />
-    <Compile Include="Element.cs" />
-    <Compile Include="ElementValues.cs" />
+    <Compile Include="eForm.cs" />
     <Compile Include="Http.cs" />
-    <Compile Include="KeyValuePair.cs" />
-    <Compile Include="MultiSelectElement.cs" />
-    <Compile Include="NoneElement.cs" />
-    <Compile Include="NumberElement.cs" />
-    <Compile Include="PdfElement.cs" />
-    <Compile Include="PictureElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignatureElement.cs" />
-    <Compile Include="SingleSelectElement.cs" />
-    <Compile Include="Sites.cs" />
-    <Compile Include="TextElement.cs" />
-    <Compile Include="TimerElement.cs" />
-    <Compile Include="UserData.cs" />
-    <Compile Include="Users.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
