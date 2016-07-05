@@ -65,4 +65,5 @@ packages/
 
 #Test files
 *.testsettings
-Output/*
+Output/*.dll
+Output/*.pdb
