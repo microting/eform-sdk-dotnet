@@ -1,4 +1,27 @@
-﻿using System;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2014 microting
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+using System;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -8,31 +31,36 @@ namespace eFormSubscriber
 {
     public class Subscriber
     {
-        #region var
         public event EventHandler EventReply;
         public event EventHandler EventClient;
 
+        #region var
         private WebSocket _ws;
         private bool keepConnectionAlive = true;
-        private string _authToken, _address, _token, _clientId;
-        private int _numberOfMessages = 1;
+        private string authToken, address, token, clientId;
+        private int numberOfMessages = 1;
         private object _lock = new object();
         #endregion
 
         #region con
-        public Subscriber(string address, string token)
+        public Subscriber()
         {
-            _address = address;
-            _token = token;
+
         }
         #endregion
 
         #region public
-        public void Start()
+        /// <summary>
+        /// Starts a notification subscriber to Microting. Messages from the Microting and the subscriber trigger events.
+        /// </summary>
+        public void Start(string token, string serverAddress)
         {
+            this.token = token;
+            address = serverAddress;
+
             #region get auth token
             string html = string.Empty;
-            string url = @"https://" + _address + ":443/feeds/" + _token + "/read";
+            string url = @"https://" + address + ":443/feeds/" + this.token + "/read";
             EventTriggerRequestToServer("URL  = " + url);
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -45,13 +73,13 @@ namespace eFormSubscriber
                 html = reader.ReadToEnd();
             }
 
-            _authToken = Locate(html, "authToken: '", "'");
-            EventTriggerRequestToServer("Auth = " + _authToken);
+            authToken = Locate(html, "authToken: '", "'");
+            EventTriggerRequestToServer("Auth = " + authToken);
             #endregion
 
             #region connect websocket
             using (var nf = new Notifier(this))
-            using (var ws = new WebSocket("wss://" + _address + "/faye?subscriber_id=netapp&token=" + _token + "&host_id=netapp"))
+            using (var ws = new WebSocket("wss://" + address + "/faye?subscriber_id=netapp&token=" + this.token + "&host_id=netapp"))
             {
                 _ws = ws;
                 #region create nf events
@@ -79,7 +107,7 @@ namespace eFormSubscriber
                   nf.Notify(
                     new NotificationMessage
                     {
-                        Summary = String.Format("WebSocket Close ({0})", e.Code),
+                        Summary = string.Format("WebSocket Close ({0})", e.Code),
                         Body = e.Reason,
                         Icon = "notification-message-im"
                     });
@@ -89,7 +117,7 @@ namespace eFormSubscriber
                 _ws.Connect();
 
                 Thread.Sleep(25);
-                SendToServer("[{\"id\":\"" + _numberOfMessages + "\",\"channel\":\"/meta/handshake\",\"version\":\"1.0\",\"supportedConnectionTypes\":[\"in-process\",\"websocket\",\"long-polling\"]}]");
+                SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"channel\":\"/meta/handshake\",\"version\":\"1.0\",\"supportedConnectionTypes\":[\"in-process\",\"websocket\",\"long-polling\"]}]");
 
                 #region string reply = reply from Notifier
                 int runs = 0;
@@ -105,8 +133,8 @@ namespace eFormSubscriber
                     }
                 }
                 #endregion
-                _clientId = Locate(reply, "clientId\":\"", "\"");
-                SendToServer("[{\"id\":\"" + _numberOfMessages + "\",\"clientId\":\"" + _clientId + "\",\"channel\":\"/meta/subscribe\",\"subscription\":\"" + _authToken + "-update\"}]");
+                clientId = Locate(reply, "clientId\":\"", "\"");
+                SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/subscribe\",\"subscription\":\"" + authToken + "-update\"}]");
 
                 Thread.Sleep(250);
                 int timeout = int.Parse(Locate(reply, "\"timeout\":", "}")) - 2000;
@@ -116,21 +144,28 @@ namespace eFormSubscriber
                 //keeping connection alive
                 while (keepConnectionAlive)
                 {
-                    SendToServer("[{\"id\":\"" + _numberOfMessages + "\",\"clientId\":\"" + _clientId + "\",\"channel\":\"/meta/connect\",\"connectionType\":\"websocket\"}]");
+                    SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/connect\",\"connectionType\":\"websocket\"}]");
                     Thread.Sleep(timeout);
                 }
             }
             #endregion
         }
 
+        /// <summary>
+        /// Closes the notification subscriber to Microting.
+        /// </summary>
         public void Close()
         {
             keepConnectionAlive = false;
         }
 
+        /// <summary>
+        /// Informs the notification server, that message has been recieved.
+        /// </summary>
+        /// <param name="notificationId">Id of message that is confirmed recieved from the notification server.</param>
         public void ConfirmId(string notificationId)
         {
-            string command = "[{\"channel\":\"/meta/done_msg\",\"data\":\"{\\\"token\\\":\\\"" + _token + "\\\",\\\"notification_id\\\":" + notificationId + "}\",\"clientId\":\"" + _clientId + "\",\"id\":\"" + _numberOfMessages + "\"}]";
+            string command = "[{\"channel\":\"/meta/done_msg\",\"data\":\"{\\\"token\\\":\\\"" + token + "\\\",\\\"notification_id\\\":" + notificationId + "}\",\"clientId\":\"" + clientId + "\",\"id\":\"" + numberOfMessages + "\"}]";
             SendToServer(command);
         }
         #endregion
@@ -160,7 +195,7 @@ namespace eFormSubscriber
         {
             lock (_lock)
             {
-                _numberOfMessages++;
+                numberOfMessages++;
                 EventTriggerRequestToServer(command);
                 _ws.Send(command);
             }

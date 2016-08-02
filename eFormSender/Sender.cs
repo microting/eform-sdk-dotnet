@@ -37,7 +37,7 @@ namespace eFormSender
 
         #region public
         /// <summary>
-        /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support Entity_Search or Entity_Select).
+        /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support the complex elements Entity_Search or Entity_Select).
         /// </summary>
         /// <param name="xmlStr">XML encoded eForm string.</param>
         public string PostXml        (string apiId, string token, string serverAddress, string xmlStr)
@@ -166,7 +166,7 @@ namespace eFormSender
         /// Retrieve the XML encoded results from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
-        public string Retrieve  (string apiId, string token, string serverAddress, string eFormId)
+        public string Retrieve       (string apiId, string token, string serverAddress, string eFormId)
         {
             if (CheckInput(token, serverAddress) != "")
                 return CheckInput(token, serverAddress);
@@ -181,7 +181,7 @@ namespace eFormSender
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         /// <param name="eFormResponseId">Identifier of the check to begin from.</param>
-        public string RetrieveFormId     (string apiId, string token, string serverAddress, string eFormId, int eFormResponseId)
+        public string RetrieveFormId (string apiId, string token, string serverAddress, string eFormId, int eFormResponseId)
         {
             if (CheckInput(token, serverAddress) != "")
                 return CheckInput(token, serverAddress);

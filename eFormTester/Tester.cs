@@ -23,15 +23,9 @@ SOFTWARE.
 */
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using eFormSender;
 using eFormRequest;
 using eFormResponse;
@@ -42,9 +36,12 @@ namespace eFormTester
     public partial class Tester : Form
     {
         #region var
-        private Sender _sender = new Sender();
-        private string apiId, organizationId, token, serverAddress, request, sampleXml;
-        private DateTime startDate, endDate;
+        Sender _sender = new Sender();
+        string apiId, organizationId, serverToken, serverAddress, request, sampleXml, notificationToken, notificationAddress;
+        DateTime startDate, endDate;
+        Subscriber subscriber;
+        bool subscribed;
+        Thread subscriberThread;
         #endregion
 
         #region con
@@ -59,8 +56,10 @@ namespace eFormTester
 
                 txtApiId.Text = lines[0];
                 txtOrganizationId.Text = lines[1];
-                txtToken.Text = lines[2];
+                txtServerToken.Text = lines[2];
                 txtServerAddress.Text = lines[3];
+                txtNotificationToken.Text = lines[4];
+                txtNotificationAddress.Text = lines[5];
             }
             catch (Exception)
             {
@@ -68,82 +67,237 @@ namespace eFormTester
             #endregion
 
             UpdateXmlStr(0);
-            cbxDropDown.Text =    "Sample 1. Basic";
+            cbxDropDown.Items.Add("Sample 1 - Basic");
+            cbxDropDown.Items.Add("Sample 2 - Extended");
+            cbxDropDown.Items.Add("Sample 3 - Advanced");
+            cbxDropDown.Items.Add("Sample 4 - Complex");
 
-            cbxDropDown.Items.Add("Sample 1. Basic");
-            cbxDropDown.Items.Add("Sample 2. Extended");
-            cbxDropDown.Items.Add("Sample 3. Advanced");
-            cbxDropDown.Items.Add("Sample 4. Complex");
+            subscribed = false;
+
+            AddToLog("");
+            AddToLog("Tester started");
         }
         #endregion
 
         #region buttons
+        // eForm Standard
         private void btnSendXml_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            MapInput();
-            StoreLatestInput();
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                MapInput();
+                StoreLatestInput();
 
 
-            //Sends the XML using the actual method, and get it's response XML
-            string response = _sender.PostXml(apiId, token, serverAddress, request);
-            //Sends XML, and gets a response
+                //Sends the XML using the actual method, and get it's response XML
+                string response = _sender.PostXml(apiId, serverToken, serverAddress, request);
+                //Sends XML, and gets a response
 
 
-            tbxResponse.Text = response;
-            AddToLog(startDate, response);
-            Cursor.Current = Cursors.Default;
-        }
-
-        private void btnCheckId_Click(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            MapInput();
-            StoreLatestInput();
-
-
-            //Sends the Id using the actual method, and get it's response XML
-            string response = _sender.CheckStatus(apiId, token, serverAddress, request);
-            //Get the Id's status
-
-
-            tbxResponse.Text = response;
-            AddToLog(startDate, response);
-            Cursor.Current = Cursors.Default;
+                tbxResponse.Text = response;
+                AddToLog(response);
+                Cursor.Current = Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnFetchId_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            MapInput();
-            StoreLatestInput();
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                MapInput();
+                StoreLatestInput();
 
 
-            //Sends the Id using the actual method, and get it's response XML
-            string response = _sender.Retrieve(apiId, token, serverAddress, request);
-            //Get the Id's data
+                //Sends the Id using the actual method, and get it's response XML
+                string response = _sender.Retrieve(apiId, serverToken, serverAddress, request);
+                //Get the Id's data
 
 
-            tbxResponse.Text = response;
-            AddToLog(startDate, response);
-            Cursor.Current = Cursors.Default;
+                tbxResponse.Text = response;
+                AddToLog(response);
+                Cursor.Current = Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            MapInput();
-            StoreLatestInput();
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                MapInput();
+                StoreLatestInput();
 
 
-            //Sends the Id using the actual method, and get it's response XML
-            string response = _sender.Delete(apiId, token, serverAddress, request);
-            //Marks the Id to be deleted
+                //Sends the Id using the actual method, and get it's response XML
+                string response = _sender.Delete(apiId, serverToken, serverAddress, request);
+                //Marks the Id to be deleted
 
 
-            tbxResponse.Text = response;
-            AddToLog(startDate, response);
-            Cursor.Current = Cursors.Default;
+                tbxResponse.Text = response;
+                AddToLog(response);
+                Cursor.Current = Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // eForm Extended
+        private void btnCheckId_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                MapInput();
+                StoreLatestInput();
+
+
+                //Sends the Id using the actual method, and get it's response XML
+                string response = _sender.CheckStatus(apiId, serverToken, serverAddress, request);
+                //Get the Id's status
+
+
+                tbxResponse.Text = response;
+                AddToLog(response);
+                Cursor.Current = Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnSendExtXml_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                MapInput();
+                StoreLatestInput();
+
+
+                //Sends the XML using the actual method, and get it's response XML. ONLY needed if complex XML elements are included (Entity_Select or Entity_Search)
+                string response = _sender.PostExtendedXml(txtApiId.Text, txtServerToken.Text, txtServerAddress.Text, sampleXml, txtOrganizationId.Text);
+                //Sends XML, and gets a response
+
+
+                tbxResponse.Text = response;
+                AddToLog(response);
+                Cursor.Current = Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // Subscriber
+        private void btnSub_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MapInput();
+                StoreLatestInput();
+
+                if (subscribed == false)
+                {
+                    subscriberThread = new Thread(() => SubscriberThread(notificationToken, notificationAddress));
+                    subscriberThread.Start();
+
+                    MessageBox.Show("Events can be found in the log", "Subscribed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnUnsub_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MapInput();
+                StoreLatestInput();
+
+                if (subscribed == true)
+                {
+                    SubscriberEventOther("Subscriber thread requested to close", null);
+                    subscriberThread.Abort();
+                    MessageBox.Show("Unsubscribed", "Unsubscribed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception found." + Environment.NewLine +
+                    Environment.NewLine +
+                    "- Exception message :" + Environment.NewLine +
+                    ex.Message + Environment.NewLine +
+                    "- Exception source :" + Environment.NewLine +
+                    ex.Source + Environment.NewLine +
+                    "- Exception StackTrace :" + Environment.NewLine +
+                    ex.StackTrace,
+                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         #endregion
 
@@ -156,11 +310,11 @@ namespace eFormTester
 
 
             //Ex. of a post with auto. gen. XML and it's response XML returned
-            string response = DemoPostSample(apiId, token, serverAddress);
+            string response = DemoPostSample(apiId, serverToken, serverAddress);
 
 
             tbxResponse.Text = response;
-            AddToLog(startDate, response);
+            AddToLog(response);
             Cursor.Current = Cursors.Default;
         }
 
@@ -187,7 +341,7 @@ namespace eFormTester
 
 
             //Auto. gen. Id
-            string response = DemoPostSample(apiId, token, serverAddress);
+            string response = DemoPostSample(apiId, serverToken, serverAddress);
 
 
             string id = RetriveId(response);
@@ -277,8 +431,10 @@ namespace eFormTester
         {
             apiId = txtApiId.Text;
             organizationId = txtOrganizationId.Text;
-            token = txtToken.Text;
+            serverToken = txtServerToken.Text;
             serverAddress = txtServerAddress.Text;
+            notificationToken = txtNotificationToken.Text;
+            notificationAddress = txtNotificationAddress.Text;
             request = tbxRequest.Text;
             startDate = DateTime.Now;
             endDate = DateTime.Now.AddYears(1);
@@ -292,27 +448,20 @@ namespace eFormTester
                 {
                     file.WriteLine(apiId);
                     file.WriteLine(organizationId);
-                    file.WriteLine(token);
+                    file.WriteLine(serverToken);
                     file.WriteLine(serverAddress);
+                    file.WriteLine(notificationToken);
+                    file.WriteLine(notificationAddress);
                 }
             }
             catch (Exception) { }
         }
 
-        private void AddToLog(DateTime startDate, string postResponse)
+        private void AddToLog(string logString)
         {
             try
             {
-                string pathLog = "Log.txt";
-                if (!File.Exists(pathLog))
-                {
-                    using (StreamWriter sw = File.CreateText(pathLog)) { }
-                }
-
-                using (StreamWriter sw = File.AppendText(pathLog))
-                {
-                    sw.WriteLine(startDate + " # " + postResponse);
-                }
+                File.AppendAllText(DateTime.Now.ToShortDateString() + "_Log.txt", DateTime.Now.ToLongTimeString() + " # " + logString + Environment.NewLine);
             }
             catch (Exception ex)
             {
@@ -327,7 +476,13 @@ namespace eFormTester
                     "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        #endregion
+
+        private string Locate(string textStr, string startStr, string endStr)
+        {
+            int startIndex = textStr.IndexOf(startStr) + startStr.Length;
+            int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
+            return textStr.Substring(startIndex, lenght);
+        }
 
         private void UpdateXmlStr(int sampleIndex)
         {
@@ -480,23 +635,26 @@ namespace eFormTester
                 sample.ElementList.Add(e3);
                 g122.ElementList.Add(e3);
 
-                //Done - missing field to be renamed server side
-                ////Entity e_1 = new Entity("iden", "decription 1", "km", "colour", "radioCode", "1");
-                ////Entity e_2 = new Entity("iden", "decription 2", "km", "colour", "radioCode", "2");
-                ////Entity e_3 = new Entity("iden", "decription 3", "km", "colour", "radioCode", "3");
-                ////List<Entity> lstE = new List<Entity>();
-                ////lstE.Add(e_1);
-                ////lstE.Add(e_2);
-                ////lstE.Add(e_3);
+                //TODO - missing fields to be renamed server side.
+                //todo - check update of list
+                //todo - delete list
+                Entity e_1 = new Entity("iden", "decription 1", "km", "colour", "radioCode", "1");
+                Entity e_2 = new Entity("iden", "decription 2", "km", "colour", "radioCode", "2");
+                Entity e_3 = new Entity("iden", "decription 3", "km", "colour", "radioCode", "3");
+                List<Entity> lstE = new List<Entity>();
+                lstE.Add(e_1);
+                lstE.Add(e_2);
+                lstE.Add(e_3);
 
-                ////EntityType eS = new EntityType("name", "1001", lstE);
+                EntityType eS = new EntityType("name", "1001", lstE);
 
-                ////int alreadyKnownId = 12878;
-                ////e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", DataItemColors.Blue, 1, eS));
-                ////e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", DataItemColors.Blue, 1, alreadyKnownId));
+                int alreadyKnownListId = 12878;
+                e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", DataItemColors.Blue, 1, eS));
+                e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", DataItemColors.Blue, 1, alreadyKnownListId));
 
-
-                //TODO      e1.DataItemList.Add(new Choose_Entity("2", true, false, "Choose", "descrip", DataItemColors.Red, 2, "this is", true, "bla bla", 0, false, "unk", 1));
+                
+                //TODO Entity_Search missing
+                //todo e1.DataItemList.Add(new Choose_Entity("2", true, false, "Choose", "description", DataItemColors.Red, 2, "this is", true, "bla bla", 0, false, "unk", 1));
 
 
                 e2.DataItemList.Add(new Comment("2", false, false, "Comment field", "this is a description", DataItemColors.Blue, 2, "Text", 10000, false));
@@ -507,16 +665,62 @@ namespace eFormTester
                 sampleXml = sample.ClassToXml();
             }
         }
+        #endregion
 
-
-        //TODO be removed, before release
-
-        private void Test_Click(object sender, EventArgs e)
+        #region Subscriber thread and events handler
+        private void SubscriberThread(string token, string address)
         {
-            Sender _sender = new Sender();
-            UpdateXmlStr(0);
-            string response = _sender.PostExtendedXml(txtApiId.Text, txtToken.Text, txtServerAddress.Text, sampleXml, txtOrganizationId.Text);
-            tbxResponse.Text = response;
+            subscribed = true;
+            while (true)
+            {
+                try
+                {
+                    SubscriberEventOther("Subscriber thread started", null);
+
+                    subscriber = new Subscriber();
+                    subscriber.EventReply += SubscriberEventReply;
+                    subscriber.EventClient += SubscriberEventOther; //Sent commands and trace messages. For testing mainly. Can be removed.
+                    subscriber.Start(token, address);
+                }
+                catch (ThreadAbortException) //Subscriber has been asked to close
+                {
+                    SubscriberEventOther("Subscriber thread finished", null);
+                    SubscriberEventOther("", null);
+                    subscribed = false;
+                    break;
+                }
+                catch (Exception ex) //Subscriber had an expection, restarts in 10s
+                {
+                    SubscriberEventReply("## EXCEPTION ## " + ex.Message + Environment.NewLine +
+                                    ex.StackTrace + Environment.NewLine +
+                                    ex.InnerException,
+                                    null);
+                    SubscriberEventOther("Subscriber restarting in 10sec.", null);
+                    Thread.Sleep(10000);
+                }
+            }
         }
+
+        private void SubscriberEventReply(object sender, EventArgs args)
+        {
+            string reply = sender.ToString();
+
+            //TODO something with the reply
+            AddToLog(reply);
+
+            #region confirm reply recieved 
+            if (reply.Contains("-update\",\"data") && reply.Contains("\"id\\\":"))
+            {
+                string nfId = Locate(reply, "\"id\\\":", ",");
+                subscriber.ConfirmId(nfId);
+            }
+            #endregion
+        }
+
+        private void SubscriberEventOther(object sender, EventArgs args)
+        {
+            AddToLog(sender.ToString());
+        }
+        #endregion
     }
 }
