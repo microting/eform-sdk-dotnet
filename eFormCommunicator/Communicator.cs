@@ -24,14 +24,37 @@ SOFTWARE.
 using System;
 using System.ComponentModel;
 
-namespace eFormSender
+namespace eFormCommunicator
 {
-    public class Sender
+    public class Communicator
     {
-        #region con
-        public Sender()
-        {
+        #region var
+        private string apiId;
+        private Http http;
+        #endregion
 
+        #region con
+        public Communicator(string apiId, string token, string serverAddress)
+        {
+            this.apiId = apiId;
+            #region CheckInput token & serverAddress
+            string errorsFound = "";
+
+            if (token.Length != 32)
+            {
+                errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
+            }
+
+            if (!serverAddress.Contains("http://") && !serverAddress.Contains("https://"))
+            {
+                errorsFound += "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
+            }
+
+            if (errorsFound != "")
+                throw new InvalidOperationException(errorsFound.TrimEnd());
+            #endregion
+
+            http = new Http(token, serverAddress);
         }
         #endregion
 
@@ -40,15 +63,10 @@ namespace eFormSender
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support the complex elements Entity_Search or Entity_Select).
         /// </summary>
         /// <param name="xmlStr">XML encoded eForm string.</param>
-        public string PostXml        (string apiId, string token, string serverAddress, string xmlStr)
+        public string PostXml        (string xmlStr)
         {
-            if (CheckInput(token, serverAddress) != "")
-                return CheckInput(token, serverAddress);
-
             if (xmlStr.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
-
-            Http http = new Http(token, serverAddress);
 
             return http.Post(xmlStr, apiId);
         }
@@ -58,13 +76,8 @@ namespace eFormSender
         /// </summary>
         /// <param name="xmlStr">XML encoded eForm string.</param>
         /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
-        public string PostExtendedXml(string apiId, string token, string serverAddress, string xmlStr, string organizationId)
+        public string PostExtendedXml(string xmlStr, string organizationId)
         {
-            if (CheckInput(token, serverAddress) != "")
-                return CheckInput(token, serverAddress);
-
-            Http http = new Http(token, serverAddress);
-
             if (xmlStr.Contains("type=\"Entity_Select\">"))
             {
                 int startIndex = 0;
@@ -152,13 +165,8 @@ namespace eFormSender
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve status of.</param>
-        public string CheckStatus    (string apiId, string token, string serverAddress, string eFormId)
+        public string CheckStatus    (string eFormId)
         {
-            if (CheckInput(token, serverAddress) != "")
-                return CheckInput(token, serverAddress);
-
-            Http http = new Http(token, serverAddress);
-
             return http.Status(eFormId, apiId);
         }
 
@@ -166,13 +174,8 @@ namespace eFormSender
         /// Retrieve the XML encoded results from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
-        public string Retrieve       (string apiId, string token, string serverAddress, string eFormId)
+        public string Retrieve       (string eFormId)
         {
-            if (CheckInput(token, serverAddress) != "")
-                return CheckInput(token, serverAddress);
-
-            Http http = new Http(token, serverAddress);
-
             return http.Retrieve(eFormId, 0, apiId); //Always gets the first
         }
 
@@ -181,13 +184,8 @@ namespace eFormSender
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         /// <param name="eFormResponseId">Identifier of the check to begin from.</param>
-        public string RetrieveFormId (string apiId, string token, string serverAddress, string eFormId, int eFormResponseId)
+        public string RetrieveFormId (string eFormId, int eFormResponseId)
         {
-            if (CheckInput(token, serverAddress) != "")
-                return CheckInput(token, serverAddress);
-
-            Http http = new Http(token, serverAddress);
-
             return http.Retrieve(eFormId, eFormResponseId, apiId);
         }
 
@@ -195,35 +193,13 @@ namespace eFormSender
         /// Marks an element for deletion and retrieve the XML encoded response from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to mark for deletion.</param>
-        public string Delete         (string apiId, string token, string serverAddress, string eFormId)
+        public string Delete         (string eFormId)
         {
-            if (CheckInput(token, serverAddress) != "")
-                return CheckInput(token, serverAddress);
-
-            Http http = new Http(token, serverAddress);
-
             return http.Delete(eFormId, apiId);
         }
         #endregion
 
         #region private
-        private string CheckInput(string token, string serverAddress)
-        {
-            string returnMsg = "";
-
-            if (token.Length != 32)
-            {
-                return "Tokens are always 32 charactors long" + Environment.NewLine ;
-            }
-
-            if (!serverAddress.Contains("http://") && !serverAddress.Contains("https://"))
-            {
-                return "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
-            }
-
-            return returnMsg.TrimEnd();
-        }
-
         private string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
         {
             try

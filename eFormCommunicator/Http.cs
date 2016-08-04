@@ -28,7 +28,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 
-namespace eFormSender
+namespace eFormCommunicator
 {
     internal class Http
     {

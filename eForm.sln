@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormRequest", "eFormReques
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormTester", "eFormTester\eFormTester.csproj", "{508F7C7C-D473-475A-8812-5E74D234A915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSender", "eFormSender\eFormSender.csproj", "{BA524FAD-0323-4565-8ED2-2253E5460216}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormCommunicator", "eFormCommunicator\eFormCommunicator.csproj", "{BA524FAD-0323-4565-8ED2-2253E5460216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

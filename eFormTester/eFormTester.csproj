@@ -79,6 +79,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\eFormCommunicator\eFormCommunicator.csproj">
+      <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
+      <Name>eFormCommunicator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\eFormResponse\eFormResponse.csproj">
       <Project>{5290e431-a86d-480a-afd5-673ef5cb6664}</Project>
       <Name>eFormResponse</Name>
@@ -86,10 +90,6 @@
     <ProjectReference Include="..\eFormRequest\eFormRequest.csproj">
       <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
       <Name>eFormRequest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormSender\eFormSender.csproj">
-      <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
-      <Name>eFormSender</Name>
     </ProjectReference>
     <ProjectReference Include="..\eFormSubscriber\eFormSubscriber.csproj">
       <Project>{ad0bb980-6dc6-4860-801a-b6373934b629}</Project>

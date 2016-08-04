@@ -44,6 +44,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtNotificationToken = new System.Windows.Forms.TextBox();
+            this.txtNotificationAddress = new System.Windows.Forms.TextBox();
             this.btnUnsub = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -61,11 +66,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnVerifyXmlResponse = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtNotificationToken = new System.Windows.Forms.TextBox();
-            this.txtNotificationAddress = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -225,6 +225,51 @@
             this.groupBox7.TabIndex = 20;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Config (first step)";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.txtNotificationToken);
+            this.groupBox2.Controls.Add(this.txtNotificationAddress);
+            this.groupBox2.Location = new System.Drawing.Point(547, 19);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(287, 62);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Notification (final step)";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 13);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Token:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 36);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(48, 13);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "Address:";
+            // 
+            // txtNotificationToken
+            // 
+            this.txtNotificationToken.Location = new System.Drawing.Point(54, 13);
+            this.txtNotificationToken.Name = "txtNotificationToken";
+            this.txtNotificationToken.Size = new System.Drawing.Size(225, 20);
+            this.txtNotificationToken.TabIndex = 11;
+            // 
+            // txtNotificationAddress
+            // 
+            this.txtNotificationAddress.Location = new System.Drawing.Point(54, 33);
+            this.txtNotificationAddress.Name = "txtNotificationAddress";
+            this.txtNotificationAddress.Size = new System.Drawing.Size(225, 20);
+            this.txtNotificationAddress.TabIndex = 12;
             // 
             // btnUnsub
             // 
@@ -396,51 +441,6 @@
             this.toolTip1.SetToolTip(this.btnVerifyXmlResponse, "Checks if the XML response is convertable.");
             this.btnVerifyXmlResponse.UseVisualStyleBackColor = true;
             this.btnVerifyXmlResponse.Click += new System.EventHandler(this.btnVerifyXmlResponse_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.txtNotificationToken);
-            this.groupBox2.Controls.Add(this.txtNotificationAddress);
-            this.groupBox2.Location = new System.Drawing.Point(547, 19);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(287, 62);
-            this.groupBox2.TabIndex = 19;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Notification (final step)";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 16);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 13);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Token:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 36);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(48, 13);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "Address:";
-            // 
-            // txtNotificationToken
-            // 
-            this.txtNotificationToken.Location = new System.Drawing.Point(54, 13);
-            this.txtNotificationToken.Name = "txtNotificationToken";
-            this.txtNotificationToken.Size = new System.Drawing.Size(225, 20);
-            this.txtNotificationToken.TabIndex = 11;
-            // 
-            // txtNotificationAddress
-            // 
-            this.txtNotificationAddress.Location = new System.Drawing.Point(54, 33);
-            this.txtNotificationAddress.Name = "txtNotificationAddress";
-            this.txtNotificationAddress.Size = new System.Drawing.Size(225, 20);
-            this.txtNotificationAddress.TabIndex = 12;
             // 
             // Tester
             // 

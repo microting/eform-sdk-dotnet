@@ -7,8 +7,8 @@
     <ProjectGuid>{BA524FAD-0323-4565-8ED2-2253E5460216}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eFormSender</RootNamespace>
-    <AssemblyName>eFormSender</AssemblyName>
+    <RootNamespace>eFormCommunicator</RootNamespace>
+    <AssemblyName>eFormCommunicator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sender.cs" />
+    <Compile Include="Communicator.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
