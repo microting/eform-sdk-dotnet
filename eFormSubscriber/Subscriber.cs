@@ -45,10 +45,15 @@ namespace eFormSubscriber
         #endregion
 
         #region con
-        public Subscriber(string token, string serverAddress)
+        /// <summary>
+        /// Microting notification server subscriber C# DLL.
+        /// </summary>
+        /// <param name="token">Your company's notification server access token.</param>
+        /// <param name="address">Microting's notification server address.</param>
+        public Subscriber(string token, string address)
         {
             this.token = token;
-            address = serverAddress;
+            this.address = address;
             #region CheckInput token & serverAddress
             string errorsFound = "";
 
@@ -57,7 +62,7 @@ namespace eFormSubscriber
                 errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
             }
 
-            if (serverAddress.Contains("http://") || serverAddress.Contains("https://"))
+            if (address.Contains("http://") || address.Contains("https://"))
             {
                 errorsFound += "Server Address must not contain 'http://' or 'https://'" + Environment.NewLine;
             }
@@ -88,7 +93,7 @@ namespace eFormSubscriber
 
                     #region get auth token
                     string html = string.Empty;
-                    string url = @"https://" + address + ":443/feeds/" + this.token + "/read";
+                    string url = @"https://" + address + ":443/feeds/" + token + "/read";
                     EventTriggerRequestToServer("URL  = " + url);
 
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

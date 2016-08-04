@@ -176,7 +176,7 @@ namespace eFormTester
 
 
                 //Sends the XML using the actual method, and get it's response XML. ONLY needed if complex XML elements are included (Entity_Select or Entity_Search)
-                string response = communicator.PostExtendedXml(sampleXml, organizationId);
+                string response = communicator.PostXmlExtended(sampleXml, organizationId);
                 //Sends XML, and gets a response
 
 

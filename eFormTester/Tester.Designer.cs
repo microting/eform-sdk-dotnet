@@ -162,12 +162,12 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtApiId);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(16, 21);
+            this.groupBox1.Location = new System.Drawing.Point(19, 87);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(286, 61);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "API Id";
+            this.groupBox1.Text = "Id";
             // 
             // txtOrganizationId
             // 
@@ -192,7 +192,7 @@
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.txtServerToken);
             this.groupBox3.Controls.Add(this.txtServerAddress);
-            this.groupBox3.Location = new System.Drawing.Point(16, 84);
+            this.groupBox3.Location = new System.Drawing.Point(19, 19);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(286, 62);
             this.groupBox3.TabIndex = 18;
@@ -208,20 +208,20 @@
             this.groupBox7.Controls.Add(this.btnSendExtXml);
             this.groupBox7.Controls.Add(this.cbxDropDown);
             this.groupBox7.Controls.Add(this.btnSub);
+            this.groupBox7.Controls.Add(this.groupBox1);
+            this.groupBox7.Controls.Add(this.groupBox3);
             this.groupBox7.Controls.Add(this.btnRetriveId);
             this.groupBox7.Controls.Add(this.btnSendXml);
             this.groupBox7.Controls.Add(this.btnCreateXml);
             this.groupBox7.Controls.Add(this.btnDelete);
-            this.groupBox7.Controls.Add(this.groupBox3);
             this.groupBox7.Controls.Add(this.btnSendSample);
             this.groupBox7.Controls.Add(this.btnCheckId);
             this.groupBox7.Controls.Add(this.btnFetchId);
-            this.groupBox7.Controls.Add(this.groupBox1);
             this.groupBox7.Cursor = System.Windows.Forms.Cursors.Default;
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox7.Location = new System.Drawing.Point(5, 5);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(856, 174);
+            this.groupBox7.Size = new System.Drawing.Size(854, 173);
             this.groupBox7.TabIndex = 20;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Config (first step)";
@@ -237,7 +237,7 @@
             this.groupBox2.Size = new System.Drawing.Size(287, 62);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Notification (final step)";
+            this.groupBox2.Text = "Notification Subscriber";
             // 
             // label9
             // 
@@ -446,7 +446,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(866, 588);
+            this.ClientSize = new System.Drawing.Size(864, 588);
             this.Controls.Add(this.btnVerifyXmlResponse);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.btnVerify);

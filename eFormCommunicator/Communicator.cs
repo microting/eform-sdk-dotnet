@@ -34,7 +34,13 @@ namespace eFormCommunicator
         #endregion
 
         #region con
-        public Communicator(string apiId, string token, string serverAddress)
+        /// <summary>
+        /// Microting XML eForm API C# DLL.
+        /// </summary>
+        /// <param name="apiId">Your company's Microting ID.</param>
+        /// <param name="token">Your company's XML eForm API access token.</param>
+        /// <param name="address">Microting's eForm API server address.</param>
+        public Communicator(string apiId, string token, string address)
         {
             this.apiId = apiId;
             #region CheckInput token & serverAddress
@@ -45,7 +51,7 @@ namespace eFormCommunicator
                 errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
             }
 
-            if (!serverAddress.Contains("http://") && !serverAddress.Contains("https://"))
+            if (!address.Contains("http://") && !address.Contains("https://"))
             {
                 errorsFound += "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
             }
@@ -54,7 +60,7 @@ namespace eFormCommunicator
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(token, serverAddress);
+            http = new Http(token, address);
         }
         #endregion
 
@@ -76,7 +82,7 @@ namespace eFormCommunicator
         /// </summary>
         /// <param name="xmlStr">XML encoded eForm string.</param>
         /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
-        public string PostExtendedXml(string xmlStr, string organizationId)
+        public string PostXmlExtended(string xmlStr, string organizationId)
         {
             if (xmlStr.Contains("type=\"Entity_Select\">"))
             {
