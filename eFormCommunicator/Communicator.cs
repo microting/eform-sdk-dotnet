@@ -68,33 +68,33 @@ namespace eFormCommunicator
         /// <summary>
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support the complex elements Entity_Search or Entity_Select).
         /// </summary>
-        /// <param name="xmlStr">XML encoded eForm string.</param>
-        public string PostXml        (string xmlStr)
+        /// <param name="xmlString">XML encoded eForm string.</param>
+        public string PostXml        (string xmlString)
         {
-            if (xmlStr.Contains("type=\"Entity_Select\">"))
+            if (xmlString.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
 
-            return http.Post(xmlStr, apiId);
+            return http.Post(xmlString, apiId);
         }
 
         /// <summary>
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Supports Entity_Search or Entity_Select).
         /// </summary>
-        /// <param name="xmlStr">XML encoded eForm string.</param>
+        /// <param name="xmlString">XML encoded eForm string.</param>
         /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
-        public string PostXmlExtended(string xmlStr, string organizationId)
+        public string PostXmlExtended(string xmlString, string organizationId)
         {
-            if (xmlStr.Contains("type=\"Entity_Select\">"))
+            if (xmlString.Contains("type=\"Entity_Select\">"))
             {
                 int startIndex = 0;
-                while (xmlStr.Contains("<EntityTypeData>"))
+                while (xmlString.Contains("<EntityTypeData>"))
                 {
                     string inderXmlStr, responseXml, mUUId;
 
                     #region create EntityType server side.
                     try
                     {
-                        inderXmlStr = ReadFirst(xmlStr, "<EntityTypeData>", "</EntityTypeData>", false);
+                        inderXmlStr = ReadFirst(xmlString, "<EntityTypeData>", "</EntityTypeData>", false);
 
                         string entityTypeXmlStr = "<EntityTypes><EntityType>" + ReadFirst(inderXmlStr, "<Name>", "</Name>", true) + ReadFirst(inderXmlStr, "<Id>", "</Id>", true) + "</EntityType></EntityTypes>";
 
@@ -137,18 +137,18 @@ namespace eFormCommunicator
                     {
                         if (responseXml.Contains("workflowState=\"created\">"))
                         {
-                            string textToBeReplaced = ReadFirst(xmlStr, "<EntityTypeData>", "</EntityTypeData>", true);
-                            xmlStr = xmlStr.Remove(xmlStr.IndexOf(textToBeReplaced, startIndex), textToBeReplaced.Length);
+                            string textToBeReplaced = ReadFirst(xmlString, "<EntityTypeData>", "</EntityTypeData>", true);
+                            xmlString = xmlString.Remove(xmlString.IndexOf(textToBeReplaced, startIndex), textToBeReplaced.Length);
 
 
 
-                            textToBeReplaced = ReadFirst(xmlStr.Substring(startIndex), "<Source>", "</Source>", true);
-                            int index = xmlStr.IndexOf(textToBeReplaced, startIndex);
+                            textToBeReplaced = ReadFirst(xmlString.Substring(startIndex), "<Source>", "</Source>", true);
+                            int index = xmlString.IndexOf(textToBeReplaced, startIndex);
 
-                            xmlStr = xmlStr.Remove(index, textToBeReplaced.Length);
-                            xmlStr = xmlStr.Insert(index, "<Source>" + mUUId + "</Source>");
+                            xmlString = xmlString.Remove(index, textToBeReplaced.Length);
+                            xmlString = xmlString.Insert(index, "<Source>" + mUUId + "</Source>");
 
-                            if (xmlStr.Contains("<EntityTypeData>"))
+                            if (xmlString.Contains("<EntityTypeData>"))
                                 startIndex = index + textToBeReplaced.Length;
                         }
                         else
@@ -164,7 +164,7 @@ namespace eFormCommunicator
                 }
             }
 
-            return http.Post(xmlStr, apiId);
+            return http.Post(xmlString, apiId);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace eFormCommunicator
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         /// <param name="eFormResponseId">Identifier of the check to begin from.</param>
-        public string RetrieveFormId (string eFormId, int eFormResponseId)
+        public string RetrieveFromId (string eFormId, int eFormResponseId) //TODO - Have I done it right? Did I understand how it works :D Check readme file
         {
             return http.Retrieve(eFormId, eFormResponseId, apiId);
         }

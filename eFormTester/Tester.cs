@@ -24,7 +24,6 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using eFormCommunicator;
 using eFormRequest;
@@ -38,8 +37,7 @@ namespace eFormTester
         #region var
         Communicator communicator;
         Subscriber subscriber;
-        bool subscriberThreadAlreadyAlive;
-        Thread subscriberThread;
+        bool subscriberAlive;
         string apiId, organizationId, serverToken, serverAddress, request, sampleXml, notificationToken, notificationAddress;
         DateTime startDate, endDate;
         #endregion
@@ -72,7 +70,7 @@ namespace eFormTester
             cbxDropDown.Items.Add("Sample 3 - Advanced");
             cbxDropDown.Items.Add("Sample 4 - Complex");
 
-            subscriberThreadAlreadyAlive = false;
+            subscriberAlive = false;
 
             AddToLog("");
             AddToLog("Tester started");
@@ -83,190 +81,170 @@ namespace eFormTester
         // eForm Standard
         private void btnSendXml_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
-
-
                 //Sends the XML using the actual method, and get it's response XML
                 string response = communicator.PostXml(request);
                 //Sends XML, and gets a response
 
-
                 tbxResponse.Text = response;
                 AddToLog(response);
-                Cursor.Current = Cursors.Default;
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnFetchId_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
-
-
                 //Sends the Id using the actual method, and get it's response XML
                 string response = communicator.Retrieve(request);
                 //Get the Id's data
 
-
                 tbxResponse.Text = response;
                 AddToLog(response);
-                Cursor.Current = Cursors.Default;
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
-
-
                 //Sends the Id using the actual method, and get it's response XML
                 string response = communicator.Delete(request);
                 //Marks the Id to be deleted
 
-
                 tbxResponse.Text = response;
                 AddToLog(response);
-                Cursor.Current = Cursors.Default;
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         // eForm Extended
-        private void btnCheckId_Click(object sender, EventArgs e)
+        private void btnSendExtXml_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
+                //Sends the XML using the actual method, and get it's response XML. ONLY needed if complex XML elements are included (Entity_Select or Entity_Search). However is a bit slower than PostXml
+                string response = communicator.PostXmlExtended(request, organizationId);
+                //Sends XML, and gets a response
 
+                tbxResponse.Text = response;
+                AddToLog(response);
+            }
+            catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
+        }
 
+        private void btnCheckId_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
+            try
+            {
                 //Sends the Id using the actual method, and get it's response XML
                 string response = communicator.CheckStatus(request);
                 //Get the Id's status
 
-
                 tbxResponse.Text = response;
                 AddToLog(response);
-                Cursor.Current = Cursors.Default;
             }
             catch (Exception ex) { HandleExpection(ex); }
-        }
-
-        private void btnSendExtXml_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
-
-
-                //Sends the XML using the actual method, and get it's response XML. ONLY needed if complex XML elements are included (Entity_Select or Entity_Search)
-                string response = communicator.PostXmlExtended(sampleXml, organizationId);
-                //Sends XML, and gets a response
-
-
-                tbxResponse.Text = response;
-                AddToLog(response);
-                Cursor.Current = Cursors.Default;
-            }
-            catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         // Subscriber
         private void btnSub_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                if (!subscriberThreadAlreadyAlive)
+                if (!subscriberAlive)
                 {
-                    MapInput();
-                    StoreLatestInput();
-
                     subscriber = new Subscriber(notificationToken, notificationAddress);
-                    subscriberThread = new Thread(() => SubscriberThread(subscriber));
+                    subscriber.EventMsgServer += SubscriberEventMsgServer;
+                    subscriber.EventMsgClient += SubscriberEventMsgClient;
+                    SubscriberEventMsgClient("Subscriber now triggers events", null);
+                    MessageBox.Show         ("Subscribed. Events can be found in the log", "Subscribed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                    SubscriberEventMsgClient("Subscriber thread started", null);
-                    subscriberThread.Start();
-                    subscriberThreadAlreadyAlive = true;
+                    subscriber.Start();
+                    subscriberAlive = true;
                 }
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnUnsub_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                if (subscriberThreadAlreadyAlive)
+                if (subscriberAlive)
                 {
-                    MapInput();
-                    StoreLatestInput();
+                    //reversed order of subscribing
+                    subscriber.Close(true);
+                    subscriberAlive = false;
 
-                    SubscriberEventMsgClient("Subscriber requested to close connection", null);
-                    subscriber.Close();
+                    subscriber.EventMsgServer -= SubscriberEventMsgServer;
+                    subscriber.EventMsgClient -= SubscriberEventMsgClient;
+                    SubscriberEventMsgClient("Subscriber no longer triggers events", null);
+                    MessageBox.Show         ("Unsubscribed. Events can be found in the log", "Unsubscribed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
         #endregion
 
         #region help buttons/drop down
         private void btnSendSample_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
-
-
                 //Ex. of a post with auto. gen. XML and it's response XML returned
                 string response = communicator.PostXml(sampleXml);
 
-
                 tbxResponse.Text = response;
                 AddToLog(response);
-                Cursor.Current = Cursors.Default;
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnCreateXml_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
-                Cursor.Current = Cursors.WaitCursor;
-                MapInput();
-                StoreLatestInput();
-
-
                 //Auto. gen. XML
-                string xml = sampleXml;
-
-
-                tbxRequest.Text = xml;
-                Cursor.Current = Cursors.Default;
+                tbxRequest.Text = sampleXml;
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnRetriveId_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            MapInput();
             try
             {
                 string response = tbxResponse.Text;
@@ -280,6 +258,7 @@ namespace eFormTester
                 }
             }
             catch (Exception ex) { HandleExpection(ex); }
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnVerifyXmlRequest_Click(object sender, EventArgs e)
@@ -339,10 +318,7 @@ namespace eFormTester
             endDate = DateTime.Now.AddYears(1);
 
             communicator = new Communicator(apiId, serverToken, serverAddress);
-        }
 
-        private void StoreLatestInput()
-        {
             try
             {
                 using (StreamWriter file = new StreamWriter("LatestInput.txt"))
@@ -364,18 +340,7 @@ namespace eFormTester
             {
                 File.AppendAllText(DateTime.Now.ToShortDateString() + "_Log.txt", DateTime.Now.ToLongTimeString() + " # " + logString + Environment.NewLine);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to write to log." + Environment.NewLine +
-                    Environment.NewLine +
-                    "- Exception message :" + Environment.NewLine +
-                    ex.Message + Environment.NewLine +
-                    "- Exception source :" + Environment.NewLine +
-                    ex.Source + Environment.NewLine +
-                    "- Exception StackTrace :" + Environment.NewLine +
-                    ex.StackTrace,
-                    "Exception found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            catch (Exception ex) { HandleExpection(ex); }
         }
 
         private string Locate(string textStr, string startStr, string endStr)
@@ -392,7 +357,7 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("-thehrehrehfsdj check list", "Sample 1", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, new List<Element>());
+                MainElement sample = new MainElement("A check list", "Sample 1", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, new List<Element>());
 
                 DataElement e1 = new DataElement("My basic check list", "Basic list", 1, "Data element", true, true, true, false, "", new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
@@ -582,44 +547,18 @@ namespace eFormTester
         #endregion
 
         #region Subscriber thread and events handler
-        private void SubscriberThread(Subscriber subscriber)
-        {
-            try //thread needs its own try/catch, as it cant pass the exception to the "other" thread
-            {
-                subscriber.EventMsgServer += SubscriberEventMsgServer;
-                subscriber.EventMsgClient += SubscriberEventMsgClient;
-                SubscriberEventMsgClient("Subscribed", null);
-                MessageBox.Show("Events can be found in the log", "Subscribed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                subscriber.Start();
-
-                subscriber.EventMsgServer -= SubscriberEventMsgServer;
-                subscriber.EventMsgClient -= SubscriberEventMsgClient;
-                SubscriberEventMsgClient("(Un)subscribed", null);
-                MessageBox.Show("Unsubscribed", "Unsubscribed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                subscriberThreadAlreadyAlive = false;
-                SubscriberEventMsgClient("Subscriber thread ended", null);
-            }
-            catch (Exception ex)
-            {
-                SubscriberEventMsgClient("Subscriver thread ## EXCEPTION ## ", null);
-                HandleExpection(ex);
-            }
-        }
-
         private void SubscriberEventMsgServer(object sender, EventArgs args)
         {
             AddToLog("Server # " + sender.ToString()); //Trace messages. For testing and tracking mainly. Can be removed.
 
-            //TODO something with the reply
+            string reply = sender.ToString();
+            //TODO something with the 'reply'
             //
             //
             //
-            //done something with the reply
+            //done something with the 'reply'
 
             #region confirm reply recieved to server
-            string reply = sender.ToString();
             if (reply.Contains("-update\",\"data") && reply.Contains("\"id\\\":"))
             {
                 string nfId = Locate(reply, "\"id\\\":", ",");

@@ -37,8 +37,7 @@ namespace eFormSubscriber
 
         #region var
         private WebSocket _ws;
-        private bool keepSubscribed;
-        private bool keepConnectionAlive;
+        private bool keepSubscribed, keepConnectionAlive, isRunning;
         private string authToken, address, token, clientId;
         private int numberOfMessages;
         private object _lock;
@@ -70,6 +69,8 @@ namespace eFormSubscriber
             if (errorsFound != "")
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
+
+            isRunning = false;
         }
         #endregion
 
@@ -79,9 +80,85 @@ namespace eFormSubscriber
         /// </summary>
         public void Start()
         {
-            keepSubscribed = true;
-            EventMsgClient("Subscriber started", null);
+            if (!isRunning)
+            {
+                Thread subscriberThread = new Thread(() => ProgramThread());
+                subscriberThread.Start();
 
+                EventMsgClient("Subscriber started", null);
+            }
+        }
+
+        /// <summary>
+        /// Sends the close command to the notification subscriber to Microting.
+        /// </summary>
+        /// <param name="wait">If true, the method will not return until after connection is closed. If fail, the method will return instant. Either way the program will close by the same method.</param>
+        public void Close(bool wait)
+        {
+            if (isRunning)
+            {
+                keepConnectionAlive = false;
+                keepSubscribed = false;
+
+                EventMsgClient("Subscriber is trying to close connection", null);
+
+                if (wait)
+                {
+                    while (isRunning)
+                        Thread.Sleep(100);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tells if the Notification Subscriber to Microting is running.
+        /// </summary>
+        public bool IsActive()
+        {
+            return isRunning;
+        }
+
+        /// <summary>
+        /// Informs the notification server, that message has been recieved.
+        /// </summary>
+        /// <param name="notificationId">Id of message that is confirmed recieved from the notification server.</param>
+        public void ConfirmId(string notificationId)
+        {
+            string command = "[{\"channel\":\"/meta/done_msg\",\"data\":\"{\\\"token\\\":\\\"" + token + "\\\",\\\"notification_id\\\":" + notificationId + "}\",\"clientId\":\"" + clientId + "\",\"id\":\"" + numberOfMessages + "\"}]";
+            SendToServer(command);
+        }
+        #endregion
+
+        #region internal
+        internal void EventTriggerReplyFromServer(string msg)
+        {
+            System.EventHandler handler = EventMsgServer;
+            if (handler != null)
+            {
+                handler(msg, EventArgs.Empty);
+
+                if (msg.StartsWith("WebSocket Error") || msg.StartsWith("WebSocket Close"))
+                {
+                    keepConnectionAlive = false; //will restart connection
+                }
+            }
+        }
+
+        internal void EventTriggerRequestToServer(string msg)
+        {
+            System.EventHandler handler = EventMsgClient;
+            if (handler != null)
+            {
+                handler(msg, EventArgs.Empty);
+            }
+        }
+        #endregion
+
+        #region private
+        private void ProgramThread()
+        {
+            isRunning = true;
+            keepSubscribed = true;
             while (keepSubscribed)
             {
                 try
@@ -198,56 +275,10 @@ namespace eFormSubscriber
                     Thread.Sleep(10000);
                 }
             }
-            EventMsgClient("Subscriber disconnected", null);
+            EventMsgClient("Subscriber closed", null);
+            isRunning = false;
         }
 
-        /// <summary>
-        /// Sends the close command to the notification subscriber to Microting.
-        /// </summary>
-        public void Close()
-        {
-            keepConnectionAlive = false;
-            keepSubscribed = false;
-            EventMsgClient("Subscriber is trying to close connection", null);
-        }
-
-        /// <summary>
-        /// Informs the notification server, that message has been recieved.
-        /// </summary>
-        /// <param name="notificationId">Id of message that is confirmed recieved from the notification server.</param>
-        public void ConfirmId(string notificationId)
-        {
-            string command = "[{\"channel\":\"/meta/done_msg\",\"data\":\"{\\\"token\\\":\\\"" + token + "\\\",\\\"notification_id\\\":" + notificationId + "}\",\"clientId\":\"" + clientId + "\",\"id\":\"" + numberOfMessages + "\"}]";
-            SendToServer(command);
-        }
-        #endregion
-
-        #region internal
-        internal void EventTriggerReplyFromServer(string msg)
-        {
-            System.EventHandler handler = EventMsgServer;
-            if (handler != null)
-            {
-                handler(msg, EventArgs.Empty);
-
-                if (msg.StartsWith("WebSocket Error") || msg.StartsWith("WebSocket Close"))
-                {
-                    keepConnectionAlive = false; //will restart connection
-                }
-            }
-        }
-
-        internal void EventTriggerRequestToServer(string msg)
-        {
-            System.EventHandler handler = EventMsgClient;
-            if (handler != null)
-            {
-                handler(msg, EventArgs.Empty);
-            }
-        }
-        #endregion
-
-        #region private
         private void SendToServer(string command)
         {
             lock (_lock)
