@@ -16,7 +16,7 @@ namespace eFormRequest
 
         }
 
-        public Entity_Select(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Entity_Select(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             int sourceOfExistingList)
         {
             Id = id;
@@ -24,13 +24,13 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
             Source = sourceOfExistingList;
         }
 
-        public Entity_Select(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Entity_Select(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             EntityType CreateUpdateEntityType)
         {
             Id = id;
@@ -38,7 +38,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
         
             EntityTypeData = CreateUpdateEntityType;

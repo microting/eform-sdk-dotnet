@@ -37,56 +37,7 @@ namespace eFormRequest
         public bool ReadOnly { get; set; }
         public string Label { get; set; }
         public string Description { get; set; }
-        #region public string/enun Color { get; set; }
         public string Color { get; set; }
-        public DataItemColors GetColor()
-        {
-            switch (Color.ToLower())
-            {
-                case "e2f4fb":
-                    return DataItemColors.Blue;
-                case "f5eafa":
-                    return DataItemColors.Purple;
-                case "f0f8db":
-                    return DataItemColors.Green;
-                case "fff6df":
-                    return DataItemColors.Yellow;
-                case "ffe4e4":
-                    return DataItemColors.Red;
-                case "":
-                    return DataItemColors.None;
-                default:
-                    return DataItemColors.None;
-            }
-        }
-        public void SetColor(DataItemColors color)
-        {
-            switch (color)
-            {
-                case DataItemColors.Blue:
-                    Color = "e2f4fb";
-                    break;
-                case DataItemColors.Purple:
-                    Color = "f5eafa";
-                    break;
-                case DataItemColors.Green:
-                    Color = "f0f8db";
-                    break;
-                case DataItemColors.Yellow:
-                    Color = "fff6df";
-                    break;
-                case DataItemColors.Red:
-                    Color = "ffe4e4";
-                    break;
-                case DataItemColors.None:
-                    Color = "";
-                    throw new NotImplementedException("TODO PANIC !!!");
-                    break;
-                default:
-                    throw new IndexOutOfRangeException("Color not found in accepted list");
-            }
-        }
-        #endregion
         public int DisplayOrder { get; set; }
         #endregion
     }
@@ -100,7 +51,7 @@ namespace eFormRequest
 
         }
 
-        public Audio(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Audio(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             int multi)
         {
             Id = id;
@@ -108,7 +59,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
             Multi = multi;
@@ -126,22 +77,22 @@ namespace eFormRequest
 
         }
 
-        public Check_Box(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
-            bool value, bool selected)
+        public Check_Box(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+            bool defaultValue, bool selected)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
-            Value = value;
+            DefaultValue = defaultValue;
             Selected = selected;
         }
 
-        public bool Value { get; set; }
+        public bool DefaultValue { get; set; }
         public bool Selected { get; set; }
     }
     #endregion
@@ -154,7 +105,7 @@ namespace eFormRequest
 
         }
 
-        public Comment(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Comment(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             string value, int maxLength, bool splitScreen)
         {
             Id = id;
@@ -162,7 +113,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
           
             Value = value;
@@ -171,8 +122,8 @@ namespace eFormRequest
         }
 
         public string Value { get; set; }
-        public bool SplitScreen { get; set; }
         public int Maxlength { get; set; }
+        public bool SplitScreen { get; set; }
     }
     #endregion
 
@@ -184,23 +135,23 @@ namespace eFormRequest
 
         }
 
-        public Date(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
-            DateTime minValue, DateTime maxValue, string value)
+        public Date(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+            DateTime minValue, DateTime maxValue, string defaultValue)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
             MinValue = minValue;
             MaxValue = maxValue;
-            Value = value;
+            DefaultValue = defaultValue;
         }
 
-        public string Value { get; set; }
+        public string DefaultValue { get; set; }
         public DateTime MaxValue { get; set; }
         public DateTime MinValue { get; set; }
     }
@@ -214,14 +165,14 @@ namespace eFormRequest
 
         }
 
-        public None(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder)
+        public None(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
         }
     }
@@ -235,27 +186,27 @@ namespace eFormRequest
 
         }
 
-        public Number(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
-            int minValue, int maxValue, int value, int decimalCount, string unitName)
+        public Number(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+            int minValue, int maxValue, int defaultValue, int decimalCount, string unitName)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
             MinValue = minValue;
             MaxValue = maxValue;
-            Value = value;
+            DefaultValue = defaultValue;
             DecimalCount = decimalCount;
             UnitName = unitName;
         }
 
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
-        public int Value { get; set; }
+        public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
         public string UnitName { get; set; }
     }
@@ -269,7 +220,7 @@ namespace eFormRequest
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public Multi_Select(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Multi_Select(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
@@ -279,7 +230,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
         
             KeyValuePairList = keyValuePairList;
@@ -298,21 +249,21 @@ namespace eFormRequest
 
         }
 
-        public Show_Pdf(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
-            string value)
+        public Show_Pdf(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+            string defaultValue)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
-            Value = value;
+            DefaultValue = defaultValue;
         }
 
-        public string Value { get; set; }
+        public string DefaultValue { get; set; }
     }
     #endregion
 
@@ -324,7 +275,7 @@ namespace eFormRequest
 
         }
 
-        public Picture(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder,
+        public Picture(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder,
             int multi, bool geolocationEnabled)
         {
             Id = id;
@@ -332,7 +283,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
 
             Multi = multi;
@@ -352,14 +303,14 @@ namespace eFormRequest
 
         }
 
-        public Signature(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder)
+        public Signature(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
         }
     }
@@ -373,7 +324,7 @@ namespace eFormRequest
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public Single_Select(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Single_Select(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
@@ -383,7 +334,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
 
             KeyValuePairList = keyValuePairList;
@@ -402,15 +353,15 @@ namespace eFormRequest
 
         }
 
-        public Text(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
-            string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden)
+        public Text(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+            string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden, bool barcodeEnabled, string barcodeType)
         {
             Id = id;
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
             
             Value = value;
@@ -418,6 +369,8 @@ namespace eFormRequest
             GeolocationEnabled = geolocationEnabled;
             GeolocationForced = geolocationForced;
             GeolocationHidden = geolocationhidden;
+            BarcodeEnabled = barcodeEnabled;
+            BarcodeType = barcodeType;
         }
 
         public string Value { get; set; }
@@ -438,7 +391,7 @@ namespace eFormRequest
 
         }
 
-        public Timer(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder, 
+        public Timer(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             bool stopOnSave)
         {
             Id = id;
@@ -446,7 +399,7 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
 
             StopOnSave = stopOnSave;
@@ -459,11 +412,11 @@ namespace eFormRequest
 
     public enum DataItemColors
     {
-        Blue,
-        Purple,
-        Green,
-        Yellow,
-        Red,
-        None
+        e2f4fb_Blue,
+        f5eafa_Purple,
+        f0f8db_Green,
+        fff6df_Yellow,
+        ffe4e4_Red,
+        None_Default 
     }
 }

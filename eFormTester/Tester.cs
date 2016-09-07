@@ -21,14 +21,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 using eFormCommunicator;
 using eFormRequest;
 using eFormResponse;
 using eFormSubscriber;
+using eFormSqlController;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
+using MiniTrols;
 
 namespace eFormTester
 {
@@ -37,6 +40,7 @@ namespace eFormTester
         #region var
         Communicator communicator;
         Subscriber subscriber;
+        private Tools tool = new Tools();
         bool subscriberAlive;
         string apiId, organizationId, serverToken, serverAddress, request, sampleXml, notificationToken, notificationAddress;
         DateTime startDate, endDate;
@@ -85,6 +89,11 @@ namespace eFormTester
             MapInput();
             try
             {
+                SqlController sqlCon = new SqlController("Data Source=DESKTOP-FE2F46F\\MYTESTAREA;Initial Catalog=TestDB;Integrated Security=True"); //TODO
+                MainElement mE = new MainElement();
+                mE = mE.XmlToClass(request);
+                sqlCon.EformCreate(mE);
+
                 //Sends the XML using the actual method, and get it's response XML
                 string response = communicator.PostXml(request);
                 //Sends XML, and gets a response
@@ -174,7 +183,7 @@ namespace eFormTester
             {
                 if (!subscriberAlive)
                 {
-                    subscriber = new Subscriber(notificationToken, notificationAddress);
+                    subscriber = new Subscriber(notificationToken, notificationAddress, "netApp");
                     subscriber.EventMsgServer += SubscriberEventMsgServer;
                     subscriber.EventMsgClient += SubscriberEventMsgClient;
                     SubscriberEventMsgClient("Subscriber now triggers events", null);
@@ -251,7 +260,7 @@ namespace eFormTester
 
                 if (response.Contains("Value type=\"success\">"))
                 {
-                    string idStr = Locate(response, "Value type=\"success\">", "<");
+                    string idStr = tool.Locate(response, "Value type=\"success\">", "<");
 
                     if (int.Parse(idStr) > 0)
                         tbxRequest.Text = idStr;
@@ -343,13 +352,6 @@ namespace eFormTester
             catch (Exception ex) { HandleExpection(ex); }
         }
 
-        private string Locate(string textStr, string startStr, string endStr)
-        {
-            int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-            int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-            return textStr.Substring(startIndex, lenght);
-        }
-
         private void UpdateXmlStr(int sampleIndex)
         {
             if (sampleIndex == 0)
@@ -362,13 +364,13 @@ namespace eFormTester
                 DataElement e1 = new DataElement("My basic check list", "Basic list", 1, "Data element", true, true, true, false, "", new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
 
-                e1.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", DataItemColors.Blue, 1, 0, 1000, 2, 0, ""));
-                e1.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", DataItemColors.Green, 8, "true", 100, false, false, true));
-                e1.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", DataItemColors.Blue, 3, "value", 10000, false));
-                e1.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", DataItemColors.Yellow, 4, 1, true));
-                e1.DataItemList.Add(new Check_Box("5", false, true, "Check box", "this is a description", DataItemColors.Purple, 15, true, true));
-                e1.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", DataItemColors.Red, 16, startDate, startDate, startDate.ToString()));
-                e1.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", DataItemColors.Yellow, 7));
+                e1.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));
+                e1.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 8, "true", 100, false, false, true, false, ""));
+                e1.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
+                e1.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
+                e1.DataItemList.Add(new Check_Box("5", false, true, "Check box", "this is a description", "e2f4fb", 15, true, true));
+                e1.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 16, startDate, startDate, startDate.ToString()));
+                e1.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
                 #endregion
                 sampleXml = sample.ClassToXml();
             }
@@ -387,25 +389,25 @@ namespace eFormTester
                 sample.ElementList.Add(e2);
 
 
-                e1.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", DataItemColors.Blue, 1, 0, 1000, 2, 0, ""));
-                e1.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", DataItemColors.Green, 2, "true", 100, false, false, true));
-                e1.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", DataItemColors.Blue, 3, "value", 10000, false));
-                e1.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", DataItemColors.Yellow, 4, 1, true));
-                e1.DataItemList.Add(new Check_Box("5", true, false, "Check box", "this is a description", DataItemColors.Purple, 5, true, true));
-                e1.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", DataItemColors.Red, 6, startDate, startDate, startDate.ToString()));
-                e1.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", DataItemColors.Yellow, 7));
-                e1.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", DataItemColors.Purple, 13, false));
-                e1.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", DataItemColors.Purple, 14));
+                e1.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));
+                e1.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
+                e1.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
+                e1.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
+                e1.DataItemList.Add(new Check_Box("5", true, false, "Check box", "this is a description", "e2f4fb", 5, true, true));
+                e1.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 6, startDate, startDate, startDate.ToString()));
+                e1.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
+                e1.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", "e2f4fb", 13, false));
+                e1.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", "e2f4fb", 14));
 
-                e2.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", DataItemColors.Blue, 1, 0, 1000, 2, 0, ""));
-                e2.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", DataItemColors.Green, 2, "true", 100, false, false, true));
-                e2.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", DataItemColors.Blue, 3, "value", 10000, false));
-                e2.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", DataItemColors.Yellow, 4, 1, true));
-                e2.DataItemList.Add(new Check_Box("5", false, true, "Check box", "this is a description", DataItemColors.Purple, 5, true, true));
-                e2.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", DataItemColors.Red, 6, startDate, startDate, startDate.ToString()));
-                e2.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", DataItemColors.Yellow, 7));
-                e2.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", DataItemColors.Purple, 8, false));
-                e2.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", DataItemColors.Purple, 9));
+                e2.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));
+                e2.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
+                e2.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
+                e2.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
+                e2.DataItemList.Add(new Check_Box("5", false, true, "Check box", "this is a description", "e2f4fb", 5, true, true));
+                e2.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 6, startDate, startDate, startDate.ToString()));
+                e2.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
+                e2.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", "e2f4fb", 8, false));
+                e2.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", "e2f4fb", 9));
                 #endregion
                 sampleXml = sample.ClassToXml();
             }
@@ -441,23 +443,23 @@ namespace eFormTester
                 multiKeyValuePairList.Add(new KeyValuePair("2", "option 2", true, "2"));
                 multiKeyValuePairList.Add(new KeyValuePair("3", "option 3", false, "3"));
 
-                e1.DataItemList.Add(new Single_Select("1", false, false, "Single select field", "this is a description", DataItemColors.Blue, 1, singleKeyValuePairList));
-                e1.DataItemList.Add(new Multi_Select("2", false, false, "Multi select field", "this is a description", DataItemColors.Blue, 2, multiKeyValuePairList));
-                e1.DataItemList.Add(new Audio("3", false, false, "Audio field", "this is a description", DataItemColors.Yellow, 3, 1));
-                e1.DataItemList.Add(new Show_Pdf("4", false, false, "PDF field", "this is a description", DataItemColors.Yellow, 4, @"http://www.analysis.im/uploads/seminar/pdf-sample.pdf"));
-                e1.DataItemList.Add(new Comment("5", false, false, "Comment field", "this is a description", DataItemColors.Blue, 5, "value", 10000, false));
+                e1.DataItemList.Add(new Single_Select("1", false, false, "Single select field", "this is a description", "e2f4fb", 1, singleKeyValuePairList));
+                e1.DataItemList.Add(new Multi_Select("2", false, false, "Multi select field", "this is a description", "e2f4fb", 2, multiKeyValuePairList));
+                e1.DataItemList.Add(new Audio("3", false, false, "Audio field", "this is a description", "e2f4fb", 3, 1));
+                e1.DataItemList.Add(new Show_Pdf("4", false, false, "PDF field", "this is a description", "e2f4fb", 4, @"http://www.analysis.im/uploads/seminar/pdf-sample.pdf"));
+                e1.DataItemList.Add(new Comment("5", false, false, "Comment field", "this is a description", "e2f4fb", 5, "value", 10000, false));
 
-                e2.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", DataItemColors.Blue, 1, 0, 1000, 2, 0, ""));
-                e2.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", DataItemColors.Green, 2, "true", 100, false, false, true));
-                e2.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", DataItemColors.Blue, 3, "value", 10000, false));
-                e2.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", DataItemColors.Yellow, 4, 1, true));
-                e2.DataItemList.Add(new Check_Box("5", false, false, "Check box", "this is a description", DataItemColors.Purple, 5, true, true));
-                e2.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", DataItemColors.Red, 6, startDate, startDate, startDate.ToString()));
-                e2.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", DataItemColors.Yellow, 7));
-                e2.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", DataItemColors.Purple, 8, false));
-                e2.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", DataItemColors.Purple, 9));
+                e2.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));
+                e2.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
+                e2.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
+                e2.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
+                e2.DataItemList.Add(new Check_Box("5", false, false, "Check box", "this is a description", "e2f4fb", 5, true, true));
+                e2.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 6, startDate, startDate, startDate.ToString()));
+                e2.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
+                e2.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", "e2f4fb", 8, false));
+                e2.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", "e2f4fb", 9));
 
-                e3.DataItemList.Add(new Check_Box("1", true, false, "You are sure?", "Verify please", DataItemColors.Purple, 1, false, false));
+                e3.DataItemList.Add(new Check_Box("1", true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false));
                 #endregion
                 sampleXml = sample.ClassToXml();
             }
@@ -515,18 +517,18 @@ namespace eFormTester
                 EntityType eS = new EntityType("name", "1001", lstE);
 
                 int alreadyKnownListId = 12878;
-                e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", DataItemColors.Blue, 1, eS));
-                e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", DataItemColors.Blue, 1, alreadyKnownListId));
+                e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", "e2f4fb", 1, eS));
+                e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", "e2f4fb", 1, alreadyKnownListId));
 
                 
                 //TODO Entity_Search missing
                 //todo e1.DataItemList.Add(new Choose_Entity("2", true, false, "Choose", "description", DataItemColors.Red, 2, "this is", true, "bla bla", 0, false, "unk", 1));
 
 
-                e2.DataItemList.Add(new Comment("2", false, false, "Comment field", "this is a description", DataItemColors.Blue, 2, "Text", 10000, false));
-                e2.DataItemList.Add(new Check_Box("1", true, false, "Check field", "this is a description", DataItemColors.Purple, 1, false, false));
+                e2.DataItemList.Add(new Comment("2", false, false, "Comment field", "this is a description", "e2f4fb", 2, "Text", 10000, false));
+                e2.DataItemList.Add(new Check_Box("1", true, false, "Check field", "this is a description", "e2f4fb", 1, false, false));
 
-                e3.DataItemList.Add(new Check_Box("1", true, false, "You are sure?", "Verify please", DataItemColors.Purple, 1, false, false));
+                e3.DataItemList.Add(new Check_Box("1", true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false));
                 #endregion
                 sampleXml = sample.ClassToXml();
             }
@@ -552,19 +554,17 @@ namespace eFormTester
             AddToLog("Server # " + sender.ToString()); //Trace messages. For testing and tracking mainly. Can be removed.
 
             string reply = sender.ToString();
-            //TODO something with the 'reply'
-            //
-            //
-            //
-            //done something with the 'reply'
-
-            #region confirm reply recieved to server
             if (reply.Contains("-update\",\"data") && reply.Contains("\"id\\\":"))
             {
-                string nfId = Locate(reply, "\"id\\\":", ",");
+                //Do something with the 'reply'
+                //
+                //
+                //
+                //done something with the 'reply'
+
+                string nfId = tool.Locate(reply, "\"id\\\":", ",");
                 subscriber.ConfirmId(nfId);
             }
-            #endregion
         }
 
         private void SubscriberEventMsgClient(object sender, EventArgs args)

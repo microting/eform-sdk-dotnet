@@ -27,6 +27,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using WebSocketSharp;
+using MiniTrols;
 
 namespace eFormSubscriber
 {
@@ -37,8 +38,9 @@ namespace eFormSubscriber
 
         #region var
         private WebSocket _ws;
+        private Tools tool = new Tools();
         private bool keepSubscribed, keepConnectionAlive, isRunning;
-        private string authToken, address, token, clientId;
+        private string authToken, address, token, clientId, name;
         private int numberOfMessages;
         private object _lock;
         #endregion
@@ -49,10 +51,12 @@ namespace eFormSubscriber
         /// </summary>
         /// <param name="token">Your company's notification server access token.</param>
         /// <param name="address">Microting's notification server address.</param>
-        public Subscriber(string token, string address)
+        /// <param name="name">Your name, as shown on the notification server.</param>
+        public Subscriber(string token, string address, string name)
         {
             this.token = token;
             this.address = address;
+            this.name = name;
             #region CheckInput token & serverAddress
             string errorsFound = "";
 
@@ -95,13 +99,13 @@ namespace eFormSubscriber
         /// <param name="wait">If true, the method will not return until after connection is closed. If fail, the method will return instant. Either way the program will close by the same method.</param>
         public void Close(bool wait)
         {
+            EventMsgClient("Subscriber is trying to close connection", null);
+
+            keepConnectionAlive = false;
+            keepSubscribed = false;
+
             if (isRunning)
             {
-                keepConnectionAlive = false;
-                keepSubscribed = false;
-
-                EventMsgClient("Subscriber is trying to close connection", null);
-
                 if (wait)
                 {
                     while (isRunning)
@@ -183,13 +187,13 @@ namespace eFormSubscriber
                         html = reader.ReadToEnd();
                     }
 
-                    authToken = Locate(html, "authToken: '", "'");
+                    authToken = tool.Locate(html, "authToken: '", "'");
                     EventTriggerRequestToServer("Auth = " + authToken);
                     #endregion
 
                     #region keep connection to websocket
                     using (var nf = new Notifier(this))
-                    using (var ws = new WebSocket("wss://" + address + "/faye?subscriber_id=netapp&token=" + token + "&host_id=netapp"))
+                    using (var ws = new WebSocket("wss://" + address + "/faye?subscriber_id=" + name + "&token=" + token + "&host_id=" + name ))
                     {
                         _ws = ws;
                         #region create nf events
@@ -243,17 +247,17 @@ namespace eFormSubscriber
                             }
                         }
                         #endregion
-                        clientId = Locate(reply, "clientId\":\"", "\"");
+                        clientId = tool.Locate(reply, "clientId\":\"", "\"");
                         SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/subscribe\",\"subscription\":\"" + authToken + "-update\"}]");
 
                         Thread.Sleep(250);
-                        int timeout = int.Parse(Locate(reply, "\"timeout\":", "}")) - 2000;
+                        int timeout = int.Parse(tool.Locate(reply, "\"timeout\":", "}")) - 2000;
                         if (timeout < 100)
                             throw new SystemException("Timeout-2s is smaller than 0.1s. Timeout=" + timeout.ToString());
 
                         //keeping connection alive
                         keepConnectionAlive = true;
-                        while (keepConnectionAlive)
+                        while (keepConnectionAlive && keepSubscribed)
                         {
                             SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/connect\",\"connectionType\":\"websocket\"}]");
                             Thread.Sleep(timeout);
@@ -287,13 +291,6 @@ namespace eFormSubscriber
                 EventTriggerRequestToServer(command);
                 _ws.Send(command);
             }
-        }
-        
-        private string Locate(string textStr, string startStr, string endStr)
-        {
-            int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-            int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-            return textStr.Substring(startIndex, lenght);
         }
         #endregion
 

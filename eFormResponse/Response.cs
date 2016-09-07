@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using MiniTrols;
 
 namespace eFormResponse
 {
@@ -23,6 +24,8 @@ namespace eFormResponse
         #endregion
 
         #region var
+        private Tools tool = new Tools();
+
         public ResponseTypes Type { get; set; }
         public string Value { get; set; }
         public string UnitFetchedAt { get; set; }
@@ -41,21 +44,35 @@ namespace eFormResponse
                 #region value type
                 if (xmlStr.Contains("<Value type="))
                 {
-                    string subXmlStr = xmlStr.Substring(xmlStr.IndexOf("<Value type=\"") + 13); // 13 magic int = "<Value type=\"".Length;
-                    string valueTypeLower = subXmlStr.Substring(0, subXmlStr.IndexOf("\"")).ToLower(); //digs out value's type
-                    value = subXmlStr.Substring(valueTypeLower.Length + 2, subXmlStr.IndexOf("</Value>") - valueTypeLower.Length - 2); //digs out value's text
+                    string subXmlStr = tool.Locate(xmlStr, "<Response>", "</Response>").Trim();
+                    string valueTypeLower = tool.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
+                    value = tool.Locate(xmlStr, "\">", "</").Trim();
 
-                    if (valueTypeLower == ("success"))
-                        rType = ResponseTypes.Success;
+                    switch (valueTypeLower)
+                    {
+                        case "success":
+                            rType = ResponseTypes.Success;
+                            break;
 
-                    if (valueTypeLower == ("error"))
-                        rType = ResponseTypes.Error;
+                        case "error":
+                            rType = ResponseTypes.Error;
+                            break;
 
-                    if (valueTypeLower == ("parsing"))
-                        rType = ResponseTypes.Parsing;
+                        case "parsing":
+                            rType = ResponseTypes.Parsing;
+                            break;
 
-                    if (valueTypeLower == ("received"))
-                        rType = ResponseTypes.Received;
+                        case "received":
+                            rType = ResponseTypes.Received;
+                            break;
+
+                        case "invalid":
+                            rType = ResponseTypes.Invalid;
+                            break;
+
+                        default:
+                            throw new IndexOutOfRangeException("'" + valueTypeLower + "' is not a know ResponseType");
+                    }
                 }
                 #endregion
 
@@ -79,15 +96,15 @@ namespace eFormResponse
                 {
                     Check check = new Check();
 
-                    check.UnitId =   Locate(checkXmlStr, " unit_id=\"",   "\"");
-                    check.Date =     Locate(checkXmlStr, " date=\"",      "\"");
-                    check.Worker =   Locate(checkXmlStr, " worker=\"",    "\"");
-                    check.Id =       Locate(checkXmlStr, " id=\"",        "\"");
-                    check.WorkerId = Locate(checkXmlStr, " worker_id=\"", "\"");
+                    check.UnitId = tool.Locate(checkXmlStr, " unit_id=\"",   "\"");
+                    check.Date = tool.Locate(checkXmlStr, " date=\"",      "\"");
+                    check.Worker = tool.Locate(checkXmlStr, " worker=\"",    "\"");
+                    check.Id = tool.Locate(checkXmlStr, " id=\"",        "\"");
+                    check.WorkerId = tool.Locate(checkXmlStr, " worker_id=\"", "\"");
 
                     while (checkXmlStr.Contains("<ElementList>"))
                     {
-                        string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + Locate(checkXmlStr, "<ElementList>", "</ElementList>") + "</ElementList>";
+                        string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + tool.Locate(checkXmlStr, "<ElementList>", "</ElementList>") + "</ElementList>";
                         ElementList eResp = XmlToClassCheck(inderXmlStr);
                         check.ElementList.Add(eResp);
 
@@ -190,13 +207,6 @@ namespace eFormResponse
             xmlStr = xmlStr.Replace("<ElementList xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">", "<ElementList>");
 
             return xmlStr.Trim();
-        }
-
-        private string Locate(string textStr, string startStr, string endStr)
-        {
-            int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-            int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-            return textStr.Substring(startIndex, lenght);
         }
         #endregion
 

@@ -71,6 +71,9 @@ namespace eFormCommunicator
         /// <param name="xmlString">XML encoded eForm string.</param>
         public string PostXml        (string xmlString)
         {
+            xmlString = xmlString.Replace("<Color />", "");   //TODO HACK   //TODO - Missing serverside. Will not accept blank/empty field
+
+
             if (xmlString.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
 
@@ -84,6 +87,9 @@ namespace eFormCommunicator
         /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
         public string PostXmlExtended(string xmlString, string organizationId)
         {
+            xmlString = xmlString.Replace("<color></color>", "");   //TODO HACK   //TODO - Missing serverside. Will not accept blank/empty field
+
+
             if (xmlString.Contains("type=\"Entity_Select\">"))
             {
                 int startIndex = 0;
@@ -202,6 +208,11 @@ namespace eFormCommunicator
         public string Delete         (string eFormId)
         {
             return http.Delete(eFormId, apiId);
+        }
+
+        public string ApiId()
+        {
+            return apiId;
         }
         #endregion
 

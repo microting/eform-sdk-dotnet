@@ -13,10 +13,10 @@ namespace eFormRequest
 
         public KeyValuePair(string key, string value, bool selected, string displayOrder)
         {
-            DisplayOrder = displayOrder;
             Key = key;
             Value = value;
             Selected = selected;
+            DisplayOrder = displayOrder;
         }
         #endregion
 

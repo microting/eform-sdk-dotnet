@@ -49,6 +49,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subscriber.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniTrols\MiniTrols.csproj">
+      <Project>{86ad3859-e0f8-4353-a2fa-1972d3cd3809}</Project>
+      <Name>MiniTrols</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

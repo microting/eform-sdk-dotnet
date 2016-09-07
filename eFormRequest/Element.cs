@@ -21,7 +21,7 @@ namespace eFormRequest
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
         public string Description { get; set; }
-        public bool ApprovedEnabled { get; set; }
+        public bool ApprovalEnabled { get; set; }
         public bool ReviewEnabled { get; set; }
         public bool DoneButtonEnabled { get; set; }
         public bool ExtraFieldsEnabled { get; set; }
@@ -37,7 +37,7 @@ namespace eFormRequest
             DataItemList = new List<DataItem>();
         }
 
-        public DataElement(string id, string label, int displayOrder, string description, bool approvedEnabled, bool reviewEnabled, bool doneButtonEnabled,
+        public DataElement(string id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
             bool extraDataElementsEnabled, string pinkBarText, List<DataItem> dataItemList)
         {
             DataItemList = new List<DataItem>();
@@ -46,7 +46,7 @@ namespace eFormRequest
             Label = label;
             DisplayOrder = displayOrder;
             Description = description;
-            ApprovedEnabled = approvedEnabled;
+            ApprovalEnabled = approvalEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;
             ExtraFieldsEnabled = extraDataElementsEnabled;
@@ -77,7 +77,7 @@ namespace eFormRequest
             Label = label;
             DisplayOrder = displayOrder;
             Description = description;
-            ApprovedEnabled = approvedEnabled;
+            ApprovalEnabled = approvedEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;
             ExtraFieldsEnabled = extraDataElementsEnabled;

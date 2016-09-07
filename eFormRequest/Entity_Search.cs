@@ -14,8 +14,8 @@ namespace eFormRequest
 
         }
 
-        public Entity_Search(string id, bool mandatory, bool readOnly, string label, string description, DataItemColors color, int displayOrder,
-            bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled, string barcodeType, int entityTypeId)
+        public Entity_Search(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder,
+            int sourceOfExistingList)
 
         {
             Id = id;
@@ -23,15 +23,10 @@ namespace eFormRequest
             ReadOnly = readOnly;
             Label = label;
             Description = description;
-            SetColor(color);
+            Color = color;
             DisplayOrder = displayOrder;
 
-            IsNum = isNum;
-            QueryType = queryType;
-            MinSearchLenght = minSearchLenght;
-            BarcodeEnabled = barcodeEnabled;
-            BarcodeType = barcodeType;
-            EntityTypeId = entityTypeId;
+            MinSearchLenght = sourceOfExistingList;
         }
 
         public bool IsNum { get; set; }

@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{508F7C7C-D473-475A-8812-5E74D234A915}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{2779518E-DEDD-40BD-A072-52573546A577}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eFormTester</RootNamespace>
-    <AssemblyName>eFormTester</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Microting</RootNamespace>
+    <AssemblyName>Microting</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,73 +39,40 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tester.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tester.Designer.cs">
-      <DependentUpon>Tester.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Tester.resx">
-      <DependentUpon>Tester.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eFormCommunicator\eFormCommunicator.csproj">
+    <ProjectReference Include="..\..\eFormCommunicator\eFormCommunicator.csproj">
       <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
       <Name>eFormCommunicator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\eFormRequest\eFormRequest.csproj">
+    <ProjectReference Include="..\..\eFormRequest\eFormRequest.csproj">
       <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
       <Name>eFormRequest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\eFormResponse\eFormResponse.csproj">
+    <ProjectReference Include="..\..\eFormResponse\eFormResponse.csproj">
       <Project>{5290e431-a86d-480a-afd5-673ef5cb6664}</Project>
       <Name>eFormResponse</Name>
     </ProjectReference>
-    <ProjectReference Include="..\eFormSqlController\eFormSqlController.csproj">
+    <ProjectReference Include="..\..\eFormSqlController\eFormSqlController.csproj">
       <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>
       <Name>eFormSqlController</Name>
     </ProjectReference>
-    <ProjectReference Include="..\eFormSubscriber\eFormSubscriber.csproj">
+    <ProjectReference Include="..\..\eFormSubscriber\eFormSubscriber.csproj">
       <Project>{ad0bb980-6dc6-4860-801a-b6373934b629}</Project>
       <Name>eFormSubscriber</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microting\Microting\Microting.csproj">
-      <Project>{2779518e-dedd-40bd-a072-52573546a577}</Project>
-      <Name>Microting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MiniTrols\MiniTrols.csproj">
-      <Project>{86AD3859-E0F8-4353-A2FA-1972D3CD3809}</Project>
+    <ProjectReference Include="..\..\MiniTrols\MiniTrols.csproj">
+      <Project>{86ad3859-e0f8-4353-a2fa-1972d3cd3809}</Project>
       <Name>MiniTrols</Name>
     </ProjectReference>
   </ItemGroup>
