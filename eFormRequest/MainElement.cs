@@ -18,7 +18,7 @@ namespace eFormRequest
         }
 
         public MainElement(string id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, List<Element> elementList)
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string pushMessageTitle, string pushMessageBody, List<Element> elementList)
         {
             ElementList = new List<Element>();
 
@@ -34,6 +34,8 @@ namespace eFormRequest
             FastNavigation = fastNavigation;
             DownloadEntities = downloadEntities;
             ManualSync = manualSync;
+            PushMessageTitle = pushMessageTitle;
+            PushMessageBody = pushMessageBody;
             ElementList = elementList;
         }
         #endregion
@@ -44,6 +46,7 @@ namespace eFormRequest
         public int DisplayOrder { get; set; }
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
+
         #region public string/DateTime StartDate { get; set; }
         public string StartDate { get; set; }
 
@@ -57,6 +60,7 @@ namespace eFormRequest
             StartDate = dateTime.ToShortDateString();
         }
         #endregion
+
         #region public string/DateTime EndDate { get; set; }
         public string EndDate { get; set; }
 
@@ -75,6 +79,25 @@ namespace eFormRequest
         public bool FastNavigation { get; set; }
         public bool DownloadEntities { get; set; }
         public bool ManualSync { get; set; }
+
+        #region public string PushMessageTitle { get; set; }
+        private string pushMessageTitle;
+        public string PushMessageTitle
+        {
+            get
+            {
+                if (pushMessageTitle.Length > 255)
+                    return pushMessageTitle.Substring(0, 255);
+                return pushMessageTitle;
+            }
+                
+            set
+            {
+                pushMessageTitle = value;
+            }
+        }
+        #endregion
+        public string PushMessageBody { get; set; }
 
         [XmlArray("ElementList"), XmlArrayItem(typeof(Element), ElementName = "Element")]
         public List<Element> ElementList { get; set; }

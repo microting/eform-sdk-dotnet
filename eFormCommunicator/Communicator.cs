@@ -73,7 +73,6 @@ namespace eFormCommunicator
         {
             xmlString = xmlString.Replace("<Color />", "");   //TODO HACK   //TODO - Missing serverside. Will not accept blank/empty field
 
-
             if (xmlString.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
 

@@ -89,7 +89,7 @@ namespace eFormTester
             MapInput();
             try
             {
-                SqlController sqlCon = new SqlController("Data Source=DESKTOP-FE2F46F\\MYTESTAREA;Initial Catalog=TestDB;Integrated Security=True"); //TODO
+                SqlController sqlCon = new SqlController("Data Source=DESKTOP-FE2F46F\\MYTESTAREA;Initial Catalog=TestDB;Integrated Security=True", 666); //TODO
                 MainElement mE = new MainElement();
                 mE = mE.XmlToClass(request);
                 sqlCon.EformCreate(mE);
@@ -359,7 +359,7 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("A check list", "Sample 1", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, new List<Element>());
+                MainElement sample = new MainElement("A check list", "Sample 1", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
 
                 DataElement e1 = new DataElement("My basic check list", "Basic list", 1, "Data element", true, true, true, false, "", new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
@@ -380,7 +380,7 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("Extended check list", "Sample 2", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, new List<Element>());
+                MainElement sample = new MainElement("Extended check list", "Sample 2", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
 
                 DataElement e1 = new DataElement("My extended check list 1", "Extended list", 1, "Data element", true, true, true, false, "", new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
@@ -417,7 +417,7 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("Advanced check list", "Sample 3", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, new List<Element>());
+                MainElement sample = new MainElement("Advanced check list", "Sample 3", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
 
                 GroupElement g1 = new GroupElement("Group lists", "Group of advanced check lists", 1, "Group element", false, false, false, false, "", new List<Element>());
                 sample.ElementList.Add(g1);
@@ -469,7 +469,7 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("Complex check list", "Sample 4", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, new List<Element>());
+                MainElement sample = new MainElement("Complex check list", "Sample 4", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
 
                 GroupElement g1 = new GroupElement("Group lists", "Group of groups", 1, "Group element", false, false, false, false, "", new List<Element>());
                 GroupElement g2 = new GroupElement("Group lists", "Group of complex check lists 2", 2, "Group element", false, false, false, false, "", new List<Element>());

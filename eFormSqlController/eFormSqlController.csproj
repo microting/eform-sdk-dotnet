@@ -37,8 +37,19 @@
     <Reference Include="eFormResponse">
       <HintPath>..\Output\eFormResponse.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,14 +58,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cases.cs" />
+    <Compile Include="case_versions.cs" />
+    <Compile Include="check_lists.cs" />
+    <Compile Include="check_list_values.cs" />
+    <Compile Include="check_list_value_versions.cs" />
+    <Compile Include="check_list_versions.cs" />
+    <Compile Include="fields.cs" />
+    <Compile Include="field_types.cs" />
+    <Compile Include="field_values.cs" />
+    <Compile Include="field_value_versions.cs" />
+    <Compile Include="field_versions.cs" />
+    <Compile Include="MicrotingDb.cs" />
+    <Compile Include="notifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sites.cs" />
+    <Compile Include="site_versions.cs" />
     <Compile Include="SqlController.cs" />
+    <Compile Include="uploaded_data.cs" />
+    <Compile Include="uploaded_data_versions.cs" />
+    <Compile Include="users.cs" />
+    <Compile Include="user_versions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MiniTrols\MiniTrols.csproj">
       <Project>{86ad3859-e0f8-4353-a2fa-1972d3cd3809}</Project>
       <Name>MiniTrols</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,38 +15,39 @@ namespace Microting
 
             while (keepRunning)
             {
-                Console.WriteLine("Press 1,2,3,4,5,6 or q");
+                Console.WriteLine("Press 1,2,3,4,5,6, t (for test) or q (to quit)");
                 string input = Console.ReadLine();
 
                 Random ran = new Random();
-                string roadData = ran.Next(10000, 99999).ToString();
-                string roadNumber = ran.Next(10000, 99999).ToString();
+                string title = ""; // ran.Next(10000, 99999).ToString();
+                string body = ""; // ran.Next(10000, 99999).ToString();
 
                 if (input == "1")
-                    cont.Create(Controller.Templat.AsbestholdigtBygningsaffald, "LLNNNNN", roadData, roadNumber);
+                    cont.CreateEform(33, title, body, "1311");
 
                 if (input == "2")
-                    cont.Create(Controller.Templat.Deponiaffald, "LLNNNNN", roadData, roadNumber);
+                    cont.CreateEform(35, title, body, "1311");
 
                 if (input == "3")
-                    cont.Create(Controller.Templat.DeponiaffaldTilForbehandling, "LLNNNNN", roadData, roadNumber);
+                    cont.CreateEform(37, title, body, "1311");
 
                 if (input == "4")
-                    cont.Create(Controller.Templat.PcbHoldigtBygningsaffald, "LLNNNNN", roadData, roadNumber);
+                    cont.CreateEform(39, title, body, "1311");
 
                 if (input == "5")
-                    cont.Create(Controller.Templat.SmåtBrændbart, "LLNNNNN", roadData, roadNumber);
+                    cont.CreateEform(41, title, body, "1311");
 
                 if (input == "6")
-                    cont.Create(Controller.Templat.StortBrændbart, "LLNNNNN", roadData, roadNumber);
+                    cont.CreateEform(43, title, body, "1311");
+
+                if (input == "t")
+                    cont.Test();
 
                 if (input.ToLower() == "q")
                     keepRunning = false;
             }
             Console.WriteLine("Trying to shutting down");
             cont.Close();
-    //        Console.WriteLine("Press any key to close");
-    //        Console.ReadKey();
             Environment.Exit(0);
         }
     }

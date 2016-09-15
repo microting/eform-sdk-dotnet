@@ -99,18 +99,25 @@ namespace eFormSubscriber
         /// <param name="wait">If true, the method will not return until after connection is closed. If fail, the method will return instant. Either way the program will close by the same method.</param>
         public void Close(bool wait)
         {
-            EventMsgClient("Subscriber is trying to close connection", null);
-
-            keepConnectionAlive = false;
-            keepSubscribed = false;
-
-            if (isRunning)
+            try
             {
-                if (wait)
+                EventMsgClient("Subscriber is trying to close connection", null);
+
+                keepConnectionAlive = false;
+                keepSubscribed = false;
+
+                if (isRunning)
                 {
-                    while (isRunning)
-                        Thread.Sleep(100);
+                    if (wait)
+                    {
+                        while (isRunning)
+                            Thread.Sleep(100);
+                    }
                 }
+            }
+            catch
+            {
+
             }
         }
 

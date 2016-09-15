@@ -23,13 +23,13 @@ namespace Microting
         List<Communicator> communicators;
         SqlController sqlController;
         Subscriber subscriber;
-        private Tools tool = new Tools();
-        private object _lockMain = new object();
-        private object _lockEvent = new object();
-        private object _lockEventReply = new object();
-        private bool updateIsRunningFiles = true;
-        private bool updateIsRunningNotifications = true;
-        private string fileLocation = "";
+        Tools tool = new Tools();
+        object _lockMain = new object();
+        object _lockEvent = new object();
+        object _lockEventReply = new object();
+        bool updateIsRunningFiles = true;
+        bool updateIsRunningNotifications = true;
+        string fileLocation = "";
         #endregion
 
         #region con
@@ -40,9 +40,15 @@ namespace Microting
         #endregion
 
         #region public
-        public void Create(Templat templat, string numberplate, string roadData, string roadNumber)
+        public void CreateEform(int templatId, string pushMessageTitle, string pushMessageBody, string numberplate, string roadData, string roadNumber) //Michael
         {
-            Thread subscriberThread = new Thread(() => CreateThread(templat, numberplate, roadData, roadNumber));
+            Thread subscriberThread = new Thread(() => CreateEformAllSitesThread(templatId, numberplate, roadData, roadNumber, pushMessageTitle, pushMessageBody));
+            subscriberThread.Start();
+        }
+
+        public void CreateEform(int templatId, string pushMessageTitle, string pushMessageBody, string siteId)
+        {
+            Thread subscriberThread = new Thread(() => CreateEformOneSiteThread(templatId, siteId, pushMessageTitle, pushMessageBody));
             subscriberThread.Start();
         }
 
@@ -50,7 +56,11 @@ namespace Microting
         {
             lock (_lockMain)
             {
-                subscriber.Close(true);
+                try
+                {
+                    subscriber.Close(true);
+                }
+                catch { }
 
                 subscriber.EventMsgClient -= HandleEvent;
                 subscriber.EventMsgServer -= HandleEventReply;
@@ -63,6 +73,11 @@ namespace Microting
                 communicators = null;
                 sqlController = null;
             }
+        }
+
+        public void Test()
+        {
+            sqlController.Test();
         }
         #endregion
 
@@ -85,14 +100,16 @@ namespace Microting
                 string subscriberName = lines[5];
 
                 string serverConnectionString = lines[7];
+                int userId = int.Parse(lines[8]);
 
-                fileLocation = lines[9];
+                fileLocation = lines[10];
+
                 //DOMAP - Change to your needs
                 #endregion
 
 
                 //sqlController
-                sqlController = new SqlController(serverConnectionString);
+                sqlController = new SqlController(serverConnectionString, userId);
                 HandleEvent("SqlEformController started", null);
 
 
@@ -123,72 +140,38 @@ namespace Microting
             }
         }
 
-        private void CreateThread(Templat templat, string numberPlate, string roadData, string roadNumber)
+        private void CreateEformOneSiteThread(int templatId, string siteId, string pushMessageTitle, string pushMessageBody)
         {
             lock (_lockMain)
             {
                 try
                 {
-                    #region get templatId
-                    int templatId = 0;
-                    switch (templat)
-                    {
-                        //KEY POINT - mapping
-                        //SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE parent_id = 0 AND [text] = 'Asbestholdigt bygningsaffald'
-                        case Templat.AsbestholdigtBygningsaffald:
-                            templatId = 41;
-                            break;
-
-                        //SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE parent_id = 0 AND [text] = 'Småt brændbart'
-                        case Templat.SmåtBrændbart:
-                            templatId = 37;
-                            break;
-
-                        //SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE parent_id = 0 AND [text] = 'Stort brændbart'
-                        case Templat.StortBrændbart:
-                            templatId = 35;
-                            break;
-
-                        //SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE parent_id = 0 AND [text] = 'Deponiaffald'
-                        case Templat.Deponiaffald:
-                            templatId = 33;
-                            break;
-
-                        //SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE parent_id = 0 AND [text] = 'Deponiaffald til forbehandling'
-                        case Templat.DeponiaffaldTilForbehandling:
-                            templatId = 39;
-                            break;
-
-                        //SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE parent_id = 0 AND [text] = 'PCB-holdigt bygningsaffald'
-                        case Templat.PcbHoldigtBygningsaffald:
-                            templatId = 43;
-                            break;
-
-                        default:
-                            throw new Exception("Unknown templat type");
-                    }
-                    #endregion
+                    bool found = false;
 
                     //getting mainElement
                     MainElement mainElement = sqlController.EformRead(templatId);
 
-                    #region numberplate // vejData
-                    mainElement.Label = numberPlate;
-                    DataElement dE = (DataElement)mainElement.ElementList[0];
-                    dE.Label = numberPlate;
-
-                    dE = (DataElement)mainElement.ElementList[0];
-                    dE.DataItemList[0].Label = roadData + " // " + roadNumber;
-                    #endregion
+                    // pushMessageTitle // pushMessageBody
+                    mainElement.PushMessageTitle = pushMessageTitle;
+                    mainElement.PushMessageBody = pushMessageBody;
 
                     //sending and getting a reply
                     foreach (Communicator com in communicators)
                     {
-                        string muuId = SendXml(mainElement, numberPlate, com);
+                        if (com.ApiId() == siteId)
+                        {
+                            string muuId = SendXml(mainElement, com);
 
-                        int caseId = sqlController.CaseCreate(mainElement.Id, muuId, com.ApiId(), numberPlate, roadNumber);
+                            int caseId = sqlController.CaseCreate(muuId, int.Parse(mainElement.Id), int.Parse(com.ApiId()), "", "", "unique");
+
+                            found = true;
+                        }
                     }
-                    HandleEvent(numberPlate + " // eForms created", null);
+
+                    if (!found)
+                        throw new Exception("SiteId:'" + siteId + "' not found. No eForm created");
+
+                    HandleEvent("eForm created", null);
                 }
                 catch (Exception ex)
                 {
@@ -197,7 +180,45 @@ namespace Microting
             }
         }
 
-        private string SendXml(MainElement mainElement, string numberPlate, Communicator communicator)
+        private void CreateEformAllSitesThread(int templatId, string numberPlate, string roadData, string roadNumber, string pushMessageTitle, string pushMessageBody)
+        {
+            lock (_lockMain)
+            {
+                try
+                {
+                    //getting mainElement
+                    MainElement mainElement = sqlController.EformRead(templatId);
+
+                    #region numberplate // vejData 
+                    mainElement.Label = numberPlate;
+                    DataElement dE = (DataElement)mainElement.ElementList[0];
+                    dE.Label = numberPlate;
+
+                    dE = (DataElement)mainElement.ElementList[0];
+                    dE.DataItemList[0].Label = roadData + " // " + roadNumber;
+                    #endregion
+
+                    // pushMessageTitle // pushMessageBody
+                    mainElement.PushMessageTitle = pushMessageTitle;
+                    mainElement.PushMessageBody = pushMessageBody;
+
+                    //sending and getting a reply
+                    foreach (Communicator com in communicators)
+                    {
+                        string muuId = SendXml(mainElement, com);
+
+                        int caseId = sqlController.CaseCreate(muuId, int.Parse(mainElement.Id), int.Parse(com.ApiId()), "WasteControlCase", numberPlate, roadNumber);
+                    }
+                    HandleEvent("eForms created", null);
+                }
+                catch (Exception ex)
+                {
+                    HandleExpection(ex);
+                }
+            }
+        }
+
+        private string SendXml(MainElement mainElement, Communicator communicator)
         {
             string reply = communicator.PostXml(mainElement.ClassToXml());
 
@@ -212,7 +233,7 @@ namespace Microting
                 return response.Value;
             }
 
-            throw new NotImplementedException(numberPlate + " // " + communicator.ApiId() + " // failed to create eForm at Microting");
+            throw new NotImplementedException(communicator.ApiId() + " // failed to create eForm at Microting // Response :" + reply);
         }
 
         private void HandleUpdateFiles()
@@ -329,7 +350,7 @@ namespace Microting
                                                     if (resp.Type == Response.ResponseTypes.Success)
                                                     {
                                                         sqlController.EformCheckCreate(resp, xml);
-                                                        sqlController.CaseUpdate(msgId, resp.Checks[0].Date.ToString(), resp.Checks[0].WorkerId, resp.Checks[0].Id, resp.Checks[0].UnitId);
+                                                        sqlController.CaseUpdate(msgId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
                                                     }
                                                     else
                                                         throw new Exception("Failed to retrive eForm " + msgId + " from site " + siteId);
@@ -471,17 +492,5 @@ namespace Microting
             updateNotificationsThread.Start();
         }
         #endregion
-
-        public enum Templat
-        {
-            //DOMAP - Change to your needs
-            AsbestholdigtBygningsaffald,
-            SmåtBrændbart,
-            StortBrændbart,
-            Deponiaffald,
-            DeponiaffaldTilForbehandling,
-            PcbHoldigtBygningsaffald
-            //DOMAP - Change to your needs
-        }
     }
 }

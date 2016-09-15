@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 
 namespace MiniTrols
 {
     public class Tools
     {
-        public string Now()
-        {
-            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        }
-
         #region Text Manipulation
         public string Locate(string textStr, string startStr, string endStr)
         {

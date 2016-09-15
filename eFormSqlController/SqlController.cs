@@ -4,9 +4,13 @@ using MiniTrols;
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,30 +21,25 @@ namespace eFormSqlController
     public class SqlController
     {
         #region var
-        SqlConnection connect;
-        SqlCommand command;
         List<Holder> converter;
-
-        private Tools tool = new Tools();
-
+        Tools tool = new Tools();
         object _lockQuery = new object();
-        string dbName = "TestDB";
+        string connectionStr;
+        int userId;
         #endregion
 
         #region con
-        public SqlController(string connectionString)
+        public SqlController(string connectionString, int userId)
         {
-            connect = new SqlConnection(connectionString.Trim() + "; MultipleActiveResultSets=true");
-            connect.Open();
+            connectionStr = connectionString;
+            this.userId = userId;
         }
         #endregion
 
         #region public
         public int           EformCreate(MainElement mainElement)
         {
-            int id = 0;
-            id = EformCreateDb(mainElement, "");
-
+            int id = EformCreateDb(mainElement, "");
             return id;
         }
 
@@ -57,206 +56,276 @@ namespace eFormSqlController
             EformCheckCreateDb(response, xml);
         }
 
-        public int           CaseCreate(string checkListId, string microtingApiId, string siteId, string numberPlate, string roadNumber)
-        {
-            string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[cases] ([status],[created_by_user_id],[type],[created_at],[updated_at],[check_list_id],[microting_api_id],[workflow_state]," +
-                "[version],[site_id],[reg_number],[vejenummer]) VALUES ('" +
-
-                "66" + "','" +
-                "7" + "','" +
-                "WasteControlCase" + "','" +
-                tool.Now() + "','" +
-                tool.Now() + "','" +
-                checkListId + "','" +
-                microtingApiId + "','" +
-                "created" + "','" +
-                "1" + "','" +
-                siteId + "','" +
-                numberPlate + "','" +
-                roadNumber + "')" +
-
-                " SELECT SCOPE_IDENTITY();";
-
-            string caseId = QueryDbSimple(sqlQuery);
-            if (caseId == "")
-                throw new Exception("Was unable to create a case in Cases");
-
-            return int.Parse(caseId);
-        }
-
-        public void          CaseUpdate(string microtingApiId, string dateOfDoing, string doneByUserId, string microtingCheckId, string unitId)
-        {
-            int version = int.Parse(QueryDbSimple("SELECT [version] FROM [" + dbName + "].[microting].[cases] WHERE [microting_api_id] = '" + microtingApiId + "';"));
-            version++;
-
-            string sqlQuery = "UPDATE [" + dbName + "].[microting].[cases] SET " +
-                "[status] = '100'," +
-                "[date_of_doing] = '" + dateOfDoing + "'," +
-                "[done_by_user_id] = '" + doneByUserId + "'," +
-                "[workflow_state] = '" + "created" + "'," +
-                "[version] = '" + version.ToString() + "'," +
-                "[microting_check_id] = '" + microtingCheckId + "'," +
-                "[unit_id] = '" + unitId + "' " +
-
-                "WHERE [microting_api_id] = '" + microtingApiId + "'";
-
-            SqlDataReader sR = QueryDb(sqlQuery);
-            while (sR.Read())
-            {
-                if (sR.RecordsAffected != 1)
-                    throw new Exception("Was unable to update " + microtingApiId + " case in Cases");
-            }
-        }
-
-        public List<string>  CaseFindMatchs(string microtingApiId)
-        {
-            List<string> lst = new List<string>();
-
-            try
-            {
-                SqlDataReader sR = QueryDb("DECLARE @var nvarchar(255); SELECT @var = [vejenummer] FROM [" + dbName + "].[microting].[cases] WHERE [microting_api_id] = '" + microtingApiId +
-                    "'; SELECT[site_id],[microting_api_id] FROM [" + dbName + "].[microting].[cases] WHERE [vejenummer] = @var;");
-                while (sR.Read())
-                {
-                    lst.Add("{" + Str(sR, "site_id") + "}[" + Str(sR, "microting_api_id") + "]");
-                }
-                sR.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return lst;
-        }
-
-        public void          CaseDelete(string microtingApiId)
+        public int           CaseCreate(string microtingUuid, int checkListId, int siteId, string caseType, string numberPlate, string roadNumber)
         {
             try
             {
-                int version = int.Parse(QueryDbSimple("SELECT [version] FROM [" + dbName + "].[microting].[cases] WHERE [microting_api_id] = '" + microtingApiId + "';"));
-                version++;
-
-                string sqlQuery = "UPDATE [" + dbName + "].[microting].[cases] SET " +
-                    "[updated_at] = '" + tool.Now() + "'," +
-                    "[workflow_state] = '" + "removed" + "'," +
-                    "[version] = '" + version.ToString() + "'," +
-                    "[removed_by_user_id] = '" + "7" + "' " +
-
-                    "WHERE [microting_api_id] = '" + microtingApiId + "'";
-
-                SqlDataReader sR = QueryDb(sqlQuery);
-                while (sR.Read())
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (sR.RecordsAffected != 1)
-                        throw new Exception("Was unable to \"deleted\" " + microtingApiId + " case in Cases");
+                    cases aCase = new cases();
+
+                    aCase.status = 66;
+                    aCase.created_by_user_id = userId; 
+                    aCase.type = caseType;
+                    aCase.created_at = DateTime.Now;
+                    aCase.updated_at = DateTime.Now;
+                    aCase.check_list_id = checkListId;
+                    aCase.microting_api_id = microtingUuid;
+                    aCase.workflow_state = "created";
+                    aCase.version = 1;
+                    aCase.site_id = siteId;
+                    aCase.reg_number = numberPlate;
+                    aCase.vejenummer = roadNumber;
+
+                    db.cases.Add(aCase);
+                    db.SaveChanges();
+
+                    db.case_versions.Add(MapCaseVersion(aCase));
+                    db.SaveChanges();
+
+                    return aCase.id;
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("CaseCreate failed", ex);
+            }
+        }
+
+        public void          CaseUpdate(string microtingUuid, DateTime dateOfDoing, int doneByUserId, string microtingCheckId, int unitId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases caseStd = db.cases.Where(x => x.microting_api_id == microtingUuid).ToList().First();
+
+                    caseStd.status = 100;
+                    caseStd.date_of_doing = dateOfDoing;
+                    caseStd.updated_at = DateTime.Now;
+                    caseStd.done_by_user_id = doneByUserId;
+                    caseStd.workflow_state = "created";
+                    caseStd.version = caseStd.version + 1;
+                    caseStd.microting_check_id = microtingCheckId;
+                    caseStd.unit_id = unitId;
+
+                    db.case_versions.Add(MapCaseVersion(caseStd));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
+        public List<string>  CaseFindMatchs(string microtingUuid)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases match = db.cases.Where(x => x.microting_api_id == microtingUuid).ToList().First();
+                    List<string> foundCasesThatMatch = new List<string>();
+
+                    if (match.vejenummer == "unique") //There are no linked cases
+                    {
+                        foundCasesThatMatch.Add("{" + match.site_id + "}[" + match.microting_api_id + "]");
+                        return foundCasesThatMatch;
+                    }
+                    else //There are linked cases
+                    {
+                        List<cases> lstMatchs = db.cases.Where(x => x.vejenummer == match.vejenummer).ToList();
+
+                        foreach (cases aCase in lstMatchs)
+                        {
+                            foundCasesThatMatch.Add("{" + aCase.site_id + "}[" + aCase.microting_api_id + "]");
+                        }
+                        return foundCasesThatMatch;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseFindMatchs failed", ex);
+            }
+        }
+
+        public void          CaseDelete(string microtingUuid)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases aCase = db.cases.Where(x => x.microting_api_id == microtingUuid).ToList().First();
+
+                    aCase.updated_at = DateTime.Now;
+                    aCase.workflow_state = "removed";
+                    aCase.version = aCase.version + 1;
+                    aCase.removed_by_user_id = userId;
+
+                    db.case_versions.Add(MapCaseVersion(aCase));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseDelete failed", ex);
             }
         }
 
         public int           NotificationCreate(string microting_uuid, string content)
         {
-            string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[notifications] ([microting_uuid],[content],[workflow_state],[created_at],[updated_at]) VALUES ('" +
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    notifications aNoti = new notifications();
 
-                microting_uuid + "','" +
-                content + "','" +
-                "created" + "','" +
-                tool.Now() + "','" +
-                tool.Now() + "')" +
+                    aNoti.microting_uuid = microting_uuid;
+                    aNoti.content = content;
+                    aNoti.workflow_state = "created";
+                    aNoti.created_at = DateTime.Now;
+                    aNoti.updated_at = DateTime.Now;
 
-                " SELECT SCOPE_IDENTITY();";
+                    db.notifications.Add(aNoti);
+                    db.SaveChanges();
 
-            string caseId = QueryDbSimple(sqlQuery);
-            if (caseId == "")
-                throw new Exception("Was unable to create a case in Cases");
-
-            return int.Parse(caseId);
+                    return aNoti.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("NotificationRead failed", ex);
+            }
         }
 
         public string        NotificationRead()
         {
-            string content = "";
-            string sqlQuery = "SELECT TOP 1 [content] FROM [" + dbName + "].[microting].[notifications] WHERE [workflow_state] = 'created';";
-
-            SqlDataReader sR = QueryDb(sqlQuery);
-            while (sR.Read())
+            try
             {
-                content = Str(sR, "content");
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        var temp = db.notifications.Where(x => x.workflow_state == "created").ToList();
+                        notifications aNoti = temp.First();
+
+                        return aNoti.content;
+                    }
+                    catch
+                    {
+                        return "";
+                    }
+                }
             }
-            return content;
+            catch (Exception ex)
+            {
+                throw new Exception("NotificationRead failed", ex);
+            }
         }
 
         public void          NotificationProcessed(string content)
         {
-            string sqlQuery = "UPDATE [" + dbName + "].[microting].[notifications] SET " +
-                "[workflow_state] = '" + "processed" + "', " +
-                "[updated_at] = '" + tool.Now() + "'" +
-                "WHERE [content] = '" + content + "'";
-
-            SqlDataReader sR = QueryDb(sqlQuery);
-            while (sR.Read())
+            try
             {
-                if (sR.RecordsAffected != 1)
-                    throw new Exception("Was unable to update " + content + " notification in DB");
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    var lst = db.notifications.Where(x => x.content == content).ToList();
+                    
+                    foreach (notifications aNoti in lst)
+                    {
+                        aNoti.workflow_state = "processed";
+                        aNoti.updated_at = DateTime.Now;
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("NotificationProcessed failed", ex);
             }
         }
 
         public string        FileRead()
         {
-            string fileLocation = "";
-            string sqlQuery = "SELECT TOP 1 [file_location] FROM [" + dbName + "].[microting].[uploaded_data] WHERE [workflow_state] = 'pre_created';";
-
-            SqlDataReader sR = QueryDb(sqlQuery);
-            while (sR.Read())
+            try
             {
-                fileLocation = Str(sR, "file_location");
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        uploaded_data uD = db.uploaded_data.Where(x => x.workflow_state == "pre_created").ToList().First();
+                        return uD.file_location;
+                    }
+                    catch
+                    {
+                        return "";
+                    }
+                }
             }
-            return fileLocation;
+            catch (Exception ex)
+            {
+                throw new Exception("FileRead failed", ex);
+            }
         }
 
         public void          FileProcessed(string urlStr, string chechSum, string fileLocation, string fileName)
         {
-            string sqlQuery = "UPDATE [" + dbName + "].[microting].[uploaded_data] SET " +
-                "[checksum] = '" + chechSum + "', " +
-                "[file_location] = '" + fileLocation + "', " +
-                "[file_name] = '" + fileName + "', " +
-                "[local] = '" + "1" + "', " +
-                "[workflow_state] = '" + "created" + "', " +
-                "[updated_at] = '" + tool.Now() + "', " +
-                "[version] = '" + "2" + "' " +
-                "WHERE [file_location] = '" + urlStr + "'";
-
-            SqlDataReader sR = QueryDb(sqlQuery);
-            while (sR.Read())
+            try
             {
-                if (sR.RecordsAffected != 1)
-                    throw new Exception("Was unable to update " + urlStr + " file_location in DB");
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        uploaded_data uD = db.uploaded_data.Where(x => x.file_location == urlStr).ToList().First();
+
+                        uD.checksum = chechSum;
+                        uD.file_location = fileLocation;
+                        uD.file_name = fileName;
+                        uD.local = 1;
+                        uD.workflow_state = "created";
+                        uD.updated_at = DateTime.Now;
+                        uD.version = uD.version + 1;
+
+                        db.SaveChanges();
+                    }
+                    catch { }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FileProcessed failed", ex);
             }
         }
 
         public List<string>  SitesList()
         {
-            List<string> lst = new List<string>();
-
             try
             {
-                SqlDataReader sR = QueryDb("SELECT [microting_uuid] FROM [" + dbName + "].[microting].[sites]");
-                while (sR.Read())
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    lst.Add(Str(sR, "microting_uuid"));
+                    List<string> lst = new List<string>();
+
+                    List<sites> lstSite = db.sites.ToList();
+                    foreach (sites site in lstSite)
+                    {
+                        lst.Add(site.microting_uuid);
+                    }
+
+                    return lst;
                 }
-                sR.Close();
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("SitesList failed", ex);
             }
+        }
 
-            return lst;
+        public void Test()
+        {
+            //do stuff
         }
         #endregion
 
@@ -268,441 +337,434 @@ namespace eFormSqlController
         {
             try
             {
-                #region get converter
-                converter = new List<Holder>();
-
-                SqlDataReader sR = QueryDb("SELECT * FROM [" + dbName + "].[microting].[field_types]");
-                while (sR.Read())
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    converter.Add(new Holder(Int(sR, "id"), Str(sR, "field_type")));
-                }
-                sR.Close();
-                #endregion
+                    GetConverter();
 
-                #region mainElement
-                //KEY POINT - mapping
-                string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[check_lists] ([created_at],[updated_at],[text],[description],[workflow_state],[parent_id],[repeated],[version],"+
-                    "[case_type],[folder_name],[display_index],[report_file_name],[review_enabled],[manual_sync],[extra_fields_enabled],[done_button_enabled]," +
-                    "[approval_enabled],[multi_approval],[fast_navigation],[download_entities]) VALUES ('" +
+                    #region mainElement
+                    check_lists cl = new check_lists();
+                    cl.created_at = DateTime.Now;
+                    cl.updated_at = DateTime.Now;
+                    cl.text = mainElement.Label;
+                    //description - used for non-MainElements
+                    //serialized_default_values - Ruby colume
+                    cl.workflow_state = "created";
+                    cl.parent_id = 0; //MainElements never have parents ;)
+                    cl.repeated = mainElement.Repeated;
+                    cl.version = 1;
+                    cl.case_type = caseType; //hmm
+                    cl.folder_name = mainElement.CheckListFolderName;
+                    cl.display_index = mainElement.DisplayOrder;
+                    //report_file_name - Ruby colume
+                    cl.review_enabled = 0; //used for non-MainElements
+                    cl.manual_sync = Bool(mainElement.ManualSync);
+                    cl.extra_fields_enabled = 0; //used for non-MainElements
+                    cl.done_button_enabled = 0; //used for non-MainElements
+                    cl.approval_enabled = 0; //used for non-MainElements
+                    cl.multi_approval = Bool(mainElement.MultiApproval);
+                    cl.fast_navigation = Bool(mainElement.FastNavigation);
+                    cl.download_entities = Bool(mainElement.DownloadEntities);
 
-                    tool.Now() + "','" +
-                    tool.Now() + "','" +
-                    mainElement.Label + "','" +
-                    "','" + //description - used for non-mainElements
-                    "created','" + //workflow
-                    "0','" + //mainElements never have parents ;)
-                    mainElement.Repeated + "','" +
-                    "1','" + //always version 1, or it's an update
+                    db.check_lists.Add(cl);
+                    db.SaveChanges();
 
-                    caseType + "','" +
-                    mainElement.CheckListFolderName + "','" +
-                    mainElement.DisplayOrder + "','" +
-                    "','" + //report_file_name - Ruby colume
-                    "0','" + //review_enabled - used for non-mainElements
-                    Bool(mainElement.ManualSync) + "','" +
-                    "0','" + //extra_fields_enabledreview_enabled - used for non-mainElements
-                    "0','" + //done_button_enabled - used for non-mainElements
+                    db.check_list_versions.Add(MapCheckListVersions(cl));
+                    db.SaveChanges();
 
-                    "0','" + //approval_enabled - used for non-mainElements
-                    Bool(mainElement.MultiApproval) + "','" +
-                    Bool(mainElement.FastNavigation) + "','" +
-                    Bool(mainElement.DownloadEntities) + "')" +
-                    
-                    " SELECT SCOPE_IDENTITY();";
+                    int mainId = cl.id;
+                    mainElement.Id = mainId.ToString();
+                    #endregion
 
-                string mainId = QueryDbSimple(sqlQuery);
-                mainElement.Id = mainId;
-                if (mainId == "")
-                        throw new Exception("Was unable to create a MainElement in Check_lists");
-                #endregion
-
-                #region foreach element
-                foreach (Element dE in mainElement.ElementList)
-                {
-                    if (dE.GetType() == typeof(DataElement))
+                    #region foreach element
+                    foreach (Element dE in mainElement.ElementList)
                     {
-                        CreateDataElement(mainId, (DataElement)dE);
-                    }
+                        if (dE.GetType() == typeof(DataElement))
+                        {
+                            CreateDataElement(mainId, (DataElement)dE);
+                        }
 
-                    if (dE.GetType() == typeof(GroupElement))
-                    {
-                        throw new NotImplementedException("TODO - Get to work");
+                        if (dE.GetType() == typeof(GroupElement))
+                        {
+                            throw new NotImplementedException("TODO - Get to work");
+                        }
                     }
+                    #endregion
+
+                    return mainId;
                 }
-                #endregion
-
-                return int.Parse(mainId);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("EformCreateDb failed", ex);
             }
         }
 
-        private void CreateDataElement(string mainId, DataElement dataElement)
+        private void CreateDataElement(int mainId, DataElement dataElement)
         {
-            //KEY POINT - mapping
-            string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[check_lists] ([created_at],[updated_at],[text],[description],[workflow_state],[parent_id],[repeated],[version]," +
-                "[case_type],[folder_name],[display_index],[report_file_name],[review_enabled],[manual_sync],[extra_fields_enabled],[done_button_enabled]," +
-                "[approval_enabled],[multi_approval],[fast_navigation],[download_entities]) VALUES ('" +
-
-                tool.Now() + "','" +
-                tool.Now() + "','" +
-                dataElement.Label + "','" +
-                dataElement.Description + "','" +
-                "created','" + //workflow
-                mainId + "','" + //mainElement's Id
-                "0','" + //repeated - used for mainElements
-                "1','" + //always version 1, or it's an update
-
-                "','" + //caseType - used for mainElements
-                "0','" + //checkListFolderName - used for mainElements
-                dataElement.DisplayOrder + "','" +
-                "','" + //report_file_name - Ruby colume
-                Bool(dataElement.ReviewEnabled) + "','" +
-                "0','" + //manualSync - used for mainElements
-                Bool(dataElement.ExtraFieldsEnabled) + "','" +
-                Bool(dataElement.DoneButtonEnabled) + "','" +
-
-                Bool(dataElement.ApprovalEnabled) + "','" +
-                "0','" + //MultiApproval - used for mainElements
-                "0','" + //FastNavigation - used for mainElements
-                "0')" + //DownloadEntities - used for mainElements
-
-                " SELECT SCOPE_IDENTITY();";
-
-            string elementId = QueryDbSimple(sqlQuery);
-            if (elementId == "")
-                throw new Exception("Was unable to create an Element in Check_lists");
-
-            foreach (eFormRequest.DataItem dataItem in dataElement.DataItemList)
+            try
             {
-                CreateDataItem(elementId, dataItem);
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_lists cl = new check_lists();
+                    cl.created_at = DateTime.Now;
+                    cl.updated_at = DateTime.Now;
+                    cl.text = dataElement.Label;
+                    cl.description = dataElement.Description;
+                    //serialized_default_values - Ruby colume
+                    cl.workflow_state = "created";
+                    cl.parent_id = mainId;
+                    //repeated - used for mainElements
+                    cl.version = 1;
+                    //case_type - used for mainElements
+                    //folder_name - used for mainElements
+                    cl.display_index = dataElement.DisplayOrder;
+                    //report_file_name - Ruby colume
+                    cl.review_enabled = Bool(dataElement.ReviewEnabled);
+                    //manualSync - used for mainElements
+                    cl.extra_fields_enabled = Bool(dataElement.ExtraFieldsEnabled);
+                    cl.done_button_enabled = Bool(dataElement.DoneButtonEnabled);
+                    cl.approval_enabled = Bool(dataElement.ApprovalEnabled);
+                    //MultiApproval - used for mainElements
+                    //FastNavigation - used for mainElements
+                    //DownloadEntities - used for mainElements
+
+                    db.check_lists.Add(cl);
+                    db.SaveChanges();
+
+                    db.check_list_versions.Add(MapCheckListVersions(cl));
+                    db.SaveChanges();
+
+                    foreach (eFormRequest.DataItem dataItem in dataElement.DataItemList)
+                    {
+                        CreateDataItem(cl.id, dataItem);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CreateDataElement failed", ex);
             }
         }
 
-        private void CreateDataItem(string elementId, eFormRequest.DataItem dataItem)
+        private void CreateDataItem(int elementId, eFormRequest.DataItem dataItem)
         {
-            string typeStr = dataItem.GetType().ToString().Remove(0, 13).Replace("_",""); //13 = "eFormRequest.".Length
-            int fieldTypeId = Find(typeStr);
-
-            Field field = new Field();
-
-            field.color = dataItem.Color;
-            field.description = dataItem.Description;
-            field.display_index = dataItem.DisplayOrder.ToString();
-            field.text = dataItem.Label;
-            field.mandatory = Bool(dataItem.Mandatory);
-            field.read_only = Bool(dataItem.ReadOnly);
-
-            field.created_at = tool.Now();
-            field.updated_at = tool.Now();
-            field.workflow_state = "created";
-            field.check_list_id = elementId;
-            field.field_type_id = fieldTypeId.ToString();
-            field.version = "1";
-
-            #region dataItem type
-            //KEY POINT - mapping
-            switch (typeStr) //"eFormRequest.".Length
+            try
             {
-                case "Text":
-                    Text text = (Text)dataItem;
-                    field.default_value = text.Value;
-                    field.max_length = text.MaxLength.ToString();
-                    field.geolocation_enabled = Bool(text.GeolocationEnabled);
-                    field.geolocation_forced = Bool(text.GeolocationForced);
-                    field.geolocation_hidden = Bool(text.GeolocationHidden);
-                    field.barcode_enabled = Bool(text.BarcodeEnabled);
-                    field.barcode_type = text.BarcodeType;
-                    break;
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    string typeStr = dataItem.GetType().ToString().Remove(0, 13).Replace("_", ""); //13 = "eFormRequest.".Length
+                    int fieldTypeId = Find(typeStr);
 
-                case "Number":
-                    Number number = (Number)dataItem;
-                    field.min_value = number.MinValue.ToString();
-                    field.max_value = number.MaxValue.ToString();
-                    field.default_value = number.DefaultValue.ToString();
-                    field.decimal_count = number.DecimalCount.ToString();
-                    field.unit_name = number.UnitName;
-                    break;
+                    fields field = new fields();
+                    
+                    field.color = dataItem.Color;
+                    field.description = dataItem.Description;
+                    field.display_index = dataItem.DisplayOrder;
+                    field.text = dataItem.Label;
+                    field.mandatory = Bool(dataItem.Mandatory);
+                    field.read_only = Bool(dataItem.ReadOnly);
 
-                case "None":
-                    break;
+                    field.created_at = DateTime.Now;
+                    field.updated_at = DateTime.Now;
+                    field.workflow_state = "created";
+                    field.check_list_id = elementId;
+                    field.field_type_id = fieldTypeId;
+                    field.version = 1;
 
-                case "CheckBox":
-                    Check_Box checkBox = (Check_Box)dataItem;
-                    field.default_value = Bool(checkBox.DefaultValue);
-                    field.selected = Bool(checkBox.Selected);
-                    break;
+                    #region dataItem type
+                    //KEY POINT - mapping
+                    switch (typeStr) //"eFormRequest.".Length
+                    {
+                        case "Text":
+                            Text text = (Text)dataItem;
+                            field.default_value = text.Value;
+                            field.max_length = text.MaxLength;
+                            field.geolocation_enabled = Bool(text.GeolocationEnabled);
+                            field.geolocation_forced = Bool(text.GeolocationForced);
+                            field.geolocation_hidden = Bool(text.GeolocationHidden);
+                            field.barcode_enabled = Bool(text.BarcodeEnabled);
+                            field.barcode_type = text.BarcodeType;
+                            break;
 
-                case "Picture":
-                    Picture picture = (Picture)dataItem;
-                    field.multi = picture.Multi.ToString();
-                    field.geolocation_enabled = Bool(picture.GeolocationEnabled);
-                    break;
+                        case "Number":
+                            Number number = (Number)dataItem;
+                            field.min_value = number.MinValue.ToString();
+                            field.max_value = number.MaxValue.ToString();
+                            field.default_value = number.DefaultValue.ToString();
+                            field.decimal_count = number.DecimalCount;
+                            field.unit_name = number.UnitName;
+                            break;
 
-                case "Audio":
-                    Audio audio = (Audio)dataItem;
-                    field.multi = audio.Multi.ToString();
-                    break;
+                        case "None":
+                            break;
 
-                case "SingleSelect":
-                    Single_Select singleSelect = (Single_Select)dataItem;
-                    field.key_value_pair_list = WritePairs(singleSelect.KeyValuePairList);
-                    break;
+                        case "CheckBox":
+                            Check_Box checkBox = (Check_Box)dataItem;
+                            field.default_value = checkBox.DefaultValue.ToString();
+                            field.selected = Bool(checkBox.Selected);
+                            break;
 
-                case "MultiSelect":
-                    Multi_Select multiSelect = (Multi_Select)dataItem;
-                    field.key_value_pair_list = WritePairs(multiSelect.KeyValuePairList);
-                    break;
+                        case "Picture":
+                            Picture picture = (Picture)dataItem;
+                            field.multi = picture.Multi;
+                            field.geolocation_enabled = Bool(picture.GeolocationEnabled);
+                            break;
 
-                case "Comment":
-                    Comment comment = (Comment)dataItem;
-                    field.default_value = comment.Value;
-                    field.max_length = comment.Maxlength.ToString();
-                    field.split_screen = Bool(comment.SplitScreen);
-                    break;
+                        case "Audio":
+                            Audio audio = (Audio)dataItem;
+                            field.multi = audio.Multi;
+                            break;
 
-                case "Date":
-                    Date date = (Date)dataItem;
-                    field.default_value = date.DefaultValue;
-                    field.min_value = date.MinValue.ToString("yyyy-MM-dd HH:mm:ss");
-                    field.max_value = date.MaxValue.ToString("yyyy-MM-dd HH:mm:ss");
-                    break;
+                        case "SingleSelect":
+                            Single_Select singleSelect = (Single_Select)dataItem;
+                            field.key_value_pair_list = WritePairs(singleSelect.KeyValuePairList);
+                            break;
 
-                case "Signature":
-                    break;
+                        case "MultiSelect":
+                            Multi_Select multiSelect = (Multi_Select)dataItem;
+                            field.key_value_pair_list = WritePairs(multiSelect.KeyValuePairList);
+                            break;
 
-                case "Timer":
-                    eFormRequest.Timer timer = (eFormRequest.Timer)dataItem;
-                    field.split_screen = Bool(timer.StopOnSave);
-                    break;
+                        case "Comment":
+                            Comment comment = (Comment)dataItem;
+                            field.default_value = comment.Value;
+                            field.max_length = comment.Maxlength;
+                            field.split_screen = Bool(comment.SplitScreen);
+                            break;
 
-                case "EntitySelect":
-                    throw new NotImplementedException("TODO");
+                        case "Date":
+                            Date date = (Date)dataItem;
+                            field.default_value = date.DefaultValue;
+                            field.min_value = date.MinValue.ToString("yyyy-MM-dd HH:mm:ss");
+                            field.max_value = date.MaxValue.ToString("yyyy-MM-dd HH:mm:ss");
+                            break;
 
-                case "EntitySearch":
-                    throw new NotImplementedException("TODO");
+                        case "Signature":
+                            break;
 
-                default:
-                    throw new IndexOutOfRangeException(dataItem.GetType().ToString() + " is not a known/mapped DataItem type");
+                        case "Timer":
+                            eFormRequest.Timer timer = (eFormRequest.Timer)dataItem;
+                            field.split_screen = Bool(timer.StopOnSave);
+                            break;
+
+                        case "EntitySelect":
+                            throw new NotImplementedException("TODO");
+
+                        case "EntitySearch":
+                            throw new NotImplementedException("TODO");
+
+                        default:
+                            throw new IndexOutOfRangeException(dataItem.GetType().ToString() + " is not a known/mapped DataItem type");
+                    }
+                    #endregion
+
+                    db.fields.Add(field);
+                    db.SaveChanges();
+
+                    db.field_versions.Add(MapFieldVersions(field));
+                    db.SaveChanges();
+                }
             }
-            #endregion
-
-            #region insert
-            //KEY POINT - mapping
-            string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[fields] ([created_at],[updated_at],[workflow_state],[check_list_id],[text],[description],[field_type_id]," +
-                "[display_index],[version],[parent_field_id],[multi],[default_value],[selected],[min_value],[max_value],[max_length],[split_screen],[decimal_count],[unit_name]," +
-                "[key_value_pair_list],[geolocation_enabled],[geolocation_forced],[geolocation_hidden],[stop_on_save],[mandatory],[read_only],[color],[barcode_enabled],[barcode_type]) VALUES ('" +
-
-                field.created_at + "','" +
-                field.updated_at + "','" +
-                field.workflow_state + "','" +
-                field.check_list_id + "','" +
-                field.text + "','" +
-                field.description + "','" +
-                field.field_type_id + "','" +
-                field.display_index + "','" +
-                field.version + "','" +
-                field.parent_field_id + "','" +
-                field.multi + "','" +
-                field.default_value + "','" +
-                field.selected + "','" +
-                field.min_value + "','" +
-                field.max_value + "','" +
-                field.max_length + "','" +
-                field.split_screen + "','" +
-                field.decimal_count + "','" +
-                field.unit_name + "','" +
-                field.key_value_pair_list + "','" +
-                field.geolocation_enabled + "','" +
-                field.geolocation_forced + "','" +
-                field.geolocation_hidden + "','" +
-                field.stop_on_save + "','" +
-                field.mandatory + "','" +
-                field.read_only + "','" +
-                field.color + "','" +
-                field.barcode_enabled + "','" +
-                field.barcode_type + "')" +
-
-                " SELECT SCOPE_IDENTITY();";
-
-            sqlQuery = sqlQuery.Replace("'null'", "null");
-            string dataItemId = QueryDbSimple(sqlQuery);
-            if (dataItemId == "")
-                throw new Exception("Was unable to create an Element in Check_lists");
-            #endregion;
+            catch (Exception ex)
+            {
+                throw new Exception("CreateDataItem failed", ex);
+            }
         }
         #endregion
 
         #region EformReadDb
-        private MainElement EformReadDb(int templatId)
+        private MainElement EformReadDb(int mainId)
         {
-            string mainId = templatId.ToString();
-            MainElement mainElement = null;
             try
             {
-                #region get converter
-                converter = new List<Holder>();
-
-                SqlDataReader sR = QueryDb("SELECT * FROM [" + dbName + "].[microting].[field_types]");
-                while (sR.Read())
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    converter.Add(new Holder(Int(sR,"id"), Str(sR,"field_type")));
+                    MainElement mainElement = null;
+                    GetConverter();
+
+                    try
+                    {
+                        //getting mainElement
+                        check_lists mainCl = db.check_lists.Where(x => x.id == mainId).ToList().First();
+
+                        mainElement = new MainElement(mainCl.id.ToString(), mainCl.description, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                            Bool(mainCl.multi_approval), Bool(mainCl.fast_navigation), Bool(mainCl.download_entities), Bool(mainCl.manual_sync), "", "", new List<Element>());
+
+
+                        //getting elements
+                        List<check_lists> lst = db.check_lists.Where(x => x.parent_id == mainId).ToList();
+
+                        foreach (check_lists cl in lst)
+                        {
+                            mainElement.ElementList.Add(GetElement(cl.id));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Failed to find matching check_list:" + mainId, ex);
+                    }
+                    
+                    //return
+                    return mainElement;
                 }
-                sR.Close();
-                #endregion
-
-                #region get eForm
-                //KEY POINT - mapping
-                //getting mainElement
-                sR = QueryDb("SELECT * FROM [" + dbName + "].[microting].[check_lists] WHERE [id] = '" + mainId + "'");
-                while (sR.Read())
-                {
-                    mainId = Str(sR,"id");
-                    mainElement = new MainElement(mainId, Str(sR, "description"), Int(sR, "display_index"), Str(sR, "folder_name"), Int(sR, "repeated"), DateTime.Now, DateTime.Now.AddDays(2), "da", Bool(sR, "multi_approval"), Bool(sR, "fast_navigation"), Bool(sR, "download_entities"), Bool(sR, "manual_sync"), new List<Element>());
-                }
-                sR.Close();
-
-
-                //KEY POINT - mapping
-                //getting elements
-                sR = QueryDb("SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE [parent_id] = '" + mainId + "'");
-                while (sR.Read())
-                {
-                    string elemId = Str(sR, "id");
-                    mainElement.ElementList.Add(GetElement(elemId));
-                }
-                sR.Close();
-                #endregion
-
-                return mainElement;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("EformReadDb failed", ex);
             }
         }
 
-        private Element GetElement(string ownId)
+        private Element GetElement(int elementId)
         {
-            Element element = null;
-
-            SqlDataReader sR  = QueryDb("SELECT [id] FROM [" + dbName + "].[microting].[check_lists] WHERE [parent_id] = '" + ownId + "'");
-
-            if (sR.HasRows)
+            try
             {
-                //GroupElement
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    Element element = null;
 
-                throw new NotImplementedException("TODO - Here be dragons");
-                //while (sR.Read())
-                //{
-                //    SqlDataReader 
+                    //getting mainElement
+                    List<check_lists> lstElement = db.check_lists.Where(x => x.parent_id == elementId).ToList();
 
-                //    sR = QueryDb("SELECT * FROM [" + dbName + "].[microting].[check_lists] WHERE [parent_id] = '" + ownId + "'");
-                //    //TODO Lacks GroupElements and more levels...
-                //    string groupId = Str(sR, "id");
-                //    List<Element> lst = new List<Element>();
-                //    element = new GroupElement(groupId, Str(sR, "text"), Int(sR, "display_index"), Str(sR, "description"), Bool(sR, "approval_enabled"), Bool(sR, "review_enabled"), Bool(sR, "done_button_enabled"), Bool(sR, "extra_fields_enabled"), "", lst);
+                    if (lstElement.Count > 0)
+                    {
+                        //GroupElement
+                        throw new NotImplementedException("TODO - Here be dragons");
+                    }
+                    else
+                    {
+                        //DataElement
 
-                //    GetElement(groupId, lst);
-                //}
-                //sR.Close();
+                        //list for the DataItems
+                        List<eFormRequest.DataItem> lst = new List<eFormRequest.DataItem>();
+
+                        //the actual DataElement
+                        try
+                        {
+
+                            check_lists cl = db.check_lists.Where(x => x.id == elementId).ToList().First();
+                            element = new DataElement(cl.id.ToString(), cl.text, Int(cl.display_index), cl.description, Bool(cl.approval_enabled), Bool(cl.review_enabled), Bool(cl.done_button_enabled),
+                                Bool(cl.extra_fields_enabled), "", lst);
+
+                            //the actual DataItems
+                            List<fields> lstFields = db.fields.Where(x => x.check_list_id == elementId).ToList();
+                            foreach (var field in lstFields)
+                            {
+                                lst.Add(GetDataItem(field.id));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Failed to find check_list with id:" + elementId, ex);
+                        }
+                    }
+
+                    return element;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //DataElement
-
-                sR.Close();
-
-                List<eFormRequest.DataItem> lst = new List<eFormRequest.DataItem>();
-
-
-                sR = QueryDb("SELECT * FROM [" + dbName + "].[microting].[check_lists] WHERE [id] = '" + ownId + "'");
-                while (sR.Read())
-                {
-                    element = new DataElement(Str(sR, "id"), Str(sR, "text"), Int(sR, "display_index"), Str(sR, "description"), Bool(sR, "approval_enabled"), Bool(sR, "review_enabled"), Bool(sR, "done_button_enabled"), Bool(sR, "extra_fields_enabled"), "", lst);
-                }
-                sR.Close();
-
-
-                sR = QueryDb("SELECT * FROM [" + dbName + "].[microting].[fields] WHERE [check_list_id] = '" + ownId + "'");
-                while (sR.Read())
-                {
-                    lst.Add(GetDataItem(sR));
-                }
-                sR.Close();
+                throw new Exception("GetElement failed", ex);
             }
-
-            return element;
         }
 
-        private eFormRequest.DataItem GetDataItem(SqlDataReader sR)
+        private eFormRequest.DataItem GetDataItem(int dataItemId)
         {
-            int fieldTypeId = Int(sR, "field_type_id");
-            string fieldTypeStr = Find(fieldTypeId);
-
-            //KEY POINT - mapping
-            switch (fieldTypeStr)
+            try
             {
-                case "Text":
-                    return new Text(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Str(sR, "default_value"), Int(sR, "max_length"), Bool(sR, "geolocation_enabled"), Bool(sR, "geolocation_forced"), Bool(sR, "geolocation_hidden"), Bool(sR, "barcode_enabled"), Str(sR, "barcode_type"));
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    fields f = db.fields.Where(x => x.id == dataItemId).ToList().First();
+                    string fieldTypeStr = Find(Int(f.field_type_id));
 
-                case "Number":
-                    return new Number(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Int(sR, "min_value"), Int(sR, "max_value"), Int(sR, "default_value"), Int(sR, "decimal_count"), Str(sR, "unit_name"));
+                    //KEY POINT - mapping
+                    switch (fieldTypeStr)
+                    {
+                        case "Text":
+                            return new Text(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index), 
+                                f.default_value, Int(f.max_length), Bool(f.geolocation_enabled), Bool(f.geolocation_forced), Bool(f.geolocation_hidden), Bool(f.barcode_enabled), f.barcode_type);
 
-                case "None":
-                    return new None(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"));
+                        case "Number":
+                            return new Number(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                int.Parse(f.min_value), int.Parse(f.max_value), int.Parse(f.default_value), Int(f.decimal_count), f.unit_name);
 
-                case "CheckBox":
-                    return new Check_Box(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Bool(sR, "default_value"), Bool(sR, "selected"));
+                        case "None":
+                            return new None(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index));
 
-                case "Picture":
-                    return new Picture(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Int(sR, "multi"), Bool(sR, "geolocation_enabled"));
+                        case "CheckBox":
+                            return new Check_Box(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Bool(f.default_value), Bool(f.selected));
 
-                case "Audio":
-                    return new Audio(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Int(sR, "multi"));
+                        case "Picture":
+                            return new Picture(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Int(f.multi), Bool(f.geolocation_enabled));
 
-                case "SingleSelect":
-                    return new Single_Select(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        ReadPairs(Str(sR, "key_value_pair_list")));
+                        case "Audio":
+                            return new Audio(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Int(f.multi));
 
-                case "MultiSelect":
-                    return new Multi_Select(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        ReadPairs(Str(sR, "key_value_pair_list")));
+                        case "SingleSelect":
+                            return new Single_Select(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                ReadPairs(f.key_value_pair_list));
 
-                case "Comment":
-                    return new Comment(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Str(sR, "default_value"), Int(sR, "max_length"), Bool(sR, "split_screen"));
+                        case "MultiSelect":
+                            return new Multi_Select(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                ReadPairs(f.key_value_pair_list));
 
-                case "Date":
-                    return new Date(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Date(sR, "min_value"), Date(sR, "max_value"), Str(sR, "default_value"));
+                        case "Comment":
+                            return new Comment(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                f.default_value, Int(f.max_length), Bool(f.split_screen));
 
-                case "Signature":
-                    return new Signature(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"));
+                        case "Date":
+                            return new Date(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value);
 
-                case "Timer":
-                    return new eFormRequest.Timer(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                        Bool(sR, "stop_on_save"));
+                        case "Signature":
+                            return new Signature(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index));
 
-                case "EntitySelect":
-                    throw new NotImplementedException("TODO");
-                    //return new Entity_Select(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                    //    0); //TODO
+                        case "Timer":
+                            return new eFormRequest.Timer(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Bool(f.stop_on_save));
 
-                case "EntitySearch":
-                    throw new NotImplementedException("TODO");
-                    //return new Entity_Search(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
-                    //    0); //TODO
+                        case "EntitySelect":
+                            throw new NotImplementedException("TODO");
+                        //return new Entity_Select(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
+                        //    0); //TODO
 
-                default:
-                    throw new IndexOutOfRangeException(fieldTypeId + " is not a known/mapped DataItem type");
+                        case "EntitySearch":
+                            throw new NotImplementedException("TODO");
+                        //return new Entity_Search(Str(sR, "id"), Bool(sR, "mandatory"), Bool(sR, "read_only"), Str(sR, "text"), Str(sR, "description"), Str(sR, "color"), Int(sR, "display_index"),
+                        //    0); //TODO
+
+                        default:
+                            throw new IndexOutOfRangeException(f.field_type_id + " is not a known/mapped DataItem type");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetDataItem failed", ex);
+            }
+        }
+
+        private void GetConverter()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    converter = new List<Holder>();
+
+                    List<field_types> lstFieldType = db.field_types.ToList();
+
+                    foreach (var fieldType in lstFieldType)
+                    {
+                        converter.Add(new Holder(fieldType.id, fieldType.field_type));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetConverter failed", ex);
             }
         }
         #endregion
@@ -714,147 +776,127 @@ namespace eFormSqlController
         {
             try
             {
-                string elementId = "";
-                List<string> elements = tool.LocateList(xml, "<ElementList>", "</ElementList>");
-
-                foreach (string elementStr in elements)
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    CheckListValues chkLstV = new CheckListValues();
+                    int elementId;
+                    int userId = int.Parse(response.Checks[0].WorkerId);
 
-                    chkLstV.created_at = tool.Now();
-                    chkLstV.updated_at = tool.Now();
-                    chkLstV.check_list_id = tool.Locate(elementStr, "<Id>", "</");
-                    chkLstV.case_id = QueryDbSimple("SELECT [id] FROM [" + dbName + "].[microting].[cases] WHERE [microting_api_id] = '" + response.Value + "';");
-                    chkLstV.status = tool.Locate(elementStr, "<Status>", "</");
-                    chkLstV.version = "1";
-                    chkLstV.user_id = response.Checks[0].WorkerId;
-                    chkLstV.workflow_state = "created";
+                    List<string> elements = tool.LocateList(xml, "<ElementList>", "</ElementList>");
 
-                    string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[check_list_values] ([created_at],[updated_at],[check_list_id],[case_id],[status],[version],[user_id],[workflow_state],[check_list_duplicate_id]) VALUES ('" +
-                        chkLstV.created_at + "','" +
-                        chkLstV.updated_at + "','" +
-                        chkLstV.check_list_id + "','" +
-                        chkLstV.case_id + "','" +
-                        chkLstV.status + "','" +
-                        chkLstV.version + "','" +
-                        chkLstV.user_id + "','" +
-                        chkLstV.workflow_state + "','" +
-                        chkLstV.check_list_duplicate_id + "')" +
-
-                        " SELECT SCOPE_IDENTITY();";
-
-                    sqlQuery = sqlQuery.Replace("'null'", "null");
-                    elementId = QueryDbSimple(sqlQuery);
-                    if (elementId == "")
-                        throw new Exception("Was unable to create an Element in check_list_values");
-
-
-                    #region foreach dataItem
-                    List<string> dataItems = tool.LocateList(elementStr, "<DataItem>", "</DataItem>");
-
-                    foreach (string dataItemStr in dataItems)
+                    foreach (string elementStr in elements)
                     {
-                        CreateDataItemCheck(dataItemStr, chkLstV.case_id, chkLstV.user_id, elementId, response.Checks[0].Date);
+                        cases c = db.cases.Where(x => x.microting_api_id == response.Value).ToList().First();
+                        int caseId = c.id;
+
+                        check_list_values clv = new check_list_values();
+
+                        clv.created_at = DateTime.Now;
+                        clv.updated_at = DateTime.Now;
+                        clv.check_list_id = int.Parse(tool.Locate(elementStr, "<Id>", "</"));
+                        clv.case_id = caseId;
+                        clv.status = tool.Locate(elementStr, "<Status>", "</");
+                        clv.version = 1;
+                        clv.user_id = userId;
+                        clv.workflow_state = "created";
+
+                        db.check_list_values.Add(clv);
+                        db.SaveChanges();
+
+                        db.check_list_value_versions.Add(MapCheckListValueVersions(clv));
+                        db.SaveChanges();
+
+                        #region foreach dataItem
+                        elementId = clv.id;
+                        List<string> dataItems = tool.LocateList(elementStr, "<DataItem>", "</DataItem>");
+
+                        foreach (string dataItemStr in dataItems)
+                        {
+                            CreateDataItemCheck(dataItemStr, clv.case_id, clv.user_id, elementId, response.Checks[0].Date);
+                        }
+                        #endregion
                     }
-                    #endregion
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("EformCheckCreateDb failed", ex);
             }
         }
 
-        private void         CreateDataItemCheck(string xml, string caseId, string userId, string elementId, string dateOfDoing)
+        private void         CreateDataItemCheck(string xml, int? caseId, int? userId, int elementId, string dateOfDoing)
         {
-            FieldValues fieldV = new FieldValues();
-
-            #region if contains a file
-            if (tool.Locate(xml, "<URL>", "</URL>") != "")
+            try
             {
-                string sqlQueryUpload = "INSERT INTO [" + dbName + "].[microting].[uploaded_data] ([created_at],[updated_at],[extension],[uploader_id],[uploader_type]," +
-                    "[workflow_state],[version],[local],[file_location]) VALUES ('" +
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    field_values fieldV = new field_values();
 
-                    tool.Now() + "','" +
-                    tool.Now() + "','" +
-                    tool.Locate(xml, "<Extension>", "</") + "','" +
-                    userId + "','" +
-                    "system" + "','" +
-                    "pre_created" + "','" +
-                    "1" + "','" +
-                    "0" + "','" +
-                    tool.Locate(xml, "<URL>", "</") + "')" +
+                    #region if contains a file
+                    if (tool.Locate(xml, "<URL>", "</URL>") != "")
+                    {
+                        uploaded_data uD = new uploaded_data();
 
-                    " SELECT SCOPE_IDENTITY();";
+                        uD.created_at = DateTime.Now;
+                        uD.updated_at = DateTime.Now;
+                        uD.extension = tool.Locate(xml, "<Extension>", "</");
+                        uD.uploader_id = userId;
+                        uD.uploader_type = "system";
+                        uD.workflow_state = "pre_created";
+                        uD.version = 1;
+                        uD.local = 0;
+                        uD.file_location = tool.Locate(xml, "<URL>", "</");
 
-                sqlQueryUpload = sqlQueryUpload.Replace("'null'", "null");
-                string urlId = QueryDbSimple(sqlQueryUpload);
-                if (urlId == "")
-                    throw new Exception("Was unable to create an Data in uploaded_data");
+                        db.uploaded_data.Add(uD);
+                        db.SaveChanges();
 
-                fieldV.uploaded_data_id = urlId;
+                        db.uploaded_data_versions.Add(MapUploadedDataVersions(uD));
+                        db.SaveChanges();
+
+
+
+                        fieldV.uploaded_data_id = uD.id;
+                    }
+                    #endregion
+
+                    fieldV.created_at = DateTime.Now;
+                    fieldV.updated_at = DateTime.Now;
+                    fieldV.value = tool.Locate(xml, "<Value>", "</");
+                    //geo
+                        fieldV.latitude = tool.Locate(xml, "<Latitude>", "</");
+                        fieldV.longitude = tool.Locate(xml, "<Longitude>", "</");
+                        fieldV.altitude = tool.Locate(xml, "<Altitude>", "</");
+                        fieldV.heading = tool.Locate(xml, "<Heading>", "</");
+                        fieldV.accuracy = tool.Locate(xml, "<Accuracy>", "</");
+                        fieldV.date = Date(tool.Locate(xml, "<Date>", "</"));
+                    //
+                    fieldV.workflow_state = "created";
+                    fieldV.version = 1;
+                    fieldV.case_id = caseId;
+                    fieldV.field_id = int.Parse(tool.Locate(xml, "<Id>", "</"));
+                    fieldV.user_id = userId;
+                    fieldV.check_list_id = elementId;
+                    fieldV.date_of_doing = Date(dateOfDoing);
+
+                    db.field_values.Add(fieldV);
+                    db.SaveChanges();
+
+                    db.field_value_versions.Add(MapFieldValueVersions(fieldV));
+                    db.SaveChanges();
+                }
             }
-            #endregion
-
-            fieldV.created_at = tool.Now();
-            fieldV.updated_at = tool.Now();
-            fieldV.value = tool.Locate(xml, "<Value>", "</");
-            //geo
-                fieldV.latitude = tool.Locate(xml, "<Latitude>", "</");
-                fieldV.longitude = tool.Locate(xml, "<Longitude>", "</");
-                fieldV.altitude = tool.Locate(xml, "<Altitude>", "</");
-                fieldV.heading = tool.Locate(xml, "<Heading>", "</");
-                fieldV.accuracy = tool.Locate(xml, "<Accuracy>", "</");
-                fieldV.date = tool.Locate(xml, "<Date>", "</");
-            //
-            fieldV.workflow_state = "created";
-            fieldV.version = "1";
-            fieldV.case_id = caseId;
-            fieldV.field_id = tool.Locate(xml, "<Id>", "</");
-            fieldV.user_id = userId;
-            fieldV.check_list_id = elementId;
-            fieldV.date_of_doing = dateOfDoing;
-
-            string sqlQuery = "INSERT INTO [" + dbName + "].[microting].[field_values] ([created_at],[updated_at],[value],[latitude],[longitude],[altitude],[heading],[date],[accuracy]," + 
-                "[uploaded_data_id],[workflow_state],[version],[case_id],[field_id],[user_id],[check_list_id],[check_list_duplicate_id],[date_of_doing]) VALUES ('" +
-
-                fieldV.created_at + "','" +
-                fieldV.updated_at + "','" +
-                fieldV.value + "','" +
-                fieldV.latitude + "','" +
-                fieldV.longitude + "','" +
-                fieldV.altitude + "','" +
-                fieldV.heading + "','" +
-                fieldV.date + "','" +
-                fieldV.accuracy + "','" +
-                fieldV.uploaded_data_id + "','" +
-                fieldV.workflow_state + "','" +
-                fieldV.version + "','" +
-                fieldV.case_id + "','" +
-                fieldV.field_id + "','" +
-                fieldV.user_id + "','" +
-                fieldV.check_list_id + "','" +
-                fieldV.check_list_duplicate_id + "','" +
-                fieldV.date_of_doing + "')" +
-
-                " SELECT SCOPE_IDENTITY();";
-
-            sqlQuery = sqlQuery.Replace("'null'", "null");
-            string fieldId = QueryDbSimple(sqlQuery);
-            if (fieldId == "")
-                throw new Exception("Was unable to create an DataItem in field_values");
+            catch (Exception ex)
+            {
+                throw new Exception("EformReadDb failed", ex);
+            }
         }
         #endregion
 
         #region Get*
-        private string Str(SqlDataReader sqlReader, string columeName)
+        private bool Bool(short? input)
         {
-            return sqlReader[columeName].ToString();
-        }
-
-        private bool Bool(SqlDataReader sqlReader, string columeName)
-        {
-            string temp = sqlReader[columeName].ToString();
+            if (input == null)
+                return false;
+            string temp = input.ToString();
             if (temp == "0" || temp == "false" || temp == "")
                 return false;
             if (temp == "1" || temp == "true")
@@ -862,27 +904,38 @@ namespace eFormSqlController
             throw new Exception(temp + ": was not found to be a bool");
         }
 
-        private string Bool(bool inputBool)
+        private bool Bool(string input)
         {
-            if (inputBool == false)
-                return "0";
-            else
-                return "1";
+            if (input == null || input == "0" || input == "false" || input == "")
+                return false;
+            if (input == "1" || input == "true")
+                return true;
+            throw new Exception(input + ": was not found to be a bool");
         }
 
-        private int Int(SqlDataReader sqlReader, string columeName)
+        private short Bool(bool inputBool)
         {
-            var temp = sqlReader[columeName];
-            string str = temp.ToString();
-            if (str == "")
+            if (inputBool == false)
                 return 0;
+            else
+                return 1;
+        }
+
+        private int Int(int? input)
+        {
+            if (input == null)
+                return 0;
+
+            string str = input.ToString();
             return int.Parse(str);
         }
 
-        private DateTime Date(SqlDataReader sqlReader, string columeName)
+        private DateTime? Date(string input)
         {
-            string temp = sqlReader[columeName].ToString();
-            return DateTime.Parse(temp);
+            if (input == "")
+                return null;
+            else
+                return DateTime.Parse(input);
         }
 
         private string Find(int fieldTypeId)
@@ -961,53 +1014,177 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region Query
-        private string QueryDbSimple(string query)
+        #region mappers
+        private case_versions MapCaseVersion(cases aCase)
         {
-            try
-            {
-                lock (_lockQuery)
-                {
-                    SqlDataReader sqlReader = QueryDb(query);
-                    while (sqlReader.Read())
-                    {
-                        var strMaybe = sqlReader.GetValue(0);
-                        sqlReader.Close();
+            case_versions caseVer = new case_versions();
+            caseVer.status = aCase.status;
+            caseVer.date_of_doing = aCase.date_of_doing;
+            caseVer.updated_at = aCase.updated_at;
+            caseVer.done_by_user_id = aCase.done_by_user_id;
+            caseVer.workflow_state = aCase.workflow_state;
+            caseVer.version = aCase.version;
+            caseVer.microting_check_id = aCase.microting_check_id;
+            caseVer.unit_id = aCase.unit_id;
 
-                        return strMaybe.ToString();
-                    }
-                    throw new Exception("No valid reply from DB");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("QueryDbSimple failed '" + query + "'", ex);
-            }
+            caseVer.created_by_user_id = aCase.created_by_user_id;
+            caseVer.versioned_type = aCase.type; //<<--
+            caseVer.created_at = aCase.created_at;
+            caseVer.check_list_id = aCase.check_list_id;
+            caseVer.microting_api_id = aCase.microting_api_id;
+            caseVer.site_id = aCase.site_id;
+            caseVer.reg_number = aCase.reg_number;
+            caseVer.vejenummer = aCase.vejenummer;
+            caseVer.case_id = aCase.id; //<<--
+
+            return caseVer;
         }
 
-        private SqlDataReader QueryDb(string query)
+        private check_list_versions MapCheckListVersions(check_lists checkList)
         {
-            try
-            {
-                lock (_lockQuery)
-                {
-                    command = new SqlCommand(query, connect);
-                    SqlDataReader sR = command.ExecuteReader();
-                    command.Dispose();
+            check_list_versions clv = new check_list_versions();
+            clv.created_at = checkList.created_at;
+            clv.updated_at = checkList.updated_at;
+            clv.text = checkList.text;
+            clv.description = checkList.description;
+            clv.serialized_default_values = checkList.serialized_default_values;
+            clv.workflow_state = checkList.workflow_state;
+            clv.parent_id = checkList.parent_id;
+            clv.repeated = checkList.repeated;
+            clv.version = checkList.version;
+            clv.case_type = checkList.case_type;
+            clv.folder_name = checkList.folder_name;
+            clv.display_index = checkList.display_index;
+            clv.report_file_name = checkList.report_file_name;
+            clv.review_enabled = checkList.review_enabled;
+            clv.manual_sync = checkList.manual_sync;
+            clv.extra_fields_enabled = checkList.extra_fields_enabled;
+            clv.done_button_enabled = checkList.done_button_enabled;
+            clv.approval_enabled = checkList.approval_enabled;
+            clv.multi_approval = checkList.multi_approval;
+            clv.fast_navigation = checkList.fast_navigation;
+            clv.download_entities = checkList.download_entities;
 
-                    return sR;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("QueryDb failed '" + query + "'", ex);
-            }
+            clv.check_list_id = checkList.id; //<<--
+
+            return clv;
+        }
+
+        private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
+        {
+            check_list_value_versions clvv = new check_list_value_versions();
+            clvv.version = checkListValue.version;
+            clvv.created_at = checkListValue.created_at;
+            clvv.updated_at = checkListValue.updated_at;
+            clvv.check_list_id = checkListValue.check_list_id;
+            clvv.case_id = checkListValue.case_id;
+            clvv.status = checkListValue.status;
+            clvv.user_id = checkListValue.user_id;
+            clvv.workflow_state = checkListValue.workflow_state;
+            clvv.check_list_duplicate_id = checkListValue.check_list_duplicate_id;
+
+            clvv.check_list_value_id = checkListValue.id; //<<--
+
+            return clvv;
+        }
+
+        private field_versions MapFieldVersions(fields field)
+        {
+            field_versions fv = new field_versions();
+
+            fv.version = field.version;
+            fv.created_at = field.created_at;
+            fv.updated_at = field.updated_at;
+            fv.serialized_default_values = field.serialized_default_values;
+            fv.workflow_state = field.workflow_state;
+            fv.check_list_id = field.check_list_id;
+            fv.text = field.text;
+            fv.description = field.description;
+            fv.field_type_id = field.field_type_id;
+            fv.display_index = field.display_index;
+            fv.dummy = field.dummy;
+            fv.parent_field_id = field.parent_field_id;
+            fv.optional = field.optional;
+            fv.multi = field.multi;
+            fv.default_value = field.default_value;
+            fv.selected = field.selected;
+            fv.min_value = field.min_value;
+            fv.max_value = field.max_value;
+            fv.max_length = field.max_length;
+            fv.split_screen = field.split_screen;
+            fv.decimal_count = field.decimal_count;
+            fv.unit_name = field.unit_name;
+            fv.key_value_pair_list = field.key_value_pair_list;
+            fv.geolocation_enabled = field.geolocation_enabled;
+            fv.geolocation_forced = field.geolocation_forced;
+            fv.geolocation_hidden = field.geolocation_hidden;
+            fv.stop_on_save = field.stop_on_save;
+            fv.mandatory = field.mandatory;
+            fv.read_only = field.read_only;
+            fv.color = field.color;
+            fv.barcode_enabled = field.barcode_enabled;
+            fv.barcode_type = field.barcode_type;
+
+            fv.field_id = field.id; //<<--
+
+            return fv;
+        }
+
+        private field_value_versions MapFieldValueVersions(field_values fieldValue)
+        {
+            field_value_versions fvv = new field_value_versions();
+
+            fvv.created_at = fieldValue.created_at;
+            fvv.updated_at = fieldValue.updated_at;
+            fvv.value = fieldValue.value;
+            fvv.latitude = fieldValue.latitude;
+            fvv.longitude = fieldValue.longitude;
+            fvv.altitude = fieldValue.altitude;
+            fvv.heading = fieldValue.heading;
+            fvv.date = fieldValue.date;
+            fvv.accuracy = fieldValue.accuracy;
+            fvv.uploaded_data_id = fieldValue.uploaded_data_id;
+            fvv.version = fieldValue.version;
+            fvv.case_id = fieldValue.case_id;
+            fvv.field_id = fieldValue.field_id;
+            fvv.user_id = fieldValue.user_id;
+            fvv.workflow_state = fieldValue.workflow_state;
+            fvv.check_list_id = fieldValue.check_list_id;
+            fvv.check_list_duplicate_id = fieldValue.check_list_duplicate_id;
+            fvv.date_of_doing = fieldValue.date_of_doing;
+
+            fvv.field_value_id = fieldValue.id; //<<--
+
+            return fvv;
+        }
+
+        private uploaded_data_versions MapUploadedDataVersions(uploaded_data uploadedData)
+        {
+            uploaded_data_versions udv = new uploaded_data_versions();
+
+            udv.created_at = uploadedData.created_at;
+            udv.updated_at = uploadedData.updated_at;
+            udv.checksum = uploadedData.checksum;
+            udv.extension = uploadedData.extension;
+            udv.current_file = uploadedData.current_file;
+            udv.uploader_id = uploadedData.uploader_id;
+            udv.uploader_type = uploadedData.uploader_type;
+            udv.workflow_state = uploadedData.workflow_state;
+            udv.expiration_date = uploadedData.expiration_date;
+            udv.version = uploadedData.version;
+            udv.local = uploadedData.local;
+            udv.file_location = uploadedData.file_location;
+            udv.file_name = uploadedData.file_name;
+
+            udv.uploaded_data_id = uploadedData.id; //<<--
+
+            return udv;
         }
         #endregion
         #endregion
     }
 
-    #region help classes
+    #region help class
     internal class Holder
     {
         internal Holder(int index, string field_type)
@@ -1018,144 +1195,6 @@ namespace eFormSqlController
 
         internal int Index { get; }
         internal string FieldType { get; }
-    }
-
-    internal class Field
-    {
-        internal Field()
-        {
-            created_at = "null";
-            updated_at = "null";
-            workflow_state = "null";
-            check_list_id = "null";
-            text = "null";
-            description = "null";
-            field_type_id = "null";
-            display_index = "null";
-            version = "null";
-            parent_field_id = "null";
-            multi = "null";
-            default_value = "null";
-            selected = "null";
-            min_value = "null";
-            max_value = "null";
-            max_length = "null";
-            split_screen = "null";
-            decimal_count = "null";
-            unit_name = "null";
-            key_value_pair_list = "null";
-            geolocation_enabled = "null";
-            geolocation_forced = "null";
-            geolocation_hidden = "null";
-            stop_on_save = "null";
-            mandatory = "null";
-            read_only = "null";
-            color = "null";
-            barcode_enabled = "null";
-            barcode_type = "null";
-        }
-
-        #region get
-        internal string created_at { get; set; }
-        internal string updated_at { get; set; }
-        internal string workflow_state { get; set; }
-        internal string check_list_id { get; set; }
-        internal string text { get; set; }
-        internal string description { get; set; }
-        internal string field_type_id { get; set; }
-        internal string display_index { get; set; }
-        internal string version { get; set; }
-        internal string parent_field_id { get; set; }
-        internal string multi { get; set; }
-        internal string default_value { get; set; }
-        internal string selected { get; set; }
-        internal string min_value { get; set; }
-        internal string max_value { get; set; }
-        internal string max_length { get; set; }
-        internal string split_screen { get; set; }
-        internal string decimal_count { get; set; }
-        internal string unit_name { get; set; }
-        internal string key_value_pair_list { get; set; }
-        internal string geolocation_enabled { get; set; }
-        internal string geolocation_forced { get; set; }
-        internal string geolocation_hidden { get; set; }
-        internal string stop_on_save { get; set; }
-        internal string mandatory { get; set; }
-        internal string read_only { get; set; }
-        internal string color { get; set; }
-        internal string barcode_enabled { get; set; }
-        internal string barcode_type { get; set; }
-        #endregion
-    }
-
-    internal class CheckListValues
-    {
-        internal CheckListValues()
-        {
-            created_at = "null";
-            updated_at = "null";
-            check_list_id = "null";
-            case_id = "null";
-            status = "null";
-            version = "null";
-            user_id = "null";
-            workflow_state = "null";
-            check_list_duplicate_id = "null";
-        }
-
-        internal string created_at { get; set; }
-        internal string updated_at { get; set; }
-        internal string check_list_id { get; set; }
-        internal string case_id { get; set; }
-        internal string status { get; set; }
-        internal string version { get; set; }
-        internal string user_id { get; set; }
-        internal string workflow_state { get; set; }
-        internal string check_list_duplicate_id { get; set; }
-    }
-
-    internal class FieldValues
-    {
-        internal FieldValues()
-        {
-            created_at = "null";
-            updated_at = "null";
-            value = "null";
-            latitude = "null";
-            longitude = "null";
-            altitude = "null";
-            heading = "null";
-            date = "null";
-            accuracy = "null";
-            uploaded_data_id = "null";
-            workflow_state = "null";
-            version = "null";
-            case_id = "null";
-            field_id = "null";
-            user_id = "null";
-            check_list_id = "null";
-            check_list_duplicate_id = "null";
-            date_of_doing = "null";
-        }
-
-        internal string created_at { get; set; }
-        internal string updated_at { get; set; }
-        internal string value { get; set; }
-        internal string latitude { get; set; }
-        internal string longitude { get; set; }
-        internal string altitude { get; set; }
-        internal string heading { get; set; }
-        internal string date { get; set; }
-        internal string accuracy { get; set; }
-        internal string uploaded_data_id { get; set; }
-        internal string workflow_state { get; set; }
-        internal string version { get; set; }
-        internal string case_id { get; set; }
-        internal string field_id { get; set; }
-        internal string user_id { get; set; }
-        internal string check_list_id { get; set; }
-        internal string check_list_duplicate_id { get; set; }
-        internal string date_of_doing { get; set; }
     }
     #endregion
 }

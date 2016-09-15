@@ -99,10 +99,6 @@
       <Project>{ad0bb980-6dc6-4860-801a-b6373934b629}</Project>
       <Name>eFormSubscriber</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microting\Microting\Microting.csproj">
-      <Project>{2779518e-dedd-40bd-a072-52573546a577}</Project>
-      <Name>Microting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiniTrols\MiniTrols.csproj">
       <Project>{86AD3859-E0F8-4353-A2FA-1972D3CD3809}</Project>
       <Name>MiniTrols</Name>
