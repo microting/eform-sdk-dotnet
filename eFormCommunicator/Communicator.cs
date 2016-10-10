@@ -29,7 +29,7 @@ namespace eFormCommunicator
     public class Communicator
     {
         #region var
-        private string apiId;
+        private string siteId;
         private Http http;
         #endregion
 
@@ -37,12 +37,12 @@ namespace eFormCommunicator
         /// <summary>
         /// Microting XML eForm API C# DLL.
         /// </summary>
-        /// <param name="apiId">Your company's Microting ID.</param>
+        /// <param name="siteId">Your device's Microting ID.</param>
         /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="address">Microting's eForm API server address.</param>
-        public Communicator(string apiId, string token, string address)
+        public Communicator(int siteId, string token, string address)
         {
-            this.apiId = apiId;
+            this.siteId = siteId.ToString();
             #region CheckInput token & serverAddress
             string errorsFound = "";
 
@@ -71,12 +71,17 @@ namespace eFormCommunicator
         /// <param name="xmlString">XML encoded eForm string.</param>
         public string PostXml        (string xmlString)
         {
-            xmlString = xmlString.Replace("<Color />", "");   //TODO HACK   //TODO - Missing serverside. Will not accept blank/empty field
+            //XML HACK
+            //REMEMBER OTHER POST METHOD
+            xmlString = xmlString.Replace("<color></color>", "");   //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("<Color />", "");         //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("DefaultValue", "Value"); //Missing serverside.
+
 
             if (xmlString.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
 
-            return http.Post(xmlString, apiId);
+            return http.Post(xmlString, siteId);
         }
 
         /// <summary>
@@ -86,7 +91,11 @@ namespace eFormCommunicator
         /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
         public string PostXmlExtended(string xmlString, string organizationId)
         {
-            xmlString = xmlString.Replace("<color></color>", "");   //TODO HACK   //TODO - Missing serverside. Will not accept blank/empty field
+            //XML HACK
+            //REMEMBER OTHER POST METHOD
+            xmlString = xmlString.Replace("<color></color>", "");   //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("<Color />", "");         //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("DefaultValue", "Value"); //Missing serverside.
 
 
             if (xmlString.Contains("type=\"Entity_Select\">"))
@@ -169,7 +178,7 @@ namespace eFormCommunicator
                 }
             }
 
-            return http.Post(xmlString, apiId);
+            return http.Post(xmlString, siteId);
         }
 
         /// <summary>
@@ -178,7 +187,7 @@ namespace eFormCommunicator
         /// <param name="eFormId">Identifier of the eForm to retrieve status of.</param>
         public string CheckStatus    (string eFormId)
         {
-            return http.Status(eFormId, apiId);
+            return http.Status(eFormId, siteId);
         }
 
         /// <summary>
@@ -187,7 +196,7 @@ namespace eFormCommunicator
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         public string Retrieve       (string eFormId)
         {
-            return http.Retrieve(eFormId, 0, apiId); //Always gets the first
+            return http.Retrieve(eFormId, 0, siteId); //Always gets the first
         }
 
         /// <summary>
@@ -195,9 +204,9 @@ namespace eFormCommunicator
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         /// <param name="eFormResponseId">Identifier of the check to begin from.</param>
-        public string RetrieveFromId (string eFormId, int eFormResponseId) //TODO - Have I done it right? Did I understand how it works :D Check readme file
+        public string RetrieveFromId (string eFormId, int eFormResponseId)
         {
-            return http.Retrieve(eFormId, eFormResponseId, apiId);
+            return http.Retrieve(eFormId, eFormResponseId, siteId);
         }
 
         /// <summary>
@@ -206,12 +215,12 @@ namespace eFormCommunicator
         /// <param name="eFormId">Identifier of the eForm to mark for deletion.</param>
         public string Delete         (string eFormId)
         {
-            return http.Delete(eFormId, apiId);
+            return http.Delete(eFormId, siteId);
         }
 
-        public string ApiId()
+        public int SiteId()
         {
-            return apiId;
+            return int.Parse(siteId);
         }
         #endregion
 

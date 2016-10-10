@@ -7,8 +7,6 @@ namespace eFormRequest
 {
     public class Entity_Search : DataItem
     {
-        //TODO
-
         internal Entity_Search()
         {
 

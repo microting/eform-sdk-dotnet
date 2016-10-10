@@ -1,5 +1,31 @@
-﻿using System;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2014 microting
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using eFormRequest;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,44 +36,45 @@ namespace Microting
     {
         static void Main(string[] args)
         {
-            Controller cont = new Controller();
+            MainController mainController = new MainController();
             bool keepRunning = true;
 
             while (keepRunning)
             {
-                Console.WriteLine("Press 1,2,3,4,5,6, t (for test) or q (to quit)");
+                Console.WriteLine("Type templat id or t (for test) and q (to quit)");
                 string input = Console.ReadLine();
 
-                Random ran = new Random();
-                string title = ""; // ran.Next(10000, 99999).ToString();
-                string body = ""; // ran.Next(10000, 99999).ToString();
-
-                if (input == "1")
-                    cont.CreateEform(33, title, body, "1311");
-
-                if (input == "2")
-                    cont.CreateEform(35, title, body, "1311");
-
-                if (input == "3")
-                    cont.CreateEform(37, title, body, "1311");
-
-                if (input == "4")
-                    cont.CreateEform(39, title, body, "1311");
-
-                if (input == "5")
-                    cont.CreateEform(41, title, body, "1311");
-
-                if (input == "6")
-                    cont.CreateEform(43, title, body, "1311");
-
-                if (input == "t")
-                    cont.Test();
 
                 if (input.ToLower() == "q")
+                {
                     keepRunning = false;
+                }
+
+
+                if (input.ToLower() == "t")
+                {
+                    string xmlStr = File.ReadAllText("xml.txt");
+                    int id = mainController.TemplatCreate(xmlStr);
+                    Console.WriteLine("id = '" + id.ToString() + "' created");
+
+                    //mainController.CaseRead("620328");
+                }
+
+                if (input != "q" && input != "t")
+                {
+                    try
+                    {
+                        int templatId = int.Parse(input);
+                        mainController.CaseCreate(templatId, "","", "LL-NNNNN", DateTime.Now.ToLongTimeString(), "testRoad");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                }
             }
             Console.WriteLine("Trying to shutting down");
-            cont.Close();
+            mainController.Close();
             Environment.Exit(0);
         }
     }

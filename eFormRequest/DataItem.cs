@@ -16,6 +16,7 @@ namespace eFormRequest
     [XmlInclude(typeof(Multi_Select))]
     [XmlInclude(typeof(Show_Pdf))]
     [XmlInclude(typeof(Picture))]
+    [XmlInclude(typeof(SaveButton))]
     [XmlInclude(typeof(Signature))]
     [XmlInclude(typeof(Single_Select))]
     [XmlInclude(typeof(Entity_Select))]
@@ -186,8 +187,8 @@ namespace eFormRequest
 
         }
 
-        public Number(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
-            int minValue, int maxValue, int defaultValue, int decimalCount, string unitName)
+        public Number(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder,
+            long minValue, long maxValue, int defaultValue, int decimalCount, string unitName)
         {
             Id = id;
             Mandatory = mandatory;
@@ -204,8 +205,8 @@ namespace eFormRequest
             UnitName = unitName;
         }
 
-        public int MinValue { get; set; }
-        public int MaxValue { get; set; }
+        public long MinValue { get; set; }
+        public long MaxValue { get; set; }
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
         public string UnitName { get; set; }
@@ -292,6 +293,32 @@ namespace eFormRequest
 
         public int Multi { get; set; }
         public bool GeolocationEnabled { get; set; }
+    }
+    #endregion
+
+    #region SaveButton
+    public class SaveButton : DataItem
+    {
+        internal SaveButton()
+        {
+
+        }
+
+        public SaveButton(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder,
+            string value)
+        {
+            Id = id;
+            Mandatory = mandatory;
+            ReadOnly = readOnly;
+            Label = label;
+            Description = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+
+            Value = value;
+        }
+
+        public string Value { get; set; }
     }
     #endregion
 

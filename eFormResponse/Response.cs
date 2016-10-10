@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Trools;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using MiniTrols;
 
 namespace eFormResponse
 {
@@ -24,13 +25,12 @@ namespace eFormResponse
         #endregion
 
         #region var
-        private Tools tool = new Tools();
-
         public ResponseTypes Type { get; set; }
         public string Value { get; set; }
         public string UnitFetchedAt { get; set; }
         public string UnitId { get; set; }
         public List<Check> Checks{ get; set; }
+        Tools t = new Tools();
         #endregion
 
         #region public
@@ -44,9 +44,9 @@ namespace eFormResponse
                 #region value type
                 if (xmlStr.Contains("<Value type="))
                 {
-                    string subXmlStr = tool.Locate(xmlStr, "<Response>", "</Response>").Trim();
-                    string valueTypeLower = tool.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
-                    value = tool.Locate(xmlStr, "\">", "</").Trim();
+                    string subXmlStr = t.Locate(xmlStr, "<Response>", "</Response>").Trim();
+                    string valueTypeLower = t.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
+                    value = t.Locate(xmlStr, "\">", "</").Trim();
 
                     switch (valueTypeLower)
                     {
@@ -96,15 +96,15 @@ namespace eFormResponse
                 {
                     Check check = new Check();
 
-                    check.UnitId = tool.Locate(checkXmlStr, " unit_id=\"",   "\"");
-                    check.Date = tool.Locate(checkXmlStr, " date=\"",      "\"");
-                    check.Worker = tool.Locate(checkXmlStr, " worker=\"",    "\"");
-                    check.Id = tool.Locate(checkXmlStr, " id=\"",        "\"");
-                    check.WorkerId = tool.Locate(checkXmlStr, " worker_id=\"", "\"");
+                    check.UnitId = t.Locate(checkXmlStr, " unit_id=\"",   "\"");
+                    check.Date = t.Locate(checkXmlStr, " date=\"",      "\"");
+                    check.Worker = t.Locate(checkXmlStr, " worker=\"",    "\"");
+                    check.Id = t.Locate(checkXmlStr, " id=\"",        "\"");
+                    check.WorkerId = t.Locate(checkXmlStr, " worker_id=\"", "\"");
 
                     while (checkXmlStr.Contains("<ElementList>"))
                     {
-                        string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + tool.Locate(checkXmlStr, "<ElementList>", "</ElementList>") + "</ElementList>";
+                        string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + t.Locate(checkXmlStr, "<ElementList>", "</ElementList>") + "</ElementList>";
                         ElementList eResp = XmlToClassCheck(inderXmlStr);
                         check.ElementList.Add(eResp);
 

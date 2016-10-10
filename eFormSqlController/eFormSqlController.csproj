@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\Microting\Microting\DLL\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Microting\Microting\Tools.cs">
+      <Link>Tools.cs</Link>
+    </Compile>
     <Compile Include="cases.cs" />
     <Compile Include="case_versions.cs" />
     <Compile Include="check_lists.cs" />
@@ -79,12 +82,6 @@
     <Compile Include="uploaded_data_versions.cs" />
     <Compile Include="users.cs" />
     <Compile Include="user_versions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MiniTrols\MiniTrols.csproj">
-      <Project>{86ad3859-e0f8-4353-a2fa-1972d3cd3809}</Project>
-      <Name>MiniTrols</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

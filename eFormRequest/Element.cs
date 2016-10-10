@@ -34,12 +34,14 @@ namespace eFormRequest
     {
         internal DataElement()
         {
+            DataItemGroupList = new List<DataItemGroup>();
             DataItemList = new List<DataItem>();
         }
 
         public DataElement(string id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
-            bool extraDataElementsEnabled, string pinkBarText, List<DataItem> dataItemList)
+            bool extraDataElementsEnabled, string pinkBarText, List<DataItemGroup> dateItemGroupList, List<DataItem> dataItemList)
         {
+            DataItemGroupList = new List<DataItemGroup>();
             DataItemList = new List<DataItem>();
 
             Id = id;
@@ -52,8 +54,12 @@ namespace eFormRequest
             ExtraFieldsEnabled = extraDataElementsEnabled;
             PinkBarText = pinkBarText;
 
+            DataItemGroupList = dateItemGroupList;
             DataItemList = dataItemList;
         }
+
+        [XmlArray("DataItemGroupList"), XmlArrayItem(typeof(DataItemGroup), ElementName = "DataItemGroup")]
+        public List<DataItemGroup> DataItemGroupList { get; set; }
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }

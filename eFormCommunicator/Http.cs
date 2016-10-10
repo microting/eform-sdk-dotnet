@@ -179,9 +179,16 @@ namespace eFormCommunicator
             string responseFromServer = reader.ReadToEnd();
 
             // Clean up the streams.
-            reader.Close();
-            dataResponseStream.Close();
-            response.Close();
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
+
+            }
 
             return responseFromServer;
         }
@@ -201,9 +208,16 @@ namespace eFormCommunicator
             string responseFromServer = reader.ReadToEnd();
 
             // Clean up the streams.
-            reader.Close();
-            dataResponseStream.Close();
-            response.Close();
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
+
+            }
 
             return responseFromServer;
         }

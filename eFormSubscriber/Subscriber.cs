@@ -22,27 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading;
+
 using WebSocketSharp;
-using MiniTrols;
+using Trools;
 
 namespace eFormSubscriber
 {
     public class Subscriber
     {
+        #region events
         public event EventHandler EventMsgClient;
         public event EventHandler EventMsgServer;
+        #endregion
 
         #region var
-        private WebSocket _ws;
-        private Tools tool = new Tools();
-        private bool keepSubscribed, keepConnectionAlive, isRunning;
-        private string authToken, address, token, clientId, name;
-        private int numberOfMessages;
-        private object _lock;
+        WebSocket _ws;
+        bool keepSubscribed, keepConnectionAlive, isRunning;
+        string authToken, address, token, clientId, name;
+        int numberOfMessages;
+        object _lock;
+        Tools t = new Tools();
         #endregion
 
         #region con
@@ -194,7 +198,7 @@ namespace eFormSubscriber
                         html = reader.ReadToEnd();
                     }
 
-                    authToken = tool.Locate(html, "authToken: '", "'");
+                    authToken = t.Locate(html, "authToken: '", "'");
                     EventTriggerRequestToServer("Auth = " + authToken);
                     #endregion
 
@@ -254,11 +258,11 @@ namespace eFormSubscriber
                             }
                         }
                         #endregion
-                        clientId = tool.Locate(reply, "clientId\":\"", "\"");
+                        clientId = t.Locate(reply, "clientId\":\"", "\"");
                         SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/subscribe\",\"subscription\":\"" + authToken + "-update\"}]");
 
                         Thread.Sleep(250);
-                        int timeout = int.Parse(tool.Locate(reply, "\"timeout\":", "}")) - 2000;
+                        int timeout = int.Parse(t.Locate(reply, "\"timeout\":", "}")) - 2000;
                         if (timeout < 100)
                             throw new SystemException("Timeout-2s is smaller than 0.1s. Timeout=" + timeout.ToString());
 
@@ -274,10 +278,17 @@ namespace eFormSubscriber
                 }
                 catch (Exception ex) //Logs the found expection 
                 {
-                    EventMsgClient("Subscriver ## EXCEPTION ## " + ex.Message + Environment.NewLine +
+                    try
+                    {
+                        EventMsgClient("Subscriver ## EXCEPTION ## " + ex.Message + Environment.NewLine +
                                     ex.StackTrace + Environment.NewLine +
                                     ex.InnerException,
                                     null);
+                    }
+                    catch
+                    {
+
+                    }
                 }
 
                 if (keepSubscribed)
