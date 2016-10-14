@@ -41,7 +41,8 @@ namespace eFormTester
         Communicator communicator;
         Subscriber subscriber;
         bool subscriberAlive;
-        string siteId, organizationId, serverToken, serverAddress, request, sampleXml, notificationToken, notificationAddress;
+        string organizationId, serverToken, serverAddress, request, sampleXml, notificationToken, notificationAddress;
+        int siteId;
         DateTime startDate, endDate;
         Tools t = new Tools();
         #endregion
@@ -90,7 +91,7 @@ namespace eFormTester
             try
             {
                 //Sends the XML using the actual method, and get it's response XML
-                string response = communicator.PostXml(request);
+                string response = communicator.PostXml(request, siteId);
                 //Sends XML, and gets a response
 
                 tbxResponse.Text = response;
@@ -107,7 +108,7 @@ namespace eFormTester
             try
             {
                 //Sends the Id using the actual method, and get it's response XML
-                string response = communicator.Retrieve(request);
+                string response = communicator.Retrieve(request, siteId);
                 //Get the Id's data
 
                 tbxResponse.Text = response;
@@ -124,7 +125,7 @@ namespace eFormTester
             try
             {
                 //Sends the Id using the actual method, and get it's response XML
-                string response = communicator.Delete(request);
+                string response = communicator.Delete(request, siteId);
                 //Marks the Id to be deleted
 
                 tbxResponse.Text = response;
@@ -142,7 +143,7 @@ namespace eFormTester
             try
             {
                 //Sends the XML using the actual method, and get it's response XML. ONLY needed if complex XML elements are included (Entity_Select or Entity_Search). However is a bit slower than PostXml
-                string response = communicator.PostXmlExtended(request, organizationId);
+                string response = communicator.PostXmlExtended(request, siteId, organizationId);
                 //Sends XML, and gets a response
 
                 tbxResponse.Text = response;
@@ -159,7 +160,7 @@ namespace eFormTester
             try
             {
                 //Sends the Id using the actual method, and get it's response XML
-                string response = communicator.CheckStatus(request);
+                string response = communicator.CheckStatus(request, siteId);
                 //Get the Id's status
 
                 tbxResponse.Text = response;
@@ -223,7 +224,7 @@ namespace eFormTester
             try
             {
                 //Ex. of a post with auto. gen. XML and it's response XML returned
-                string response = communicator.PostXml(sampleXml);
+                string response = communicator.PostXml(sampleXml, siteId);
 
                 tbxResponse.Text = response;
                 AddToLog(response);
@@ -311,7 +312,7 @@ namespace eFormTester
         #region private
         private void MapInput()
         {
-            siteId = txtApiId.Text;
+            siteId = int.Parse(txtApiId.Text);
             organizationId = txtOrganizationId.Text;
             serverToken = txtServerToken.Text;
             serverAddress = txtServerAddress.Text;
@@ -321,7 +322,7 @@ namespace eFormTester
             startDate = DateTime.Now;
             endDate = DateTime.Now.AddYears(1);
 
-            communicator = new Communicator(int.Parse(siteId), serverToken, serverAddress);
+            communicator = new Communicator(serverToken, serverAddress);
 
             try
             {

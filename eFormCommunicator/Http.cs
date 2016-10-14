@@ -115,7 +115,7 @@ namespace eFormCommunicator
         /// </summary>
         /// <param name="microtingUuid">Identifier of the element to retrieve results from.</param>
         /// <param name="microtingCheckUuid">Identifier of the check to begin from.</param>
-        internal string Retrieve(string microtingUuid, int microtingCheckUuid, string siteId)
+        internal string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
             try
             {

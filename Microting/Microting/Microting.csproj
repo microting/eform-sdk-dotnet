@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
-    <Compile Include="CoreExt.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="Program.cs" />

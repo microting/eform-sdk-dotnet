@@ -64,6 +64,8 @@
     <Compile Include="cases.cs" />
     <Compile Include="case_versions.cs" />
     <Compile Include="check_lists.cs" />
+    <Compile Include="check_list_sites.cs" />
+    <Compile Include="check_list_site_versions.cs" />
     <Compile Include="check_list_values.cs" />
     <Compile Include="check_list_value_versions.cs" />
     <Compile Include="check_list_versions.cs" />

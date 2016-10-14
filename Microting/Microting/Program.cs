@@ -53,11 +53,21 @@ namespace Microting
 
                 if (input.ToLower() == "t")
                 {
+                    //mainController.CaseRead("620328");
+
+
+
                     string xmlStr = File.ReadAllText("xml.txt");
                     int id = mainController.TemplatCreate(xmlStr);
                     Console.WriteLine("id = '" + id.ToString() + "' created");
 
-                    //mainController.CaseRead("620328");
+                    List<int> lst = new List<int>();
+                    lst.Add(1311);
+
+                    var main = mainController.core.TemplatRead(id);
+                    main.Repeated = 0;
+
+                    mainController.TemplatCreateInfinityCase(main, lst, 4);
                 }
 
                 if (input != "q" && input != "t")
@@ -65,7 +75,7 @@ namespace Microting
                     try
                     {
                         int templatId = int.Parse(input);
-                        mainController.CaseCreate(templatId, "","", "LL-NNNNN", DateTime.Now.ToLongTimeString(), "testRoad");
+                       // mainController.CaseCreate(templatId, "","", "LL-NNNNN", DateTime.Now.ToLongTimeString(), "testRoad");
                     }
                     catch (Exception ex)
                     {

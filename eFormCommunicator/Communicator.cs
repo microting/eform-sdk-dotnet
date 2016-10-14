@@ -29,7 +29,6 @@ namespace eFormCommunicator
     public class Communicator
     {
         #region var
-        private string siteId;
         private Http http;
         #endregion
 
@@ -37,12 +36,10 @@ namespace eFormCommunicator
         /// <summary>
         /// Microting XML eForm API C# DLL.
         /// </summary>
-        /// <param name="siteId">Your device's Microting ID.</param>
         /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="address">Microting's eForm API server address.</param>
-        public Communicator(int siteId, string token, string address)
+        public Communicator(string token, string address)
         {
-            this.siteId = siteId.ToString();
             #region CheckInput token & serverAddress
             string errorsFound = "";
 
@@ -69,27 +66,29 @@ namespace eFormCommunicator
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support the complex elements Entity_Search or Entity_Select).
         /// </summary>
         /// <param name="xmlString">XML encoded eForm string.</param>
-        public string PostXml        (string xmlString)
+        /// <param name="siteId">Your device's Microting ID.</param>
+        public string PostXml           (string xmlString, int siteId)
         {
-            //XML HACK
+            //XML HACK //TODO - ALL xml hacks
             //REMEMBER OTHER POST METHOD
             xmlString = xmlString.Replace("<color></color>", "");   //Missing serverside. Will not accept blank/empty field
             xmlString = xmlString.Replace("<Color />", "");         //Missing serverside. Will not accept blank/empty field
             xmlString = xmlString.Replace("DefaultValue", "Value"); //Missing serverside.
-
+            
 
             if (xmlString.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
 
-            return http.Post(xmlString, siteId);
+            return http.Post(xmlString, siteId.ToString());
         }
 
         /// <summary>
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Supports Entity_Search or Entity_Select).
         /// </summary>
         /// <param name="xmlString">XML encoded eForm string.</param>
+        /// <param name="siteId">Your device's Microting ID.</param>
         /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
-        public string PostXmlExtended(string xmlString, string organizationId)
+        public string PostXmlExtended   (string xmlString, int siteId, string organizationId)
         {
             //XML HACK
             //REMEMBER OTHER POST METHOD
@@ -178,49 +177,48 @@ namespace eFormCommunicator
                 }
             }
 
-            return http.Post(xmlString, siteId);
+            return http.Post(xmlString, siteId.ToString());
         }
 
         /// <summary>
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve status of.</param>
-        public string CheckStatus    (string eFormId)
+        /// <param name="siteId">Your device's Microting ID.</param>
+        public string CheckStatus       (string eFormId, int siteId)
         {
-            return http.Status(eFormId, siteId);
+            return http.Status(eFormId, siteId.ToString());
         }
 
         /// <summary>
         /// Retrieve the XML encoded results from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
-        public string Retrieve       (string eFormId)
+        /// <param name="siteId">Your device's Microting ID.</param>
+        public string Retrieve          (string eFormId, int siteId)
         {
-            return http.Retrieve(eFormId, 0, siteId); //Always gets the first
+            return http.Retrieve(eFormId, "0", siteId); //Always gets the first
         }
 
         /// <summary>
         /// Retrieve the XML encoded results from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
-        /// <param name="eFormResponseId">Identifier of the check to begin from.</param>
-        public string RetrieveFromId (string eFormId, int eFormResponseId)
+        /// <param name="siteId">Your device's Microting ID.</param>
+        /// <param name="eFormCheckId">Identifier of the check to begin from.</param>
+        public string RetrieveFromId    (string eFormId, int siteId, string eFormCheckId)
         {
-            return http.Retrieve(eFormId, eFormResponseId, siteId);
+            return http.Retrieve(eFormId, eFormCheckId, siteId);
         }
 
         /// <summary>
         /// Marks an element for deletion and retrieve the XML encoded response from Microting.
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to mark for deletion.</param>
-        public string Delete         (string eFormId)
+        /// <param name="siteId">Your device's Microting ID.</param>
+        public string Delete            (string eFormId, int siteId)
         {
-            return http.Delete(eFormId, siteId);
-        }
-
-        public int SiteId()
-        {
-            return int.Parse(siteId);
+            return http.Delete(eFormId, siteId.ToString());
         }
         #endregion
 

@@ -54,7 +54,7 @@ namespace Microting
         #endregion
 
         #region var
-        Transmitter transmitter;
+        Communicator communicator;
         SqlController sqlController;
         Subscriber subscriber;
         Tools t = new Tools();
@@ -64,23 +64,14 @@ namespace Microting
         bool updateIsRunningFiles = true;
         bool updateIsRunningNotifications = true;
 
-        public string comToken { get; private set; }
-        public string comAddress { get; private set; }
-        public string subscriberToken { get; private set; }
-        public string subscriberAddress { get; private set; }
-        public string subscriberName { get; private set; }
-        public string serverConnectionString { get; private set; }
-        public int userId { get; private set; }
-        public string fileLocation { get; private set; }
-
-        //string comToken;
-        //string comAddress;
-        //string subscriberToken;
-        //string subscriberAddress;
-        //string subscriberName;
-        //string serverConnectionString;
-        //int userId;
-        //string fileLocation;
+        string comToken;
+        string comAddress;
+        string subscriberToken;
+        string subscriberAddress;
+        string subscriberName;
+        string serverConnectionString;
+        int userId;
+        string fileLocation;
         #endregion
 
         #region con
@@ -111,7 +102,7 @@ namespace Microting
 
 
                 //communicators
-                transmitter = new Transmitter(comToken, comAddress);
+                communicator = new Communicator(comToken, comAddress);
                 HandleEvent("Transmitter started", null);
 
 
@@ -140,15 +131,20 @@ namespace Microting
                 }
                 catch { }
 
-                subscriber.EventMsgClient -= HandleEvent;
-                subscriber.EventMsgServer -= HandleEventReply;
+                try
+                {
+                    subscriber.EventMsgClient -= HandleEvent;
+                    subscriber.EventMsgServer -= HandleEventReply;
+                }
+                catch { }
+
                 subscriber = null;
 
                 HandleEvent("Subscriber no longer triggers events", null);
                 HandleEvent("Controller closed", null);
                 HandleEvent("", null);
 
-                transmitter = null;
+                communicator = null;
                 sqlController = null;
             }
         }
@@ -186,53 +182,33 @@ namespace Microting
             mainElement = mainElement.XmlToClass(xmlString);
 
             //XML HACK
-            #region correct mainElement if needed
             mainElement.PushMessageTitle = "";
             mainElement.PushMessageBody = "";
             if (mainElement.Repeated == 0 || mainElement.Repeated == -1)
                 mainElement.Repeated = 1;
-            #endregion
-
-            return sqlController.EformCreate(mainElement);
+     
+            return sqlController.TemplatCreate(mainElement);
         }
 
         public int              TemplatCreate(MainElement mainElement)
         {
-            return sqlController.EformCreate(mainElement);
+            return sqlController.TemplatCreate(mainElement);
         }
 
         public MainElement      TemplatRead(int templatId)
         {
-            return sqlController.EformRead(templatId);
+            return sqlController.TemplatRead(templatId);
         }
 
-        public void             CaseCreateOneSite(MainElement mainElement, string caseUId, string caseType, int siteId)
+        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed)
         {
-            List<int> siteIds = new List<int>();
-            siteIds.Add(siteId);
-            Thread subscriberThread = new Thread(() => CreateEformCasesThread(mainElement, siteIds, caseUId, caseType));
+            Thread subscriberThread = new Thread(() => CaseCreateThread(mainElement, siteIds, caseUId, DateTime.MinValue, "", "", reversed));
             subscriberThread.Start();
         }
 
-        public void             CaseCreateSomeSites(MainElement mainElement, string caseUId, string caseType, List<int> siteIds)
+        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed, DateTime navisionTime, string numberPlate, string roadNumber)
         {
-            Thread subscriberThread = new Thread(() => CreateEformCasesThread(mainElement, siteIds, caseUId, caseType));
-            subscriberThread.Start();
-        }
-
-        public void             CaseCreateAllSites(MainElement mainElement, string caseUId, string caseType)
-        {
-            List<int> siteIds = new List<int>();
-            siteIds.Add(-1);
-            Thread subscriberThread = new Thread(() => CreateEformCasesThread(mainElement, siteIds, caseUId, caseType));
-            subscriberThread.Start();
-        }
-
-        public void                 CaseCreateAllSitesExtended(MainElement mainElement, string caseUId, string caseType, DateTime navisionTime, string numberPlate, string roadNumber)
-        {
-            List<int> siteIds = new List<int>();
-            siteIds.Add(-1);
-            Thread subscriberThread = new Thread(() => CreateEformCasesThread(mainElement, siteIds, caseUId, caseType, navisionTime, numberPlate, roadNumber));
+            Thread subscriberThread = new Thread(() => CaseCreateThread(mainElement, siteIds, caseUId, navisionTime, numberPlate, roadNumber, reversed));
             subscriberThread.Start();
         }
 
@@ -248,7 +224,7 @@ namespace Microting
             #endregion
             int id = aCase.id;
 
-            ReplyElement replyElement = sqlController.EformRead((int)aCase.check_list_id);
+            ReplyElement replyElement = sqlController.TemplatRead((int)aCase.check_list_id);
 
             List<Answer> lstAnswers = new List<Answer>();
             List<field_values> lstReplies = sqlController.ChecksRead(microtingUId);
@@ -313,7 +289,7 @@ namespace Microting
             }
 
             Response resp = new Response();
-            resp = resp.XmlToClass(transmitter.Delete(microtingUId, siteId));
+            resp = resp.XmlToClass(communicator.Delete(microtingUId, siteId));
 
             if (resp.Value == "success")
             {
@@ -331,7 +307,7 @@ namespace Microting
             foreach (var item in lst)
             {
                 Response resp = new Response();
-                resp = resp.XmlToClass(transmitter.Delete(item.MicrotingUId, item.SiteId));
+                resp = resp.XmlToClass(communicator.Delete(item.MicrotingUId, item.SiteId));
 
                 if (resp.Value == "success")
                     deleted++;
@@ -409,26 +385,27 @@ namespace Microting
             }
         }
 
-        private void    CreateEformCasesThread(MainElement mainElement, List<int> siteIds, string caseUId, string caseType)
+        private void    CaseCreateThread(MainElement mainElement, List<int> siteIds, string caseUId, DateTime navisionTime, string numberPlate, string roadNumber, bool reversed)
         {
             lock (_lockMain)
             {
                 try
                 {
-                    bool found = false;
-
-                    //send to ALL known sites
-                    if (siteIds[0] == -1)
-                        siteIds = sqlController.SitesList();
+                    if (mainElement.Repeated != 1 && reversed == false)
+                        throw new ArgumentException("mainElement.Repeat was not equal to 1 & reversed is false. Hence no case created");
 
                     //sending and getting a reply
+                    bool found = false;
                     foreach (int siteId in siteIds)
                     {
-                        string muuId = SendXml(mainElement, siteId);
+                        string mUId = SendXml(mainElement, siteId);
 
-                        int caseId = sqlController.CaseCreate(muuId, int.Parse(mainElement.Id), siteId, caseType, caseUId);
+                        if (reversed == false)
+                            sqlController.CaseCreate(mUId, int.Parse(mainElement.Id), siteId, caseUId, navisionTime, numberPlate, roadNumber);
+                        else
+                            sqlController.CheckListSitesCreate(int.Parse(mainElement.Id), siteId, mUId);
 
-                        Case_Dto cDto = sqlController.CaseReadByMUId(muuId);
+                        Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                         HandleCaseCreated(cDto, EventArgs.Empty);
                         HandleEvent(cDto.ToString() + " has been created", null);
 
@@ -436,45 +413,7 @@ namespace Microting
                     }
 
                     if (!found)
-                        throw new Exception("CreateEformCasesThread failed. No matching sites found. No eForms created");
-
-                    HandleEvent("eForm created", null);
-                }
-                catch (Exception ex)
-                {
-                    HandleExpection(ex);
-                }
-            }
-        }
-
-        private void    CreateEformCasesThread(MainElement mainElement, List<int> siteIds, string caseUId, string caseType, DateTime navisionTime, string numberPlate, string roadNumber)
-        {
-            lock (_lockMain)
-            {
-                try
-                {
-                    bool found = false;
-
-                    //send to ALL known sites
-                    if (siteIds[0] == -1)
-                        siteIds = sqlController.SitesList();
-
-                    //sending and getting a reply
-                    foreach (int siteId in siteIds)
-                    {
-                        string muuId = SendXml(mainElement, siteId);
-
-                        int caseId = sqlController.CaseCreate(muuId, int.Parse(mainElement.Id), siteId, caseType, caseUId, navisionTime, numberPlate, roadNumber);
-
-                        Case_Dto cDto = sqlController.CaseReadByMUId(muuId);
-                        HandleCaseCreated(cDto, EventArgs.Empty);
-                        HandleEvent(cDto.ToString() + " has been created", null);
-
-                        found = true;
-                    }
-
-                    if (!found)
-                        throw new Exception("CreateEformCasesThread failed. No matching sites found. No eForms created");
+                        throw new Exception("CaseCreateThread failed. No matching sites found. No eForms created");
 
                     HandleEvent("eForm created", null);
                 }
@@ -487,7 +426,7 @@ namespace Microting
 
         private string  SendXml(MainElement mainElement, int siteId)
         {
-            string reply = transmitter.PostXml(mainElement.ClassToXml(), siteId);
+            string reply = communicator.PostXml(mainElement.ClassToXml(), siteId);
 
             Response response = new Response();
             response = response.XmlToClass(reply);
@@ -606,15 +545,25 @@ namespace Microting
                                         if (aCase.SiteId == sqlController.CaseReadByMUId(noteMuuId).SiteId)
                                         {
                                             #region get response's data and update DB with data
+                                            string lastId = sqlController.CaseReadCheckIdByMUId(noteMuuId);
+                                            string respXml;
 
-                                            string respXml = transmitter.Retrieve(noteMuuId, aCase.SiteId);
+                                            if (lastId == null)
+                                                respXml = communicator.Retrieve      (noteMuuId, aCase.SiteId);
+                                            else
+                                                respXml = communicator.RetrieveFromId(noteMuuId, aCase.SiteId, lastId);
+
                                             Response resp = new Response();
                                             resp = resp.XmlToClass(respXml);
 
                                             if (resp.Type == Response.ResponseTypes.Success)
                                             {
                                                 sqlController.ChecksCreate(resp, respXml);
-                                                sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
+
+                                                if (lastId == null)
+                                                    sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null             , int.Parse(resp.Checks[0].UnitId));
+                                                else
+                                                    sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
                                             }
                                             else
                                                 throw new Exception("Failed to retrive eForm " + noteMuuId + " from site " + aCase.SiteId);
@@ -629,7 +578,7 @@ namespace Microting
                                         {
                                             #region delete eForm on other tablets and update DB to "deleted"
 
-                                            string respXml = transmitter.Delete(aCase.MicrotingUId, aCase.SiteId);
+                                            string respXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
                                             Response resp = new Response();
                                             resp = resp.XmlToClass(respXml);
 

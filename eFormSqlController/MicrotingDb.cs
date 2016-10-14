@@ -14,6 +14,8 @@ namespace eFormSqlController
 
         public virtual DbSet<case_versions> case_versions { get; set; }
         public virtual DbSet<cases> cases { get; set; }
+        public virtual DbSet<check_list_site_versions> check_list_site_versions { get; set; }
+        public virtual DbSet<check_list_sites> check_list_sites { get; set; }
         public virtual DbSet<check_list_value_versions> check_list_value_versions { get; set; }
         public virtual DbSet<check_list_values> check_list_values { get; set; }
         public virtual DbSet<check_list_versions> check_list_versions { get; set; }
@@ -63,6 +65,22 @@ namespace eFormSqlController
 
             modelBuilder.Entity<cases>()
                 .Property(e => e.navision_time)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<check_list_site_versions>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<check_list_site_versions>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<check_list_sites>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<check_list_sites>()
+                .Property(e => e.updated_at)
                 .HasPrecision(0);
 
             modelBuilder.Entity<check_list_value_versions>()

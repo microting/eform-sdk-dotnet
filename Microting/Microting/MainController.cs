@@ -34,7 +34,7 @@ namespace Microting
     class MainController
     {
         #region var
-        Core core;
+        public Core core;
         #endregion
 
         #region con
@@ -104,32 +104,50 @@ namespace Microting
             }
         }
 
-        public void CaseCreate(int templatId, string pushMessageTitle, string pushMessageBody, string numberPlate, string roadData, string roadNumber)
+        public void TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
         {
-            Random rdn = new Random();
+            try
+            {
+
+                if (mainElement.Repeated != 0)
+                    throw new Exception("InfinityCase are always Repeated = 0");
+
+                int templatId = TemplatCreate(mainElement);
+
+                foreach (int siteId in siteIds)
+                {
+                    for (int i = 0; i < instances; i++)
+                    {
+                        List<int> siteShortList = new List<int>();
+                        siteShortList.Add(siteId);
+
+                        core.CaseCreate(mainElement, "", siteShortList, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLog(ex.ToString(), EventArgs.Empty);
+
+                //DOSOMETHING: Handle the expection
+                throw new NotImplementedException();
+            }
+        }
+
+        public void CaseCreate(int templatId, string caseUId)
+        {
             try
             {
                 MainElement mainElement = core.TemplatRead(templatId);
-
-                #region numberPlate // vejData
-                mainElement.Label = numberPlate;
-                DataElement dE = (DataElement)mainElement.ElementList[0];
-                dE.Label = numberPlate;
-
-                dE = (DataElement)mainElement.ElementList[0];
-                dE.DataItemList[0].Label = roadData + " // " + roadNumber;
-                #endregion
-
-                // pushMessageTitle // pushMessageBody
-                mainElement.PushMessageTitle = pushMessageTitle;
-                mainElement.PushMessageBody = pushMessageBody;
-
+                mainElement.PushMessageTitle = "";
+                mainElement.PushMessageBody = "";
                 mainElement.SetStartDate(DateTime.Now);
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
 
-                string caseType = "WasteControlCase";
-                
-                core.CaseCreateAllSitesExtended(mainElement, roadData, caseType, DateTime.MinValue, numberPlate, roadNumber);
+                List<int> siteIds = new List<int>();
+                siteIds.Add(1311);
+
+                core.CaseCreate(mainElement, caseUId, siteIds, false);
             }
             catch (Exception ex)
             {
@@ -275,12 +293,6 @@ namespace Microting
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Exception ex = (Exception)sender;
-            Console.WriteLine("## EXCEPTION ##");
-            Console.WriteLine("Message:" + ex.Message);
-            Console.WriteLine("Source:" + ex.Source);
-            Console.WriteLine("StackTrace:" + ex.StackTrace);
-            Console.WriteLine("InnerException:" + ex.InnerException);
-            Console.WriteLine("## EXCEPTION ##");
         }
         #endregion
     }

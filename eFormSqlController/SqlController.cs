@@ -27,18 +27,295 @@ namespace eFormSqlController
         #endregion
 
         #region public
-        public int                  EformCreate(MainElement mainElement)
+        public int                  TemplatCreate(MainElement mainElement)
         {
             int id = EformCreateDb(mainElement);
             return id;
         }
 
-        public MainElement          EformRead(int templatId)
+        public MainElement          TemplatRead(int templatId)
         {
             MainElement mainElement = new MainElement();
             mainElement = EformReadDb(templatId);
 
             return mainElement;
+        }
+
+        public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseUId, DateTime navision_time, string reg_number, string vejenummer)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_lists chkLst = db.check_lists.Where(x => x.id == checkListId).ToList().First();
+
+                    cases aCase = new cases();
+                    aCase.status = 66;
+                    aCase.created_by_user_id = userId;
+                    aCase.type = chkLst.case_type;
+                    aCase.created_at = DateTime.Now;
+                    aCase.updated_at = DateTime.Now;
+                    aCase.check_list_id = checkListId;
+                    aCase.microting_api_id = microtingUId;
+                    aCase.serialized_values = caseUId;
+                    aCase.workflow_state = "created";
+                    aCase.version = 1;
+                    aCase.site_id = siteId;
+
+                    aCase.navision_time = navision_time;
+                    aCase.reg_number = reg_number;
+                    aCase.vejenummer = vejenummer;
+
+                    db.cases.Add(aCase);
+                    db.SaveChanges();
+
+                    db.case_versions.Add(MapCaseVersions(aCase));
+                    db.SaveChanges();
+
+                    return aCase.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseCreate failed", ex);
+            }
+        }
+
+        public Case_Dto             CaseReadByMUId(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        check_list_sites match = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
+                        Case_Dto cDto = new Case_Dto("ReversedCase", match.microting_check_list_uuid, (int)match.site_id);
+                        return cDto;
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            cases match = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+                            Case_Dto cDto = new Case_Dto(match.serialized_values, microtingUId, (int)match.site_id);
+                            return cDto;
+                        }
+                        catch { }
+                    }
+
+                    throw new Exception("CaseReadByMUId failed. Was unable to find a match in the database.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByMuuId failed", ex);
+            }
+        }
+
+        public List<Case_Dto>       CaseReadByCaseUId(string caseUId)
+        {
+            try
+            {
+                if (caseUId == "ReversedCase")
+                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:'ReversedCase'. This would return incorrect data");
+
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<cases> matchs = db.cases.Where(x => x.serialized_values == caseUId).ToList();
+                    List<Case_Dto> lstDto = new List<Case_Dto>();
+
+                    foreach (cases aCase in matchs)
+                    {
+                        lstDto.Add(new Case_Dto(aCase.serialized_values, aCase.microting_api_id, (int)aCase.site_id));
+                    }
+                    return lstDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByCaseUId failed", ex);
+            }
+        }
+
+        public string               CaseReadCheckIdByMUId(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        check_list_sites match = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
+                        return match.last_check_id;
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByMuuId failed", ex);
+            }
+        }
+
+        public cases                CaseReadFull(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        cases match = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+                        return match;
+                    }
+                    catch
+                    {
+                        //no match found
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadFull failed", ex);
+            }
+        }
+
+        public void                 CaseUpdate(string microtingUId, DateTime dateOfDoing, int doneByUserId, string microtingCheckId, int unitId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases caseStd = db.cases.Where(x => x.microting_api_id == microtingUId && x.microting_check_id == null).ToList().First();
+
+                    caseStd.status = 100;
+                    caseStd.date_of_doing = dateOfDoing;
+                    caseStd.updated_at = DateTime.Now;
+                    caseStd.done_by_user_id = doneByUserId;
+                    caseStd.workflow_state = "created";
+                    caseStd.version = caseStd.version + 1;
+                    caseStd.unit_id = unitId;
+                    #region caseStd.microting_check_id = microtingCheckId; and update "check_list_sites" if needed
+                    if (microtingCheckId != null)
+                    {
+                        check_list_sites match = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
+                        match.last_check_id = microtingCheckId;
+                        match.version = match.version + 1;
+                        match.updated_at = DateTime.Now;
+
+                        db.SaveChanges();
+
+                        db.check_list_site_versions.Add(MapCheckListSiteVersions(match));
+                        db.SaveChanges();
+                    }
+
+                    caseStd.microting_check_id = microtingCheckId;
+                    #endregion
+                    
+                    db.case_versions.Add(MapCaseVersions(caseStd));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
+        public List<Case_Dto>       CaseFindMatchs(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        check_list_sites lookedUp = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
+                        List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
+                        Case_Dto dto = new Case_Dto("ReversedCase", lookedUp.microting_check_list_uuid, (int)lookedUp.site_id);
+                        foundCasesThatMatch.Add(dto);
+
+                        return foundCasesThatMatch;
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            cases lookedUp = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+                            List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
+
+                            List<cases> lstMatchs = db.cases.Where(x => x.serialized_values == lookedUp.serialized_values).ToList();
+
+                            foreach (cases match in lstMatchs)
+                            {
+                                foundCasesThatMatch.Add(new Case_Dto(match.serialized_values, match.microting_api_id, (int)match.site_id));
+                            }
+                            return foundCasesThatMatch;
+                        }
+                        catch { }
+                    }
+
+                    throw new Exception("CaseFindMatchs failed. Was unable to find a match in the database.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseFindMatchs failed", ex);
+            }
+        }
+
+        public string               CaseFindActive(string caseUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    if (caseUId == "ReversedCase")
+                        throw new Exception("CaseFindActive failed. Due invalid input:'ReversedCase'. This would return incorrect data");
+
+                    try
+                    {
+                        cases match = db.cases.Where(x => x.serialized_values == caseUId && x.workflow_state == "created").ToList().First();
+                        return match.microting_api_id;
+                    }
+                    catch
+                    {
+                        return "";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseFindMatchs failed", ex);
+            }
+        }
+
+        public void                 CaseDelete(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases aCase = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+
+                    aCase.updated_at = DateTime.Now;
+                    aCase.workflow_state = "removed";
+                    aCase.version = aCase.version + 1;
+                    aCase.removed_by_user_id = userId;
+
+                    db.case_versions.Add(MapCaseVersions(aCase));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseDelete failed", ex);
+            }
         }
 
         public void                 ChecksCreate(Response response, string xmlString)
@@ -122,240 +399,6 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("ChecksReadParent failed", ex);
-            }
-        }
-
-        public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseType, string caseUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases aCase = new cases();
-
-                    aCase.status = 66;
-                    aCase.created_by_user_id = userId;
-                    aCase.type = caseType;
-                    aCase.created_at = DateTime.Now;
-                    aCase.updated_at = DateTime.Now;
-                    aCase.check_list_id = checkListId;
-                    aCase.microting_api_id = microtingUId;
-                    aCase.serialized_values = caseUId;
-                    aCase.workflow_state = "created";
-                    aCase.version = 1;
-                    aCase.site_id = siteId;
-
-                    db.cases.Add(aCase);
-                    db.SaveChanges();
-
-                    db.case_versions.Add(MapCaseVersion(aCase));
-                    db.SaveChanges();
-
-                    return aCase.id;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseCreate failed", ex);
-            }
-        }
-
-        public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseType, string caseUId, DateTime navision_time, string reg_number, string vejenummer)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases aCase = new cases();
-
-                    aCase.status = 66;
-                    aCase.created_by_user_id = userId;
-                    aCase.type = caseType;
-                    aCase.created_at = DateTime.Now;
-                    aCase.updated_at = DateTime.Now;
-                    aCase.check_list_id = checkListId;
-                    aCase.microting_api_id = microtingUId;
-                    aCase.serialized_values = caseUId;
-                    aCase.workflow_state = "created";
-                    aCase.version = 1;
-                    aCase.site_id = siteId;
-
-                    aCase.navision_time = navision_time;
-                    aCase.reg_number = reg_number;
-                    aCase.vejenummer = vejenummer;
-
-                    db.cases.Add(aCase);
-                    db.SaveChanges();
-
-                    db.case_versions.Add(MapCaseVersion(aCase));
-                    db.SaveChanges();
-
-                    return aCase.id;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseCreate failed", ex);
-            }
-        }
-
-        public Case_Dto             CaseReadByMUId(string microtingUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases match = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-                    Case_Dto cDto = new Case_Dto(match.serialized_values, microtingUId, (int)match.site_id);
-                    return cDto;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadByMuuId failed", ex);
-            }
-        }
-
-        public List<Case_Dto>       CaseReadByCaseUId(string caseUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    List<cases> matchs = db.cases.Where(x => x.serialized_values == caseUId).ToList();
-                    List<Case_Dto> lstDto = new List<Case_Dto>();
-
-                    foreach (cases aCase in matchs)
-                    {
-                        lstDto.Add(new Case_Dto(aCase.serialized_values, aCase.microting_api_id, (int)aCase.site_id));
-                    }
-                    return lstDto;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadByCaseUId failed", ex);
-            }
-        }
-
-        public cases                CaseReadFull(string microtingUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    try
-                    {
-                        cases match = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-                        return match;
-                    }
-                    catch
-                    {
-                        //no match found
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadFull failed", ex);
-            }
-        }
-
-        public void                 CaseUpdate(string microtingUId, DateTime dateOfDoing, int doneByUserId, string microtingCheckId, int unitId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases caseStd = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-
-                    caseStd.status = 100;
-                    caseStd.date_of_doing = dateOfDoing;
-                    caseStd.updated_at = DateTime.Now;
-                    caseStd.done_by_user_id = doneByUserId;
-                    caseStd.workflow_state = "created";
-                    caseStd.version = caseStd.version + 1;
-                    caseStd.microting_check_id = microtingCheckId;
-                    caseStd.unit_id = unitId;
-                    
-                    db.case_versions.Add(MapCaseVersion(caseStd));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseUpdate failed", ex);
-            }
-        }
-
-        public List<Case_Dto>       CaseFindMatchs(string microtingUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases lookedUp = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-                    List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
-
-                    List<cases> lstMatchs = db.cases.Where(x => x.serialized_values == lookedUp.serialized_values).ToList();
-
-                    foreach (cases match in lstMatchs)
-                    {
-                        foundCasesThatMatch.Add(new Case_Dto(match.serialized_values, match.microting_api_id, (int)match.site_id));
-                    }
-                    return foundCasesThatMatch;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseFindMatchs failed", ex);
-            }
-        }
-
-        public string               CaseFindActive(string caseUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    try
-                    {
-                        cases match = db.cases.Where(x => x.serialized_values == caseUId && x.workflow_state == "created").ToList().First();
-                        return match.microting_api_id;
-                    }
-                    catch
-                    {
-                        return "";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseFindMatchs failed", ex);
-            }
-        }
-
-        public void                 CaseDelete(string microtingUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases aCase = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-
-                    aCase.updated_at = DateTime.Now;
-                    aCase.workflow_state = "removed";
-                    aCase.version = aCase.version + 1;
-                    aCase.removed_by_user_id = userId;
-
-                    db.case_versions.Add(MapCaseVersion(aCase));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseDelete failed", ex);
             }
         }
 
@@ -531,6 +574,35 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("SitesList failed", ex);
+            }
+        }
+
+        public void                 CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_list_sites cLS = new check_list_sites();
+                    cLS.check_list_id = checkListId;
+                    cLS.created_at = DateTime.Now;
+                    cLS.updated_at = DateTime.Now;
+                    cLS.last_check_id = "0";
+                    cLS.microting_check_list_uuid = microtingUId;
+                    cLS.site_id = siteId;
+                    cLS.version = 1;
+                    cLS.workflow_state = "created";
+
+                    db.check_list_sites.Add(cLS);
+                    db.SaveChanges();
+
+                    db.check_list_site_versions.Add(MapCheckListSiteVersions(cLS));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CheckListSitesCreate failed", ex);
             }
         }
         #endregion
@@ -916,7 +988,7 @@ namespace eFormSqlController
                         throw new Exception("Failed to find matching check_list:" + mainId, ex);
                     }
 
-                    mainElement = new MainElement(mainCl.id.ToString(), mainCl.description, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                    mainElement = new MainElement(mainCl.id.ToString(), mainCl.text, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
                         Bool(mainCl.multi_approval), Bool(mainCl.fast_navigation), Bool(mainCl.download_entities), Bool(mainCl.manual_sync), "", "", new List<Element>());
 
 
@@ -1136,7 +1208,7 @@ namespace eFormSqlController
         #region EformCheckCreateDb
         //TODO rollback for failed inserts ?
 
-        private void         EformCheckCreateDb(Response response, string xml)
+        private void            EformCheckCreateDb(Response response, string xml)
         {
             try
             {
@@ -1147,10 +1219,30 @@ namespace eFormSqlController
 
                     List<string> elements = t.LocateList(xml, "<ElementList>", "</ElementList>");
 
+                    int caseId = -1;
+
+                    try
+                    {
+                        check_list_sites cLS = db.check_list_sites.Where(x => x.microting_check_list_uuid == response.Value).ToList().First();
+                        caseId = CaseCreate(cLS.microting_check_list_uuid, (int)cLS.check_list_id, (int)cLS.site_id, "ReversedCase", DateTime.MinValue, "", "");
+                    }
+                    catch { }
+
                     foreach (string elementStr in elements)
                     {
-                        cases c = db.cases.Where(x => x.microting_api_id == response.Value).ToList().First();
-                        int caseId = c.id;
+                        if (caseId == -1)
+                        {
+                            try
+                            {
+                                cases c = db.cases.Where(x => x.microting_api_id == response.Value).ToList().First();
+                                caseId = c.id;
+                            }
+                            catch { }
+                        }
+
+                        if (caseId == -1)
+                            throw new Exception("EformCheckCreateDb failed. Due to unable to find a matching case");
+
 
                         check_list_values clv = new check_list_values();
 
@@ -1173,9 +1265,12 @@ namespace eFormSqlController
                         elementId = clv.id;
                         List<string> dataItems = t.LocateList(elementStr, "<DataItem>", "</DataItem>");
 
-                        foreach (string dataItemStr in dataItems)
+                        if (dataItems != null)
                         {
-                            CreateDataItemCheck(dataItemStr, clv.case_id, clv.user_id, elementId, response.Checks[0].Date);
+                            foreach (string dataItemStr in dataItems)
+                            {
+                                CreateDataItemCheck(dataItemStr, clv.case_id, clv.user_id, elementId, response.Checks[0].Date);
+                            }
                         }
                         #endregion
                     }
@@ -1187,7 +1282,7 @@ namespace eFormSqlController
             }
         }
 
-        private void         CreateDataItemCheck(string xml, int? caseId, int? userId, int elementId, string dateOfDoing)
+        private void            CreateDataItemCheck(string xml, int? caseId, int? userId, int elementId, string dateOfDoing)
         {
             try
             {
@@ -1196,7 +1291,8 @@ namespace eFormSqlController
                     field_values fieldV = new field_values();
 
                     #region if contains a file
-                    if (t.Locate(xml, "<URL>", "</URL>") != "")
+                    string urlXml = t.Locate(xml, "<URL>", "</URL>");
+                    if (urlXml != "" && urlXml != "none")
                     {
                         uploaded_data uD = new uploaded_data();
 
@@ -1389,7 +1485,7 @@ namespace eFormSqlController
         #endregion
 
         #region mappers
-        private case_versions MapCaseVersion(cases aCase)
+        private case_versions MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
             caseVer.status = aCase.status;
@@ -1553,6 +1649,23 @@ namespace eFormSqlController
             udv.uploaded_data_id = uploadedData.id; //<<--
 
             return udv;
+        }
+
+        private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
+        {
+            check_list_site_versions checkListSiteVer = new check_list_site_versions();
+            checkListSiteVer.check_list_id = checkListSite.check_list_id;
+            checkListSiteVer.created_at = checkListSite.created_at;
+            checkListSiteVer.updated_at = checkListSite.updated_at;
+            checkListSiteVer.last_check_id = checkListSite.last_check_id;
+            checkListSiteVer.microting_check_list_uuid = checkListSite.microting_check_list_uuid;
+            checkListSiteVer.site_id = checkListSite.site_id;
+            checkListSiteVer.version = checkListSite.version;
+            checkListSiteVer.workflow_state = checkListSite.workflow_state;
+
+            checkListSiteVer.check_list_site_id = checkListSite.id; //<<--
+
+            return checkListSiteVer;
         }
         #endregion
         #endregion

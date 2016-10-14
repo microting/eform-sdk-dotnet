@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Transmitter.cs" />
     <Compile Include="Communicator.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
