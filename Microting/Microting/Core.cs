@@ -149,7 +149,7 @@ namespace Microting
             }
         }
 
-        public int              TemplatCreate(string xmlString, string caseType)
+        public MainElement      TemplatFromXml(string xmlString)
         {
             //XML HACK
             #region correct xml if needed
@@ -182,17 +182,18 @@ namespace Microting
             mainElement = mainElement.XmlToClass(xmlString);
 
             //XML HACK
+            mainElement.CaseType = "";
             mainElement.PushMessageTitle = "";
             mainElement.PushMessageBody = "";
             if (mainElement.Repeated == 0 || mainElement.Repeated == -1)
                 mainElement.Repeated = 1;
      
-            return sqlController.TemplatCreate(mainElement, caseType);
+            return mainElement;
         }
 
-        public int              TemplatCreate(MainElement mainElement, string caseType)
+        public int              TemplatCreate(MainElement mainElement)
         {
-            return sqlController.TemplatCreate(mainElement, caseType);
+            return sqlController.TemplatCreate(mainElement);
         }
 
         public MainElement      TemplatRead(int templatId)
@@ -401,9 +402,9 @@ namespace Microting
                         string mUId = SendXml(mainElement, siteId);
 
                         if (reversed == false)
-                            sqlController.CaseCreate(mUId, int.Parse(mainElement.Id), siteId, caseUId, navisionTime, numberPlate, roadNumber);
+                            sqlController.CaseCreate(mUId, mainElement.Id, siteId, caseUId, navisionTime, numberPlate, roadNumber);
                         else
-                            sqlController.CheckListSitesCreate(int.Parse(mainElement.Id), siteId, mUId);
+                            sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
                         Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                         HandleCaseCreated(cDto, EventArgs.Empty);
@@ -615,7 +616,7 @@ namespace Microting
                             #region unit_activate / tablet added
                             case "unit_activate":
                                 {
-                                    Case_Dto cDto = new Case_Dto("", "", int.Parse(noteMuuId));
+                                    Case_Dto cDto = new Case_Dto(int.Parse(noteMuuId), "", "", "");
                                     HandleSiteActivated(noteMuuId, EventArgs.Empty);
                                     HandleEvent(cDto.ToString() + " has been added", null);
 

@@ -355,9 +355,9 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("A check list", "Sample 1", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
+                MainElement sample = new MainElement(1, "Sample 1", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", "", new List<Element>());
 
-                DataElement e1 = new DataElement("My basic check list", "Basic list", 1, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e1 = new DataElement(2, "Basic list", 1, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
 
                 e1.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));
@@ -376,12 +376,12 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("Extended check list", "Sample 2", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
+                MainElement sample = new MainElement(1, "Sample 2", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", "", new List<Element>());
 
-                DataElement e1 = new DataElement("My extended check list 1", "Extended list", 1, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e1 = new DataElement(1, "Extended list", 1, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
 
-                DataElement e2 = new DataElement("My extended check list 2", "Extended list", 2, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e2 = new DataElement(2, "Extended list", 2, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e2);
 
 
@@ -413,19 +413,19 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("Advanced check list", "Sample 3", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
+                MainElement sample = new MainElement(1, "Sample 3", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", "", new List<Element>());
 
-                GroupElement g1 = new GroupElement("Group lists", "Group of advanced check lists", 1, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g1 = new GroupElement(11, "Group of advanced check lists", 1, "Group element", false, false, false, false, "", new List<Element>());
                 sample.ElementList.Add(g1);
 
 
-                DataElement e1 = new DataElement("My advanced check list 1", "Advanced list", 1, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e1 = new DataElement(21, "Advanced list", 1, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 g1.ElementList.Add(e1);
 
-                DataElement e2 = new DataElement("My advanced check list 2", "Advanced list", 2, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e2 = new DataElement(22, "Advanced list", 2, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 g1.ElementList.Add(e2);
 
-                DataElement e3 = new DataElement("My advanced check list 3", "Advanced list", 3, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e3 = new DataElement(23, "Advanced list", 3, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 g1.ElementList.Add(e3);
 
 
@@ -465,38 +465,38 @@ namespace eFormTester
                 #region population of sample
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
-                MainElement sample = new MainElement("Complex check list", "Sample 4", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", new List<Element>());
+                MainElement sample = new MainElement(1, "Sample 4", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", "", new List<Element>());
 
-                GroupElement g1 = new GroupElement("Group lists", "Group of groups", 1, "Group element", false, false, false, false, "", new List<Element>());
-                GroupElement g2 = new GroupElement("Group lists", "Group of complex check lists 2", 2, "Group element", false, false, false, false, "", new List<Element>());
-                GroupElement g3 = new GroupElement("Group lists", "Group of complex check lists 3", 3, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g1 = new GroupElement(2, "Group of groups", 1, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g2 = new GroupElement(3, "Group of complex check lists 2", 2, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g3 = new GroupElement(4, "Group of complex check lists 3", 3, "Group element", false, false, false, false, "", new List<Element>());
                 sample.ElementList.Add(g1);
                 sample.ElementList.Add(g2);
                 sample.ElementList.Add(g3);
 
-                GroupElement g11 = new GroupElement("Group lists", "Sub group of group 1, with check lists", 1, "Group element", false, false, false, false, "", new List<Element>());
-                GroupElement g12 = new GroupElement("Group lists", "Sub group of group 1, with sub groups", 2, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g11 = new GroupElement(5, "Sub group of group 1, with check lists", 1, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g12 = new GroupElement(6, "Sub group of group 1, with sub groups", 2, "Group element", false, false, false, false, "", new List<Element>());
                 g1.ElementList.Add(g11);
                 g1.ElementList.Add(g12);
 
-                GroupElement g121 = new GroupElement("Group lists", "Sub sub group of group with check lists 1", 1, "Group element", false, false, false, false, "", new List<Element>());
-                GroupElement g122 = new GroupElement("Group lists", "Sub sub group of group with check lists 2", 2, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g121 = new GroupElement(7, "Sub sub group of group with check lists 1", 1, "Group element", false, false, false, false, "", new List<Element>());
+                GroupElement g122 = new GroupElement(8, "Sub sub group of group with check lists 2", 2, "Group element", false, false, false, false, "", new List<Element>());
                 g12.ElementList.Add(g121);
                 g12.ElementList.Add(g122);
 
 
 
-                DataElement e1 = new DataElement("My complex check list 1", "Complex list", 101, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e1 = new DataElement(9, "Complex list", 101, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e1);
 
-                DataElement e2 = new DataElement("My complex check list 2", "Complex list", 2, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
+                DataElement e2 = new DataElement(10, "Complex list", 2, "Data element", true, true, true, false, "", null, new List<eFormRequest.DataItem>());
                 g2.ElementList.Add(e2);
                 g3.ElementList.Add(e2);
                 g11.ElementList.Add(e2);
                 g121.ElementList.Add(e2);
 
                 List<DataItemGroup> digLst = new List<DataItemGroup>();
-                DataElement e3 = new DataElement("My complex check list 3", "Complex list", 1001, "Data element", true, true, true, false, "", digLst, new List<eFormRequest.DataItem>());
+                DataElement e3 = new DataElement(11, "Complex list", 1001, "Data element", true, true, true, false, "", digLst, new List<eFormRequest.DataItem>());
                 sample.ElementList.Add(e3);
                 g122.ElementList.Add(e3);
 

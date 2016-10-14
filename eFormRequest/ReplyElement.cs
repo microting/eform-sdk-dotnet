@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace eFormRequest
@@ -9,11 +7,14 @@ namespace eFormRequest
     public class ReplyElement
     {
         #region var
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
+
+        [XmlIgnore]
+        public string CaseType { get; set; }
 
         #region public string/DateTime StartDate { get; set; }
         public string StartDate { get; set; }

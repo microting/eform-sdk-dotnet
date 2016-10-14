@@ -17,7 +17,7 @@ namespace eFormRequest
         #endregion
 
         #region var
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
         public string Description { get; set; }
@@ -38,7 +38,7 @@ namespace eFormRequest
             DataItemList = new List<DataItem>();
         }
 
-        public DataElement(string id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
+        public DataElement(int id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
             bool extraDataElementsEnabled, string pinkBarText, List<DataItemGroup> dateItemGroupList, List<DataItem> dataItemList)
         {
             DataItemGroupList = new List<DataItemGroup>();
@@ -74,7 +74,7 @@ namespace eFormRequest
             ElementList = new List<Element>();
         }
 
-        public GroupElement(string id, string label, int displayOrder, string description, bool approvedEnabled, bool reviewEnabled, bool doneButtonEnabled,
+        public GroupElement(int id, string label, int displayOrder, string description, bool approvedEnabled, bool reviewEnabled, bool doneButtonEnabled,
             bool extraDataElementsEnabled, string pinkBarText, List<Element> elementList)
         {
             ElementList = new List<Element>();

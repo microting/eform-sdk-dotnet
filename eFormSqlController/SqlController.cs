@@ -27,9 +27,9 @@ namespace eFormSqlController
         #endregion
 
         #region public
-        public int                  TemplatCreate(MainElement mainElement, string caseType)
+        public int                  TemplatCreate(MainElement mainElement)
         {
-            int id = EformCreateDb(mainElement, caseType);
+            int id = EformCreateDb(mainElement);
             return id;
         }
 
@@ -87,22 +87,24 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    //TODO
+                    try
+                    {
+                        cases aCase = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+                        check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
+                        Case_Dto cDto = new Case_Dto((int)aCase.site_id, cL.case_type, aCase.serialized_values, microtingUId);
+                        return cDto;
+                    }
+                    catch { }
+
                     try
                     {
                         check_list_sites match = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
-                        Case_Dto cDto = new Case_Dto("ReversedCase", match.microting_check_list_uuid, (int)match.site_id);
+                        check_lists cL = db.check_lists.Where(x => x.id == match.check_list_id).ToList().First();
+                        Case_Dto cDto = new Case_Dto((int)match.site_id, cL.case_type, "ReversedCase", match.microting_check_list_uuid);
                         return cDto;
                     }
-                    catch
-                    {
-                        try
-                        {
-                            cases match = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-                            Case_Dto cDto = new Case_Dto(match.serialized_values, microtingUId, (int)match.site_id);
-                            return cDto;
-                        }
-                        catch { }
-                    }
+                    catch { }
 
                     throw new Exception("CaseReadByMUId failed. Was unable to find a match in the database.");
                 }
@@ -127,7 +129,7 @@ namespace eFormSqlController
 
                     foreach (cases aCase in matchs)
                     {
-                        lstDto.Add(new Case_Dto(aCase.serialized_values, aCase.microting_api_id, (int)aCase.site_id));
+                        lstDto.Add(CaseReadByMUId(aCase.microting_api_id));
                     }
                     return lstDto;
                 }
@@ -237,8 +239,7 @@ namespace eFormSqlController
                     {
                         check_list_sites lookedUp = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
                         List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
-                        Case_Dto dto = new Case_Dto("ReversedCase", lookedUp.microting_check_list_uuid, (int)lookedUp.site_id);
-                        foundCasesThatMatch.Add(dto);
+                        foundCasesThatMatch.Add(CaseReadByMUId(lookedUp.microting_check_list_uuid));
 
                         return foundCasesThatMatch;
                     }
@@ -253,7 +254,7 @@ namespace eFormSqlController
 
                             foreach (cases match in lstMatchs)
                             {
-                                foundCasesThatMatch.Add(new Case_Dto(match.serialized_values, match.microting_api_id, (int)match.site_id));
+                                foundCasesThatMatch.Add(CaseReadByMUId(match.microting_api_id));
                             }
                             return foundCasesThatMatch;
                         }
@@ -609,7 +610,7 @@ namespace eFormSqlController
 
         #region private
         #region EformCreateDb
-        private int EformCreateDb           (MainElement mainElement, string caseType)
+        private int EformCreateDb           (MainElement mainElement)
         {
             try
             {
@@ -628,7 +629,7 @@ namespace eFormSqlController
                     cl.parent_id = 0; //MainElements never have parents ;)
                     cl.repeated = mainElement.Repeated;
                     cl.version = 1;
-                    cl.case_type = caseType;
+                    cl.case_type = mainElement.CaseType;
                     cl.folder_name = mainElement.CheckListFolderName;
                     cl.display_index = mainElement.DisplayOrder;
                     //report_file_name - Ruby colume
@@ -648,7 +649,7 @@ namespace eFormSqlController
                     db.SaveChanges();
 
                     int mainId = cl.id;
-                    mainElement.Id = mainId.ToString();
+                    mainElement.Id = mainId;
                     #endregion
 
                     CreateElementList(mainId, mainElement.ElementList);
@@ -988,8 +989,8 @@ namespace eFormSqlController
                         throw new Exception("Failed to find matching check_list:" + mainId, ex);
                     }
 
-                    mainElement = new MainElement(mainCl.id.ToString(), mainCl.text, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
-                        Bool(mainCl.multi_approval), Bool(mainCl.fast_navigation), Bool(mainCl.download_entities), Bool(mainCl.manual_sync), "", "", new List<Element>());
+                    mainElement = new MainElement(mainCl.id, mainCl.text, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                        Bool(mainCl.multi_approval), Bool(mainCl.fast_navigation), Bool(mainCl.download_entities), Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
 
 
                     //getting elements
@@ -1032,7 +1033,7 @@ namespace eFormSqlController
                         try
                         {
                             check_lists cl = db.check_lists.Where(x => x.id == elementId).ToList().First();
-                            GroupElement gElement = new GroupElement(cl.id.ToString(), cl.text, Int(cl.display_index), cl.description, Bool(cl.approval_enabled), Bool(cl.review_enabled), Bool(cl.done_button_enabled),
+                            GroupElement gElement = new GroupElement(cl.id, cl.text, Int(cl.display_index), cl.description, Bool(cl.approval_enabled), Bool(cl.review_enabled), Bool(cl.done_button_enabled),
                                 Bool(cl.extra_fields_enabled), "", lst);
 
                             //the actual Elements
@@ -1053,7 +1054,7 @@ namespace eFormSqlController
                         try
                         {
                             check_lists cl = db.check_lists.Where(x => x.id == elementId).ToList().First();
-                            DataElement dElement = new DataElement(cl.id.ToString(), cl.text, Int(cl.display_index), cl.description, Bool(cl.approval_enabled), Bool(cl.review_enabled), Bool(cl.done_button_enabled),
+                            DataElement dElement = new DataElement(cl.id, cl.text, Int(cl.display_index), cl.description, Bool(cl.approval_enabled), Bool(cl.review_enabled), Bool(cl.done_button_enabled),
                                 Bool(cl.extra_fields_enabled), "", new List<DataItemGroup>(), new List<eFormRequest.DataItem>());
 
                             //the actual DataItems
@@ -1679,8 +1680,9 @@ namespace eFormSqlController
         {
         }
 
-        public Case_Dto(string caseUId, string microtingUId, int siteId)
+        public Case_Dto(int siteId, string caseType, string caseUId, string microtingUId)
         {
+            CaseType = caseType;
             CaseUId = caseUId;
             MicrotingUId = microtingUId;
             SiteId = siteId;
@@ -1688,7 +1690,12 @@ namespace eFormSqlController
         #endregion
 
         /// <summary>
-        /// Unique identifier of the case(s) in your system
+        /// Identifier of a collection of cases in your system
+        /// </summary>
+        public string CaseType { get; set; }
+
+        /// <summary>
+        /// Unique identifier of a group of case(s) in your system
         /// </summary>
         public string CaseUId { get; set; }
 
@@ -1704,7 +1711,7 @@ namespace eFormSqlController
 
         public override string ToString()
         {
-            return "Site:" + SiteId + " / MicrotingUId:" + MicrotingUId + " / CaseUId:" + CaseUId;
+            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId;
         }
     }
 
@@ -1713,6 +1720,7 @@ namespace eFormSqlController
         #region con
         public File_Dto(Case_Dto case_Dto, string fileLocation)
         {
+            CaseType = case_Dto.CaseType;
             CaseUId = case_Dto.CaseUId;
             MicrotingUId = case_Dto.MicrotingUId;
             SiteId = case_Dto.SiteId;
@@ -1725,7 +1733,7 @@ namespace eFormSqlController
         
         public override string ToString()
         {
-            return "Site:" + SiteId + " / MicrotingUId:" + MicrotingUId + " / CaseUId:" + CaseUId + " / FileLocation:" + FileLocation;
+            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / FileLocation:" + FileLocation;
         }
     }
 

@@ -74,11 +74,11 @@ namespace Microting
         #endregion
 
         #region public
-        public int  TemplatCreate(string xmlString, string caseType)
+        public MainElement  TemplatFromXml(string xmlString)
         {
             try
             {
-                return core.TemplatCreate(xmlString, caseType);
+                return core.TemplatFromXml(xmlString);
             }
             catch (Exception ex)
             {
@@ -89,11 +89,11 @@ namespace Microting
             }
         }
 
-        public int  TemplatCreate(MainElement mainElement, string caseType)
+        public int          TemplatCreate(MainElement mainElement)
         {
             try
             {
-                return core.TemplatCreate(mainElement, caseType);
+                return core.TemplatCreate(mainElement);
             }
             catch (Exception ex)
             {
@@ -104,15 +104,14 @@ namespace Microting
             }
         }
 
-        public void TemplatCreateInfinityCase(MainElement mainElement, string caseType, List<int> siteIds, int instances)
+        public void         TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
         {
+            if (mainElement.Repeated != 0)
+                throw new Exception("InfinityCase are always Repeated = 0");
+
             try
             {
-
-                if (mainElement.Repeated != 0)
-                    throw new Exception("InfinityCase are always Repeated = 0");
-
-                int templatId = TemplatCreate(mainElement, caseType);
+                int templatId = TemplatCreate(mainElement);
 
                 foreach (int siteId in siteIds)
                 {
@@ -134,7 +133,7 @@ namespace Microting
             }
         }
 
-        public void CaseCreate(int templatId, string caseUId)
+        public void         CaseCreate(int templatId, string caseUId)
         {
             try
             {
@@ -158,7 +157,7 @@ namespace Microting
             }
         }
 
-        public void CaseRead(string muuId)
+        public void         CaseRead(string muuId)
         {
             try
             {
@@ -173,7 +172,7 @@ namespace Microting
             }
         }
 
-        public void CaseReadFromGroup(string caseUId)
+        public void         CaseReadFromGroup(string caseUId)
         {
             try
             {
@@ -188,7 +187,7 @@ namespace Microting
             }
         }
 
-        public void CaseDelete(string muuId)
+        public void         CaseDelete(string muuId)
         {
             try
             {
@@ -203,7 +202,7 @@ namespace Microting
             }
         }
 
-        public void CaseDeleteAll(string caseUId)
+        public void         CaseDeleteAll(string caseUId)
         {
             try
             {
@@ -218,7 +217,7 @@ namespace Microting
             }
         }
 
-        public void Close()
+        public void         Close()
         {
             core.Close();
         }
@@ -229,52 +228,58 @@ namespace Microting
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string muuId = temp.MicrotingUId;
-            int siteId = temp.SiteId;
         }
 
         public void EventCaseRetrived(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string muuId = temp.MicrotingUId;
-            int siteId = temp.SiteId;
         }
 
         public void EventCaseUpdated(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string muuId = temp.MicrotingUId;
-            int siteId = temp.SiteId;
         }
 
         public void EventCaseDeleted(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string muuId = temp.MicrotingUId;
-            int siteId = temp.SiteId;
         }
 
         public void EventFileDownloaded(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             File_Dto temp = (File_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string muuId = temp.MicrotingUId;
-            int siteId = temp.SiteId;
             string fileLocation = temp.FileLocation;
         }
 
         public void EventSiteActivated(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
-            int siteId = int.Parse(sender.ToString());
+            File_Dto temp = (File_Dto)sender;
+            int siteId = temp.SiteId;
         }
 
         public void EventLog(object sender, EventArgs args)

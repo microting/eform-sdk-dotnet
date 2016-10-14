@@ -17,8 +17,8 @@ namespace eFormRequest
             ElementList = new List<Element>();
         }
 
-        public MainElement(string id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string pushMessageTitle, string pushMessageBody, List<Element> elementList)
+        public MainElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, List<Element> elementList)
         {
             ElementList = new List<Element>();
 
@@ -34,6 +34,7 @@ namespace eFormRequest
             FastNavigation = fastNavigation;
             DownloadEntities = downloadEntities;
             ManualSync = manualSync;
+            CaseType = caseType;
             PushMessageTitle = pushMessageTitle;
             PushMessageBody = pushMessageBody;
             ElementList = elementList;

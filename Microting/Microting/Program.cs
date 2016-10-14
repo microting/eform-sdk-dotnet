@@ -53,17 +53,17 @@ namespace Microting
 
                 if (input.ToLower() == "t")
                 {
-                    string xmlStr = File.ReadAllText("xml.txt");
-                    int id = mainController.TemplatCreate(xmlStr, "Step one");
-                    Console.WriteLine("id = '" + id.ToString() + "' created");
-
                     List<int> lst = new List<int>();
                     lst.Add(1311);
 
-                    var main = mainController.core.TemplatRead(id);
-                    main.Repeated = 0;
+                    string xmlStr = File.ReadAllText("xml.txt");
+                    var main = mainController.TemplatFromXml(xmlStr);
 
-                    mainController.TemplatCreateInfinityCase(main, "Step one", lst, 4);
+                    main.Repeated = 1;
+                    main.CaseType = "Test";
+
+                    int id = mainController.TemplatCreate(main);
+                    mainController.CaseCreate(id, DateTime.Now.ToLongTimeString());
                 }
             }
             Console.WriteLine("Trying to shutting down");
