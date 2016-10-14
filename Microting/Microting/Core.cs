@@ -149,7 +149,7 @@ namespace Microting
             }
         }
 
-        public int              TemplatCreate(string xmlString)
+        public int              TemplatCreate(string xmlString, string caseType)
         {
             //XML HACK
             #region correct xml if needed
@@ -187,12 +187,12 @@ namespace Microting
             if (mainElement.Repeated == 0 || mainElement.Repeated == -1)
                 mainElement.Repeated = 1;
      
-            return sqlController.TemplatCreate(mainElement);
+            return sqlController.TemplatCreate(mainElement, caseType);
         }
 
-        public int              TemplatCreate(MainElement mainElement)
+        public int              TemplatCreate(MainElement mainElement, string caseType)
         {
-            return sqlController.TemplatCreate(mainElement);
+            return sqlController.TemplatCreate(mainElement, caseType);
         }
 
         public MainElement      TemplatRead(int templatId)

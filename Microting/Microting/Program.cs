@@ -41,7 +41,7 @@ namespace Microting
 
             while (keepRunning)
             {
-                Console.WriteLine("Type templat id or t (for test) and q (to quit)");
+                Console.WriteLine("Type 't' for test and 'q' (to quit)");
                 string input = Console.ReadLine();
 
 
@@ -53,12 +53,8 @@ namespace Microting
 
                 if (input.ToLower() == "t")
                 {
-                    //mainController.CaseRead("620328");
-
-
-
                     string xmlStr = File.ReadAllText("xml.txt");
-                    int id = mainController.TemplatCreate(xmlStr);
+                    int id = mainController.TemplatCreate(xmlStr, "Step one");
                     Console.WriteLine("id = '" + id.ToString() + "' created");
 
                     List<int> lst = new List<int>();
@@ -67,20 +63,7 @@ namespace Microting
                     var main = mainController.core.TemplatRead(id);
                     main.Repeated = 0;
 
-                    mainController.TemplatCreateInfinityCase(main, lst, 4);
-                }
-
-                if (input != "q" && input != "t")
-                {
-                    try
-                    {
-                        int templatId = int.Parse(input);
-                       // mainController.CaseCreate(templatId, "","", "LL-NNNNN", DateTime.Now.ToLongTimeString(), "testRoad");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
+                    mainController.TemplatCreateInfinityCase(main, "Step one", lst, 4);
                 }
             }
             Console.WriteLine("Trying to shutting down");

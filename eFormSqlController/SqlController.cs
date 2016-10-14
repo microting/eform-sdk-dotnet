@@ -27,9 +27,9 @@ namespace eFormSqlController
         #endregion
 
         #region public
-        public int                  TemplatCreate(MainElement mainElement)
+        public int                  TemplatCreate(MainElement mainElement, string caseType)
         {
-            int id = EformCreateDb(mainElement);
+            int id = EformCreateDb(mainElement, caseType);
             return id;
         }
 
@@ -609,7 +609,7 @@ namespace eFormSqlController
 
         #region private
         #region EformCreateDb
-        private int EformCreateDb           (MainElement mainElement)
+        private int EformCreateDb           (MainElement mainElement, string caseType)
         {
             try
             {
@@ -628,7 +628,7 @@ namespace eFormSqlController
                     cl.parent_id = 0; //MainElements never have parents ;)
                     cl.repeated = mainElement.Repeated;
                     cl.version = 1;
-                    //cl.case_type = caseType;
+                    cl.case_type = caseType;
                     cl.folder_name = mainElement.CheckListFolderName;
                     cl.display_index = mainElement.DisplayOrder;
                     //report_file_name - Ruby colume

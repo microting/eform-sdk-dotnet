@@ -74,11 +74,11 @@ namespace Microting
         #endregion
 
         #region public
-        public int  TemplatCreate(string xmlString)
+        public int  TemplatCreate(string xmlString, string caseType)
         {
             try
             {
-                return core.TemplatCreate(xmlString);
+                return core.TemplatCreate(xmlString, caseType);
             }
             catch (Exception ex)
             {
@@ -89,11 +89,11 @@ namespace Microting
             }
         }
 
-        public int  TemplatCreate(MainElement mainElement)
+        public int  TemplatCreate(MainElement mainElement, string caseType)
         {
             try
             {
-                return core.TemplatCreate(mainElement);
+                return core.TemplatCreate(mainElement, caseType);
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace Microting
             }
         }
 
-        public void TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
+        public void TemplatCreateInfinityCase(MainElement mainElement, string caseType, List<int> siteIds, int instances)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Microting
                 if (mainElement.Repeated != 0)
                     throw new Exception("InfinityCase are always Repeated = 0");
 
-                int templatId = TemplatCreate(mainElement);
+                int templatId = TemplatCreate(mainElement, caseType);
 
                 foreach (int siteId in siteIds)
                 {

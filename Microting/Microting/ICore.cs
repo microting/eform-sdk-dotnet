@@ -22,8 +22,8 @@ namespace Microting
         void            Start();
         void            Close();
 
-        int             TemplatCreate(string xmlString);
-        int             TemplatCreate(MainElement mainElement);
+        int             TemplatCreate(string xmlString, string caseType);
+        int             TemplatCreate(MainElement mainElement, string caseType);
 
         MainElement     TemplatRead(int templatId);
 
