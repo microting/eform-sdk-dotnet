@@ -286,6 +286,9 @@ namespace Microting
             int siteId = -1;
 
             var lst = sqlController.CaseFindMatchs(microtingUId);
+            if (lst.Count < 1)
+                return false;
+
             foreach (var item in lst)
             {
                 if (item.MicrotingUId == microtingUId)

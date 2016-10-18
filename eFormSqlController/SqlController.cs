@@ -260,7 +260,8 @@ namespace eFormSqlController
                         catch { }
                     }
 
-                    throw new Exception("CaseFindMatchs failed. Was unable to find a match in the database.");
+                    List<Case_Dto> emptyCaseMatchs = new List<Case_Dto>();
+                    return emptyCaseMatchs;
                 }
             }
             catch (Exception ex)
