@@ -157,11 +157,11 @@ namespace Microting
             }
         }
 
-        public void         CaseRead(string muuId)
+        public void         CaseRead(string mUId)
         {
             try
             {
-                ReplyElement replyElement = core.CaseRead(muuId);
+                ReplyElement replyElement = core.CaseRead(mUId, null);
             }
             catch (Exception ex)
             {
@@ -226,60 +226,103 @@ namespace Microting
         #region events
         public void EventCaseCreated(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
-            string caseType = temp.CaseType;
-            string caseUid = temp.CaseUId;
-            string muuId = temp.MicrotingUId;
+            ////DOSOMETHING: changed to fit your wishes and needs 
+            //Case_Dto temp = (Case_Dto)sender;
+            //int siteId = temp.SiteId;
+            //string caseType = temp.CaseType;
+            //string caseUid = temp.CaseUId;
+            //string mUId = temp.MicrotingUId;
+            //string checkUId = temp.CheckUId;
         }
 
         public void EventCaseRetrived(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
-            string caseType = temp.CaseType;
-            string caseUid = temp.CaseUId;
-            string muuId = temp.MicrotingUId;
+            ////DOSOMETHING: changed to fit your wishes and needs 
+            //Case_Dto temp = (Case_Dto)sender;
+            //int siteId = temp.SiteId;
+            //string caseType = temp.CaseType;
+            //string caseUid = temp.CaseUId;
+            //string mUId = temp.MicrotingUId;
+            //string checkUId = temp.CheckUId;
         }
 
         public void EventCaseUpdated(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
-            string caseType = temp.CaseType;
-            string caseUid = temp.CaseUId;
-            string muuId = temp.MicrotingUId;
+            try
+            {
+                Case_Dto temp = (Case_Dto)sender;
+                int siteId = temp.SiteId;
+                string caseType = temp.CaseType;
+                string caseUid = temp.CaseUId;
+                string mUId = temp.MicrotingUId;
+                string checkUId = temp.CheckUId;
+
+
+                //-----
+
+                List<int> siteIds = new List<int>();
+                siteIds.Add(1312);
+
+                MainElement mainElement = core.TemplatRead(149);
+
+
+                if (caseType == "Step one")
+                {
+                    ReplyElement reply = core.CaseRead(mUId, checkUId);
+                    DataElement replyDataE = (DataElement)reply.ElementList[0];
+                    Answer answer = (Answer)replyDataE.DataItemList[0];
+
+                    DataElement dataE = (DataElement)mainElement.ElementList[0];
+                    Number number = (Number)dataE.DataItemList[0];
+
+                    number.Description = "start " + answer.Value + " something more";
+
+                    core.CaseCreate(mainElement, "Step two", siteIds, false);
+                }
+
+                if (caseType == "Step two")
+                {
+
+                }
+
+                if (caseType == "Step three")
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLog(ex.ToString(), EventArgs.Empty);
+            }
         }
 
         public void EventCaseDeleted(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
-            Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
-            string caseType = temp.CaseType;
-            string caseUid = temp.CaseUId;
-            string muuId = temp.MicrotingUId;
+            //Case_Dto temp = (Case_Dto)sender;
+            //int siteId = temp.SiteId;
+            //string caseType = temp.CaseType;
+            //string caseUid = temp.CaseUId;
+            //string mUId = temp.MicrotingUId;
+            //string checkUId = temp.CheckUId;
         }
 
         public void EventFileDownloaded(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            File_Dto temp = (File_Dto)sender;
-            int siteId = temp.SiteId;
-            string caseType = temp.CaseType;
-            string caseUid = temp.CaseUId;
-            string muuId = temp.MicrotingUId;
-            string fileLocation = temp.FileLocation;
+            ////DOSOMETHING: changed to fit your wishes and needs 
+            //File_Dto temp = (File_Dto)sender;
+            //int siteId = temp.SiteId;
+            //string caseType = temp.CaseType;
+            //string caseUid = temp.CaseUId;
+            //string mUId = temp.MicrotingUId;
+            //string checkUId = temp.CheckUId;
+            //string fileLocation = temp.FileLocation;
         }
 
         public void EventSiteActivated(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            File_Dto temp = (File_Dto)sender;
-            int siteId = temp.SiteId;
+            ////DOSOMETHING: changed to fit your wishes and needs 
+            //int siteId = int.Parse(sender.ToString());
         }
 
         public void EventLog(object sender, EventArgs args)

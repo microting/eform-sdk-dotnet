@@ -213,9 +213,12 @@ namespace Microting
             subscriberThread.Start();
         }
 
-        public ReplyElement     CaseRead(string microtingUId)
+        public ReplyElement     CaseRead(string microtingUId, string checkUId)
         {
-            cases aCase = sqlController.CaseReadFull(microtingUId);
+            if (checkUId == "" || checkUId == "0")
+                checkUId = null;
+
+            cases aCase = sqlController.CaseReadFull(microtingUId, checkUId);
             #region handling if no match case found
             if (aCase == null)
             {
@@ -267,12 +270,12 @@ namespace Microting
         {
             ReplyElement replyElement;
 
-            string muuId = sqlController.CaseFindActive(caseUId);
+            string mUID = sqlController.CaseFindActive(caseUId);
 
-            if (muuId == "")
+            if (mUID == "")
                 return null;
 
-            replyElement = CaseRead(muuId);
+            replyElement = CaseRead(mUID, null);
 
             return replyElement;
             ;
@@ -559,20 +562,22 @@ namespace Microting
 
                                             if (resp.Type == Response.ResponseTypes.Success)
                                             {
-                                                sqlController.ChecksCreate(resp, respXml);
+                                                if (resp.Checks.Count > 0)
+                                                {
+                                                    sqlController.ChecksCreate(resp, respXml);
 
-                                                if (lastId == null)
-                                                    sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null             , int.Parse(resp.Checks[0].UnitId));
-                                                else
-                                                    sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
+                                                    if (lastId == null)
+                                                        sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
+                                                    else
+                                                        sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
+
+                                                    Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
+                                                    HandleCaseUpdated(cDto, EventArgs.Empty);
+                                                    HandleEvent(cDto.ToString() + " has been completed", null);
+                                                }
                                             }
                                             else
                                                 throw new Exception("Failed to retrive eForm " + noteMuuId + " from site " + aCase.SiteId);
-
-                                            Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
-                                            HandleCaseUpdated(cDto, EventArgs.Empty);
-                                            HandleEvent(cDto.ToString() + " has been completed", null);
-
                                             #endregion
                                         }
                                         else
@@ -616,9 +621,8 @@ namespace Microting
                             #region unit_activate / tablet added
                             case "unit_activate":
                                 {
-                                    Case_Dto cDto = new Case_Dto(int.Parse(noteMuuId), "", "", "");
                                     HandleSiteActivated(noteMuuId, EventArgs.Empty);
-                                    HandleEvent(cDto.ToString() + " has been added", null);
+                                    HandleEvent(noteMuuId + " has been added", null);
 
                                     sqlController.NotificationProcessed(notificationStr);
                                     break;
@@ -692,7 +696,7 @@ namespace Microting
             HandleEventException(ex, EventArgs.Empty);
 
             Close();
-            Thread.Sleep(1000);
+            Thread.Sleep(10000); //TODO
             Start();
         }
 

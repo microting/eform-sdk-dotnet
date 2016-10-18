@@ -87,21 +87,20 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TODO
                     try
                     {
-                        cases aCase = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
-                        check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
-                        Case_Dto cDto = new Case_Dto((int)aCase.site_id, cL.case_type, aCase.serialized_values, microtingUId);
+                        check_list_sites match = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
+                        check_lists cL = db.check_lists.Where(x => x.id == match.check_list_id).ToList().First();
+                        Case_Dto cDto = new Case_Dto((int)match.site_id, cL.case_type, "ReversedCase", match.microting_check_list_uuid, match.last_check_id);
                         return cDto;
                     }
                     catch { }
 
                     try
                     {
-                        check_list_sites match = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
-                        check_lists cL = db.check_lists.Where(x => x.id == match.check_list_id).ToList().First();
-                        Case_Dto cDto = new Case_Dto((int)match.site_id, cL.case_type, "ReversedCase", match.microting_check_list_uuid);
+                        cases aCase = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+                        check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
+                        Case_Dto cDto = new Case_Dto((int)aCase.site_id, cL.case_type, aCase.serialized_values, microtingUId, null);
                         return cDto;
                     }
                     catch { }
@@ -163,7 +162,7 @@ namespace eFormSqlController
             }
         }
 
-        public cases                CaseReadFull(string microtingUId)
+        public cases                CaseReadFull(string microtingUId, string checkUId)
         {
             try
             {
@@ -171,7 +170,7 @@ namespace eFormSqlController
                 {
                     try
                     {
-                        cases match = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+                        cases match = db.cases.Where(x => x.microting_api_id == microtingUId && x.microting_check_id == checkUId).ToList().First();
                         return match;
                     }
                     catch
@@ -1211,6 +1210,9 @@ namespace eFormSqlController
 
         private void            EformCheckCreateDb(Response response, string xml)
         {
+            if (response.Checks.Count == 0)
+                throw new Exception("response.Checks.count == 0. Hence there was no checks to create");
+
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
@@ -1680,38 +1682,53 @@ namespace eFormSqlController
         {
         }
 
-        public Case_Dto(int siteId, string caseType, string caseUId, string microtingUId)
+        public Case_Dto(int siteId, string caseType, string caseUId, string microtingUId, string checkUId)
         {
+            if (caseType == null)
+                caseType = "";
+            if (caseUId == null)
+                caseUId = "";
+            if (microtingUId == null)
+                microtingUId = "";
+            if (checkUId == null)
+                checkUId = "";
+
+            SiteId = siteId;
             CaseType = caseType;
             CaseUId = caseUId;
             MicrotingUId = microtingUId;
-            SiteId = siteId;
+            CheckUId = checkUId;
         }
         #endregion
 
         /// <summary>
+        /// Unique identifier of device
+        /// </summary>
+        public int SiteId { get; }
+
+        /// <summary>
         /// Identifier of a collection of cases in your system
         /// </summary>
-        public string CaseType { get; set; }
+        public string CaseType { get; }
 
         /// <summary>
         /// Unique identifier of a group of case(s) in your system
         /// </summary>
-        public string CaseUId { get; set; }
+        public string CaseUId { get; }
 
         /// <summary>
-        ///Unique identifier of that specific case in Microting system
+        ///Unique identifier of that specific eForm in Microting system
         /// </summary>
-        public string MicrotingUId { get; set; }
+        public string MicrotingUId { get; }
 
         /// <summary>
-        /// Unique identifier of device
+        /// Unique identifier of that check of the eForm. Only used if repeat
         /// </summary>
-        public int SiteId { get; set; }
+        public string CheckUId { get; }
 
         public override string ToString()
         {
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId;
+            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId;
         }
     }
 
@@ -1720,21 +1737,16 @@ namespace eFormSqlController
         #region con
         public File_Dto(Case_Dto case_Dto, string fileLocation)
         {
-            CaseType = case_Dto.CaseType;
-            CaseUId = case_Dto.CaseUId;
-            MicrotingUId = case_Dto.MicrotingUId;
-            SiteId = case_Dto.SiteId;
+            //CaseType = case_Dto.CaseType;
+            //CaseUId = case_Dto.CaseUId;
+            //MicrotingUId = case_Dto.MicrotingUId;
+            //SiteId = case_Dto.SiteId;
 
             FileLocation = fileLocation;
         }
         #endregion
 
         public string FileLocation { get; set; }
-        
-        public override string ToString()
-        {
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / FileLocation:" + FileLocation;
-        }
     }
 
     internal class Holder
