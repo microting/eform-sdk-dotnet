@@ -111,8 +111,6 @@ namespace Microting
                     TriggerLog("###################################################################################################################");
                     TriggerLog("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
                         " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " userId:" + userId + " fileLocation:" + fileLocation);
-
-
                     TriggerLog("Controller started");
 
 
@@ -591,7 +589,7 @@ namespace Microting
 
                         Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                         HandleCaseCreated(cDto, EventArgs.Empty);
-                        CoreHandleEventClient(cDto.ToString() + " has been created", null);
+                        TriggerMessage(cDto.ToString() + " has been created");
 
                         found = true;
                     }
@@ -599,7 +597,7 @@ namespace Microting
                     if (!found)
                         throw new Exception("CaseCreateFullMethod failed. No matching sites found. No eForms created");
 
-                    CoreHandleEventClient("eForm created", null);
+                    TriggerMessage("eForm created");
                 }
             }
             catch (Exception ex)
@@ -682,7 +680,6 @@ namespace Microting
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + reply);
         }
 
-
         #region inward Event handlers
         private void    CoreHandleUpdateDatabases()
         {
@@ -756,7 +753,7 @@ namespace Microting
                         
                         File_Dto fDto = new File_Dto(sqlController.FileCaseFindMUId(urlStr), fileLocation + fileName);
                         HandleFileDownloaded(fDto, EventArgs.Empty);
-                        CoreHandleEventClient("Downloaded file '" + urlStr + "'.", null);
+                        TriggerMessage("Downloaded file '" + urlStr + "'.");
 
                         sqlController.FileProcessed(urlStr, chechSum, fileLocation, fileName);
                     }
@@ -833,7 +830,7 @@ namespace Microting
 
                                                     Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
                                                     HandleCaseUpdated(cDto, EventArgs.Empty);
-                                                    CoreHandleEventClient(cDto.ToString() + " has been completed", null);
+                                                    TriggerMessage(cDto.ToString() + " has been completed");
                                                 }
                                             }
                                             else
@@ -855,7 +852,7 @@ namespace Microting
 
                                             Case_Dto cDto = sqlController.CaseReadByMUId(aCase.MicrotingUId);
                                             HandleCaseDeleted(cDto, EventArgs.Empty);
-                                            CoreHandleEventClient(cDto.ToString() + " has been removed", null);
+                                            TriggerMessage(cDto.ToString() + " has been removed");
 
                                             #endregion
                                         }
@@ -871,7 +868,7 @@ namespace Microting
                                 {
                                     Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
                                     HandleCaseRetrived(cDto, EventArgs.Empty);
-                                    CoreHandleEventClient(cDto.ToString() + " has been retrived", null);
+                                    TriggerMessage(cDto.ToString() + " has been retrived");
 
                                     sqlController.NotificationProcessed(notificationStr);
                                     break;
@@ -882,7 +879,7 @@ namespace Microting
                             case "unit_activate":
                                 {
                                     HandleSiteActivated(noteMuuId, EventArgs.Empty);
-                                    CoreHandleEventClient(noteMuuId + " has been added", null);
+                                    TriggerMessage(noteMuuId + " has been added");
 
                                     sqlController.NotificationProcessed(notificationStr);
                                     break;
@@ -910,7 +907,7 @@ namespace Microting
             {
                 lock (_lockEventClient)
                 {
-                    TriggerMessage("Client # " + sender.ToString());
+                    TriggerLog("Client # " + sender.ToString());
                 }
             }
             catch (Exception ex)
@@ -926,7 +923,7 @@ namespace Microting
                 lock (_lockEventServer)
                 {
                     string reply = sender.ToString();
-                    TriggerMessage("Server # " + reply);
+                    TriggerLog("Server # " + reply);
 
                     if (reply.Contains("-update\",\"data"))
                     {
@@ -950,7 +947,6 @@ namespace Microting
             }
         }
         #endregion
-
 
         #region outward Event triggers
         private void    TriggerLog(string str)
