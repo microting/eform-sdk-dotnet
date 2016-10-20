@@ -105,7 +105,7 @@ namespace eFormSubscriber
         {
             try
             {
-                EventMsgClient("Subscriber is trying to close connection", null);
+                EventMsgClient("Subscriber is trying to close connection. Will wait until thread finished:" + wait.ToString(), null);
 
                 keepConnectionAlive = false;
                 keepSubscribed = false;

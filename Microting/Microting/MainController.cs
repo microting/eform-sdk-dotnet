@@ -34,6 +34,7 @@ namespace Microting
     class MainController
     {
         #region var
+        object _logFilLock = new object();
         public Core core;
         #endregion
 
@@ -329,8 +330,11 @@ namespace Microting
 
         public void EventLog(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
+            lock (_logFilLock)
+            {
+                //DOSOMETHING: changed to fit your wishes and needs 
+                File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
+            }
         }
 
         public void EventMessage(object sender, EventArgs args)

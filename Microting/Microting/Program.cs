@@ -41,7 +41,7 @@ namespace Microting
 
             while (keepRunning)
             {
-                Console.WriteLine("Type 't' for test and 'q' (to quit)");
+                Console.WriteLine("Type 'a' for CoreRunning, 't' for test and 'q' (to quit)");
                 string input = Console.ReadLine();
 
 
@@ -50,6 +50,10 @@ namespace Microting
                     keepRunning = false;
                 }
 
+                if (input.ToLower() == "a")
+                {
+                    Console.WriteLine(mainController.core.CoreRunning().ToString());
+                }
 
                 if (input.ToLower() == "t")
                 {

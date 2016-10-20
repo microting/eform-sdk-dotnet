@@ -37,5 +37,7 @@ namespace Microting
 
         bool            CaseDelete(string microtingUId);
         int             CaseDeleteAllSites(string caseUId);
+
+        bool            CoreRunning();
     }
 }
