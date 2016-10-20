@@ -49,6 +49,7 @@ namespace Microting
         public event EventHandler HandleSiteActivated;
 
         public event EventHandler HandleEventLog;
+        public event EventHandler HandleEventMessage;
         public event EventHandler HandleEventWarning;
         public event EventHandler HandleEventException;
         #endregion
@@ -72,10 +73,11 @@ namespace Microting
         string serverConnectionString;
         int userId;
         string fileLocation;
+        bool logEvents;
         #endregion
 
         #region con
-        public Core(string comToken, string comAddress, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, int userId, string fileLocation)
+        public Core(string comToken, string comAddress, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, int userId, string fileLocation, bool logEvents)
         {
             this.comToken = comToken;
             this.comAddress = comAddress;
@@ -85,6 +87,7 @@ namespace Microting
             this.serverConnectionString = serverConnectionString;
             this.userId = userId;
             this.fileLocation = fileLocation;
+            this.logEvents = logEvents;
         }
         #endregion
 
@@ -93,31 +96,38 @@ namespace Microting
         {
             try
             {
-                HandleEvent("Controller started", null);
+                TriggerMessage("");
+                TriggerMessage("");
+                TriggerMessage("###################################################################################################################");
+                TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+                TriggerMessage("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
+                    " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " userId:" + userId + " fileLocation:" + fileLocation);
+
+
+                CoreHandleEvent("Controller started", null);
                 
 
                 //sqlController
                 sqlController = new SqlController(serverConnectionString, userId);
-                HandleEvent("SqlEformController started", null);
+                CoreHandleEvent("SqlEformController started", null);
 
 
                 //communicators
                 communicator = new Communicator(comToken, comAddress);
-                HandleEvent("Transmitter started", null);
+                CoreHandleEvent("Transmitter started", null);
 
 
                 //subscriber
                 subscriber = new Subscriber(subscriberToken, subscriberAddress, subscriberName);
-                HandleEvent("Subscriber created", null);
-                subscriber.EventMsgClient += HandleEvent;
-                subscriber.EventMsgServer += HandleEventReply;
-                HandleEvent("Subscriber now triggers events", null);
+                CoreHandleEvent("Subscriber created", null);
+                subscriber.EventMsgClient += CoreHandleEvent;
+                subscriber.EventMsgServer += CoreHandleEventReply;
+                CoreHandleEvent("Subscriber now triggers events", null);
                 subscriber.Start();
             }
             catch (Exception ex)
             {
-                HandleEventWarning("Core failed", EventArgs.Empty);
-                throw new Exception("Core.Start failed.", ex);
+                HandleEventException(ex, EventArgs.Empty);
             }
         }
 
@@ -125,6 +135,7 @@ namespace Microting
         {
             lock (_lockMain)
             {
+                TriggerLog("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                 try
                 {
                     subscriber.Close(true);
@@ -133,16 +144,16 @@ namespace Microting
 
                 try
                 {
-                    subscriber.EventMsgClient -= HandleEvent;
-                    subscriber.EventMsgServer -= HandleEventReply;
+                    subscriber.EventMsgClient -= CoreHandleEvent;
+                    subscriber.EventMsgServer -= CoreHandleEventReply;
                 }
                 catch { }
 
                 subscriber = null;
 
-                HandleEvent("Subscriber no longer triggers events", null);
-                HandleEvent("Controller closed", null);
-                HandleEvent("", null);
+                CoreHandleEvent("Subscriber no longer triggers events", null);
+                CoreHandleEvent("Controller closed", null);
+                CoreHandleEvent("", null);
 
                 communicator = null;
                 sqlController = null;
@@ -151,8 +162,11 @@ namespace Microting
 
         public MainElement      TemplatFromXml(string xmlString)
         {
+            TriggerLog("XML to transform:");
+            TriggerLog(xmlString);
+
             //XML HACK
-            #region correct xml if needed
+            #region xmlString = corrected xml if needed
             xmlString = xmlString.Replace("<Main>", "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
             xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
             xmlString = xmlString.Replace("<DataItem type=", "<DataItem xsi:type=");
@@ -181,40 +195,63 @@ namespace Microting
             MainElement mainElement = new MainElement();
             mainElement = mainElement.XmlToClass(xmlString);
 
+            TriggerLog("XML after possible corrections:");
+            TriggerLog(xmlString);
+
             //XML HACK
             mainElement.CaseType = "";
             mainElement.PushMessageTitle = "";
             mainElement.PushMessageBody = "";
-            if (mainElement.Repeated == 0 || mainElement.Repeated == -1)
+            if (mainElement.Repeated < 1)
+            {
+                TriggerLog("mainElement.Repeated = 1 // enforced");
                 mainElement.Repeated = 1;
+            }
      
             return mainElement;
         }
 
         public int              TemplatCreate(MainElement mainElement)
         {
-            return sqlController.TemplatCreate(mainElement);
+            int templatId = sqlController.TemplatCreate(mainElement);
+            TriggerLog("Templat id:" + templatId.ToString() + " created in DB");
+            return templatId;
         }
 
         public MainElement      TemplatRead(int templatId)
         {
+            TriggerLog("Templat id:" + templatId.ToString() + " trying to be read");
             return sqlController.TemplatRead(templatId);
         }
 
         public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed)
         {
+            string siteIdsStr = string.Join(",", siteIds);
+            TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " reversed:" + reversed.ToString() + ", requested to be created");
+
             Thread subscriberThread = new Thread(() => CaseCreateThread(mainElement, siteIds, caseUId, DateTime.MinValue, "", "", reversed));
             subscriberThread.Start();
         }
 
         public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed, DateTime navisionTime, string numberPlate, string roadNumber)
         {
+            string siteIdsStr = string.Join(",", siteIds);
+            TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " reversed:" + reversed.ToString() + " navisionTime:" + navisionTime.ToString() + " numberPlate:" + numberPlate +
+                " roadNumber:" + roadNumber + ", requested to be created");
+
             Thread subscriberThread = new Thread(() => CaseCreateThread(mainElement, siteIds, caseUId, navisionTime, numberPlate, roadNumber, reversed));
             subscriberThread.Start();
         }
 
+        /// <summary>
+        /// Tries to retrieve the full case in the DB.
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
+        /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public ReplyElement     CaseRead(string microtingUId, string checkUId)
         {
+            TriggerLog("microtingUId:" + microtingUId + " checkUId:" + checkUId.ToString() + ", requested to be read");
+
             if (checkUId == "" || checkUId == "0")
                 checkUId = null;
 
@@ -227,6 +264,7 @@ namespace Microting
             }
             #endregion
             int id = aCase.id;
+            TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
 
             ReplyElement replyElement = sqlController.TemplatRead((int)aCase.check_list_id);
 
@@ -259,6 +297,7 @@ namespace Microting
                 Answer answer = sqlController.ChecksReadAnswer(reply.id);
                 lstAnswers.Add(answer);
             }
+            TriggerLog("Questons and answers found");
 
             //replace DataItem(s) with DataItem(s) Answer
             ReplaceDataItemsInElements(replyElement.ElementList, lstAnswers);
@@ -268,9 +307,12 @@ namespace Microting
 
         public ReplyElement     CaseReadAllSites(string caseUId)
         {
+            TriggerLog("caseUId:" + caseUId + ", requested to be read");
+
             ReplyElement replyElement;
 
             string mUID = sqlController.CaseFindActive(caseUId);
+            TriggerLog("mUID:" + mUID + ", found");
 
             if (mUID == "")
                 return null;
@@ -278,26 +320,34 @@ namespace Microting
             replyElement = CaseRead(mUID, null);
 
             return replyElement;
-            ;
         }
 
         public bool             CaseDelete(string microtingUId)
         {
+            TriggerLog("microtingUId:" + microtingUId + ", requested to be deleted");
+
             int siteId = -1;
 
             var lst = sqlController.CaseFindMatchs(microtingUId);
             if (lst.Count < 1)
+            {
+                TriggerLog("No matching siteId found");
                 return false;
+            }
 
             foreach (var item in lst)
             {
                 if (item.MicrotingUId == microtingUId)
                     siteId = item.SiteId;
             }
+            TriggerLog("siteId:" + siteId.ToString() + ", found to match case");
 
             Response resp = new Response();
-            resp = resp.XmlToClass(communicator.Delete(microtingUId, siteId));
+            string xmlResponse = communicator.Delete(microtingUId, siteId);
+            TriggerLog("XML response:");
+            TriggerLog(xmlResponse);
 
+            resp = resp.XmlToClass(xmlResponse);
             if (resp.Value == "success")
             {
                 sqlController.CaseDelete(microtingUId);
@@ -308,9 +358,12 @@ namespace Microting
 
         public int              CaseDeleteAllSites(string caseUId)
         {
+            TriggerLog("caseUId:" + caseUId + ", requested to be deleted");
             int deleted = 0;
 
             List<Case_Dto> lst = sqlController.CaseReadByCaseUId(caseUId);
+            TriggerLog("lst.Count:" + lst.Count + ", found");
+
             foreach (var item in lst)
             {
                 Response resp = new Response();
@@ -319,17 +372,20 @@ namespace Microting
                 if (resp.Value == "success")
                     deleted++;
             }
+            TriggerLog("deleted:" + deleted.ToString() + ", deleted");
 
             return deleted;
         }
 
         public Case_Dto         CaseLookup(string microtingUId)
         {
+            TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
             return sqlController.CaseReadByMUId(microtingUId);
         }
 
         public List<Case_Dto>   CaseLookupAllSites(string caseUId)
         {
+            TriggerLog("caseUId:" + caseUId + ", requested to be looked up");
             return sqlController.CaseReadByCaseUId(caseUId);
         }
         #endregion
@@ -414,7 +470,7 @@ namespace Microting
 
                         Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                         HandleCaseCreated(cDto, EventArgs.Empty);
-                        HandleEvent(cDto.ToString() + " has been created", null);
+                        CoreHandleEvent(cDto.ToString() + " has been created", null);
 
                         found = true;
                     }
@@ -422,23 +478,23 @@ namespace Microting
                     if (!found)
                         throw new Exception("CaseCreateThread failed. No matching sites found. No eForms created");
 
-                    HandleEvent("eForm created", null);
+                    CoreHandleEvent("eForm created", null);
                 }
                 catch (Exception ex)
                 {
-                    HandleExpection(ex);
+                    TriggerHandleExpection(ex);
                 }
             }
         }
 
         private string  SendXml(MainElement mainElement, int siteId)
         {
+            TriggerLog("siteId:" + siteId + ", requested sent eForm");
             string reply = communicator.PostXml(mainElement.ClassToXml(), siteId);
 
             Response response = new Response();
             response = response.XmlToClass(reply);
 
-            //trace msg HandleEvent(reply);
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
             {
@@ -448,7 +504,20 @@ namespace Microting
             throw new NotImplementedException("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + reply);
         }
 
-        private void    HandleUpdateFiles()
+
+
+        private void    CoreHandleUpdateDatabases()
+        {
+            TriggerLog("CoreHandleUpdateDatabases() initiated");
+
+            Thread updateFilesThread = new Thread(() => CoreHandleUpdateFiles());
+            updateFilesThread.Start();
+
+            Thread updateNotificationsThread = new Thread(() => CoreHandleUpdateNotifications());
+            updateNotificationsThread.Start();
+        }
+
+        private void    CoreHandleUpdateFiles()
         {
             if (updateIsRunningFiles)
             {
@@ -501,7 +570,7 @@ namespace Microting
                         
                         File_Dto fDto = new File_Dto(sqlController.FileCaseFindMUId(urlStr), fileLocation + fileName);
                         HandleFileDownloaded(fDto, EventArgs.Empty);
-                        HandleEvent("Downloaded file '" + urlStr + "'.", null);
+                        CoreHandleEvent("Downloaded file '" + urlStr + "'.", null);
 
                         sqlController.FileProcessed(urlStr, chechSum, fileLocation, fileName);
                     }
@@ -509,13 +578,13 @@ namespace Microting
                 }
                 catch (Exception ex)
                 {
-                    HandleExpection(ex);
+                    TriggerHandleExpection(ex);
                 }
                 updateIsRunningFiles = true;
             }
         }
 
-        private void    HandleUpdateNotifications()
+        private void    CoreHandleUpdateNotifications()
         {
             if (updateIsRunningNotifications)
             {
@@ -576,7 +645,7 @@ namespace Microting
 
                                                     Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
                                                     HandleCaseUpdated(cDto, EventArgs.Empty);
-                                                    HandleEvent(cDto.ToString() + " has been completed", null);
+                                                    CoreHandleEvent(cDto.ToString() + " has been completed", null);
                                                 }
                                             }
                                             else
@@ -598,7 +667,7 @@ namespace Microting
 
                                             Case_Dto cDto = sqlController.CaseReadByMUId(aCase.MicrotingUId);
                                             HandleCaseDeleted(cDto, EventArgs.Empty);
-                                            HandleEvent(cDto.ToString() + " has been removed", null);
+                                            CoreHandleEvent(cDto.ToString() + " has been removed", null);
 
                                             #endregion
                                         }
@@ -614,7 +683,7 @@ namespace Microting
                                 {
                                     Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
                                     HandleCaseRetrived(cDto, EventArgs.Empty);
-                                    HandleEvent(cDto.ToString() + " has been retrived", null);
+                                    CoreHandleEvent(cDto.ToString() + " has been retrived", null);
 
                                     sqlController.NotificationProcessed(notificationStr);
                                     break;
@@ -625,7 +694,7 @@ namespace Microting
                             case "unit_activate":
                                 {
                                     HandleSiteActivated(noteMuuId, EventArgs.Empty);
-                                    HandleEvent(noteMuuId + " has been added", null);
+                                    CoreHandleEvent(noteMuuId + " has been added", null);
 
                                     sqlController.NotificationProcessed(notificationStr);
                                     break;
@@ -640,29 +709,25 @@ namespace Microting
                 }
                 catch (Exception ex)
                 {
-                    HandleExpection(ex);
+                    TriggerHandleExpection(ex);
                 }
                 updateIsRunningNotifications = true;
             }
         }
 
-        private void    HandleEvent(object sender, EventArgs args)
+        private void    CoreHandleEvent(object sender, EventArgs args)
         {
-            lock (_lockEvent)
-            {
-                HandleEventLog("Client # " + sender.ToString(), EventArgs.Empty);
-            }
+            TriggerMessage("Client # " + sender.ToString());
         }
 
-        private void    HandleEventReply(object sender, EventArgs args)
+        private void    CoreHandleEventReply(object sender, EventArgs args)
         {
             lock (_lockEventReply)
             {
                 try
                 {
-                    HandleEventLog("Server # " + sender.ToString(), EventArgs.Empty);
-
                     string reply = sender.ToString();
+                    TriggerMessage("Server # " + reply);
 
                     if (reply.Contains("-update\",\"data"))
                     {
@@ -676,40 +741,62 @@ namespace Microting
                         }
                     }
 
-                    //notifications //checks if there already are unprocessed files and notifications in the system
-                    TriggerDbUpdates();
+                    //checks if there already are unprocessed files and notifications in the system
+                    CoreHandleUpdateDatabases();
                 }
                 catch (Exception ex)
                 {
-                    HandleExpection(ex);
+                    TriggerHandleExpection(ex);
                 }
             }
         }
 
-        private void    HandleExpection(Exception ex)
+
+
+        private void    TriggerLog(string str)
         {
-            HandleEventLog("", EventArgs.Empty);
-            HandleEventLog("###### # EXCEPTION FOUND", EventArgs.Empty);
-            HandleEventLog("Message:" + ex.Message, EventArgs.Empty);
-            HandleEventLog("Source:" + ex.Source, EventArgs.Empty);
-            HandleEventLog("StackTrace:" + ex.StackTrace, EventArgs.Empty);
-            HandleEventLog("InnerException:" + ex.InnerException, EventArgs.Empty);
-            HandleEventLog("###### # EXCEPTION FOUND", EventArgs.Empty);
-            HandleEventLog("", EventArgs.Empty);
+            if (logEvents)
+            {
+                HandleEventLog(DateTime.Now.ToLongTimeString() + ":" + str, EventArgs.Empty);
+            }
+        }
+
+        private void    TriggerMessage(string str)
+        {
+            TriggerLog(str);
+            HandleEventMessage(str, EventArgs.Empty);
+        }
+
+        private void    TriggerHandleExpection(Exception ex)
+        {
+            //TODO Repeat expection - different result?
+
             HandleEventException(ex, EventArgs.Empty);
 
+            TriggerMessage("");
+            TriggerMessage("######## EXCEPTION FOUND BEGIN ########");
+            PrintException(ex, 1);
+            TriggerMessage("######## EXCEPTION FOUND ENDED ########");
+            TriggerMessage("");
+
+
             Close();
-            Thread.Sleep(10000); //TODO
+            Thread.Sleep(10000);
             Start();
         }
 
-        private void    TriggerDbUpdates()
+        private void        PrintException(Exception ex, int level)
         {
-            Thread updateFilesThread         = new Thread(() => HandleUpdateFiles());
-            updateFilesThread.Start();
+            if (ex == null)
+                return;
 
-            Thread updateNotificationsThread = new Thread(() => HandleUpdateNotifications());
-            updateNotificationsThread.Start();
+            TriggerMessage("######## Expection at level  " + level + " ########");
+
+            TriggerMessage("Message    :" + ex.Message);
+            TriggerMessage("Source     :" + ex.Source);
+            TriggerMessage("StackTrace :" + ex.StackTrace);
+
+            PrintException(ex.InnerException, level + 1);
         }
         #endregion
     }

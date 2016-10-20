@@ -37,7 +37,9 @@ namespace eFormRequest
         public bool Mandatory { get; set; }
         public bool ReadOnly { get; set; }
         public string Label { get; set; }
-        public string Description { get; set; }
+
+        [XmlElement("Description")]
+        public CDataValue Description { get; set; }
         public string Color { get; set; }
         public int DisplayOrder { get; set; }
         #endregion
@@ -59,7 +61,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -85,7 +88,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -113,7 +117,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
           
@@ -143,7 +148,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -172,7 +178,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
         }
@@ -194,7 +201,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -230,7 +238,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
         
@@ -257,7 +266,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -283,7 +293,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
 
@@ -311,7 +322,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
 
@@ -336,7 +348,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
         }
@@ -360,7 +373,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
 
@@ -387,7 +401,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -425,7 +440,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
 

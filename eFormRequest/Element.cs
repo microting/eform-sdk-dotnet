@@ -20,7 +20,9 @@ namespace eFormRequest
         public int Id { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
-        public string Description { get; set; }
+
+        [XmlElement("Description")]
+        public CDataValue Description { get; set; }
         public bool ApprovalEnabled { get; set; }
         public bool ReviewEnabled { get; set; }
         public bool DoneButtonEnabled { get; set; }
@@ -47,7 +49,8 @@ namespace eFormRequest
             Id = id;
             Label = label;
             DisplayOrder = displayOrder;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             ApprovalEnabled = approvalEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;
@@ -82,7 +85,8 @@ namespace eFormRequest
             Id = id;
             Label = label;
             DisplayOrder = displayOrder;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             ApprovalEnabled = approvedEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;

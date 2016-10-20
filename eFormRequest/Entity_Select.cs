@@ -23,7 +23,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
             
@@ -37,7 +38,8 @@ namespace eFormRequest
             Mandatory = mandatory;
             ReadOnly = readOnly;
             Label = label;
-            Description = description;
+            Description = new CDataValue();
+            Description.InderValue = description;
             Color = color;
             DisplayOrder = displayOrder;
         

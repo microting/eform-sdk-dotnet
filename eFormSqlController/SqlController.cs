@@ -29,16 +29,30 @@ namespace eFormSqlController
         #region public
         public int                  TemplatCreate(MainElement mainElement)
         {
-            int id = EformCreateDb(mainElement);
-            return id;
+            try
+            {
+                int id = EformCreateDb(mainElement);
+                return id;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("TemplatCreate failed", ex);
+            }
         }
 
         public MainElement          TemplatRead(int templatId)
         {
-            MainElement mainElement = new MainElement();
-            mainElement = EformReadDb(templatId);
+            try
+            {
+                MainElement mainElement = new MainElement();
+                mainElement = EformReadDb(templatId);
 
-            return mainElement;
+                return mainElement;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("TemplatRead failed", ex);
+            }
         }
 
         public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseUId, DateTime navision_time, string reg_number, string vejenummer)
@@ -359,7 +373,7 @@ namespace eFormSqlController
                     answer.Date = reply.date;
                     answer.fieldType = Find((int)question.field_type_id);
                     answer.DateOfDoing = Date(reply.date_of_doing);
-                    answer.Description = question.description;
+                    answer.Description.InderValue = question.description;
                     answer.DisplayOrder = Int(question.display_index);
                     answer.Heading = reply.heading;
                     answer.Id = question.id.ToString();
@@ -693,7 +707,7 @@ namespace eFormSqlController
                     cl.created_at = DateTime.Now;
                     cl.updated_at = DateTime.Now;
                     cl.text = groupElement.Label;
-                    cl.description = groupElement.Description;
+                    cl.description = groupElement.Description.InderValue;
                     //serialized_default_values - Ruby colume
                     cl.workflow_state = "created";
                     cl.parent_id = parentId;
@@ -737,7 +751,7 @@ namespace eFormSqlController
                     cl.created_at = DateTime.Now;
                     cl.updated_at = DateTime.Now;
                     cl.text = dataElement.Label;
-                    cl.description = dataElement.Description;
+                    cl.description = dataElement.Description.InderValue;
                     //serialized_default_values - Ruby colume
                     cl.workflow_state = "created";
                     cl.parent_id = parentId;
@@ -849,7 +863,7 @@ namespace eFormSqlController
                     fields field = new fields();
                     
                     field.color = dataItem.Color;
-                    field.description = dataItem.Description;
+                    field.description = dataItem.Description.InderValue;
                     field.display_index = dataItem.DisplayOrder;
                     field.text = dataItem.Label;
                     field.mandatory = Bool(dataItem.Mandatory);
@@ -1001,7 +1015,6 @@ namespace eFormSqlController
                         mainElement.ElementList.Add(GetElement(cl.id));
                     }
 
-                    
                     //return
                     return mainElement;
                 }

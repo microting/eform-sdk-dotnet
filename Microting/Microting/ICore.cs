@@ -14,7 +14,7 @@ namespace Microting
         event EventHandler  HandleFileDownloaded;
         event EventHandler      HandleSiteActivated;
 
-        event EventHandler  HandleEventLog;
+        event EventHandler  HandleEventMessage;
         event EventHandler  HandleEventWarning;
         event EventHandler  HandleEventException;
 

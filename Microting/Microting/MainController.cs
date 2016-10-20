@@ -57,17 +57,19 @@ namespace Microting
             string fileLocation = lines[10];
             #endregion
 
-            core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation);
+            core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, false);
+
             #region connect event triggers
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseUpdated += EventCaseUpdated;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
+            core.HandleCaseCreated      += EventCaseCreated;
+            core.HandleCaseRetrived     += EventCaseRetrived;
+            core.HandleCaseUpdated      += EventCaseUpdated;
+            core.HandleCaseDeleted      += EventCaseDeleted;
+            core.HandleFileDownloaded   += EventFileDownloaded;
+            core.HandleSiteActivated    += EventSiteActivated;
+            core.HandleEventLog         += EventLog;
+            core.HandleEventMessage     += EventMessage;
+            core.HandleEventWarning     += EventWarning;
+            core.HandleEventException   += EventException;
             #endregion
             core.Start();
         }
@@ -82,7 +84,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -97,7 +99,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -126,7 +128,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -150,7 +152,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -165,7 +167,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -180,7 +182,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -195,7 +197,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -210,7 +212,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
 
                 //DOSOMETHING: Handle the expection
                 throw new NotImplementedException();
@@ -275,7 +277,7 @@ namespace Microting
                     DataElement dataE = (DataElement)mainElement.ElementList[0];
                     Number number = (Number)dataE.DataItemList[0];
 
-                    number.Description = "start " + answer.Value + " something more";
+                    number.Description.InderValue = "start " + answer.Value + " something more";
 
                     core.CaseCreate(mainElement, "Step two", siteIds, false);
                 }
@@ -292,7 +294,7 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                EventLog(ex.ToString(), EventArgs.Empty);
+                EventMessage(ex.ToString(), EventArgs.Empty);
             }
         }
 
@@ -326,6 +328,12 @@ namespace Microting
         }
 
         public void EventLog(object sender, EventArgs args)
+        {
+            //DOSOMETHING: changed to fit your wishes and needs 
+            File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
+        }
+
+        public void EventMessage(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Console.WriteLine(sender.ToString());
