@@ -68,6 +68,7 @@ namespace Microting
         bool coreRunning = false;
         bool coreRestarting = false;
         bool coreStatChanging = false;
+        List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
 
         string comToken;
         string comAddress;
@@ -83,6 +84,33 @@ namespace Microting
         #region con
         public Core(string comToken, string comAddress, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, int userId, string fileLocation, bool logEvents)
         {
+            if (string.IsNullOrEmpty(comToken))
+                throw new ArgumentException("comToken is not allowed to be null or empty");
+
+            if (string.IsNullOrEmpty(comAddress))
+                throw new ArgumentException("comAddress is not allowed to be null or empty");
+
+            if (string.IsNullOrEmpty(subscriberToken))
+                throw new ArgumentException("subscriberToken is not allowed to be null or empty");
+
+            if (string.IsNullOrEmpty(subscriberAddress))
+                throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
+
+            if (string.IsNullOrEmpty(subscriberName))
+                throw new ArgumentException("subscriberName is not allowed to be null or empty");
+            if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
+                throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
+
+
+            if (string.IsNullOrEmpty(serverConnectionString))
+                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+
+            if (userId < 1)
+                throw new ArgumentException("userId is not allowed to be lower than 1");
+
+            if (string.IsNullOrEmpty(fileLocation))
+                throw new ArgumentException("fileLocation is not allowed to be null or empty");
+
             this.comToken = comToken;
             this.comAddress = comAddress;
             this.subscriberToken = subscriberToken;
@@ -96,7 +124,7 @@ namespace Microting
         #endregion
 
         #region public
-        public void             Start()
+        public void         Start()
         {
             try
             {
@@ -144,7 +172,7 @@ namespace Microting
             }
         }
 
-        public void             Close()
+        public void         Close()
         {
             try
             {
@@ -159,7 +187,7 @@ namespace Microting
 
                         try
                         {
-                            TriggerLog("Subscriber requested to close connection");
+                            TriggerMessage("Subscriber requested to close connection");
                             subscriber.Close(true);
                         }
                         catch { }
@@ -190,6 +218,11 @@ namespace Microting
                 coreStatChanging = false;
                 throw new Exception("FATAL Exception. Core failed to close", ex);
             }
+        }
+
+        public bool         Running()
+        {
+            return coreRunning;
         }
 
         public MainElement      TemplatFromXml(string xmlString)
@@ -336,11 +369,6 @@ namespace Microting
             }
         }
 
-        /// <summary>
-        /// Tries to retrieve the full case in the DB.
-        /// </summary>
-        /// <param name="microtingUId">Microting ID of the eForm case</param>
-        /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public ReplyElement     CaseRead(string microtingUId, string checkUId)
         {
             try
@@ -559,11 +587,6 @@ namespace Microting
                 throw new Exception("CaseLookupAllSites failed", ex);
             }
         }
-
-        public bool             CoreRunning()
-        {
-            return coreRunning;
-        }
         #endregion
 
         #region private
@@ -730,7 +753,14 @@ namespace Microting
                         #region download file
                         using (var client = new WebClient())
                         {
-                            client.DownloadFile(urlStr, fileLocation + fileName);
+                            try
+                            {
+                                client.DownloadFile(urlStr, fileLocation + fileName);
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("Downloading and creating fil locally failed.", ex);
+                            }
                         }
                         #endregion
 
@@ -974,16 +1004,23 @@ namespace Microting
                 if (exceptionDescription == null)
                     exceptionDescription = "";
 
-                TriggerMessage("");
-                TriggerMessage("######## " + exceptionDescription);
-                TriggerMessage("######## EXCEPTION FOUND; BEGIN ########");
-                PrintException(ex, 1);
-                TriggerMessage("######## EXCEPTION FOUND; ENDED ########");
-                TriggerMessage("");
+                exceptionDescription =
+                "" + Environment.NewLine +
+                "######## " + exceptionDescription + Environment.NewLine +
+                "######## EXCEPTION FOUND; BEGIN ########" + Environment.NewLine +
+                PrintException(ex, 1) + Environment.NewLine +
+                "######## EXCEPTION FOUND; ENDED ########" + Environment.NewLine +
+                "";
+
+                TriggerMessage (exceptionDescription);
+                ExceptionClass exCls = new ExceptionClass(exceptionDescription, DateTime.Now);
+                exceptionLst.Add(exCls);
+
+                int secondsDelay = CheckExceptionLst(exCls);
 
                 if (restartCore)
                 {
-                    Thread coreRestartThread = new Thread(() => RestartCore());
+                    Thread coreRestartThread = new Thread(() => Restart(secondsDelay));
                     coreRestartThread.Start();
                 }
             }
@@ -994,21 +1031,71 @@ namespace Microting
             }
         }
 
-        private void        PrintException(Exception ex, int level)
+        private string      PrintException(Exception ex, int level)
         {
             if (ex == null)
-                return;
+                return "";
 
-            TriggerMessage("######## -Expection at level " + level + "- ########");
-
-            TriggerMessage("Message    :" + ex.Message);
-            TriggerMessage("Source     :" + ex.Source);
-            TriggerMessage("StackTrace :" + ex.StackTrace);
-
-            PrintException(ex.InnerException, level + 1);
+            return 
+            "######## -Expection at level " + level + "- ########" + Environment.NewLine +
+            "Message    :" + ex.Message + Environment.NewLine +
+            "Source     :" + ex.Source + Environment.NewLine +
+            "StackTrace :" + ex.StackTrace + Environment.NewLine + 
+            PrintException(ex.InnerException, level + 1).TrimEnd();
         }
 
-        private void        RestartCore()
+        private int         CheckExceptionLst(ExceptionClass exceptionClass)
+        {
+            int secondsDelay = 2;
+
+            int count = 0;
+            #region find count
+            try
+            {
+                //remove Exceptions older than an hour
+                for (int i = exceptionLst.Count; i < 0; i--)
+                {
+                    if (exceptionLst[i].Time < DateTime.Now.AddHours(-1))
+                        exceptionLst.RemoveAt(i);
+                }
+
+                //keep only the last 10 Exceptions
+                if (exceptionLst.Count > 10)
+                {
+                    exceptionLst.RemoveAt(0);
+                }
+
+                //find highest court of the same Exception
+                if (exceptionLst.Count > 1)
+                {
+                    foreach (ExceptionClass exCls in exceptionLst)
+                    {
+                        if (exceptionClass.Description == exCls.Description)
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+            catch { }
+            #endregion
+
+            if (count == 2)
+                secondsDelay =  30;
+
+            if (count == 3)
+                secondsDelay = 100;
+
+            if (count == 4)
+                secondsDelay = 300;
+
+            if (count > 4)
+                throw new Exception("FATAL Exception. Same Exception repeated to many times within one hour");
+
+            return secondsDelay;
+        }
+
+        private void        Restart(int secondsDelay)
         {
             try
             {
@@ -1016,10 +1103,11 @@ namespace Microting
                 {
                     coreRestarting = true;
 
+                    TriggerMessage("Core.Restart() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     Close();
                     TriggerMessage("");
-                    TriggerMessage("Trying to restart the Core in 2 seconds");
-                    Thread.Sleep(2000);
+                    TriggerMessage("Trying to restart the Core in " + secondsDelay + " seconds");
+                    Thread.Sleep(secondsDelay * 1000);
                     Start();
 
                     coreRestarting = false;
@@ -1033,5 +1121,22 @@ namespace Microting
         }
         #endregion
         #endregion
+    }
+
+    internal class ExceptionClass
+    {
+        private ExceptionClass()
+        {
+
+        }
+
+        internal ExceptionClass(string description, DateTime time)
+        {
+            Description = description;
+            Time = time;
+        }
+
+        public string Description { get; set; }
+        public DateTime Time { get; set; }
     }
 }

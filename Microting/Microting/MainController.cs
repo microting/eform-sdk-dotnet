@@ -35,7 +35,7 @@ namespace Microting
     {
         #region var
         object _logFilLock = new object();
-        public Core core;
+        public ICore core;
         #endregion
 
         #region con
@@ -58,7 +58,7 @@ namespace Microting
             string fileLocation = lines[10];
             #endregion
 
-            core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, false);
+            core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, true);
 
             #region connect event triggers
             core.HandleCaseCreated      += EventCaseCreated;
@@ -332,8 +332,15 @@ namespace Microting
         {
             lock (_logFilLock)
             {
-                //DOSOMETHING: changed to fit your wishes and needs 
-                File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
+                try
+                {
+                    //DOSOMETHING: changed to fit your wishes and needs 
+                    File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
             }
         }
 

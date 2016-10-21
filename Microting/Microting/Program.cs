@@ -52,7 +52,7 @@ namespace Microting
 
                 if (input.ToLower() == "a")
                 {
-                    Console.WriteLine(mainController.core.CoreRunning().ToString());
+                    Console.WriteLine(mainController.core.Running().ToString());
                 }
 
                 if (input.ToLower() == "t")
