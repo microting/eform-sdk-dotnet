@@ -373,6 +373,7 @@ namespace eFormSqlController
                     answer.Date = reply.date;
                     answer.fieldType = Find((int)question.field_type_id);
                     answer.DateOfDoing = Date(reply.date_of_doing);
+                    answer.Description = new eFormRequest.CDataValue();
                     answer.Description.InderValue = question.description;
                     answer.DisplayOrder = Int(question.display_index);
                     answer.Heading = reply.heading;
@@ -1715,6 +1716,65 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region var
+        /// <summary>
+        /// Unique identifier of device
+        /// </summary>
+        public int SiteId { get; }
+
+        /// <summary>
+        /// Identifier of a collection of cases in your system
+        /// </summary>
+        public string CaseType { get; }
+
+        /// <summary>
+        /// Unique identifier of a group of case(s) in your system
+        /// </summary>
+        public string CaseUId { get; }
+
+        /// <summary>
+        ///Unique identifier of that specific eForm in Microting system
+        /// </summary>
+        public string MicrotingUId { get; }
+
+        /// <summary>
+        /// Unique identifier of that check of the eForm. Only used if repeat
+        /// </summary>
+        public string CheckUId { get; }
+        #endregion
+
+        public override string ToString()
+        {
+            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId;
+        }
+    }
+
+    public class File_Dto
+    {
+        #region con
+        public File_Dto(int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string fileLocation)
+        {
+            if (caseType == null)
+                caseType = "";
+            if (caseUId == null)
+                caseUId = "";
+            if (microtingUId == null)
+                microtingUId = "";
+            if (checkUId == null)
+                checkUId = "";
+            if (fileLocation == null)
+                fileLocation = "";
+
+            SiteId = siteId;
+            CaseType = caseType;
+            CaseUId = caseUId;
+            MicrotingUId = microtingUId;
+            CheckUId = checkUId;
+            FileLocation = fileLocation;
+        }
+        #endregion
+
+        #region var
         /// <summary>
         /// Unique identifier of device
         /// </summary>
@@ -1740,27 +1800,16 @@ namespace eFormSqlController
         /// </summary>
         public string CheckUId { get; }
 
-        public override string ToString()
-        {
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId;
-        }
-    }
-
-    public class File_Dto : Case_Dto
-    {
-        #region con
-        public File_Dto(Case_Dto case_Dto, string fileLocation)
-        {
-            //CaseType = case_Dto.CaseType;
-            //CaseUId = case_Dto.CaseUId;
-            //MicrotingUId = case_Dto.MicrotingUId;
-            //SiteId = case_Dto.SiteId;
-
-            FileLocation = fileLocation;
-        }
+        /// <summary>
+        /// Location of the fil
+        /// </summary>
+        public string FileLocation { get; set; }
         #endregion
 
-        public string FileLocation { get; set; }
+        public override string ToString()
+        {
+            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
+        }
     }
 
     internal class Holder

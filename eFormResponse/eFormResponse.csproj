@@ -44,6 +44,7 @@
     <Compile Include="..\Microting\Microting\Tools.cs">
       <Link>Tools.cs</Link>
     </Compile>
+    <Compile Include="CDataValue.cs" />
     <Compile Include="Check.cs" />
     <Compile Include="DataItem.cs" />
     <Compile Include="ElementList.cs" />

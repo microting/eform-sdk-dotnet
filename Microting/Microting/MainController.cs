@@ -278,6 +278,7 @@ namespace Microting
                     DataElement dataE = (DataElement)mainElement.ElementList[0];
                     Number number = (Number)dataE.DataItemList[0];
 
+                    number.Description = new CDataValue();
                     number.Description.InderValue = "start " + answer.Value + " something more";
 
                     core.CaseCreate(mainElement, "Step two", siteIds, false);

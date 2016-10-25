@@ -271,7 +271,7 @@ namespace Microting
                 mainElement.PushMessageBody = "";
                 if (mainElement.Repeated < 1)
                 {
-                    TriggerLog("mainElement.Repeated = 1 // enforced");
+                    TriggerMessage("mainElement.Repeated = 1 // enforced");
                     mainElement.Repeated = 1;
                 }
 
@@ -287,6 +287,25 @@ namespace Microting
 
         public int              TemplatCreate(MainElement mainElement)
         {
+            try
+            {
+                if (mainElement == null)
+                    throw new ArgumentNullException("mainElement not allowed to be null");
+
+                DateTime start = DateTime.Parse(mainElement.StartDate.Substring(0,10));
+                DateTime end = DateTime.Parse(mainElement.EndDate.Substring(0, 10));
+
+                if (end < DateTime.Now)
+                    throw new ArgumentException("mainElement.EndDate needs to be a future date");
+
+                if (end <= start)
+                    throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplatCreate input failed", ex, false);
+            }
+
             try
             {
                 if (coreRunning)
@@ -332,6 +351,9 @@ namespace Microting
                 {
                     string siteIdsStr = string.Join(",", siteIds);
                     TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " reversed:" + reversed.ToString() + ", requested to be created");
+
+                    if (reversed == true && siteIds.Count > 1)
+                        throw new ArgumentNullException("It's NOT possible to create both linked AND reversed cases");
 
                     Thread subscriberThread = new Thread(() => CaseCreateMethodThreaded(mainElement, siteIds, caseUId, DateTime.MinValue, "", "", reversed));
                     subscriberThread.Start();
@@ -780,8 +802,9 @@ namespace Microting
                         if (chechSum != fileName.Substring(0, 32))
                             HandleEventWarning("Download of '" + urlStr + "' failed. Check sum did not match", EventArgs.Empty);
                         #endregion
-                        
-                        File_Dto fDto = new File_Dto(sqlController.FileCaseFindMUId(urlStr), fileLocation + fileName);
+
+                        Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
+                        File_Dto fDto = new File_Dto(dto.SiteId,dto.CaseType,dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocation + fileName);
                         HandleFileDownloaded(fDto, EventArgs.Empty);
                         TriggerMessage("Downloaded file '" + urlStr + "'.");
 
@@ -1046,7 +1069,7 @@ namespace Microting
 
         private int         CheckExceptionLst(ExceptionClass exceptionClass)
         {
-            int secondsDelay = 2;
+            int secondsDelay = 1;
 
             int count = 0;
             #region find count
@@ -1080,14 +1103,15 @@ namespace Microting
             catch { }
             #endregion
 
+            TriggerMessage(count + ". time the same Exception, within the last hour");
             if (count == 2)
-                secondsDelay =  30;
+                secondsDelay = 6;
 
             if (count == 3)
-                secondsDelay = 100;
+                secondsDelay = 60;
 
             if (count == 4)
-                secondsDelay = 300;
+                secondsDelay = 600;
 
             if (count > 4)
                 throw new Exception("FATAL Exception. Same Exception repeated to many times within one hour");
@@ -1125,12 +1149,12 @@ namespace Microting
 
     internal class ExceptionClass
     {
-        private ExceptionClass()
+        private     ExceptionClass()
         {
 
         }
 
-        internal ExceptionClass(string description, DateTime time)
+        internal    ExceptionClass(string description, DateTime time)
         {
             Description = description;
             Time = time;

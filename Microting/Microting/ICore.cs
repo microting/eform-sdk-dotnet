@@ -62,21 +62,21 @@ namespace Microting
         /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system
         /// </summary>
         /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
-        /// <param name="caseUId">NEEDS TO BE UNIQUE. The unique identifier that you can assign yourself to the case(s)</param>
-        /// <param name="siteIds">xxx</param>
-        /// <param name="reversed">xxx</param>
+        /// <param name="caseUId">NEEDS TO BE UNIQUE. The unique identifier that you can assign yourself to the set of case(s)</param>
+        /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
+        /// <param name="reversed">Default is false. If true, cases will not be created until a check has been completed</param>
         void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed);
- 
+
         /// <summary>
-        /// xxx
+        /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system, with extended parameters
         /// </summary>
-        /// <param name="mainElement">xxx</param>
-        /// <param name="caseUId">xxx</param>
-        /// <param name="siteIds">xxx</param>
-        /// <param name="reversed">xxx</param>
-        /// <param name="navisionTime">xxx</param>
-        /// <param name="numberPlate">xxx</param>
-        /// <param name="roadNumber">xxx</param>
+        /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
+        /// <param name="caseUId">NEEDS TO BE UNIQUE. The unique identifier that you can assign yourself to the set of case(s)</param>
+        /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
+        /// <param name="reversed">Default is false. If true, cases will not be created until a check has been completed</param>
+        /// <param name="navisionTime">extended parameter</param>
+        /// <param name="numberPlate">extended parameter</param>
+        /// <param name="roadNumber">extended parameter</param>
         void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed, DateTime navisionTime, string numberPlate, string roadNumber);
 
         //---------------------------------------------------------------------------------------
@@ -91,35 +91,35 @@ namespace Microting
         /// <summary>
         /// Tries to retrieve the answered full case in the DB, from the set
         /// </summary>
-        /// <param name="caseUId">Case's unique ID of the eForm case</param>
+        /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         ReplyElement CaseReadAllSites(string caseUId);
 
         //---------------------------------------------------------------------------------------
 
         /// <summary>
-        /// xxx
+        /// Looks up a case's markers
         /// </summary>
-        /// <param name="microtingUId">xxx</param>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
         Case_Dto CaseLookup(string microtingUId);
 
         /// <summary>
-        /// xxx
+        /// Looks up a case's markers, from the set
         /// </summary>
-        /// <param name="caseUId">xxx</param>
+        /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         List<Case_Dto> CaseLookupAllSites(string caseUId);
 
         //---------------------------------------------------------------------------------------
 
         /// <summary>
-        /// xxx
+        /// Marks a case as deleted, and will remove it from the device, if needed
         /// </summary>
-        /// <param name="microtingUId">xxx</param>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
         bool CaseDelete(string microtingUId);
 
         /// <summary>
-        /// xxx
+        /// Marks a set of case(s) as deleted, and will remove it/them from the device(s), if needed
         /// </summary>
-        /// <param name="caseUId">xxx</param>
+        /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         int CaseDeleteAllSites(string caseUId);
     }
 }
