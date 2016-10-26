@@ -29,6 +29,8 @@ namespace eFormCommunicator
     public class Communicator
     {
         #region var
+        public event EventHandler EventLog;
+
         private Http http;
         #endregion
 
@@ -78,6 +80,9 @@ namespace eFormCommunicator
 
             if (xmlString.Contains("type=\"Entity_Select\">"))
                 throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
+
+            TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
+            TriggerEventLog(xmlString);
 
             return http.Post(xmlString, siteId.ToString());
         }
@@ -177,6 +182,9 @@ namespace eFormCommunicator
                 }
             }
 
+            TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
+            TriggerEventLog(xmlString);
+
             return http.Post(xmlString, siteId.ToString());
         }
 
@@ -187,6 +195,8 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string CheckStatus       (string eFormId, int siteId)
         {
+            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+
             return http.Status(eFormId, siteId.ToString());
         }
 
@@ -197,6 +207,8 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string Retrieve          (string eFormId, int siteId)
         {
+            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+
             return http.Retrieve(eFormId, "0", siteId); //Always gets the first
         }
 
@@ -208,6 +220,8 @@ namespace eFormCommunicator
         /// <param name="eFormCheckId">Identifier of the check to begin from.</param>
         public string RetrieveFromId    (string eFormId, int siteId, string eFormCheckId)
         {
+            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString() + ", eFormCheckId:" + eFormCheckId);
+
             return http.Retrieve(eFormId, eFormCheckId, siteId);
         }
 
@@ -218,7 +232,20 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string Delete            (string eFormId, int siteId)
         {
+            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+
             return http.Delete(eFormId, siteId.ToString());
+        }
+        #endregion
+
+        #region internal
+        internal void TriggerEventLog(string message)
+        {
+            System.EventHandler handler = EventLog;
+            if (handler != null)
+            {
+                handler(message, EventArgs.Empty);
+            }
         }
         #endregion
 

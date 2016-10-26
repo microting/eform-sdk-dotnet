@@ -55,6 +55,22 @@ namespace Microting
                     Console.WriteLine(mainController.core.Running().ToString());
                 }
 
+                if (input.ToLower() == "o")
+                {
+                    string xmlStr = File.ReadAllText("xml.txt");
+
+                    var main = mainController.TemplatFromXml(xmlStr);
+
+                    main.Repeated = 1;
+                    main.CaseType = "Step three - failed";
+                    main.SetStartDate(DateTime.Now);
+                    main.SetEndDate(DateTime.Now.AddDays(1));
+                    main.CheckListFolderName = "Z";
+
+                    Console.WriteLine(mainController.TemplatCreate(main).ToString());
+                    //  mainController.CaseCreate(id, DateTime.Now.ToLongTimeString());
+                }
+
                 if (input.ToLower() == "t")
                 {
                     List<int> lst = new List<int>();
@@ -63,11 +79,14 @@ namespace Microting
                     string xmlStr = File.ReadAllText("xml.txt");
                     var main = mainController.TemplatFromXml(xmlStr);
 
-                    main.Repeated = 1;
-                    main.CaseType = "Test";
+                    main.Repeated = 0;
+                    main.CaseType = "Step one";
+                    main.SetStartDate(DateTime.Now);
+                    main.SetEndDate(DateTime.Now.AddYears(1000));
+                    main.CheckListFolderName = "X";
 
-                    int id = mainController.TemplatCreate(main);
-                    mainController.CaseCreate(id, DateTime.Now.ToLongTimeString());
+                    mainController.TemplatCreateInfinityCase(main, lst, 4);
+                    //  mainController.CaseCreate(id, DateTime.Now.ToLongTimeString());
                 }
             }
             Console.WriteLine("Trying to shutting down");

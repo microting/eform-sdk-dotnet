@@ -35,7 +35,10 @@ namespace Microting
     {
         #region var
         object _logFilLock = new object();
+        object _lockLogic = new object();
+
         public ICore core;
+        SqlControllerExtended sqlConExt;
         #endregion
 
         #region con
@@ -59,6 +62,7 @@ namespace Microting
             #endregion
 
             core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, true);
+            sqlConExt = new SqlControllerExtended(serverConnectionString, userId);
 
             #region connect event triggers
             core.HandleCaseCreated      += EventCaseCreated;
@@ -115,6 +119,7 @@ namespace Microting
             try
             {
                 int templatId = TemplatCreate(mainElement);
+                mainElement = core.TemplatRead(templatId);
 
                 foreach (int siteId in siteIds)
                 {
@@ -227,7 +232,7 @@ namespace Microting
         #endregion
 
         #region events
-        public void EventCaseCreated(object sender, EventArgs args)
+        public void     EventCaseCreated(object sender, EventArgs args)
         {
             ////DOSOMETHING: changed to fit your wishes and needs 
             //Case_Dto temp = (Case_Dto)sender;
@@ -238,7 +243,7 @@ namespace Microting
             //string checkUId = temp.CheckUId;
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public void     EventCaseRetrived(object sender, EventArgs args)
         {
             ////DOSOMETHING: changed to fit your wishes and needs 
             //Case_Dto temp = (Case_Dto)sender;
@@ -249,58 +254,178 @@ namespace Microting
             //string checkUId = temp.CheckUId;
         }
 
-        public void EventCaseUpdated(object sender, EventArgs args)
+        public void     EventCaseUpdated(object sender, EventArgs args)
         {
-            try
+            lock (_lockLogic)
             {
-                Case_Dto temp = (Case_Dto)sender;
-                int siteId = temp.SiteId;
-                string caseType = temp.CaseType;
-                string caseUid = temp.CaseUId;
-                string mUId = temp.MicrotingUId;
-                string checkUId = temp.CheckUId;
-
-
-                //-----
-
-                List<int> siteIds = new List<int>();
-                siteIds.Add(1312);
-
-                MainElement mainElement = core.TemplatRead(149);
-
-
-                if (caseType == "Step one")
+                try
                 {
-                    ReplyElement reply = core.CaseRead(mUId, checkUId);
-                    DataElement replyDataE = (DataElement)reply.ElementList[0];
-                    Answer answer = (Answer)replyDataE.DataItemList[0];
+                    Case_Dto trigger = (Case_Dto)sender;
+                    int siteId = trigger.SiteId;
+                    string caseType = trigger.CaseType;
+                    string caseUid = trigger.CaseUId;
+                    string mUId = trigger.MicrotingUId;
+                    string checkUId = trigger.CheckUId;
 
-                    DataElement dataE = (DataElement)mainElement.ElementList[0];
-                    Number number = (Number)dataE.DataItemList[0];
 
-                    number.Description = new CDataValue();
-                    number.Description.InderValue = "start " + answer.Value + " something more";
+                    //--------------------
+                    #region create siteIds lists
+                    Random rdn = new Random();
+                    List<int> tempSiteIds;
 
-                    core.CaseCreate(mainElement, "Step two", siteIds, false);
+                    //Shipping agents
+                    //Adjust - start
+                    List<int> siteIdsSA = new List<int>();
+                    siteIdsSA.Add(1310);
+                    siteIdsSA.Add(1312);
+                    siteIdsSA.Add(1313);
+            
+                    //Dockyard worker
+                    List<int> siteIdsDW = new List<int>();
+                    siteIdsDW.Add(1311);
+                    //Adjust - end
+                    #endregion
+
+                    #region create offering
+                    if (caseType == "Step one")
+                    {
+                        ReplyElement reply = core.CaseRead(mUId, checkUId);
+
+                        //Adjust - start
+                        DataElement replyDataE = (DataElement)reply.ElementList[0];
+                        Answer answer = (Answer)replyDataE.DataItemList[0];
+
+                        MainElement mainElement = core.TemplatRead(213);
+                        DataElement dataE = (DataElement)mainElement.ElementList[0];
+                        Number number = (Number)dataE.DataItemList[0];
+
+                        number.Description = new CDataValue();
+                        number.Description.InderValue = "start " + answer.Value + " something more";
+
+                        dataE.Label = "Step two2";
+                        //Adjust - end
+
+                        core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsSA, false);
+                    }
+                    #endregion
+
+                    #region create replies (winner/others)
+                    if (caseType == "Step two")
+                    {
+                        #region is the first?
+                        bool isFirst = false;
+                        try
+                        {
+                            if (sqlConExt.CaseCountResponses(caseUid) == 1)
+                                isFirst = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("isFirst failed", ex);
+                        }
+                        #endregion
+
+                        if (isFirst)
+                        {
+                            foreach (int item in siteIdsSA)
+                            {
+                                if (item == siteId)
+                                {
+                                    #region send win eForm
+                                    ReplyElement reply = core.CaseRead(mUId, checkUId);
+
+
+                                    //Adjust - start
+                                    DataElement replyDataE = (DataElement)reply.ElementList[0];
+                                    Answer answer = (Answer)replyDataE.DataItemList[0];
+
+                                    MainElement mainElement = core.TemplatRead(215); // <---
+                                    DataElement dataE = (DataElement)mainElement.ElementList[0];
+                                    Number number = (Number)dataE.DataItemList[0];
+
+                                    number.Description = new CDataValue();
+                                    number.Description.InderValue = "Won " + answer.Value + " won";
+
+                                    dataE.Label = "Step three - winner";
+                                    //Adjust - end
+
+
+                                    tempSiteIds = new List<int>();
+                                    tempSiteIds.Add(siteId);
+                                    core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                                    #endregion
+                                }
+                                else
+                                {
+                                    #region send loss eForm
+                                    ReplyElement reply = core.CaseRead(mUId, checkUId);
+
+
+                                    //Adjust - start
+                                    DataElement replyDataE = (DataElement)reply.ElementList[0];
+                                    Answer answer = (Answer)replyDataE.DataItemList[0];
+
+                                    MainElement mainElement = core.TemplatRead(217); // <---
+                                    DataElement dataE = (DataElement)mainElement.ElementList[0];
+                                    Number number = (Number)dataE.DataItemList[0];
+
+                                    number.Description = new CDataValue();
+                                    number.Description.InderValue = "Lost " + answer.Value + " lost";
+
+
+                                    dataE.Label = "Step three - lost";
+                                    //Adjust - end
+
+
+                                    tempSiteIds = new List<int>();
+                                    tempSiteIds.Add(item);
+                                    core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                                    #endregion
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region final step
+                    if (caseType == "Step three")
+                    {
+                        //Adjust - start
+                        if (true) //if response from winner
+                        {
+                            ReplyElement reply = core.CaseRead(mUId, checkUId);
+
+                            DataElement replyDataE = (DataElement)reply.ElementList[0];
+                            Answer answer = (Answer)replyDataE.DataItemList[0];
+
+                            MainElement mainElement = core.TemplatRead(215); // <---
+                            DataElement dataE = (DataElement)mainElement.ElementList[0];
+                            Number number = (Number)dataE.DataItemList[0];
+
+                            number.Description = new CDataValue();
+                            number.Description.InderValue = "Won " + answer.Value + " won";
+
+                            dataE.Label = "Step four";
+
+                            foreach (int item in siteIdsDW)
+                            {
+                                tempSiteIds = new List<int>();
+                                tempSiteIds.Add(item); // <--- 
+                                core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                            }
+                            //Adjust - end
+                        }
+                    }
+                    #endregion
                 }
-
-                if (caseType == "Step two")
+                catch (Exception ex)
                 {
-
+                    EventMessage(ex.ToString(), EventArgs.Empty);
                 }
-
-                if (caseType == "Step three")
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
             }
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public void     EventCaseDeleted(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             //Case_Dto temp = (Case_Dto)sender;
@@ -311,7 +436,7 @@ namespace Microting
             //string checkUId = temp.CheckUId;
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public void     EventFileDownloaded(object sender, EventArgs args)
         {
             ////DOSOMETHING: changed to fit your wishes and needs 
             //File_Dto temp = (File_Dto)sender;
@@ -323,13 +448,13 @@ namespace Microting
             //string fileLocation = temp.FileLocation;
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public void     EventSiteActivated(object sender, EventArgs args)
         {
             ////DOSOMETHING: changed to fit your wishes and needs 
             //int siteId = int.Parse(sender.ToString());
         }
 
-        public void EventLog(object sender, EventArgs args)
+        public void     EventLog(object sender, EventArgs args)
         {
             lock (_logFilLock)
             {
@@ -345,19 +470,19 @@ namespace Microting
             }
         }
 
-        public void EventMessage(object sender, EventArgs args)
+        public void     EventMessage(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Console.WriteLine(sender.ToString());
         }
 
-        public void EventWarning(object sender, EventArgs args)
+        public void     EventWarning(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Console.WriteLine("## WARNING ## " + sender.ToString() + " ## WARNING ##");
         }
 
-        public void EventException(object sender, EventArgs args)
+        public void     EventException(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Exception ex = (Exception)sender;

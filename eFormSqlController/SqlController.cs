@@ -365,7 +365,7 @@ namespace eFormSqlController
                 {
                     field_values reply = db.field_values.Where(x => x.id == id).ToList().First();
                     fields question = db.fields.Where(x => x.id == reply.field_id).ToList().First();
-
+                    
                     Answer answer = new Answer();
                     answer.Accuracy = reply.accuracy;
                     answer.Altitude = reply.altitude;

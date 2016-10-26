@@ -63,6 +63,7 @@ namespace Microting
         object _lockMain = new object();
         object _lockEventClient = new object();
         object _lockEventServer = new object();
+        object _lockEventMessage = new object();
         bool updateIsRunningFiles = true;
         bool updateIsRunningNotifications = true;
         bool coreRunning = false;
@@ -101,7 +102,6 @@ namespace Microting
             if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
                 throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
 
-
             if (string.IsNullOrEmpty(serverConnectionString))
                 throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
@@ -123,7 +123,7 @@ namespace Microting
         }
         #endregion
 
-        #region public
+        #region public state
         public void         Start()
         {
             try
@@ -149,6 +149,7 @@ namespace Microting
 
                     //communicators
                     communicator = new Communicator(comToken, comAddress);
+                    communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
 
 
@@ -192,12 +193,20 @@ namespace Microting
                         }
                         catch { }
 
+                        #region remove triggers
+                        try
+                        {
+                            communicator.EventLog += CoreHandleEventLog;
+                        }
+                        catch { }
+
                         try
                         {
                             subscriber.EventMsgClient -= CoreHandleEventClient;
                             subscriber.EventMsgServer -= CoreHandleEventServer;
                         }
                         catch { }
+                        #endregion
 
                         subscriber = null;
 
@@ -224,7 +233,9 @@ namespace Microting
         {
             return coreRunning;
         }
+        #endregion
 
+        #region public actions
         public MainElement      TemplatFromXml(string xmlString)
         {
             try
@@ -378,8 +389,8 @@ namespace Microting
                     TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " reversed:" + reversed.ToString() + " navisionTime:" + navisionTime.ToString() + " numberPlate:" + numberPlate +
                         " roadNumber:" + roadNumber + ", requested to be created");
 
-                    Thread subscriberThread = new Thread(() => CaseCreateMethodThreaded(mainElement, siteIds, caseUId, navisionTime, numberPlate, roadNumber, reversed));
-                    subscriberThread.Start();
+                    Thread caseThread = new Thread(() => CaseCreateMethodThreaded(mainElement, siteIds, caseUId, navisionTime, numberPlate, roadNumber, reversed));
+                    caseThread.Start();
                 }
                 else
                     throw new Exception("Core is not running");
@@ -397,7 +408,10 @@ namespace Microting
             {
                 if (coreRunning)
                 {
-                    TriggerLog("microtingUId:" + microtingUId + " checkUId:" + checkUId.ToString() + ", requested to be read");
+                    if (checkUId == null)
+                        checkUId = "";
+
+                    TriggerLog("microtingUId:" + microtingUId + " checkUId:" + checkUId + ", requested to be read");
 
                     if (checkUId == "" || checkUId == "0")
                         checkUId = null;
@@ -724,6 +738,7 @@ namespace Microting
 
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + reply);
         }
+        #endregion
 
         #region inward Event handlers
         private void    CoreHandleUpdateDatabases()
@@ -999,6 +1014,21 @@ namespace Microting
                 TriggerHandleExpection("CoreHandleEventServer failed", ex, true);
             }
         }
+
+        private void    CoreHandleEventLog(object sender, EventArgs args)
+        {
+            try
+            {
+                lock (_lockEventMessage)
+                {
+                    TriggerLog("Log    # " + sender.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CoreHandleEventMessage failed", ex, true);
+            }
+        }
         #endregion
 
         #region outward Event triggers
@@ -1144,7 +1174,7 @@ namespace Microting
             }
         }
         #endregion
-        #endregion
+
     }
 
     internal class ExceptionClass
