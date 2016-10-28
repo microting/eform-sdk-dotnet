@@ -31,18 +31,26 @@ using System.IO;
 
 namespace Microting
 {
-    class MainController
+    class MainControllerSample3
     {
         #region var
         object _logFilLock = new object();
         object _lockLogic = new object();
 
-        public ICore core;
+        List<int> siteIdsDW = new List<int>();
+        List<int> siteIdsSA = new List<int>();
+
+        int step2tId = -1;
+        int step3WtId = -1;
+        int step3LtId = -1;
+        int step4tId = -1;
+
+        ICore core;
         SqlControllerExtended sqlConExt;
         #endregion
 
         #region con
-        public MainController()
+        public MainControllerSample3()
         {
             //DOSOMETHING: Change to your needs
             #region read settings
@@ -81,6 +89,31 @@ namespace Microting
         #endregion
 
         #region public
+        public void             SetSetting()
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines("sample3settings.txt");
+
+                siteIdsDW = new List<int>();
+                siteIdsDW.Add(int.Parse(lines[0]));
+
+                siteIdsSA = new List<int>();
+                siteIdsSA.Add(int.Parse(lines[2]));
+                siteIdsSA.Add(int.Parse(lines[3]));
+                siteIdsSA.Add(int.Parse(lines[4]));
+
+                step2tId = int.Parse(lines[6]);
+                step3WtId = int.Parse(lines[7]);
+                step3LtId = int.Parse(lines[8]);
+                step4tId = int.Parse(lines[9]);
+            }
+            catch
+            {
+
+            }
+        }
+
         public MainElement  TemplatFromXml(string xmlString)
         {
             try
@@ -141,7 +174,7 @@ namespace Microting
             }
         }
 
-        public void         CaseCreate(int templatId, string caseUId)
+        public void         CaseCreate(int templatId, string caseUId, List<int> siteIds)
         {
             try
             {
@@ -150,9 +183,6 @@ namespace Microting
                 mainElement.PushMessageBody = "";
                 mainElement.SetStartDate(DateTime.Now);
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
-
-                List<int> siteIds = new List<int>();
-                siteIds.Add(1311);
 
                 core.CaseCreate(mainElement, caseUId, siteIds, false);
             }
@@ -269,41 +299,26 @@ namespace Microting
 
 
                     //--------------------
-                    #region create siteIds lists
                     Random rdn = new Random();
                     List<int> tempSiteIds;
-
-                    //Shipping agents
-                    //Adjust - start
-                    List<int> siteIdsSA = new List<int>();
-                    siteIdsSA.Add(1310);
-                    siteIdsSA.Add(1312);
-                    siteIdsSA.Add(1313);
-            
-                    //Dockyard worker
-                    List<int> siteIdsDW = new List<int>();
-                    siteIdsDW.Add(1311);
-                    //Adjust - end
-                    #endregion
-
+                    
                     #region create offering
                     if (caseType == "Step one")
                     {
                         ReplyElement reply = core.CaseRead(mUId, checkUId);
 
-                        //Adjust - start
                         DataElement replyDataE = (DataElement)reply.ElementList[0];
                         Answer answer = (Answer)replyDataE.DataItemList[0];
 
-                        MainElement mainElement = core.TemplatRead(213);
+                        MainElement mainElement = core.TemplatRead(step2tId);
                         DataElement dataE = (DataElement)mainElement.ElementList[0];
-                        Number number = (Number)dataE.DataItemList[0];
+                        None none = (None)dataE.DataItemList[0];
 
-                        number.Description = new CDataValue();
-                        number.Description.InderValue = "start " + answer.Value + " something more";
 
-                        dataE.Label = "Step two2";
-                        //Adjust - end
+                        none.Label = "Container with stat:" + answer.Value + " is ready for collection";
+                        none.Description = new CDataValue();
+                        none.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
+
 
                         core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsSA, false);
                     }
@@ -334,20 +349,19 @@ namespace Microting
                                     #region send win eForm
                                     ReplyElement reply = core.CaseRead(mUId, checkUId);
 
-
-                                    //Adjust - start
                                     DataElement replyDataE = (DataElement)reply.ElementList[0];
                                     Answer answer = (Answer)replyDataE.DataItemList[0];
 
-                                    MainElement mainElement = core.TemplatRead(215); // <---
+                                    MainElement mainElement = core.TemplatRead(step3WtId);
                                     DataElement dataE = (DataElement)mainElement.ElementList[0];
-                                    Number number = (Number)dataE.DataItemList[0];
+                                    Date date = (Date)dataE.DataItemList[0];
 
-                                    number.Description = new CDataValue();
-                                    number.Description.InderValue = "Won " + answer.Value + " won";
+                                    dataE.Description = new CDataValue();
+                                    dataE.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
-                                    dataE.Label = "Step three - winner";
-                                    //Adjust - end
+                                    date.MinValue = DateTime.Now;
+                                    date.MaxValue = DateTime.Now.AddDays(1);
+                                    date.DefaultValue = DateTime.Now.AddMinutes(1).ToString("u");
 
 
                                     tempSiteIds = new List<int>();
@@ -360,21 +374,15 @@ namespace Microting
                                     #region send loss eForm
                                     ReplyElement reply = core.CaseRead(mUId, checkUId);
 
-
-                                    //Adjust - start
                                     DataElement replyDataE = (DataElement)reply.ElementList[0];
                                     Answer answer = (Answer)replyDataE.DataItemList[0];
 
-                                    MainElement mainElement = core.TemplatRead(217); // <---
+                                    MainElement mainElement = core.TemplatRead(step3LtId);
                                     DataElement dataE = (DataElement)mainElement.ElementList[0];
-                                    Number number = (Number)dataE.DataItemList[0];
+                                    None none = (None)dataE.DataItemList[0];
 
-                                    number.Description = new CDataValue();
-                                    number.Description.InderValue = "Lost " + answer.Value + " lost";
-
-
-                                    dataE.Label = "Step three - lost";
-                                    //Adjust - end
+                                    none.Description = new CDataValue();
+                                    none.Description.InderValue = "Collection missed at:" + DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
 
                                     tempSiteIds = new List<int>();
@@ -390,30 +398,33 @@ namespace Microting
                     #region final step
                     if (caseType == "Step three")
                     {
-                        //Adjust - start
-                        if (true) //if response from winner
+                        ReplyElement reply = core.CaseRead(mUId, checkUId);
+
+                        DataElement replyDataE = (DataElement)reply.ElementList[0];
+                        Answer answer = (Answer)replyDataE.DataItemList[0];
+
+                        #region is the winner?
+                        bool isWinner = false;
+                        try
                         {
-                            ReplyElement reply = core.CaseRead(mUId, checkUId);
+                            if (replyDataE.Label == "Won - Container collection")
+                                isWinner = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("isWinner failed", ex);
+                        }
+                        #endregion
 
-                            DataElement replyDataE = (DataElement)reply.ElementList[0];
-                            Answer answer = (Answer)replyDataE.DataItemList[0];
-
-                            MainElement mainElement = core.TemplatRead(215); // <---
+                        if (isWinner)
+                        {
+                            MainElement mainElement = core.TemplatRead(step4tId);
                             DataElement dataE = (DataElement)mainElement.ElementList[0];
-                            Number number = (Number)dataE.DataItemList[0];
+                            None none = (None)dataE.DataItemList[0];
 
-                            number.Description = new CDataValue();
-                            number.Description.InderValue = "Won " + answer.Value + " won";
+                            none.Label = "Container collect at:" + answer.Value;
 
-                            dataE.Label = "Step four";
-
-                            foreach (int item in siteIdsDW)
-                            {
-                                tempSiteIds = new List<int>();
-                                tempSiteIds.Add(item); // <--- 
-                                core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
-                            }
-                            //Adjust - end
+                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsDW, false);
                         }
                     }
                     #endregion

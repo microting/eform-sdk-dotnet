@@ -1338,9 +1338,22 @@ namespace eFormSqlController
 
                     fieldV.created_at = DateTime.Now;
                     fieldV.updated_at = DateTime.Now;
-                    fieldV.value = t.Locate(xml, "<Value>", "</");
+                    #region fieldV.value = t.Locate(xml, "<Value>", "</");
+                    string temp = t.Locate(xml, "<Value>", "</");
+
+                    if (temp.Length > 8)
+                    {
+                        if (temp.StartsWith(@"<![CDATA["))
+                        {
+                            temp = temp.Substring(9);
+                            temp = temp.Substring(0, temp.Length - 3);
+                        }
+                    }
+
+                    fieldV.value = temp;
+                    #endregion
                     //geo
-                        fieldV.latitude = t.Locate(xml, "<Latitude>", "</");
+                    fieldV.latitude = t.Locate(xml, " < Latitude>", "</");
                         fieldV.longitude = t.Locate(xml, "<Longitude>", "</");
                         fieldV.altitude = t.Locate(xml, "<Altitude>", "</");
                         fieldV.heading = t.Locate(xml, "<Heading>", "</");

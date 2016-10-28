@@ -252,10 +252,9 @@ namespace Microting
 
                 xmlString = xmlString.Replace("\"MultiSelect\">", "\"Multi_Select\">");
                 xmlString = xmlString.Replace("\"SingleSelect\">", "\"Multi_Select\">");
-                xmlString = xmlString.Replace("FolderName", "CheckListFolderName");
 
-                xmlString = xmlString.Replace("FolderName", "CheckListFolderName");
-                xmlString = xmlString.Replace("FolderName", "CheckListFolderName");
+                xmlString = xmlString.Replace("<FolderName>", "<CheckListFolderName>");
+                xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
 
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
@@ -303,14 +302,6 @@ namespace Microting
                 if (mainElement == null)
                     throw new ArgumentNullException("mainElement not allowed to be null");
 
-                DateTime start = DateTime.Parse(mainElement.StartDate.Substring(0,10));
-                DateTime end = DateTime.Parse(mainElement.EndDate.Substring(0, 10));
-
-                if (end < DateTime.Now)
-                    throw new ArgumentException("mainElement.EndDate needs to be a future date");
-
-                if (end <= start)
-                    throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
             }
             catch (Exception ex)
             {
@@ -634,6 +625,16 @@ namespace Microting
                 {
                     if (mainElement.Repeated != 1 && reversed == false)
                         throw new ArgumentException("mainElement.Repeat was not equal to 1 & reversed is false. Hence no case can be created");
+
+                    DateTime start = DateTime.Parse(mainElement.StartDate.Substring(0, 10));
+                    DateTime end = DateTime.Parse(mainElement.EndDate.Substring(0, 10));
+
+                    if (end < DateTime.Now)
+                        throw new ArgumentException("mainElement.EndDate needs to be a future date");
+
+                    if (end <= start)
+                        throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+
 
                     //sending and getting a reply
                     bool found = false;
