@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
+    <Compile Include="MainController.cs" />
     <Compile Include="MainControllerSample1.cs" />
     <Compile Include="MainControllerSample3.cs" />
     <Compile Include="Program.cs" />

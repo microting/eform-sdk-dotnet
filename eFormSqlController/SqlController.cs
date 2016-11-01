@@ -310,6 +310,28 @@ namespace eFormSqlController
             }
         }
 
+        public void                 CaseRetract(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases aCase = db.cases.Where(x => x.microting_api_id == microtingUId).ToList().First();
+
+                    aCase.updated_at = DateTime.Now;
+                    aCase.workflow_state = "retracted";
+                    aCase.version = aCase.version + 1;
+        
+                    db.case_versions.Add(MapCaseVersions(aCase));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseRetract failed", ex);
+            }
+        }
+        
         public void                 CaseDelete(string microtingUId)
         {
             try

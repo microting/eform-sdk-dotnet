@@ -893,7 +893,24 @@ namespace Microting
                                                     sqlController.ChecksCreate(resp, respXml);
 
                                                     if (lastId == null)
+                                                    {
                                                         sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
+
+                                                        #region retract case, thereby completing the process
+
+                                                        string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
+                                                        Response respRet = new Response();
+                                                        respRet = respRet.XmlToClass(respXml);
+
+                                                        if (respRet.Type == Response.ResponseTypes.Success)
+                                                        {
+                                                            sqlController.CaseRetract(aCase.MicrotingUId);
+                                                            TriggerLog(aCase.ToString() + " has been retracted");
+                                                        }
+                                                        else
+                                                            TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                        #endregion
+                                                    }
                                                     else
                                                         sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
 
@@ -917,11 +934,10 @@ namespace Microting
                                             if (resp.Type == Response.ResponseTypes.Success)
                                                 sqlController.CaseDelete(aCase.MicrotingUId);
                                             else
-                                                throw new Exception("Failed to delete eForm " + aCase.MicrotingUId + " from site " + aCase.SiteId);
+                                                TriggerWarning("Failed to delete eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
 
-                                            Case_Dto cDto = sqlController.CaseReadByMUId(aCase.MicrotingUId);
-                                            HandleCaseDeleted(cDto, EventArgs.Empty);
-                                            TriggerMessage(cDto.ToString() + " has been removed");
+                                            HandleCaseDeleted(aCase, EventArgs.Empty);
+                                            TriggerMessage(aCase.ToString() + " has been removed");
 
                                             #endregion
                                         }
@@ -1047,12 +1063,16 @@ namespace Microting
             HandleEventMessage(str, EventArgs.Empty);
         }
 
+        private void    TriggerWarning(string str)
+        {
+            TriggerLog(str);
+            HandleEventWarning(str, EventArgs.Empty);
+        }
+
         private void    TriggerHandleExpection(string exceptionDescription, Exception ex, bool restartCore)
         {
             try
             {
-                //TODO Repeat expection - different result?
-
                 HandleEventException(ex, EventArgs.Empty);
 
                 if (exceptionDescription == null)
