@@ -38,7 +38,7 @@ using System.Security.Cryptography;
 
 namespace Microting
 {
-    class Core : ICore
+    public class Core : ICore
     {
         #region events
         public event EventHandler HandleCaseCreated;
@@ -175,58 +175,12 @@ namespace Microting
 
         public void         Close()
         {
-            try
-            {
-                if (coreRunning && !coreStatChanging)
-                {
-                    lock (_lockMain) //Will let sending Cases sending finish, before closing
-                    {
-                        coreStatChanging = true;
+            Close(true);
+        }
 
-                        coreRunning = false;
-                        TriggerMessage("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
-
-                        try
-                        {
-                            TriggerMessage("Subscriber requested to close connection");
-                            subscriber.Close(true);
-                        }
-                        catch { }
-
-                        #region remove triggers
-                        try
-                        {
-                            communicator.EventLog += CoreHandleEventLog;
-                        }
-                        catch { }
-
-                        try
-                        {
-                            subscriber.EventMsgClient -= CoreHandleEventClient;
-                            subscriber.EventMsgServer -= CoreHandleEventServer;
-                        }
-                        catch { }
-                        #endregion
-
-                        subscriber = null;
-
-                        TriggerLog("Subscriber no longer triggers events");
-                        TriggerLog("Controller closed");
-                        TriggerLog("");
-
-                        communicator = null;
-                        sqlController = null;
-
-                        coreStatChanging = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                coreRunning = false;
-                coreStatChanging = false;
-                throw new Exception("FATAL Exception. Core failed to close", ex);
-            }
+        public void         CloseForced()
+        {
+            Close(false);
         }
 
         public bool         Running()
@@ -617,6 +571,62 @@ namespace Microting
         #endregion
 
         #region private
+        private void    Close(bool wait)
+        {
+            try
+            {
+                if (coreRunning && !coreStatChanging)
+                {
+                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+                    {
+                        coreStatChanging = true;
+
+                        coreRunning = false;
+                        TriggerMessage("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+
+                        try
+                        {
+                            TriggerMessage("Subscriber requested to close connection");
+                            subscriber.Close(wait);
+                        }
+                        catch { }
+
+                        #region remove triggers
+                        try
+                        {
+                            communicator.EventLog += CoreHandleEventLog;
+                        }
+                        catch { }
+
+                        try
+                        {
+                            subscriber.EventMsgClient -= CoreHandleEventClient;
+                            subscriber.EventMsgServer -= CoreHandleEventServer;
+                        }
+                        catch { }
+                        #endregion
+
+                        subscriber = null;
+
+                        TriggerLog("Subscriber no longer triggers events");
+                        TriggerLog("Controller closed");
+                        TriggerLog("");
+
+                        communicator = null;
+                        sqlController = null;
+
+                        coreStatChanging = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                coreRunning = false;
+                coreStatChanging = false;
+                throw new Exception("FATAL Exception. Core failed to close", ex);
+            }
+        }
+
         private void    CaseCreateMethodThreaded(MainElement mainElement, List<int> siteIds, string caseUId, DateTime navisionTime, string numberPlate, string roadNumber, bool reversed)
         {
             try //Threaded method, hence the try/catch
@@ -1195,7 +1205,6 @@ namespace Microting
             }
         }
         #endregion
-
     }
 
     internal class ExceptionClass

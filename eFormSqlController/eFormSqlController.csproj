@@ -81,6 +81,7 @@
     <Compile Include="site_versions.cs" />
     <Compile Include="SqlControllerExtended.cs" />
     <Compile Include="SqlController.cs" />
+    <Compile Include="SqlControllerUnitTest.cs" />
     <Compile Include="uploaded_data.cs" />
     <Compile Include="uploaded_data_versions.cs" />
     <Compile Include="users.cs" />

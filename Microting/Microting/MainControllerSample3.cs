@@ -342,55 +342,49 @@ namespace Microting
 
                         if (isFirst)
                         {
-                            foreach (int item in siteIdsSA)
-                            {
-                                if (item == siteId)
-                                {
-                                    #region send win eForm
-                                    ReplyElement reply = core.CaseRead(mUId, checkUId);
+                            #region send win eForm
+                            ReplyElement reply = core.CaseRead(mUId, checkUId);
 
-                                    DataElement replyDataE = (DataElement)reply.ElementList[0];
-                                    Answer answer = (Answer)replyDataE.DataItemList[0];
+                            DataElement replyDataE = (DataElement)reply.ElementList[0];
+                            Answer answer = (Answer)replyDataE.DataItemList[0];
 
-                                    MainElement mainElement = core.TemplatRead(step3WtId);
-                                    DataElement dataE = (DataElement)mainElement.ElementList[0];
-                                    Date date = (Date)dataE.DataItemList[0];
+                            MainElement mainElement = core.TemplatRead(step3WtId);
+                            DataElement dataE = (DataElement)mainElement.ElementList[0];
+                            Date date = (Date)dataE.DataItemList[0];
 
-                                    dataE.Description = new CDataValue();
-                                    dataE.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
+                            dataE.Description = new CDataValue();
+                            dataE.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
-                                    date.MinValue = DateTime.Now;
-                                    date.MaxValue = DateTime.Now.AddDays(1);
-                                    date.DefaultValue = DateTime.Now.AddMinutes(1).ToString("u");
+                            date.MinValue = DateTime.Now;
+                            date.MaxValue = DateTime.Now.AddDays(1);
+                            date.DefaultValue = DateTime.Now.AddMinutes(1).ToString("u");
 
 
-                                    tempSiteIds = new List<int>();
-                                    tempSiteIds.Add(siteId);
-                                    core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
-                                    #endregion
-                                }
-                                else
-                                {
-                                    #region send loss eForm
-                                    ReplyElement reply = core.CaseRead(mUId, checkUId);
+                            tempSiteIds = new List<int>();
+                            tempSiteIds.Add(siteId);
+                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                            #endregion
+                        }
+                        else
+                        {
+                            #region send loss eForm
+                            ReplyElement reply = core.CaseRead(mUId, checkUId);
 
-                                    DataElement replyDataE = (DataElement)reply.ElementList[0];
-                                    Answer answer = (Answer)replyDataE.DataItemList[0];
+                            DataElement replyDataE = (DataElement)reply.ElementList[0];
+                            Answer answer = (Answer)replyDataE.DataItemList[0];
 
-                                    MainElement mainElement = core.TemplatRead(step3LtId);
-                                    DataElement dataE = (DataElement)mainElement.ElementList[0];
-                                    None none = (None)dataE.DataItemList[0];
+                            MainElement mainElement = core.TemplatRead(step3LtId);
+                            DataElement dataE = (DataElement)mainElement.ElementList[0];
+                            None none = (None)dataE.DataItemList[0];
 
-                                    none.Description = new CDataValue();
-                                    none.Description.InderValue = "Collection missed at:" + DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
+                            none.Description = new CDataValue();
+                            none.Description.InderValue = "Collection missed at:" + DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
 
-                                    tempSiteIds = new List<int>();
-                                    tempSiteIds.Add(item);
-                                    core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
-                                    #endregion
-                                }
-                            }
+                            tempSiteIds = new List<int>();
+                            tempSiteIds.Add(siteId);
+                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                            #endregion
                         }
                     }
                     #endregion

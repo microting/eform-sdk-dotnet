@@ -5,7 +5,7 @@ using eFormSqlController;
 
 namespace Microting
 {
-    interface ICore
+    public interface ICore
     {
         event EventHandler  HandleCaseCreated;
         event EventHandler  HandleCaseRetrived;

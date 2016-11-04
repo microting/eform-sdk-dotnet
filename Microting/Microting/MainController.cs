@@ -53,7 +53,6 @@ namespace Microting
 
             string fileLocation = lines[10];
             #endregion
-
             core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, true);
 
             #region connect event triggers
