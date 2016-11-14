@@ -59,7 +59,7 @@
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="MainController.cs" />
-    <Compile Include="MainControllerSample1.cs" />
+    <Compile Include="MainControllerSample12.cs" />
     <Compile Include="MainControllerSample3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

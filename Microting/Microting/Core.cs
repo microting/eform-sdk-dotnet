@@ -480,7 +480,7 @@ namespace Microting
                     TriggerLog(xmlResponse);
 
                     resp = resp.XmlToClass(xmlResponse);
-                    if (resp.Value == "success")
+                    if (resp.Type.ToString() == "Success")
                     {
                         sqlController.CaseDelete(microtingUId);
                         return true;
@@ -874,7 +874,7 @@ namespace Microting
 
                         switch (noteType)
                         {
-                            #region check_status / checklist updated by tablet
+                            #region check_status / checklist completed on the device
                             case "check_status":
                                 {
                                     List<Case_Dto> caseLst = sqlController.CaseFindMatchs(noteMuuId);
@@ -958,7 +958,7 @@ namespace Microting
                                 }
                             #endregion
 
-                            #region unit fetch / checklist retrieve by tablet
+                            #region unit fetch / checklist retrieve by device
                             case "unit_fetch":
                                 {
                                     Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);

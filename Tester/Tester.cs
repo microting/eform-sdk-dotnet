@@ -442,7 +442,7 @@ namespace eFormTester
                 e1.DataItemList.Add(new Single_Select("1", false, false, "Single select field", "this is a description", "e2f4fb", 1, singleKeyValuePairList));
                 e1.DataItemList.Add(new Multi_Select("2", false, false, "Multi select field", "this is a description", "e2f4fb", 2, multiKeyValuePairList));
                 e1.DataItemList.Add(new Audio("3", false, false, "Audio field", "this is a description", "e2f4fb", 3, 1));
-                e1.DataItemList.Add(new Show_Pdf("4", false, false, "PDF field", "this is a description", "e2f4fb", 4, @"http://www.analysis.im/uploads/seminar/pdf-sample.pdf"));
+                e1.DataItemList.Add(new Show_PDF("4", false, false, "PDF field", "this is a description", "e2f4fb", 4, @"http://www.analysis.im/uploads/seminar/pdf-sample.pdf"));
                 e1.DataItemList.Add(new Comment("5", false, false, "Comment field", "this is a description", "e2f4fb", 5, "value", 10000, false));
 
                 e2.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));

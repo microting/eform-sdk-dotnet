@@ -14,7 +14,7 @@ namespace eFormRequest
     [XmlInclude(typeof(None))]
     [XmlInclude(typeof(Number))]
     [XmlInclude(typeof(Multi_Select))]
-    [XmlInclude(typeof(Show_Pdf))]
+    [XmlInclude(typeof(Show_PDF))]
     [XmlInclude(typeof(Picture))]
     [XmlInclude(typeof(SaveButton))]
     [XmlInclude(typeof(Signature))]
@@ -251,15 +251,15 @@ namespace eFormRequest
     }
     #endregion
 
-    #region Show_Pdf
-    public class Show_Pdf : DataItem
+    #region Show_PDF
+    public class Show_PDF : DataItem
     {
-        internal Show_Pdf()
+        internal Show_PDF()
         {
 
         }
 
-        public Show_Pdf(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+        public Show_PDF(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             string defaultValue)
         {
             Id = id;

@@ -31,7 +31,7 @@ using System.IO;
 
 namespace Microting
 {
-    class MainControllerSample1
+    class MainControllerSample12
     {
         #region var
         object _logFilLock = new object();
@@ -41,7 +41,7 @@ namespace Microting
         #endregion
 
         #region con
-        public MainControllerSample1()
+        public MainControllerSample12()
         {
             //DOSOMETHING: Change to your needs
             #region read settings

@@ -23,13 +23,12 @@ SOFTWARE.
 */
 
 using eFormRequest;
+using eFormSqlController;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microting
 {
@@ -37,57 +36,57 @@ namespace Microting
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Select which MainController to start. Type 'd' for default, '1' for sample 1,  '2' for sample 2, and  '3' for sample 3");
             while (true)
             {
+                Console.WriteLine("");
+                Console.WriteLine("Select which MainController element to start. Type:");
+                Console.WriteLine("'E' for exiting program,");
+                Console.WriteLine("'D' for default,");
+                Console.WriteLine("'1' for sample 1,");
+                Console.WriteLine("'2' for sample 2,");
+                Console.WriteLine("'3' for sample 3, and");
+                Console.WriteLine("'C' for cleaning database and devices");
+
                 string input = Console.ReadLine();
 
-                if (input.ToLower() == "d")
-                {
-                    Default();
+                if (input.ToLower() == "e")
                     break;
-                }
+
+                if (input.ToLower() == "d")
+                    Default();
 
                 if (input.ToLower() == "1")
-                {
                     Sample1();
-                    break;
-                }
 
                 if (input.ToLower() == "2")
-                {
                     Sample2();
-                    break;
-                }
 
                 if (input.ToLower() == "3")
-                {
                     Sample3();
-                    break;
-                }
+
+                if (input.ToLower() == "c")
+                    CleanUp();
             }
 
-            Console.WriteLine("Core has been closed. Will close Console in 5s");
+            Console.WriteLine("Program has been closed. Will close Console in 5s");
             Thread.Sleep(5000);
             Environment.Exit(0);
         }
 
         static void     Default()
         {
-            MainControllerSample1 mainController = new MainControllerSample1();
+            MainControllerSample12 mainController = new MainControllerSample12();
             bool keepRunning = true;
 
             while (keepRunning)
             {
-                Console.WriteLine("Type 'q' (to quit)");
+                Console.WriteLine("Type 'Q' (to quit)");
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
 
-                if (input.ToLower() == "q")
-                {
+                if (input.ToLower() == "Q")
                     keepRunning = false;
-                }
             }
             Console.WriteLine("Trying to shutting down");
             mainController.Close();
@@ -95,7 +94,7 @@ namespace Microting
 
         static void     Sample1()
         {
-            MainControllerSample1 mainController = new MainControllerSample1();
+            MainControllerSample12 mainController = new MainControllerSample12();
             List<int> siteIds = new List<int>();
             int templatId = -1;
 
@@ -103,17 +102,15 @@ namespace Microting
 
             while (keepRunning)
             {
-                Console.WriteLine("Type 's' for setting up the eForm templat from the sample1xml.txt, and define the siteId");
-                Console.WriteLine("Type 'c' to create an eForm case based on the templat, and 'q' (to quit)");
+                Console.WriteLine("Type 'S' for setting up the eForm templat from the sample1xml.txt, and define the siteId");
+                Console.WriteLine("Type 'C' to create an eForm case based on the templat, and 'Q' (to quit)");
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
 
                 if (input.ToLower() == "q")
-                {
                     keepRunning = false;
-                }
-
+    
 
                 if (input.ToLower() == "s")
                 {
@@ -152,19 +149,59 @@ namespace Microting
 
         static void     Sample2()
         {
-            MainControllerSample1 mainController = new MainControllerSample1();
+            MainControllerSample12 mainController = new MainControllerSample12();
+            List<int> siteIds = new List<int>();
+            int templatId = -1;
+   
+
             bool keepRunning = true;
 
             while (keepRunning)
             {
-                Console.WriteLine("Type 'q' (to quit)");
+                Console.WriteLine("Type 'S' for setting up the eForm templat from the sample2xml.txt, and define the siteId");
+                Console.WriteLine("Type 'C' to create an eForm case based on the templat, and 'Q' (to quit)");
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
 
                 if (input.ToLower() == "q")
-                {
                     keepRunning = false;
+
+
+                if (input.ToLower() == "s")
+                {
+                    siteIds = new List<int>();
+                    Console.WriteLine("Type 'siteId 1' of the device wanted to be used");
+                    int inputT = int.Parse(Console.ReadLine());
+                    siteIds.Add(inputT);
+
+                    Console.WriteLine("Type 'siteId 2' of the device wanted to be used");
+                    inputT = int.Parse(Console.ReadLine());
+                    siteIds.Add(inputT);
+
+
+                    string xmlStr = File.ReadAllText("sample2xml.txt");
+                    var main = mainController.TemplatFromXml(xmlStr);
+
+                    main.Repeated = 1;
+                    main.CaseType = "Test";
+                    main.SetStartDate(DateTime.Now);
+                    main.SetEndDate(DateTime.Now.AddDays(2));
+
+                    templatId = mainController.TemplatCreate(main);
+                }
+
+                if (input.ToLower() == "c")
+                {
+                    if (templatId == -1)
+                    {
+                        Console.WriteLine("System has not been setup. Run setup before trying to create a case");
+                    }
+                    else
+                    {
+                        mainController.CaseCreate(templatId, GenerateSampleCaseId(), siteIds);
+                        Console.WriteLine("eForm case sent to Microting, should be able to be retrieved on your devices soon");
+                    }
                 }
             }
             Console.WriteLine("Trying to shutting down");
@@ -180,7 +217,7 @@ namespace Microting
 
             while (keepRunning)
             {
-                Console.WriteLine("Type 's' to create needed eForms in the database and other elements (run only once) and 'q' (to quit)");
+                Console.WriteLine("Type 'S' to create needed eForms in the database and other elements and 'Q' (to quit)");
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
@@ -276,6 +313,41 @@ namespace Microting
             }
             Console.WriteLine("Trying to shutting down");
             mainController.Close();
+        }
+
+        static void     CleanUp()
+        {
+            Console.WriteLine("Type 'Y' only IF you are sure you want to remove ALL eForms");
+            Console.WriteLine("from devices, and clean the database. Any other key to return");
+            string input = Console.ReadLine();
+
+            if (input.ToLower() != "y")
+                return;
+
+            try
+            {
+                #region read settings
+                string[] lines = File.ReadAllLines("Input.txt");
+
+                string serverConnectionString = lines[7];
+                int userId = int.Parse(lines[8]);
+                #endregion
+                
+                SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString, userId);
+                MainController temp = new MainController();
+                ICore core = temp.core;
+
+                List<string> lstMUIds = sqlConUT.CleanActiveCases();
+                foreach (string mUId in lstMUIds)
+                    core.CaseDelete(mUId);
+
+                sqlConUT.CleanUpDB();
+                core.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CleanUp failed", ex);
+            }
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Trools;
+﻿using eFormRequest;
+using Trools;
 
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,35 @@ namespace eFormSqlController
         #endregion
 
         #region public
+        public List<string> CheckCase()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> lstMUId = new List<string>();
+
+                    List<cases> lstCases = db.cases.Where(x => x.workflow_state == "created").ToList();
+                    foreach (cases aCase in lstCases)
+                    {
+                        lstMUId.Add(aCase.microting_api_id);
+                    }
+
+                    List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state == "created").ToList();
+                    foreach (check_list_sites cLS in lstCLS)
+                    {
+                        lstMUId.Add(cLS.microting_check_list_uuid);
+                    }
+
+                    return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CheckCase failed", ex);
+            }
+        }
+
         public List<string> CleanActiveCases()
         {
             try
