@@ -1,56 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
+using System.Linq;
+using System.Text;
 
 namespace eFormRequest
 {
-    public class ReplyElement
+    public class ReplyElement : CoreElement
     {
+        #region con
+        public ReplyElement()
+        {
+            ElementList = new List<Element>();
+        }
+
+        public ReplyElement(CoreElement coreElement)
+        {
+            Id = coreElement.Id;
+            Label = coreElement.Label;
+            DisplayOrder = coreElement.DisplayOrder;
+            CheckListFolderName = coreElement.CheckListFolderName;
+            Repeated = coreElement.Repeated;
+            SetStartDate(coreElement.GetStartDate());
+            SetEndDate(coreElement.GetEndDate());
+            Language = coreElement.Language;
+            MultiApproval = coreElement.MultiApproval;
+            FastNavigation = coreElement.FastNavigation;
+            DownloadEntities = coreElement.DownloadEntities;
+            ManualSync = coreElement.ManualSync;
+            CaseType = coreElement.CaseType;
+            ElementList = coreElement.ElementList;
+        }
+        #endregion
+
         #region var
-        public int Id { get; set; }
-        public string Label { get; set; }
-        public int DisplayOrder { get; set; }
-        public string CheckListFolderName { get; set; }
-        public int Repeated { get; set; }
-
-        [XmlIgnore]
-        public string CaseType { get; set; }
-
-        #region public string/DateTime StartDate { get; set; }
-        public string StartDate { get; set; }
-
-        public DateTime GetStartDate()
-        {
-            return DateTime.Parse(StartDate);
-        }
-
-        public void SetStartDate(DateTime dateTime)
-        {
-            StartDate = dateTime.ToShortDateString();
-        }
-        #endregion
-
-        #region public string/DateTime EndDate { get; set; }
-        public string EndDate { get; set; }
-
-        public DateTime GetEndDate()
-        {
-            return DateTime.Parse(EndDate);
-        }
-
-        public void SetEndDate(DateTime dateTime)
-        {
-            EndDate = dateTime.ToShortDateString();
-        }
-        #endregion
-        public string Language { get; set; }
-        public bool MultiApproval { get; set; }
-        public bool FastNavigation { get; set; }
-        public bool DownloadEntities { get; set; }
-        public bool ManualSync { get; set; }
-
-        [XmlArray("ElementList"), XmlArrayItem(typeof(Element), ElementName = "Element")]
-        public List<Element> ElementList { get; set; }
+        public DateTime DateOfDoing { get; set; }
+        public int DoneById { get; set; }
+        public int UnitId { get; set; }
         #endregion
     }
 }

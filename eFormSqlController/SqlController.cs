@@ -27,7 +27,8 @@ namespace eFormSqlController
         #endregion
 
         #region public
-        public int                  TemplatCreate(MainElement mainElement)
+        #region templat
+        public int          TemplatCreate(MainElement mainElement)
         {
             try
             {
@@ -40,21 +41,50 @@ namespace eFormSqlController
             }
         }
 
-        public MainElement          TemplatRead(int templatId)
+        public MainElement  TemplatRead(int templatId)
         {
             try
             {
-                MainElement mainElement = new MainElement();
-                mainElement = EformReadDb(templatId);
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    MainElement mainElement = null;
+                    GetConverter();
 
-                return mainElement;
+                    check_lists mainCl = null;
+                    try
+                    {
+                        //getting mainElement
+                        mainCl = db.check_lists.Where(x => x.id == templatId).ToList().First();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Failed to find matching check_list:" + templatId, ex);
+                    }
+
+                    mainElement = new MainElement(mainCl.id, mainCl.text, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                        Bool(mainCl.multi_approval), Bool(mainCl.fast_navigation), Bool(mainCl.download_entities), Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
+
+
+                    //getting elements
+                    List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templatId).ToList();
+
+                    foreach (check_lists cl in lst)
+                    {
+                        mainElement.ElementList.Add(GetElement(cl.id));
+                    }
+
+                    //return
+                    return mainElement;
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("TemplatRead failed", ex);
             }
         }
+        #endregion
 
+        #region case
         public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseUId, DateTime navision_time, string reg_number, string vejenummer)
         {
             try
@@ -355,6 +385,30 @@ namespace eFormSqlController
             }
         }
 
+        public void                 CaseDeleteReversed(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_list_sites site = db.check_list_sites.Where(x => x.microting_check_list_uuid == microtingUId).ToList().First();
+
+                    site.updated_at = DateTime.Now;
+                    site.workflow_state = "removed";
+                    site.version = site.version + 1;
+
+                    db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseDelete failed", ex);
+            }
+        }
+        #endregion
+
+        #region check
         public void                 ChecksCreate(Response response, string xmlString)
         {
             EformCheckCreateDb(response, xmlString);
@@ -439,7 +493,9 @@ namespace eFormSqlController
                 throw new Exception("ChecksReadParent failed", ex);
             }
         }
+        #endregion
 
+        #region notification
         public int                  NotificationCreate(string microtingUId, string content)
         {
             try
@@ -491,19 +547,17 @@ namespace eFormSqlController
             }
         }
 
-        public void                 NotificationProcessed(string content)
+        public void                 NotificationProcessed(string content, string workflowState)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var lst = db.notifications.Where(x => x.content == content).ToList();
+                    var lst = db.notifications.Where(x => x.content == content && x.workflow_state == "created").ToList();
                     
-                    foreach (notifications aNoti in lst)
-                    {
-                        aNoti.workflow_state = "processed";
-                        aNoti.updated_at = DateTime.Now;
-                    }
+                    notifications aNoti = lst[0];
+                    aNoti.workflow_state = workflowState;
+                    aNoti.updated_at = DateTime.Now;
 
                     db.SaveChanges();
                 }
@@ -513,7 +567,9 @@ namespace eFormSqlController
                 throw new Exception("NotificationProcessed failed", ex);
             }
         }
+        #endregion
 
+        #region file
         public string               FileRead()
         {
             try
@@ -591,8 +647,9 @@ namespace eFormSqlController
                 throw new Exception("FileProcessed failed", ex);
             }
         }
+        #endregion
 
-        public List<int>            SitesList()
+        public List<int> SitesList()
         {
             try
             {
@@ -615,7 +672,7 @@ namespace eFormSqlController
             }
         }
 
-        public void                 CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
+        public void CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
         {
             try
             {
@@ -643,6 +700,278 @@ namespace eFormSqlController
                 throw new Exception("CheckListSitesCreate failed", ex);
             }
         }
+
+        #region entityGroup
+        public int EntityGroupCreate(string name, string entityType)
+        {
+            try
+            {
+                if (entityType != "Entity_Search" && entityType != "Entity_Select")
+                    throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
+
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    entity_groups eG = new entity_groups();
+
+                    eG.created_at = DateTime.Now;
+                    //eG.id = xxx;
+                    //eG.microtingUId = xxx;
+                    eG.name = name;
+                    eG.type = entityType;
+                    eG.updated_at = DateTime.Now;
+                    eG.version = 1;
+                    eG.workflow_state = "created";
+
+                    db.entity_groups.Add(eG);
+                    db.SaveChanges();
+
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+                    db.SaveChanges();
+
+                    return eG.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupCreate failed", ex);
+            }
+        }
+
+        public EntityGroup EntityGroupRead(string entityGroupMUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    entity_groups eG;
+
+                    List<entity_groups> eGLst = db.entity_groups.Where(x => x.microtingUId == entityGroupMUId && x.workflow_state == "created").ToList();
+
+                    if (eGLst == null)
+                        return null;
+                    if (eGLst.Count == 0)
+                        return null;
+                    if (eGLst.Count > 1)
+                        throw new Exception("EntityGroupRead failed. Due more than 1 match found");
+
+                    eG = eGLst[0];
+
+                    List<EntityItem> lst = new List<EntityItem>();
+                    EntityGroup rtnEG = new EntityGroup(eG.id, eG.name, eG.type, eG.microtingUId, lst);
+
+                    List<entity_items> eILst = db.entity_items.Where(x => x.group_id == eG.id && x.workflow_state == "created").ToList();
+
+                    if (eILst != null)
+                        if (eILst.Count > 0)
+                            foreach (entity_items item in eILst)
+                            {
+                                EntityItem eI = new EntityItem(item.name, item.microtingUId, item.description);
+                                lst.Add(eI);
+                            }
+
+                    return rtnEG;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupRead failed", ex);
+            }
+        }
+
+        public bool EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    entity_groups eG;
+                    try
+                    {
+                        eG = db.entity_groups.Where(x => x.id == entityGroupId).ToList().First();
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+
+                    eG.microtingUId = entityGroupMUId;
+                    eG.updated_at = DateTime.Now;
+                    eG.version = eG.version + 1;
+
+                    db.SaveChanges();
+
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupUpdate failed", ex);
+            }
+        }
+
+        public void EntityGroupUpdateItems(EntityGroup entityGroup)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<EntityItemUpdateInfo> rtnLst = new List<EntityItemUpdateInfo>();
+                    EntityGroup eGNew = entityGroup;
+                    EntityGroup eGFDb = EntityGroupRead(eGNew.EntityGroupMUId);
+
+                    //same, new or update
+                    foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
+                    {
+                        foreach (EntityItem itemFDb in eGFDb.EntityGroupItemLst)
+                        {
+                            //same
+                            if (itemNew.EntityItemMUId == itemFDb.EntityItemMUId)
+                            {
+                                if (itemNew.Description == itemFDb.Description && itemNew.Name == itemFDb.Description)
+                                {
+                                    //identic
+                                    break;
+                                }
+                                else
+                                {
+                                    //updated
+                                    EntityItemUpdate(itemNew);
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                //new
+                                EntityItemCreate(entityGroup.Id, itemNew);
+                                break;
+                            }
+                        }
+                    }
+
+                    //delete
+                    bool stillInUse;
+                    foreach (EntityItem itemFDb in eGFDb.EntityGroupItemLst)
+                    {
+                        stillInUse = false;
+                        foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
+                        {
+                            if (itemNew.EntityItemMUId == itemFDb.EntityItemMUId)
+                            {
+                                stillInUse = true;
+                                break;
+                            }
+                        }
+
+                        if (!stillInUse)
+                        {
+                            EntityItemDelete(itemFDb.EntityItemMUId);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupUpdateItems failed", ex);
+            }
+        }
+
+        public bool EntityGroupDelete(string entityGroupMUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    entity_groups eG;
+                    try
+                    {
+                        eG = db.entity_groups.Where(x => x.microtingUId == entityGroupMUId && x.workflow_state == "created").ToList().First();
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+
+                    eG.workflow_state = "removed";
+                    eG.updated_at = DateTime.Now;
+                    eG.version = eG.version + 1;
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+
+                    List<entity_items> lst = db.entity_items.Where(x => x.group_id == eG.id && x.workflow_state == "created").ToList();
+                    if (lst != null)
+                    {
+                        foreach (entity_items item in lst)
+                        {
+                            item.workflow_state = "removed";
+                            item.updated_at = DateTime.Now;
+                            item.version = item.version + 1;
+                            item.synced = Bool(false);
+                            db.entity_item_versions.Add(MapEntityItemVersions(item));
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupDelete failed", ex);
+            }
+        }
+        #endregion
+
+        #region entityItem sync
+        public entity_items         EntityItemSyncedRead()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        var temp = db.entity_items.Where(x => x.synced == 0 && x.workflow_state == "created").ToList();
+                        return temp.First();
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemSyncedRead failed", ex);
+            }
+        }
+
+        public void                 EntityItemSyncedProcessed(int entityItemId, string workflowState)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    var lst = db.entity_items.Where(x => x.id == entityItemId).ToList();
+
+                    entity_items eItem = lst[0];
+                    eItem.workflow_state = workflowState;
+                    eItem.updated_at = DateTime.Now;
+                    eItem.version = eItem.version + 1;
+                    eItem.synced = 1;
+
+                    db.entity_item_versions.Add(MapEntityItemVersions(eItem));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemSyncedProcessed failed", ex);
+            }
+        }
+        #endregion
         #endregion
 
         #region private
@@ -828,11 +1157,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 13).Replace("_", ""); //13 = "eFormRequest.".Length
+                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 13); //13 = "eFormRequest.".Length
                     int fieldTypeId = Find(typeStr);
-
-                    if (fieldTypeId == -1)
-                        throw new Exception("fieldTypeId not known. Unable to create in db.");
 
                     fields field = new fields();
 
@@ -877,14 +1203,10 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    string typeStr = dataItem.GetType().ToString().Remove(0, 13).Replace("_", ""); //13 = "eFormRequest.".Length
+                    string typeStr = dataItem.GetType().ToString().Remove(0, 13); //13 = "eFormRequest.".Length
                     int fieldTypeId = Find(typeStr);
 
-                    if (fieldTypeId == -1)
-                        throw new Exception("fieldTypeId not known. Unable to create in db.");
-
                     fields field = new fields();
-                    
                     field.color = dataItem.Color;
                     field.description = dataItem.Description.InderValue;
                     field.display_index = dataItem.DisplayOrder;
@@ -903,54 +1225,15 @@ namespace eFormSqlController
                     //KEY POINT - mapping
                     switch (typeStr) //"eFormRequest.".Length
                     {
-                        case "Text":
-                            Text text = (Text)dataItem;
-                            field.default_value = text.Value;
-                            field.max_length = text.MaxLength;
-                            field.geolocation_enabled = Bool(text.GeolocationEnabled);
-                            field.geolocation_forced = Bool(text.GeolocationForced);
-                            field.geolocation_hidden = Bool(text.GeolocationHidden);
-                            field.barcode_enabled = Bool(text.BarcodeEnabled);
-                            field.barcode_type = text.BarcodeType;
-                            break;
-
-                        case "Number":
-                            Number number = (Number)dataItem;
-                            field.min_value = number.MinValue.ToString();
-                            field.max_value = number.MaxValue.ToString();
-                            field.default_value = number.DefaultValue.ToString();
-                            field.decimal_count = number.DecimalCount;
-                            field.unit_name = number.UnitName;
-                            break;
-
-                        case "None":
-                            break;
-
-                        case "CheckBox":
-                            Check_Box checkBox = (Check_Box)dataItem;
-                            field.default_value = checkBox.DefaultValue.ToString();
-                            field.selected = Bool(checkBox.Selected);
-                            break;
-
-                        case "Picture":
-                            Picture picture = (Picture)dataItem;
-                            field.multi = picture.Multi;
-                            field.geolocation_enabled = Bool(picture.GeolocationEnabled);
-                            break;
-
                         case "Audio":
                             Audio audio = (Audio)dataItem;
                             field.multi = audio.Multi;
                             break;
 
-                        case "SingleSelect":
-                            Single_Select singleSelect = (Single_Select)dataItem;
-                            field.key_value_pair_list = WritePairs(singleSelect.KeyValuePairList);
-                            break;
-
-                        case "MultiSelect":
-                            Multi_Select multiSelect = (Multi_Select)dataItem;
-                            field.key_value_pair_list = WritePairs(multiSelect.KeyValuePairList);
+                        case "CheckBox":
+                            CheckBox checkBox = (CheckBox)dataItem;
+                            field.default_value = checkBox.DefaultValue.ToString();
+                            field.selected = Bool(checkBox.Selected);
                             break;
 
                         case "Comment":
@@ -967,12 +1250,56 @@ namespace eFormSqlController
                             field.max_value = date.MaxValue.ToString("yyyy-MM-dd HH:mm:ss");
                             break;
 
+                        case "None":
+                            break;
+
+                        case "Number":
+                            Number number = (Number)dataItem;
+                            field.min_value = number.MinValue.ToString();
+                            field.max_value = number.MaxValue.ToString();
+                            field.default_value = number.DefaultValue.ToString();
+                            field.decimal_count = number.DecimalCount;
+                            field.unit_name = number.UnitName;
+                            break;
+
+                        case "MultiSelect":
+                            MultiSelect multiSelect = (MultiSelect)dataItem;
+                            field.key_value_pair_list = WritePairs(multiSelect.KeyValuePairList);
+                            break;
+
+                        case "Picture":
+                            Picture picture = (Picture)dataItem;
+                            field.multi = picture.Multi;
+                            field.geolocation_enabled = Bool(picture.GeolocationEnabled);
+                            break;
+
                         case "SaveButton":
                             SaveButton saveButton = (SaveButton)dataItem;
                             field.default_value = saveButton.Value;
                             break;
 
+                        case "ShowPdf":
+                            ShowPdf showPdf = (ShowPdf)dataItem;
+                            field.default_value = showPdf.DefaultValue;
+                            break;
+
                         case "Signature":
+                            break;
+
+                        case "SingleSelect":
+                            SingleSelect singleSelect = (SingleSelect)dataItem;
+                            field.key_value_pair_list = WritePairs(singleSelect.KeyValuePairList);
+                            break;
+
+                        case "Text":
+                            Text text = (Text)dataItem;
+                            field.default_value = text.Value;
+                            field.max_length = text.MaxLength;
+                            field.geolocation_enabled = Bool(text.GeolocationEnabled);
+                            field.geolocation_forced = Bool(text.GeolocationForced);
+                            field.geolocation_hidden = Bool(text.GeolocationHidden);
+                            field.barcode_enabled = Bool(text.BarcodeEnabled);
+                            field.barcode_type = text.BarcodeType;
                             break;
 
                         case "Timer":
@@ -980,11 +1307,22 @@ namespace eFormSqlController
                             field.split_screen = Bool(timer.StopOnSave);
                             break;
 
-                        case "EntitySelect":
-                            throw new NotImplementedException("");
+                    //-------
 
                         case "EntitySearch":
-                            throw new NotImplementedException("");
+                            EntitySearch entitySearch = (EntitySearch)dataItem;
+                            field.entity_group_id = entitySearch.EntityTypeId;
+                            field.default_value = entitySearch.DefaultValue.ToString();
+                            field.is_num = Bool(entitySearch.IsNum);
+                            field.query_type = entitySearch.QueryType;
+                            field.min_search_lenght = entitySearch.MinSearchLenght;
+                            break;
+
+                        case "EntitySelect":
+                            EntitySelect entitySelect = (EntitySelect)dataItem;
+                            field.entity_group_id = entitySelect.Source;
+                            field.default_value = entitySelect.DefaultValue.ToString();
+                            break;
 
                         default:
                             throw new IndexOutOfRangeException(dataItem.GetType().ToString() + " is not a known/mapped DataItem type");
@@ -1006,48 +1344,6 @@ namespace eFormSqlController
         #endregion
 
         #region EformReadDb
-        private MainElement EformReadDb(int mainId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    MainElement mainElement = null;
-                    GetConverter();
-
-                    check_lists mainCl = null;
-                    try
-                    {
-                        //getting mainElement
-                        mainCl = db.check_lists.Where(x => x.id == mainId).ToList().First();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Failed to find matching check_list:" + mainId, ex);
-                    }
-
-                    mainElement = new MainElement(mainCl.id, mainCl.text, Int(mainCl.display_index), mainCl.folder_name, Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
-                        Bool(mainCl.multi_approval), Bool(mainCl.fast_navigation), Bool(mainCl.download_entities), Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
-
-
-                    //getting elements
-                    List<check_lists> lst = db.check_lists.Where(x => x.parent_id == mainId).ToList();
-
-                    foreach (check_lists cl in lst)
-                    {
-                        mainElement.ElementList.Add(GetElement(cl.id));
-                    }
-
-                    //return
-                    return mainElement;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EformReadDb failed", ex);
-            }
-        }
-
         private Element GetElement(int elementId)
         {
             try
@@ -1127,43 +1423,14 @@ namespace eFormSqlController
                     //KEY POINT - mapping
                     switch (fieldTypeStr)
                     {
-                        case "Text":
-                            lstDataItem.Add(new Text(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index), 
-                                f.default_value, Int(f.max_length), Bool(f.geolocation_enabled), Bool(f.geolocation_forced), Bool(f.geolocation_hidden), Bool(f.barcode_enabled), f.barcode_type));
-                            break;
-
-                        case "Number":
-                            lstDataItem.Add(new Number(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
-                                long.Parse(f.min_value), long.Parse(f.max_value), int.Parse(f.default_value), Int(f.decimal_count), f.unit_name));
-                            break;
-
-                        case "None":
-                            lstDataItem.Add(new None(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index)));
-                            break;
-
-                        case "CheckBox":
-                            lstDataItem.Add(new Check_Box(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
-                                Bool(f.default_value), Bool(f.selected)));
-                            break;
-
-                        case "Picture":
-                            lstDataItem.Add(new Picture(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
-                                Int(f.multi), Bool(f.geolocation_enabled)));
-                            break;
-
                         case "Audio":
                             lstDataItem.Add(new Audio(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
                                 Int(f.multi)));
                             break;
 
-                        case "SingleSelect":
-                            lstDataItem.Add(new Single_Select(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
-                                ReadPairs(f.key_value_pair_list)));
-                            break;
-
-                        case "MultiSelect":
-                            lstDataItem.Add(new Multi_Select(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
-                                ReadPairs(f.key_value_pair_list)));
+                        case "CheckBox":
+                            lstDataItem.Add(new CheckBox(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Bool(f.default_value), Bool(f.selected)));
                             break;
 
                         case "Comment":
@@ -1176,20 +1443,62 @@ namespace eFormSqlController
                                 DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value));
                             break;
 
-                        case "Signature":
-                            lstDataItem.Add(new Signature(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index)));
+                        case "None":
+                            lstDataItem.Add(new None(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index)));
+                            break;
+
+                        case "Number":
+                            lstDataItem.Add(new Number(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                long.Parse(f.min_value), long.Parse(f.max_value), int.Parse(f.default_value), Int(f.decimal_count), f.unit_name));
+                            break;
+
+                        case "MultiSelect":
+                            lstDataItem.Add(new MultiSelect(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                ReadPairs(f.key_value_pair_list)));
+                            break;
+
+                        case "Picture":
+                            lstDataItem.Add(new Picture(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Int(f.multi), Bool(f.geolocation_enabled)));
                             break;
 
                         case "SaveButton":
                             lstDataItem.Add(new SaveButton(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index), f.default_value));
                             break;
 
-                        case "Timer":
-                            lstDataItem.Add(new eFormRequest.Timer(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
-                                Bool(f.stop_on_save)));
+                        case "ShowPdf":
+                            lstDataItem.Add(new ShowPdf(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                            f.default_value));
                             break;
 
+                        case "Signature":
+                            lstDataItem.Add(new Signature(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index)));
+                            break;
 
+                        case "SingleSelect":
+                            lstDataItem.Add(new SingleSelect(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                ReadPairs(f.key_value_pair_list)));
+                            break;
+
+                        case "Text":
+                            lstDataItem.Add(new Text(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index), 
+                                f.default_value, Int(f.max_length), Bool(f.geolocation_enabled), Bool(f.geolocation_forced), Bool(f.geolocation_hidden), Bool(f.barcode_enabled), f.barcode_type));
+                            break;
+
+                        case "Timer":
+                            lstDataItem.Add(new Timer(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Bool(f.stop_on_save)));
+                            break;
+                            
+                        case "EntitySearch":
+                            lstDataItem.Add(new EntitySearch(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Int(f.default_value), Int(f.entity_group_id), Bool(f.is_num), f.query_type, Int(f.min_search_lenght), Bool(f.barcode_enabled), f.barcode_type));
+                            break;
+
+                        case "EntitySelect":
+                            lstDataItem.Add(new EntitySelect(f.id.ToString(), Bool(f.mandatory), Bool(f.read_only), f.text, f.description, f.color, Int(f.display_index),
+                                Int(f.default_value), Int(f.entity_group_id)));
+                            break;
 
                         case "FieldGroup":
                             List<eFormRequest.DataItem> lst = new List<eFormRequest.DataItem>();
@@ -1202,11 +1511,7 @@ namespace eFormSqlController
                                 GetDataItem(lst, null, field.id); //null, due to FieldGroup, CANT have fieldGroups under them
                             break;
                             
-                        case "EntitySelect":
-                            throw new NotImplementedException("");
 
-                        case "EntitySearch":
-                            throw new NotImplementedException("");
 
                         default:
                             throw new IndexOutOfRangeException(f.field_type_id + " is not a known/mapped DataItem type");
@@ -1404,6 +1709,106 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region EntityItem 
+        private void EntityItemCreate(int parentId, EntityItem entityItem)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    entity_items eI = new entity_items();
+
+                    eI.created_at = DateTime.Now;
+                    eI.description = entityItem.Description;
+                    eI.group_id = parentId;
+                    //eI.id = "";
+                    eI.microtingUId = entityItem.EntityItemMUId;
+                    eI.name = entityItem.Name;
+                    eI.synced = Bool(false);
+                    eI.updated_at = DateTime.Now;
+                    eI.version = 1;
+                    eI.workflow_state = "created";
+
+                    db.entity_items.Add(eI);
+                    db.SaveChanges();
+
+                    db.entity_item_versions.Add(MapEntityItemVersions(eI));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemCreate failed", ex);
+            }
+        }
+
+        private void EntityItemUpdate(EntityItem entityItem)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<entity_items> lst = db.entity_items.Where(x => x.microtingUId == entityItem.EntityItemMUId && x.workflow_state == "created").ToList();
+
+                    if (lst == null)
+                        throw new Exception("EntityGroupRead failed. Due list was null");
+                    if (lst.Count == 0)
+                        throw new Exception("EntityGroupRead failed. Due list was empty");
+                    if (lst.Count > 1)
+                        throw new Exception("EntityGroupRead failed. Due list was more than 1 match");
+                    entity_items eI = lst[0];
+
+                    eI.description = entityItem.Description;
+                    eI.name = entityItem.Name;
+                    eI.synced = Bool(false);
+                    eI.updated_at = DateTime.Now;
+                    eI.version = eI.version+1;
+
+                    db.SaveChanges();
+
+                    db.entity_item_versions.Add(MapEntityItemVersions(eI));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemUpdate failed", ex);
+            }
+        }
+
+        private void EntityItemDelete(string EntityItemMUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<entity_items> lst = db.entity_items.Where(x => x.microtingUId == EntityItemMUId && x.workflow_state == "created").ToList();
+
+                    if (lst == null)
+                        throw new Exception("EntityGroupRead failed. Due list was null");
+                    if (lst.Count == 0)
+                        throw new Exception("EntityGroupRead failed. Due list was empty");
+                    if (lst.Count > 1)
+                        throw new Exception("EntityGroupRead failed. Due list was more than 1 match");
+                    entity_items eI = lst[0];
+
+                    eI.updated_at = DateTime.Now;
+                    eI.version = eI.version + 1;
+                    eI.workflow_state = "removed";
+
+                    db.SaveChanges();
+
+                    db.entity_item_versions.Add(MapEntityItemVersions(eI));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemUpdate failed", ex);
+            }
+        }
+        #endregion
+
         #region Get*
         private bool Bool(short? input)
         {
@@ -1445,6 +1850,11 @@ namespace eFormSqlController
             return int.Parse(str);
         }
 
+        private int Int(string input)
+        {
+            return int.Parse(input);
+        }
+
         private DateTime? Date(string input)
         {
             if (input == "")
@@ -1468,7 +1878,7 @@ namespace eFormSqlController
                 if (holder.Index == fieldTypeId)
                     return holder.FieldType;
             }
-            return null;
+            throw new Exception("Find failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
         }
 
         private int Find(string typeStr)
@@ -1478,7 +1888,7 @@ namespace eFormSqlController
                 if (holder.FieldType == typeStr)
                     return holder.Index;
             }
-            return -1;
+            throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
         #endregion
 
@@ -1538,7 +1948,7 @@ namespace eFormSqlController
         #endregion
 
         #region mappers
-        private case_versions MapCaseVersions(cases aCase)
+        private case_versions               MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
             caseVer.status = aCase.status;
@@ -1563,7 +1973,7 @@ namespace eFormSqlController
             return caseVer;
         }
 
-        private check_list_versions MapCheckListVersions(check_lists checkList)
+        private check_list_versions         MapCheckListVersions(check_lists checkList)
         {
             check_list_versions clv = new check_list_versions();
             clv.created_at = checkList.created_at;
@@ -1593,7 +2003,7 @@ namespace eFormSqlController
             return clv;
         }
 
-        private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
+        private check_list_value_versions   MapCheckListValueVersions(check_list_values checkListValue)
         {
             check_list_value_versions clvv = new check_list_value_versions();
             clvv.version = checkListValue.version;
@@ -1611,7 +2021,7 @@ namespace eFormSqlController
             return clvv;
         }
 
-        private field_versions MapFieldVersions(fields field)
+        private field_versions              MapFieldVersions(fields field)
         {
             field_versions fv = new field_versions();
 
@@ -1653,7 +2063,7 @@ namespace eFormSqlController
             return fv;
         }
 
-        private field_value_versions MapFieldValueVersions(field_values fieldValue)
+        private field_value_versions        MapFieldValueVersions(field_values fieldValue)
         {
             field_value_versions fvv = new field_value_versions();
 
@@ -1681,7 +2091,7 @@ namespace eFormSqlController
             return fvv;
         }
 
-        private uploaded_data_versions MapUploadedDataVersions(uploaded_data uploadedData)
+        private uploaded_data_versions      MapUploadedDataVersions(uploaded_data uploadedData)
         {
             uploaded_data_versions udv = new uploaded_data_versions();
 
@@ -1704,7 +2114,7 @@ namespace eFormSqlController
             return udv;
         }
 
-        private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
+        private check_list_site_versions    MapCheckListSiteVersions(check_list_sites checkListSite)
         {
             check_list_site_versions checkListSiteVer = new check_list_site_versions();
             checkListSiteVer.check_list_id = checkListSite.check_list_id;
@@ -1719,6 +2129,41 @@ namespace eFormSqlController
             checkListSiteVer.check_list_site_id = checkListSite.id; //<<--
 
             return checkListSiteVer;
+        }
+
+        private entity_group_versions       MapEntityGroupVersions(entity_groups entityGroup)
+        {
+            entity_group_versions entityGroupVer = new entity_group_versions();
+            entityGroupVer.created_at = entityGroup.created_at;
+            entityGroupVer.id = entityGroup.id;
+            entityGroupVer.microtingUId = entityGroup.microtingUId;
+            entityGroupVer.name = entityGroup.name;
+            entityGroupVer.type = entityGroup.type;
+            entityGroupVer.updated_at = entityGroup.updated_at;
+            entityGroupVer.version = entityGroup.version;
+            entityGroupVer.workflow_state = entityGroup.workflow_state;
+
+            entityGroupVer.entity_group_id = entityGroup.id; //<<--
+
+            return entityGroupVer;
+        }
+
+        private entity_item_versions        MapEntityItemVersions(entity_items entityItem)
+        {
+            entity_item_versions entityItemVer = new entity_item_versions();
+            entityItemVer.created_at = entityItem.created_at;
+            entityItemVer.description = entityItem.description;
+            entityItemVer.id = entityItem.id;
+            entityItemVer.microtingUId = entityItem.microtingUId;
+            entityItemVer.name = entityItem.name;
+            entityItemVer.synced = entityItem.synced;
+            entityItemVer.updated_at = entityItem.updated_at;
+            entityItemVer.version = entityItem.version;
+            entityItemVer.workflow_state = entityItem.workflow_state;
+
+            entityItemVer.group_id = entityItem.id; //<<--
+
+            return entityItemVer;
         }
         #endregion
         #endregion
@@ -1858,6 +2303,18 @@ namespace eFormSqlController
         internal int Index { get; }
 
         internal string FieldType { get; }
+    }
+
+    internal class EntityItemUpdateInfo
+    {
+        internal EntityItemUpdateInfo(string entityItemMUid, string status)
+        {
+            EntityItemMUid = entityItemMUid;
+            Status = status;
+        }
+
+        public string EntityItemMUid { get; set; }
+        public string Status { get; set; }
     }
     #endregion
 }

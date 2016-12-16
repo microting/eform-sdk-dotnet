@@ -9,7 +9,7 @@ namespace eFormRequest
 {
     [XmlRoot(ElementName = "Main")]
     [Serializable()]
-    public class MainElement : ReplyElement
+    public class MainElement : CoreElement
     {
         #region con
         public MainElement()
@@ -17,11 +17,30 @@ namespace eFormRequest
             ElementList = new List<Element>();
         }
 
+        public MainElement(CoreElement coreElement)
+        {
+            Id = coreElement.Id;
+            Label = coreElement.Label;
+            DisplayOrder = coreElement.DisplayOrder;
+            CheckListFolderName = coreElement.CheckListFolderName;
+            Repeated = coreElement.Repeated;
+            SetStartDate(coreElement.GetStartDate());
+            SetEndDate(coreElement.GetEndDate());
+            Language = coreElement.Language;
+            MultiApproval = coreElement.MultiApproval;
+            FastNavigation = coreElement.FastNavigation;
+            DownloadEntities = coreElement.DownloadEntities;
+            ManualSync = coreElement.ManualSync;
+            CaseType = coreElement.CaseType;
+            ElementList = coreElement.ElementList;
+
+            PushMessageTitle = "";
+            PushMessageBody = "";
+        }
+
         public MainElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
             bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, List<Element> elementList)
         {
-            ElementList = new List<Element>();
-
             Id = id;
             Label = label;
             DisplayOrder = displayOrder;
@@ -52,7 +71,6 @@ namespace eFormRequest
                     return pushMessageTitle.Substring(0, 255);
                 return pushMessageTitle;
             }
-
             set
             {
                 pushMessageTitle = value;

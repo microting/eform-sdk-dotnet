@@ -121,5 +121,16 @@ namespace Microting
         /// </summary>
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         int CaseDeleteAllSites(string caseUId);
+
+
+        //---------------------------------------------------------------------------------------
+
+        string EntityGroupCreate(string name, string entityType);
+
+        EntityGroup EntityGroupRead(string entityGroupMUId);
+
+        void EntityGroupUpdate(EntityGroup entityGroup);
+
+        void EntityGroupDelete(string entityGroupMUId);
     }
 }

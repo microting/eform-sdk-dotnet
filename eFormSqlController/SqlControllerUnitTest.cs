@@ -92,36 +92,42 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[case_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[cases]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[case_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[cases]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[check_list_site_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[check_list_sites]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_site_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_sites]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[check_list_value_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[check_list_values]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_value_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_values]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[check_list_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[check_lists]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_lists]");
                     //---
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[field_types]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_group_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_groups]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_item_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_items]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[field_value_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[field_values]");
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[field_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[fields]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_value_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_values]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[notifications]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[fields]");
                     //---
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[site_versions]");
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[sites]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[notifications]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[outlook]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[uploaded_data_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[uploaded_data]");
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[site_versions]");
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
                     //---
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[user_versions]");
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [microting].[users]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[uploaded_data_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[uploaded_data]");
+                    //---
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[user_versions]");
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[users]");
                     //---
 
                     return true;

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSqlController", "eFormSqlController\eFormSqlController.csproj", "{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormCustom", "eFormCustom\eFormCustom.csproj", "{462A8F66-3EFE-4962-8D4E-56EC2CF5B051}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{462A8F66-3EFE-4962-8D4E-56EC2CF5B051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{462A8F66-3EFE-4962-8D4E-56EC2CF5B051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{462A8F66-3EFE-4962-8D4E-56EC2CF5B051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{462A8F66-3EFE-4962-8D4E-56EC2CF5B051}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

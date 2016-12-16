@@ -64,8 +64,9 @@ namespace Microting
         object _lockEventClient = new object();
         object _lockEventServer = new object();
         object _lockEventMessage = new object();
-        bool updateIsRunningFiles = true;
-        bool updateIsRunningNotifications = true;
+        bool updateIsRunningFiles = false;
+        bool updateIsRunningNotifications = false;
+        bool updateIsRunningEntities = false;
         bool coreRunning = false;
         bool coreRestarting = false;
         bool coreStatChanging = false;
@@ -138,7 +139,8 @@ namespace Microting
                     TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     TriggerLog("###################################################################################################################");
                     TriggerLog("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
-                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " userId:" + userId + " fileLocation:" + fileLocation);
+                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " userId:" + userId + " fileLocation:" + fileLocation + 
+                        " logEvents:" + logEvents.ToString());
                     TriggerLog("Controller started");
 
 
@@ -197,15 +199,12 @@ namespace Microting
                 TriggerLog("XML to transform:");
                 TriggerLog(xmlString);
 
-                //XML HACK
+                //XML HACK TODO
                 #region xmlString = corrected xml if needed
                 xmlString = xmlString.Replace("<Main>", "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
                 xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
                 xmlString = xmlString.Replace("<DataItem type=", "<DataItem xsi:type=");
                 xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItemGroup xsi:type=");
-
-                xmlString = xmlString.Replace("\"MultiSelect\">", "\"Multi_Select\">");
-                xmlString = xmlString.Replace("\"SingleSelect\">", "\"Multi_Select\">");
 
                 xmlString = xmlString.Replace("<FolderName>", "<CheckListFolderName>");
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
@@ -287,7 +286,8 @@ namespace Microting
                 if (coreRunning)
                 {
                     TriggerLog("Templat id:" + templatId.ToString() + " trying to be read");
-                    return sqlController.TemplatRead(templatId);
+                    MainElement mainElement = new MainElement(sqlController.TemplatRead(templatId));
+                    return mainElement;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -372,7 +372,10 @@ namespace Microting
                     int id = aCase.id;
                     TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
 
-                    ReplyElement replyElement = sqlController.TemplatRead((int)aCase.check_list_id);
+                    ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
+                    replyElement.DateOfDoing = aCase.created_at;
+                    replyElement.DoneById = (int)aCase.done_by_user_id;
+                    replyElement.UnitId = (int)aCase.unit_id;
 
                     List<Answer> lstAnswers = new List<Answer>();
                     List<field_values> lstReplies = sqlController.ChecksRead(microtingUId);
@@ -482,8 +485,19 @@ namespace Microting
                     resp = resp.XmlToClass(xmlResponse);
                     if (resp.Type.ToString() == "Success")
                     {
-                        sqlController.CaseDelete(microtingUId);
-                        return true;
+                        try
+                        {
+                            sqlController.CaseDelete(microtingUId);
+                            return true;
+                        }
+                        catch { }
+
+                        try
+                        {
+                            sqlController.CaseDeleteReversed(microtingUId);
+                            return true;
+                        }
+                        catch { }
                     }
                     return false;
                 }
@@ -568,6 +582,95 @@ namespace Microting
                 throw new Exception("CaseLookupAllSites failed", ex);
             }
         }
+
+        public string           EntityGroupCreate(string name, string entityType)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    int entityGroupId = sqlController.EntityGroupCreate(name, entityType);
+                    string entityGroupMUId = communicator.EntityGroupCreate(entityType);
+
+                    bool isCreated = sqlController.EntityGroupUpdate(entityGroupId, entityGroupMUId);
+
+                    if (isCreated)
+                        return entityGroupMUId;
+                    else
+                    {
+                        sqlController.EntityGroupDelete(entityGroupMUId);
+                        throw new Exception("EntityListCreate failed. Due to list not created correct");
+                    }
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("EntityListCreate failed", ex, true);
+                throw new Exception("EntityListCreate failed", ex);
+            }
+        }
+   
+        public EntityGroup      EntityGroupRead(string entityGroupMUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.EntityGroupRead(entityGroupMUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("EntityGroupRead failed", ex, true);
+                throw new Exception("EntityGroupRead failed", ex);
+            }
+        }
+
+        public void             EntityGroupUpdate(EntityGroup entityGroup)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    sqlController.EntityGroupUpdateItems(entityGroup);
+
+                    Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
+                    aThread.Start();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("EntityGroupRead failed", ex, true);
+                throw new Exception("EntityGroupRead failed", ex);
+            }
+        }
+
+        public void             EntityGroupDelete(string entityGroupMUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    sqlController.EntityGroupDelete(entityGroupMUId);
+
+                    Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
+                    aThread.Start();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("EntityGroupDelete failed", ex, true);
+                throw new Exception("EntityGroupDelete failed", ex);
+            }
+        }
         #endregion
 
         #region private
@@ -607,13 +710,12 @@ namespace Microting
                         #endregion
 
                         subscriber = null;
+                        communicator = null;
+                        sqlController = null;
 
                         TriggerLog("Subscriber no longer triggers events");
                         TriggerLog("Controller closed");
                         TriggerLog("");
-
-                        communicator = null;
-                        sqlController = null;
 
                         coreStatChanging = false;
                     }
@@ -774,9 +876,9 @@ namespace Microting
         {
             try
             {
-                if (updateIsRunningFiles)
+                if (!updateIsRunningFiles)
                 {
-                    updateIsRunningFiles = false;
+                    updateIsRunningFiles = true;
 
                     #region update files
                     string urlStr = "";
@@ -819,7 +921,7 @@ namespace Microting
                             using (var stream = File.OpenRead(fileLocation + fileName))
                             {
                                 byte[] grr = md5.ComputeHash(stream);
-                                chechSum = BitConverter.ToString(grr).Replace("-","").ToLower();
+                                chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
                             }
                         }
                         #endregion
@@ -830,7 +932,7 @@ namespace Microting
                         #endregion
 
                         Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
-                        File_Dto fDto = new File_Dto(dto.SiteId,dto.CaseType,dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocation + fileName);
+                        File_Dto fDto = new File_Dto(dto.SiteId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocation + fileName);
                         HandleFileDownloaded(fDto, EventArgs.Empty);
                         TriggerMessage("Downloaded file '" + urlStr + "'.");
 
@@ -838,7 +940,7 @@ namespace Microting
                     }
                     #endregion
 
-                    updateIsRunningFiles = true;
+                    updateIsRunningFiles = false;
                 }
             }
             catch (Exception ex)
@@ -851,9 +953,9 @@ namespace Microting
         {
             try
             {
-                if (updateIsRunningNotifications)
+                if (!updateIsRunningNotifications)
                 {
-                    updateIsRunningNotifications = false;
+                    updateIsRunningNotifications = true;
                 
                     #region update notifications
                     string notificationStr, noteMuuId, noteType = "";
@@ -869,130 +971,178 @@ namespace Microting
                         }
                         #endregion
 
-                        noteMuuId = t.Locate(notificationStr, "microting_uuid\\\":\\\"", "\\");
-                        noteType = t.Locate(notificationStr, "text\\\":\\\"", "\\\"");
-
-                        switch (noteType)
+                        try
                         {
-                            #region check_status / checklist completed on the device
-                            case "check_status":
-                                {
-                                    List<Case_Dto> caseLst = sqlController.CaseFindMatchs(noteMuuId);
+                            noteMuuId = t.Locate(notificationStr, "microting_uuid\\\":\\\"", "\\");
+                            noteType = t.Locate(notificationStr, "text\\\":\\\"", "\\\"");
 
-                                    MainElement mainElement = new MainElement();
-                                    foreach (Case_Dto aCase in caseLst)
+                            switch (noteType)
+                            {
+                                #region check_status / checklist completed on the device
+                                case "check_status":
                                     {
-                                        if (aCase.SiteId == sqlController.CaseReadByMUId(noteMuuId).SiteId)
+                                        List<Case_Dto> caseLst = sqlController.CaseFindMatchs(noteMuuId);
+
+                                        MainElement mainElement = new MainElement();
+                                        foreach (Case_Dto aCase in caseLst)
                                         {
-                                            #region get response's data and update DB with data
-                                            string lastId = sqlController.CaseReadCheckIdByMUId(noteMuuId);
-                                            string respXml;
-
-                                            if (lastId == null)
-                                                respXml = communicator.Retrieve      (noteMuuId, aCase.SiteId);
-                                            else
-                                                respXml = communicator.RetrieveFromId(noteMuuId, aCase.SiteId, lastId);
-
-                                            Response resp = new Response();
-                                            resp = resp.XmlToClass(respXml);
-
-                                            if (resp.Type == Response.ResponseTypes.Success)
+                                            if (aCase.SiteId == sqlController.CaseReadByMUId(noteMuuId).SiteId)
                                             {
-                                                if (resp.Checks.Count > 0)
+                                                #region get response's data and update DB with data
+                                                string lastId = sqlController.CaseReadCheckIdByMUId(noteMuuId);
+                                                string respXml;
+
+                                                if (lastId == null)
+                                                    respXml = communicator.Retrieve(noteMuuId, aCase.SiteId);
+                                                else
+                                                    respXml = communicator.RetrieveFromId(noteMuuId, aCase.SiteId, lastId);
+
+                                                Response resp = new Response();
+                                                resp = resp.XmlToClass(respXml);
+
+                                                if (resp.Type == Response.ResponseTypes.Success)
                                                 {
-                                                    sqlController.ChecksCreate(resp, respXml);
-
-                                                    if (lastId == null)
+                                                    if (resp.Checks.Count > 0)
                                                     {
-                                                        sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
+                                                        sqlController.ChecksCreate(resp, respXml);
 
-                                                        #region retract case, thereby completing the process
-
-                                                        string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
-                                                        Response respRet = new Response();
-                                                        respRet = respRet.XmlToClass(respXml);
-
-                                                        if (respRet.Type == Response.ResponseTypes.Success)
+                                                        if (lastId == null)
                                                         {
-                                                            sqlController.CaseRetract(aCase.MicrotingUId);
-                                                            TriggerLog(aCase.ToString() + " has been retracted");
+                                                            sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
+
+                                                            #region retract case, thereby completing the process
+
+                                                            string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
+                                                            Response respRet = new Response();
+                                                            respRet = respRet.XmlToClass(respXml);
+
+                                                            if (respRet.Type == Response.ResponseTypes.Success)
+                                                            {
+                                                                sqlController.CaseRetract(aCase.MicrotingUId);
+                                                                TriggerLog(aCase.ToString() + " has been retracted");
+                                                            }
+                                                            else
+                                                                TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                            #endregion
                                                         }
                                                         else
-                                                            TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
-                                                        #endregion
-                                                    }
-                                                    else
-                                                        sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
+                                                            sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
 
-                                                    Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
-                                                    HandleCaseUpdated(cDto, EventArgs.Empty);
-                                                    TriggerMessage(cDto.ToString() + " has been completed");
+                                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
+                                                        HandleCaseUpdated(cDto, EventArgs.Empty);
+                                                        TriggerMessage(cDto.ToString() + " has been completed");
+                                                    }
                                                 }
+                                                else
+                                                    throw new Exception("Failed to retrive eForm " + noteMuuId + " from site " + aCase.SiteId);
+                                                #endregion
                                             }
                                             else
-                                                throw new Exception("Failed to retrive eForm " + noteMuuId + " from site " + aCase.SiteId);
-                                            #endregion
+                                            {
+                                                #region delete eForm on other tablets and update DB to "deleted"
+
+                                                string respXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
+                                                Response resp = new Response();
+                                                resp = resp.XmlToClass(respXml);
+
+                                                if (resp.Type == Response.ResponseTypes.Success)
+                                                    sqlController.CaseDelete(aCase.MicrotingUId);
+                                                else
+                                                    TriggerWarning("Failed to delete eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
+
+                                                HandleCaseDeleted(aCase, EventArgs.Empty);
+                                                TriggerMessage(aCase.ToString() + " has been removed");
+
+                                                #endregion
+                                            }
                                         }
-                                        else
-                                        {
-                                            #region delete eForm on other tablets and update DB to "deleted"
 
-                                            string respXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
-                                            Response resp = new Response();
-                                            resp = resp.XmlToClass(respXml);
-
-                                            if (resp.Type == Response.ResponseTypes.Success)
-                                                sqlController.CaseDelete(aCase.MicrotingUId);
-                                            else
-                                                TriggerWarning("Failed to delete eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
-
-                                            HandleCaseDeleted(aCase, EventArgs.Empty);
-                                            TriggerMessage(aCase.ToString() + " has been removed");
-
-                                            #endregion
-                                        }
+                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        break;
                                     }
+                                #endregion
 
-                                    sqlController.NotificationProcessed(notificationStr);
-                                    break;
-                                }
-                            #endregion
+                                #region unit fetch / checklist retrieve by device
+                                case "unit_fetch":
+                                    {
+                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
+                                        HandleCaseRetrived(cDto, EventArgs.Empty);
+                                        TriggerMessage(cDto.ToString() + " has been retrived");
 
-                            #region unit fetch / checklist retrieve by device
-                            case "unit_fetch":
-                                {
-                                    Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
-                                    HandleCaseRetrived(cDto, EventArgs.Empty);
-                                    TriggerMessage(cDto.ToString() + " has been retrived");
+                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        break;
+                                    }
+                                #endregion
 
-                                    sqlController.NotificationProcessed(notificationStr);
-                                    break;
-                                }
-                            #endregion
+                                #region unit_activate / tablet added
+                                case "unit_activate":
+                                    {
+                                        HandleSiteActivated(noteMuuId, EventArgs.Empty);
+                                        TriggerMessage(noteMuuId + " has been added");
 
-                            #region unit_activate / tablet added
-                            case "unit_activate":
-                                {
-                                    HandleSiteActivated(noteMuuId, EventArgs.Empty);
-                                    TriggerMessage(noteMuuId + " has been added");
+                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        break;
+                                    }
+                                #endregion
 
-                                    sqlController.NotificationProcessed(notificationStr);
-                                    break;
-                                }
-                            #endregion
-
-                            default:
-                                throw new IndexOutOfRangeException("Notification type '" + noteType + "' is not known or mapped");
+                                default:
+                                    throw new IndexOutOfRangeException("Notification type '" + noteType + "' is not known or mapped");
+                            }
+                        }
+                        catch
+                        {
+                            sqlController.NotificationProcessed(notificationStr, "not_found");
                         }
                     }
                     #endregion
 
-                    updateIsRunningNotifications = true;
+                    updateIsRunningNotifications = false;
                 }
             }
             catch (Exception ex)
             {
                 TriggerHandleExpection("CoreHandleUpdateNotifications failed", ex, true);
+            }
+        }
+
+        private void    CoreHandleUpdateEntityItems()
+        {
+            try
+            {
+                if (!updateIsRunningEntities)
+                {
+                    updateIsRunningEntities = true;
+
+                    #region update EntityItems
+                    bool more = true;
+                    entity_items eI;
+                    while (more)
+                    {
+                        eI = sqlController.EntityItemSyncedRead();
+
+                        if (eI != null)
+                        {
+                            try
+                            {
+                                string sent = communicator.EntityItemUpdate("", "", ""); //TODO
+                                sqlController.EntityItemSyncedProcessed(eI.id, "created");
+                            }
+                            catch
+                            {
+                                sqlController.EntityItemSyncedProcessed(eI.id, "failed to sync");
+                            }
+                        }
+                        else
+                            more = false;
+                    }
+                    #endregion
+
+                    updateIsRunningEntities = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CoreHandleUpdateFiles failed", ex, true);
             }
         }
 

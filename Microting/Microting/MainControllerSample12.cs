@@ -163,7 +163,7 @@ namespace Microting
         {
             try
             {
-                ReplyElement replyElement = core.CaseRead(mUId, null);
+                CoreElement replyElement = core.CaseRead(mUId, null);
             }
             catch (Exception ex)
             {
@@ -178,7 +178,7 @@ namespace Microting
         {
             try
             {
-                ReplyElement replyElement = core.CaseReadAllSites(caseUId);
+                CoreElement replyElement = core.CaseReadAllSites(caseUId);
             }
             catch (Exception ex)
             {

@@ -63,7 +63,7 @@ namespace eFormCommunicator
         }
         #endregion
 
-        #region public
+        #region public api
         /// <summary>
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support the complex elements Entity_Search or Entity_Select).
         /// </summary>
@@ -71,15 +71,24 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string PostXml           (string xmlString, int siteId)
         {
-            //XML HACK //TODO - ALL xml hacks
-            //REMEMBER OTHER POST METHOD
-            xmlString = xmlString.Replace("<color></color>", "");   //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("<Color />", "");         //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("DefaultValue", "Value"); //Missing serverside.
-            
+            //TODO - ALL xml hacks
 
-            if (xmlString.Contains("type=\"Entity_Select\">"))
-                throw new SystemException("Needs to use PostExtendedXml method instead, as Entity_Select is needs a Organization Id");
+            //XML HACK
+            //REMEMBER OTHER POST METHOD
+
+            xmlString = xmlString.Replace("<color></color>", "");
+            //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("<Color />", "");
+            //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("DefaultValue", "Value");
+            //Missing serverside.
+
+            //REMEMBER OTHER POST METHOD
+            //XML HACK
+
+
+            if (xmlString.Contains("type=\"Entity_Select\">") || xmlString.Contains("type=\"Entity_Select\">"))
+                throw new SystemException("XML contains Entity_Search and/or Entity_Select, use PostExtendedXml method instead, as they need a Organization Id");
 
             TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
             TriggerEventLog(xmlString);
@@ -97,90 +106,17 @@ namespace eFormCommunicator
         {
             //XML HACK
             //REMEMBER OTHER POST METHOD
-            xmlString = xmlString.Replace("<color></color>", "");   //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("<Color />", "");         //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("DefaultValue", "Value"); //Missing serverside.
 
+            xmlString = xmlString.Replace("<color></color>", "");
+            //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("<Color />", "");         
+            //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("DefaultValue", "Value");
+            //Missing serverside.
 
-            if (xmlString.Contains("type=\"Entity_Select\">"))
-            {
-                int startIndex = 0;
-                while (xmlString.Contains("<EntityTypeData>"))
-                {
-                    string inderXmlStr, responseXml, mUUId;
+            //REMEMBER OTHER POST METHOD
+            //XML HACK
 
-                    #region create EntityType server side.
-                    try
-                    {
-                        inderXmlStr = ReadFirst(xmlString, "<EntityTypeData>", "</EntityTypeData>", false);
-
-                        string entityTypeXmlStr = "<EntityTypes><EntityType>" + ReadFirst(inderXmlStr, "<Name>", "</Name>", true) + ReadFirst(inderXmlStr, "<Id>", "</Id>", true) + "</EntityType></EntityTypes>";
-
-                        responseXml = http.CreatEntityType(entityTypeXmlStr, organizationId);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new SystemException("Failed to create EntityType", ex);
-                    }
-                    #endregion
-
-                    #region create Entity server side.
-                    try
-                    {
-                        if (responseXml.Contains("workflowState=\"created\">"))
-                        {
-                            mUUId = ReadFirst(responseXml, "<MicrotingUUId>", "</MicrotingUUId>", false);
-
-                            string oldTag = ReadFirst(inderXmlStr, "<EntityTypeId>", "</EntityTypeId>", true);
-
-                            string entityXmlStr = inderXmlStr.Replace(oldTag, "<EntityTypeId>" + mUUId + "</EntityTypeId>");
-
-                            entityXmlStr = ReadFirst(entityXmlStr, "<Entities>", "</Entities>", true);
-
-                            responseXml = http.CreatEntity(entityXmlStr, organizationId);
-                        }
-                        else
-                        {
-                            throw new Exception("Failed to get 'workflowState =\"created\"'. Hence was unable to create the EntityType.");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new SystemException("Failed to send or recieve EntityType xml", ex);
-                    }
-                    #endregion
-
-                    #region update xml
-                    try
-                    {
-                        if (responseXml.Contains("workflowState=\"created\">"))
-                        {
-                            string textToBeReplaced = ReadFirst(xmlString, "<EntityTypeData>", "</EntityTypeData>", true);
-                            xmlString = xmlString.Remove(xmlString.IndexOf(textToBeReplaced, startIndex), textToBeReplaced.Length);
-
-
-
-                            textToBeReplaced = ReadFirst(xmlString.Substring(startIndex), "<Source>", "</Source>", true);
-                            int index = xmlString.IndexOf(textToBeReplaced, startIndex);
-
-                            xmlString = xmlString.Remove(index, textToBeReplaced.Length);
-                            xmlString = xmlString.Insert(index, "<Source>" + mUUId + "</Source>");
-
-                            if (xmlString.Contains("<EntityTypeData>"))
-                                startIndex = index + textToBeReplaced.Length;
-                        }
-                        else
-                        {
-                            throw new Exception("Failed to get 'workflowState =\"created\"'. Hence was unable to create the Entities.");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new SystemException("Failed to update xml with source id", ex);
-                    }
-                    #endregion
-                }
-            }
 
             TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
             TriggerEventLog(xmlString);
@@ -238,6 +174,18 @@ namespace eFormCommunicator
         }
         #endregion
 
+        #region public entity
+        public string EntityGroupCreate(string entityType)
+        {
+            return "12123";
+        }
+
+        public string EntityItemUpdate(string entityType, string action, string entityItemStr)
+        {
+            return "3213";
+        }
+        #endregion
+
         #region internal
         internal void TriggerEventLog(string message)
         {
@@ -248,26 +196,7 @@ namespace eFormCommunicator
             }
         }
         #endregion
-
-        #region private
-        private string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
-        {
-            try
-            {
-                int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-                int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                if (keepStartAndEnd)
-                    return startStr + textStr.Substring(startIndex, lenght) + endStr;
-                else
-                    return textStr.Substring(startIndex, lenght).Trim();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to find:'" + startStr + "' or '" + endStr + "'.", ex);
-            }
-        }
-        #endregion
-
+        
         #region remove unwanted/uneeded methods from finished DLL
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

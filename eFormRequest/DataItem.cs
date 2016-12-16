@@ -7,19 +7,19 @@ namespace eFormRequest
     #region xml tags
     [Serializable()]
     [XmlInclude(typeof(Audio))]
-    [XmlInclude(typeof(Check_Box))]
-    [XmlInclude(typeof(Entity_Search))]
+    [XmlInclude(typeof(CheckBox))]
+    [XmlInclude(typeof(EntitySelect))]
     [XmlInclude(typeof(Comment))]
     [XmlInclude(typeof(Date))]
     [XmlInclude(typeof(None))]
     [XmlInclude(typeof(Number))]
-    [XmlInclude(typeof(Multi_Select))]
-    [XmlInclude(typeof(Show_PDF))]
+    [XmlInclude(typeof(MultiSelect))]
+    [XmlInclude(typeof(ShowPdf))]
     [XmlInclude(typeof(Picture))]
     [XmlInclude(typeof(SaveButton))]
     [XmlInclude(typeof(Signature))]
-    [XmlInclude(typeof(Single_Select))]
-    [XmlInclude(typeof(Entity_Select))]
+    [XmlInclude(typeof(SingleSelect))]
+    [XmlInclude(typeof(EntitySearch))]
     [XmlInclude(typeof(Text))]
     [XmlInclude(typeof(Timer))]
     #endregion
@@ -73,15 +73,15 @@ namespace eFormRequest
     }
     #endregion
 
-    #region Check_Box
-    public class Check_Box : DataItem
+    #region CheckBox
+    public class CheckBox : DataItem
     {
-        internal Check_Box()
+        internal CheckBox()
         {
 
         }
 
-        public Check_Box(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+        public CheckBox(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             bool defaultValue, bool selected)
         {
             Id = id;
@@ -221,15 +221,15 @@ namespace eFormRequest
     }
     #endregion
 
-    #region Multi_Select
-    public class Multi_Select : DataItem
+    #region MultiSelect
+    public class MultiSelect : DataItem
     {
-        internal Multi_Select()
+        internal MultiSelect()
         {
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public Multi_Select(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+        public MultiSelect(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
@@ -251,15 +251,15 @@ namespace eFormRequest
     }
     #endregion
 
-    #region Show_PDF
-    public class Show_PDF : DataItem
+    #region ShowPDF
+    public class ShowPdf : DataItem
     {
-        internal Show_PDF()
+        internal ShowPdf()
         {
 
         }
 
-        public Show_PDF(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+        public ShowPdf(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             string defaultValue)
         {
             Id = id;
@@ -356,15 +356,15 @@ namespace eFormRequest
     }
     #endregion
 
-    #region Single_Select
-    public class Single_Select : DataItem
+    #region SingleSelect
+    public class SingleSelect : DataItem
     {
-        internal Single_Select()
+        internal SingleSelect()
         {
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public Single_Select(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
+        public SingleSelect(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, 
             List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
@@ -449,6 +449,84 @@ namespace eFormRequest
         }
 
         public bool StopOnSave { get; set; }
+    }
+    #endregion
+
+    #region EntitySearch
+    public class EntitySearch : DataItem
+    {
+        #region con
+        internal EntitySearch()
+        {
+
+        }
+
+        public EntitySearch(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder,
+            int defaultValue, int entityTypeId, bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled, string barcodeType)
+        {
+            Id = id;
+            Mandatory = mandatory;
+            ReadOnly = readOnly;
+            Label = label;
+            Description = new CDataValue();
+            Description.InderValue = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+
+            DefaultValue = defaultValue;
+            EntityTypeId = entityTypeId;
+            IsNum = isNum;
+            QueryType = queryType;
+            MinSearchLenght = minSearchLenght;
+            BarcodeEnabled = barcodeEnabled;
+            BarcodeType = barcodeType;
+        }
+        #endregion
+
+        #region var
+        public int DefaultValue { get; set; }
+        public int EntityTypeId { get; set; }
+
+        public bool IsNum { get; set; }
+        public string QueryType { get; set; }
+        public int MinSearchLenght { get; set; }
+        public bool BarcodeEnabled { get; set; }
+        public string BarcodeType { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region EntitySelect
+    public class EntitySelect : DataItem
+    {
+        #region con
+        internal EntitySelect()
+        {
+
+        }
+
+        public EntitySelect(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder,
+            int defaultValue, int source)
+
+        {
+            Id = id;
+            Mandatory = mandatory;
+            ReadOnly = readOnly;
+            Label = label;
+            Description = new CDataValue();
+            Description.InderValue = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+
+            DefaultValue = defaultValue;
+            Source = source;
+        }
+        #endregion
+
+        #region var
+        public int DefaultValue { get; set; }
+        public int Source { get; set; }
+        #endregion
     }
     #endregion
     #endregion

@@ -61,36 +61,42 @@
     <Compile Include="..\Microting\Microting\Tools.cs">
       <Link>Tools.cs</Link>
     </Compile>
-    <Compile Include="cases.cs" />
-    <Compile Include="case_versions.cs" />
-    <Compile Include="check_lists.cs" />
-    <Compile Include="check_list_sites.cs" />
-    <Compile Include="check_list_site_versions.cs" />
-    <Compile Include="check_list_values.cs" />
-    <Compile Include="check_list_value_versions.cs" />
-    <Compile Include="check_list_versions.cs" />
-    <Compile Include="fields.cs" />
-    <Compile Include="field_types.cs" />
-    <Compile Include="field_values.cs" />
-    <Compile Include="field_value_versions.cs" />
-    <Compile Include="field_versions.cs" />
+    <Compile Include="table\cases.cs" />
+    <Compile Include="table\case_versions.cs" />
+    <Compile Include="table\check_lists.cs" />
+    <Compile Include="table\check_list_sites.cs" />
+    <Compile Include="table\check_list_site_versions.cs" />
+    <Compile Include="table\check_list_values.cs" />
+    <Compile Include="table\check_list_value_versions.cs" />
+    <Compile Include="table\check_list_versions.cs" />
+    <Compile Include="tableExt\entity_groups.cs" />
+    <Compile Include="tableExt\entity_group_versions.cs" />
+    <Compile Include="tableExt\entity_items.cs" />
+    <Compile Include="tableExt\entity_item_versions.cs" />
+    <Compile Include="table\fields.cs" />
+    <Compile Include="table\field_types.cs" />
+    <Compile Include="table\field_values.cs" />
+    <Compile Include="table\field_value_versions.cs" />
+    <Compile Include="table\field_versions.cs" />
     <Compile Include="MicrotingDb.cs" />
-    <Compile Include="notifications.cs" />
+    <Compile Include="table\notifications.cs" />
+    <Compile Include="tableExt\outlook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sites.cs" />
-    <Compile Include="site_versions.cs" />
+    <Compile Include="table\sites.cs" />
+    <Compile Include="table\site_versions.cs" />
     <Compile Include="SqlControllerExtended.cs" />
     <Compile Include="SqlController.cs" />
     <Compile Include="SqlControllerUnitTest.cs" />
-    <Compile Include="uploaded_data.cs" />
-    <Compile Include="uploaded_data_versions.cs" />
-    <Compile Include="users.cs" />
-    <Compile Include="user_versions.cs" />
+    <Compile Include="table\uploaded_data.cs" />
+    <Compile Include="table\uploaded_data_versions.cs" />
+    <Compile Include="table\users.cs" />
+    <Compile Include="table\user_versions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

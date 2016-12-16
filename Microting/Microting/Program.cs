@@ -36,6 +36,51 @@ namespace Microting
     {
         static void Main(string[] args)
         {
+            RunCustom();
+        }
+
+        static void     RunCustom()
+        {
+            while (true)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Select which MainController element to start. Type:");
+                Console.WriteLine("'S' for setup custom");
+                Console.WriteLine("'R' for run custom");
+                Console.WriteLine("'C' for cleaning database and devices");
+                Console.WriteLine("'E' for exiting program");
+
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "e")
+                    break;
+
+                if (input.ToLower() == "r")
+                {
+                    MainControllerCustom mainController = new MainControllerCustom();
+                    Console.WriteLine("Press any key to close MainControllerCustom");
+                    Console.ReadKey();
+                    mainController.Close();
+                }
+
+                if (input.ToLower() == "s")
+                {
+                    MainControllerCustom mainController = new MainControllerCustom();
+                    mainController.Setup();
+                    mainController.Close();
+                }
+
+                if (input.ToLower() == "c")
+                    CleanUp();
+            }
+
+            Console.WriteLine("Program has been closed. Will close Console in 2s");
+            Thread.Sleep(2000);
+            Environment.Exit(0);
+        }
+
+        static void     RunDefault()
+        {
             while (true)
             {
                 Console.WriteLine("");
@@ -68,14 +113,15 @@ namespace Microting
                     CleanUp();
             }
 
-            Console.WriteLine("Program has been closed. Will close Console in 5s");
-            Thread.Sleep(5000);
+            Console.WriteLine("Program has been closed. Will close Console in 2s");
+            Thread.Sleep(2000);
             Environment.Exit(0);
         }
 
         static void     Default()
         {
             MainControllerSample12 mainController = new MainControllerSample12();
+
             bool keepRunning = true;
 
             while (keepRunning)
@@ -119,7 +165,7 @@ namespace Microting
                     int inputT = int.Parse(Console.ReadLine());
                     siteIds.Add(inputT);
 
-                    string xmlStr = File.ReadAllText("sample1xml.txt");
+                    string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
                     var main = mainController.TemplatFromXml(xmlStr);
 
                     main.Repeated = 1;
@@ -180,7 +226,7 @@ namespace Microting
                     siteIds.Add(inputT);
 
 
-                    string xmlStr = File.ReadAllText("sample2xml.txt");
+                    string xmlStr = File.ReadAllText("sample\\sample2xml.txt");
                     var main = mainController.TemplatFromXml(xmlStr);
 
                     main.Repeated = 1;
@@ -252,7 +298,7 @@ namespace Microting
                     #endregion
 
                     #region step 2
-                    string xmlStr2 = File.ReadAllText("sample3step2xml.txt");
+                    string xmlStr2 = File.ReadAllText("sample\\sample3step2xml.txt");
                     mainElement = mainController.TemplatFromXml(xmlStr2);
 
                     mainElement.CaseType = "Step two";
@@ -263,7 +309,7 @@ namespace Microting
                     #endregion
 
                     #region step 3
-                    string xmlStr3W = File.ReadAllText("sample3step3Wxml.txt");
+                    string xmlStr3W = File.ReadAllText("sample\\sample3step3Wxml.txt");
                     mainElement = mainController.TemplatFromXml(xmlStr3W);
 
                     mainElement.CaseType = "Step three";
@@ -274,7 +320,7 @@ namespace Microting
 
 
 
-                    string xmlStr3L = File.ReadAllText("sample3step3Lxml.txt");
+                    string xmlStr3L = File.ReadAllText("sample\\sample3step3Lxml.txt");
                     mainElement = mainController.TemplatFromXml(xmlStr3L);
 
                     mainElement.CaseType = "Step three";
@@ -285,7 +331,7 @@ namespace Microting
                     #endregion
 
                     #region step 4
-                    string xmlStr4 = File.ReadAllText("sample3step4xml.txt");
+                    string xmlStr4 = File.ReadAllText("sample\\sample3step4xml.txt");
                     mainElement = mainController.TemplatFromXml(xmlStr4);
 
                     mainElement.CaseType = "Step four";
@@ -295,11 +341,11 @@ namespace Microting
                     filStr += tId4;
                     #endregion
 
-                    FilSave(filStr, "sample3settings");
+                    FilSave(filStr, "sample\\sample3settings");
                     mainController.SetSetting();
 
                     #region step 1
-                    string xmlStr1 = File.ReadAllText("sample3step1xml.txt");
+                    string xmlStr1 = File.ReadAllText("sample\\sample3step1xml.txt");
                     mainElement = mainController.TemplatFromXml(xmlStr1);
 
                     mainElement.Repeated = 0;
@@ -334,7 +380,7 @@ namespace Microting
                 #endregion
                 
                 SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString, userId);
-                MainController temp = new MainController();
+                MainControllerDefault temp = new MainControllerDefault();
                 ICore core = temp.core;
 
                 List<string> lstMUIds = sqlConUT.CleanActiveCases();
@@ -349,7 +395,6 @@ namespace Microting
                 throw new Exception("CleanUp failed", ex);
             }
         }
-
 
 
         static string   GenerateSampleCaseId()

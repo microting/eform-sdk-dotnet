@@ -364,7 +364,7 @@ namespace eFormTester
                 e1.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 8, "true", 100, false, false, true, false, ""));
                 e1.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
                 e1.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
-                e1.DataItemList.Add(new Check_Box("5", false, true, "Check box", "this is a description", "e2f4fb", 15, true, true));
+                e1.DataItemList.Add(new eFormRequest.CheckBox("5", false, true, "Check box", "this is a description", "e2f4fb", 15, true, true));
                 e1.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 16, startDate, startDate, startDate.ToString()));
                 e1.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
                 #endregion
@@ -389,7 +389,7 @@ namespace eFormTester
                 e1.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
                 e1.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
                 e1.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
-                e1.DataItemList.Add(new Check_Box("5", true, false, "Check box", "this is a description", "e2f4fb", 5, true, true));
+                e1.DataItemList.Add(new eFormRequest.CheckBox("5", true, false, "Check box", "this is a description", "e2f4fb", 5, true, true));
                 e1.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 6, startDate, startDate, startDate.ToString()));
                 e1.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
                 e1.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", "e2f4fb", 13, false));
@@ -399,7 +399,7 @@ namespace eFormTester
                 e2.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
                 e2.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
                 e2.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
-                e2.DataItemList.Add(new Check_Box("5", false, true, "Check box", "this is a description", "e2f4fb", 5, true, true));
+                e2.DataItemList.Add(new eFormRequest.CheckBox("5", false, true, "Check box", "this is a description", "e2f4fb", 5, true, true));
                 e2.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 6, startDate, startDate, startDate.ToString()));
                 e2.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
                 e2.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", "e2f4fb", 8, false));
@@ -439,23 +439,23 @@ namespace eFormTester
                 multiKeyValuePairList.Add(new KeyValuePair("2", "option 2", true, "2"));
                 multiKeyValuePairList.Add(new KeyValuePair("3", "option 3", false, "3"));
 
-                e1.DataItemList.Add(new Single_Select("1", false, false, "Single select field", "this is a description", "e2f4fb", 1, singleKeyValuePairList));
-                e1.DataItemList.Add(new Multi_Select("2", false, false, "Multi select field", "this is a description", "e2f4fb", 2, multiKeyValuePairList));
+                e1.DataItemList.Add(new SingleSelect("1", false, false, "Single select field", "this is a description", "e2f4fb", 1, singleKeyValuePairList));
+                e1.DataItemList.Add(new MultiSelect("2", false, false, "Multi select field", "this is a description", "e2f4fb", 2, multiKeyValuePairList));
                 e1.DataItemList.Add(new Audio("3", false, false, "Audio field", "this is a description", "e2f4fb", 3, 1));
-                e1.DataItemList.Add(new Show_PDF("4", false, false, "PDF field", "this is a description", "e2f4fb", 4, @"http://www.analysis.im/uploads/seminar/pdf-sample.pdf"));
+                e1.DataItemList.Add(new ShowPdf("4", false, false, "PDF field", "this is a description", "e2f4fb", 4, @"http://www.analysis.im/uploads/seminar/pdf-sample.pdf"));
                 e1.DataItemList.Add(new Comment("5", false, false, "Comment field", "this is a description", "e2f4fb", 5, "value", 10000, false));
 
                 e2.DataItemList.Add(new Number("1", false, false, "Number field", "this is a description", "e2f4fb", 1, 0, 1000, 2, 0, ""));
                 e2.DataItemList.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
                 e2.DataItemList.Add(new Comment("3", false, false, "Comment field", "this is a description", "e2f4fb", 3, "value", 10000, false));
                 e2.DataItemList.Add(new Picture("4", false, false, "Picture field", "this is a description", "e2f4fb", 4, 1, true));
-                e2.DataItemList.Add(new Check_Box("5", false, false, "Check box", "this is a description", "e2f4fb", 5, true, true));
+                e2.DataItemList.Add(new eFormRequest.CheckBox("5", false, false, "Check box", "this is a description", "e2f4fb", 5, true, true));
                 e2.DataItemList.Add(new Date("6", false, false, "Date field", "this is a description", "e2f4fb", 6, startDate, startDate, startDate.ToString()));
                 e2.DataItemList.Add(new None("7", false, false, "None field, only shows text", "this is a description", "e2f4fb", 7));
                 e2.DataItemList.Add(new eFormRequest.Timer("8", false, false, "Timer", "this is a description", "e2f4fb", 8, false));
                 e2.DataItemList.Add(new Signature("9", false, false, "Signature", "this is a description", "e2f4fb", 9));
 
-                e3.DataItemList.Add(new Check_Box("1", true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false));
+                e3.DataItemList.Add(new eFormRequest.CheckBox("1", true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false));
                 #endregion
                 sampleXml = sample.ClassToXml();
             }
@@ -506,30 +506,17 @@ namespace eFormTester
                 dILst.Add(new Text("2", false, false, "Text field", "this is a description bla", "e2f4fb", 2, "true", 100, false, false, true, false, ""));
 
 
-                ////TODO - missing fields to be renamed server side.
-                ////check update of list
-                ////delete list
-                //Entity e_1 = new Entity("iden", "decription 1", "km", "colour", "radioCode", "1");
-                //Entity e_2 = new Entity("iden", "decription 2", "km", "colour", "radioCode", "2");
-                //Entity e_3 = new Entity("iden", "decription 3", "km", "colour", "radioCode", "3");
-                //List<Entity> lstE = new List<Entity>();
-                //lstE.Add(e_1);
-                //lstE.Add(e_2);
-                //lstE.Add(e_3);
 
-                //EntityType eS = new EntityType("name", "1001", lstE);
+                int alreadyKnownListId = 12921;
+                e1.DataItemList.Add(new EntitySearch("1", false, false, "Entity_Search field", "random description", "e2f4fb", 1, 1, alreadyKnownListId, false, "", 2, false, ""));
 
-                //int alreadyKnownListId = 12878;
-                //e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", "e2f4fb", 1, eS));
-                //e1.DataItemList.Add(new Entity_Select("1", false, false, "Entity_Select field", "random description", "e2f4fb", 1, alreadyKnownListId));
-                
-                ////Entity_Search missing
-                ////e1.DataItemList.Add(new Choose_Entity("2", true, false, "Choose", "description", DataItemColors.Red, 2, "this is", true, "bla bla", 0, false, "unk", 1));
+                alreadyKnownListId = 31;
+                e1.DataItemList.Add(new EntitySelect("1", false, false, "Entity_Search field", "random description", "e2f4fb", 1, 1, alreadyKnownListId));
 
                 e2.DataItemList.Add(new Comment("2", false, false, "Comment field", "this is a description", "e2f4fb", 2, "Text", 10000, false));
-                e2.DataItemList.Add(new Check_Box("1", true, false, "Check field", "this is a description", "e2f4fb", 1, false, false));
+                e2.DataItemList.Add(new eFormRequest.CheckBox("1", true, false, "Check field", "this is a description", "e2f4fb", 1, false, false));
 
-                e3.DataItemList.Add(new Check_Box("1", true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false));
+                e3.DataItemList.Add(new eFormRequest.CheckBox("1", true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false));
                 #endregion
                 sampleXml = sample.ClassToXml();
             }

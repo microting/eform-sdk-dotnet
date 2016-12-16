@@ -58,8 +58,10 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
-    <Compile Include="MainController.cs" />
+    <Compile Include="MainControllerCustom.cs" />
+    <Compile Include="MainControllerDefault.cs" />
     <Compile Include="MainControllerSample12.cs" />
+    <Compile Include="MainController.cs" />
     <Compile Include="MainControllerSample3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,6 +74,10 @@
     <ProjectReference Include="..\..\eFormCommunicator\eFormCommunicator.csproj">
       <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
       <Name>eFormCommunicator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\eFormCustom\eFormCustom.csproj">
+      <Project>{462a8f66-3efe-4962-8d4e-56ec2cf5b051}</Project>
+      <Name>eFormCustom</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\eFormRequest\eFormRequest.csproj">
       <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>

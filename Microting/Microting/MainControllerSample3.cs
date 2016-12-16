@@ -199,7 +199,7 @@ namespace Microting
         {
             try
             {
-                ReplyElement replyElement = core.CaseRead(mUId, null);
+                CoreElement replyElement = core.CaseRead(mUId, null);
             }
             catch (Exception ex)
             {
@@ -214,7 +214,7 @@ namespace Microting
         {
             try
             {
-                ReplyElement replyElement = core.CaseReadAllSites(caseUId);
+                CoreElement replyElement = core.CaseReadAllSites(caseUId);
             }
             catch (Exception ex)
             {
@@ -305,7 +305,7 @@ namespace Microting
                     #region create offering
                     if (caseType == "Step one")
                     {
-                        ReplyElement reply = core.CaseRead(mUId, checkUId);
+                        CoreElement reply = core.CaseRead(mUId, checkUId);
 
                         DataElement replyDataE = (DataElement)reply.ElementList[0];
                         Answer answer = (Answer)replyDataE.DataItemList[0];
@@ -343,7 +343,7 @@ namespace Microting
                         if (isFirst)
                         {
                             #region send win eForm
-                            ReplyElement reply = core.CaseRead(mUId, checkUId);
+                            CoreElement reply = core.CaseRead(mUId, checkUId);
 
                             DataElement replyDataE = (DataElement)reply.ElementList[0];
                             Answer answer = (Answer)replyDataE.DataItemList[0];
@@ -368,7 +368,7 @@ namespace Microting
                         else
                         {
                             #region send loss eForm
-                            ReplyElement reply = core.CaseRead(mUId, checkUId);
+                            CoreElement reply = core.CaseRead(mUId, checkUId);
 
                             DataElement replyDataE = (DataElement)reply.ElementList[0];
                             Answer answer = (Answer)replyDataE.DataItemList[0];
@@ -392,7 +392,7 @@ namespace Microting
                     #region final step
                     if (caseType == "Step three")
                     {
-                        ReplyElement reply = core.CaseRead(mUId, checkUId);
+                        CoreElement reply = core.CaseRead(mUId, checkUId);
 
                         DataElement replyDataE = (DataElement)reply.ElementList[0];
                         Answer answer = (Answer)replyDataE.DataItemList[0];
