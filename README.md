@@ -28,7 +28,7 @@ Several examples can be found in the Program.cs file:
 ## Development recommendations
 
   - Visual Studio 2008
-	- MS SQL Server Management Studio
+  - MS SQL Server Management Studio
 
 ## License
 
