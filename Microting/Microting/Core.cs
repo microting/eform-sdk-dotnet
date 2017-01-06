@@ -43,7 +43,7 @@ namespace Microting
         #region events
         public event EventHandler HandleCaseCreated;
         public event EventHandler HandleCaseRetrived;
-        public event EventHandler HandleCaseUpdated;
+        public event EventHandler HandleCaseCompleted;
         public event EventHandler HandleCaseDeleted;
         public event EventHandler HandleFileDownloaded;
         public event EventHandler HandleSiteActivated;
@@ -74,23 +74,27 @@ namespace Microting
 
         string comToken;
         string comAddress;
+        string organizationId;
         string subscriberToken;
         string subscriberAddress;
         string subscriberName;
+
         string serverConnectionString;
-        int userId;
         string fileLocation;
         bool logEvents;
         #endregion
 
         #region con
-        public Core(string comToken, string comAddress, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, int userId, string fileLocation, bool logEvents)
+        public Core(string comToken, string comAddress, string organizationId, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, string fileLocation, bool logEvents)
         {
             if (string.IsNullOrEmpty(comToken))
                 throw new ArgumentException("comToken is not allowed to be null or empty");
 
             if (string.IsNullOrEmpty(comAddress))
                 throw new ArgumentException("comAddress is not allowed to be null or empty");
+
+            if (string.IsNullOrEmpty(organizationId))
+                throw new ArgumentException("organizationId is not allowed to be null or empty");
 
             if (string.IsNullOrEmpty(subscriberToken))
                 throw new ArgumentException("subscriberToken is not allowed to be null or empty");
@@ -106,26 +110,23 @@ namespace Microting
             if (string.IsNullOrEmpty(serverConnectionString))
                 throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
-            if (userId < 1)
-                throw new ArgumentException("userId is not allowed to be lower than 1");
-
             if (string.IsNullOrEmpty(fileLocation))
                 throw new ArgumentException("fileLocation is not allowed to be null or empty");
 
             this.comToken = comToken;
             this.comAddress = comAddress;
+            this.organizationId = organizationId;
             this.subscriberToken = subscriberToken;
             this.subscriberAddress = subscriberAddress;
             this.subscriberName = subscriberName;
             this.serverConnectionString = serverConnectionString;
-            this.userId = userId;
             this.fileLocation = fileLocation;
             this.logEvents = logEvents;
         }
         #endregion
 
         #region public state
-        public void         Start()
+        public void     Start()
         {
             try
             {
@@ -139,18 +140,17 @@ namespace Microting
                     TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     TriggerLog("###################################################################################################################");
                     TriggerLog("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
-                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " userId:" + userId + " fileLocation:" + fileLocation + 
-                        " logEvents:" + logEvents.ToString());
+                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logEvents.ToString());
                     TriggerLog("Controller started");
 
 
                     //sqlController
-                    sqlController = new SqlController(serverConnectionString, userId);
+                    sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
 
 
                     //communicators
-                    communicator = new Communicator(comToken, comAddress);
+                    communicator = new Communicator(comAddress, comToken, organizationId);
                     communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
 
@@ -175,17 +175,62 @@ namespace Microting
             }
         }
 
-        public void         Close()
+        public void     Close()
         {
-            Close(true);
+            try
+            {
+                if (coreRunning && !coreStatChanging)
+                {
+                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+                    {
+                        coreStatChanging = true;
+
+                        coreRunning = false;
+                        TriggerMessage("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+
+                        try
+                        {
+                            TriggerMessage("Subscriber requested to close connection");
+                            subscriber.Close();
+                        }
+                        catch { }
+
+                        #region remove triggers
+                        try
+                        {
+                            communicator.EventLog += CoreHandleEventLog;
+                        }
+                        catch { }
+
+                        try
+                        {
+                            subscriber.EventMsgClient -= CoreHandleEventClient;
+                            subscriber.EventMsgServer -= CoreHandleEventServer;
+                        }
+                        catch { }
+                        #endregion
+
+                        subscriber = null;
+                        communicator = null;
+                        sqlController = null;
+
+                        TriggerLog("Subscriber no longer triggers events");
+                        TriggerLog("Controller closed");
+                        TriggerLog("");
+
+                        coreStatChanging = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                coreRunning = false;
+                coreStatChanging = false;
+                throw new Exception("FATAL Exception. Core failed to close", ex);
+            }
         }
 
-        public void         CloseForced()
-        {
-            Close(false);
-        }
-
-        public bool         Running()
+        public bool     Running()
         {
             return coreRunning;
         }
@@ -299,19 +344,16 @@ namespace Microting
             }
         }
 
-        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed)
+        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds)
         {
             try
             {
                 if (coreRunning)
                 {
                     string siteIdsStr = string.Join(",", siteIds);
-                    TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " reversed:" + reversed.ToString() + ", requested to be created");
+                    TriggerLog("siteIds:" + siteIdsStr + ", requested to be created");
 
-                    if (reversed == true && siteIds.Count > 1)
-                        throw new ArgumentNullException("It's NOT possible to create both linked AND reversed cases");
-
-                    Thread subscriberThread = new Thread(() => CaseCreateMethodThreaded(mainElement, siteIds, caseUId, DateTime.MinValue, "", "", reversed));
+                    Thread subscriberThread = new Thread(() => CaseCreateMethodThreaded(mainElement, caseUId, siteIds, "", false));
                     subscriberThread.Start();
                 }
                 else
@@ -324,17 +366,16 @@ namespace Microting
             }
         }
 
-        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed, DateTime navisionTime, string numberPlate, string roadNumber)
+        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
         {
             try
             {
                 if (coreRunning)
                 {
                     string siteIdsStr = string.Join(",", siteIds);
-                    TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " reversed:" + reversed.ToString() + " navisionTime:" + navisionTime.ToString() + " numberPlate:" + numberPlate +
-                        " roadNumber:" + roadNumber + ", requested to be created");
+                    TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + " reversed:" + reversed.ToString() + ", requested to be created");
 
-                    Thread caseThread = new Thread(() => CaseCreateMethodThreaded(mainElement, siteIds, caseUId, navisionTime, numberPlate, roadNumber, reversed));
+                    Thread caseThread = new Thread(() => CaseCreateMethodThreaded(mainElement, caseUId, siteIds, custom, reversed));
                     caseThread.Start();
                 }
                 else
@@ -373,7 +414,8 @@ namespace Microting
                     TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
 
                     ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
-                    replyElement.DateOfDoing = aCase.created_at;
+                    replyElement.Custom = aCase.custom;
+                    replyElement.DoneAt = (DateTime)aCase.done_at;
                     replyElement.DoneById = (int)aCase.done_by_user_id;
                     replyElement.UnitId = (int)aCase.unit_id;
 
@@ -461,27 +503,13 @@ namespace Microting
                 {
                     TriggerLog("microtingUId:" + microtingUId + ", requested to be deleted");
 
-                    int siteId = -1;
+                    var aCase = sqlController.CaseReadByMUId(microtingUId);
+                    string xmlResponse = communicator.Delete(microtingUId, aCase.SiteId);
 
-                    var lst = sqlController.CaseFindMatchs(microtingUId);
-                    if (lst.Count < 1)
-                    {
-                        TriggerLog("No matching siteId found");
-                        return false;
-                    }
-
-                    foreach (var item in lst)
-                    {
-                        if (item.MicrotingUId == microtingUId)
-                            siteId = item.SiteId;
-                    }
-                    TriggerLog("siteId:" + siteId.ToString() + ", found to match case");
-
-                    Response resp = new Response();
-                    string xmlResponse = communicator.Delete(microtingUId, siteId);
                     TriggerLog("XML response:");
                     TriggerLog(xmlResponse);
 
+                    Response resp = new Response();
                     resp = resp.XmlToClass(xmlResponse);
                     if (resp.Type.ToString() == "Success")
                     {
@@ -531,7 +559,7 @@ namespace Microting
                         if (resp.Value == "success")
                             deleted++;
                     }
-                    TriggerLog("deleted:" + deleted.ToString() + ", deleted");
+                    TriggerLog("deleted:" + deleted.ToString());
 
                     return deleted;
                 }
@@ -583,14 +611,15 @@ namespace Microting
             }
         }
 
-        public string           EntityGroupCreate(string name, string entityType)
+        public string           EntityGroupCreate(string entityType, string name)
         {
             try
             {
                 if (coreRunning)
                 {
                     int entityGroupId = sqlController.EntityGroupCreate(name, entityType);
-                    string entityGroupMUId = communicator.EntityGroupCreate(entityType);
+
+                    string entityGroupMUId = communicator.EntityGroupCreate(entityType, name, entityGroupId.ToString());
 
                     bool isCreated = sqlController.EntityGroupUpdate(entityGroupId, entityGroupMUId);
 
@@ -657,7 +686,9 @@ namespace Microting
             {
                 if (coreRunning)
                 {
+                    communicator.EntityGroupDelete("EntitySearch", entityGroupMUId);
                     sqlController.EntityGroupDelete(entityGroupMUId);
+
 
                     Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
                     aThread.Start();
@@ -674,62 +705,7 @@ namespace Microting
         #endregion
 
         #region private
-        private void    Close(bool wait)
-        {
-            try
-            {
-                if (coreRunning && !coreStatChanging)
-                {
-                    lock (_lockMain) //Will let sending Cases sending finish, before closing
-                    {
-                        coreStatChanging = true;
-
-                        coreRunning = false;
-                        TriggerMessage("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
-
-                        try
-                        {
-                            TriggerMessage("Subscriber requested to close connection");
-                            subscriber.Close(wait);
-                        }
-                        catch { }
-
-                        #region remove triggers
-                        try
-                        {
-                            communicator.EventLog += CoreHandleEventLog;
-                        }
-                        catch { }
-
-                        try
-                        {
-                            subscriber.EventMsgClient -= CoreHandleEventClient;
-                            subscriber.EventMsgServer -= CoreHandleEventServer;
-                        }
-                        catch { }
-                        #endregion
-
-                        subscriber = null;
-                        communicator = null;
-                        sqlController = null;
-
-                        TriggerLog("Subscriber no longer triggers events");
-                        TriggerLog("Controller closed");
-                        TriggerLog("");
-
-                        coreStatChanging = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                coreRunning = false;
-                coreStatChanging = false;
-                throw new Exception("FATAL Exception. Core failed to close", ex);
-            }
-        }
-
-        private void    CaseCreateMethodThreaded(MainElement mainElement, List<int> siteIds, string caseUId, DateTime navisionTime, string numberPlate, string roadNumber, bool reversed)
+        private void    CaseCreateMethodThreaded(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
         {
             try //Threaded method, hence the try/catch
             {
@@ -755,7 +731,7 @@ namespace Microting
                         string mUId = SendXml(mainElement, siteId);
 
                         if (reversed == false)
-                            sqlController.CaseCreate(mUId, mainElement.Id, siteId, caseUId, navisionTime, numberPlate, roadNumber);
+                            sqlController.CaseCreate(mUId, mainElement.Id, siteId, caseUId, custom);
                         else
                             sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
@@ -838,10 +814,12 @@ namespace Microting
         private string  SendXml(MainElement mainElement, int siteId)
         {
             TriggerLog("siteId:" + siteId + ", requested sent eForm");
-            string reply = communicator.PostXml(mainElement.ClassToXml(), siteId);
+
+            string xmlStrRequest = mainElement.ClassToXml();
+            string xmlStrResponse = communicator.PostXml(xmlStrRequest, siteId);
 
             Response response = new Response();
-            response = response.XmlToClass(reply);
+            response = response.XmlToClass(xmlStrResponse);
 
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
@@ -849,7 +827,7 @@ namespace Microting
                 return response.Value;
             }
 
-            throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + reply);
+            throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
         #endregion
 
@@ -958,7 +936,7 @@ namespace Microting
                     updateIsRunningNotifications = true;
                 
                     #region update notifications
-                    string notificationStr, noteMuuId, noteType = "";
+                    string notificationStr, noteUId, noteType = "";
                     bool oneFound = true;
                     while (oneFound)
                     {
@@ -973,7 +951,7 @@ namespace Microting
 
                         try
                         {
-                            noteMuuId = t.Locate(notificationStr, "microting_uuid\\\":\\\"", "\\");
+                            noteUId = t.Locate(notificationStr, "microting_uuid\\\":\\\"", "\\");
                             noteType = t.Locate(notificationStr, "text\\\":\\\"", "\\\"");
 
                             switch (noteType)
@@ -981,21 +959,27 @@ namespace Microting
                                 #region check_status / checklist completed on the device
                                 case "check_status":
                                     {
-                                        List<Case_Dto> caseLst = sqlController.CaseFindMatchs(noteMuuId);
-
+                                        List<Case_Dto> lstCase = new List<Case_Dto>();
                                         MainElement mainElement = new MainElement();
-                                        foreach (Case_Dto aCase in caseLst)
+
+                                        Case_Dto concreteCase = sqlController.CaseReadByMUId(noteUId);
+                                        if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
+                                            lstCase.Add(concreteCase);
+                                        else    
+                                            lstCase = sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
+
+                                        foreach (Case_Dto aCase in lstCase)
                                         {
-                                            if (aCase.SiteId == sqlController.CaseReadByMUId(noteMuuId).SiteId)
+                                            if (aCase.SiteId == concreteCase.SiteId)
                                             {
                                                 #region get response's data and update DB with data
-                                                string lastId = sqlController.CaseReadCheckIdByMUId(noteMuuId);
+                                                string lastId = sqlController.CaseReadCheckIdByMUId(noteUId);
                                                 string respXml;
 
                                                 if (lastId == null)
-                                                    respXml = communicator.Retrieve(noteMuuId, aCase.SiteId);
+                                                    respXml = communicator.Retrieve(noteUId, concreteCase.SiteId);
                                                 else
-                                                    respXml = communicator.RetrieveFromId(noteMuuId, aCase.SiteId, lastId);
+                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteId, lastId);
 
                                                 Response resp = new Response();
                                                 resp = resp.XmlToClass(respXml);
@@ -1008,7 +992,7 @@ namespace Microting
 
                                                         if (lastId == null)
                                                         {
-                                                            sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
+                                                            sqlController.CaseUpdate(noteUId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
 
                                                             #region retract case, thereby completing the process
 
@@ -1026,15 +1010,15 @@ namespace Microting
                                                             #endregion
                                                         }
                                                         else
-                                                            sqlController.CaseUpdate(noteMuuId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
+                                                            sqlController.CaseUpdate(noteUId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
 
-                                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
-                                                        HandleCaseUpdated(cDto, EventArgs.Empty);
+                                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
+                                                        HandleCaseCompleted(cDto, EventArgs.Empty);
                                                         TriggerMessage(cDto.ToString() + " has been completed");
                                                     }
                                                 }
                                                 else
-                                                    throw new Exception("Failed to retrive eForm " + noteMuuId + " from site " + aCase.SiteId);
+                                                    throw new Exception("Failed to retrive eForm " + noteUId + " from site " + aCase.SiteId);
                                                 #endregion
                                             }
                                             else
@@ -1065,7 +1049,7 @@ namespace Microting
                                 #region unit fetch / checklist retrieve by device
                                 case "unit_fetch":
                                     {
-                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteMuuId);
+                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                         HandleCaseRetrived(cDto, EventArgs.Empty);
                                         TriggerMessage(cDto.ToString() + " has been retrived");
 
@@ -1077,8 +1061,8 @@ namespace Microting
                                 #region unit_activate / tablet added
                                 case "unit_activate":
                                     {
-                                        HandleSiteActivated(noteMuuId, EventArgs.Empty);
-                                        TriggerMessage(noteMuuId + " has been added");
+                                        HandleSiteActivated(noteUId, EventArgs.Empty);
+                                        TriggerMessage(noteUId + " has been added");
 
                                         sqlController.NotificationProcessed(notificationStr, "processed");
                                         break;
@@ -1124,8 +1108,23 @@ namespace Microting
                         {
                             try
                             {
-                                string sent = communicator.EntityItemUpdate("", "", ""); //TODO
-                                sqlController.EntityItemSyncedProcessed(eI.id, "created");
+                                if (eI.workflow_state == "created")
+                                {
+                                    string sent = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.id.ToString());
+                                    sqlController.EntityItemSyncedProcessed(eI.id, "created");
+                                }
+
+                                if (eI.workflow_state == "updated")
+                                {
+                                    communicator.EntitySearchItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.id.ToString());
+                                    sqlController.EntityItemSyncedProcessed(eI.id, "updated");
+                                }
+
+                                if (eI.workflow_state == "removed")
+                                {
+                                    communicator.EntitySearchItemDelete(eI.microting_uid);
+                                    sqlController.EntityItemSyncedProcessed(eI.id, "removed");
+                                }
                             }
                             catch
                             {
@@ -1174,10 +1173,10 @@ namespace Microting
                     {
                         if (reply.Contains("\"id\\\":"))
                         {
-                            string muuId = t.Locate(reply, "microting_uuid\\\":\\\"", "\\");
+                            string mUId = t.Locate(reply, "microting_uuid\\\":\\\"", "\\");
                             string nfId = t.Locate(reply, "\"id\\\":", ",");
 
-                            sqlController.NotificationCreate(muuId, reply);
+                            sqlController.NotificationCreate(mUId, reply);
                             subscriber.ConfirmId(nfId);
                         }
                     }

@@ -14,6 +14,13 @@ namespace eFormRequest
             Description = "";
         }
 
+        public EntityItem(string name, string description)
+        {
+            Name = name;
+            EntityItemMUId = "";
+            Description = description;
+        }
+
         public EntityItem(string name, string entityItemMUId, string description)
         {
             Name = name;

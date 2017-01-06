@@ -33,7 +33,8 @@ namespace eFormRequest
         #endregion
 
         #region var
-        public DateTime DateOfDoing { get; set; }
+        public string Custom { get; set; }
+        public DateTime DoneAt { get; set; }
         public int DoneById { get; set; }
         public int UnitId { get; set; }
         #endregion

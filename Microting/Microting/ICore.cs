@@ -9,7 +9,7 @@ namespace Microting
     {
         event EventHandler  HandleCaseCreated;
         event EventHandler  HandleCaseRetrived;
-        event EventHandler  HandleCaseUpdated;
+        event EventHandler  HandleCaseCompleted;
         event EventHandler  HandleCaseDeleted;
         event EventHandler  HandleFileDownloaded;
         event EventHandler      HandleSiteActivated;
@@ -62,22 +62,20 @@ namespace Microting
         /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system
         /// </summary>
         /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
-        /// <param name="caseUId">NEEDS TO BE UNIQUE. The unique identifier that you can assign yourself to the set of case(s)</param>
+        /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s)</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
-        /// <param name="reversed">Default is false. If true, cases will not be created until a check has been completed</param>
-        void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed);
+        /// 
+        void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds);
 
         /// <summary>
         /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system, with extended parameters
         /// </summary>
         /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
-        /// <param name="caseUId">NEEDS TO BE UNIQUE. The unique identifier that you can assign yourself to the set of case(s)</param>
+        /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s)</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
+        /// <param name="custom">Custom extended parameter</param>
         /// <param name="reversed">Default is false. If true, cases will not be created until a check has been completed</param>
-        /// <param name="navisionTime">extended parameter</param>
-        /// <param name="numberPlate">extended parameter</param>
-        /// <param name="roadNumber">extended parameter</param>
-        void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, bool reversed, DateTime navisionTime, string numberPlate, string roadNumber);
+        void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed);
 
         //---------------------------------------------------------------------------------------
 
@@ -125,7 +123,7 @@ namespace Microting
 
         //---------------------------------------------------------------------------------------
 
-        string EntityGroupCreate(string name, string entityType);
+        string EntityGroupCreate(string entityType, string name);
 
         EntityGroup EntityGroupRead(string entityGroupMUId);
 

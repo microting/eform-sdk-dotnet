@@ -12,16 +12,16 @@ namespace eFormRequest
 
         }
 
-        public EntityGroup(int id, string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst)
+        public EntityGroup(string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst)
         {
-            Id = id;
+//            Id = id;
             Name = name;
             Type = type;
             EntityGroupMUId = entityGroupMUId;
             EntityGroupItemLst = entityGroupItemLst;
         }
 
-        public int Id { get; set; }
+//        public int Id { get; set; }
         public string Name { get; }
         public string Type { get; }
         public string EntityGroupMUId { get; }

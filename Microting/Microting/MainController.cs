@@ -32,7 +32,7 @@ using System.IO;
 
 namespace Microting
 {
-    class MainController
+    public class MainController
     {
         #region var
         object _lockLogFil = new object();
@@ -45,39 +45,33 @@ namespace Microting
         List<string> factions   = new List<string>();
         List<string> locations  = new List<string>();
 
-        ICore core;
-        SqlControllerCustom sqlCustom;
-        SqlControllerExtended sqlConExt;
+        public ICore core;
         #endregion
 
         #region con
         public MainController()
         {
-            //DOSOMETHING: Change to your needs
             #region read settings
             string[] lines = File.ReadAllLines("Input.txt");
 
             string comToken = lines[0];
             string comAddress = lines[1];
+            string organizationId = lines[2];
 
-            string subscriberToken = lines[3];
-            string subscriberAddress = lines[4];
-            string subscriberName = lines[5];
+            string subscriberToken = lines[4];
+            string subscriberAddress = lines[5];
+            string subscriberName = lines[6];
 
-            string serverConnectionString = lines[7];
-            int userId = int.Parse(lines[8]);
-
-            string fileLocation = lines[10];
+            string serverConnectionString = lines[8];
+            string fileLocation = lines[9];
+            bool logEnabled = bool.Parse(lines[10]);
             #endregion
-
-            core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, true);
-            sqlCustom = new SqlControllerCustom  (serverConnectionString);
-            sqlConExt = new SqlControllerExtended(serverConnectionString, userId);
+            core = new Core(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
 
             #region connect event triggers
             core.HandleCaseCreated      += EventCaseCreated;
             core.HandleCaseRetrived     += EventCaseRetrived;
-            core.HandleCaseUpdated      += EventCaseUpdated;
+            core.HandleCaseCompleted    += EventCaseCompleted;
             core.HandleCaseDeleted      += EventCaseDeleted;
             core.HandleFileDownloaded   += EventFileDownloaded;
             core.HandleSiteActivated    += EventSiteActivated;
@@ -93,17 +87,10 @@ namespace Microting
         #region public
         public MainElement  TemplatFromXml(string xmlString)
         {
-            try
-            {
-                return core.TemplatFromXml(xmlString);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
+            MainElement temp = core.TemplatFromXml(xmlString);
+            if (temp == null)
+                throw new Exception("TemplatFromXml failed. Failed to convert xml");
+            return temp;
         }
 
         public int          TemplatCreate(MainElement mainElement)
@@ -138,7 +125,7 @@ namespace Microting
                         List<int> siteShortList = new List<int>();
                         siteShortList.Add(siteId);
 
-                        core.CaseCreate(mainElement, "", siteShortList, true);
+                        core.CaseCreate(mainElement, "", siteShortList, "", true);
                     }
                 }
             }
@@ -161,7 +148,7 @@ namespace Microting
                 mainElement.SetStartDate(DateTime.Now);
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
 
-                core.CaseCreate(mainElement, caseUId, siteIds, false);
+                core.CaseCreate(mainElement, "", siteIds);
             }
             catch (Exception ex)
             {
@@ -261,7 +248,7 @@ namespace Microting
             //string checkUId = temp.CheckUId;
         }
 
-        public void     EventCaseUpdated(object sender, EventArgs args)
+        public void     EventCaseCompleted(object sender, EventArgs args)
         {
             lock (_lockLogic)
             {
@@ -273,136 +260,10 @@ namespace Microting
                     string caseUid = trigger.CaseUId;
                     string mUId = trigger.MicrotingUId;
                     string checkUId = trigger.CheckUId;
-
-
-                    //--------------------
-                    Random rdn = new Random();
-                    List<int> tempSiteIds;
-                    
-                    #region create offering
-                    if (caseType == "Step one")
-                    {
-                        CoreElement reply = core.CaseRead(mUId, checkUId);
-
-                        DataElement replyDataE = (DataElement)reply.ElementList[0];
-                        Answer answer = (Answer)replyDataE.DataItemList[0];
-
-                        MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step2tId"));
-                        DataElement dataE = (DataElement)mainElement.ElementList[0];
-                        None none = (None)dataE.DataItemList[0];
-
-
-                        none.Label = "Container with stat:" + answer.Value + " is ready for collection";
-                        none.Description = new CDataValue();
-                        none.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
-
-
-                        core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsSA, false);
-                    }
-                    #endregion
-
-                    #region create replies (winner/others)
-                    if (caseType == "Step two")
-                    {
-                        #region is the first?
-                        bool isFirst = false;
-                        try
-                        {
-                            if (sqlConExt.CaseCountResponses(caseUid) == 1)
-                                isFirst = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("isFirst failed", ex);
-                        }
-                        #endregion
-
-                        if (isFirst)
-                        {
-                            #region send win eForm
-                            CoreElement reply = core.CaseRead(mUId, checkUId);
-
-                            DataElement replyDataE = (DataElement)reply.ElementList[0];
-                            Answer answer = (Answer)replyDataE.DataItemList[0];
-
-                            MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step3WtId"));
-                            DataElement dataE = (DataElement)mainElement.ElementList[0];
-                            Date date = (Date)dataE.DataItemList[0];
-
-                            dataE.Description = new CDataValue();
-                            dataE.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
-
-                            date.MinValue = DateTime.Now;
-                            date.MaxValue = DateTime.Now.AddDays(1);
-                            date.DefaultValue = DateTime.Now.AddMinutes(1).ToString("u");
-
-
-                            tempSiteIds = new List<int>();
-                            tempSiteIds.Add(siteId);
-                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
-                            #endregion
-                        }
-                        else
-                        {
-                            #region send loss eForm
-                            CoreElement reply = core.CaseRead(mUId, checkUId);
-
-                            DataElement replyDataE = (DataElement)reply.ElementList[0];
-                            Answer answer = (Answer)replyDataE.DataItemList[0];
-
-                            MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step3LtId"));
-                            DataElement dataE = (DataElement)mainElement.ElementList[0];
-                            None none = (None)dataE.DataItemList[0];
-
-                            none.Description = new CDataValue();
-                            none.Description.InderValue = "Collection missed at:" + DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
-
-
-                            tempSiteIds = new List<int>();
-                            tempSiteIds.Add(siteId);
-                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
-                            #endregion
-                        }
-                    }
-                    #endregion
-
-                    #region final step
-                    if (caseType == "Step three")
-                    {
-                        CoreElement reply = core.CaseRead(mUId, checkUId);
-
-                        DataElement replyDataE = (DataElement)reply.ElementList[0];
-                        Answer answer = (Answer)replyDataE.DataItemList[0];
-
-                        #region is the winner?
-                        bool isWinner = false;
-                        try
-                        {
-                            if (replyDataE.Label == "Won - Container collection")
-                                isWinner = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("isWinner failed", ex);
-                        }
-                        #endregion
-
-                        if (isWinner)
-                        {
-                            MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step4tId"));
-                            DataElement dataE = (DataElement)mainElement.ElementList[0];
-                            None none = (None)dataE.DataItemList[0];
-
-                            none.Label = "Container collect at:" + answer.Value;
-
-                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsWo, false);
-                        }
-                    }
-                    #endregion
                 }
-                catch (Exception ex)
+                catch
                 {
-                    EventMessage(ex.ToString(), EventArgs.Empty);
+
                 }
             }
         }

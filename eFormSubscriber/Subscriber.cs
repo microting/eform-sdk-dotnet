@@ -100,23 +100,19 @@ namespace eFormSubscriber
         /// <summary>
         /// Sends the close command to the notification subscriber to Microting.
         /// </summary>
-        /// <param name="wait">If true, the method will not return until after connection is closed. If fail, the method will return instant. Either way the program will close by the same method.</param>
-        public void Close(bool wait)
+        public void Close()
         {
             try
             {
-                EventMsgClient("Subscriber is trying to close connection. Will wait until thread finished:" + wait.ToString(), null);
+                EventMsgClient("Subscriber is trying to close connection", null);
 
                 keepConnectionAlive = false;
                 keepSubscribed = false;
 
                 if (isRunning)
                 {
-                    if (wait)
-                    {
-                        while (isRunning)
-                            Thread.Sleep(100);
-                    }
+                    while (isRunning)
+                        Thread.Sleep(100);
                 }
             }
             catch
@@ -145,27 +141,20 @@ namespace eFormSubscriber
         #endregion
 
         #region internal
-        internal void EventTriggerReplyFromServer(string msg)
+        internal void ReplyFromServer(string msg)
         {
-            System.EventHandler handler = EventMsgServer;
-            if (handler != null)
+            if (msg.StartsWith("WebSocket Error") || msg.StartsWith("WebSocket Close"))
             {
-                handler(msg, EventArgs.Empty);
-
-                if (msg.StartsWith("WebSocket Error") || msg.StartsWith("WebSocket Close"))
-                {
-                    keepConnectionAlive = false; //will restart connection
-                }
+                keepConnectionAlive = false; //will restart connection
+                EventMsgClient(msg, EventArgs.Empty);
             }
+            else
+                EventMsgServer(msg, EventArgs.Empty);
         }
 
-        internal void EventTriggerRequestToServer(string msg)
+        internal void RequestToServer(string msg)
         {
-            System.EventHandler handler = EventMsgClient;
-            if (handler != null)
-            {
-                handler(msg, EventArgs.Empty);
-            }
+            EventMsgClient(msg, EventArgs.Empty);
         }
         #endregion
 
@@ -186,7 +175,7 @@ namespace eFormSubscriber
                     #region get auth token
                     string html = string.Empty;
                     string url = @"https://" + address + ":443/feeds/" + token + "/read";
-                    EventTriggerRequestToServer("URL  = " + url);
+                    RequestToServer("URL  = " + url);
 
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                     request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -199,7 +188,7 @@ namespace eFormSubscriber
                     }
 
                     authToken = t.Locate(html, "authToken: '", "'");
-                    EventTriggerRequestToServer("Auth = " + authToken);
+                    RequestToServer("Auth = " + authToken);
                     #endregion
 
                     #region keep connection to websocket
@@ -306,7 +295,7 @@ namespace eFormSubscriber
             lock (_lock)
             {
                 numberOfMessages++;
-                EventTriggerRequestToServer(command);
+                RequestToServer(command);
                 _ws.Send(command);
             }
         }

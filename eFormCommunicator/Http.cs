@@ -39,13 +39,15 @@ namespace eFormCommunicator
         
         internal string Token { get; set; }
         internal string SrvAdd { get; set; }
+        internal string OrganizationId { get; set; }
         #endregion
 
         #region con
-        internal Http(string token, string serverAddress)
+        internal Http(string serverAddress, string token, string organizationId)
         {
             Token = token;
             SrvAdd = serverAddress;
+            OrganizationId = organizationId;
         }
         #endregion
 
@@ -130,11 +132,18 @@ namespace eFormCommunicator
             }
         }
 
-        internal string CreatEntity(string xmlData, string organizationId)
+
+
+
+
+
+        internal string EntitySearchGroupCreate(string name, string id)
         {
             try
             {
-                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entities?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + organizationId);
+                string xmlData = "<EntityTypes><EntityType><Name>" + name + "</Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entity_types?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + OrganizationId);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(xmlData);
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -148,11 +157,33 @@ namespace eFormCommunicator
             }
         }
 
-        internal string CreatEntityType(string xmlData, string organizationId)
+        internal string EntitySearchGroupDelete(string entityGroupId)
         {
             try
             {
-                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entity_types?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + organizationId);
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entity_types/" + entityGroupId + "?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + OrganizationId);
+                request.Method = "DELETE";
+                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+
+                return PostToServer(request);
+            }
+            catch (Exception ex)
+            {
+                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
+            }
+        }
+
+        internal string EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
+        {
+            try
+            {
+                string xmlData = "<Entities><Entity>" + 
+                    "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier>" + name + "</Identifier><Description>" + description + "</Description>" +
+                    "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
+                    "<Id>" + id + "</Id>" + 
+                    "</Entity></Entities>";
+
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entities?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + OrganizationId);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(xmlData);
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -164,6 +195,39 @@ namespace eFormCommunicator
             {
                 return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
             }
+        }
+
+        internal string EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        {
+            try
+            {
+                string xmlData = "<Entities><Entity>" +
+                    "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier>" + name + "</Identifier><Description>" + description + "</Description>" +
+                    "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
+                    "<Id>" + id + "</Id>" +
+                    "</Entity></Entities>";
+
+                WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entities/" +entitySearchItemId + "?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + OrganizationId);
+                request.Method = "PUT";
+                byte[] content = Encoding.UTF8.GetBytes(xmlData);
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = content.Length;
+
+                return PostToServer(request, content);
+            }
+            catch (Exception ex)
+            {
+                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
+            }
+        }
+
+        internal string EntitySearchItemDelete(string entitySearchItemId)
+        {
+            WebRequest request = WebRequest.Create(SrvAdd + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + Token + "&protocol=" + protocolEntityType + "&organization_id=" + OrganizationId);
+            request.Method = "DELETE";
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            return PostToServer(request);
         }
         #endregion
 

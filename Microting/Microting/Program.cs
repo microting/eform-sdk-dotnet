@@ -34,9 +34,40 @@ namespace Microting
 {
     class Program
     {
-        static void Main(string[] args)
+        static void     Main(string[] args)
         {
-            RunCustom();
+            RunTest();
+        }
+
+        static void     RunTest()
+        {
+            while (true)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Select which MainController element to start. Type:");
+                Console.WriteLine("'T' for run test");
+                Console.WriteLine("'C' for cleaning database and devices");
+                Console.WriteLine("'E' for exiting program");
+
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "t")
+                {
+                    MainControllerCustom mainController = new MainControllerCustom();
+                    mainController.Test();
+                    mainController.Close();
+                }
+
+                if (input.ToLower() == "c")
+                    CleanUp();
+
+                if (input.ToLower() == "e")
+                    break;
+            }
+
+            Console.WriteLine("Program has been closed. Will close Console in 2s");
+            Thread.Sleep(2000);
+            Environment.Exit(0);
         }
 
         static void     RunCustom()
@@ -52,8 +83,12 @@ namespace Microting
 
                 string input = Console.ReadLine();
 
-                if (input.ToLower() == "e")
-                    break;
+                if (input.ToLower() == "s")
+                {
+                    MainControllerCustom mainController = new MainControllerCustom();
+                    mainController.Test();
+                    mainController.Close();
+                }
 
                 if (input.ToLower() == "r")
                 {
@@ -63,15 +98,11 @@ namespace Microting
                     mainController.Close();
                 }
 
-                if (input.ToLower() == "s")
-                {
-                    MainControllerCustom mainController = new MainControllerCustom();
-                    mainController.Setup();
-                    mainController.Close();
-                }
-
                 if (input.ToLower() == "c")
                     CleanUp();
+
+                if (input.ToLower() == "e")
+                    break;
             }
 
             Console.WriteLine("Program has been closed. Will close Console in 2s");
@@ -120,7 +151,7 @@ namespace Microting
 
         static void     Default()
         {
-            MainControllerSample12 mainController = new MainControllerSample12();
+            MainControllerSamples mainController = new MainControllerSamples();
 
             bool keepRunning = true;
 
@@ -140,7 +171,7 @@ namespace Microting
 
         static void     Sample1()
         {
-            MainControllerSample12 mainController = new MainControllerSample12();
+            MainControllerSamples mainController = new MainControllerSamples();
             List<int> siteIds = new List<int>();
             int templatId = -1;
 
@@ -184,7 +215,7 @@ namespace Microting
                     }
                     else
                     {
-                        mainController.CaseCreate(templatId, GenerateSampleCaseId(), siteIds);
+                        mainController.CaseCreate(templatId, siteIds);
                         Console.WriteLine("eForm case sent to Microting, should be able to be retrieved on your tablet soon");
                     }
                 }
@@ -195,7 +226,7 @@ namespace Microting
 
         static void     Sample2()
         {
-            MainControllerSample12 mainController = new MainControllerSample12();
+            MainControllerSamples mainController = new MainControllerSamples();
             List<int> siteIds = new List<int>();
             int templatId = -1;
    
@@ -245,7 +276,7 @@ namespace Microting
                     }
                     else
                     {
-                        mainController.CaseCreate(templatId, GenerateSampleCaseId(), siteIds);
+                        mainController.CaseCreate(templatId, siteIds);
                         Console.WriteLine("eForm case sent to Microting, should be able to be retrieved on your devices soon");
                     }
                 }
@@ -256,7 +287,7 @@ namespace Microting
 
         static void     Sample3()
         {
-            MainControllerSample3 mainController = new MainControllerSample3();
+            MainControllerSamples mainController = new MainControllerSamples();
             mainController.SetSetting();
 
             bool keepRunning = true;
@@ -374,20 +405,27 @@ namespace Microting
             {
                 #region read settings
                 string[] lines = File.ReadAllLines("Input.txt");
-
-                string serverConnectionString = lines[7];
-                int userId = int.Parse(lines[8]);
+                string serverConnectionString = lines[8];
                 #endregion
                 
-                SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString, userId);
-                MainControllerDefault temp = new MainControllerDefault();
+                SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString);
+                MainController temp = new MainController();
                 ICore core = temp.core;
 
-                List<string> lstMUIds = sqlConUT.CleanActiveCases();
-                foreach (string mUId in lstMUIds)
-                    core.CaseDelete(mUId);
+                #region clean database
+                try
+                {
+                    List<string> lstMUIds = sqlConUT.FindAllActiveCases();
+                    foreach (string mUId in lstMUIds)
+                        core.CaseDelete(mUId);
 
-                sqlConUT.CleanUpDB();
+                    sqlConUT.CleanUpDB();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("CleanUp failed", ex);
+                }
+                #endregion
                 core.Close();
             }
             catch (Exception ex)

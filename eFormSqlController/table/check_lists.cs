@@ -10,39 +10,36 @@ namespace eFormSqlController
     {
         public int id { get; set; }
 
-        [Column(TypeName = "datetime2")]
-        public DateTime created_at { get; set; }
+        [StringLength(255)]
+        public string workflow_state { get; set; }
+
+        public int? version { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime updated_at { get; set; }
+        public DateTime? created_at { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
-        public string text { get; set; }
+        public string label { get; set; }
 
         [StringLength(255)]
         public string description { get; set; }
 
-        public string serialized_default_values { get; set; }
-
-        [StringLength(255)]
-        public string workflow_state { get; set; }
+        public string custom { get; set; }
 
         public int? parent_id { get; set; }
 
         public int? repeated { get; set; }
 
-        public int? version { get; set; }
+        public int? display_index { get; set; }
 
         [StringLength(255)]
         public string case_type { get; set; }
 
         [StringLength(255)]
         public string folder_name { get; set; }
-
-        public int? display_index { get; set; }
-
-        [StringLength(255)]
-        public string report_file_name { get; set; }
 
         public short? review_enabled { get; set; }
 

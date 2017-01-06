@@ -10,19 +10,18 @@ namespace eFormSqlController
     {
         public int id { get; set; }
 
-        [Required]
         [StringLength(255)]
-        public string microting_uuid { get; set; }
-
-        [Required]
-        public string content { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string workflow_state { get; set; }
 
-        public DateTime created_at { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime? created_at { get; set; }
 
-        public DateTime updated_at { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime? updated_at { get; set; }
+
+        [StringLength(255)]
+        public string microting_uid { get; set; }
+
+        public string transmission { get; set; }
     }
 }

@@ -31,7 +31,7 @@ using System.IO;
 
 namespace Microting
 {
-    class MainControllerSample3
+    class MainControllerSamples
     {
         #region var
         object _logFilLock = new object();
@@ -46,50 +46,48 @@ namespace Microting
         int step4tId = -1;
 
         ICore core;
-        SqlControllerExtended sqlConExt;
+        SqlController sqlCon;
         #endregion
 
         #region con
-        public MainControllerSample3()
+        public MainControllerSamples()
         {
-            //DOSOMETHING: Change to your needs
             #region read settings
             string[] lines = File.ReadAllLines("Input.txt");
 
             string comToken = lines[0];
             string comAddress = lines[1];
+            string organizationId = lines[2];
 
-            string subscriberToken = lines[3];
-            string subscriberAddress = lines[4];
-            string subscriberName = lines[5];
+            string subscriberToken = lines[4];
+            string subscriberAddress = lines[5];
+            string subscriberName = lines[6];
 
-            string serverConnectionString = lines[7];
-            int userId = int.Parse(lines[8]);
-
-            string fileLocation = lines[10];
+            string serverConnectionString = lines[8];
+            string fileLocation = lines[9];
+            bool logEnabled = bool.Parse(lines[10]);
             #endregion
-
-            core = new Core(comToken, comAddress, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, userId, fileLocation, true);
-            sqlConExt = new SqlControllerExtended(serverConnectionString, userId);
+            core = new Core(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
+            sqlCon = new SqlController(serverConnectionString);
 
             #region connect event triggers
-            core.HandleCaseCreated      += EventCaseCreated;
-            core.HandleCaseRetrived     += EventCaseRetrived;
-            core.HandleCaseUpdated      += EventCaseUpdated;
-            core.HandleCaseDeleted      += EventCaseDeleted;
-            core.HandleFileDownloaded   += EventFileDownloaded;
-            core.HandleSiteActivated    += EventSiteActivated;
-            core.HandleEventLog         += EventLog;
-            core.HandleEventMessage     += EventMessage;
-            core.HandleEventWarning     += EventWarning;
-            core.HandleEventException   += EventException;
+            core.HandleCaseCreated += EventCaseCreated;
+            core.HandleCaseRetrived += EventCaseRetrived;
+            core.HandleCaseCompleted += EventCaseCompleted;
+            core.HandleCaseDeleted += EventCaseDeleted;
+            core.HandleFileDownloaded += EventFileDownloaded;
+            core.HandleSiteActivated += EventSiteActivated;
+            core.HandleEventLog += EventLog;
+            core.HandleEventMessage += EventMessage;
+            core.HandleEventWarning += EventWarning;
+            core.HandleEventException += EventException;
             #endregion
             core.Start();
         }
         #endregion
 
         #region public
-        public void             SetSetting()
+        public void SetSetting()
         {
             try
             {
@@ -116,17 +114,10 @@ namespace Microting
 
         public MainElement  TemplatFromXml(string xmlString)
         {
-            try
-            {
-                return core.TemplatFromXml(xmlString);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
+            MainElement temp = core.TemplatFromXml(xmlString);
+            if (temp == null)
+                throw new Exception("TemplatFromXml failed. Failed to convert xml");
+            return temp;
         }
 
         public int          TemplatCreate(MainElement mainElement)
@@ -161,7 +152,7 @@ namespace Microting
                         List<int> siteShortList = new List<int>();
                         siteShortList.Add(siteId);
 
-                        core.CaseCreate(mainElement, "", siteShortList, true);
+                        core.CaseCreate(mainElement, "", siteShortList, "", true);
                     }
                 }
             }
@@ -174,7 +165,7 @@ namespace Microting
             }
         }
 
-        public void         CaseCreate(int templatId, string caseUId, List<int> siteIds)
+        public void         CaseCreate(int templatId, List<int> siteIds)
         {
             try
             {
@@ -183,8 +174,9 @@ namespace Microting
                 mainElement.PushMessageBody = "";
                 mainElement.SetStartDate(DateTime.Now);
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
+                
 
-                core.CaseCreate(mainElement, caseUId, siteIds, false);
+                core.CaseCreate(mainElement, "", siteIds);
             }
             catch (Exception ex)
             {
@@ -264,27 +256,30 @@ namespace Microting
         #region events
         public void     EventCaseCreated(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //Case_Dto temp = (Case_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
+            //DOSOMETHING: changed to fit your wishes and needs 
+            Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
+            string caseUid = temp.CaseUId;
+            string mUId = temp.MicrotingUId;
+            string checkUId = temp.CheckUId;
+
+
         }
 
         public void     EventCaseRetrived(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //Case_Dto temp = (Case_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
+            //DOSOMETHING: changed to fit your wishes and needs 
+            Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
+            string caseUid = temp.CaseUId;
+            string mUId = temp.MicrotingUId;
+            string checkUId = temp.CheckUId;
+
         }
 
-        public void     EventCaseUpdated(object sender, EventArgs args)
+        public void     EventCaseCompleted(object sender, EventArgs args)
         {
             lock (_lockLogic)
             {
@@ -301,7 +296,7 @@ namespace Microting
                     //--------------------
                     Random rdn = new Random();
                     List<int> tempSiteIds;
-                    
+
                     #region create offering
                     if (caseType == "Step one")
                     {
@@ -320,7 +315,7 @@ namespace Microting
                         none.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
 
-                        core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsSA, false);
+                        core.CaseCreate(mainElement, "", siteIdsSA);
                     }
                     #endregion
 
@@ -331,7 +326,8 @@ namespace Microting
                         bool isFirst = false;
                         try
                         {
-                            if (sqlConExt.CaseCountResponses(caseUid) == 1)
+
+                            if (sqlCon.CaseCountResponses(caseUid) == 1)
                                 isFirst = true;
                         }
                         catch (Exception ex)
@@ -362,7 +358,7 @@ namespace Microting
 
                             tempSiteIds = new List<int>();
                             tempSiteIds.Add(siteId);
-                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                            core.CaseCreate(mainElement, "", tempSiteIds);
                             #endregion
                         }
                         else
@@ -383,7 +379,7 @@ namespace Microting
 
                             tempSiteIds = new List<int>();
                             tempSiteIds.Add(siteId);
-                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), tempSiteIds, false);
+                            core.CaseCreate(mainElement, "", tempSiteIds);
                             #endregion
                         }
                     }
@@ -418,7 +414,7 @@ namespace Microting
 
                             none.Label = "Container collect at:" + answer.Value;
 
-                            core.CaseCreate(mainElement, DateTime.Now.ToLongTimeString() + "/" + rdn.Next(10000000, 99999999).ToString(), siteIdsDW, false);
+                            core.CaseCreate(mainElement, "", siteIdsDW);
                         }
                     }
                     #endregion
@@ -432,31 +428,31 @@ namespace Microting
 
         public void     EventCaseDeleted(object sender, EventArgs args)
         {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            //Case_Dto temp = (Case_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
+            //DOSOMETHING: changed to fit your wishes and needs
+            Case_Dto temp = (Case_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
+            string caseUid = temp.CaseUId;
+            string mUId = temp.MicrotingUId;
+            string checkUId = temp.CheckUId;
         }
 
         public void     EventFileDownloaded(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //File_Dto temp = (File_Dto)sender;
-            //int siteId = temp.SiteId;
-            //string caseType = temp.CaseType;
-            //string caseUid = temp.CaseUId;
-            //string mUId = temp.MicrotingUId;
-            //string checkUId = temp.CheckUId;
-            //string fileLocation = temp.FileLocation;
+            //DOSOMETHING: changed to fit your wishes and needs 
+            File_Dto temp = (File_Dto)sender;
+            int siteId = temp.SiteId;
+            string caseType = temp.CaseType;
+            string caseUid = temp.CaseUId;
+            string mUId = temp.MicrotingUId;
+            string checkUId = temp.CheckUId;
+            string fileLocation = temp.FileLocation;
         }
 
         public void     EventSiteActivated(object sender, EventArgs args)
         {
-            ////DOSOMETHING: changed to fit your wishes and needs 
-            //int siteId = int.Parse(sender.ToString());
+            //DOSOMETHING: changed to fit your wishes and needs 
+            int siteId = int.Parse(sender.ToString());
         }
 
         public void     EventLog(object sender, EventArgs args)

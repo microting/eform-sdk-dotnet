@@ -59,10 +59,8 @@
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="MainControllerCustom.cs" />
-    <Compile Include="MainControllerDefault.cs" />
-    <Compile Include="MainControllerSample12.cs" />
+    <Compile Include="MainControllerSamples.cs" />
     <Compile Include="MainController.cs" />
-    <Compile Include="MainControllerSample3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools.cs" />

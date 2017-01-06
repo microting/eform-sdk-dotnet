@@ -13,16 +13,13 @@ namespace eFormSqlController
         object _lockQuery = new object();
 
         string connectionStr;
-        int userId;
-
         Tools t = new Tools();
         #endregion
 
         #region con
-        public SqlControllerUnitTest(string connectionString, int userId)
+        public SqlControllerUnitTest(string connectionString)
         {
             connectionStr = connectionString;
-            this.userId = userId;
         }
         #endregion
 
@@ -38,13 +35,13 @@ namespace eFormSqlController
                     List<cases> lstCases = db.cases.Where(x => x.workflow_state == "created").ToList();
                     foreach (cases aCase in lstCases)
                     {
-                        lstMUId.Add(aCase.microting_api_id);
+                        lstMUId.Add(aCase.microting_uid);
                     }
 
                     List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state == "created").ToList();
                     foreach (check_list_sites cLS in lstCLS)
                     {
-                        lstMUId.Add(cLS.microting_check_list_uuid);
+                        lstMUId.Add(cLS.microting_uid);
                     }
 
                     return lstMUId;
@@ -56,7 +53,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string> CleanActiveCases()
+        public List<string> FindAllActiveCases()
         {
             try
             {
@@ -67,13 +64,13 @@ namespace eFormSqlController
                     List<cases> lstCases = db.cases.Where(x => x.workflow_state == "created").ToList();
                     foreach (cases aCase in lstCases)
                     {
-                        lstMUId.Add(aCase.microting_api_id);
+                        lstMUId.Add(aCase.microting_uid);
                     }
 
                     List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state == "created").ToList();
                     foreach (check_list_sites cLS in lstCLS)
                     {
-                        lstMUId.Add(cLS.microting_check_list_uuid);
+                        lstMUId.Add(cLS.microting_uid);
                     }
 
                     return lstMUId;
@@ -81,7 +78,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("CleanActiveCases failed", ex);
+                throw new Exception("FindAllActiveCases failed", ex);
             }
         }
 
@@ -92,29 +89,29 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[case_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_cases]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[cases]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_site_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_sites]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_sites]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_value_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_values]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_values]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_lists]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_lists]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_group_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_groups]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_groups]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_item_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_items]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_items]");
                     //---
                     //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_value_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_field_values]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_values]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_versions]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_fields]");
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[fields]");
                     //---
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[notifications]");
@@ -123,11 +120,8 @@ namespace eFormSqlController
                     //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[site_versions]");
                     //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[uploaded_data_versions]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[uploaded_data]");
-                    //---
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[user_versions]");
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[users]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_data_uploaded]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[data_uploaded]");
                     //---
 
                     return true;

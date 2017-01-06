@@ -131,23 +131,6 @@ namespace Trools
                 return null;
             }
         }
-
-        private string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
-        {
-            try
-            {
-                int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-                int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                if (keepStartAndEnd)
-                    return startStr + textStr.Substring(startIndex, lenght) + endStr;
-                else
-                    return textStr.Substring(startIndex, lenght).Trim();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to find:'" + startStr + "' or '" + endStr + "'.", ex);
-            }
-        }
         #endregion
 
         #region Entity Framework Get

@@ -62,35 +62,32 @@
       <Link>Tools.cs</Link>
     </Compile>
     <Compile Include="table\cases.cs" />
-    <Compile Include="table\case_versions.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
-    <Compile Include="table\check_list_site_versions.cs" />
     <Compile Include="table\check_list_values.cs" />
-    <Compile Include="table\check_list_value_versions.cs" />
-    <Compile Include="table\check_list_versions.cs" />
-    <Compile Include="tableExt\entity_groups.cs" />
-    <Compile Include="tableExt\entity_group_versions.cs" />
-    <Compile Include="tableExt\entity_items.cs" />
-    <Compile Include="tableExt\entity_item_versions.cs" />
+    <Compile Include="table\data_uploaded.cs" />
+    <Compile Include="table\entity_groups.cs" />
+    <Compile Include="table\entity_items.cs" />
     <Compile Include="table\fields.cs" />
     <Compile Include="table\field_types.cs" />
     <Compile Include="table\field_values.cs" />
-    <Compile Include="table\field_value_versions.cs" />
-    <Compile Include="table\field_versions.cs" />
     <Compile Include="MicrotingDb.cs" />
     <Compile Include="table\notifications.cs" />
-    <Compile Include="tableExt\outlook.cs" />
+    <Compile Include="table\outlook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="table\sites.cs" />
-    <Compile Include="table\site_versions.cs" />
-    <Compile Include="SqlControllerExtended.cs" />
     <Compile Include="SqlController.cs" />
     <Compile Include="SqlControllerUnitTest.cs" />
-    <Compile Include="table\uploaded_data.cs" />
-    <Compile Include="table\uploaded_data_versions.cs" />
-    <Compile Include="table\users.cs" />
-    <Compile Include="table\user_versions.cs" />
+    <Compile Include="tableVersion\version_cases.cs" />
+    <Compile Include="tableVersion\version_check_lists.cs" />
+    <Compile Include="tableVersion\version_check_list_sites.cs" />
+    <Compile Include="tableVersion\version_check_list_values.cs" />
+    <Compile Include="tableVersion\version_data_uploaded.cs" />
+    <Compile Include="tableVersion\version_entity_groups.cs" />
+    <Compile Include="tableVersion\version_entity_items.cs" />
+    <Compile Include="tableVersion\version_fields.cs" />
+    <Compile Include="tableVersion\version_field_values.cs" />
+    <Compile Include="tableVersion\version_sites.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

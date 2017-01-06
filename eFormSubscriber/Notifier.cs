@@ -36,10 +36,10 @@ namespace eFormSubscriber
                         else
                             reply = msg.ToString();
 
-                        subscriber.EventTriggerReplyFromServer(reply);
+                        subscriber.ReplyFromServer(reply);
                     }
                     else {
-                        Thread.Sleep (250);
+                        Thread.Sleep (100);
                     }
                 }
 

@@ -8,24 +8,24 @@ namespace eFormSqlController
 
     public partial class entity_items
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
-        public DateTime created_at { get; set; }
-
-        public DateTime updated_at { get; set; }
-
-        [Required]
-        [StringLength(50)]
+        [StringLength(255)]
         public string workflow_state { get; set; }
 
-        public int version { get; set; }
+        public int? version { get; set; }
 
-        public int group_id { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime? created_at { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? updated_at { get; set; }
+
+        public string entity_group_id { get; set; }
 
         public string name { get; set; }
 
-        public string microtingUId { get; set; }
+        public string microting_uid { get; set; }
 
         public string description { get; set; }
 

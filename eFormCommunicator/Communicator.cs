@@ -23,6 +23,7 @@ SOFTWARE.
 */
 using System;
 using System.ComponentModel;
+using Trools;
 
 namespace eFormCommunicator
 {
@@ -30,36 +31,43 @@ namespace eFormCommunicator
     {
         #region var
         public event EventHandler EventLog;
+        public object _lockSending = new object();
 
-        private Http http;
+        Tools t = new Tools();
+        Http http;
+        Json json;
         #endregion
 
         #region con
         /// <summary>
         /// Microting XML eForm API C# DLL.
         /// </summary>
-        /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="address">Microting's eForm API server address.</param>
-        public Communicator(string token, string address)
+        /// <param name="token">Your company's XML eForm API access token.</param>
+        /// <param name="organizationId">Your company's organization id.</param>
+        public Communicator(string address, string token, string organizationId)
         {
             #region CheckInput token & serverAddress
             string errorsFound = "";
 
             if (token.Length != 32)
-            {
                 errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
-            }
 
             if (!address.Contains("http://") && !address.Contains("https://"))
-            {
                 errorsFound += "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
-            }
+
+            if (organizationId == null)
+                organizationId = "";
+
+            if (organizationId == "")
+                errorsFound += "OrganizationId is missing" + Environment.NewLine;
 
             if (errorsFound != "")
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(token, address);
+            http = new Http(address, token, organizationId);
+            json = new Json();
         }
         #endregion
 
@@ -71,57 +79,24 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string PostXml           (string xmlString, int siteId)
         {
-            //TODO - ALL xml hacks
+            lock (_lockSending)
+            {
+                //TODO - ALL xml hacks
 
             //XML HACK
-            //REMEMBER OTHER POST METHOD
-
-            xmlString = xmlString.Replace("<color></color>", "");
-            //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("<Color />", "");
-            //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("DefaultValue", "Value");
-            //Missing serverside.
-
-            //REMEMBER OTHER POST METHOD
+                xmlString = xmlString.Replace("<color></color>", "");
+                //Missing serverside. Will not accept blank/empty field
+                xmlString = xmlString.Replace("<Color />", "");
+                //Missing serverside. Will not accept blank/empty field
+                xmlString = xmlString.Replace("DefaultValue", "Value");
+                //Missing serverside.
             //XML HACK
 
+                TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
+                TriggerEventLog(xmlString);
 
-            if (xmlString.Contains("type=\"Entity_Select\">") || xmlString.Contains("type=\"Entity_Select\">"))
-                throw new SystemException("XML contains Entity_Search and/or Entity_Select, use PostExtendedXml method instead, as they need a Organization Id");
-
-            TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
-            TriggerEventLog(xmlString);
-
-            return http.Post(xmlString, siteId.ToString());
-        }
-
-        /// <summary>
-        /// Posts the XML eForm to Microting and returns the XML encoded restponse (Supports Entity_Search or Entity_Select).
-        /// </summary>
-        /// <param name="xmlString">XML encoded eForm string.</param>
-        /// <param name="siteId">Your device's Microting ID.</param>
-        /// <param name="organizationId">Identifier of organization, data is to be connected to.</param>
-        public string PostXmlExtended   (string xmlString, int siteId, string organizationId)
-        {
-            //XML HACK
-            //REMEMBER OTHER POST METHOD
-
-            xmlString = xmlString.Replace("<color></color>", "");
-            //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("<Color />", "");         
-            //Missing serverside. Will not accept blank/empty field
-            xmlString = xmlString.Replace("DefaultValue", "Value");
-            //Missing serverside.
-
-            //REMEMBER OTHER POST METHOD
-            //XML HACK
-
-
-            TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
-            TriggerEventLog(xmlString);
-
-            return http.Post(xmlString, siteId.ToString());
+                return http.Post(xmlString, siteId.ToString());
+            }
         }
 
         /// <summary>
@@ -131,9 +106,12 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string CheckStatus       (string eFormId, int siteId)
         {
-            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+            lock (_lockSending)
+            {
+                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
-            return http.Status(eFormId, siteId.ToString());
+                return http.Status(eFormId, siteId.ToString());
+            }
         }
 
         /// <summary>
@@ -143,9 +121,12 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string Retrieve          (string eFormId, int siteId)
         {
-            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+            lock (_lockSending)
+            {
+                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
-            return http.Retrieve(eFormId, "0", siteId); //Always gets the first
+                return http.Retrieve(eFormId, "0", siteId); //Always gets the first
+            }
         }
 
         /// <summary>
@@ -156,9 +137,12 @@ namespace eFormCommunicator
         /// <param name="eFormCheckId">Identifier of the check to begin from.</param>
         public string RetrieveFromId    (string eFormId, int siteId, string eFormCheckId)
         {
-            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString() + ", eFormCheckId:" + eFormCheckId);
+            lock (_lockSending)
+            {
+                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString() + ", eFormCheckId:" + eFormCheckId);
 
-            return http.Retrieve(eFormId, eFormCheckId, siteId);
+                return http.Retrieve(eFormId, eFormCheckId, siteId);
+            }
         }
 
         /// <summary>
@@ -168,25 +152,135 @@ namespace eFormCommunicator
         /// <param name="siteId">Your device's Microting ID.</param>
         public string Delete            (string eFormId, int siteId)
         {
-            TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+            lock (_lockSending)
+            {
+                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
-            return http.Delete(eFormId, siteId.ToString());
+                return http.Delete(eFormId, siteId.ToString());
+            }
         }
         #endregion
 
         #region public entity
-        public string EntityGroupCreate(string entityType)
+        public string   EntityGroupCreate(string entityType, string name, string id)
         {
-            return "12123";
+            try
+            {
+                if (entityType == "EntitySearch")
+                {
+                    string responseXml = http.EntitySearchGroupCreate(name, id);
+
+                    if (responseXml.Contains("workflowState=\"created"))
+                        return t.Locate(responseXml, "<MicrotingUUId>", "</");
+
+                    throw new Exception("EntityGroupCreate failed, due to responseXml:'" + responseXml);
+                }
+
+                if (entityType == "EntitySelect")
+                {
+                    string responseXml = json.EntitySelectGroupCreate(name, id);
+
+                    if (responseXml.Contains("workflowState=\"created"))
+                        return t.Locate(responseXml, "<MicrotingUUId>", "</");
+
+                    throw new Exception("EntityGroupCreate failed, due to responseXml:'" + responseXml);
+                }
+
+                throw new Exception("entityType:'" + entityType + "' not known");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupCreate failed", ex);
+            }
         }
 
-        public string EntityItemUpdate(string entityType, string action, string entityItemStr)
+        public void     EntityGroupDelete(string entityType, string entityGroupId)
         {
-            return "3213";
+            try
+            {
+                if (entityType == "EntitySearch")
+                {
+                    string responseXml = http.EntitySearchGroupDelete(entityGroupId);
+
+                    if (responseXml.Contains("workflowstate='created'"))
+                        return;
+ 
+                    throw new Exception("EntityGroupDelete failed, due to responseXml:'" + responseXml);
+                }
+
+                if (entityType == "EntitySelect")
+                {
+                    string responseXml = json.EntitySelectGroupDelete(entityGroupId);
+
+                    if (responseXml.Contains("workflowstate='created'"))
+                        return;
+
+                    throw new Exception("EntityGroupDelete failed, due to responseXml:'" + responseXml);
+                }
+
+                throw new Exception("entityType:'" + entityType + "' not known");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupDelete failed", ex);
+            }
+        }
+
+
+
+        public string   EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
+        {
+            try
+            {
+                string responseXml = http.EntitySearchItemCreate(entitySearchGroupId, name, description, id);
+
+                if (responseXml.Contains("workflowstate=\"created"))
+                    return t.Locate(responseXml, "<MicrotingUUId>", "</");
+
+                throw new Exception("EntitySearchItemCreate failed, due to responseXml:'" + responseXml);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemCreate failed", ex);
+            }
+        }
+
+        public void     EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        {
+            try
+            {
+                string responseXml = http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
+
+                if (responseXml.Contains("workflowState=\"created"))
+                    return;
+
+                throw new Exception("EntitySearchItemUpdate failed, due to responseXml:'" + responseXml);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemUpdate failed", ex);
+            }
+        }
+
+        public void     EntitySearchItemDelete(string entitySearchItemId)
+        {
+            try
+            {
+                string responseXml = http.EntitySearchItemDelete(entitySearchItemId);
+
+                if (responseXml.Contains("workflowState=\"created"))
+                    return;
+
+                throw new Exception("EntitySearchItemDelete failed, due to responseXml:'" + responseXml);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemDelete failed", ex);
+            }
         }
         #endregion
 
-        #region internal
+        #region event
         internal void TriggerEventLog(string message)
         {
             System.EventHandler handler = EventLog;
@@ -216,5 +310,9 @@ namespace eFormCommunicator
             return base.ToString();
         }
         #endregion
+
+
+
+        
     }
 }
