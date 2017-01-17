@@ -23,11 +23,14 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        public int? entity_group_id { get; set; }
+        public string entity_group_id { get; set; }
 
-        public string name { get; set; }
+        [StringLength(50)]
+        public string entity_item_uid { get; set; }
 
         public string microting_uid { get; set; }
+
+        public string name { get; set; }
 
         public string description { get; set; }
 

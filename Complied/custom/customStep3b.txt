@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>1</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>3. Mistet containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>2</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>3</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>

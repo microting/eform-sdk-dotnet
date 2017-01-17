@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5510</Id>
+  <Repeated>0</Repeated>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Label>Bestil ny tømning</Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5515</Id>
+      <Label>Bestil ny tømning</Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="EntitySelect">
+          <Id>37295</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Source>[[location]]</Source>
+        </DataItem>
+		<DataItem type="EntitySearch">
+          <Id>37300</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <EntityTypeId>[[container]]</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem type="EntitySelect">
+          <Id>37305</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Source>[[faction]]</Source>
+        </DataItem>
+		<DataItem type="SingleSelect">
+          <Id>37310</Id>
+          <Label>Vælg containerplacering</Label>
+          <ReadOnly>false</ReadOnly>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>3</DisplayOrder>
+          <Mandatory>true</Mandatory>
+          <Color>e2f4fb</Color>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value><![CDATA[På pladsen]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value><![CDATA[I gården]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem type="SaveButton">
+          <Id>37315</Id>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+	  </DataItemList>	  
+    </Element>
+  </ElementList>
+</Main>

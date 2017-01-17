@@ -191,11 +191,19 @@ namespace eFormSqlController
                 .HasPrecision(0);
 
             modelBuilder.Entity<entity_items>()
-                .Property(e => e.name)
+                .Property(e => e.entity_group_id)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<entity_items>()
+                .Property(e => e.entity_item_uid)
                 .IsUnicode(false);
 
             modelBuilder.Entity<entity_items>()
                 .Property(e => e.microting_uid)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<entity_items>()
+                .Property(e => e.name)
                 .IsUnicode(false);
 
             modelBuilder.Entity<entity_items>()
@@ -547,11 +555,19 @@ namespace eFormSqlController
                 .HasPrecision(0);
 
             modelBuilder.Entity<version_entity_items>()
-                .Property(e => e.name)
+                .Property(e => e.entity_group_id)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_entity_items>()
+                .Property(e => e.entity_item_uid)
                 .IsUnicode(false);
 
             modelBuilder.Entity<version_entity_items>()
                 .Property(e => e.microting_uid)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_entity_items>()
+                .Property(e => e.name)
                 .IsUnicode(false);
 
             modelBuilder.Entity<version_entity_items>()

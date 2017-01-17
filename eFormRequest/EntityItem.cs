@@ -10,26 +10,19 @@ namespace eFormRequest
         public EntityItem()
         {
             Name = "";
-            EntityItemMUId = "";
             Description = "";
+            EntityItemUId = "";
         }
 
-        public EntityItem(string name, string description)
+        public EntityItem(string name, string description, string entityItemUId)
         {
             Name = name;
-            EntityItemMUId = "";
             Description = description;
-        }
-
-        public EntityItem(string name, string entityItemMUId, string description)
-        {
-            Name = name;
-            EntityItemMUId = entityItemMUId;
-            Description = description;
+            EntityItemUId = entityItemUId;
         }
 
         public string Name { get; set; }
-        public string EntityItemMUId { get; set; }
         public string Description { get; set; }
+        public string EntityItemUId { get; set; }
     }
 }

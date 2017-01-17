@@ -38,9 +38,11 @@ namespace Microting
         #region var
         object _lockLogFil = new object();
         object _lockLogic = new object();
+        bool keepSync;
+        string serverConnectionString;
 
         ICore core;
-        SqlController sqlCon;
+        SqlController sqlContro;
         SqlControllerCustom sqlCustom;
         #endregion
 
@@ -58,13 +60,14 @@ namespace Microting
             string subscriberAddress = lines[5];
             string subscriberName = lines[6];
 
-            string serverConnectionString = lines[8];
-            string fileLocation = lines[9];
-            bool logEnabled = bool.Parse(lines[10]);
+                   serverConnectionString = lines[8];
+            string customConnectionString = lines[9];
+            string fileLocation = lines[10];
+            bool logEnabled = bool.Parse(lines[11]);
             #endregion
             core = new Core(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
-            sqlCon = new SqlController(serverConnectionString);
-            sqlCustom = new SqlControllerCustom("Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingCustom;Integrated Security=True"); //<<----- TODO
+            sqlContro = new SqlController(serverConnectionString);
+            sqlCustom = new SqlControllerCustom(customConnectionString);
 
             #region connect event triggers
             core.HandleCaseCreated      += EventCaseCreated;
@@ -79,243 +82,11 @@ namespace Microting
             core.HandleEventException   += EventException;
             #endregion
             core.Start();
+
+            Thread syncThread = new Thread(() => Sync());
+            syncThread.Start();
         }
         #endregion
-
-        public void  Setup()
-        {
-            string xml = File.ReadAllText("custom\\customStep1.txt");
-            var temp = TemplatFromXml(xml);
-            temp.CaseType = "step1";
-            temp.Repeated = 0;
-            List<int> siteIds = new List<int>();
-            siteIds = sqlCustom.SitesRead("Workers");
-            TemplatCreateInfinityCase(temp, siteIds, 4);
-
-            xml = File.ReadAllText("custom\\customStep2.txt");
-            temp = TemplatFromXml(xml);
-            temp.CaseType = "step2";
-            temp.Repeated = 1;
-            int id = TemplatCreate(temp);
-            if (id != 3)
-                Console.WriteLine("id != 3");
-
-            xml = File.ReadAllText("custom\\customStep3.txt");
-            temp = TemplatFromXml(xml);
-            temp.CaseType = "step3";
-            temp.Repeated = 1;
-            id = TemplatCreate(temp);
-            if (id != 5)
-                Console.WriteLine("id != 5");
-
-            xml = File.ReadAllText("custom\\customStep3b.txt");
-            temp = TemplatFromXml(xml);
-            temp.CaseType = "step3b";
-            temp.Repeated = 1;
-            id = TemplatCreate(temp);
-            if (id != 7)
-                Console.WriteLine("id != 7");
-
-            xml = File.ReadAllText("custom\\customStep4.txt");
-            temp = TemplatFromXml(xml);
-            temp.CaseType = "step4";
-            temp.Repeated = 1;
-            id = TemplatCreate(temp);
-            if (id != 9)
-                Console.WriteLine("id != 9");
-
-            Thread.Sleep(5000);
-        }
-
-        public void  Test()
-        {
-            
-            core.EntityGroupDelete("12924");
-
-            string temp = core.EntityGroupCreate("EntitySearch", "MyTest");
-            Console.WriteLine(temp);
-
-            List<EntityItem> lst = new List<EntityItem>();
-            EntityGroup eG = new EntityGroup("Group","EntitySearch", temp, lst);
-            lst.Add(new EntityItem("Item1", "description"));
-            lst.Add(new EntityItem("Item2", "description"));
-            lst.Add(new EntityItem("Item3", "description"));
-            lst.Add(new EntityItem("Item4", "description"));
-
-            core.EntityGroupUpdate(eG);
-
-            var tempi = core.EntityGroupRead(temp);
-
-            tempi.EntityGroupItemLst[0].Name = "New";
-            tempi.EntityGroupItemLst.Add(new EntityItem("Item5", "added"));
-
-            core.EntityGroupUpdate(tempi);
-
-            var tempii = core.EntityGroupRead(temp);
-
-            core.EntityGroupDelete(temp);
-        }
-
-        private void Logic(Case_Dto cDto)
-        {
-            int siteId = cDto.SiteId;
-            string caseType = cDto.CaseType;
-            string caseUid = cDto.CaseUId;
-            string mUId = cDto.MicrotingUId;
-            string checkUId = cDto.CheckUId;
-
-            ReplyElement reply = core.CaseRead(mUId, checkUId);
-
-            if (caseType == "step1")
-            #region create offering
-            {
-                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-                string locationWorker = worker[0];
-
-                string bookingId = "b:" + GenerateUId();
-                string description = GenerateOrderInfo(reply);
-                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
-
-                #region send order
-                MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step3"));
-                DataElement dataE = (DataElement)mainElement.ElementList[0];
-
-                mainElement.Label = label;
-                dataE.Label = label;
-                dataE.Description.InderValue = description;
-
-                List<int> siteIds = sqlCustom.SitesRead("ShippingAgents");
-                core.CaseCreate(mainElement, GenerateUId(), siteIds, mUId + "//" + checkUId + "//" + bookingId, false);
-                #endregion
-
-                UpdateBooking(bookingId, label, "Bekræftet: <b>nej</b>" + description);
-            }
-            #endregion
-
-            if (caseType == "step3")
-            #region create replies (winner/others)
-            {
-                string[] tokens = reply.Custom.Split(new[] { "//" }, StringSplitOptions.None);
-                ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
-                DataElement replyDataE = (DataElement)replyOld.ElementList[0];
-
-                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-                string locationWorker = worker[0];
-
-                string bookingId = tokens[2];
-                string description = GenerateOrderInfo(replyOld);
-                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
-
-                #region is the first?
-                bool isFirst = false;
-                try
-                {
-                    int count = sqlCon.CaseCountResponses(caseUid);
-                    if (count == 1)
-                        isFirst = true;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("isFirst failed", ex);
-                }
-                #endregion
-
-                if (isFirst)
-                {
-                    #region send win eForm
-                    {
-                        MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step4"));
-                        DataElement dataE = (DataElement)mainElement.ElementList[0];
-
-                        mainElement.Label = label;
-                        dataE.Label = label;
-                        dataE.Description.InderValue = description + "<div><b>Tryk og indtast nettovægt fra vejeseddel</b></div>" +
-                            "<div>Hvis du ikke ønsker at afhente containeren, skal du trykke og sætte kryds for at frigive container til ny modtager.</div>";
-
-                        List<int> siteIds = new List<int>();
-                        siteIds.Add(siteId);
-                        core.CaseCreate(mainElement, "", siteIds, reply.Custom, false);
-                    }
-                    #endregion
-
-                    UpdateBooking(bookingId, label, "Bekræftet: <b>ja</b>" + description);
-                }
-                else
-                {
-                    #region send loss eForm
-                    MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step3b"));
-                    DataElement dataE = (DataElement)mainElement.ElementList[0];
-
-                    mainElement.Label = label;
-                    dataE.Label = label;
-                    dataE.Description.InderValue = "<div><b>Afhentning allerede taget af anden</b></div>" + description;
-
-                    List<int> siteIds = new List<int>();
-                    siteIds.Add(siteId);
-                    core.CaseCreate(mainElement, "", siteIds);
-                    #endregion
-                }
-            }
-            #endregion
-
-            if (caseType == "step4")
-            #region confirm/cancel step
-            {
-                string[] tokens = reply.Custom.Split(new[] { "//" }, StringSplitOptions.None);
-                ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
-                DataElement replyDataE = (DataElement)replyOld.ElementList[0];
-
-                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-                string locationWorker = worker[0];
-
-                string bookingId = tokens[2];
-                string description = GenerateOrderInfo(replyOld);
-                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
-
-                DataElement replyResend = (DataElement)reply.ElementList[0];
-                Answer answer = (Answer)replyResend.DataItemList[1];
-                if (answer.Value == "checked")
-                {
-                    #region resend order
-                    MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step3"));
-                    DataElement dataE = (DataElement)mainElement.ElementList[0];
-
-                    mainElement.Label = label;
-                    dataE.Label = label;
-                    dataE.Description.InderValue = description;
-
-                    List<int> siteIds = sqlCustom.SitesRead("ShippingAgents");
-                    core.CaseCreate(mainElement, GenerateUId(), siteIds, reply.Custom, false);
-                    #endregion
-
-                    UpdateBooking(bookingId, label, "Bekræftet: <b>nej</b> (frigivet igen)" + description);
-                }
-                else
-                {
-                    UpdateBooking(bookingId, label, "Bekræftet: <b>afhentet</b>" + description);
-                }
-            }
-            #endregion
-        }
-
-        private void UpdateBooking(string bookingId, string label, string description)
-        {
-            //Delete old
-            List<Case_Dto> lstCDto = sqlCon.CaseFindCustomMatchs(bookingId);
-            foreach (Case_Dto item in lstCDto)
-                core.CaseDelete(item.MicrotingUId);
-
-            //Send new
-            MainElement mainElement = core.TemplatRead(sqlCustom.TemplatIdRead("step2"));
-            DataElement dataE = (DataElement)mainElement.ElementList[0];
-
-            mainElement.Label = label;
-            dataE.Label = label;
-            dataE.Description.InderValue = description;
-
-            List<int> siteIds = sqlCustom.SitesRead("Workers");
-            core.CaseCreate(mainElement, "", siteIds, bookingId, false);
-        }
 
         #region public
         public MainElement TemplatFromXml(string xmlString)
@@ -348,7 +119,7 @@ namespace Microting
             }
         }
 
-        public void TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
+        public int TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
         {
             if (mainElement.Repeated != 0)
                 throw new Exception("InfinityCase are always Repeated = 0");
@@ -362,7 +133,7 @@ namespace Microting
                 {
                     for (int i = 0; i < instances; i++)
                     {
-                        Thread.Sleep(300);
+                        Thread.Sleep(250);
 
                         List<int> siteShortList = new List<int>();
                         siteShortList.Add(siteId);
@@ -370,6 +141,8 @@ namespace Microting
                         core.CaseCreate(mainElement, "ReversedCase", siteShortList, GenerateUId(), true);
                     }
                 }
+
+                return templatId;
             }
             catch (Exception ex)
             {
@@ -463,6 +236,7 @@ namespace Microting
 
         public void Close()
         {
+            keepSync = false;
             core.Close();
         }
         #endregion
@@ -544,35 +318,368 @@ namespace Microting
         }
         #endregion
 
-        private string GenerateUId()
+        #region custom
+        public void     Setup()
         {
-            Random rdn = new Random();
-            return DateTime.Now.ToString("HHmmss") + "r" + rdn.Next(10000000, 99999999).ToString();
+            if (!sqlCustom.VariableGetBool("setup_done"))
+            {
+                Console.WriteLine("Type 'Y' only IF you are sure you want to remove ALL eForms");
+                Console.WriteLine("from devices, and clean the database COMPLETLY, and resetup system.");
+                Console.WriteLine("Press any other key to return");
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "y")
+                {
+                    Console.WriteLine("Program setting up...");
+                    #region clean database
+                    try
+                    {
+                        SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString);
+
+                        List<string> lstCaseMUIds = sqlConUT.FindAllActiveCases();
+                        foreach (string mUId in lstCaseMUIds)
+                            core.CaseDelete(mUId);
+
+                        List<string> lstEntityMUIds = sqlConUT.FindAllActiveEntities();
+                        foreach (string mUId in lstEntityMUIds)
+                            core.EntityGroupDelete(mUId);
+
+                        sqlConUT.CleanDB();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("CleanUp failed", ex);
+                    }
+                    #endregion
+
+                    int copiesOnTable = 6;
+
+                    #region import xml
+                    string xml = File.ReadAllText("custom\\customStep1.txt");
+                    string eGId;
+                    int id;
+                    EntityGroup eG;
+
+                    eGId = core.EntityGroupCreate("EntitySearch", "containers");
+                    xml = xml.Replace("[[container]]", eGId);
+                    sqlCustom.VariableSet("container", eGId);
+                    eG = core.EntityGroupRead(eGId);
+                    Thread.Sleep(1000);
+                    eG.EntityGroupItemLst.Add(new EntityItem("Placeholder", "temp", "1"));
+                    Thread.Sleep(1000);
+                    core.EntityGroupUpdate(eG);
+                    Thread.Sleep(1000);
+
+                    eGId = core.EntityGroupCreate("EntitySelect", "factions");
+                    xml = xml.Replace("[[faction]]", eGId);
+                    sqlCustom.VariableSet("faction", eGId);
+                    eG = core.EntityGroupRead(eGId);
+                    Thread.Sleep(1000);
+                    eG.EntityGroupItemLst.Add(new EntityItem("Placeholder", "temp", "1"));
+                    Thread.Sleep(1000);
+                    core.EntityGroupUpdate(eG);
+                    Thread.Sleep(1000);
+
+                    eGId = core.EntityGroupCreate("EntitySelect", "locations");
+                    xml = xml.Replace("[[location]]", eGId);
+                    sqlCustom.VariableSet("location", eGId);
+                    eG = core.EntityGroupRead(eGId);
+                    Thread.Sleep(1000);
+                    eG.EntityGroupItemLst.Add(new EntityItem("Placeholder", "temp", "1"));
+                    Thread.Sleep(1000);
+                    core.EntityGroupUpdate(eG);
+                    Thread.Sleep(1000);
+
+
+                    var temp = TemplatFromXml(xml);
+                    temp.CaseType = "step1";
+                    temp.Repeated = 0;
+                    List<int> siteIds = new List<int>();
+                    siteIds = sqlCustom.SitesRead("Workers");
+                    id = TemplatCreateInfinityCase(temp, siteIds, copiesOnTable);
+                    sqlCustom.VariableSet("step1", id.ToString());
+
+
+                    xml = File.ReadAllText("custom\\customStep2.txt");
+                    temp = TemplatFromXml(xml);
+                    temp.CaseType = "step2";
+                    temp.Repeated = 1;
+                    id = TemplatCreate(temp);
+                    sqlCustom.VariableSet("step2", id.ToString());
+
+
+                    xml = File.ReadAllText("custom\\customStep3.txt");
+                    temp = TemplatFromXml(xml);
+                    temp.CaseType = "step3";
+                    temp.Repeated = 1;
+                    id = TemplatCreate(temp);
+                    sqlCustom.VariableSet("step3", id.ToString());
+
+
+                    xml = File.ReadAllText("custom\\customStep3b.txt");
+                    temp = TemplatFromXml(xml);
+                    temp.CaseType = "step3b";
+                    temp.Repeated = 1;
+                    id = TemplatCreate(temp);
+                    sqlCustom.VariableSet("step3b", id.ToString());
+
+
+                    xml = File.ReadAllText("custom\\customStep4.txt");
+                    temp = TemplatFromXml(xml);
+                    temp.CaseType = "step4";
+                    temp.Repeated = 1;
+                    id = TemplatCreate(temp);
+                    sqlCustom.VariableSet("step4", id.ToString());
+                    #endregion
+
+                    Thread.Sleep(10000);
+                    Console.WriteLine("Program setting up, done.");
+                }
+                sqlCustom.VariableSet("setup_done", "true");
+            }
         }
 
-        private string GenerateOrderInfo(ReplyElement reply)
+        private void    Sync()
+        {
+            keepSync = true;
+
+            while (keepSync)
+            {
+                try
+                {
+                    if (!sqlCustom.VariableGetBool("synced"))
+                    {
+                        string mUId;
+                        EntityGroup eG;
+
+                        mUId = sqlCustom.VariableGet("container");
+                        eG = core.EntityGroupRead(mUId);
+                        eG.EntityGroupItemLst = sqlCustom.ContainerRead();
+                        core.EntityGroupUpdate(eG);
+
+                        mUId = sqlCustom.VariableGet("faction");
+                        eG = core.EntityGroupRead(mUId);
+                        eG.EntityGroupItemLst = sqlCustom.FactionRead();
+                        core.EntityGroupUpdate(eG);
+
+                        mUId = sqlCustom.VariableGet("location");
+                        eG = core.EntityGroupRead(mUId);
+                        eG.EntityGroupItemLst = sqlCustom.LocationRead();
+                        core.EntityGroupUpdate(eG);
+
+                        sqlCustom.VariableSet("synced", "true");
+                    }
+                    Thread.Sleep(5000);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Sync failed, system  unstable.", ex);
+                }
+            }
+        }
+
+        private void    Logic(Case_Dto cDto)
+        {
+            int siteId = cDto.SiteId;
+            string caseType = cDto.CaseType;
+            string caseUid = cDto.CaseUId;
+            string mUId = cDto.MicrotingUId;
+            string checkUId = cDto.CheckUId;
+
+            ReplyElement reply = core.CaseRead(mUId, checkUId);
+
+            DataElement replyDataE = (DataElement)reply.ElementList[0];
+            Answer answer = (Answer)replyDataE.DataItemList[0];
+            string location = answer.ValueReadable;
+
+            if (caseType == "step1")
+            #region create offering
+            {
+                string bookingId = "b:" + GenerateUId();
+                string description = GenerateOrderInfo(reply);
+                string label = "Sted: " + location + ", dato: " + DateTime.Now.ToShortDateString();
+
+                #region send order
+                MainElement mainElement = core.TemplatRead(int.Parse(sqlCustom.VariableGet("step3")));
+                DataElement dataE = (DataElement)mainElement.ElementList[0];
+
+                mainElement.DisplayOrder = GenerateDescDisplayIndex();
+                mainElement.Label = label;
+                dataE.Label = label;
+                dataE.Description.InderValue = description;
+
+                List<int> siteIds = sqlCustom.SitesRead("ShippingAgents");
+                core.CaseCreate(mainElement, GenerateUId(), siteIds, mUId + "//" + checkUId + "//" + bookingId, false);
+                #endregion
+
+                UpdateBooking(bookingId, label, "Bekræftet: <b>nej</b>" + description);
+            }
+            #endregion
+
+            if (caseType == "step3")
+            #region create replies (winner/others)
+            {
+                string[] tokens = reply.Custom.Split(new[] { "//" }, StringSplitOptions.None);
+                ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
+                replyDataE = (DataElement)replyOld.ElementList[0];
+
+                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
+                string locationWorker = worker[0];
+
+                string bookingId = tokens[2];
+                string description = GenerateOrderInfo(replyOld);
+                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
+
+                #region is the first?
+                bool isFirst = false;
+                try
+                {
+                    int count = sqlContro.CaseCountResponses(caseUid);
+                    if (count == 1)
+                        isFirst = true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("isFirst failed", ex);
+                }
+                #endregion
+
+                if (isFirst)
+                {
+                    #region send win eForm
+                    {
+                        MainElement mainElement = core.TemplatRead(int.Parse(sqlCustom.VariableGet("step4")));
+                        DataElement dataE = (DataElement)mainElement.ElementList[0];
+
+                        mainElement.DisplayOrder = GenerateDescDisplayIndex();
+                        mainElement.Label = label;
+                        dataE.Label = label;
+                        dataE.Description.InderValue = description + "<div><b>Tryk og indtast nettovægt fra vejeseddel</b></div>" +
+                            "<div>Hvis du ikke ønsker at afhente containeren, skal du trykke og sætte kryds for at frigive container til ny modtager.</div>";
+
+                        List<int> siteIds = new List<int>();
+                        siteIds.Add(siteId);
+                        core.CaseCreate(mainElement, "", siteIds, reply.Custom, false);
+                    }
+                    #endregion
+
+                    UpdateBooking(bookingId, label, "Bekræftet: <b>ja</b>" + description);
+                }
+                else
+                {
+                    #region send loss eForm
+                    MainElement mainElement = core.TemplatRead(int.Parse(sqlCustom.VariableGet("step3b")));
+                    DataElement dataE = (DataElement)mainElement.ElementList[0];
+
+                    mainElement.DisplayOrder = GenerateDescDisplayIndex();
+                    mainElement.Label = label;
+                    dataE.Label = label;
+                    dataE.Description.InderValue = "<div><b>Afhentning allerede taget af anden</b></div>" + description;
+
+                    List<int> siteIds = new List<int>();
+                    siteIds.Add(siteId);
+                    core.CaseCreate(mainElement, "", siteIds);
+                    #endregion
+                }
+            }
+            #endregion
+
+            if (caseType == "step4")
+            #region confirm/cancel step
+            {
+                string[] tokens = reply.Custom.Split(new[] { "//" }, StringSplitOptions.None);
+                ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
+                replyDataE = (DataElement)replyOld.ElementList[0];
+
+                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
+                string locationWorker = worker[0];
+
+                string bookingId = tokens[2];
+                string description = GenerateOrderInfo(replyOld);
+                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
+
+                DataElement replyResend = (DataElement)reply.ElementList[0];
+                answer = (Answer)replyResend.DataItemList[1];
+                if (answer.Value == "checked")
+                {
+                    #region resend order
+                    MainElement mainElement = core.TemplatRead(int.Parse(sqlCustom.VariableGet("step3")));
+                    DataElement dataE = (DataElement)mainElement.ElementList[0];
+
+                    mainElement.DisplayOrder = GenerateDescDisplayIndex();
+                    mainElement.Label = label;
+                    dataE.Label = label;
+                    dataE.Description.InderValue = description;
+
+                    List<int> siteIds = sqlCustom.SitesRead("ShippingAgents");
+                    core.CaseCreate(mainElement, GenerateUId(), siteIds, reply.Custom, false);
+                    #endregion
+
+                    UpdateBooking(bookingId, label, "Bekræftet: <b>nej</b> (frigivet igen)" + description);
+                }
+                else
+                {
+                    UpdateBooking(bookingId, label, "Bekræftet: <b>afhentet</b>" + description);
+                }
+            }
+            #endregion
+        }
+
+        private void    UpdateBooking(string bookingId, string label, string description)
+        {
+            //Delete old
+            List<Case_Dto> lstCDto = sqlContro.CaseFindCustomMatchs(bookingId);
+            foreach (Case_Dto item in lstCDto)
+                core.CaseDelete(item.MicrotingUId);
+
+            //Send new
+            MainElement mainElement = core.TemplatRead(int.Parse(sqlCustom.VariableGet("step2")));
+            DataElement dataE = (DataElement)mainElement.ElementList[0];
+
+            mainElement.DisplayOrder = GenerateDescDisplayIndex();
+            mainElement.Label = label;
+            dataE.Label = label;
+            dataE.Description.InderValue = description;
+
+            List<int> siteIds = sqlCustom.SitesRead("Workers");
+            core.CaseCreate(mainElement, "", siteIds, bookingId, false);
+        }
+
+        private string  GenerateUId()
+        {
+            Random rdn = new Random();
+            return DateTime.Now.ToString("yyyyMMddHHmmss") + "r" + rdn.Next(10000, 99999).ToString();
+        }
+
+        private int     GenerateDescDisplayIndex()
+        {
+            return -int.Parse(DateTime.Now.ToString("MMddHHmmss"));
+        }
+
+        private string  GenerateOrderInfo(ReplyElement reply)
         {
             DataElement replyDataE = (DataElement)reply.ElementList[0];
 
-            Answer answer = (Answer)replyDataE.DataItemList[0];
-            string location = answer.Value;
-            answer = (Answer)replyDataE.DataItemList[1];
-            string container = answer.Value;
+            Answer answer = (Answer)replyDataE.DataItemList[1];
+            string container = answer.ValueReadable;
             answer = (Answer)replyDataE.DataItemList[2];
-            string faction = answer.Value;
+            string faction = answer.ValueReadable;
+            answer = (Answer)replyDataE.DataItemList[3];
+            string location = answer.ValueReadable;
+
             List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-            string locationWorker = worker[0];
-            string name = worker[1];
+            string name  = worker[1];
             string phone = worker[2];
 
             string rtnStr =
                 "<div>Container: " + container + "</div>" +
-                "<div>Placering: " + location + "</div>" +
                 "<div>Fraktion: " + faction + "</div>" +
+                "<div>Placering: " + location + ", " +"</div>" +
                 "<div>Bestilt dato og tid: " + DateTime.Now.ToShortDateString() + " kl. " + DateTime.Now.ToShortTimeString() + "</div>" +
                 "<div>Bestilt af: " + name + " (tlf: " + phone + ")</div>";
 
             return rtnStr;
         }
+        #endregion
     }
 }

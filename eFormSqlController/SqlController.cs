@@ -485,6 +485,36 @@ namespace eFormSqlController
                         }
                     #endregion
                     answer.Value = reply.value;
+                    #region answer.ValueReadable = reply.value 'ish';
+                    if (answer.fieldType == "EntitySearch" || answer.fieldType == "EntitySelect")
+                    {
+                        List<entity_items> matches = db.entity_items.Where(x => x.microting_uid == reply.value).ToList();
+
+                        if (matches.Count == 1)
+                            answer.ValueReadable = matches[0].name;
+                    }
+
+                    if (answer.fieldType == "SingleSelect")
+                    {
+                        string key = answer.Value;
+                        string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                        answer.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+                    }
+
+                    if (answer.fieldType == "MultiSelect")
+                    {
+                        answer.ValueReadable = "";
+
+                        string keys = answer.Value;
+                        List<string> keyLst = keys.Split('|').ToList();
+
+                        foreach (string key in keyLst)
+                        {
+                            string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                            answer.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
+                        }
+                    }
+                    #endregion
 
                     return answer;
                 }
@@ -658,7 +688,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        public List<int> SitesList()
+        public List<int>    SitesList()
         {
             try
             {
@@ -681,7 +711,7 @@ namespace eFormSqlController
             }
         }
 
-        public void CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
+        public void         CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
         {
             try
             {
@@ -711,7 +741,7 @@ namespace eFormSqlController
         }
 
         #region entityGroup
-        public int EntityGroupCreate(string name, string entityType)
+        public int          EntityGroupCreate(string name, string entityType)
         {
             try
             {
@@ -746,7 +776,7 @@ namespace eFormSqlController
             }
         }
 
-        public EntityGroup EntityGroupRead(string entityGroupMUId)
+        public EntityGroup  EntityGroupRead(string entityGroupMUId)
         {
             try
             {
@@ -754,7 +784,7 @@ namespace eFormSqlController
                 {
                     entity_groups eG;
 
-                    List<entity_groups> eGLst = db.entity_groups.Where(x => x.microting_uid == entityGroupMUId && x.workflow_state == "created").ToList();
+                    List<entity_groups> eGLst = db.entity_groups.Where(x => x.microting_uid == entityGroupMUId).ToList();
 
                     if (eGLst == null)
                         return null;
@@ -768,13 +798,13 @@ namespace eFormSqlController
                     List<EntityItem> lst = new List<EntityItem>();
                     EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst);
 
-                    List<entity_items> eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state == "created").ToList();
+                    List<entity_items> eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").ToList();
 
                     if (eILst != null)
                         if (eILst.Count > 0)
                             foreach (entity_items item in eILst)
                             {
-                                EntityItem eI = new EntityItem(item.name, item.microting_uid, item.description);
+                                EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid);
                                 lst.Add(eI);
                             }
 
@@ -787,7 +817,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
+        public bool         EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
         {
             try
             {
@@ -821,7 +851,7 @@ namespace eFormSqlController
             }
         }
 
-        public void EntityGroupUpdateItems(EntityGroup entityGroup)
+        public void         EntityGroupUpdateItems(EntityGroup entityGroup)
         {
             try
             {
@@ -834,30 +864,7 @@ namespace eFormSqlController
                     //same, new or update
                     foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
                     {
-                        foreach (EntityItem itemFDb in eGFDb.EntityGroupItemLst)
-                        {
-                            //same
-                            if (itemNew.EntityItemMUId == itemFDb.EntityItemMUId)
-                            {
-                                if (itemNew.Description == itemFDb.Description && itemNew.Name == itemFDb.Description)
-                                {
-                                    //identic
-                                    break;
-                                }
-                                else
-                                {
-                                    //updated
-                                    EntityItemUpdate(itemNew);
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                //new
-                                EntityItemCreate(entityGroup.EntityGroupMUId, itemNew);
-                                break;
-                            }
-                        }
+                        EntityItemCreateUpdate(entityGroup.EntityGroupMUId, itemNew);
                     }
 
                     //delete
@@ -867,7 +874,7 @@ namespace eFormSqlController
                         stillInUse = false;
                         foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
                         {
-                            if (itemNew.EntityItemMUId == itemFDb.EntityItemMUId)
+                            if (itemNew.EntityItemUId == itemFDb.EntityItemUId)
                             {
                                 stillInUse = true;
                                 break;
@@ -876,7 +883,7 @@ namespace eFormSqlController
 
                         if (!stillInUse)
                         {
-                            EntityItemDelete(itemFDb.EntityItemMUId);
+                            EntityItemDelete(entityGroup.EntityGroupMUId, itemFDb.EntityItemUId);
                         }
                     }
                 }
@@ -887,28 +894,31 @@ namespace eFormSqlController
             }
         }
 
-        public bool EntityGroupDelete(string entityGroupMUId)
+        public string       EntityGroupDelete(string entityGroupMUId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    List<string> killLst = new List<string>();
+
                     entity_groups eG;
                     try
                     {
-                        eG = db.entity_groups.Where(x => x.microting_uid == entityGroupMUId && x.workflow_state == "created").ToList().First();
+                        eG = db.entity_groups.Where(x => x.microting_uid == entityGroupMUId && x.workflow_state != "removed").ToList().First();
                     }
                     catch
                     {
-                        return false;
+                        return null;
                     }
+                    killLst.Add(eG.microting_uid);
 
                     eG.workflow_state = "removed";
                     eG.updated_at = DateTime.Now;
                     eG.version = eG.version + 1;
                     db.version_entity_groups.Add(MapEntityGroupVersions(eG));
 
-                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state == "created").ToList();
+                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed").ToList();
                     if (lst != null)
                     {
                         foreach (entity_items item in lst)
@@ -918,12 +928,14 @@ namespace eFormSqlController
                             item.version = item.version + 1;
                             item.synced = t.Bool(false);
                             db.version_entity_items.Add(MapEntityItemVersions(item));
+
+                            killLst.Add(item.microting_uid);
                         }
                     }
 
                     db.SaveChanges();
 
-                    return true;
+                    return eG.type;
                 }
             }
             catch (Exception ex)
@@ -934,17 +946,15 @@ namespace eFormSqlController
         #endregion
 
         #region entityItem sync
-        public entity_items         EntityItemSyncedRead()
+        public entity_items     EntityItemSyncedRead()
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var temp = db.entity_items.Where(x => x.synced == 0 && x.workflow_state == "created").ToList();
-
                     try
                     {
-                        return temp.First();
+                        return db.entity_items.Where(x => x.synced == 0).ToList().First();
                     }
                     catch
                     {
@@ -958,22 +968,32 @@ namespace eFormSqlController
             }
         }
 
-        public void                 EntityItemSyncedProcessed(int entityItemId, string workflowState)
+        public void             EntityItemSyncedProcessed(string entityGroupMUId, string entityItemId, string microting_uid, string workflowState)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var lst = db.entity_items.Where(x => x.id == entityItemId).ToList();
+                    var lst = db.entity_items.Where(x => x.entity_item_uid == entityItemId && x.entity_group_id == entityGroupMUId).ToList();
 
-                    entity_items eItem = lst[0];
-                    eItem.workflow_state = workflowState;
-                    eItem.updated_at = DateTime.Now;
-                    eItem.version = eItem.version + 1;
-                    eItem.synced = 1;
+                    if (lst.Count == 1)
+                    {
+                        entity_items eItem = lst[0];
+                        eItem.workflow_state = workflowState;
+                        eItem.updated_at = DateTime.Now;
+                        eItem.version = eItem.version + 1;
+                        eItem.synced = 1;
 
-                    db.version_entity_items.Add(MapEntityItemVersions(eItem));
-                    db.SaveChanges();
+                        if (workflowState == "created")
+                            eItem.microting_uid = microting_uid; //<<---
+
+                        db.version_entity_items.Add(MapEntityItemVersions(eItem));
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        //Warning...
+                    }
                 }
             }
             catch (Exception ex)
@@ -1719,45 +1739,84 @@ namespace eFormSqlController
         #endregion
 
         #region EntityItem 
-        private void EntityItemCreate(string parentId, EntityItem entityItem)
+        private void    EntityItemCreateUpdate(string entityGroupMUId, EntityItem entityItem)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    entity_items eI = new entity_items();
+                    var matches = db.entity_items.Where(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupMUId).ToList();
 
-                    eI.created_at = DateTime.Now;
-                    eI.description = entityItem.Description;
-                    eI.entity_group_id = parentId;
-                    //eI.id = "";
-                    eI.microting_uid = entityItem.EntityItemMUId;
-                    eI.name = entityItem.Name;
-                    eI.synced = t.Bool(false);
-                    eI.updated_at = DateTime.Now;
-                    eI.version = 1;
-                    eI.workflow_state = "created";
+                    if (matches.Count == 1)
+                    {
+                        #region same or update
+                        if (matches[0].name == entityItem.Name && matches[0].description == entityItem.Description)
+                        {
+                            //same
+                            return; 
+                        }
+                        else
+                        {
+                            //update
+                            matches[0].description = entityItem.Description;
+                            matches[0].name = entityItem.Name;
+                            matches[0].synced = t.Bool(false);
+                            matches[0].updated_at = DateTime.Now;
+                            matches[0].version = matches[0].version + 1;
+                            matches[0].workflow_state = "updated";
 
-                    db.entity_items.Add(eI);
-                    db.SaveChanges();
+                            db.SaveChanges();
 
-                    db.version_entity_items.Add(MapEntityItemVersions(eI));
-                    db.SaveChanges();
+                            db.version_entity_items.Add(MapEntityItemVersions(matches[0]));
+                            db.SaveChanges();
+
+                            return;
+                        }
+                        #endregion
+                    }
+
+                    if (matches.Count == 0)
+                    {
+                        #region new
+                        entity_items eI = new entity_items();
+
+                        eI.workflow_state = "created";
+                        eI.version = 1;
+                        eI.created_at = DateTime.Now;
+                        eI.updated_at = DateTime.Now;
+                        eI.entity_group_id = entityGroupMUId;
+                        eI.entity_item_uid = entityItem.EntityItemUId;
+                        eI.microting_uid = "";
+                        eI.name = entityItem.Name;
+                        eI.description = entityItem.Description;
+                        eI.synced = t.Bool(false);
+        
+                        db.entity_items.Add(eI);
+                        db.SaveChanges();
+
+                        db.version_entity_items.Add(MapEntityItemVersions(eI));
+                        db.SaveChanges();
+
+                        return;
+                        #endregion
+                    }
+
+                    throw new Exception("EntityItemCreateUpdate failed. Due match list was not 0 or 1");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityItemCreate failed", ex);
+                throw new Exception("EntityItemCreateUpdate failed", ex);
             }
         }
 
-        private void EntityItemUpdate(EntityItem entityItem)
+        private void    EntityItemDelete(string entityGroupMUId, string entityItemUId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<entity_items> lst = db.entity_items.Where(x => x.microting_uid == entityItem.EntityItemMUId && x.workflow_state == "created").ToList();
+                    List<entity_items> lst = db.entity_items.Where(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId).ToList();
 
                     if (lst == null)
                         throw new Exception("EntityGroupRead failed. Due list was null");
@@ -1767,40 +1826,7 @@ namespace eFormSqlController
                         throw new Exception("EntityGroupRead failed. Due list was more than 1 match");
                     entity_items eI = lst[0];
 
-                    eI.description = entityItem.Description;
-                    eI.name = entityItem.Name;
                     eI.synced = t.Bool(false);
-                    eI.updated_at = DateTime.Now;
-                    eI.version = eI.version+1;
-
-                    db.SaveChanges();
-
-                    db.version_entity_items.Add(MapEntityItemVersions(eI));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntityItemUpdate failed", ex);
-            }
-        }
-
-        private void EntityItemDelete(string EntityItemMUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    List<entity_items> lst = db.entity_items.Where(x => x.microting_uid == EntityItemMUId && x.workflow_state == "created").ToList();
-
-                    if (lst == null)
-                        throw new Exception("EntityGroupRead failed. Due list was null");
-                    if (lst.Count == 0)
-                        throw new Exception("EntityGroupRead failed. Due list was empty");
-                    if (lst.Count > 1)
-                        throw new Exception("EntityGroupRead failed. Due list was more than 1 match");
-                    entity_items eI = lst[0];
-
                     eI.updated_at = DateTime.Now;
                     eI.version = eI.version + 1;
                     eI.workflow_state = "removed";
@@ -1818,7 +1844,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        private string Find(int fieldTypeId)
+        private string  Find(int fieldTypeId)
         {
             foreach (var holder in converter)
             {
@@ -1828,7 +1854,7 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
         }
 
-        private int Find(string typeStr)
+        private int     Find(string typeStr)
         {
             foreach (var holder in converter)
             {
@@ -2094,17 +2120,17 @@ namespace eFormSqlController
         private version_entity_items        MapEntityItemVersions(entity_items entityItem)
         {
             version_entity_items entityItemVer = new version_entity_items();
+            entityItemVer.workflow_state = entityItem.workflow_state;
+            entityItemVer.version = entityItem.version;
             entityItemVer.created_at = entityItem.created_at;
-            entityItemVer.description = entityItem.description;
-            entityItemVer.id = entityItem.id;
+            entityItemVer.updated_at = entityItem.updated_at;
+            entityItemVer.entity_item_uid = entityItem.entity_item_uid;
             entityItemVer.microting_uid = entityItem.microting_uid;
             entityItemVer.name = entityItem.name;
+            entityItemVer.description = entityItem.description;
             entityItemVer.synced = entityItem.synced;
-            entityItemVer.updated_at = entityItem.updated_at;
-            entityItemVer.version = entityItem.version;
-            entityItemVer.workflow_state = entityItem.workflow_state;
 
-            entityItemVer.entity_group_id = entityItem.id; //<<--
+            entityItemVer.entity_items_id = entityItem.id; //<<--
 
             return entityItemVer;
         }

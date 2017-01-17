@@ -36,74 +36,17 @@ namespace Microting
     {
         static void     Main(string[] args)
         {
-            RunTest();
-        }
-
-        static void     RunTest()
-        {
-            while (true)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("Select which MainController element to start. Type:");
-                Console.WriteLine("'T' for run test");
-                Console.WriteLine("'C' for cleaning database and devices");
-                Console.WriteLine("'E' for exiting program");
-
-                string input = Console.ReadLine();
-
-                if (input.ToLower() == "t")
-                {
-                    MainControllerCustom mainController = new MainControllerCustom();
-                    mainController.Test();
-                    mainController.Close();
-                }
-
-                if (input.ToLower() == "c")
-                    CleanUp();
-
-                if (input.ToLower() == "e")
-                    break;
-            }
-
-            Console.WriteLine("Program has been closed. Will close Console in 2s");
-            Thread.Sleep(2000);
-            Environment.Exit(0);
+            RunCustom();
+            //RunDefault();
         }
 
         static void     RunCustom()
         {
-            while (true)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("Select which MainController element to start. Type:");
-                Console.WriteLine("'S' for setup custom");
-                Console.WriteLine("'R' for run custom");
-                Console.WriteLine("'C' for cleaning database and devices");
-                Console.WriteLine("'E' for exiting program");
-
-                string input = Console.ReadLine();
-
-                if (input.ToLower() == "s")
-                {
-                    MainControllerCustom mainController = new MainControllerCustom();
-                    mainController.Test();
-                    mainController.Close();
-                }
-
-                if (input.ToLower() == "r")
-                {
-                    MainControllerCustom mainController = new MainControllerCustom();
-                    Console.WriteLine("Press any key to close MainControllerCustom");
-                    Console.ReadKey();
-                    mainController.Close();
-                }
-
-                if (input.ToLower() == "c")
-                    CleanUp();
-
-                if (input.ToLower() == "e")
-                    break;
-            }
+            MainControllerCustom mainController = new MainControllerCustom();
+            mainController.Setup();
+            Console.WriteLine("Program running. Press any key to close");
+            Console.ReadKey();
+            mainController.Close();
 
             Console.WriteLine("Program has been closed. Will close Console in 2s");
             Thread.Sleep(2000);
@@ -203,7 +146,7 @@ namespace Microting
                     main.CaseType = "Test";
                     main.SetStartDate(DateTime.Now);
                     main.SetEndDate(DateTime.Now.AddDays(2));
-
+                    
                     templatId = mainController.TemplatCreate(main);
                 }
 
@@ -415,11 +358,15 @@ namespace Microting
                 #region clean database
                 try
                 {
-                    List<string> lstMUIds = sqlConUT.FindAllActiveCases();
-                    foreach (string mUId in lstMUIds)
+                    List<string> lstCaseMUIds = sqlConUT.FindAllActiveCases();
+                    foreach (string mUId in lstCaseMUIds)
                         core.CaseDelete(mUId);
 
-                    sqlConUT.CleanUpDB();
+                    List<string> lstEntityMUIds = sqlConUT.FindAllActiveEntities();
+                    foreach (string mUId in lstEntityMUIds)
+                        core.EntityGroupDelete(mUId);
+
+                    sqlConUT.CleanDB();
                 }
                 catch (Exception ex)
                 {
@@ -432,14 +379,6 @@ namespace Microting
             {
                 throw new Exception("CleanUp failed", ex);
             }
-        }
-
-
-        static string   GenerateSampleCaseId()
-        {
-            Random rdn = new Random();
-            string str = DateTime.Now.ToLongTimeString() + "/" + rdn.Next(100000, 999999).ToString();
-            return str;
         }
 
         static void     FilSave(string str, string name)

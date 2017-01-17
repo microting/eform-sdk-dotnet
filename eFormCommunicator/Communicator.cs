@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Trools;
 
@@ -35,7 +36,6 @@ namespace eFormCommunicator
 
         Tools t = new Tools();
         Http http;
-        Json json;
         #endregion
 
         #region con
@@ -67,7 +67,6 @@ namespace eFormCommunicator
             #endregion
 
             http = new Http(address, token, organizationId);
-            json = new Json();
         }
         #endregion
 
@@ -168,22 +167,22 @@ namespace eFormCommunicator
             {
                 if (entityType == "EntitySearch")
                 {
-                    string responseXml = http.EntitySearchGroupCreate(name, id);
+                    string microtingUId = http.EntitySearchGroupCreate(name, id);
 
-                    if (responseXml.Contains("workflowState=\"created"))
-                        return t.Locate(responseXml, "<MicrotingUUId>", "</");
-
-                    throw new Exception("EntityGroupCreate failed, due to responseXml:'" + responseXml);
+                    if (microtingUId == null)
+                        throw new Exception("EntityGroupCreate failed, due to microtingUId:'null'");
+                    else
+                        return microtingUId;
                 }
 
                 if (entityType == "EntitySelect")
                 {
-                    string responseXml = json.EntitySelectGroupCreate(name, id);
+                    string microtingUId = http.EntitySelectGroupCreate(name, id);
 
-                    if (responseXml.Contains("workflowState=\"created"))
-                        return t.Locate(responseXml, "<MicrotingUUId>", "</");
-
-                    throw new Exception("EntityGroupCreate failed, due to responseXml:'" + responseXml);
+                    if (microtingUId == null)
+                        throw new Exception("EntityGroupCreate failed, due to microtingUId:'null'");
+                    else
+                        return microtingUId;
                 }
 
                 throw new Exception("entityType:'" + entityType + "' not known");
@@ -200,22 +199,18 @@ namespace eFormCommunicator
             {
                 if (entityType == "EntitySearch")
                 {
-                    string responseXml = http.EntitySearchGroupDelete(entityGroupId);
-
-                    if (responseXml.Contains("workflowstate='created'"))
+                    if (http.EntitySearchGroupDelete(entityGroupId))
                         return;
- 
-                    throw new Exception("EntityGroupDelete failed, due to responseXml:'" + responseXml);
+                    else
+                        throw new Exception("EntitySearchItemDelete failed");
                 }
 
                 if (entityType == "EntitySelect")
                 {
-                    string responseXml = json.EntitySelectGroupDelete(entityGroupId);
-
-                    if (responseXml.Contains("workflowstate='created'"))
+                    if (http.EntitySelectGroupDelete(entityGroupId))
                         return;
-
-                    throw new Exception("EntityGroupDelete failed, due to responseXml:'" + responseXml);
+                    else
+                        throw new Exception("EntitySearchItemDelete failed");
                 }
 
                 throw new Exception("entityType:'" + entityType + "' not known");
@@ -226,18 +221,13 @@ namespace eFormCommunicator
             }
         }
 
-
+        //---
 
         public string   EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
             try
             {
-                string responseXml = http.EntitySearchItemCreate(entitySearchGroupId, name, description, id);
-
-                if (responseXml.Contains("workflowstate=\"created"))
-                    return t.Locate(responseXml, "<MicrotingUUId>", "</");
-
-                throw new Exception("EntitySearchItemCreate failed, due to responseXml:'" + responseXml);
+                return http.EntitySearchItemCreate(entitySearchGroupId, name, description, id);
             }
             catch (Exception ex)
             {
@@ -245,16 +235,11 @@ namespace eFormCommunicator
             }
         }
 
-        public void     EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public bool     EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
             try
             {
-                string responseXml = http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
-
-                if (responseXml.Contains("workflowState=\"created"))
-                    return;
-
-                throw new Exception("EntitySearchItemUpdate failed, due to responseXml:'" + responseXml);
+                return http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
             }
             catch (Exception ex)
             {
@@ -262,16 +247,49 @@ namespace eFormCommunicator
             }
         }
 
-        public void     EntitySearchItemDelete(string entitySearchItemId)
+        public bool     EntitySearchItemDelete(string entitySearchItemId)
         {
             try
             {
-                string responseXml = http.EntitySearchItemDelete(entitySearchItemId);
+                return http.EntitySearchItemDelete(entitySearchItemId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemDelete failed", ex);
+            }
+        }
 
-                if (responseXml.Contains("workflowState=\"created"))
-                    return;
+        //---
 
-                throw new Exception("EntitySearchItemDelete failed, due to responseXml:'" + responseXml);
+        public string   EntitySelectItemCreate(string entitySearchGroupId, string name, string description, string id)
+        {
+            try
+            {
+                return http.EntitySelectItemCreate(entitySearchGroupId, name, description, id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemCreate failed", ex);
+            }
+        }
+
+        public bool     EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        {
+            try
+            {
+                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemUpdate failed", ex);
+            }
+        }
+
+        public bool     EntitySelectItemDelete(string entitySearchItemId)
+        {
+            try
+            {
+                return http.EntitySelectItemDelete(entitySearchItemId);
             }
             catch (Exception ex)
             {
@@ -310,9 +328,5 @@ namespace eFormCommunicator
             return base.ToString();
         }
         #endregion
-
-
-
-        
     }
 }

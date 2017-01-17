@@ -11,6 +11,7 @@ namespace eFormRequest
         public string fieldType { get; set; }
         public DateTime DateOfDoing { get; set; }
         public string Value { get; set; }
+        public string ValueReadable { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string Altitude { get; set; }

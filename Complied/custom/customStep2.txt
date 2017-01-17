@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5495</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Liste over afgivne bestillinger</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5500</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>37285</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>

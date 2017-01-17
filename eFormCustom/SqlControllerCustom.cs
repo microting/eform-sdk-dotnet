@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using eFormRequest;
+
 namespace eFormCustom
 {
     public class SqlControllerCustom
@@ -19,7 +21,135 @@ namespace eFormCustom
         #endregion
 
         #region public
-        public List<int>    SitesRead(string type)
+        public List<EntityItem> ContainerRead()
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    List<input_containers> matches = db.input_containers.ToList();
+                    if (matches == null)
+                        throw new Exception("ContainerRead failed, matches == null");
+
+                    List<EntityItem> rtnLst = new List<EntityItem>();
+                    foreach (input_containers item in matches)
+                        rtnLst.Add(new EntityItem(item.name, item.description, item.id.ToString()));
+
+                    return rtnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ContainerRead failed.", ex);
+            }
+        }
+
+        public List<EntityItem> FactionRead()
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    List<input_factions> matches = db.input_factions.ToList();
+                    if (matches == null)
+                        throw new Exception("FactionRead failed, matches == null");
+
+                    List<EntityItem> rtnLst = new List<EntityItem>();
+                    foreach (input_factions item in matches)
+                        rtnLst.Add(new EntityItem(item.name, item.description, item.id.ToString()));
+
+                    return rtnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FactionRead failed.", ex);
+            }
+        }
+
+        public List<EntityItem> LocationRead()
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    List<input_locations> matches = db.input_locations.ToList();
+                    if (matches == null)
+                        throw new Exception("LocationRead failed, matches == null");
+
+                    List<EntityItem> rtnLst = new List<EntityItem>();
+                    foreach (input_locations item in matches)
+                        rtnLst.Add(new EntityItem(item.name, item.description, item.id.ToString()));
+
+                    return rtnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("LocationRead failed.", ex);
+            }
+        }
+
+        public string VariableGet(string variableName)
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    List<variable> matchs = db.variable.Where(x => x.name == variableName).ToList();
+
+                    if (matchs == null)
+                        throw new Exception("VariableGet failed, matchs == null");
+
+                    if (matchs.Count() != 1)
+                        throw new Exception("VariableGet failed, matchs != 1");
+
+                    return matchs[0].value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("VariableGet failed.", ex);
+            }
+        }
+
+        public bool VariableGetBool(string variableName)
+        {
+            try
+            {
+                return bool.Parse(VariableGet(variableName));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("VariableGet failed.", ex);
+            }
+        }
+
+        public void             VariableSet(string variableName, string variableValue)
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    List<variable> matchs = db.variable.Where(x => x.name == variableName).ToList();
+
+                    if (matchs == null)
+                        throw new Exception("VariableSet failed, matchs == null");
+
+                    if (matchs.Count() != 1)
+                        throw new Exception("VariableSet failed, matchs != 1");
+
+                    matchs[0].value = variableValue;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("VariableSet failed.", ex);
+            }
+        }
+
+        public List<int>        SitesRead(string type)
         {
             try
             {
@@ -43,79 +173,7 @@ namespace eFormCustom
             }
         }
 
-        public List<string> ContainerRead()
-        {
-            try
-            {
-                using (var db = new CustomDb(connectionStr))
-                {
-                    List<string> rtnLst = new List<string>();
-                    List<containers> conLst = db.containers.ToList();
-
-                    if (conLst.Count == 0)
-                        throw new Exception("ContainerRead failed, count == 0");
-
-                    foreach (containers con in conLst)
-                        rtnLst.Add(con.name);
-
-                    return rtnLst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("ContainerRead failed.", ex);
-            }
-        }
-
-        public List<string> FactionRead()
-        {
-            try
-            {
-                using (var db = new CustomDb(connectionStr))
-                {
-                    List<string> rtnLst = new List<string>();
-                    List<factions> conLst = db.factions.ToList();
-
-                    if (conLst.Count == 0)
-                        throw new Exception("FactionRead failed, count == 0");
-
-                    foreach (factions con in conLst)
-                        rtnLst.Add(con.name);
-
-                    return rtnLst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("FactionRead failed.", ex);
-            }
-        }
-
-        public List<string> LocationRead()
-        {
-            try
-            {
-                using (var db = new CustomDb(connectionStr))
-                {
-                    List<string> rtnLst = new List<string>();
-                    List<locations> conLst = db.locations.ToList();
-
-                    if (conLst.Count == 0)
-                        throw new Exception("LocationRead failed, count == 0");
-
-                    foreach (locations con in conLst)
-                        rtnLst.Add(con.name);
-
-                    return rtnLst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("LocationRead failed.", ex);
-            }
-        }
-        
-        public List<string> WorkerRead(int siteId)
+        public List<string>     WorkerRead(int siteId)
         {
             try
             {
@@ -137,27 +195,6 @@ namespace eFormCustom
             catch (Exception ex)
             {
                 throw new Exception("WorkerRead failed.", ex);
-            }
-        }
-
-        public int          TemplatIdRead(string name)
-        {
-            try
-            {
-                using (var db = new CustomDb(connectionStr))
-                {
-                    List<string> rtnLst = new List<string>();
-                    List<templat_ids> conLst = db.templat_ids.Where(x => x.name == name).ToList();
-
-                    if (conLst.Count != 1)
-                        throw new Exception("TemplatIdRead failed, count != 1");
-
-                    return conLst[0].templat_Id;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("TemplatIdRead failed.", ex);
             }
         }
         #endregion

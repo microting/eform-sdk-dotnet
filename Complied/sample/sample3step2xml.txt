@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Container ready for collection</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Shipping Agent</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>01-01-2000</StartDate>
+  <EndDate>01-01-2000</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Container ready for collection</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="None">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Place holder</Label>
+          <Description></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Any comment?</Label>
+          <Description></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value></Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>

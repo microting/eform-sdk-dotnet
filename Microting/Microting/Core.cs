@@ -35,6 +35,7 @@ using System.IO;
 using System.Threading;
 using System.Net;
 using System.Security.Cryptography;
+using System.Linq;
 
 namespace Microting
 {
@@ -628,7 +629,7 @@ namespace Microting
                     else
                     {
                         sqlController.EntityGroupDelete(entityGroupMUId);
-                        throw new Exception("EntityListCreate failed. Due to list not created correct");
+                        throw new Exception("EntityListCreate failed, due to list not created correct");
                     }
                 }
                 else
@@ -647,6 +648,9 @@ namespace Microting
             {
                 if (coreRunning)
                 {
+                    while (updateIsRunningEntities)
+                        Thread.Sleep(200);
+
                     return sqlController.EntityGroupRead(entityGroupMUId);
                 }
                 else
@@ -665,6 +669,16 @@ namespace Microting
             {
                 if (coreRunning)
                 {
+                    List<string> ids = new List<string>();
+                    foreach (var item in entityGroup.EntityGroupItemLst)
+                        ids.Add(item.EntityItemUId);
+
+                    if (ids.Count != ids.Distinct().Count())
+                        throw new Exception("List entityGroup.entityItemUIds are not all unique"); // Duplicates exist
+
+                    while (updateIsRunningEntities)
+                        Thread.Sleep(200);
+
                     sqlController.EntityGroupUpdateItems(entityGroup);
 
                     Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
@@ -686,9 +700,13 @@ namespace Microting
             {
                 if (coreRunning)
                 {
-                    communicator.EntityGroupDelete("EntitySearch", entityGroupMUId);
-                    sqlController.EntityGroupDelete(entityGroupMUId);
+                    while (updateIsRunningEntities)
+                        Thread.Sleep(200);
 
+                    string type = sqlController.EntityGroupDelete(entityGroupMUId);
+
+                    if (type != null)
+                        communicator.EntityGroupDelete(type, entityGroupMUId);
 
                     Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
                     aThread.Start();
@@ -714,8 +732,11 @@ namespace Microting
                     if (mainElement.Repeated != 1 && reversed == false)
                         throw new ArgumentException("mainElement.Repeat was not equal to 1 & reversed is false. Hence no case can be created");
 
-                    DateTime start = DateTime.Parse(mainElement.StartDate.Substring(0, 10));
-                    DateTime end = DateTime.Parse(mainElement.EndDate.Substring(0, 10));
+                    DateTime start = DateTime.Parse(mainElement.StartDate);
+                    start = DateTime.Parse(start.ToShortTimeString());
+
+                    DateTime end = DateTime.Parse(mainElement.EndDate);
+                    start = DateTime.Parse(start.ToShortTimeString());
 
                     if (end < DateTime.Now)
                         throw new ArgumentException("mainElement.EndDate needs to be a future date");
@@ -838,10 +859,10 @@ namespace Microting
             {
                 TriggerLog("CoreHandleUpdateDatabases() initiated");
 
-                Thread updateFilesThread = new Thread(() => CoreHandleUpdateFiles());
+                Thread updateFilesThread            = new Thread(() => CoreHandleUpdateFiles());
                 updateFilesThread.Start();
 
-                Thread updateNotificationsThread = new Thread(() => CoreHandleUpdateNotifications());
+                Thread updateNotificationsThread    = new Thread(() => CoreHandleUpdateNotifications());
                 updateNotificationsThread.Start();
             }
             catch (Exception ex)
@@ -1108,27 +1129,84 @@ namespace Microting
                         {
                             try
                             {
-                                if (eI.workflow_state == "created")
+                                var type = sqlController.EntityGroupRead(eI.entity_group_id);
+
+                                if (type != null)
                                 {
-                                    string sent = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.id.ToString());
-                                    sqlController.EntityItemSyncedProcessed(eI.id, "created");
+                                    #region EntitySearch
+                                    if (type.Type == "EntitySearch")
+                                    {
+                                        if (eI.workflow_state == "created")
+                                        {
+                                            string microtingUId = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
+
+                                            if (microtingUId != null)
+                                            {
+                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, "created");
+                                                continue;
+                                            }
+                                        }
+
+                                        if (eI.workflow_state == "updated")
+                                        {
+                                            if (communicator.EntitySearchItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
+                                            {
+                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
+                                                continue;
+                                            }
+                                        }
+
+                                        if (eI.workflow_state == "removed")
+                                        {
+                                            communicator.EntitySearchItemDelete(eI.microting_uid);
+
+                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "removed");
+                                            continue;
+                                        }
+                                    }
+                                    #endregion
+
+                                    #region EntitySelect
+                                    if (type.Type == "EntitySelect")
+                                    {
+                                        if (eI.workflow_state == "created")
+                                        {
+                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
+
+                                            if (microtingUId != null)
+                                            {
+                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, "created");
+                                                continue;
+                                            }
+                                        }
+
+                                        if (eI.workflow_state == "updated")
+                                        {
+                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
+                                            {
+                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
+                                                continue;
+                                            }
+                                        }
+
+                                        if (eI.workflow_state == "removed")
+                                        {
+                                            communicator.EntitySelectItemDelete(eI.microting_uid);
+
+                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "removed");
+                                            continue;
+                                        }
+                                    }
+                                    #endregion
                                 }
 
-                                if (eI.workflow_state == "updated")
-                                {
-                                    communicator.EntitySearchItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.id.ToString());
-                                    sqlController.EntityItemSyncedProcessed(eI.id, "updated");
-                                }
-
-                                if (eI.workflow_state == "removed")
-                                {
-                                    communicator.EntitySearchItemDelete(eI.microting_uid);
-                                    sqlController.EntityItemSyncedProcessed(eI.id, "removed");
-                                }
+                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed_to_sync");
+                                TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
                             }
                             catch
                             {
-                                sqlController.EntityItemSyncedProcessed(eI.id, "failed to sync");
+                                TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
+                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed to sync");
                             }
                         }
                         else
@@ -1141,7 +1219,8 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CoreHandleUpdateFiles failed", ex, true);
+                TriggerWarning     (ex.Message);
+                TriggerHandleExpection("CoreHandleUpdateEntityItems failed", ex, true);
             }
         }
 

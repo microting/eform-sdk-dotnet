@@ -52,7 +52,7 @@ namespace eFormRequest
 
         public void SetStartDate(DateTime dateTime)
         {
-            StartDate = dateTime.ToShortDateString();
+            StartDate = dateTime.ToString();
         }
         #endregion
 
@@ -66,7 +66,7 @@ namespace eFormRequest
 
         public void SetEndDate(DateTime dateTime)
         {
-            EndDate = dateTime.ToShortDateString();
+            EndDate = dateTime.ToString();
         }
         #endregion
         public string Language { get; set; }
