@@ -1,0 +1,44 @@
+11:36:40:
+11:36:40:
+11:36:40:###################################################################################################################
+11:36:40:Core.Start() at:17-01-2017 11:36:40
+11:36:40:###################################################################################################################
+11:36:40:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+11:36:41:Controller started
+11:36:41:SqlEformController started
+11:36:41:Communicator started
+11:36:41:Subscriber created
+11:36:41:Subscriber now triggers events
+11:36:41:Client # Subscriber started
+11:36:41:Client # Subscriber connecting
+11:36:41:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:36:41:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:36:41:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:36:41:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:36:42:CoreHandleUpdateDatabases() initiated
+11:36:42:Client # [{"id":"2","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:36:42:Server # [{"id":"2","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:36:42:CoreHandleUpdateDatabases() initiated
+11:36:42:Client # [{"id":"3","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:36:42:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:36:42:CoreHandleUpdateDatabases() initiated
+11:36:55:Client # [{"id":"4","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:36:57:Server # [{"id":"4","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:36:57:CoreHandleUpdateDatabases() initiated
+11:37:08:Client # [{"id":"5","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:37:21:Client # [{"id":"6","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:37:23:Server # [{"id":"6","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:37:23:CoreHandleUpdateDatabases() initiated
+11:37:34:Client # [{"id":"7","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:37:47:Client # [{"id":"8","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:37:49:Server # [{"id":"8","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:37:49:CoreHandleUpdateDatabases() initiated
+11:38:00:Client # [{"id":"9","clientId":"szhsrp9m1dmlx3vhi5f97d7dxbcn2xn","channel":"/meta/connect","connectionType":"websocket"}]
+11:38:07:Core.Close() at:17-01-2017 11:38:07
+11:38:07:Subscriber requested to close connection
+11:38:07:Client # Subscriber is trying to close connection
+11:38:13:Client # WebSocket Close (1001): 
+11:38:13:Client # Subscriber closed
+11:38:13:Subscriber no longer triggers events
+11:38:13:Controller closed
+11:38:13:
