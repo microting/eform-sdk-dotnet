@@ -24,7 +24,7 @@ namespace Microting
         /// <summary>
         /// Starts the Core and enables Events. Restarts if needed
         /// </summary>
-        void Start();
+        void Start(string comToken, string comAddress, string organizationId, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, string fileLocation, bool logEvents);
 
         /// <summary>
         /// Closes the Core and disables Events

@@ -52,6 +52,21 @@ namespace Microting
         #region con
         public MainControllerSamples()
         {
+            core = new Core();
+
+            #region connect event triggers
+            core.HandleCaseCreated += EventCaseCreated;
+            core.HandleCaseRetrived += EventCaseRetrived;
+            core.HandleCaseCompleted += EventCaseCompleted;
+            core.HandleCaseDeleted += EventCaseDeleted;
+            core.HandleFileDownloaded += EventFileDownloaded;
+            core.HandleSiteActivated += EventSiteActivated;
+            core.HandleEventLog += EventLog;
+            core.HandleEventMessage += EventMessage;
+            core.HandleEventWarning += EventWarning;
+            core.HandleEventException += EventException;
+            #endregion
+
             #region read settings
             string[] lines = File.ReadAllLines("Input.txt");
 
@@ -67,22 +82,9 @@ namespace Microting
             string fileLocation = lines[9];
             bool logEnabled = bool.Parse(lines[10]);
             #endregion
-            core = new Core(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
-            sqlCon = new SqlController(serverConnectionString);
 
-            #region connect event triggers
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseCompleted += EventCaseCompleted;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
-            #endregion
-            core.Start();
+            core.Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
+            sqlCon = new SqlController(serverConnectionString);
         }
         #endregion
 
@@ -176,7 +178,8 @@ namespace Microting
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
                 
 
-                core.CaseCreate(mainElement, "", siteIds);
+                foreach (int siteId in siteIds)
+                    core.CaseCreate(mainElement, "", siteId);
             }
             catch (Exception ex)
             {
@@ -295,7 +298,6 @@ namespace Microting
 
                     //--------------------
                     Random rdn = new Random();
-                    List<int> tempSiteIds;
 
                     #region create offering
                     if (caseType == "Step one")
@@ -315,7 +317,8 @@ namespace Microting
                         none.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
 
-                        core.CaseCreate(mainElement, "", siteIdsSA);
+                        foreach (int siteIdTemp in siteIdsSA)
+                            core.CaseCreate(mainElement, "", siteIdTemp);
                     }
                     #endregion
 
@@ -356,9 +359,7 @@ namespace Microting
                             date.DefaultValue = DateTime.Now.AddMinutes(1).ToString("u");
 
 
-                            tempSiteIds = new List<int>();
-                            tempSiteIds.Add(siteId);
-                            core.CaseCreate(mainElement, "", tempSiteIds);
+                            core.CaseCreate(mainElement, "", siteId);
                             #endregion
                         }
                         else
@@ -377,9 +378,7 @@ namespace Microting
                             none.Description.InderValue = "Collection missed at:" + DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
 
-                            tempSiteIds = new List<int>();
-                            tempSiteIds.Add(siteId);
-                            core.CaseCreate(mainElement, "", tempSiteIds);
+                            core.CaseCreate(mainElement, "", siteId);
                             #endregion
                         }
                     }
@@ -414,7 +413,8 @@ namespace Microting
 
                             none.Label = "Container collect at:" + answer.Value;
 
-                            core.CaseCreate(mainElement, "", siteIdsDW);
+                            foreach (int siteIdTemp in siteIdsDW)
+                                core.CaseCreate(mainElement, "", siteIdTemp);
                         }
                     }
                     #endregion

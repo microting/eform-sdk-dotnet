@@ -86,7 +86,14 @@ namespace Microting
         #endregion
 
         #region con
-        public Core(string comToken, string comAddress, string organizationId, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, string fileLocation, bool logEvents)
+        public Core()
+        {
+
+        }
+        #endregion
+
+        #region public state
+        public void     Start(string comToken, string comAddress, string organizationId, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, string fileLocation, bool logEvents)
         {
             if (string.IsNullOrEmpty(comToken))
                 throw new ArgumentException("comToken is not allowed to be null or empty");
@@ -123,12 +130,8 @@ namespace Microting
             this.serverConnectionString = serverConnectionString;
             this.fileLocation = fileLocation;
             this.logEvents = logEvents;
-        }
-        #endregion
 
-        #region public state
-        public void     Start()
-        {
+
             try
             {
                 if (!coreRunning && !coreStatChanging)
@@ -163,6 +166,45 @@ namespace Microting
                     subscriber.EventMsgServer += CoreHandleEventServer;
                     TriggerLog("Subscriber now triggers events");
                     subscriber.Start();
+
+                    coreRunning = true;
+                    coreStatChanging = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                coreRunning = false;
+                coreStatChanging = false;
+                throw new Exception("FATAL Exception. Core failed to start", ex);
+            }
+        }
+
+        public void     StartLimited(string serverConnectionString, bool logEvents)
+        {
+            if (string.IsNullOrEmpty(serverConnectionString))
+                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+
+            this.serverConnectionString = serverConnectionString;
+            this.logEvents = logEvents;
+
+            try
+            {
+                if (!coreRunning && !coreStatChanging)
+                {
+                    coreStatChanging = true;
+
+                    TriggerLog("");
+                    TriggerLog("");
+                    TriggerLog("###################################################################################################################");
+                    TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+                    TriggerLog("###################################################################################################################");
+                    TriggerLog("serverConnectionString:" + serverConnectionString + " logEvents:" + logEvents.ToString());
+                    TriggerLog("Controller started");
+
+
+                    //sqlController
+                    sqlController = new SqlController(serverConnectionString);
+                    TriggerLog("SqlEformController started");
 
                     coreRunning = true;
                     coreStatChanging = false;
@@ -1421,7 +1463,7 @@ namespace Microting
                     TriggerMessage("");
                     TriggerMessage("Trying to restart the Core in " + secondsDelay + " seconds");
                     Thread.Sleep(secondsDelay * 1000);
-                    Start();
+                    Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEvents);
 
                     coreRestarting = false;
                 }

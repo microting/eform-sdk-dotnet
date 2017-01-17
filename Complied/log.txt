@@ -42,3 +42,3372 @@
 11:38:13:Subscriber no longer triggers events
 11:38:13:Controller closed
 11:38:13:
+14:17:13:
+14:17:13:
+14:17:13:###################################################################################################################
+14:17:13:Core.Start() at:17-01-2017 14:17:13
+14:17:13:###################################################################################################################
+14:17:13:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+14:17:13:Controller started
+14:17:13:SqlEformController started
+14:17:13:Communicator started
+14:17:13:Subscriber created
+14:17:13:Subscriber now triggers events
+14:17:13:Client # Subscriber started
+14:17:13:Client # Subscriber connecting
+14:17:13:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+14:17:14:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+14:17:14:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+14:17:14:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:17:14:CoreHandleUpdateDatabases() initiated
+14:17:14:Client # [{"id":"2","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:17:15:Server # [{"id":"2","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:17:15:CoreHandleUpdateDatabases() initiated
+14:17:15:Client # [{"id":"3","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","connectionType":"websocket"}]
+14:17:15:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:17:15:CoreHandleUpdateDatabases() initiated
+14:17:28:Client # [{"id":"4","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","connectionType":"websocket"}]
+14:17:30:Server # [{"id":"4","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:17:30:CoreHandleUpdateDatabases() initiated
+14:17:41:Client # [{"id":"5","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","connectionType":"websocket"}]
+14:17:54:Client # [{"id":"6","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","connectionType":"websocket"}]
+14:17:56:Server # [{"id":"6","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:17:56:CoreHandleUpdateDatabases() initiated
+14:18:07:Client # [{"id":"7","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","connectionType":"websocket"}]
+14:18:20:Client # [{"id":"8","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","connectionType":"websocket"}]
+14:18:22:Server # [{"id":"8","clientId":"7o7lh50ad8e1iqp2476ufjf8opmabw1","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:18:22:CoreHandleUpdateDatabases() initiated
+14:18:23:Core.Close() at:17-01-2017 14:18:23
+14:18:23:Subscriber requested to close connection
+14:18:23:Client # Subscriber is trying to close connection
+14:18:33:Client # WebSocket Close (1001): 
+14:18:33:Client # Subscriber closed
+14:18:33:Subscriber no longer triggers events
+14:18:33:Controller closed
+14:18:33:
+14:18:58:
+14:18:58:
+14:18:58:###################################################################################################################
+14:18:58:Core.Start() at:17-01-2017 14:18:58
+14:18:58:###################################################################################################################
+14:18:58:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+14:18:58:Controller started
+14:18:58:SqlEformController started
+14:18:58:Communicator started
+14:18:58:Subscriber created
+14:18:58:Subscriber now triggers events
+14:18:58:Client # Subscriber started
+14:18:58:Client # Subscriber connecting
+14:18:58:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+14:18:59:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+14:18:59:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+14:18:59:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"7fdmpl03z7m4ny6qmghisu1w46ry1fy","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:18:59:CoreHandleUpdateDatabases() initiated
+14:18:59:Client # [{"id":"2","clientId":"7fdmpl03z7m4ny6qmghisu1w46ry1fy","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:19:00:Server # [{"id":"2","clientId":"7fdmpl03z7m4ny6qmghisu1w46ry1fy","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:19:00:CoreHandleUpdateDatabases() initiated
+14:19:00:Client # [{"id":"3","clientId":"7fdmpl03z7m4ny6qmghisu1w46ry1fy","channel":"/meta/connect","connectionType":"websocket"}]
+14:19:00:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:19:00:CoreHandleUpdateDatabases() initiated
+14:19:12:XML to transform:
+14:19:12:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5510</Id>
+  <Repeated>0</Repeated>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Label>Bestil ny tømning</Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5515</Id>
+      <Label>Bestil ny tømning</Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="EntitySelect">
+          <Id>37295</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Source>246</Source>
+        </DataItem>
+		<DataItem type="EntitySearch">
+          <Id>37300</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem type="EntitySelect">
+          <Id>37305</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Source>245</Source>
+        </DataItem>
+		<DataItem type="SingleSelect">
+          <Id>37310</Id>
+          <Label>Vælg containerplacering</Label>
+          <ReadOnly>false</ReadOnly>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>3</DisplayOrder>
+          <Mandatory>true</Mandatory>
+          <Color>e2f4fb</Color>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value><![CDATA[På pladsen]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value><![CDATA[I gården]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem type="SaveButton">
+          <Id>37315</Id>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+	  </DataItemList>	  
+    </Element>
+  </ElementList>
+</Main>
+14:19:12:XML after possible corrections:
+14:19:12:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5510</Id>
+  <Repeated>0</Repeated>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Label>Bestil ny tømning</Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5515</Id>
+      <Label>Bestil ny tømning</Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>37295</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Source>246</Source>
+        </DataItem>
+		<DataItem xsi:type="EntitySearch">
+          <Id>37300</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>37305</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Source>245</Source>
+        </DataItem>
+		<DataItem xsi:type="SingleSelect">
+          <Id>37310</Id>
+          <Label>Vælg containerplacering</Label>
+          <ReadOnly>false</ReadOnly>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>3</DisplayOrder>
+          <Mandatory>true</Mandatory>
+          <Color>e2f4fb</Color>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value><![CDATA[På pladsen]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value><![CDATA[I gården]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>37315</Id>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+	  </DataItemList>	  
+    </Element>
+  </ElementList>
+</Main>
+14:19:12:mainElement.Repeated = 1 // enforced
+14:19:13:Templat id:1 created in DB
+14:19:13:Templat id:1 trying to be read
+14:19:13:Client # [{"id":"4","clientId":"7fdmpl03z7m4ny6qmghisu1w46ry1fy","channel":"/meta/connect","connectionType":"websocket"}]
+14:19:13:caseUId:ReversedCase siteIds:1312 custom:20170117141913r99619 reversed:True, requested to be created
+14:19:13:siteId:1312, requested sent eForm
+14:19:13:Log    # siteId:1312, xmlString:
+14:19:13:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:13:caseUId:ReversedCase siteIds:1312 custom:20170117141913r96481 reversed:True, requested to be created
+14:19:14:caseUId:ReversedCase siteIds:1312 custom:20170117141914r93343 reversed:True, requested to be created
+14:19:14:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744611 / CheckId:0. has been created
+14:19:14:eForm created
+14:19:14:siteId:1312, requested sent eForm
+14:19:14:Log    # siteId:1312, xmlString:
+14:19:14:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:14:caseUId:ReversedCase siteIds:1312 custom:20170117141914r43188 reversed:True, requested to be created
+14:19:14:caseUId:ReversedCase siteIds:1312 custom:20170117141914r72342 reversed:True, requested to be created
+14:19:14:caseUId:ReversedCase siteIds:1312 custom:20170117141914r22186 reversed:True, requested to be created
+14:19:14:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744612 / CheckId:0. has been created
+14:19:14:eForm created
+14:19:14:siteId:1312, requested sent eForm
+14:19:14:Log    # siteId:1312, xmlString:
+14:19:14:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:15:caseUId:ReversedCase siteIds:1314 custom:20170117141915r19048 reversed:True, requested to be created
+14:19:15:Server # [{"id":"4","clientId":"7fdmpl03z7m4ny6qmghisu1w46ry1fy","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:19:15:caseUId:ReversedCase siteIds:1314 custom:20170117141915r58891 reversed:True, requested to be created
+14:19:15:CoreHandleUpdateDatabases() initiated
+14:19:15:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744613 / CheckId:0. has been created
+14:19:15:eForm created
+14:19:15:siteId:1312, requested sent eForm
+14:19:15:caseUId:ReversedCase siteIds:1314 custom:20170117141915r88046 reversed:True, requested to be created
+14:19:15:Log    # siteId:1312, xmlString:
+14:19:15:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:15:caseUId:ReversedCase siteIds:1314 custom:20170117141915r70182 reversed:True, requested to be created
+14:19:16:caseUId:ReversedCase siteIds:1314 custom:20170117141916r67044 reversed:True, requested to be created
+14:19:16:caseUId:ReversedCase siteIds:1314 custom:20170117141916r16888 reversed:True, requested to be created
+14:19:16:XML to transform:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5495</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Liste over afgivne bestillinger</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5500</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>37285</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:19:16:XML after possible corrections:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5495</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Liste over afgivne bestillinger</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5500</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="SaveButton">
+          <Id>37285</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:19:16:Templat id:3 created in DB
+14:19:16:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744614 / CheckId:0. has been created
+14:19:16:eForm created
+14:19:16:XML to transform:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5480</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>1. Tilgængelig containere</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5485</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>37275</Id>
+          <Label>Book afhentning</Label>
+          <Description><![CDATA[Du skal tjekke din mappe 'Mine container-tømningsopgaver' for at se om du har fået opgaven.]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Book</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+   </ElementList>
+</Main>
+14:19:16:siteId:1312, requested sent eForm
+14:19:16:XML after possible corrections:
+14:19:16:Log    # siteId:1312, xmlString:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5480</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>1. Tilgængelig containere</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5485</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="SaveButton">
+          <Id>37275</Id>
+          <Label>Book afhentning</Label>
+          <Description><![CDATA[Du skal tjekke din mappe 'Mine container-tømningsopgaver' for at se om du har fået opgaven.]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Book</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+   </ElementList>
+</Main>
+14:19:16:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:16:Templat id:5 created in DB
+14:19:16:XML to transform:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>1</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>3. Mistet containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>2</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>3</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:19:16:XML after possible corrections:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>3. Mistet containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="SaveButton">
+          <Id>3</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:19:16:Templat id:7 created in DB
+14:19:16:XML to transform:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5470</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Mine containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5475</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="Number">
+          <Id>37260</Id>
+          <Label>Indtast nettovægt fra vejeseddel</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Mandatory>false</Mandatory>
+          <MinValue>0</MinValue>
+          <MaxValue>9999</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName>kg</UnitName>
+        </DataItem>
+        <DataItem type="CheckBox">
+          <Id>37265</Id>
+          <Label>Sæt kryds for at frigive container til ny modtager</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>1</DisplayOrder>
+          <Selected>false</Selected>
+          <Mandatory>false</Mandatory>
+        </DataItem>
+        <DataItem type="SaveButton">
+          <Id>37270</Id>
+          <Label>Send</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>Send</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:19:16:XML after possible corrections:
+14:19:16:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5470</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Mine containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5475</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>37260</Id>
+          <Label>Indtast nettovægt fra vejeseddel</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Mandatory>false</Mandatory>
+          <MinValue>0</MinValue>
+          <MaxValue>9999</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName>kg</UnitName>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>37265</Id>
+          <Label>Sæt kryds for at frigive container til ny modtager</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>1</DisplayOrder>
+          <Selected>false</Selected>
+          <Mandatory>false</Mandatory>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>37270</Id>
+          <Label>Send</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>Send</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:19:16:Templat id:9 created in DB
+14:19:17:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744615 / CheckId:0. has been created
+14:19:17:eForm created
+14:19:17:siteId:1312, requested sent eForm
+14:19:17:Log    # siteId:1312, xmlString:
+14:19:17:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:17:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744616 / CheckId:0. has been created
+14:19:17:eForm created
+14:19:17:siteId:1314, requested sent eForm
+14:19:17:Log    # siteId:1314, xmlString:
+14:19:17:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:17:siteId:1314, requested sent eForm
+14:19:17:
+######## CaseCreateMethodThreaded failed
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :siteId:'1314' // failed to create eForm at Microting // Response :<?xml version="1.0" encoding="UTF-8"?><Response><Value type="error">This organization does not have access to this object</Value></Response>
+Source     :Microting
+StackTrace :   at Microting.Core.SendXml(MainElement mainElement, Int32 siteId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 893
+   at Microting.Core.CaseCreateMethodThreaded(MainElement mainElement, String caseUId, List`1 siteIds, String custom, Boolean reversed) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 794
+
+######## EXCEPTION FOUND; ENDED ########
+
+14:19:18:Log    # siteId:1314, xmlString:
+14:19:18:0. time the same Exception, within the last hour
+14:19:18:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:18:Core.Restart() at:17-01-2017 14:19:18
+14:19:18:siteId:1314, requested sent eForm
+14:19:18:
+######## CaseCreateMethodThreaded failed
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :siteId:'1314' // failed to create eForm at Microting // Response :<?xml version="1.0" encoding="UTF-8"?><Response><Value type="error">This organization does not have access to this object</Value></Response>
+Source     :Microting
+StackTrace :   at Microting.Core.SendXml(MainElement mainElement, Int32 siteId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 893
+   at Microting.Core.CaseCreateMethodThreaded(MainElement mainElement, String caseUId, List`1 siteIds, String custom, Boolean reversed) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 794
+
+######## EXCEPTION FOUND; ENDED ########
+
+14:19:18:Log    # siteId:1314, xmlString:
+14:19:18:2. time the same Exception, within the last hour
+14:19:18:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:18:siteId:1314, requested sent eForm
+14:19:18:
+######## CaseCreateMethodThreaded failed
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :siteId:'1314' // failed to create eForm at Microting // Response :<?xml version="1.0" encoding="UTF-8"?><Response><Value type="error">This organization does not have access to this object</Value></Response>
+Source     :Microting
+StackTrace :   at Microting.Core.SendXml(MainElement mainElement, Int32 siteId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 893
+   at Microting.Core.CaseCreateMethodThreaded(MainElement mainElement, String caseUId, List`1 siteIds, String custom, Boolean reversed) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 794
+
+######## EXCEPTION FOUND; ENDED ########
+
+14:19:18:Log    # siteId:1314, xmlString:
+14:19:18:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:18:3. time the same Exception, within the last hour
+14:19:18:siteId:1314, requested sent eForm
+14:19:18:
+######## CaseCreateMethodThreaded failed
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :siteId:'1314' // failed to create eForm at Microting // Response :<?xml version="1.0" encoding="UTF-8"?><Response><Value type="error">This organization does not have access to this object</Value></Response>
+Source     :Microting
+StackTrace :   at Microting.Core.SendXml(MainElement mainElement, Int32 siteId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 893
+   at Microting.Core.CaseCreateMethodThreaded(MainElement mainElement, String caseUId, List`1 siteIds, String custom, Boolean reversed) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 794
+
+######## EXCEPTION FOUND; ENDED ########
+
+14:19:18:Log    # siteId:1314, xmlString:
+14:19:18:4. time the same Exception, within the last hour
+14:19:18:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:18:siteId:1314, requested sent eForm
+14:19:18:
+######## CaseCreateMethodThreaded failed
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :siteId:'1314' // failed to create eForm at Microting // Response :<?xml version="1.0" encoding="UTF-8"?><Response><Value type="error">This organization does not have access to this object</Value></Response>
+Source     :Microting
+StackTrace :   at Microting.Core.SendXml(MainElement mainElement, Int32 siteId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 893
+   at Microting.Core.CaseCreateMethodThreaded(MainElement mainElement, String caseUId, List`1 siteIds, String custom, Boolean reversed) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 794
+
+######## EXCEPTION FOUND; ENDED ########
+
+14:19:18:Log    # siteId:1314, xmlString:
+14:19:18:5. time the same Exception, within the last hour
+14:19:18:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:19:13</StartDate>
+  <EndDate>19-01-2017 14:19:13</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>246</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13112</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>245</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:19:21:Core.Close() at:17-01-2017 14:19:21
+14:22:02:
+14:22:02:
+14:22:02:###################################################################################################################
+14:22:02:Core.Start() at:17-01-2017 14:22:02
+14:22:02:###################################################################################################################
+14:22:02:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+14:22:02:Controller started
+14:22:02:SqlEformController started
+14:22:02:Communicator started
+14:22:02:Subscriber created
+14:22:02:Subscriber now triggers events
+14:22:03:Client # Subscriber started
+14:22:03:Client # Subscriber connecting
+14:22:03:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+14:22:03:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+14:22:03:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+14:22:03:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:22:03:CoreHandleUpdateDatabases() initiated
+14:22:03:Client # [{"id":"2","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:22:03:Server # [{"id":"2","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:22:04:CoreHandleUpdateDatabases() initiated
+14:22:04:Client # [{"id":"3","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","connectionType":"websocket"}]
+14:22:04:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:04:CoreHandleUpdateDatabases() initiated
+14:22:07:microtingUId:1744611, requested to be deleted
+14:22:07:Log    # eFormId:1744611, siteId:1312
+14:22:08:XML response:
+14:22:08:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744611</Value></Response>
+14:22:08:microtingUId:1744612, requested to be deleted
+14:22:08:Log    # eFormId:1744612, siteId:1312
+14:22:08:XML response:
+14:22:08:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744612</Value></Response>
+14:22:08:microtingUId:1744613, requested to be deleted
+14:22:08:Log    # eFormId:1744613, siteId:1312
+14:22:08:XML response:
+14:22:08:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744613</Value></Response>
+14:22:08:microtingUId:1744614, requested to be deleted
+14:22:08:Log    # eFormId:1744614, siteId:1312
+14:22:08:XML response:
+14:22:08:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744614</Value></Response>
+14:22:08:microtingUId:1744615, requested to be deleted
+14:22:08:Log    # eFormId:1744615, siteId:1312
+14:22:09:XML response:
+14:22:09:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744615</Value></Response>
+14:22:09:microtingUId:1744616, requested to be deleted
+14:22:09:Log    # eFormId:1744616, siteId:1312
+14:22:09:XML response:
+14:22:09:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744616</Value></Response>
+14:22:17:Client # [{"id":"4","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","connectionType":"websocket"}]
+14:22:19:Server # [{"id":"4","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:22:19:CoreHandleUpdateDatabases() initiated
+14:22:19:XML to transform:
+14:22:19:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5510</Id>
+  <Repeated>0</Repeated>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Label>Bestil ny tømning</Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5515</Id>
+      <Label>Bestil ny tømning</Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="EntitySelect">
+          <Id>37295</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Source>248</Source>
+        </DataItem>
+		<DataItem type="EntitySearch">
+          <Id>37300</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem type="EntitySelect">
+          <Id>37305</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Source>247</Source>
+        </DataItem>
+		<DataItem type="SingleSelect">
+          <Id>37310</Id>
+          <Label>Vælg containerplacering</Label>
+          <ReadOnly>false</ReadOnly>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>3</DisplayOrder>
+          <Mandatory>true</Mandatory>
+          <Color>e2f4fb</Color>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value><![CDATA[På pladsen]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value><![CDATA[I gården]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem type="SaveButton">
+          <Id>37315</Id>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+	  </DataItemList>	  
+    </Element>
+  </ElementList>
+</Main>
+14:22:20:XML after possible corrections:
+14:22:20:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5510</Id>
+  <Repeated>0</Repeated>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Label>Bestil ny tømning</Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5515</Id>
+      <Label>Bestil ny tømning</Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>37295</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Source>248</Source>
+        </DataItem>
+		<DataItem xsi:type="EntitySearch">
+          <Id>37300</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>37305</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Source>247</Source>
+        </DataItem>
+		<DataItem xsi:type="SingleSelect">
+          <Id>37310</Id>
+          <Label>Vælg containerplacering</Label>
+          <ReadOnly>false</ReadOnly>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>3</DisplayOrder>
+          <Mandatory>true</Mandatory>
+          <Color>e2f4fb</Color>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value><![CDATA[På pladsen]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value><![CDATA[I gården]]></Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>37315</Id>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+	  </DataItemList>	  
+    </Element>
+  </ElementList>
+</Main>
+14:22:20:mainElement.Repeated = 1 // enforced
+14:22:20:Templat id:1 created in DB
+14:22:20:Templat id:1 trying to be read
+14:22:20:caseUId:ReversedCase siteIds:1312 custom:20170117142220r59230 reversed:True, requested to be created
+14:22:21:siteId:1312, requested sent eForm
+14:22:21:Log    # siteId:1312, xmlString:
+14:22:21:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:22:20</StartDate>
+  <EndDate>19-01-2017 14:22:20</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>248</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>247</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:22:21:caseUId:ReversedCase siteIds:1312 custom:20170117142221r73658 reversed:True, requested to be created
+14:22:21:caseUId:ReversedCase siteIds:1312 custom:20170117142221r70520 reversed:True, requested to be created
+14:22:21:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744617 / CheckId:0. has been created
+14:22:21:eForm created
+14:22:21:siteId:1312, requested sent eForm
+14:22:21:Log    # siteId:1312, xmlString:
+14:22:21:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:22:20</StartDate>
+  <EndDate>19-01-2017 14:22:20</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>248</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>247</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:22:21:caseUId:ReversedCase siteIds:1312 custom:20170117142221r20365 reversed:True, requested to be created
+14:22:22:caseUId:ReversedCase siteIds:1312 custom:20170117142222r17227 reversed:True, requested to be created
+14:22:22:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744618 / CheckId:0. has been created
+14:22:22:caseUId:ReversedCase siteIds:1312 custom:20170117142222r89362 reversed:True, requested to be created
+14:22:22:eForm created
+14:22:22:XML to transform:
+14:22:22:siteId:1312, requested sent eForm
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5495</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Liste over afgivne bestillinger</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5500</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>37285</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:22:22:Log    # siteId:1312, xmlString:
+14:22:22:XML after possible corrections:
+14:22:22:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:22:20</StartDate>
+  <EndDate>19-01-2017 14:22:20</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>248</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>247</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5495</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Liste over afgivne bestillinger</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5500</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="SaveButton">
+          <Id>37285</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:22:22:Templat id:3 created in DB
+14:22:22:XML to transform:
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5480</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>1. Tilgængelig containere</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5485</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>37275</Id>
+          <Label>Book afhentning</Label>
+          <Description><![CDATA[Du skal tjekke din mappe 'Mine container-tømningsopgaver' for at se om du har fået opgaven.]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Book</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+   </ElementList>
+</Main>
+14:22:22:XML after possible corrections:
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5480</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>1. Tilgængelig containere</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5485</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="SaveButton">
+          <Id>37275</Id>
+          <Label>Book afhentning</Label>
+          <Description><![CDATA[Du skal tjekke din mappe 'Mine container-tømningsopgaver' for at se om du har fået opgaven.]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Book</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+   </ElementList>
+</Main>
+14:22:22:Templat id:5 created in DB
+14:22:22:XML to transform:
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>1</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>3. Mistet containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>2</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="SaveButton">
+          <Id>3</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:22:22:XML after possible corrections:
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>3. Mistet containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="SaveButton">
+          <Id>3</Id>
+          <Label>Fjern fra oversigt</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>Fjern</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:22:22:Templat id:7 created in DB
+14:22:22:XML to transform:
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+  <Id>5470</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Mine containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element type="DataElement">
+      <Id>5475</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonDisabled>true</DoneButtonDisabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem type="Number">
+          <Id>37260</Id>
+          <Label>Indtast nettovægt fra vejeseddel</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Mandatory>false</Mandatory>
+          <MinValue>0</MinValue>
+          <MaxValue>9999</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName>kg</UnitName>
+        </DataItem>
+        <DataItem type="CheckBox">
+          <Id>37265</Id>
+          <Label>Sæt kryds for at frigive container til ny modtager</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>1</DisplayOrder>
+          <Selected>false</Selected>
+          <Mandatory>false</Mandatory>
+        </DataItem>
+        <DataItem type="SaveButton">
+          <Id>37270</Id>
+          <Label>Send</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>Send</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:22:22:XML after possible corrections:
+14:22:22:<?xml version="1.0" encoding="UTF-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5470</Id>
+  <Repeated>1</Repeated>
+  <CheckListFolderName>2. Mine containertømningsopgaver</CheckListFolderName>
+  <Label></Label>
+  <StartDate>2016-11-29</StartDate>
+  <EndDate>2026-11-29</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <Review>false</Review>
+  <Summary>false</Summary>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>5475</Id>
+      <Label></Label>
+      <Description><![CDATA[]]></Description>
+      <DisplayOrder>0</DisplayOrder>
+      <ReviewEnabled>false</ReviewEnabled>
+      <ManualSync>false</ManualSync>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>37260</Id>
+          <Label>Indtast nettovægt fra vejeseddel</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>0</DisplayOrder>
+          <Mandatory>false</Mandatory>
+          <MinValue>0</MinValue>
+          <MaxValue>9999</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName>kg</UnitName>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>37265</Id>
+          <Label>Sæt kryds for at frigive container til ny modtager</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>1</DisplayOrder>
+          <Selected>false</Selected>
+          <Mandatory>false</Mandatory>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>37270</Id>
+          <Label>Send</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>Send</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+</Main>
+14:22:22:Templat id:9 created in DB
+14:22:23:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744619 / CheckId:0. has been created
+14:22:23:eForm created
+14:22:23:siteId:1312, requested sent eForm
+14:22:23:Log    # siteId:1312, xmlString:
+14:22:23:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:22:20</StartDate>
+  <EndDate>19-01-2017 14:22:20</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>248</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>247</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:22:23:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744620 / CheckId:0. has been created
+14:22:23:eForm created
+14:22:23:siteId:1312, requested sent eForm
+14:22:23:Log    # siteId:1312, xmlString:
+14:22:23:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:22:20</StartDate>
+  <EndDate>19-01-2017 14:22:20</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>248</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>247</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:22:24:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744621 / CheckId:0. has been created
+14:22:24:eForm created
+14:22:24:siteId:1312, requested sent eForm
+14:22:24:Log    # siteId:1312, xmlString:
+14:22:24:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>Bestil ny tømning</Label>
+  <DisplayOrder>0</DisplayOrder>
+  <CheckListFolderName>1. Bestil ny containertømning</CheckListFolderName>
+  <Repeated>0</Repeated>
+  <StartDate>17-01-2017 14:22:20</StartDate>
+  <EndDate>19-01-2017 14:22:20</EndDate>
+  <Language>da</Language>
+  <MultiApproval>false</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>false</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Bestil ny tømning</Label>
+      <DisplayOrder>0</DisplayOrder>
+      <Description><![CDATA[]]></Description>
+      <ApprovalEnabled>false</ApprovalEnabled>
+      <ReviewEnabled>false</ReviewEnabled>
+      <DoneButtonEnabled>false</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="EntitySelect">
+          <Id>1</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg genbrugsstation</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>0</DisplayOrder>
+          <Value>0</Value>
+          <Source>248</Source>
+        </DataItem>
+        <DataItem xsi:type="EntitySearch">
+          <Id>2</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg container</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <Value>0</Value>
+          <EntityTypeId>13113</EntityTypeId>
+          <IsNum>false</IsNum>
+          <QueryType />
+          <MinSearchLenght>2</MinSearchLenght>
+          <BarcodeEnabled>false</BarcodeEnabled>
+        </DataItem>
+        <DataItem xsi:type="EntitySelect">
+          <Id>3</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg fraktion</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>2</DisplayOrder>
+          <Value>0</Value>
+          <Source>247</Source>
+        </DataItem>
+        <DataItem xsi:type="SingleSelect">
+          <Id>4</Id>
+          <Mandatory>true</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Vælg containerplacering</Label>
+          <Description><![CDATA[]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <KeyValuePairList>
+            <KeyValuePair>
+              <Key>1</Key>
+              <Value>På pladsen</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>1</DisplayOrder>
+            </KeyValuePair>
+            <KeyValuePair>
+              <Key>2</Key>
+              <Value>I gården</Value>
+              <Selected>false</Selected>
+              <DisplayOrder>2</DisplayOrder>
+            </KeyValuePair>
+          </KeyValuePairList>
+        </DataItem>
+        <DataItem xsi:type="SaveButton">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Bestil containertømning</Label>
+          <Description><![CDATA[]]></Description>
+          <DisplayOrder>4</DisplayOrder>
+          <Value>Bestil</Value>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+14:22:25:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744622 / CheckId:0. has been created
+14:22:25:eForm created
+14:22:30:Client # [{"id":"5","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","connectionType":"websocket"}]
+14:22:39:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158767,\"microting_uuid\":\"1744617\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:39:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158767}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"6"}]
+14:22:39:CoreHandleUpdateDatabases() initiated
+14:22:39:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744617 / CheckId:0. has been retrived
+14:22:40:Server # [{"id":"6","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:40:CoreHandleUpdateDatabases() initiated
+14:22:40:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158768,\"microting_uuid\":\"1744618\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:40:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158768}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"7"}]
+14:22:40:CoreHandleUpdateDatabases() initiated
+14:22:40:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158768,\"microting_uuid\":\"1744618\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:40:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744618 / CheckId:0. has been retrived
+14:22:40:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158768}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"8"}]
+14:22:40:CoreHandleUpdateDatabases() initiated
+14:22:41:Server # [{"id":"7","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:41:CoreHandleUpdateDatabases() initiated
+14:22:41:Server # [{"id":"8","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:41:CoreHandleUpdateDatabases() initiated
+14:22:41:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158769,\"microting_uuid\":\"1744619\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:41:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158769}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"9"}]
+14:22:41:CoreHandleUpdateDatabases() initiated
+14:22:41:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158769,\"microting_uuid\":\"1744619\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:41:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744619 / CheckId:0. has been retrived
+14:22:41:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158769}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"10"}]
+14:22:41:CoreHandleUpdateDatabases() initiated
+14:22:41:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158769,\"microting_uuid\":\"1744619\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:41:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158769}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"11"}]
+14:22:41:CoreHandleUpdateDatabases() initiated
+14:22:42:Server # [{"id":"9","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:42:Server # [{"id":"10","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:42:Server # [{"id":"11","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:42:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158770,\"microting_uuid\":\"1744620\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:42:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158770}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"12"}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:42:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158770,\"microting_uuid\":\"1744620\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:42:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158770}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"13"}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:42:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744620 / CheckId:0. has been retrived
+14:22:42:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158770,\"microting_uuid\":\"1744620\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:42:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158770}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"14"}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:42:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158770,\"microting_uuid\":\"1744620\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:42:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158770}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"15"}]
+14:22:42:CoreHandleUpdateDatabases() initiated
+14:22:43:Client # [{"id":"16","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","connectionType":"websocket"}]
+14:22:44:Server # [{"id":"12","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"id":"13","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"id":"14","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"id":"15","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158771,\"microting_uuid\":\"1744621\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:44:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158771}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"17"}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158771,\"microting_uuid\":\"1744621\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:44:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158771}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"18"}]
+14:22:44:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744621 / CheckId:0. has been retrived
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158771,\"microting_uuid\":\"1744621\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:44:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158771}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"19"}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158771,\"microting_uuid\":\"1744621\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:44:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158771}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"20"}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158771,\"microting_uuid\":\"1744621\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:44:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158771}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"21"}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158771,\"microting_uuid\":\"1744621\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:44:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158771}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"22"}]
+14:22:44:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"17","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"18","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"19","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"20","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"21","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"22","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:45:Server # [{"id":"16","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:22:45:CoreHandleUpdateDatabases() initiated
+14:22:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158772,\"microting_uuid\":\"1744622\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:46:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158772}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"23"}]
+14:22:46:CoreHandleUpdateDatabases() initiated
+14:22:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158772,\"microting_uuid\":\"1744622\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:46:Site:1312 / CaseType:step1 / CaseUId:ReversedCase / MicrotingUId:1744622 / CheckId:0. has been retrived
+14:22:46:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158772}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"24"}]
+14:22:46:CoreHandleUpdateDatabases() initiated
+14:22:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158772,\"microting_uuid\":\"1744622\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:46:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158772}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"25"}]
+14:22:46:CoreHandleUpdateDatabases() initiated
+14:22:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158772,\"microting_uuid\":\"1744622\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:46:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158772}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"26"}]
+14:22:46:CoreHandleUpdateDatabases() initiated
+14:22:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158772,\"microting_uuid\":\"1744622\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:46:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158772}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"27"}]
+14:22:46:CoreHandleUpdateDatabases() initiated
+14:22:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158772,\"microting_uuid\":\"1744622\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:46:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158772}","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","id":"28"}]
+14:22:46:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"id":"23","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"id":"24","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"id":"25","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"id":"26","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"id":"27","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"id":"28","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/done_msg","successful":true}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:22:47:CoreHandleUpdateDatabases() initiated
+14:22:56:Client # [{"id":"29","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","connectionType":"websocket"}]
+14:23:09:Client # [{"id":"30","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","connectionType":"websocket"}]
+14:23:11:Server # [{"id":"30","clientId":"dhqof3el0nh87idghyeqdsc85xz8myl","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:23:11:CoreHandleUpdateDatabases() initiated
+14:25:51:
+14:25:51:
+14:25:51:###################################################################################################################
+14:25:51:Core.Start() at:17-01-2017 14:25:51
+14:25:51:###################################################################################################################
+14:25:51:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+14:25:51:Controller started
+14:25:51:SqlEformController started
+14:25:51:Communicator started
+14:25:51:Subscriber created
+14:25:51:Subscriber now triggers events
+14:25:51:Client # Subscriber started
+14:25:52:Client # Subscriber connecting
+14:25:52:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+14:25:52:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+14:25:52:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+14:25:52:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"l6tbl3kmdudmotygg8q85ips9j6wb81","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:25:52:CoreHandleUpdateDatabases() initiated
+14:25:52:Client # [{"id":"2","clientId":"l6tbl3kmdudmotygg8q85ips9j6wb81","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:25:53:Server # [{"id":"2","clientId":"l6tbl3kmdudmotygg8q85ips9j6wb81","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:25:53:CoreHandleUpdateDatabases() initiated
+14:25:53:Client # [{"id":"3","clientId":"l6tbl3kmdudmotygg8q85ips9j6wb81","channel":"/meta/connect","connectionType":"websocket"}]
+14:25:53:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:25:53:CoreHandleUpdateDatabases() initiated
+14:26:06:Client # [{"id":"4","clientId":"l6tbl3kmdudmotygg8q85ips9j6wb81","channel":"/meta/connect","connectionType":"websocket"}]
+14:26:08:Server # [{"id":"4","clientId":"l6tbl3kmdudmotygg8q85ips9j6wb81","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:26:08:CoreHandleUpdateDatabases() initiated
+14:27:10:
+14:27:10:
+14:27:10:###################################################################################################################
+14:27:10:Core.Start() at:17-01-2017 14:27:10
+14:27:10:###################################################################################################################
+14:27:10:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+14:27:10:Controller started
+14:27:10:SqlEformController started
+14:27:10:Communicator started
+14:27:10:Subscriber created
+14:27:10:Subscriber now triggers events
+14:27:10:Client # Subscriber started
+14:27:10:Client # Subscriber connecting
+14:27:10:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+14:27:10:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+14:27:11:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+14:27:11:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:27:11:CoreHandleUpdateDatabases() initiated
+14:27:11:Client # [{"id":"2","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:27:11:Server # [{"id":"2","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+14:27:11:CoreHandleUpdateDatabases() initiated
+14:27:11:Client # [{"id":"3","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","connectionType":"websocket"}]
+14:27:11:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+14:27:11:CoreHandleUpdateDatabases() initiated
+14:27:24:Client # [{"id":"4","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","connectionType":"websocket"}]
+14:27:26:Server # [{"id":"4","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:27:26:CoreHandleUpdateDatabases() initiated
+14:27:37:Client # [{"id":"5","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","connectionType":"websocket"}]
+14:27:50:Client # [{"id":"6","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","connectionType":"websocket"}]
+14:27:52:Server # [{"id":"6","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:27:52:CoreHandleUpdateDatabases() initiated
+14:28:03:Client # [{"id":"7","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","connectionType":"websocket"}]
+14:28:16:Client # [{"id":"8","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","connectionType":"websocket"}]
+14:28:18:Server # [{"id":"8","clientId":"lwrkajpmjnfjbh1ilwxvzroxlnvio6n","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+14:28:18:CoreHandleUpdateDatabases() initiated
+14:28:18:Core.Close() at:17-01-2017 14:28:18
+14:28:18:Subscriber requested to close connection
+14:28:18:Client # Subscriber is trying to close connection
+14:28:29:Client # WebSocket Close (1001): 
+14:28:29:Client # Subscriber closed
+14:28:29:Subscriber no longer triggers events
+14:28:29:Controller closed
+14:28:29:

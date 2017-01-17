@@ -51,6 +51,21 @@ namespace Microting
         #region con
         public MainController()
         {
+            core = new Core();
+
+            #region connect event triggers
+            core.HandleCaseCreated += EventCaseCreated;
+            core.HandleCaseRetrived += EventCaseRetrived;
+            core.HandleCaseCompleted += EventCaseCompleted;
+            core.HandleCaseDeleted += EventCaseDeleted;
+            core.HandleFileDownloaded += EventFileDownloaded;
+            core.HandleSiteActivated += EventSiteActivated;
+            core.HandleEventLog += EventLog;
+            core.HandleEventMessage += EventMessage;
+            core.HandleEventWarning += EventWarning;
+            core.HandleEventException += EventException;
+            #endregion
+
             #region read settings
             string[] lines = File.ReadAllLines("Input.txt");
 
@@ -66,21 +81,8 @@ namespace Microting
             string fileLocation = lines[9];
             bool logEnabled = bool.Parse(lines[10]);
             #endregion
-            core = new Core(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
 
-            #region connect event triggers
-            core.HandleCaseCreated      += EventCaseCreated;
-            core.HandleCaseRetrived     += EventCaseRetrived;
-            core.HandleCaseCompleted    += EventCaseCompleted;
-            core.HandleCaseDeleted      += EventCaseDeleted;
-            core.HandleFileDownloaded   += EventFileDownloaded;
-            core.HandleSiteActivated    += EventSiteActivated;
-            core.HandleEventLog         += EventLog;
-            core.HandleEventMessage     += EventMessage;
-            core.HandleEventWarning     += EventWarning;
-            core.HandleEventException   += EventException;
-            #endregion
-            core.Start();
+            core.Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
         }
         #endregion
 
@@ -138,7 +140,7 @@ namespace Microting
             }
         }
 
-        public void         CaseCreate(int templatId, string caseUId, List<int> siteIds)
+        public void         CaseCreate(int templatId, string caseUId, int siteId)
         {
             try
             {
@@ -148,7 +150,7 @@ namespace Microting
                 mainElement.SetStartDate(DateTime.Now);
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
 
-                core.CaseCreate(mainElement, "", siteIds);
+                core.CaseCreate(mainElement, "", siteId);
             }
             catch (Exception ex)
             {

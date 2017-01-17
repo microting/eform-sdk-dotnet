@@ -49,6 +49,21 @@ namespace Microting
         #region con
         public MainControllerCustom()
         {
+            core = new Core();
+
+            #region connect event triggers
+            core.HandleCaseCreated += EventCaseCreated;
+            core.HandleCaseRetrived += EventCaseRetrived;
+            core.HandleCaseCompleted += EventCaseCompleted;
+            core.HandleCaseDeleted += EventCaseDeleted;
+            core.HandleFileDownloaded += EventFileDownloaded;
+            core.HandleSiteActivated += EventSiteActivated;
+            core.HandleEventLog += EventLog;
+            core.HandleEventMessage += EventMessage;
+            core.HandleEventWarning += EventWarning;
+            core.HandleEventException += EventException;
+            #endregion
+
             #region read settings
             string[] lines = File.ReadAllLines("Input.txt");
 
@@ -65,23 +80,10 @@ namespace Microting
             string fileLocation = lines[10];
             bool logEnabled = bool.Parse(lines[11]);
             #endregion
-            core = new Core(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
+            
+            core.Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
             sqlContro = new SqlController(serverConnectionString);
             sqlCustom = new SqlControllerCustom(customConnectionString);
-
-            #region connect event triggers
-            core.HandleCaseCreated      += EventCaseCreated;
-            core.HandleCaseRetrived     += EventCaseRetrived;
-            core.HandleCaseCompleted    += EventCaseCompleted;
-            core.HandleCaseDeleted      += EventCaseDeleted;
-            core.HandleFileDownloaded   += EventFileDownloaded;
-            core.HandleSiteActivated    += EventSiteActivated;
-            core.HandleEventLog         += EventLog;
-            core.HandleEventMessage     += EventMessage;
-            core.HandleEventWarning     += EventWarning;
-            core.HandleEventException   += EventException;
-            #endregion
-            core.Start();
 
             Thread syncThread = new Thread(() => Sync());
             syncThread.Start();
@@ -153,7 +155,7 @@ namespace Microting
             }
         }
 
-        public void CaseCreate(int templatId, List<int> siteIds)
+        public void CaseCreate(int templatId, int siteId)
         {
             try
             {
@@ -163,7 +165,7 @@ namespace Microting
                 mainElement.SetStartDate(DateTime.Now);
                 mainElement.SetEndDate(DateTime.Now.AddDays(2));
 
-                core.CaseCreate(mainElement, "", siteIds);
+                core.CaseCreate(mainElement, "", siteId);
             }
             catch (Exception ex)
             {
@@ -469,12 +471,12 @@ namespace Microting
 
                         sqlCustom.VariableSet("synced", "true");
                     }
-                    Thread.Sleep(5000);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Sync failed, system  unstable.", ex);
+                    Console.WriteLine("Sync failed, system  unstable." + ex.Message);
                 }
+                Thread.Sleep(5000);
             }
         }
 
@@ -576,9 +578,7 @@ namespace Microting
                     dataE.Label = label;
                     dataE.Description.InderValue = "<div><b>Afhentning allerede taget af anden</b></div>" + description;
 
-                    List<int> siteIds = new List<int>();
-                    siteIds.Add(siteId);
-                    core.CaseCreate(mainElement, "", siteIds);
+                    core.CaseCreate(mainElement, "", siteId);
                     #endregion
                 }
             }
