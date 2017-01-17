@@ -63,9 +63,9 @@ namespace Microting
         /// </summary>
         /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s)</param>
-        /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
+        /// <param name="siteId">siteId that the case will be sent to</param>
         /// 
-        void CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds);
+        void CaseCreate(MainElement mainElement, string caseUId, int siteId);
 
         /// <summary>
         /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system, with extended parameters
@@ -123,6 +123,11 @@ namespace Microting
 
         //---------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Creates an EntityGroup, and returns its unique microting id for further use
+        /// </summary>
+        /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
+        /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         string EntityGroupCreate(string entityType, string name);
 
         EntityGroup EntityGroupRead(string entityGroupMUId);

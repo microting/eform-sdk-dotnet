@@ -345,14 +345,14 @@ namespace Microting
             }
         }
 
-        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds)
+        public void             CaseCreate(MainElement mainElement, string caseUId, int siteId)
         {
             try
             {
                 if (coreRunning)
                 {
-                    string siteIdsStr = string.Join(",", siteIds);
-                    TriggerLog("siteIds:" + siteIdsStr + ", requested to be created");
+                    List<int> siteIds = new List<int> { siteId };
+                    TriggerLog("caseUId:" + caseUId + " siteId:" + siteId + ", requested to be created");
 
                     Thread subscriberThread = new Thread(() => CaseCreateMethodThreaded(mainElement, caseUId, siteIds, "", false));
                     subscriberThread.Start();
