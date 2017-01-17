@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eFormRequest
 {
-    public class Answer : DataItem
+    public class FieldValue : DataItem
     {
         public string fieldType { get; set; }
         public DateTime DateOfDoing { get; set; }

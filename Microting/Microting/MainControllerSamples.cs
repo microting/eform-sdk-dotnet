@@ -303,7 +303,7 @@ namespace Microting
                         CoreElement reply = core.CaseRead(mUId, checkUId);
 
                         DataElement replyDataE = (DataElement)reply.ElementList[0];
-                        Answer answer = (Answer)replyDataE.DataItemList[0];
+                        FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
                         MainElement mainElement = core.TemplatRead(step2tId);
                         DataElement dataE = (DataElement)mainElement.ElementList[0];
@@ -342,7 +342,7 @@ namespace Microting
                             CoreElement reply = core.CaseRead(mUId, checkUId);
 
                             DataElement replyDataE = (DataElement)reply.ElementList[0];
-                            Answer answer = (Answer)replyDataE.DataItemList[0];
+                            FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
                             MainElement mainElement = core.TemplatRead(step3WtId);
                             DataElement dataE = (DataElement)mainElement.ElementList[0];
@@ -367,7 +367,7 @@ namespace Microting
                             CoreElement reply = core.CaseRead(mUId, checkUId);
 
                             DataElement replyDataE = (DataElement)reply.ElementList[0];
-                            Answer answer = (Answer)replyDataE.DataItemList[0];
+                            FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
                             MainElement mainElement = core.TemplatRead(step3LtId);
                             DataElement dataE = (DataElement)mainElement.ElementList[0];
@@ -391,7 +391,7 @@ namespace Microting
                         CoreElement reply = core.CaseRead(mUId, checkUId);
 
                         DataElement replyDataE = (DataElement)reply.ElementList[0];
-                        Answer answer = (Answer)replyDataE.DataItemList[0];
+                        FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
                         #region is the winner?
                         bool isWinner = false;

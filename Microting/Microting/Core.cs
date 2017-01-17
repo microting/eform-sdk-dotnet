@@ -420,7 +420,7 @@ namespace Microting
                     replyElement.DoneById = (int)aCase.done_by_user_id;
                     replyElement.UnitId = (int)aCase.unit_id;
 
-                    List<Answer> lstAnswers = new List<Answer>();
+                    List<FieldValue> lstAnswers = new List<FieldValue>();
                     List<field_values> lstReplies = sqlController.ChecksRead(microtingUId);
                     #region remove replicates from lstReplies. Ex. multiple pictures
                     List<field_values> lstRepliesTemp = new List<field_values>();
@@ -446,7 +446,7 @@ namespace Microting
 
                     foreach (field_values reply in lstReplies)
                     {
-                        Answer answer = sqlController.ChecksReadAnswer(reply.id);
+                        FieldValue answer = sqlController.ChecksReadAnswer(reply.id);
                         lstAnswers.Add(answer);
                     }
                     TriggerLog("Questons and answers found");
@@ -775,7 +775,7 @@ namespace Microting
             }
         }
 
-        private void    ReplaceDataItemsInElementsWithAnswers(List<Element> elementList, List<Answer> lstAnswers)
+        private void    ReplaceDataItemsInElementsWithAnswers(List<Element> elementList, List<FieldValue> lstAnswers)
         {
             foreach (Element element in elementList)
             {

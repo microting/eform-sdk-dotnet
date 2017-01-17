@@ -489,7 +489,7 @@ namespace Microting
             ReplyElement reply = core.CaseRead(mUId, checkUId);
 
             DataElement replyDataE = (DataElement)reply.ElementList[0];
-            Answer answer = (Answer)replyDataE.DataItemList[0];
+            FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
             string location = answer.ValueReadable;
 
             if (caseType == "step1")
@@ -599,7 +599,7 @@ namespace Microting
                 string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
 
                 DataElement replyResend = (DataElement)reply.ElementList[0];
-                answer = (Answer)replyResend.DataItemList[1];
+                answer = (FieldValue)replyResend.DataItemList[1];
                 if (answer.Value == "checked")
                 {
                     #region resend order
@@ -660,11 +660,11 @@ namespace Microting
         {
             DataElement replyDataE = (DataElement)reply.ElementList[0];
 
-            Answer answer = (Answer)replyDataE.DataItemList[1];
+            FieldValue answer = (FieldValue)replyDataE.DataItemList[1];
             string container = answer.ValueReadable;
-            answer = (Answer)replyDataE.DataItemList[2];
+            answer = (FieldValue)replyDataE.DataItemList[2];
             string faction = answer.ValueReadable;
-            answer = (Answer)replyDataE.DataItemList[3];
+            answer = (FieldValue)replyDataE.DataItemList[3];
             string location = answer.ValueReadable;
 
             List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
