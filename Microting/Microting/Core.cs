@@ -654,6 +654,11 @@ namespace Microting
             }
         }
 
+        public string CasesToExcel(int templatId, DateTime start, DateTime end)
+        {
+            return "C:\\test.xls";
+        }
+
         public string           EntityGroupCreate(string entityType, string name)
         {
             try
