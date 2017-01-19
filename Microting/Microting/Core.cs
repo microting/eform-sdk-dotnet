@@ -658,6 +658,11 @@ namespace Microting
                 throw new Exception("CaseLookupAllSites failed", ex);
             }
         }
+
+        public string CasesToExcel(int templatId, DateTime start, DateTime end)
+        {
+            return "C:\\test.xls";
+        }
         #endregion
 
         #region entity group

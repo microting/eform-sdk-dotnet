@@ -123,6 +123,14 @@ namespace Microting
         //---------------------------------------------------------------------------------------
 
         /// <summary>
+        /// Tries to retrieve the templat MainElement from the Microting DB
+        /// </summary>
+        /// <param name="templatId">Templat MainElement's ID to be retrieved from the Microting local DB</param>
+        string CasesToExcel(int templatId, DateTime start, DateTime end);
+
+        //---------------------------------------------------------------------------------------
+
+        /// <summary>
         /// Creates an EntityGroup, and returns its unique microting id for further use
         /// </summary>
         /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
