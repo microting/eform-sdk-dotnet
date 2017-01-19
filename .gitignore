@@ -321,3 +321,6 @@ paket-files/
 .idea/
 *.sln.iml
 >>>>>>> e83bb4f... Initial commit
+
+Complied/input.txt
+Complied/input_first_run.txt
