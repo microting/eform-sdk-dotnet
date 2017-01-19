@@ -49,7 +49,7 @@ namespace Microting
         #endregion
 
         #region con
-        public MainController()
+        public MainController(string serverConnectionString)
         {
             core = new Core();
 
@@ -66,28 +66,38 @@ namespace Microting
             core.HandleEventException += EventException;
             #endregion
 
-            #region read settings
-            string[] lines = File.ReadAllLines("Input.txt");
-
-            string comToken = lines[0];
-            string comAddress = lines[1];
-            string organizationId = lines[2];
-
-            string subscriberToken = lines[4];
-            string subscriberAddress = lines[5];
-            string subscriberName = lines[6];
-
-            string serverConnectionString = lines[8];
-            string fileLocation = lines[9];
-            bool logEnabled = bool.Parse(lines[10]);
-            #endregion
-
-            core.Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
+            core.Start(serverConnectionString);
         }
         #endregion
 
         #region public
-        public MainElement  TemplatFromXml(string xmlString)
+        public void Run()
+        {
+            bool keepRunning = true;
+
+            while (keepRunning)
+            {
+                Console.WriteLine("Type 'Q' (to quit)");
+                Console.WriteLine("As long as the Core left running, the system is able to process eForms");
+                string input = Console.ReadLine();
+
+                //Your logic here
+
+                if (input.ToLower() == "Q")
+                    keepRunning = false;
+            }
+            Console.WriteLine("Trying to shutting down");
+            Close();
+        }
+
+        public void Close()
+        {
+            core.Close();
+        }
+        #endregion
+
+        #region private
+        private MainElement TemplatFromXml(string xmlString)
         {
             MainElement temp = core.TemplatFromXml(xmlString);
             if (temp == null)
@@ -95,7 +105,7 @@ namespace Microting
             return temp;
         }
 
-        public int          TemplatCreate(MainElement mainElement)
+        private int         TemplatCreate(MainElement mainElement)
         {
             try
             {
@@ -110,7 +120,7 @@ namespace Microting
             }
         }
 
-        public void         TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
+        private void        TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
         {
             if (mainElement.Repeated != 0)
                 throw new Exception("InfinityCase are always Repeated = 0");
@@ -140,7 +150,7 @@ namespace Microting
             }
         }
 
-        public void         CaseCreate(int templatId, string caseUId, int siteId)
+        private void        CaseCreate(int templatId, string caseUId, int siteId)
         {
             try
             {
@@ -161,7 +171,7 @@ namespace Microting
             }
         }
 
-        public void         CaseRead(string mUId)
+        private void        CaseRead(string mUId)
         {
             try
             {
@@ -176,11 +186,11 @@ namespace Microting
             }
         }
 
-        public void         CaseReadFromGroup(string caseUId)
+        private void        CaseReadFromGroup(string caseUId)
         {
             try
             {
-                CoreElement replyElement = core.CaseReadAllSites(caseUId);
+                CoreElement replyElement = core.CaseRead(caseUId);
             }
             catch (Exception ex)
             {
@@ -191,7 +201,7 @@ namespace Microting
             }
         }
 
-        public void         CaseDelete(string muuId)
+        private void        CaseDelete(string muuId)
         {
             try
             {
@@ -206,7 +216,7 @@ namespace Microting
             }
         }
 
-        public void         CaseDeleteAll(string caseUId)
+        private void        CaseDeleteAll(string caseUId)
         {
             try
             {
@@ -221,10 +231,6 @@ namespace Microting
             }
         }
 
-        public void         Close()
-        {
-            core.Close();
-        }
         #endregion
 
         #region events
@@ -252,22 +258,13 @@ namespace Microting
 
         public void     EventCaseCompleted(object sender, EventArgs args)
         {
-            lock (_lockLogic)
-            {
-                try
-                {
-                    Case_Dto trigger = (Case_Dto)sender;
-                    int siteId = trigger.SiteId;
-                    string caseType = trigger.CaseType;
-                    string caseUid = trigger.CaseUId;
-                    string mUId = trigger.MicrotingUId;
-                    string checkUId = trigger.CheckUId;
-                }
-                catch
-                {
-
-                }
-            }
+            //DOSOMETHING: changed to fit your wishes and needs 
+            //Case_Dto temp = (Case_Dto)sender;
+            //int siteId = temp.SiteId;
+            //string caseType = temp.CaseType;
+            //string caseUid = temp.CaseUId;
+            //string mUId = temp.MicrotingUId;
+            //string checkUId = temp.CheckUId;
         }
 
         public void     EventCaseDeleted(object sender, EventArgs args)

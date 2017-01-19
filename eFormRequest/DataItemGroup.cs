@@ -24,7 +24,7 @@ namespace eFormRequest
         #endregion
     }
 
-    #region FieldGroup
+    #region FieldGroup : DataItemGroup
     public class FieldGroup : DataItemGroup
     {
         internal FieldGroup()

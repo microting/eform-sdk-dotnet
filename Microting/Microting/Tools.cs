@@ -212,5 +212,39 @@ namespace Trools
                 return DateTime.MinValue;
         }
         #endregion
+
+        #region PrintException
+        public string PrintException(string exceptionDescription, Exception ex)
+        {
+            string fullExceptionDescription = "";
+
+            if (exceptionDescription == null)
+                exceptionDescription = "";
+
+            fullExceptionDescription =
+                "" + Environment.NewLine +
+                "######## " + exceptionDescription + Environment.NewLine +
+                "######## " + DateTime.Now.ToString("yyyy MM/dd HH.mm:ss") + Environment.NewLine +
+                "######## EXCEPTION FOUND; BEGIN ########" + Environment.NewLine +
+                PrintInnerException(ex, 1) + Environment.NewLine +
+                "######## EXCEPTION FOUND; ENDED ########" + Environment.NewLine +
+                "";
+
+            return fullExceptionDescription;
+        }
+
+        private string PrintInnerException(Exception ex, int level)
+        {
+            if (ex == null)
+                return "";
+
+            return
+            "######## -Expection at level " + level + "- ########" + Environment.NewLine +
+            "Message    :" + ex.Message + Environment.NewLine +
+            "Source     :" + ex.Source + Environment.NewLine +
+            "StackTrace :" + ex.StackTrace + Environment.NewLine +
+            PrintInnerException(ex.InnerException, level + 1).TrimEnd();
+        }
+        #endregion
     }
 }

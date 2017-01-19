@@ -562,6 +562,22 @@ namespace eFormRequest
     #endregion
     #endregion
 
+    public class FieldValue : DataItem
+    {
+        public string FieldId { get; set; }
+        public string FieldType { get; set; }
+        public DateTime DateOfDoing { get; set; }
+        public string Value { get; set; }
+        public string ValueReadable { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string Altitude { get; set; }
+        public string Heading { get; set; }
+        public string Accuracy { get; set; }
+        public DateTime? Date { get; set; }
+        public string UploadedData { get; set; }
+    }
+
     public enum DataItemColors
     {
         e2f4fb_Blue,

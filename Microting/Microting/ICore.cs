@@ -24,7 +24,7 @@ namespace Microting
         /// <summary>
         /// Starts the Core and enables Events. Restarts if needed
         /// </summary>
-        void Start(string comToken, string comAddress, string organizationId, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, string fileLocation, bool logEvents);
+        void Start(string serverConnectionString);
 
         /// <summary>
         /// Closes the Core and disables Events
@@ -90,7 +90,7 @@ namespace Microting
         /// Tries to retrieve the answered full case in the DB, from the set
         /// </summary>
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
-        ReplyElement CaseReadAllSites(string caseUId);
+        ReplyElement CaseRead(string caseUId);
 
         //---------------------------------------------------------------------------------------
 
@@ -120,7 +120,6 @@ namespace Microting
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         int CaseDeleteAllSites(string caseUId);
 
-
         //---------------------------------------------------------------------------------------
 
         /// <summary>
@@ -130,10 +129,22 @@ namespace Microting
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         string EntityGroupCreate(string entityType, string name);
 
+        /// <summary>
+        /// Returns the EntityGroup and its EntityItems
+        /// </summary>
+        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         EntityGroup EntityGroupRead(string entityGroupMUId);
 
+        /// <summary>
+        /// Updates the EntityGroup and its EntityItems for those needed
+        /// </summary>
+        /// <param name="entityGroup">The EntityGroup and its EntityItems</param>
         void EntityGroupUpdate(EntityGroup entityGroup);
 
+        /// <summary>
+        /// Deletes an EntityGroup, both its items should be deleted before using
+        /// </summary>
+        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         void EntityGroupDelete(string entityGroupMUId);
     }
 }

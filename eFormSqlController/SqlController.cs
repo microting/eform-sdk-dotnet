@@ -5,7 +5,6 @@ using Trools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 
 namespace eFormSqlController
 {
@@ -84,6 +83,35 @@ namespace eFormSqlController
         #endregion
 
         #region case
+        public void                 CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_list_sites cLS = new check_list_sites();
+                    cLS.check_list_id = checkListId;
+                    cLS.created_at = DateTime.Now;
+                    cLS.updated_at = DateTime.Now;
+                    cLS.last_check_id = "0";
+                    cLS.microting_uid = microtingUId;
+                    cLS.site_id = siteId;
+                    cLS.version = 1;
+                    cLS.workflow_state = "created";
+
+                    db.check_list_sites.Add(cLS);
+                    db.SaveChanges();
+
+                    db.version_check_list_sites.Add(MapCheckListSiteVersions(cLS));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CheckListSitesCreate failed", ex);
+            }
+        }
+
         public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseUId, string custom)
         {
             try
@@ -434,7 +462,7 @@ namespace eFormSqlController
             }
         }
 
-        public FieldValue               ChecksReadAnswer(int id)
+        public FieldValue           FieldValueRead(int id)
         {
             try
             {
@@ -442,19 +470,20 @@ namespace eFormSqlController
                 {
                     field_values reply = db.field_values.Where(x => x.id == id).ToList().First();
                     fields question = db.fields.Where(x => x.id == reply.field_id).ToList().First();
-                    
+
                     FieldValue answer = new FieldValue();
                     answer.Accuracy = reply.accuracy;
                     answer.Altitude = reply.altitude;
                     answer.Color = question.color;
                     answer.Date = reply.date;
-                    answer.fieldType = Find((int)question.field_type_id);
+                    answer.FieldId = reply.field_id.ToString();
+                    answer.FieldType = Find((int)question.field_type_id);
                     answer.DateOfDoing = t.Date(reply.done_at);
                     answer.Description = new eFormRequest.CDataValue();
                     answer.Description.InderValue = question.description;
                     answer.DisplayOrder = t.Int(question.display_index);
                     answer.Heading = reply.heading;
-                    answer.Id = question.id.ToString();
+                    answer.Id = reply.id.ToString();
                     answer.Label = question.label;
                     answer.Latitude = reply.latitude;
                     answer.Longitude = reply.longitude;
@@ -486,7 +515,7 @@ namespace eFormSqlController
                     #endregion
                     answer.Value = reply.value;
                     #region answer.ValueReadable = reply.value 'ish';
-                    if (answer.fieldType == "EntitySearch" || answer.fieldType == "EntitySelect")
+                    if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
                     {
                         List<entity_items> matches = db.entity_items.Where(x => x.microting_uid == reply.value).ToList();
 
@@ -494,14 +523,14 @@ namespace eFormSqlController
                             answer.ValueReadable = matches[0].name;
                     }
 
-                    if (answer.fieldType == "SingleSelect")
+                    if (answer.FieldType == "SingleSelect")
                     {
                         string key = answer.Value;
                         string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
                         answer.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
                     }
 
-                    if (answer.fieldType == "MultiSelect")
+                    if (answer.FieldType == "MultiSelect")
                     {
                         answer.ValueReadable = "";
 
@@ -521,7 +550,23 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("ChecksReadParent failed", ex);
+                throw new Exception("FieldValueRead failed", ex);
+            }
+        }
+
+        public string               CheckListValueStatusRead(int caseId, int checkListId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_list_values clv = db.check_list_values.Where(x => x.case_id == caseId && x.check_list_id == checkListId).ToList().First();
+                    return clv.status;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CheckListValueStatusRead failed", ex);
             }
         }
         #endregion
@@ -687,58 +732,6 @@ namespace eFormSqlController
             }
         }
         #endregion
-
-        public List<int>    SitesList()
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    List<int> lst = new List<int>();
-
-                    List<sites> lstSite = db.sites.ToList();
-                    foreach (sites site in lstSite)
-                    {
-                        lst.Add(int.Parse(site.microting_uid));
-                    }
-
-                    return lst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("SitesList failed", ex);
-            }
-        }
-
-        public void         CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    check_list_sites cLS = new check_list_sites();
-                    cLS.check_list_id = checkListId;
-                    cLS.created_at = DateTime.Now;
-                    cLS.updated_at = DateTime.Now;
-                    cLS.last_check_id = "0";
-                    cLS.microting_uid = microtingUId;
-                    cLS.site_id = siteId;
-                    cLS.version = 1;
-                    cLS.workflow_state = "created";
-
-                    db.check_list_sites.Add(cLS);
-                    db.SaveChanges();
-
-                    db.version_check_list_sites.Add(MapCheckListSiteVersions(cLS));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CheckListSitesCreate failed", ex);
-            }
-        }
 
         #region entityGroup
         public int          EntityGroupCreate(string name, string entityType)
@@ -1002,6 +995,29 @@ namespace eFormSqlController
             }
         }
         #endregion
+
+        public string SettingRead(string variableName)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<setting> matchs = db.setting.Where(x => x.name == variableName).ToList();
+
+                    if (matchs == null)
+                        throw new Exception("SettingGet failed, matchs == null");
+
+                    if (matchs.Count() != 1)
+                        throw new Exception("SettingGet failed, matchs != 1");
+
+                    return matchs[0].value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SettingGet failed.", ex);
+            }
+        }
         #endregion
 
         #region private
@@ -2137,165 +2153,4 @@ namespace eFormSqlController
         #endregion
         #endregion
     }
-
-    #region help classes
-    public class Case_Dto
-    {
-        #region con
-        public Case_Dto()
-        {
-        }
-
-        public Case_Dto(int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
-        {
-            if (caseType == null)
-                caseType = "";
-            if (caseUId == null)
-                caseUId = "";
-            if (microtingUId == null)
-                microtingUId = "";
-            if (checkUId == null)
-                checkUId = "";
-
-            SiteId = siteId;
-            CaseType = caseType;
-            CaseUId = caseUId;
-            MicrotingUId = microtingUId;
-            CheckUId = checkUId;
-            Custom = custom;
-        }
-        #endregion
-
-        #region var
-        /// <summary>
-        /// Unique identifier of device
-        /// </summary>
-        public int SiteId { get; }
-
-        /// <summary>
-        /// Identifier of a collection of cases in your system
-        /// </summary>
-        public string CaseType { get; }
-
-        /// <summary>
-        /// Unique identifier of a group of case(s) in your system
-        /// </summary>
-        public string CaseUId { get; }
-
-        /// <summary>
-        ///Unique identifier of that specific eForm in Microting system
-        /// </summary>
-        public string MicrotingUId { get; }
-
-        /// <summary>
-        /// Unique identifier of that check of the eForm. Only used if repeat
-        /// </summary>
-        public string CheckUId { get; }
-
-        /// <summary>
-        /// Custom data. Only used in special cases
-        /// </summary>
-        public string Custom { get; }
-        #endregion
-
-        public override string ToString()
-        {
-            if (CheckUId == null)
-                return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-
-            if (CheckUId == "")
-                return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
-        }
-    }
-
-    public class File_Dto
-    {
-        #region con
-        public File_Dto(int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string fileLocation)
-        {
-            if (caseType == null)
-                caseType = "";
-            if (caseUId == null)
-                caseUId = "";
-            if (microtingUId == null)
-                microtingUId = "";
-            if (checkUId == null)
-                checkUId = "";
-            if (fileLocation == null)
-                fileLocation = "";
-
-            SiteId = siteId;
-            CaseType = caseType;
-            CaseUId = caseUId;
-            MicrotingUId = microtingUId;
-            CheckUId = checkUId;
-            FileLocation = fileLocation;
-        }
-        #endregion
-
-        #region var
-        /// <summary>
-        /// Unique identifier of device
-        /// </summary>
-        public int SiteId { get; }
-
-        /// <summary>
-        /// Identifier of a collection of cases in your system
-        /// </summary>
-        public string CaseType { get; }
-
-        /// <summary>
-        /// Unique identifier of a group of case(s) in your system
-        /// </summary>
-        public string CaseUId { get; }
-
-        /// <summary>
-        ///Unique identifier of that specific eForm in Microting system
-        /// </summary>
-        public string MicrotingUId { get; }
-
-        /// <summary>
-        /// Unique identifier of that check of the eForm. Only used if repeat
-        /// </summary>
-        public string CheckUId { get; }
-
-        /// <summary>
-        /// Location of the fil
-        /// </summary>
-        public string FileLocation { get; set; }
-        #endregion
-
-        public override string ToString()
-        {
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
-        }
-    }
-
-    internal class Holder
-    {
-        internal Holder(int index, string field_type)
-        {
-            Index = index;
-            FieldType = field_type;
-        }
-
-        internal int Index { get; }
-
-        internal string FieldType { get; }
-    }
-
-    internal class EntityItemUpdateInfo
-    {
-        internal EntityItemUpdateInfo(string entityItemMUid, string status)
-        {
-            EntityItemMUid = entityItemMUid;
-            Status = status;
-        }
-
-        public string EntityItemMUid { get; set; }
-        public string Status { get; set; }
-    }
-    #endregion
 }

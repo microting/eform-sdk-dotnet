@@ -82,7 +82,7 @@ namespace Microting
 
         string serverConnectionString;
         string fileLocation;
-        bool logEvents;
+        bool logLevel = false;
         #endregion
 
         #region con
@@ -93,47 +93,55 @@ namespace Microting
         #endregion
 
         #region public state
-        public void     Start(string comToken, string comAddress, string organizationId, string subscriberToken, string subscriberAddress, string subscriberName, string serverConnectionString, string fileLocation, bool logEvents)
+        public void     Start(string serverConnectionString)
         {
-            if (string.IsNullOrEmpty(comToken))
-                throw new ArgumentException("comToken is not allowed to be null or empty");
-
-            if (string.IsNullOrEmpty(comAddress))
-                throw new ArgumentException("comAddress is not allowed to be null or empty");
-
-            if (string.IsNullOrEmpty(organizationId))
-                throw new ArgumentException("organizationId is not allowed to be null or empty");
-
-            if (string.IsNullOrEmpty(subscriberToken))
-                throw new ArgumentException("subscriberToken is not allowed to be null or empty");
-
-            if (string.IsNullOrEmpty(subscriberAddress))
-                throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
-
-            if (string.IsNullOrEmpty(subscriberName))
-                throw new ArgumentException("subscriberName is not allowed to be null or empty");
-            if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
-                throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
-
-            if (string.IsNullOrEmpty(serverConnectionString))
-                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
-
-            if (string.IsNullOrEmpty(fileLocation))
-                throw new ArgumentException("fileLocation is not allowed to be null or empty");
-
-            this.comToken = comToken;
-            this.comAddress = comAddress;
-            this.organizationId = organizationId;
-            this.subscriberToken = subscriberToken;
-            this.subscriberAddress = subscriberAddress;
-            this.subscriberName = subscriberName;
-            this.serverConnectionString = serverConnectionString;
-            this.fileLocation = fileLocation;
-            this.logEvents = logEvents;
-
-
             try
             {
+                if (string.IsNullOrEmpty(serverConnectionString))
+                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+
+                //sqlController
+                sqlController = new SqlController(serverConnectionString);
+                TriggerLog("SqlEformController started");
+
+                comToken =              sqlController.SettingRead("comToken");
+                comAddress =            sqlController.SettingRead("comAddress");
+                organizationId =        sqlController.SettingRead("organizationId");
+                subscriberToken =       sqlController.SettingRead("subscriberToken");
+                subscriberAddress =     sqlController.SettingRead("subscriberAddress");
+                subscriberName =        sqlController.SettingRead("subscriberName");
+                fileLocation =          sqlController.SettingRead("fileLocation");
+                logLevel =              bool.Parse(sqlController.SettingRead("logLevel"));
+                this.serverConnectionString = serverConnectionString;
+
+
+                TriggerLog("Settings read");
+
+                if (string.IsNullOrEmpty(comToken))
+                    throw new ArgumentException("comToken is not allowed to be null or empty");
+
+                if (string.IsNullOrEmpty(comAddress))
+                    throw new ArgumentException("comAddress is not allowed to be null or empty");
+
+                if (string.IsNullOrEmpty(organizationId))
+                    throw new ArgumentException("organizationId is not allowed to be null or empty");
+
+                if (string.IsNullOrEmpty(subscriberToken))
+                    throw new ArgumentException("subscriberToken is not allowed to be null or empty");
+
+                if (string.IsNullOrEmpty(subscriberAddress))
+                    throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
+
+                if (string.IsNullOrEmpty(subscriberName))
+                    throw new ArgumentException("subscriberName is not allowed to be null or empty");
+                if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
+                    throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
+
+                if (string.IsNullOrEmpty(fileLocation))
+                    throw new ArgumentException("fileLocation is not allowed to be null or empty");
+
+                TriggerLog("Settings checked");
+
                 if (!coreRunning && !coreStatChanging)
                 {
                     coreStatChanging = true;
@@ -144,13 +152,8 @@ namespace Microting
                     TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     TriggerLog("###################################################################################################################");
                     TriggerLog("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
-                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logEvents.ToString());
+                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logLevel.ToString());
                     TriggerLog("Controller started");
-
-
-                    //sqlController
-                    sqlController = new SqlController(serverConnectionString);
-                    TriggerLog("SqlEformController started");
 
 
                     //communicators
@@ -179,14 +182,13 @@ namespace Microting
             }
         }
 
-        public void     StartLimited(string serverConnectionString, bool logEvents)
+        public void     StartSqlOnly(string serverConnectionString)
         {
             if (string.IsNullOrEmpty(serverConnectionString))
                 throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
             this.serverConnectionString = serverConnectionString;
-            this.logEvents = logEvents;
-
+       
             try
             {
                 if (!coreRunning && !coreStatChanging)
@@ -198,7 +200,7 @@ namespace Microting
                     TriggerLog("###################################################################################################################");
                     TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     TriggerLog("###################################################################################################################");
-                    TriggerLog("serverConnectionString:" + serverConnectionString + " logEvents:" + logEvents.ToString());
+                    TriggerLog("serverConnectionString:" + serverConnectionString + " logEvents:" + logLevel.ToString());
                     TriggerLog("Controller started");
 
 
@@ -280,6 +282,7 @@ namespace Microting
         #endregion
 
         #region public actions
+        #region templat
         public MainElement      TemplatFromXml(string xmlString)
         {
             try
@@ -386,7 +389,9 @@ namespace Microting
                 throw new Exception("TemplatRead failed", ex);
             }
         }
+        #endregion
 
+        #region case
         public void             CaseCreate(MainElement mainElement, string caseUId, int siteId)
         {
             try
@@ -488,13 +493,13 @@ namespace Microting
 
                     foreach (field_values reply in lstReplies)
                     {
-                        FieldValue answer = sqlController.ChecksReadAnswer(reply.id);
+                        FieldValue answer = sqlController.FieldValueRead(reply.id);
                         lstAnswers.Add(answer);
                     }
                     TriggerLog("Questons and answers found");
 
                     //replace DataItem(s) with DataItem(s) Answer
-                    ReplaceDataItemsInElementsWithAnswers(replyElement.ElementList, lstAnswers);
+                    replyElement.ElementList = ReplaceDataElementsAndDataItems(aCase.id, replyElement.ElementList, lstAnswers);
 
                     return replyElement;
                 }
@@ -508,7 +513,7 @@ namespace Microting
             }
         }
 
-        public ReplyElement     CaseReadAllSites(string caseUId)
+        public ReplyElement     CaseRead(string caseUId)
         {
             try
             {
@@ -653,7 +658,9 @@ namespace Microting
                 throw new Exception("CaseLookupAllSites failed", ex);
             }
         }
+        #endregion
 
+        #region entity group
         public string           EntityGroupCreate(string entityType, string name)
         {
             try
@@ -763,9 +770,10 @@ namespace Microting
             }
         }
         #endregion
+        #endregion
 
         #region private
-        private void    CaseCreateMethodThreaded(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
+        private void            CaseCreateMethodThreaded(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
         {
             try //Threaded method, hence the try/catch
             {
@@ -817,16 +825,18 @@ namespace Microting
             }
         }
 
-        private void    ReplaceDataItemsInElementsWithAnswers(List<Element> elementList, List<FieldValue> lstAnswers)
+        private List<Element>   ReplaceDataElementsAndDataItems(int caseId, List<Element> elementList, List<FieldValue> lstAnswers)
         {
+            List<Element> elementListReplaced = new List<Element>();
+
             foreach (Element element in elementList)
             {
-                #region DataElement
+                #region if DataElement
                 if (element.GetType() == typeof(DataElement))
                 {
                     DataElement dataE = (DataElement)element;
 
-                    //replace DataItemGroups
+                    #region replace DataItemGroups
                     foreach (var dataItemGroup in dataE.DataItemGroupList)
                     {
                         FieldGroup fG = (FieldGroup)dataItemGroup;
@@ -845,14 +855,15 @@ namespace Microting
                         }
                         fG.DataItemList = dataItemListTemp;
                     }
+                    #endregion
 
-                    //replace DataItems
+                    #region replace DataItems
                     List<eFormRequest.DataItem> dataItemListTemp2 = new List<eFormRequest.DataItem>();
                     foreach (var dataItem in dataE.DataItemList)
                     {
                         foreach (var answer in lstAnswers)
                         {
-                            if (dataItem.Id == answer.Id)
+                            if (dataItem.Id == answer.FieldId)
                             {
                                 dataItemListTemp2.Add(answer);
                                 break;
@@ -860,21 +871,28 @@ namespace Microting
                         }
                     }
                     dataE.DataItemList = dataItemListTemp2;
+                    #endregion
+
+                    elementListReplaced.Add(new CheckListValue(dataE, sqlController.CheckListValueStatusRead(caseId, element.Id)));
                 }
                 #endregion
 
-                #region GroupElement
+                #region if GroupElement
                 if (element.GetType() == typeof(GroupElement))
                 {
                     GroupElement groupE = (GroupElement)element;
 
-                    ReplaceDataItemsInElementsWithAnswers(groupE.ElementList, lstAnswers);
+                    ReplaceDataElementsAndDataItems(caseId, groupE.ElementList, lstAnswers);
+
+                    elementListReplaced.Add(groupE);
                 }
                 #endregion
             }
+
+            return elementListReplaced;
         }
 
-        private string  SendXml(MainElement mainElement, int siteId)
+        private string          SendXml(MainElement mainElement, int siteId)
         {
             TriggerLog("siteId:" + siteId + ", requested sent eForm");
 
@@ -1331,7 +1349,7 @@ namespace Microting
         #region outward Event triggers
         private void    TriggerLog(string str)
         {
-            if (logEvents)
+            if (logLevel)
             {
                 HandleEventLog(DateTime.Now.ToLongTimeString() + ":" + str, EventArgs.Empty);
             }
@@ -1355,19 +1373,10 @@ namespace Microting
             {
                 HandleEventException(ex, EventArgs.Empty);
 
-                if (exceptionDescription == null)
-                    exceptionDescription = "";
+                string fullExceptionDescription = t.PrintException(exceptionDescription, ex);
+                TriggerMessage (fullExceptionDescription);
 
-                exceptionDescription =
-                "" + Environment.NewLine +
-                "######## " + exceptionDescription + Environment.NewLine +
-                "######## EXCEPTION FOUND; BEGIN ########" + Environment.NewLine +
-                PrintException(ex, 1) + Environment.NewLine +
-                "######## EXCEPTION FOUND; ENDED ########" + Environment.NewLine +
-                "";
-
-                TriggerMessage (exceptionDescription);
-                ExceptionClass exCls = new ExceptionClass(exceptionDescription, DateTime.Now);
+                ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
 
                 int secondsDelay = CheckExceptionLst(exCls);
@@ -1383,19 +1392,6 @@ namespace Microting
                 coreRunning = false;
                 throw new Exception("FATAL Exception. Core failed to handle an Expection", ex);
             }
-        }
-
-        private string      PrintException(Exception ex, int level)
-        {
-            if (ex == null)
-                return "";
-
-            return 
-            "######## -Expection at level " + level + "- ########" + Environment.NewLine +
-            "Message    :" + ex.Message + Environment.NewLine +
-            "Source     :" + ex.Source + Environment.NewLine +
-            "StackTrace :" + ex.StackTrace + Environment.NewLine + 
-            PrintException(ex.InnerException, level + 1).TrimEnd();
         }
 
         private int         CheckExceptionLst(ExceptionClass exceptionClass)
@@ -1463,7 +1459,7 @@ namespace Microting
                     TriggerMessage("");
                     TriggerMessage("Trying to restart the Core in " + secondsDelay + " seconds");
                     Thread.Sleep(secondsDelay * 1000);
-                    Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEvents);
+                    Start(serverConnectionString);
 
                     coreRestarting = false;
                 }
@@ -1492,5 +1488,12 @@ namespace Microting
 
         public string Description { get; set; }
         public DateTime Time { get; set; }
+    }
+
+    public enum Log
+    {
+        Minimum,
+        Basic,
+        All
     }
 }

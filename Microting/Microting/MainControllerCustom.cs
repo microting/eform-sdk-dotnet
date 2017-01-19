@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Trools;
 
 namespace Microting
 {
@@ -44,10 +45,11 @@ namespace Microting
         ICore core;
         SqlController sqlContro;
         SqlControllerCustom sqlCustom;
+        Tools t = new Tools();
         #endregion
 
         #region con
-        public MainControllerCustom()
+        public MainControllerCustom(string serverConnectionString)
         {
             core = new Core();
 
@@ -64,175 +66,48 @@ namespace Microting
             core.HandleEventException += EventException;
             #endregion
 
-            #region read settings
-            string[] lines = File.ReadAllLines("Input.txt");
-
-            string comToken = lines[0];
-            string comAddress = lines[1];
-            string organizationId = lines[2];
-
-            string subscriberToken = lines[4];
-            string subscriberAddress = lines[5];
-            string subscriberName = lines[6];
-
-                   serverConnectionString = lines[8];
-            string customConnectionString = lines[9];
-            string fileLocation = lines[10];
-            bool logEnabled = bool.Parse(lines[11]);
-            #endregion
-            
-            core.Start(comToken, comAddress, organizationId, subscriberToken, subscriberAddress, subscriberName, serverConnectionString, fileLocation, logEnabled);
+            core.Start(serverConnectionString);
             sqlContro = new SqlController(serverConnectionString);
-            sqlCustom = new SqlControllerCustom(customConnectionString);
-
-            Thread syncThread = new Thread(() => Sync());
-            syncThread.Start();
+            sqlCustom = new SqlControllerCustom(serverConnectionString.Insert(serverConnectionString.LastIndexOf(';'), "custom"));
         }
         #endregion
 
         #region public
-        public MainElement TemplatFromXml(string xmlString)
+        public void Run()
         {
             try
             {
-                return core.TemplatFromXml(xmlString);
+                Setup();
+
+                Thread syncThread = new Thread(() => Sync());
+                syncThread.Start();
+
+                Console.WriteLine("Program running. Press any key to close");
+                Console.ReadKey();
+
+                Close();
+
+                Console.WriteLine("Program has been closed. Will close Console in 2s");
+                Thread.Sleep(2000);
+                Environment.Exit(0);
             }
-            catch (Exception ex)
+            catch (Exception ex) //Catch ALL
             {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public int TemplatCreate(MainElement mainElement)
-        {
-            try
-            {
-                return core.TemplatCreate(mainElement);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public int TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
-        {
-            if (mainElement.Repeated != 0)
-                throw new Exception("InfinityCase are always Repeated = 0");
-
-            try
-            {
-                int templatId = TemplatCreate(mainElement);
-                mainElement = core.TemplatRead(templatId);
-
-                foreach (int siteId in siteIds)
+                try
                 {
-                    for (int i = 0; i < instances; i++)
-                    {
-                        Thread.Sleep(250);
-
-                        List<int> siteShortList = new List<int>();
-                        siteShortList.Add(siteId);
-
-                        core.CaseCreate(mainElement, "ReversedCase", siteShortList, GenerateUId(), true);
-                    }
+                    Tools t = new Tools();
+                    File.AppendAllText("log\\FatalException_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Fatal Exception", ex));
                 }
+                catch { }
 
-                return templatId;
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
+                Console.WriteLine("");
+                Console.WriteLine("Fatal Exception found and logged");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("");
 
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public void CaseCreate(int templatId, int siteId)
-        {
-            try
-            {
-                MainElement mainElement = core.TemplatRead(templatId);
-                mainElement.PushMessageTitle = "";
-                mainElement.PushMessageBody = "";
-                mainElement.SetStartDate(DateTime.Now);
-                mainElement.SetEndDate(DateTime.Now.AddDays(2));
-
-                core.CaseCreate(mainElement, "", siteId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public void CaseRead(string mUId)
-        {
-            try
-            {
-                CoreElement replyElement = core.CaseRead(mUId, null);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public void CaseReadFromGroup(string caseUId)
-        {
-            try
-            {
-                CoreElement replyElement = core.CaseReadAllSites(caseUId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public void CaseDelete(string muuId)
-        {
-            try
-            {
-                core.CaseDelete(muuId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
-        public void CaseDeleteAll(string caseUId)
-        {
-            try
-            {
-                int deletedCases = core.CaseDeleteAllSites(caseUId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
+                Console.WriteLine("Will close Console in 2s");
+                Thread.Sleep(2000);
+                Environment.Exit(0);
             }
         }
 
@@ -243,85 +118,9 @@ namespace Microting
         }
         #endregion
 
-        #region events
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            lock (_lockLogic)
-            {
-                try
-                {
-                    Case_Dto cDto = (Case_Dto)sender;
-                    Logic(cDto);
-                }
-                catch (Exception ex)
-                {
-                    EventMessage(ex.ToString(), EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
- 
-        }
-
-        public void EventLog(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    //DOSOMETHING: changed to fit your wishes and needs 
-                    File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventMessage(object sender, EventArgs args)
-        {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Console.WriteLine(sender.ToString());
-        }
-
-        public void EventWarning(object sender, EventArgs args)
-        {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Console.WriteLine("## WARNING ## " + sender.ToString() + " ## WARNING ##");
-        }
-
-        public void EventException(object sender, EventArgs args)
-        {
-            //DOSOMETHING: changed to fit your wishes and needs 
-            Exception ex = (Exception)sender;
-        }
-        #endregion
-
-        #region custom
-        public void     Setup()
+        #region private
+        #region key logic
+        private void    Setup()
         {
             if (!sqlCustom.VariableGetBool("setup_done"))
             {
@@ -393,44 +192,44 @@ namespace Microting
                     Thread.Sleep(1000);
 
 
-                    var temp = TemplatFromXml(xml);
+                    var temp = core.TemplatFromXml(xml);
                     temp.CaseType = "step1";
                     temp.Repeated = 0;
                     List<int> siteIds = new List<int>();
                     siteIds = sqlCustom.SitesRead("Workers");
-                    id = TemplatCreateInfinityCase(temp, siteIds, copiesOnTable);
+                    id = CreateInfinityCase(temp, siteIds, copiesOnTable);
                     sqlCustom.VariableSet("step1", id.ToString());
 
 
                     xml = File.ReadAllText("custom\\customStep2.txt");
-                    temp = TemplatFromXml(xml);
+                    temp = core.TemplatFromXml(xml);
                     temp.CaseType = "step2";
                     temp.Repeated = 1;
-                    id = TemplatCreate(temp);
+                    id = core.TemplatCreate(temp);
                     sqlCustom.VariableSet("step2", id.ToString());
 
 
                     xml = File.ReadAllText("custom\\customStep3.txt");
-                    temp = TemplatFromXml(xml);
+                    temp = core.TemplatFromXml(xml);
                     temp.CaseType = "step3";
                     temp.Repeated = 1;
-                    id = TemplatCreate(temp);
+                    id = core.TemplatCreate(temp);
                     sqlCustom.VariableSet("step3", id.ToString());
 
 
                     xml = File.ReadAllText("custom\\customStep3b.txt");
-                    temp = TemplatFromXml(xml);
+                    temp = core.TemplatFromXml(xml);
                     temp.CaseType = "step3b";
                     temp.Repeated = 1;
-                    id = TemplatCreate(temp);
+                    id = core.TemplatCreate(temp);
                     sqlCustom.VariableSet("step3b", id.ToString());
 
 
                     xml = File.ReadAllText("custom\\customStep4.txt");
-                    temp = TemplatFromXml(xml);
+                    temp = core.TemplatFromXml(xml);
                     temp.CaseType = "step4";
                     temp.Repeated = 1;
-                    id = TemplatCreate(temp);
+                    id = core.TemplatCreate(temp);
                     sqlCustom.VariableSet("step4", id.ToString());
                     #endregion
 
@@ -438,45 +237,6 @@ namespace Microting
                     Console.WriteLine("Program setting up, done.");
                 }
                 sqlCustom.VariableSet("setup_done", "true");
-            }
-        }
-
-        private void    Sync()
-        {
-            keepSync = true;
-
-            while (keepSync)
-            {
-                try
-                {
-                    if (!sqlCustom.VariableGetBool("synced"))
-                    {
-                        string mUId;
-                        EntityGroup eG;
-
-                        mUId = sqlCustom.VariableGet("container");
-                        eG = core.EntityGroupRead(mUId);
-                        eG.EntityGroupItemLst = sqlCustom.ContainerRead();
-                        core.EntityGroupUpdate(eG);
-
-                        mUId = sqlCustom.VariableGet("faction");
-                        eG = core.EntityGroupRead(mUId);
-                        eG.EntityGroupItemLst = sqlCustom.FactionRead();
-                        core.EntityGroupUpdate(eG);
-
-                        mUId = sqlCustom.VariableGet("location");
-                        eG = core.EntityGroupRead(mUId);
-                        eG.EntityGroupItemLst = sqlCustom.LocationRead();
-                        core.EntityGroupUpdate(eG);
-
-                        sqlCustom.VariableSet("synced", "true");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Sync failed, system  unstable." + ex.Message);
-                }
-                Thread.Sleep(5000);
             }
         }
 
@@ -490,7 +250,7 @@ namespace Microting
 
             ReplyElement reply = core.CaseRead(mUId, checkUId);
 
-            DataElement replyDataE = (DataElement)reply.ElementList[0];
+            CheckListValue replyDataE = (CheckListValue)reply.ElementList[0];
             FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
             string location = answer.ValueReadable;
 
@@ -523,7 +283,7 @@ namespace Microting
             {
                 string[] tokens = reply.Custom.Split(new[] { "//" }, StringSplitOptions.None);
                 ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
-                replyDataE = (DataElement)replyOld.ElementList[0];
+                replyDataE = (CheckListValue)replyOld.ElementList[0];
 
                 List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
                 string locationWorker = worker[0];
@@ -589,7 +349,7 @@ namespace Microting
             {
                 string[] tokens = reply.Custom.Split(new[] { "//" }, StringSplitOptions.None);
                 ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
-                replyDataE = (DataElement)replyOld.ElementList[0];
+                replyDataE = (CheckListValue)replyOld.ElementList[0];
 
                 List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
                 string locationWorker = worker[0];
@@ -598,7 +358,7 @@ namespace Microting
                 string description = GenerateOrderInfo(replyOld);
                 string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
 
-                DataElement replyResend = (DataElement)reply.ElementList[0];
+                CheckListValue replyResend = (CheckListValue)reply.ElementList[0];
                 answer = (FieldValue)replyResend.DataItemList[1];
                 if (answer.Value == "checked")
                 {
@@ -623,6 +383,72 @@ namespace Microting
                 }
             }
             #endregion
+        }
+
+        private void    Sync()
+        {
+            keepSync = true;
+
+            while (keepSync)
+            {
+                try
+                {
+                    if (!sqlCustom.VariableGetBool("synced"))
+                    {
+                        string mUId;
+                        EntityGroup eG;
+
+                        mUId = sqlCustom.VariableGet("container");
+                        eG = core.EntityGroupRead(mUId);
+                        eG.EntityGroupItemLst = sqlCustom.ContainerRead();
+                        core.EntityGroupUpdate(eG);
+
+                        mUId = sqlCustom.VariableGet("faction");
+                        eG = core.EntityGroupRead(mUId);
+                        eG.EntityGroupItemLst = sqlCustom.FactionRead();
+                        core.EntityGroupUpdate(eG);
+
+                        mUId = sqlCustom.VariableGet("location");
+                        eG = core.EntityGroupRead(mUId);
+                        eG.EntityGroupItemLst = sqlCustom.LocationRead();
+                        core.EntityGroupUpdate(eG);
+
+                        sqlCustom.VariableSet("synced", "true");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    EventWarning("Sync failed, system  unstable." + ex.Message, EventArgs.Empty);
+                    Console.WriteLine("Sync failed, system  unstable." + ex.Message);
+                }
+                Thread.Sleep(5000);
+            }
+        }
+        #endregion
+
+        #region support logic
+        private int     CreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
+        {
+            if (mainElement.Repeated != 0)
+                throw new Exception("InfinityCase are always Repeated = 0");
+
+            int templatId = core.TemplatCreate(mainElement);
+            mainElement = core.TemplatRead(templatId);
+
+            foreach (int siteId in siteIds)
+            {
+                for (int i = 0; i < instances; i++)
+                {
+                    Thread.Sleep(250);
+
+                    List<int> siteShortList = new List<int>();
+                    siteShortList.Add(siteId);
+
+                    core.CaseCreate(mainElement, "ReversedCase", siteShortList, GenerateUId(), true);
+                }
+            }
+
+            return templatId;
         }
 
         private void    UpdateBooking(string bookingId, string label, string description)
@@ -658,7 +484,7 @@ namespace Microting
 
         private string  GenerateOrderInfo(ReplyElement reply)
         {
-            DataElement replyDataE = (DataElement)reply.ElementList[0];
+            CheckListValue replyDataE = (CheckListValue)reply.ElementList[0];
 
             FieldValue answer = (FieldValue)replyDataE.DataItemList[1];
             string container = answer.ValueReadable;
@@ -668,17 +494,113 @@ namespace Microting
             string location = answer.ValueReadable;
 
             List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-            string name  = worker[1];
+            string name = worker[1];
             string phone = worker[2];
 
             string rtnStr =
                 "<div>Container: " + container + "</div>" +
                 "<div>Fraktion: " + faction + "</div>" +
-                "<div>Placering: " + location + ", " +"</div>" +
+                "<div>Placering: " + location + ", " + "</div>" +
                 "<div>Bestilt dato og tid: " + DateTime.Now.ToShortDateString() + " kl. " + DateTime.Now.ToShortTimeString() + "</div>" +
                 "<div>Bestilt af: " + name + " (tlf: " + phone + ")</div>";
 
             return rtnStr;
+        }
+        #endregion
+        #endregion
+
+        #region events
+        public void EventCaseCreated(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventCaseRetrived(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventCaseCompleted(object sender, EventArgs args)
+        {
+            lock (_lockLogic)
+            {
+                Case_Dto cDto = (Case_Dto)sender;
+                Logic(cDto);
+            }
+        }
+
+        public void EventCaseDeleted(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventFileDownloaded(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventSiteActivated(object sender, EventArgs args)
+        {
+ 
+        }
+
+        public void EventLog(object sender, EventArgs args)
+        {
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    File.AppendAllText("log\\log_" + DateTime.Now.ToString("MM.dd") + ".txt", sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
+        }
+
+        public void EventMessage(object sender, EventArgs args)
+        {
+            try
+            {
+                Console.WriteLine(sender.ToString());
+            }
+            catch (Exception ex)
+            {
+                EventException(ex, EventArgs.Empty);
+            }
+        }
+
+        public void EventWarning(object sender, EventArgs args)
+        {
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    File.AppendAllText("log\\warning_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
+        }
+
+        public void EventException(object sender, EventArgs args)
+        {
+            Exception inEx = (Exception)sender;
+
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    File.AppendAllText("log\\Exception_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Exception from Core", inEx) + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
         }
         #endregion
     }

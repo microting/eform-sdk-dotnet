@@ -24,6 +24,7 @@ namespace eFormSqlController
         public virtual DbSet<fields> fields { get; set; }
         public virtual DbSet<notifications> notifications { get; set; }
         public virtual DbSet<outlook> outlook { get; set; }
+        public virtual DbSet<setting> setting { get; set; }
         public virtual DbSet<sites> sites { get; set; }
         public virtual DbSet<version_cases> version_cases { get; set; }
         public virtual DbSet<version_check_list_sites> version_check_list_sites { get; set; }
@@ -392,6 +393,14 @@ namespace eFormSqlController
 
             modelBuilder.Entity<outlook>()
                 .Property(e => e.microting_uid)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<setting>()
+                .Property(e => e.name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<setting>()
+                .Property(e => e.value)
                 .IsUnicode(false);
 
             modelBuilder.Entity<sites>()

@@ -65,6 +65,7 @@
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
     <Compile Include="table\check_list_values.cs" />
+    <Compile Include="Classes.cs" />
     <Compile Include="table\data_uploaded.cs" />
     <Compile Include="table\entity_groups.cs" />
     <Compile Include="table\entity_items.cs" />
@@ -75,19 +76,20 @@
     <Compile Include="table\notifications.cs" />
     <Compile Include="table\outlook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="table\setting.cs" />
     <Compile Include="table\sites.cs" />
     <Compile Include="SqlController.cs" />
     <Compile Include="SqlControllerUnitTest.cs" />
-    <Compile Include="tableVersion\version_cases.cs" />
-    <Compile Include="tableVersion\version_check_lists.cs" />
-    <Compile Include="tableVersion\version_check_list_sites.cs" />
-    <Compile Include="tableVersion\version_check_list_values.cs" />
-    <Compile Include="tableVersion\version_data_uploaded.cs" />
-    <Compile Include="tableVersion\version_entity_groups.cs" />
-    <Compile Include="tableVersion\version_entity_items.cs" />
-    <Compile Include="tableVersion\version_fields.cs" />
-    <Compile Include="tableVersion\version_field_values.cs" />
-    <Compile Include="tableVersion\version_sites.cs" />
+    <Compile Include="table\version_cases.cs" />
+    <Compile Include="table\version_check_lists.cs" />
+    <Compile Include="table\version_check_list_sites.cs" />
+    <Compile Include="table\version_check_list_values.cs" />
+    <Compile Include="table\version_data_uploaded.cs" />
+    <Compile Include="table\version_entity_groups.cs" />
+    <Compile Include="table\version_entity_items.cs" />
+    <Compile Include="table\version_fields.cs" />
+    <Compile Include="table\version_field_values.cs" />
+    <Compile Include="table\version_sites.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
