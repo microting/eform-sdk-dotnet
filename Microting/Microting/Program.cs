@@ -30,10 +30,11 @@ namespace Microting
     {
         static void     Main(string[] args)
         {
-            string serverConnectionString = File.ReadAllText("input.txt");
+            string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
 
             //var mainController = new MainController(serverConnectionString);
-            var mainController = new MainControllerCustom(serverConnectionString);
+            //var mainController = new MainControllerCustom(serverConnectionString);
+            var mainController = new MainControllerExcel(serverConnectionString);
             //var mainController = new MainControllerSamples(serverConnectionString);
 
             mainController.Run();

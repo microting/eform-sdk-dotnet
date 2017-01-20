@@ -54,6 +54,8 @@ namespace Microting
         #region con
         public MainControllerSamples(string serverConnectionString)
         {
+            this.serverConnectionString = serverConnectionString;
+
             core = new Core();
 
             #region connect event triggers
@@ -69,7 +71,6 @@ namespace Microting
             core.HandleEventException += EventException;
             #endregion
 
-            this.serverConnectionString = serverConnectionString;
             core.Start(serverConnectionString);
             sqlCon = new SqlController(serverConnectionString);
         }
@@ -125,10 +126,8 @@ namespace Microting
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
-
                 if (input.ToLower() == "q")
                     keepRunning = false;
-
 
                 if (input.ToLower() == "s")
                 {

@@ -257,6 +257,36 @@ namespace eFormSqlController
             }
         }
 
+        public List<cases>          CaseReadAllIds(int templatId, DateTime? start, DateTime? end)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        if (start == null)
+                            start = DateTime.MinValue;
+
+                        if (end == null)
+                            end = DateTime.MaxValue;
+
+                        List<cases> matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
+                        return matches;
+                    }
+                    catch
+                    {
+                        //no match found
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadFull failed", ex);
+            }
+        }
+
         public void                 CaseUpdate(string microtingUId, DateTime doneAt, int doneByUserId, string microtingCheckId, int unitId)
         {
             try
@@ -551,6 +581,41 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("FieldValueRead failed", ex);
+            }
+        }
+
+        public List<string>         FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        if (start == null)
+                            start = DateTime.MinValue;
+
+                        if (end == null)
+                            end = DateTime.MaxValue;
+
+                        List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && x.done_at > start && x.done_at < end).ToList();
+                        List<string> rtrnLst = new List<string>();
+
+                        foreach (field_values item in matches)
+                            rtrnLst.Add(item.value);
+
+                        return rtrnLst;
+                    }
+                    catch
+                    {
+                        //no match found
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadFull failed", ex);
             }
         }
 
@@ -996,6 +1061,7 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region settings
         public string SettingRead(string variableName)
         {
             try
@@ -1008,7 +1074,7 @@ namespace eFormSqlController
                         throw new Exception("SettingGet failed, matchs == null");
 
                     if (matchs.Count() != 1)
-                        throw new Exception("SettingGet failed, matchs != 1");
+                        throw new Exception("SettingGet failed, matchs != 1. match.count:'" + matchs.Count.ToString() + "'");
 
                     return matchs[0].value;
                 }
@@ -1018,11 +1084,36 @@ namespace eFormSqlController
                 throw new Exception("SettingGet failed.", ex);
             }
         }
+
+        public void SettingUpdate(string variableName, string variableValue)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<setting> matchs = db.setting.Where(x => x.name == variableName).ToList();
+
+                    if (matchs == null)
+                        throw new Exception("SettingUpdate failed, matchs == null");
+
+                    if (matchs.Count() != 1)
+                        throw new Exception("SettingGet failed, matchs != 1. match.count:'" + matchs.Count.ToString() + "'");
+
+                    matchs[0].value = variableValue;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SettingUpdate failed.", ex);
+            }
+        }
+        #endregion
         #endregion
 
         #region private
         #region EformCreateDb
-        private int EformCreateDb           (MainElement mainElement)
+        private int     EformCreateDb           (MainElement mainElement)
         {
             try
             {
@@ -1075,7 +1166,7 @@ namespace eFormSqlController
             }
         }
 
-        private void CreateElementList      (int parentId, List<Element> lstElement)
+        private void    CreateElementList      (int parentId, List<Element> lstElement)
         {
             foreach (Element element in lstElement)
             {
@@ -1095,7 +1186,7 @@ namespace eFormSqlController
             }
         }
 
-        private void CreateGroupElement     (int parentId, GroupElement groupElement)
+        private void    CreateGroupElement     (int parentId, GroupElement groupElement)
         {
             try
             {
@@ -1139,7 +1230,7 @@ namespace eFormSqlController
             }
         }
 
-        private void CreateDataElement      (int parentId, DataElement dataElement)
+        private void    CreateDataElement      (int parentId, DataElement dataElement)
         {
             try
             {
@@ -1197,7 +1288,7 @@ namespace eFormSqlController
             }
         }
 
-        private void CreateDataItemGroup    (int elementId, FieldGroup fieldGroup)
+        private void    CreateDataItemGroup    (int elementId, FieldGroup fieldGroup)
         {
             try
             {
@@ -1243,7 +1334,7 @@ namespace eFormSqlController
             }
         }
 
-        private void CreateDataItem         (int elementId, eFormRequest.DataItem dataItem)
+        private void    CreateDataItem         (int elementId, eFormRequest.DataItem dataItem)
         {
             try
             {

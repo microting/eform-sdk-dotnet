@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using eFormCommunicator;
+using eFormOffice;
 using eFormRequest;
 using eFormResponse;
 using eFormSubscriber;
@@ -36,6 +37,7 @@ using System.Threading;
 using System.Net;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Globalization;
 
 namespace Microting
 {
@@ -59,6 +61,7 @@ namespace Microting
         Communicator communicator;
         SqlController sqlController;
         Subscriber subscriber;
+        ExcelController excelController;
         Tools t = new Tools();
 
         object _lockMain = new object();
@@ -97,54 +100,54 @@ namespace Microting
         {
             try
             {
-                if (string.IsNullOrEmpty(serverConnectionString))
-                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
-
-                //sqlController
-                sqlController = new SqlController(serverConnectionString);
-                TriggerLog("SqlEformController started");
-
-                comToken =              sqlController.SettingRead("comToken");
-                comAddress =            sqlController.SettingRead("comAddress");
-                organizationId =        sqlController.SettingRead("organizationId");
-                subscriberToken =       sqlController.SettingRead("subscriberToken");
-                subscriberAddress =     sqlController.SettingRead("subscriberAddress");
-                subscriberName =        sqlController.SettingRead("subscriberName");
-                fileLocation =          sqlController.SettingRead("fileLocation");
-                logLevel =              bool.Parse(sqlController.SettingRead("logLevel"));
-                this.serverConnectionString = serverConnectionString;
-
-
-                TriggerLog("Settings read");
-
-                if (string.IsNullOrEmpty(comToken))
-                    throw new ArgumentException("comToken is not allowed to be null or empty");
-
-                if (string.IsNullOrEmpty(comAddress))
-                    throw new ArgumentException("comAddress is not allowed to be null or empty");
-
-                if (string.IsNullOrEmpty(organizationId))
-                    throw new ArgumentException("organizationId is not allowed to be null or empty");
-
-                if (string.IsNullOrEmpty(subscriberToken))
-                    throw new ArgumentException("subscriberToken is not allowed to be null or empty");
-
-                if (string.IsNullOrEmpty(subscriberAddress))
-                    throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
-
-                if (string.IsNullOrEmpty(subscriberName))
-                    throw new ArgumentException("subscriberName is not allowed to be null or empty");
-                if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
-                    throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
-
-                if (string.IsNullOrEmpty(fileLocation))
-                    throw new ArgumentException("fileLocation is not allowed to be null or empty");
-
-                TriggerLog("Settings checked");
-
                 if (!coreRunning && !coreStatChanging)
                 {
                     coreStatChanging = true;
+
+                    if (string.IsNullOrEmpty(serverConnectionString))
+                        throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+
+                    //sqlController
+                    sqlController = new SqlController(serverConnectionString);
+                    TriggerLog("SqlEformController started");
+
+                    comToken = sqlController.SettingRead("comToken");
+                    comAddress = sqlController.SettingRead("comAddress");
+                    organizationId = sqlController.SettingRead("organizationId");
+                    subscriberToken = sqlController.SettingRead("subscriberToken");
+                    subscriberAddress = sqlController.SettingRead("subscriberAddress");
+                    subscriberName = sqlController.SettingRead("subscriberName");
+                    fileLocation = sqlController.SettingRead("fileLocation");
+                    logLevel = bool.Parse(sqlController.SettingRead("logLevel"));
+                    this.serverConnectionString = serverConnectionString;
+
+
+                    TriggerLog("Settings read");
+
+                    if (string.IsNullOrEmpty(comToken))
+                        throw new ArgumentException("comToken is not allowed to be null or empty");
+
+                    if (string.IsNullOrEmpty(comAddress))
+                        throw new ArgumentException("comAddress is not allowed to be null or empty");
+
+                    if (string.IsNullOrEmpty(organizationId))
+                        throw new ArgumentException("organizationId is not allowed to be null or empty");
+
+                    if (string.IsNullOrEmpty(subscriberToken))
+                        throw new ArgumentException("subscriberToken is not allowed to be null or empty");
+
+                    if (string.IsNullOrEmpty(subscriberAddress))
+                        throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
+
+                    if (string.IsNullOrEmpty(subscriberName))
+                        throw new ArgumentException("subscriberName is not allowed to be null or empty");
+                    if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
+                        throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
+
+                    if (string.IsNullOrEmpty(fileLocation))
+                        throw new ArgumentException("fileLocation is not allowed to be null or empty");
+
+                    TriggerLog("Settings checked");
 
                     TriggerLog("");
                     TriggerLog("");
@@ -169,6 +172,12 @@ namespace Microting
                     subscriber.EventMsgServer += CoreHandleEventServer;
                     TriggerLog("Subscriber now triggers events");
                     subscriber.Start();
+
+
+                    //communicators
+                    excelController = new ExcelController();
+                    TriggerLog("Excel (Office) started");
+
 
                     coreRunning = true;
                     coreStatChanging = false;
@@ -659,9 +668,44 @@ namespace Microting
             }
         }
 
-        public string CasesToExcel(int templatId, DateTime start, DateTime end)
+        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string path)
         {
-            return "C:\\test.xls";
+            try
+            {
+                if (coreRunning)
+                {
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
+
+                    return excelController.CreateExcel(dataSet, path);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CasesToExcel failed", ex, true);
+                throw new Exception("CasesToExcel failed", ex);
+            }
+        }
+
+        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string path)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
+
+                    return excelController.CreateExcel(dataSet, path);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CasesToCsv failed", ex, true);
+                throw new Exception("CasesToCsv failed", ex);
+            }
         }
         #endregion
 
@@ -914,6 +958,112 @@ namespace Microting
             }
 
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
+        }
+
+        private List<List<string>> GenerateDataSetFromCases (int templatId, DateTime? start, DateTime? end)
+        {
+            List<List<string>> dataSet = new List<List<string>>();
+
+            List<cases> caseList = sqlController.CaseReadAllIds(templatId, start, end);
+            #region remove case that has been "removed"
+            for (int i = caseList.Count; i < 0; i--)
+            {
+                if (caseList[i].workflow_state == "removed")
+                    caseList.RemoveAt(i);
+            }
+            #endregion
+
+            List<string> colume1CaseIds = new List<string> { "Id" };
+            #region firstColumes generate
+            {
+                List<string> colume2 = new List<string> { "Dato" };
+                List<string> colume3 = new List<string> { "Dag" };
+                List<string> colume4 = new List<string> { "Uge" };
+                List<string> colume5 = new List<string> { "Måned" };
+                List<string> colume6 = new List<string> { "År" };
+                List<string> colume7 = new List<string> { "Lokation" };
+                List<string> colume8 = new List<string> { "Worker" };
+
+                var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
+                foreach (var item in caseList)
+                {
+                    DateTime time = item.done_at.Value;
+
+                    colume1CaseIds.Add(item.id.ToString());
+                    colume2.Add(time.ToShortDateString());
+                    colume3.Add(time.DayOfWeek.ToString());
+                    colume4.Add(time.Year.ToString() + "-" + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+                    colume5.Add(time.ToString("MMMM").Substring(0, 3) + "-" + time.Year.ToString().Substring(2, 2));
+                    colume6.Add(time.Year.ToString());
+                    colume7.Add(item.site_id.ToString()); //TODO
+                    colume8.Add(item.unit_id.ToString()); //TODO
+                }
+
+                dataSet.Add(colume1CaseIds);
+                dataSet.Add(colume2);
+                dataSet.Add(colume3);
+                dataSet.Add(colume4);
+                dataSet.Add(colume5);
+                dataSet.Add(colume6);
+                dataSet.Add(colume7);
+                dataSet.Add(colume8);
+            }
+            #endregion
+
+            #region fieldValue generate
+            {
+                MainElement templateData = sqlController.TemplatRead(templatId);
+
+                List<string> lstReturn = new List<string>();
+                lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList);
+
+                List<string> newRow;
+                foreach (string set in lstReturn)
+                {
+                    int mark = set.IndexOf('|');
+                    int fieldId = int.Parse(set.Substring(0, mark));
+                    string label = set.Remove(0, mark + 1);
+
+                    newRow = sqlController.FieldValueReadAllValues(fieldId, start, end);
+                    newRow.Insert(0, label);
+                    dataSet.Add(newRow);
+                }
+            }
+            #endregion
+
+            return dataSet;
+        }
+
+        private List<string> GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList)
+        {
+            foreach (Element element in elementList)
+            {
+                #region if DataElement
+                if (element.GetType() == typeof(DataElement))
+                {
+                    DataElement dataE = (DataElement)element;
+
+                    foreach (eFormRequest.DataItem dataItem in dataE.DataItemList)
+                    {
+                        if (dataItem.GetType() == typeof(SaveButton))
+                            continue;
+
+                        lstReturn.Add(dataItem.Id + "|" + dataItem.Label);
+                    }
+                }
+                #endregion
+
+                #region if GroupElement
+                if (element.GetType() == typeof(GroupElement))
+                {
+                    GroupElement groupE = (GroupElement)element;
+
+                    GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList);
+                }
+                #endregion
+            }
+
+            return lstReturn;
         }
         #endregion
 

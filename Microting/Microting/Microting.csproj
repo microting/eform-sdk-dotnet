@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
+    <Compile Include="MainControllerExcel.cs" />
     <Compile Include="MainControllerCustom.cs" />
     <Compile Include="MainControllerSamples.cs" />
     <Compile Include="MainController.cs" />
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\..\eFormCustom\eFormCustom.csproj">
       <Project>{462a8f66-3efe-4962-8d4e-56ec2cf5b051}</Project>
       <Name>eFormCustom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\eFormOffice\eFormOffice.csproj">
+      <Project>{fababf50-4e7e-4345-80aa-2edab01f9abf}</Project>
+      <Name>eFormOffice</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\eFormRequest\eFormRequest.csproj">
       <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>

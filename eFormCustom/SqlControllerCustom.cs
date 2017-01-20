@@ -102,7 +102,7 @@ namespace eFormCustom
                         throw new Exception("VariableGet failed, matchs == null");
 
                     if (matchs.Count() != 1)
-                        throw new Exception("VariableGet failed, matchs != 1");
+                        throw new Exception("VariableGet failed, matchs != 1. match.count:'" + matchs.Count.ToString() + "'");
 
                     return matchs[0].value;
                 }

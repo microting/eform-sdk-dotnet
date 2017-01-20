@@ -324,3 +324,5 @@ paket-files/
 
 Complied/input.txt
 Complied/input_first_run.txt
+Complied/input/first_run.txt
+Complied/input/sql_connection.txt

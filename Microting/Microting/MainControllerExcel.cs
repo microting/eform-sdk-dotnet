@@ -32,7 +32,7 @@ using System.IO;
 
 namespace Microting
 {
-    public class MainController
+    public class MainControllerExcel
     {
         #region var
         object _lockLogFil = new object();
@@ -50,7 +50,7 @@ namespace Microting
         #endregion
 
         #region con
-        public MainController(string serverConnectionString)
+        public MainControllerExcel(string serverConnectionString)
         {
             this.serverConnectionString = serverConnectionString;
 
@@ -81,10 +81,12 @@ namespace Microting
             while (keepRunning)
             {
                 Console.WriteLine("Type 'Q' (to quit)");
+                Console.WriteLine("Type 'R' to read");
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
-                //Your logic here
+                if (input.ToLower() == "r")
+                    Console.WriteLine(core.CasesToExcel(1, null, DateTime.Now, ""));
 
                 if (input.ToLower() == "q")
                     keepRunning = false;

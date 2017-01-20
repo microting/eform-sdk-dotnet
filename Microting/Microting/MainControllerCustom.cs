@@ -40,8 +40,8 @@ namespace Microting
         object _lockLogFil = new object();
         object _lockLogic = new object();
         bool keepSync;
-        string serverConnectionString;
 
+        string serverConnectionString;
         ICore core;
         SqlController sqlContro;
         SqlControllerCustom sqlCustom;
@@ -51,8 +51,9 @@ namespace Microting
         #region con
         public MainControllerCustom(string serverConnectionString)
         {
-            core = new Core();
+            this.serverConnectionString = serverConnectionString;
 
+            core = new Core();
             #region connect event triggers
             core.HandleCaseCreated += EventCaseCreated;
             core.HandleCaseRetrived += EventCaseRetrived;
@@ -66,9 +67,8 @@ namespace Microting
             core.HandleEventException += EventException;
             #endregion
 
-            core.Start(serverConnectionString);
             sqlContro = new SqlController(serverConnectionString);
-            sqlCustom = new SqlControllerCustom(serverConnectionString.Insert(serverConnectionString.LastIndexOf(';'), "custom"));
+            sqlCustom = new SqlControllerCustom(serverConnectionString.Insert(serverConnectionString.IndexOf("Microting")+9, "Custom"));
         }
         #endregion
 
@@ -78,6 +78,8 @@ namespace Microting
             try
             {
                 Setup();
+
+                core.Start(serverConnectionString);
 
                 Thread syncThread = new Thread(() => Sync());
                 syncThread.Start();
@@ -132,6 +134,30 @@ namespace Microting
                 if (input.ToLower() == "y")
                 {
                     Console.WriteLine("Program setting up...");
+
+                    #region set settings
+                    if (!bool.Parse(sqlContro.SettingRead("firstRunDone")))
+                    {
+                        var lines = File.ReadAllLines("input\\first_run.txt");
+                        string name;
+                        string value;
+
+                        foreach (var item in lines)
+                        {
+                            string[] line = item.Split('|');
+
+                            name = line[0];
+                            value = line[1];
+
+                            sqlContro.SettingUpdate(name, value);
+                        }
+                        sqlContro.SettingUpdate("firstRunDone", "true");
+                        sqlContro.SettingUpdate("logLevel", "true");
+                    }
+                    #endregion
+
+                    core.Start(serverConnectionString);
+
                     #region clean database
                     try
                     {
@@ -139,11 +165,29 @@ namespace Microting
 
                         List<string> lstCaseMUIds = sqlConUT.FindAllActiveCases();
                         foreach (string mUId in lstCaseMUIds)
-                            core.CaseDelete(mUId);
+                        {
+                            try
+                            {
+                                core.CaseDelete(mUId);
+                            }
+                            catch (Exception ex)
+                            {
+                                File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", "CaseDelete:'"+mUId+"' failed, due to:" + ex.Message + Environment.NewLine);
+                            }
+                        }
 
                         List<string> lstEntityMUIds = sqlConUT.FindAllActiveEntities();
                         foreach (string mUId in lstEntityMUIds)
-                            core.EntityGroupDelete(mUId);
+                        {
+                            try
+                            {
+                                core.EntityGroupDelete(mUId);
+                            }
+                            catch (Exception ex)
+                            {
+                                File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", "EntityGroupDelete:'" + mUId + "' failed, due to:" + ex.Message + Environment.NewLine);
+                            }
+                        }
 
                         sqlConUT.CleanDB();
                     }
@@ -153,7 +197,7 @@ namespace Microting
                     }
                     #endregion
 
-                    int copiesOnTable = 6;
+                    int copiesOnTable = 5;
 
                     #region import xml
                     string xml = File.ReadAllText("custom\\customStep1.txt");
@@ -550,7 +594,7 @@ namespace Microting
             {
                 try
                 {
-                    File.AppendAllText("log\\log_" + DateTime.Now.ToString("MM.dd") + ".txt", sender.ToString() + Environment.NewLine);
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_log.txt", sender.ToString() + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
@@ -577,7 +621,7 @@ namespace Microting
             {
                 try
                 {
-                    File.AppendAllText("log\\warning_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", sender.ToString() + Environment.NewLine);
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + "_warning.txt", sender.ToString() + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
@@ -594,7 +638,7 @@ namespace Microting
             {
                 try
                 {
-                    File.AppendAllText("log\\Exception_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Exception from Core", inEx) + Environment.NewLine);
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + "_EXCEPTION.txt", t.PrintException("Exception from Core", inEx) + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
