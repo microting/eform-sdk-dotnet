@@ -318,6 +318,29 @@ namespace eFormSqlController
 
                     caseStd.microting_check_uid = microtingCheckId;
                     #endregion
+
+                    db.version_cases.Add(MapCaseVersions(caseStd));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
+        public void                 CaseUpdate(string microtingUId, string checkUId, string newCaseUId, string newCustom)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases caseStd = db.cases.Where(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId).ToList().First();
+
+                    caseStd.case_uid = newCaseUId;
+                    caseStd.custom = newCustom;
+                    caseStd.updated_at = DateTime.Now;
+                    caseStd.version = caseStd.version + 1;
                     
                     db.version_cases.Add(MapCaseVersions(caseStd));
                     db.SaveChanges();

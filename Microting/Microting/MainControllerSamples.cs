@@ -339,11 +339,7 @@ namespace Microting
 
             try
             {
-                #region read settings
-                string[] lines = File.ReadAllLines("Input.txt");
-                string serverConnectionString = lines[8];
-                #endregion
-
+                string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
                 SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString);
                 MainController temp = new MainController(serverConnectionString);
                 ICore core = temp.core;

@@ -668,7 +668,7 @@ namespace Microting
             }
         }
 
-        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string path)
+        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string path, string name)
         {
             try
             {
@@ -676,7 +676,7 @@ namespace Microting
                 {
                     List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
 
-                    return excelController.CreateExcel(dataSet, path);
+                    return excelController.CreateExcel(dataSet, path, name);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -688,7 +688,7 @@ namespace Microting
             }
         }
 
-        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string path)
+        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string path, string name)
         {
             try
             {
@@ -696,7 +696,7 @@ namespace Microting
                 {
                     List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
 
-                    return excelController.CreateExcel(dataSet, path);
+                    throw new NotImplementedException();
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1034,7 +1034,7 @@ namespace Microting
             return dataSet;
         }
 
-        private List<string> GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList)
+        private List<string>    GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList)
         {
             foreach (Element element in elementList)
             {
@@ -1046,6 +1046,8 @@ namespace Microting
                     foreach (eFormRequest.DataItem dataItem in dataE.DataItemList)
                     {
                         if (dataItem.GetType() == typeof(SaveButton))
+                            continue;
+                        if (dataItem.GetType() == typeof(None))
                             continue;
 
                         lstReturn.Add(dataItem.Id + "|" + dataItem.Label);

@@ -1,0 +1,2213 @@
+10:23:51:Settings read
+10:23:51:Settings checked
+10:23:51:
+10:23:51:
+10:23:51:###################################################################################################################
+10:23:51:Core.Start() at:23-01-2017 10:23:51
+10:23:51:###################################################################################################################
+10:23:51:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:23:51:Controller started
+10:23:51:Communicator started
+10:23:51:Subscriber created
+10:23:51:Subscriber now triggers events
+10:23:51:Client # Subscriber started
+10:23:51:Excel (Office) started
+10:23:51:Client # Subscriber connecting
+10:23:51:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:23:51:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:23:52:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:23:52:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"1f72vugl7ggm320izobao1h8x1cvbrv","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:23:52:CoreHandleUpdateDatabases() initiated
+10:23:52:Client # [{"id":"2","clientId":"1f72vugl7ggm320izobao1h8x1cvbrv","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:23:52:Server # [{"id":"2","clientId":"1f72vugl7ggm320izobao1h8x1cvbrv","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:23:52:CoreHandleUpdateDatabases() initiated
+10:23:52:Client # [{"id":"3","clientId":"1f72vugl7ggm320izobao1h8x1cvbrv","channel":"/meta/connect","connectionType":"websocket"}]
+10:23:52:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:23:52:CoreHandleUpdateDatabases() initiated
+10:23:55:
+######## CasesToExcel failed
+######## 2017 01-23 10.23:55
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :TemplatRead failed
+Source     :eFormSqlController
+StackTrace :   at eFormSqlController.SqlController.TemplatRead(Int32 templatId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormSqlController\SqlController.cs:line 80
+   at Microting.Core.GenerateDataSetFromCases(Int32 templatId, Nullable`1 start, Nullable`1 end) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 1015
+   at Microting.Core.CasesToExcel(Int32 templatId, Nullable`1 start, Nullable`1 end, String path) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 677
+######## -Expection at level 2- ########
+Message    :Failed to find matching check_list:1
+Source     :eFormSqlController
+StackTrace :   at eFormSqlController.SqlController.TemplatRead(Int32 templatId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormSqlController\SqlController.cs:line 59
+######## -Expection at level 3- ########
+Message    :Sequence contains no elements
+Source     :System.Core
+StackTrace :   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at eFormSqlController.SqlController.TemplatRead(Int32 templatId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormSqlController\SqlController.cs:line 55
+######## EXCEPTION FOUND; ENDED ########
+
+10:23:55:0. time the same Exception, within the last hour
+10:23:55:Core.Restart() at:23-01-2017 10:23:55
+10:23:56:Core.Close() at:23-01-2017 10:23:56
+10:23:58:Subscriber requested to close connection
+10:24:17:Settings read
+10:24:17:Settings checked
+10:24:17:
+10:24:18:
+10:24:18:###################################################################################################################
+10:24:18:Core.Start() at:23-01-2017 10:24:18
+10:24:18:###################################################################################################################
+10:24:18:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:24:18:Controller started
+10:24:18:Communicator started
+10:24:18:Subscriber created
+10:24:18:Subscriber now triggers events
+10:24:18:Client # Subscriber started
+10:24:18:Excel (Office) started
+10:24:18:Client # Subscriber connecting
+10:24:18:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:24:18:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:24:18:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:24:18:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"fgv25hits9hfk80tqy8g3sdnbsx16fc","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:24:18:CoreHandleUpdateDatabases() initiated
+10:24:18:Client # [{"id":"2","clientId":"fgv25hits9hfk80tqy8g3sdnbsx16fc","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:24:18:Server # [{"id":"2","clientId":"fgv25hits9hfk80tqy8g3sdnbsx16fc","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:24:18:CoreHandleUpdateDatabases() initiated
+10:24:19:Client # [{"id":"3","clientId":"fgv25hits9hfk80tqy8g3sdnbsx16fc","channel":"/meta/connect","connectionType":"websocket"}]
+10:24:19:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:24:19:CoreHandleUpdateDatabases() initiated
+10:24:19:
+######## CasesToExcel failed
+######## 2017 01-23 10.24:19
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :TemplatRead failed
+Source     :eFormSqlController
+StackTrace :   at eFormSqlController.SqlController.TemplatRead(Int32 templatId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormSqlController\SqlController.cs:line 80
+   at Microting.Core.GenerateDataSetFromCases(Int32 templatId, Nullable`1 start, Nullable`1 end) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 1015
+   at Microting.Core.CasesToExcel(Int32 templatId, Nullable`1 start, Nullable`1 end, String path) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 677
+######## -Expection at level 2- ########
+Message    :Failed to find matching check_list:1
+Source     :eFormSqlController
+StackTrace :   at eFormSqlController.SqlController.TemplatRead(Int32 templatId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormSqlController\SqlController.cs:line 59
+######## -Expection at level 3- ########
+Message    :Sequence contains no elements
+Source     :System.Core
+StackTrace :   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at eFormSqlController.SqlController.TemplatRead(Int32 templatId) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormSqlController\SqlController.cs:line 55
+######## EXCEPTION FOUND; ENDED ########
+
+10:24:19:0. time the same Exception, within the last hour
+10:24:19:Core.Restart() at:23-01-2017 10:24:19
+10:24:19:Core.Close() at:23-01-2017 10:24:19
+10:24:20:Subscriber requested to close connection
+10:24:54:Settings read
+10:24:54:Settings checked
+10:24:54:
+10:24:54:
+10:24:54:###################################################################################################################
+10:24:54:Core.Start() at:23-01-2017 10:24:54
+10:24:54:###################################################################################################################
+10:24:54:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:24:54:Controller started
+10:24:54:Communicator started
+10:24:54:Subscriber created
+10:24:54:Subscriber now triggers events
+10:24:54:Client # Subscriber started
+10:24:54:Excel (Office) started
+10:24:54:Client # Subscriber connecting
+10:24:54:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:24:54:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:24:55:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:24:55:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"tt5qgxebcymn3s3y7bez6a6fpvbcl2p","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:24:55:CoreHandleUpdateDatabases() initiated
+10:24:55:Client # [{"id":"2","clientId":"tt5qgxebcymn3s3y7bez6a6fpvbcl2p","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:24:55:Server # [{"id":"2","clientId":"tt5qgxebcymn3s3y7bez6a6fpvbcl2p","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:24:55:CoreHandleUpdateDatabases() initiated
+10:24:55:Client # [{"id":"3","clientId":"tt5qgxebcymn3s3y7bez6a6fpvbcl2p","channel":"/meta/connect","connectionType":"websocket"}]
+10:24:55:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:24:55:CoreHandleUpdateDatabases() initiated
+10:31:59:Settings read
+10:31:59:Settings checked
+10:31:59:
+10:31:59:
+10:31:59:###################################################################################################################
+10:31:59:Core.Start() at:23-01-2017 10:31:59
+10:31:59:###################################################################################################################
+10:31:59:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:31:59:Controller started
+10:31:59:Communicator started
+10:31:59:Subscriber created
+10:31:59:Subscriber now triggers events
+10:31:59:Client # Subscriber started
+10:31:59:Excel (Office) started
+10:31:59:Client # Subscriber connecting
+10:31:59:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:32:00:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:32:00:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:32:00:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:32:00:CoreHandleUpdateDatabases() initiated
+10:32:00:Client # [{"id":"2","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:32:00:Server # [{"id":"2","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:32:00:CoreHandleUpdateDatabases() initiated
+10:32:00:Client # [{"id":"3","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:32:00:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:32:00:CoreHandleUpdateDatabases() initiated
+10:32:02:Settings read
+10:32:02:Settings checked
+10:32:02:
+10:32:02:
+10:32:02:###################################################################################################################
+10:32:02:Core.Start() at:23-01-2017 10:32:02
+10:32:02:###################################################################################################################
+10:32:02:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:32:02:Controller started
+10:32:02:Communicator started
+10:32:02:Subscriber created
+10:32:02:Subscriber now triggers events
+10:32:02:Client # Subscriber started
+10:32:02:Excel (Office) started
+10:32:02:Client # Subscriber connecting
+10:32:02:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:32:02:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:32:02:Core.Close() at:23-01-2017 10:32:02
+10:32:02:Subscriber requested to close connection
+10:32:02:Client # Subscriber is trying to close connection
+10:32:02:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:32:02:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"dtf1nolptbgdlfy0e18y9m71yybk6dy","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:32:02:CoreHandleUpdateDatabases() initiated
+10:32:02:Client # [{"id":"2","clientId":"dtf1nolptbgdlfy0e18y9m71yybk6dy","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:32:03:Server # [{"id":"2","clientId":"dtf1nolptbgdlfy0e18y9m71yybk6dy","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:32:03:CoreHandleUpdateDatabases() initiated
+10:32:03:Client # WebSocket Close (1001): 
+10:32:03:Client # Subscriber closed
+10:32:03:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:32:03:CoreHandleUpdateDatabases() initiated
+10:32:03:Subscriber no longer triggers events
+10:32:03:Controller closed
+10:32:03:
+10:32:10:XML to transform:
+10:32:10:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:32:10:XML after possible corrections:
+10:32:10:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:32:10:Templat id:1 created in DB
+10:32:11:Templat id:1 trying to be read
+10:32:12:caseUId: siteId:1312, requested to be created
+10:32:12:siteId:1312, requested sent eForm
+10:32:12:Log    # siteId:1312, xmlString:
+10:32:12:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 10:32:12</StartDate>
+  <EndDate>25-01-2017 10:32:12</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:32:13:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744745. has been created
+10:32:13:eForm created
+10:32:13:Client # [{"id":"4","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:32:15:Server # [{"id":"4","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:32:15:CoreHandleUpdateDatabases() initiated
+10:32:26:Client # [{"id":"5","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:32:39:Client # [{"id":"6","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:32:41:Server # [{"id":"6","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:32:41:CoreHandleUpdateDatabases() initiated
+10:32:52:Client # [{"id":"7","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:33:05:Client # [{"id":"8","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:33:07:Server # [{"id":"8","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:33:07:CoreHandleUpdateDatabases() initiated
+10:33:18:Client # [{"id":"9","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:33:20:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158891,\"microting_uuid\":\"1744745\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:33:20:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158891}","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","id":"10"}]
+10:33:20:CoreHandleUpdateDatabases() initiated
+10:33:20:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744745. has been retrived
+10:33:24:Templat id:1 trying to be read
+10:33:24:caseUId: siteId:1312, requested to be created
+10:33:24:siteId:1312, requested sent eForm
+10:33:24:Log    # siteId:1312, xmlString:
+10:33:24:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 10:33:24</StartDate>
+  <EndDate>25-01-2017 10:33:24</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:33:25:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744746. has been created
+10:33:25:eForm created
+10:33:26:Server # [{"id":"10","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/done_msg","successful":true}]
+10:33:26:CoreHandleUpdateDatabases() initiated
+10:33:27:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:33:27:CoreHandleUpdateDatabases() initiated
+10:33:28:Templat id:1 trying to be read
+10:33:28:caseUId: siteId:1312, requested to be created
+10:33:28:siteId:1312, requested sent eForm
+10:33:28:Log    # siteId:1312, xmlString:
+10:33:28:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 10:33:28</StartDate>
+  <EndDate>25-01-2017 10:33:28</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:33:29:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744747. has been created
+10:33:29:eForm created
+10:33:31:Client # [{"id":"11","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:33:33:Server # [{"id":"11","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:33:33:CoreHandleUpdateDatabases() initiated
+10:33:44:Client # [{"id":"12","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:33:57:Client # [{"id":"13","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:33:59:Server # [{"id":"13","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:33:59:CoreHandleUpdateDatabases() initiated
+10:34:10:Client # [{"id":"14","clientId":"5c06bq6z1fwhbvm74dq2igbnroc32hn","channel":"/meta/connect","connectionType":"websocket"}]
+10:34:16:Core.Close() at:23-01-2017 10:34:16
+10:34:16:Subscriber requested to close connection
+10:34:16:Client # Subscriber is trying to close connection
+10:34:23:Client # WebSocket Close (1001): 
+10:34:23:Client # Subscriber closed
+10:34:23:Subscriber no longer triggers events
+10:34:24:Controller closed
+10:34:24:
+10:34:27:Settings read
+10:34:27:Settings checked
+10:34:27:
+10:34:27:
+10:34:27:###################################################################################################################
+10:34:27:Core.Start() at:23-01-2017 10:34:27
+10:34:27:###################################################################################################################
+10:34:27:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:34:27:Controller started
+10:34:27:Communicator started
+10:34:27:Subscriber created
+10:34:27:Subscriber now triggers events
+10:34:27:Client # Subscriber started
+10:34:27:Excel (Office) started
+10:34:27:Client # Subscriber connecting
+10:34:27:microtingUId:1744745, requested to be deleted
+10:34:27:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:34:27:Log    # eFormId:1744745, siteId:1312
+10:34:27:XML response:
+10:34:27:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744745</Value></Response>
+10:34:27:microtingUId:1744746, requested to be deleted
+10:34:27:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:34:27:Log    # eFormId:1744746, siteId:1312
+10:34:27:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:34:27:XML response:
+10:34:27:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744746</Value></Response>
+10:34:27:microtingUId:1744747, requested to be deleted
+10:34:27:Log    # eFormId:1744747, siteId:1312
+10:34:27:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"njdwt1o8oyhhwxy0vj0g3f23tb4cfvk","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:34:27:Client # [{"id":"2","clientId":"njdwt1o8oyhhwxy0vj0g3f23tb4cfvk","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:34:27:CoreHandleUpdateDatabases() initiated
+10:34:27:XML response:
+10:34:27:<?xml version="1.0" encoding="UTF-8"?><Response><Value type="success">1744747</Value></Response>
+10:34:27:Core.Close() at:23-01-2017 10:34:27
+10:34:27:Subscriber requested to close connection
+10:34:27:Client # Subscriber is trying to close connection
+10:34:28:Server # [{"id":"2","clientId":"njdwt1o8oyhhwxy0vj0g3f23tb4cfvk","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:34:28:CoreHandleUpdateDatabases() initiated
+10:34:28:Client # WebSocket Close (1001): 
+10:34:28:Client # Subscriber closed
+10:34:28:Subscriber no longer triggers events
+10:34:28:Controller closed
+10:34:28:
+10:38:06:XML to transform:
+10:38:06:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:38:06:XML after possible corrections:
+10:38:07:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:38:07:
+######## TemplatCreate failed
+######## 2017 01-23 10.38:07
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Core is not running
+Source     :Microting
+StackTrace :   at Microting.Core.TemplatCreate(MainElement mainElement) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 373
+
+######## EXCEPTION FOUND; ENDED ########
+
+10:38:07:0. time the same Exception, within the last hour
+10:38:07:Core.Restart() at:23-01-2017 10:38:07
+10:38:07:
+10:38:07:Trying to restart the Core in 1 seconds
+10:38:36:Settings read
+10:38:36:Settings checked
+10:38:36:
+10:38:37:
+10:38:37:###################################################################################################################
+10:38:37:Core.Start() at:23-01-2017 10:38:37
+10:38:37:###################################################################################################################
+10:38:37:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:38:37:Controller started
+10:38:37:Communicator started
+10:38:37:Subscriber created
+10:38:37:Subscriber now triggers events
+10:38:37:Client # Subscriber started
+10:38:37:Excel (Office) started
+10:38:37:Client # Subscriber connecting
+10:38:37:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:38:37:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:38:37:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:38:38:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:38:38:CoreHandleUpdateDatabases() initiated
+10:38:38:Client # [{"id":"2","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:38:38:Server # [{"id":"2","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:38:38:CoreHandleUpdateDatabases() initiated
+10:38:38:Client # [{"id":"3","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:38:38:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158892,\"microting_uuid\":\"139\",\"text\":\"unit_activate\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:38:38:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158892}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"4"}]
+10:38:38:CoreHandleUpdateDatabases() initiated
+10:38:38:139 has been added
+10:38:39:Server # [{"id":"4","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:38:39:CoreHandleUpdateDatabases() initiated
+10:38:39:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:38:39:CoreHandleUpdateDatabases() initiated
+10:38:43:Settings read
+10:38:43:Settings checked
+10:38:43:
+10:38:43:
+10:38:43:###################################################################################################################
+10:38:43:Core.Start() at:23-01-2017 10:38:43
+10:38:43:###################################################################################################################
+10:38:43:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:38:43:Controller started
+10:38:43:Communicator started
+10:38:43:Subscriber created
+10:38:43:Subscriber now triggers events
+10:38:43:Client # Subscriber started
+10:38:43:Excel (Office) started
+10:38:43:Client # Subscriber connecting
+10:38:43:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:38:43:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:38:43:Core.Close() at:23-01-2017 10:38:43
+10:38:43:Subscriber requested to close connection
+10:38:43:Client # Subscriber is trying to close connection
+10:38:43:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:38:43:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"tovfdb7ry3yvb2myfzbs42hnom1tge9","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:38:43:CoreHandleUpdateDatabases() initiated
+10:38:43:Client # [{"id":"2","clientId":"tovfdb7ry3yvb2myfzbs42hnom1tge9","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:38:43:Server # [{"id":"2","clientId":"tovfdb7ry3yvb2myfzbs42hnom1tge9","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:38:43:CoreHandleUpdateDatabases() initiated
+10:38:44:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:38:44:CoreHandleUpdateDatabases() initiated
+10:38:44:Client # WebSocket Close (1001): 
+10:38:44:Client # Subscriber closed
+10:38:44:Subscriber no longer triggers events
+10:38:44:Controller closed
+10:38:44:
+10:38:51:Client # [{"id":"5","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:38:52:XML to transform:
+10:38:52:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:38:52:XML after possible corrections:
+10:38:52:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:38:52:Templat id:1 created in DB
+10:38:53:Server # [{"id":"5","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:38:53:CoreHandleUpdateDatabases() initiated
+10:38:55:Templat id:1 trying to be read
+10:38:55:caseUId: siteId:1312, requested to be created
+10:38:55:siteId:1312, requested sent eForm
+10:38:55:Log    # siteId:1312, xmlString:
+10:38:55:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 10:38:55</StartDate>
+  <EndDate>25-01-2017 10:38:55</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:38:56:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744748. has been created
+10:38:56:eForm created
+10:38:59:Templat id:1 trying to be read
+10:38:59:caseUId: siteId:1312, requested to be created
+10:38:59:siteId:1312, requested sent eForm
+10:38:59:Log    # siteId:1312, xmlString:
+10:38:59:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 10:38:59</StartDate>
+  <EndDate>25-01-2017 10:38:59</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:38:59:Templat id:1 trying to be read
+10:38:59:caseUId: siteId:1312, requested to be created
+10:39:00:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744749. has been created
+10:39:00:eForm created
+10:39:00:siteId:1312, requested sent eForm
+10:39:00:Log    # siteId:1312, xmlString:
+10:39:00:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 10:38:59</StartDate>
+  <EndDate>25-01-2017 10:38:59</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+10:39:00:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744750. has been created
+10:39:00:eForm created
+10:39:04:Client # [{"id":"6","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:39:10:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158893,\"microting_uuid\":\"1744748\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:39:10:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158893}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"7"}]
+10:39:10:CoreHandleUpdateDatabases() initiated
+10:39:10:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744748. has been retrived
+10:39:17:Client # [{"id":"8","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:39:19:Server # [{"id":"7","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:39:19:CoreHandleUpdateDatabases() initiated
+10:39:19:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158894,\"microting_uuid\":\"1744749\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:39:19:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158894}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"9"}]
+10:39:19:CoreHandleUpdateDatabases() initiated
+10:39:19:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158894,\"microting_uuid\":\"1744749\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:39:19:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158894}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"10"}]
+10:39:19:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744749. has been retrived
+10:39:19:CoreHandleUpdateDatabases() initiated
+10:39:19:Server # [{"id":"9","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:39:19:CoreHandleUpdateDatabases() initiated
+10:39:19:Server # [{"id":"10","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:39:19:CoreHandleUpdateDatabases() initiated
+10:39:19:Server # [{"id":"8","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:39:19:CoreHandleUpdateDatabases() initiated
+10:39:19:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:39:20:CoreHandleUpdateDatabases() initiated
+10:39:20:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:39:20:CoreHandleUpdateDatabases() initiated
+10:39:30:Client # [{"id":"11","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:39:43:Client # [{"id":"12","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:39:45:Server # [{"id":"12","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:39:45:CoreHandleUpdateDatabases() initiated
+10:39:56:Client # [{"id":"13","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:40:09:Client # [{"id":"14","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:40:11:Server # [{"id":"14","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:40:11:CoreHandleUpdateDatabases() initiated
+10:40:12:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158895,\"microting_uuid\":\"1744748\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:12:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158895}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"15"}]
+10:40:12:CoreHandleUpdateDatabases() initiated
+10:40:12:Log    # eFormId:1744748, siteId:1312
+10:40:12:Server # [{"id":"15","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:40:12:CoreHandleUpdateDatabases() initiated
+10:40:13:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:13:CoreHandleUpdateDatabases() initiated
+10:40:13:Log    # eFormId:1744748, siteId:1312
+10:40:14:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744748. has been retracted
+10:40:14:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744748. has been completed
+10:40:14:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158896,\"microting_uuid\":\"1744749\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:14:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158896}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"16"}]
+10:40:14:CoreHandleUpdateDatabases() initiated
+10:40:14:Log    # eFormId:1744749, siteId:1312
+10:40:14:Server # [{"id":"16","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:40:14:CoreHandleUpdateDatabases() initiated
+10:40:14:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:15:CoreHandleUpdateDatabases() initiated
+10:40:15:Log    # eFormId:1744749, siteId:1312
+10:40:15:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744749. has been retracted
+10:40:15:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744749. has been completed
+10:40:16:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158897,\"microting_uuid\":\"1744750\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:16:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158897}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"17"}]
+10:40:16:CoreHandleUpdateDatabases() initiated
+10:40:16:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744750. has been retrived
+10:40:17:Server # [{"id":"17","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:40:17:CoreHandleUpdateDatabases() initiated
+10:40:17:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:17:CoreHandleUpdateDatabases() initiated
+10:40:22:Client # [{"id":"18","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:40:35:Client # [{"id":"19","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:40:36:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158898,\"microting_uuid\":\"1744750\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:36:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158898}","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","id":"20"}]
+10:40:36:CoreHandleUpdateDatabases() initiated
+10:40:36:Log    # eFormId:1744750, siteId:1312
+10:40:37:Server # [{"id":"20","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/done_msg","successful":true}]
+10:40:37:CoreHandleUpdateDatabases() initiated
+10:40:37:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:40:37:CoreHandleUpdateDatabases() initiated
+10:40:37:Server # [{"id":"19","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:40:37:CoreHandleUpdateDatabases() initiated
+10:40:38:Log    # eFormId:1744750, siteId:1312
+10:40:38:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744750. has been retracted
+10:40:38:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744750. has been completed
+10:40:48:Client # [{"id":"21","clientId":"7s8tnxt7cyldbofkyhwdboqzig1n6ot","channel":"/meta/connect","connectionType":"websocket"}]
+10:40:50:Core.Close() at:23-01-2017 10:40:50
+10:40:50:Subscriber requested to close connection
+10:40:50:Client # Subscriber is trying to close connection
+10:41:01:Client # WebSocket Close (1001): 
+10:41:01:Client # Subscriber closed
+10:41:01:Subscriber no longer triggers events
+10:41:01:Controller closed
+10:41:01:
+10:41:33:Settings read
+10:41:33:Settings checked
+10:41:33:
+10:41:33:
+10:41:33:###################################################################################################################
+10:41:33:Core.Start() at:23-01-2017 10:41:33
+10:41:33:###################################################################################################################
+10:41:33:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:41:33:Controller started
+10:41:33:Communicator started
+10:41:34:Subscriber created
+10:41:34:Subscriber now triggers events
+10:41:34:Client # Subscriber started
+10:41:34:Excel (Office) started
+10:41:34:Client # Subscriber connecting
+10:41:34:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:41:34:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:41:34:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:41:34:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"t8vvechaw5jldxrudau1d80765i1s0t","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:41:34:CoreHandleUpdateDatabases() initiated
+10:41:34:Client # [{"id":"2","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:41:34:Server # [{"id":"2","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:41:34:CoreHandleUpdateDatabases() initiated
+10:41:34:Client # [{"id":"3","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","connectionType":"websocket"}]
+10:41:34:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:41:34:CoreHandleUpdateDatabases() initiated
+10:42:01:Client # [{"id":"4","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","connectionType":"websocket"}]
+10:42:08:Server # [{"id":"3","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:42:09:CoreHandleUpdateDatabases() initiated
+10:42:17:Client # [{"id":"5","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","connectionType":"websocket"}]
+10:42:17:Server # [{"id":"5","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:42:17:CoreHandleUpdateDatabases() initiated
+10:42:38:Client # [{"id":"6","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","connectionType":"websocket"}]
+10:42:52:Client # [{"id":"7","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","connectionType":"websocket"}]
+10:42:54:Server # [{"id":"7","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:42:54:CoreHandleUpdateDatabases() initiated
+10:45:58:Client # [{"id":"8","clientId":"t8vvechaw5jldxrudau1d80765i1s0t","channel":"/meta/connect","connectionType":"websocket"}]
+10:45:59:Client # WebSocket Close (1000): 
+10:46:11:Client # Subscriber connection restarting in 10sec
+10:46:21:Client # Subscriber connecting
+10:46:21:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:46:21:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:46:21:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:46:21:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:46:21:Client # [{"id":"2","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:46:21:CoreHandleUpdateDatabases() initiated
+10:46:22:Server # [{"id":"2","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:46:22:CoreHandleUpdateDatabases() initiated
+10:46:22:Client # [{"id":"3","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:46:22:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:46:22:CoreHandleUpdateDatabases() initiated
+10:46:35:Client # [{"id":"4","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:46:37:Server # [{"id":"4","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:46:37:CoreHandleUpdateDatabases() initiated
+10:46:48:Client # [{"id":"5","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:47:01:Client # [{"id":"6","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:47:03:Server # [{"id":"6","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:47:03:CoreHandleUpdateDatabases() initiated
+10:47:21:Client # [{"id":"7","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:47:48:Client # [{"id":"8","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:47:54:Server # [{"id":"7","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:48:00:CoreHandleUpdateDatabases() initiated
+10:48:03:Client # [{"id":"9","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","connectionType":"websocket"}]
+10:48:04:Server # [{"id":"8","clientId":"dzrg4qa2uopyqf6mvjsnt0duh9we5t4","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:48:04:CoreHandleUpdateDatabases() initiated
+10:48:50:Settings read
+10:48:50:Settings checked
+10:48:50:
+10:48:50:
+10:48:50:###################################################################################################################
+10:48:50:Core.Start() at:23-01-2017 10:48:50
+10:48:50:###################################################################################################################
+10:48:50:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:48:50:Controller started
+10:48:50:Communicator started
+10:48:50:Subscriber created
+10:48:50:Subscriber now triggers events
+10:48:50:Client # Subscriber started
+10:48:50:Excel (Office) started
+10:48:50:Client # Subscriber connecting
+10:48:50:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:48:51:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:48:51:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:48:51:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"qowye1jyp4fxbdgxl4u4lcy39410qvc","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:48:51:CoreHandleUpdateDatabases() initiated
+10:48:51:Client # [{"id":"2","clientId":"qowye1jyp4fxbdgxl4u4lcy39410qvc","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:48:51:Server # [{"id":"2","clientId":"qowye1jyp4fxbdgxl4u4lcy39410qvc","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:48:51:CoreHandleUpdateDatabases() initiated
+10:48:51:Client # [{"id":"3","clientId":"qowye1jyp4fxbdgxl4u4lcy39410qvc","channel":"/meta/connect","connectionType":"websocket"}]
+10:48:51:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:48:51:CoreHandleUpdateDatabases() initiated
+10:49:04:Client # [{"id":"4","clientId":"qowye1jyp4fxbdgxl4u4lcy39410qvc","channel":"/meta/connect","connectionType":"websocket"}]
+10:50:08:Settings read
+10:50:08:Settings checked
+10:50:08:
+10:50:08:
+10:50:08:###################################################################################################################
+10:50:08:Core.Start() at:23-01-2017 10:50:08
+10:50:08:###################################################################################################################
+10:50:08:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:50:08:Controller started
+10:50:08:Communicator started
+10:50:08:Subscriber created
+10:50:08:Subscriber now triggers events
+10:50:08:Client # Subscriber started
+10:50:08:Excel (Office) started
+10:50:08:Client # Subscriber connecting
+10:50:08:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:50:09:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:50:09:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:50:09:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:50:09:Client # [{"id":"2","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:50:09:CoreHandleUpdateDatabases() initiated
+10:50:09:Server # [{"id":"2","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:50:09:CoreHandleUpdateDatabases() initiated
+10:50:09:Client # [{"id":"3","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","connectionType":"websocket"}]
+10:50:09:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:50:09:CoreHandleUpdateDatabases() initiated
+10:50:24:Client # [{"id":"4","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","connectionType":"websocket"}]
+10:50:24:Server # [{"id":"4","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:50:24:CoreHandleUpdateDatabases() initiated
+10:50:37:Client # [{"id":"5","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","connectionType":"websocket"}]
+10:50:50:Client # [{"id":"6","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","connectionType":"websocket"}]
+10:50:52:Server # [{"id":"6","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:50:52:CoreHandleUpdateDatabases() initiated
+10:51:46:Client # [{"id":"7","clientId":"li9w4tnbb7vhvl4f5asl6wdpon9ffhr","channel":"/meta/connect","connectionType":"websocket"}]
+10:51:46:Client # WebSocket Close (1000): 
+10:57:18:Settings read
+10:57:18:Settings checked
+10:57:18:
+10:57:18:
+10:57:18:###################################################################################################################
+10:57:18:Core.Start() at:23-01-2017 10:57:18
+10:57:18:###################################################################################################################
+10:57:18:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+10:57:18:Controller started
+10:57:18:Communicator started
+10:57:18:Subscriber created
+10:57:18:Subscriber now triggers events
+10:57:18:Client # Subscriber started
+10:57:18:Excel (Office) started
+10:57:18:Client # Subscriber connecting
+10:57:18:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+10:57:19:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+10:57:19:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+10:57:19:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"igtydl5wdihjt40ztmpu9tvnbk0iix0","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:57:19:CoreHandleUpdateDatabases() initiated
+10:57:19:Client # [{"id":"2","clientId":"igtydl5wdihjt40ztmpu9tvnbk0iix0","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:57:19:Server # [{"id":"2","clientId":"igtydl5wdihjt40ztmpu9tvnbk0iix0","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+10:57:19:CoreHandleUpdateDatabases() initiated
+10:57:19:Client # [{"id":"3","clientId":"igtydl5wdihjt40ztmpu9tvnbk0iix0","channel":"/meta/connect","connectionType":"websocket"}]
+10:57:19:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+10:57:19:CoreHandleUpdateDatabases() initiated
+10:57:32:Client # [{"id":"4","clientId":"igtydl5wdihjt40ztmpu9tvnbk0iix0","channel":"/meta/connect","connectionType":"websocket"}]
+10:57:37:Server # [{"id":"4","clientId":"igtydl5wdihjt40ztmpu9tvnbk0iix0","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+10:57:37:CoreHandleUpdateDatabases() initiated
+11:00:06:Settings read
+11:00:06:Settings checked
+11:00:06:
+11:00:06:
+11:00:06:###################################################################################################################
+11:00:06:Core.Start() at:23-01-2017 11:00:06
+11:00:06:###################################################################################################################
+11:00:06:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+11:00:06:Controller started
+11:00:06:Communicator started
+11:00:06:Subscriber created
+11:00:06:Subscriber now triggers events
+11:00:06:Client # Subscriber started
+11:00:07:Excel (Office) started
+11:00:07:Client # Subscriber connecting
+11:00:07:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:00:07:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:00:07:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:00:07:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"m2uoawhot9gemosz94n7772websgn49","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:00:07:CoreHandleUpdateDatabases() initiated
+11:00:07:Client # [{"id":"2","clientId":"m2uoawhot9gemosz94n7772websgn49","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:00:07:Client # [{"id":"3","clientId":"m2uoawhot9gemosz94n7772websgn49","channel":"/meta/connect","connectionType":"websocket"}]
+11:00:07:Server # [{"id":"2","clientId":"m2uoawhot9gemosz94n7772websgn49","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:00:07:CoreHandleUpdateDatabases() initiated
+11:00:08:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:00:08:CoreHandleUpdateDatabases() initiated
+11:00:10:
+######## CasesToExcel failed
+######## 2017 01-23 11.00:10
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :COM object that has been separated from its underlying RCW cannot be used.
+Source     :mscorlib
+StackTrace :   at System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   at Microsoft.Office.Interop.Excel._Workbook.get_FullName()
+   at eFormOffice.ExcelController.CreateExcel(List`1 dataSet, String path) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\eFormOffice\ExcelController.cs:line 44
+   at Microting.Core.CasesToExcel(Int32 templatId, Nullable`1 start, Nullable`1 end, String path) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 679
+
+######## EXCEPTION FOUND; ENDED ########
+
+11:00:10:0. time the same Exception, within the last hour
+11:00:10:Core.Restart() at:23-01-2017 11:00:10
+11:00:10:Core.Close() at:23-01-2017 11:00:10
+11:00:10:Subscriber requested to close connection
+11:00:12:Client # Subscriber is trying to close connection
+11:00:35:Settings read
+11:00:35:Settings checked
+11:00:35:
+11:00:35:
+11:00:35:###################################################################################################################
+11:00:35:Core.Start() at:23-01-2017 11:00:35
+11:00:35:###################################################################################################################
+11:00:35:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+11:00:35:Controller started
+11:00:35:Communicator started
+11:00:35:Subscriber created
+11:00:35:Subscriber now triggers events
+11:00:35:Client # Subscriber started
+11:00:35:Excel (Office) started
+11:00:35:Client # Subscriber connecting
+11:00:35:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:00:35:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:00:35:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:00:36:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"cmkzhdvzj8n2ace5p62hldzu4ztaa9q","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:00:36:CoreHandleUpdateDatabases() initiated
+11:00:36:Client # [{"id":"2","clientId":"cmkzhdvzj8n2ace5p62hldzu4ztaa9q","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:00:36:Server # [{"id":"2","clientId":"cmkzhdvzj8n2ace5p62hldzu4ztaa9q","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:00:36:Client # [{"id":"3","clientId":"cmkzhdvzj8n2ace5p62hldzu4ztaa9q","channel":"/meta/connect","connectionType":"websocket"}]
+11:00:36:CoreHandleUpdateDatabases() initiated
+11:00:36:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:00:36:CoreHandleUpdateDatabases() initiated
+11:02:17:Settings read
+11:02:17:Settings checked
+11:02:17:
+11:02:17:
+11:02:17:###################################################################################################################
+11:02:17:Core.Start() at:23-01-2017 11:02:17
+11:02:17:###################################################################################################################
+11:02:17:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+11:02:17:Controller started
+11:02:17:Communicator started
+11:02:17:Subscriber created
+11:02:17:Subscriber now triggers events
+11:02:17:Client # Subscriber started
+11:02:17:Excel (Office) started
+11:02:17:Client # Subscriber connecting
+11:02:17:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:02:17:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:02:18:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:02:18:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"1hcrxgqo2k0qiqup51n0sjlze3bf544","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:02:18:CoreHandleUpdateDatabases() initiated
+11:02:18:Client # [{"id":"2","clientId":"1hcrxgqo2k0qiqup51n0sjlze3bf544","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:02:18:Server # [{"id":"2","clientId":"1hcrxgqo2k0qiqup51n0sjlze3bf544","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:02:18:CoreHandleUpdateDatabases() initiated
+11:02:18:Client # [{"id":"3","clientId":"1hcrxgqo2k0qiqup51n0sjlze3bf544","channel":"/meta/connect","connectionType":"websocket"}]
+11:02:18:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:02:18:CoreHandleUpdateDatabases() initiated
+11:03:48:Client # [{"id":"4","clientId":"1hcrxgqo2k0qiqup51n0sjlze3bf544","channel":"/meta/connect","connectionType":"websocket"}]
+11:03:53:Server # [{"id":"3","clientId":"1hcrxgqo2k0qiqup51n0sjlze3bf544","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:03:53:CoreHandleUpdateDatabases() initiated
+11:03:53:Client # WebSocket Close (1000): 
+11:03:53:Client # WebSocket Error: An error has occurred in sending data.
+11:04:07:Client # Subscriber connection restarting in 10sec
+11:04:17:Client # Subscriber connecting
+11:04:17:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:04:17:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:04:17:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:04:17:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"8y9fyt8l8k253zlv93fprqyv7sxz0uf","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:04:17:CoreHandleUpdateDatabases() initiated
+11:04:17:Client # [{"id":"2","clientId":"8y9fyt8l8k253zlv93fprqyv7sxz0uf","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:04:17:Server # [{"id":"2","clientId":"8y9fyt8l8k253zlv93fprqyv7sxz0uf","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:04:17:CoreHandleUpdateDatabases() initiated
+11:04:17:Client # [{"id":"3","clientId":"8y9fyt8l8k253zlv93fprqyv7sxz0uf","channel":"/meta/connect","connectionType":"websocket"}]
+11:04:18:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:04:18:CoreHandleUpdateDatabases() initiated
+11:43:36:Settings read
+11:43:36:Settings checked
+11:43:36:
+11:43:36:
+11:43:36:###################################################################################################################
+11:43:36:Core.Start() at:23-01-2017 11:43:36
+11:43:36:###################################################################################################################
+11:43:36:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+11:43:36:Controller started
+11:43:36:Communicator started
+11:43:36:Subscriber created
+11:43:36:Subscriber now triggers events
+11:43:36:Client # Subscriber started
+11:43:36:Excel (Office) started
+11:43:36:Client # Subscriber connecting
+11:43:36:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:43:37:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:43:37:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:43:37:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"orjahmil3s5sfzodovxv2c3wydskkfs","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:43:37:CoreHandleUpdateDatabases() initiated
+11:43:37:Client # [{"id":"2","clientId":"orjahmil3s5sfzodovxv2c3wydskkfs","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:43:37:Client # [{"id":"3","clientId":"orjahmil3s5sfzodovxv2c3wydskkfs","channel":"/meta/connect","connectionType":"websocket"}]
+11:43:37:Server # [{"id":"2","clientId":"orjahmil3s5sfzodovxv2c3wydskkfs","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:43:37:CoreHandleUpdateDatabases() initiated
+11:43:38:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:43:38:CoreHandleUpdateDatabases() initiated
+11:44:33:Settings read
+11:44:33:Settings checked
+11:44:33:
+11:44:33:
+11:44:33:###################################################################################################################
+11:44:33:Core.Start() at:23-01-2017 11:44:33
+11:44:33:###################################################################################################################
+11:44:33:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+11:44:33:Controller started
+11:44:33:Communicator started
+11:44:33:Subscriber created
+11:44:33:Subscriber now triggers events
+11:44:33:Client # Subscriber started
+11:44:33:Excel (Office) started
+11:44:33:Client # Subscriber connecting
+11:44:33:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+11:44:33:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+11:44:33:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+11:44:33:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"9jrrg9qqp6lzlszp21v5h6s6koo1xwg","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+11:44:33:CoreHandleUpdateDatabases() initiated
+11:44:33:Client # [{"id":"2","clientId":"9jrrg9qqp6lzlszp21v5h6s6koo1xwg","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:44:34:Server # [{"id":"2","clientId":"9jrrg9qqp6lzlszp21v5h6s6koo1xwg","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+11:44:34:CoreHandleUpdateDatabases() initiated
+11:44:34:Client # [{"id":"3","clientId":"9jrrg9qqp6lzlszp21v5h6s6koo1xwg","channel":"/meta/connect","connectionType":"websocket"}]
+11:44:34:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+11:44:34:CoreHandleUpdateDatabases() initiated

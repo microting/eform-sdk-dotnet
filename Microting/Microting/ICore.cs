@@ -155,8 +155,9 @@ namespace Microting
         /// <param name="templatId">The templat's ID to be used</param>
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
-        /// <param name="path">Location where fil is to be placed. Relative or absolut</param>
-        string CasesToExcel(int templatId, DateTime? start, DateTime? end, string path);
+        /// <param name="path">Location where fil is to be placed. Relative or absolut. WARNING: Excel might its default location</param>
+        /// <param name="name">Name of the Excel fil</param>
+        string CasesToExcel(int templatId, DateTime? start, DateTime? end, string path, string name);
 
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
@@ -165,6 +166,7 @@ namespace Microting
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="path">Location where fil is to be placed. Relative or absolut</param>
-        string CasesToCsv(int templatId, DateTime? start, DateTime? end, string path);
+        /// <param name="name">Name of the CSV fil</param>
+        string CasesToCsv(int templatId, DateTime? start, DateTime? end, string path, string name);
     }
 }

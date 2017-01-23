@@ -86,7 +86,7 @@ namespace Microting
                 string input = Console.ReadLine();
 
                 if (input.ToLower() == "r")
-                    Console.WriteLine(core.CasesToExcel(1, null, DateTime.Now, ""));
+                    Console.WriteLine(core.CasesToExcel(1, null, DateTime.Now, "", "test"));
 
                 if (input.ToLower() == "q")
                     keepRunning = false;
