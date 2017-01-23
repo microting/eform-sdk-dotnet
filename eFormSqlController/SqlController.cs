@@ -574,6 +574,7 @@ namespace eFormSqlController
                         }
                     }
                     #endregion
+                    answer.KeyValuePairList = ReadPairs(question.key_value_pair_list);
 
                     return answer;
                 }
@@ -1109,7 +1110,7 @@ namespace eFormSqlController
             }
         }
         #endregion
-        #endregion
+       #endregion
 
         #region private
         #region EformCreateDb
@@ -1951,6 +1952,7 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region public help methods
         private string  Find(int fieldTypeId)
         {
             foreach (var holder in converter)
@@ -1971,7 +1973,6 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
-        #region KeyValuePairs
         private string WritePairs(List<KeyValuePair> lst)
         {
             string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><hash>";
@@ -1982,9 +1983,9 @@ namespace eFormSqlController
             {
                 inderStr = "<" + index + ">";
 
-                    inderStr += "<key>" + kVP.Value + "</key>";
-                    inderStr += "<selected>" + kVP.Selected + "</selected>";
-                    inderStr += "<displayIndex>" + kVP.DisplayOrder + "</displayIndex>";
+                inderStr += "<key>" + kVP.Value + "</key>";
+                inderStr += "<selected>" + kVP.Selected + "</selected>";
+                inderStr += "<displayIndex>" + kVP.DisplayOrder + "</displayIndex>";
 
                 inderStr += "</" + index + ">";
 

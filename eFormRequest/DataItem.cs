@@ -576,6 +576,7 @@ namespace eFormRequest
         public string Accuracy { get; set; }
         public DateTime? Date { get; set; }
         public string UploadedData { get; set; }
+        public List<KeyValuePair> KeyValuePairList { get; set; }
     }
 
     public enum DataItemColors
