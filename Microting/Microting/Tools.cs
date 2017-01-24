@@ -132,7 +132,7 @@ namespace Trools
             }
         }
 
-        private string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
+        public string           ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
         {
             try
             {
@@ -146,6 +146,43 @@ namespace Trools
             catch (Exception ex)
             {
                 throw new Exception("Unable to find:'" + startStr + "' or '" + endStr + "'.", ex);
+            }
+        }
+
+        public List<string>     SplitToList(string textToBeSplit, bool lastInstedOfFirst)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(textToBeSplit))
+                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit.ToString() + "'");
+
+                if (!textToBeSplit.Contains('|'))
+                    throw new ArgumentException("SplitFirst failed, due to '|' not found in textToBeSplit");
+
+                List<string> partsLst = textToBeSplit.Split('|').ToList();
+
+                if (partsLst.Count == 2)
+                    return partsLst;
+
+                if (partsLst.Count < 2)
+                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit.ToString() + "'");
+
+                List<string> rtnLst = new List<string>();
+
+                int mark = -1;
+                if (lastInstedOfFirst)
+                    mark = textToBeSplit.LastIndexOf('|');
+                else
+                    mark = textToBeSplit.IndexOf('|');
+
+                rtnLst.Add(textToBeSplit.Substring(0, mark));
+                rtnLst.Add(textToBeSplit.Substring(mark + 1, textToBeSplit.Length - mark - 1));
+
+                return rtnLst;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SplitFirst failed.", ex);
             }
         }
         #endregion

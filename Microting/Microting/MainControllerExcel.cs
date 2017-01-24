@@ -81,12 +81,19 @@ namespace Microting
             while (keepRunning)
             {
                 Console.WriteLine("Type 'Q' (to quit)");
-                Console.WriteLine("Type 'R' to read");
+                Console.WriteLine("Type 'R' to run code");
                 Console.WriteLine("As long as the Core left running, the system is able to process eForms");
                 string input = Console.ReadLine();
 
                 if (input.ToLower() == "r")
+                {
                     Console.WriteLine(core.CasesToExcel(1, null, DateTime.Now, "", "test"));
+
+                    //List<string> temp = new List<string>();
+                    //temp.Add("2|andMoreTest");
+                    //core.CaseUpdate(3, temp);
+                    //Console.WriteLine("");
+                }
 
                 if (input.ToLower() == "q")
                     keepRunning = false;

@@ -109,6 +109,14 @@ namespace Microting
         //---------------------------------------------------------------------------------------
 
         /// <summary>
+        /// Tries to set the resultats of a case to new values
+        /// </summary>
+        /// <param name="newValueList">List of '[fieldId]|[new value]'</param>
+        bool CaseUpdate(int caseId, List<string> newValueList);
+
+        //---------------------------------------------------------------------------------------
+
+        /// <summary>
         /// Marks a case as deleted, and will remove it from the device, if needed
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>

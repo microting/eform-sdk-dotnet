@@ -668,6 +668,38 @@ namespace Microting
             }
         }
 
+        public bool             CaseUpdate(int caseId, List<string> newValueList)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("CaseUpdate"); //TODO more later
+
+                    int fieldId = 0;
+                    string value = "";
+                    List<string> temp = null;
+
+                    foreach (string str in newValueList)
+                    {
+                        temp = t.SplitToList(str, true);
+                        fieldId = int.Parse(temp[0]);
+                        value = temp[1];
+                        sqlController.FieldValueUpdate(caseId, fieldId, value);
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseUpdate failed", ex, true);
+                throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
         public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string path, string name)
         {
             try

@@ -2211,3 +2211,1446 @@ StackTrace :   at System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
 11:44:34:Client # [{"id":"3","clientId":"9jrrg9qqp6lzlszp21v5h6s6koo1xwg","channel":"/meta/connect","connectionType":"websocket"}]
 11:44:34:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
 11:44:34:CoreHandleUpdateDatabases() initiated
+17:23:19:Settings read
+17:23:19:Settings checked
+17:23:19:
+17:23:19:
+17:23:19:###################################################################################################################
+17:23:19:Core.Start() at:23-01-2017 17:23:19
+17:23:19:###################################################################################################################
+17:23:19:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+17:23:19:Controller started
+17:23:19:Communicator started
+17:23:19:Subscriber created
+17:23:19:Subscriber now triggers events
+17:23:19:Client # Subscriber started
+17:23:19:Excel (Office) started
+17:23:19:Client # Subscriber connecting
+17:23:19:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+17:23:19:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+17:23:19:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+17:23:19:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:23:19:Client # [{"id":"2","clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:23:19:CoreHandleUpdateDatabases() initiated
+17:23:20:Server # [{"id":"2","clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:23:20:CoreHandleUpdateDatabases() initiated
+17:23:20:Client # [{"id":"3","clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","channel":"/meta/connect","connectionType":"websocket"}]
+17:23:20:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:23:20:CoreHandleUpdateDatabases() initiated
+17:23:26:XML to transform:
+17:23:26:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+17:23:26:XML after possible corrections:
+17:23:26:<?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>11-10-2016</StartDate>
+  <EndDate>11-10-2017</EndDate>
+  <Language>en</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>1</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description>Data element</Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <DefaultValue>0</DefaultValue>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description>this is a description bla</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <DefaultValue>true</DefaultValue>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <DefaultValue>11-10-2016 15:20:51</DefaultValue>
+          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>
+          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description>this is a description</Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+17:23:27:Templat id:1 created in DB
+17:23:31:Templat id:1 trying to be read
+17:23:31:caseUId: siteId:1312, requested to be created
+17:23:31:siteId:1312, requested sent eForm
+17:23:31:Log    # siteId:1312, xmlString:
+17:23:32:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 17:23:31</StartDate>
+  <EndDate>25-01-2017 17:23:31</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+17:23:32:Templat id:1 trying to be read
+17:23:32:caseUId: siteId:1312, requested to be created
+17:23:32:Templat id:1 trying to be read
+17:23:33:caseUId: siteId:1312, requested to be created
+17:23:33:Client # [{"id":"4","clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","channel":"/meta/connect","connectionType":"websocket"}]
+17:23:33:Templat id:1 trying to be read
+17:23:33:caseUId: siteId:1312, requested to be created
+17:23:35:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744760. has been created
+17:23:35:eForm created
+17:23:35:siteId:1312, requested sent eForm
+17:23:35:Log    # siteId:1312, xmlString:
+17:23:35:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 17:23:32</StartDate>
+  <EndDate>25-01-2017 17:23:32</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+17:23:35:Server # [{"id":"4","clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:23:35:CoreHandleUpdateDatabases() initiated
+17:23:35:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744761. has been created
+17:23:35:eForm created
+17:23:35:siteId:1312, requested sent eForm
+17:23:35:Log    # siteId:1312, xmlString:
+17:23:35:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 17:23:33</StartDate>
+  <EndDate>25-01-2017 17:23:33</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+17:23:36:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744762. has been created
+17:23:36:eForm created
+17:23:36:siteId:1312, requested sent eForm
+17:23:36:Log    # siteId:1312, xmlString:
+17:23:36:Log    # <?xml version="1.0" encoding="utf-8"?>
+<Main xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <Label>A container check list</Label>
+  <DisplayOrder>1</DisplayOrder>
+  <CheckListFolderName>Main element</CheckListFolderName>
+  <Repeated>1</Repeated>
+  <StartDate>23-01-2017 17:23:33</StartDate>
+  <EndDate>25-01-2017 17:23:33</EndDate>
+  <Language>da</Language>
+  <MultiApproval>true</MultiApproval>
+  <FastNavigation>false</FastNavigation>
+  <DownloadEntities>false</DownloadEntities>
+  <ManualSync>true</ManualSync>
+  <ElementList>
+    <Element xsi:type="DataElement">
+      <Id>2</Id>
+      <Label>Basic list</Label>
+      <DisplayOrder>1</DisplayOrder>
+      <Description><![CDATA[Data element]]></Description>
+      <ApprovalEnabled>true</ApprovalEnabled>
+      <ReviewEnabled>true</ReviewEnabled>
+      <DoneButtonEnabled>true</DoneButtonEnabled>
+      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+      <PinkBarText />
+      <DataItemGroupList />
+      <DataItemList>
+        <DataItem xsi:type="Number">
+          <Id>1</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Number field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>1</DisplayOrder>
+          <MinValue>0</MinValue>
+          <MaxValue>1000</MaxValue>
+          <Value>0</Value>
+          <DecimalCount>0</DecimalCount>
+          <UnitName />
+        </DataItem>
+        <DataItem xsi:type="Text">
+          <Id>2</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Text field</Label>
+          <Description><![CDATA[this is a description bla]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>8</DisplayOrder>
+          <Value>true</Value>
+          <MaxLength>100</MaxLength>
+          <GeolocationEnabled>false</GeolocationEnabled>
+          <GeolocationForced>false</GeolocationForced>
+          <GeolocationHidden>true</GeolocationHidden>
+          <BarcodeEnabled>false</BarcodeEnabled>
+          <BarcodeType />
+        </DataItem>
+        <DataItem xsi:type="Comment">
+          <Id>3</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Comment field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>3</DisplayOrder>
+          <Value>value</Value>
+          <Maxlength>10000</Maxlength>
+          <SplitScreen>false</SplitScreen>
+        </DataItem>
+        <DataItem xsi:type="Picture">
+          <Id>4</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Picture field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>4</DisplayOrder>
+          <Multi>1</Multi>
+          <GeolocationEnabled>true</GeolocationEnabled>
+        </DataItem>
+        <DataItem xsi:type="CheckBox">
+          <Id>5</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>true</ReadOnly>
+          <Label>Check box</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>15</DisplayOrder>
+          <Value>true</Value>
+          <Selected>true</Selected>
+        </DataItem>
+        <DataItem xsi:type="Date">
+          <Id>6</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>Date field</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>16</DisplayOrder>
+          <Value>11-10-2016 15:20:51</Value>
+          <MaxValue>2016-10-11T15:20:51</MaxValue>
+          <MinValue>2016-10-11T15:20:51</MinValue>
+        </DataItem>
+        <DataItem xsi:type="None">
+          <Id>7</Id>
+          <Mandatory>false</Mandatory>
+          <ReadOnly>false</ReadOnly>
+          <Label>None field, only shows text</Label>
+          <Description><![CDATA[this is a description]]></Description>
+          <Color>e2f4fb</Color>
+          <DisplayOrder>7</DisplayOrder>
+        </DataItem>
+      </DataItemList>
+    </Element>
+  </ElementList>
+  <PushMessageTitle />
+  <PushMessageBody />
+</Main>
+17:23:37:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744763. has been created
+17:23:37:eForm created
+17:23:46:Client # [{"id":"5","clientId":"r18fl9w88y3omv2q8q2ak3zhjtx84eg","channel":"/meta/connect","connectionType":"websocket"}]
+17:23:49:Core.Close() at:23-01-2017 17:23:49
+17:23:49:Subscriber requested to close connection
+17:23:49:Client # Subscriber is trying to close connection
+17:23:59:Client # WebSocket Close (1001): 
+17:23:59:Client # Subscriber closed
+17:23:59:Subscriber no longer triggers events
+17:23:59:Controller closed
+17:23:59:
+17:24:19:Settings read
+17:24:19:Settings checked
+17:24:19:
+17:24:19:
+17:24:19:###################################################################################################################
+17:24:19:Core.Start() at:23-01-2017 17:24:19
+17:24:19:###################################################################################################################
+17:24:19:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+17:24:19:Controller started
+17:24:19:Communicator started
+17:24:19:Subscriber created
+17:24:19:Subscriber now triggers events
+17:24:19:Client # Subscriber started
+17:24:19:Client # Subscriber connecting
+17:24:19:Excel (Office) started
+17:24:19:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+17:24:20:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+17:24:20:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+17:24:20:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:24:20:CoreHandleUpdateDatabases() initiated
+17:24:20:Client # [{"id":"2","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:24:20:Client # [{"id":"3","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:24:21:Server # [{"id":"2","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:24:21:CoreHandleUpdateDatabases() initiated
+17:24:21:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:24:21:CoreHandleUpdateDatabases() initiated
+17:24:34:Client # [{"id":"4","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:24:36:Server # [{"id":"4","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:24:36:CoreHandleUpdateDatabases() initiated
+17:24:47:Client # [{"id":"5","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:25:00:Client # [{"id":"6","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:25:02:Server # [{"id":"6","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:25:02:CoreHandleUpdateDatabases() initiated
+17:25:13:Client # [{"id":"7","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:25:26:Client # [{"id":"8","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:25:28:Server # [{"id":"8","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:25:28:CoreHandleUpdateDatabases() initiated
+17:25:39:Client # [{"id":"9","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:25:52:Client # [{"id":"10","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:25:54:Server # [{"id":"10","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:25:54:CoreHandleUpdateDatabases() initiated
+17:26:05:Client # [{"id":"11","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:26:18:Client # [{"id":"12","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:26:20:Server # [{"id":"12","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:26:20:CoreHandleUpdateDatabases() initiated
+17:26:20:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158899,\"microting_uuid\":\"1744760\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:20:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158899}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"13"}]
+17:26:20:CoreHandleUpdateDatabases() initiated
+17:26:20:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744760. has been retrived
+17:26:21:Server # [{"id":"13","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:21:CoreHandleUpdateDatabases() initiated
+17:26:21:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158900,\"microting_uuid\":\"1744761\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:21:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158900}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"14"}]
+17:26:21:CoreHandleUpdateDatabases() initiated
+17:26:21:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158900,\"microting_uuid\":\"1744761\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:21:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158900}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"15"}]
+17:26:21:CoreHandleUpdateDatabases() initiated
+17:26:21:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744761. has been retrived
+17:26:22:Server # [{"id":"14","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:22:CoreHandleUpdateDatabases() initiated
+17:26:22:Server # [{"id":"15","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:22:CoreHandleUpdateDatabases() initiated
+17:26:22:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158901,\"microting_uuid\":\"1744762\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:22:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158901}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"16"}]
+17:26:22:CoreHandleUpdateDatabases() initiated
+17:26:22:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158901,\"microting_uuid\":\"1744762\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:22:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158901}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"17"}]
+17:26:22:CoreHandleUpdateDatabases() initiated
+17:26:22:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744762. has been retrived
+17:26:22:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158901,\"microting_uuid\":\"1744762\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:22:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158901}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"18"}]
+17:26:22:CoreHandleUpdateDatabases() initiated
+17:26:23:Server # [{"id":"16","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:23:CoreHandleUpdateDatabases() initiated
+17:26:23:Server # [{"id":"17","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:23:CoreHandleUpdateDatabases() initiated
+17:26:23:Server # [{"id":"18","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:23:CoreHandleUpdateDatabases() initiated
+17:26:23:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158902,\"microting_uuid\":\"1744763\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:24:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158902}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"19"}]
+17:26:24:CoreHandleUpdateDatabases() initiated
+17:26:24:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158902,\"microting_uuid\":\"1744763\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:24:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158902}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"20"}]
+17:26:24:CoreHandleUpdateDatabases() initiated
+17:26:24:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158902,\"microting_uuid\":\"1744763\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:24:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744763. has been retrived
+17:26:24:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158902}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"21"}]
+17:26:24:CoreHandleUpdateDatabases() initiated
+17:26:24:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158902,\"microting_uuid\":\"1744763\",\"text\":\"unit_fetch\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:24:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158902}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"22"}]
+17:26:24:CoreHandleUpdateDatabases() initiated
+17:26:24:Server # [{"id":"19","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:24:CoreHandleUpdateDatabases() initiated
+17:26:24:Server # [{"id":"20","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:24:CoreHandleUpdateDatabases() initiated
+17:26:24:Server # [{"id":"21","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:25:CoreHandleUpdateDatabases() initiated
+17:26:25:Server # [{"id":"22","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:26:25:CoreHandleUpdateDatabases() initiated
+17:26:25:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:25:CoreHandleUpdateDatabases() initiated
+17:26:25:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:25:CoreHandleUpdateDatabases() initiated
+17:26:25:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:25:CoreHandleUpdateDatabases() initiated
+17:26:25:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:26:25:CoreHandleUpdateDatabases() initiated
+17:26:31:Client # [{"id":"23","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:26:44:Client # [{"id":"24","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:26:46:Server # [{"id":"24","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:26:46:CoreHandleUpdateDatabases() initiated
+17:26:57:Client # [{"id":"25","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:27:10:Client # [{"id":"26","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:27:12:Server # [{"id":"26","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:27:12:CoreHandleUpdateDatabases() initiated
+17:27:23:Client # [{"id":"27","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:27:36:Client # [{"id":"28","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:27:38:Server # [{"id":"28","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:27:38:CoreHandleUpdateDatabases() initiated
+17:27:45:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158903,\"microting_uuid\":\"1744761\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:45:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158903}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"29"}]
+17:27:45:CoreHandleUpdateDatabases() initiated
+17:27:45:Log    # eFormId:1744761, siteId:1312
+17:27:46:Server # [{"id":"29","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:27:46:CoreHandleUpdateDatabases() initiated
+17:27:46:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:46:CoreHandleUpdateDatabases() initiated
+17:27:47:Log    # eFormId:1744761, siteId:1312
+17:27:47:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744761. has been retracted
+17:27:47:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744761. has been completed
+17:27:47:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158904,\"microting_uuid\":\"1744760\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:47:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158904}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"30"}]
+17:27:47:CoreHandleUpdateDatabases() initiated
+17:27:47:Log    # eFormId:1744760, siteId:1312
+17:27:48:Server # [{"id":"30","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:27:48:CoreHandleUpdateDatabases() initiated
+17:27:48:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:48:CoreHandleUpdateDatabases() initiated
+17:27:48:Log    # eFormId:1744760, siteId:1312
+17:27:48:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744760. has been retracted
+17:27:48:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744760. has been completed
+17:27:49:Client # [{"id":"31","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:27:49:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158905,\"microting_uuid\":\"1744762\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:49:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158905}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"32"}]
+17:27:49:CoreHandleUpdateDatabases() initiated
+17:27:49:Log    # eFormId:1744762, siteId:1312
+17:27:50:Server # [{"id":"32","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:27:50:CoreHandleUpdateDatabases() initiated
+17:27:50:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:50:CoreHandleUpdateDatabases() initiated
+17:27:50:Log    # eFormId:1744762, siteId:1312
+17:27:50:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744762. has been retracted
+17:27:50:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744762. has been completed
+17:27:51:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[{\"id\":158906,\"microting_uuid\":\"1744763\",\"text\":\"check_status\",\"workflow_state\":\"created\"}]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:51:Client # [{"channel":"/meta/done_msg","data":"{\"token\":\"b86d3f45bd8b7340416447762784bc9c\",\"notification_id\":158906}","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","id":"33"}]
+17:27:51:CoreHandleUpdateDatabases() initiated
+17:27:51:Log    # eFormId:1744763, siteId:1312
+17:27:51:Server # [{"id":"33","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/done_msg","successful":true}]
+17:27:51:CoreHandleUpdateDatabases() initiated
+17:27:52:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:27:52:CoreHandleUpdateDatabases() initiated
+17:27:52:Log    # eFormId:1744763, siteId:1312
+17:27:52:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744763. has been retracted
+17:27:52:Site:1312 / CaseType:Test / CaseUId: / MicrotingUId:1744763. has been completed
+17:28:02:Client # [{"id":"34","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:28:04:Server # [{"id":"34","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:28:04:CoreHandleUpdateDatabases() initiated
+17:28:15:Client # [{"id":"35","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:28:28:Client # [{"id":"36","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:28:30:Server # [{"id":"36","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:28:30:CoreHandleUpdateDatabases() initiated
+17:28:41:Client # [{"id":"37","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:28:54:Client # [{"id":"38","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:28:56:Server # [{"id":"38","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:28:56:CoreHandleUpdateDatabases() initiated
+17:29:07:Client # [{"id":"39","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:29:20:Client # [{"id":"40","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:29:22:Server # [{"id":"40","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:29:22:CoreHandleUpdateDatabases() initiated
+17:29:33:Client # [{"id":"41","clientId":"id7irmjnk0vuwjmg9bixkby3dt3hwed","channel":"/meta/connect","connectionType":"websocket"}]
+17:52:47:Settings read
+17:52:47:Settings checked
+17:52:47:
+17:52:47:
+17:52:47:###################################################################################################################
+17:52:47:Core.Start() at:23-01-2017 17:52:47
+17:52:47:###################################################################################################################
+17:52:47:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+17:52:47:Controller started
+17:52:47:Communicator started
+17:52:47:Subscriber created
+17:52:47:Subscriber now triggers events
+17:52:47:Client # Subscriber started
+17:52:47:Excel (Office) started
+17:52:47:Client # Subscriber connecting
+17:52:47:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+17:52:48:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+17:52:48:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+17:52:48:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"fjop06h4b03kqwt254prrirg34gim1g","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:52:48:CoreHandleUpdateDatabases() initiated
+17:52:48:Client # [{"id":"2","clientId":"fjop06h4b03kqwt254prrirg34gim1g","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:52:48:Server # [{"id":"2","clientId":"fjop06h4b03kqwt254prrirg34gim1g","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:52:48:CoreHandleUpdateDatabases() initiated
+17:52:48:Client # [{"id":"3","clientId":"fjop06h4b03kqwt254prrirg34gim1g","channel":"/meta/connect","connectionType":"websocket"}]
+17:52:49:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:52:49:CoreHandleUpdateDatabases() initiated
+17:54:17:Settings read
+17:54:17:Settings checked
+17:54:17:
+17:54:17:
+17:54:17:###################################################################################################################
+17:54:17:Core.Start() at:23-01-2017 17:54:17
+17:54:17:###################################################################################################################
+17:54:17:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+17:54:17:Controller started
+17:54:17:Communicator started
+17:54:17:Subscriber created
+17:54:17:Subscriber now triggers events
+17:54:17:Client # Subscriber started
+17:54:17:Excel (Office) started
+17:54:17:Client # Subscriber connecting
+17:54:17:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+17:54:18:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+17:54:18:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+17:54:18:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"4yjs7bjwit2x5xscq38p2t1va1bqtu5","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:54:18:CoreHandleUpdateDatabases() initiated
+17:54:18:Client # [{"id":"2","clientId":"4yjs7bjwit2x5xscq38p2t1va1bqtu5","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:54:18:Client # [{"id":"3","clientId":"4yjs7bjwit2x5xscq38p2t1va1bqtu5","channel":"/meta/connect","connectionType":"websocket"}]
+17:54:18:Server # [{"id":"2","clientId":"4yjs7bjwit2x5xscq38p2t1va1bqtu5","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:54:18:CoreHandleUpdateDatabases() initiated
+17:54:18:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:54:18:CoreHandleUpdateDatabases() initiated
+17:54:27:CaseUpdate
+17:54:27:
+######## CaseUpdate failed
+######## 2017 01-23 17.54:27
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SplitFirst failed.
+Source     :Microting
+StackTrace :   at Trools.Tools.SplitToList(String textToBeSplit, Char splitSymbol, Boolean lastInstedOfFirst) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Tools.cs:line 185
+   at Microting.Core.CaseUpdate(Int32 caseId, List`1 newValueList) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Core.cs:line 685
+######## -Expection at level 2- ########
+Message    :SplitFirst failed, due to splitSymbol not found in textToBeSplit
+Source     :Microting
+StackTrace :   at Trools.Tools.SplitToList(String textToBeSplit, Char splitSymbol, Boolean lastInstedOfFirst) in C:\Users\Troels Andersen\Dropbox\3 Code\eFormSDK\Microting\Microting\Tools.cs:line 160
+######## EXCEPTION FOUND; ENDED ########
+
+17:54:27:0. time the same Exception, within the last hour
+17:54:27:Core.Restart() at:23-01-2017 17:54:27
+17:54:27:Core.Close() at:23-01-2017 17:54:27
+17:54:27:Subscriber requested to close connection
+17:54:29:Client # Subscriber is trying to close connection
+17:54:57:Settings read
+17:54:57:Settings checked
+17:54:57:
+17:54:57:
+17:54:57:###################################################################################################################
+17:54:57:Core.Start() at:23-01-2017 17:54:57
+17:54:57:###################################################################################################################
+17:54:57:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+17:54:57:Controller started
+17:54:57:Communicator started
+17:54:57:Subscriber created
+17:54:57:Subscriber now triggers events
+17:54:57:Client # Subscriber started
+17:54:57:Excel (Office) started
+17:54:57:Client # Subscriber connecting
+17:54:57:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+17:54:57:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+17:54:58:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+17:54:58:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"0p3mg1qhl89xagk803xkhmedtyrnwse","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+17:54:58:CoreHandleUpdateDatabases() initiated
+17:54:58:Client # [{"id":"2","clientId":"0p3mg1qhl89xagk803xkhmedtyrnwse","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:54:58:Client # [{"id":"3","clientId":"0p3mg1qhl89xagk803xkhmedtyrnwse","channel":"/meta/connect","connectionType":"websocket"}]
+17:54:58:Server # [{"id":"2","clientId":"0p3mg1qhl89xagk803xkhmedtyrnwse","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+17:54:58:CoreHandleUpdateDatabases() initiated
+17:54:58:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+17:54:58:CoreHandleUpdateDatabases() initiated
+17:55:08:CaseUpdate
+17:55:51:Client # [{"id":"4","clientId":"0p3mg1qhl89xagk803xkhmedtyrnwse","channel":"/meta/connect","connectionType":"websocket"}]
+18:25:35:Settings read
+18:25:35:Settings checked
+18:25:35:
+18:25:35:
+18:25:35:###################################################################################################################
+18:25:35:Core.Start() at:23-01-2017 18:25:35
+18:25:35:###################################################################################################################
+18:25:35:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+18:25:35:Controller started
+18:25:35:Communicator started
+18:25:35:Subscriber created
+18:25:35:Subscriber now triggers events
+18:25:35:Client # Subscriber started
+18:25:35:Excel (Office) started
+18:25:36:Client # Subscriber connecting
+18:25:36:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+18:25:36:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+18:25:36:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+18:25:36:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"fq7c3rlcbrug31b155ytl64n4m01chq","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+18:25:36:CoreHandleUpdateDatabases() initiated
+18:25:36:Client # [{"id":"2","clientId":"fq7c3rlcbrug31b155ytl64n4m01chq","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:25:36:Server # [{"id":"2","clientId":"fq7c3rlcbrug31b155ytl64n4m01chq","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:25:36:CoreHandleUpdateDatabases() initiated
+18:25:37:Client # [{"id":"3","clientId":"fq7c3rlcbrug31b155ytl64n4m01chq","channel":"/meta/connect","connectionType":"websocket"}]
+18:25:37:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+18:25:37:CoreHandleUpdateDatabases() initiated
+18:25:40:CaseUpdate
+18:31:19:Client # [{"id":"4","clientId":"fq7c3rlcbrug31b155ytl64n4m01chq","channel":"/meta/connect","connectionType":"websocket"}]
+18:31:55:Settings read
+18:31:55:Settings checked
+18:31:55:
+18:31:55:
+18:31:55:###################################################################################################################
+18:31:55:Core.Start() at:23-01-2017 18:31:55
+18:31:55:###################################################################################################################
+18:31:55:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+18:31:55:Controller started
+18:31:55:Communicator started
+18:31:55:Subscriber created
+18:31:55:Subscriber now triggers events
+18:31:55:Client # Subscriber started
+18:31:55:Excel (Office) started
+18:31:55:Client # Subscriber connecting
+18:31:55:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+18:31:55:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+18:31:56:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+18:31:56:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"guu49hdv0qh0n3zn0r7jwumkl5r87do","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+18:31:56:CoreHandleUpdateDatabases() initiated
+18:31:56:Client # [{"id":"2","clientId":"guu49hdv0qh0n3zn0r7jwumkl5r87do","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:31:56:Server # [{"id":"2","clientId":"guu49hdv0qh0n3zn0r7jwumkl5r87do","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:31:56:CoreHandleUpdateDatabases() initiated
+18:31:56:Client # [{"id":"3","clientId":"guu49hdv0qh0n3zn0r7jwumkl5r87do","channel":"/meta/connect","connectionType":"websocket"}]
+18:31:56:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+18:31:56:CoreHandleUpdateDatabases() initiated
+18:31:57:CaseUpdate
+18:32:34:Settings read
+18:32:34:Settings checked
+18:32:34:
+18:32:34:
+18:32:34:###################################################################################################################
+18:32:34:Core.Start() at:23-01-2017 18:32:34
+18:32:34:###################################################################################################################
+18:32:34:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+18:32:34:Controller started
+18:32:34:Communicator started
+18:32:34:Subscriber created
+18:32:34:Subscriber now triggers events
+18:32:34:Client # Subscriber started
+18:32:34:Excel (Office) started
+18:32:34:Client # Subscriber connecting
+18:32:34:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+18:32:35:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+18:32:35:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+18:32:35:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+18:32:35:CoreHandleUpdateDatabases() initiated
+18:32:35:Client # [{"id":"2","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:32:35:Client # [{"id":"3","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/connect","connectionType":"websocket"}]
+18:32:35:Server # [{"id":"2","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:32:35:CoreHandleUpdateDatabases() initiated
+18:32:35:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+18:32:35:CoreHandleUpdateDatabases() initiated
+18:32:48:Client # [{"id":"4","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/connect","connectionType":"websocket"}]
+18:32:50:Server # [{"id":"4","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+18:32:50:CoreHandleUpdateDatabases() initiated
+18:33:01:Client # [{"id":"5","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/connect","connectionType":"websocket"}]
+18:33:07:CaseUpdate
+18:33:16:Client # [{"id":"6","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/connect","connectionType":"websocket"}]
+18:33:17:Server # [{"id":"5","clientId":"4kbasslh2ot2cyg73dzgmu8xl8cy8kg","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+18:33:19:CoreHandleUpdateDatabases() initiated
+18:45:38:Settings read
+18:45:38:Settings checked
+18:45:38:
+18:45:39:
+18:45:39:###################################################################################################################
+18:45:39:Core.Start() at:23-01-2017 18:45:39
+18:45:39:###################################################################################################################
+18:45:39:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+18:45:39:Controller started
+18:45:39:Communicator started
+18:45:39:Subscriber created
+18:45:39:Subscriber now triggers events
+18:45:39:Client # Subscriber started
+18:45:39:Excel (Office) started
+18:45:39:Client # Subscriber connecting
+18:45:39:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+18:45:39:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+18:45:39:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+18:45:39:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"fy4058du8r063pzm8zqbevfbxbo1bar","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+18:45:39:CoreHandleUpdateDatabases() initiated
+18:45:39:Client # [{"id":"2","clientId":"fy4058du8r063pzm8zqbevfbxbo1bar","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:45:39:Server # [{"id":"2","clientId":"fy4058du8r063pzm8zqbevfbxbo1bar","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+18:45:39:CoreHandleUpdateDatabases() initiated
+18:45:39:Client # [{"id":"3","clientId":"fy4058du8r063pzm8zqbevfbxbo1bar","channel":"/meta/connect","connectionType":"websocket"}]
+18:45:40:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+18:45:40:CoreHandleUpdateDatabases() initiated
+18:45:42:CaseUpdate
+18:45:53:Client # [{"id":"4","clientId":"fy4058du8r063pzm8zqbevfbxbo1bar","channel":"/meta/connect","connectionType":"websocket"}]
+18:46:02:Server # [{"id":"4","clientId":"fy4058du8r063pzm8zqbevfbxbo1bar","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:15:37:Settings read
+19:15:37:Settings checked
+19:15:37:
+19:15:37:
+19:15:37:###################################################################################################################
+19:15:37:Core.Start() at:23-01-2017 19:15:37
+19:15:37:###################################################################################################################
+19:15:37:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+19:15:37:Controller started
+19:15:37:Communicator started
+19:15:37:Subscriber created
+19:15:37:Subscriber now triggers events
+19:15:37:Client # Subscriber started
+19:15:37:Excel (Office) started
+19:15:37:Client # Subscriber connecting
+19:15:37:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+19:15:37:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+19:15:37:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+19:15:38:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"t0amkpvn49b27zdluppnkwwsy6rpxi5","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:15:38:CoreHandleUpdateDatabases() initiated
+19:15:38:Client # [{"id":"2","clientId":"t0amkpvn49b27zdluppnkwwsy6rpxi5","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:15:38:Server # [{"id":"2","clientId":"t0amkpvn49b27zdluppnkwwsy6rpxi5","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:15:38:CoreHandleUpdateDatabases() initiated
+19:15:38:Client # [{"id":"3","clientId":"t0amkpvn49b27zdluppnkwwsy6rpxi5","channel":"/meta/connect","connectionType":"websocket"}]
+19:15:38:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+19:15:38:CoreHandleUpdateDatabases() initiated
+19:15:39:CaseUpdate
+19:15:51:Client # [{"id":"4","clientId":"t0amkpvn49b27zdluppnkwwsy6rpxi5","channel":"/meta/connect","connectionType":"websocket"}]
+19:15:59:Server # [{"id":"4","clientId":"t0amkpvn49b27zdluppnkwwsy6rpxi5","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:18:50:Settings read
+19:18:50:Settings checked
+19:18:50:
+19:18:50:
+19:18:50:###################################################################################################################
+19:18:50:Core.Start() at:23-01-2017 19:18:50
+19:18:50:###################################################################################################################
+19:18:50:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+19:18:51:Controller started
+19:18:51:Communicator started
+19:18:51:Subscriber created
+19:18:51:Subscriber now triggers events
+19:18:51:Client # Subscriber started
+19:18:51:Excel (Office) started
+19:18:51:Client # Subscriber connecting
+19:18:51:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+19:18:51:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+19:18:51:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+19:18:51:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"sy0bjn132iokm9y5427rnyoektskwhq","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:18:51:CoreHandleUpdateDatabases() initiated
+19:18:51:Client # [{"id":"2","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:18:51:Client # [{"id":"3","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:18:51:Server # [{"id":"2","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:18:51:CoreHandleUpdateDatabases() initiated
+19:18:52:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+19:18:52:CoreHandleUpdateDatabases() initiated
+19:19:04:Client # [{"id":"4","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:19:06:Server # [{"id":"4","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:19:06:CoreHandleUpdateDatabases() initiated
+19:19:17:Client # [{"id":"5","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:19:30:Client # [{"id":"6","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:19:33:Server # [{"id":"6","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:19:33:CoreHandleUpdateDatabases() initiated
+19:19:43:Client # [{"id":"7","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:19:56:Client # [{"id":"8","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:19:59:Server # [{"id":"8","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:19:59:CoreHandleUpdateDatabases() initiated
+19:20:09:Client # [{"id":"9","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:20:22:Client # [{"id":"10","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:20:25:Server # [{"id":"10","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:20:25:CoreHandleUpdateDatabases() initiated
+19:20:35:Client # [{"id":"11","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:20:49:Client # [{"id":"12","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:20:51:Server # [{"id":"12","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:20:51:CoreHandleUpdateDatabases() initiated
+19:21:02:Client # [{"id":"13","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:21:15:Client # [{"id":"14","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:21:17:Server # [{"id":"14","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:21:17:CoreHandleUpdateDatabases() initiated
+19:21:28:Client # [{"id":"15","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:21:41:Client # [{"id":"16","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:21:43:Server # [{"id":"16","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:21:43:CoreHandleUpdateDatabases() initiated
+19:21:54:Client # [{"id":"17","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:22:07:Client # [{"id":"18","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:22:09:Server # [{"id":"18","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:22:09:CoreHandleUpdateDatabases() initiated
+19:22:20:Client # [{"id":"19","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:22:33:Client # [{"id":"20","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:22:35:Server # [{"id":"20","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:22:35:CoreHandleUpdateDatabases() initiated
+19:22:46:Client # [{"id":"21","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:22:59:Client # [{"id":"22","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:23:01:Server # [{"id":"22","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:23:01:CoreHandleUpdateDatabases() initiated
+19:23:12:Client # [{"id":"23","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:23:25:Client # [{"id":"24","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:23:27:Server # [{"id":"24","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:23:27:CoreHandleUpdateDatabases() initiated
+19:23:38:Client # [{"id":"25","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:23:51:Client # [{"id":"26","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:23:53:Server # [{"id":"26","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:23:53:CoreHandleUpdateDatabases() initiated
+19:24:04:Client # [{"id":"27","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:24:17:Client # [{"id":"28","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:24:19:Server # [{"id":"28","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:24:19:CoreHandleUpdateDatabases() initiated
+19:24:30:Client # [{"id":"29","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:24:43:Client # [{"id":"30","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:24:45:Server # [{"id":"30","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:24:45:CoreHandleUpdateDatabases() initiated
+19:24:46:CaseUpdate
+19:24:56:Client # [{"id":"31","clientId":"sy0bjn132iokm9y5427rnyoektskwhq","channel":"/meta/connect","connectionType":"websocket"}]
+19:25:22:Settings read
+19:25:22:Settings checked
+19:25:22:
+19:25:22:
+19:25:22:###################################################################################################################
+19:25:22:Core.Start() at:23-01-2017 19:25:22
+19:25:22:###################################################################################################################
+19:25:22:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+19:25:22:Controller started
+19:25:22:Communicator started
+19:25:22:Subscriber created
+19:25:22:Subscriber now triggers events
+19:25:22:Client # Subscriber started
+19:25:22:Excel (Office) started
+19:25:22:Client # Subscriber connecting
+19:25:22:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+19:25:22:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+19:25:22:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+19:25:22:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"o02uzh1wxz7yxaew318qsac3hk9hs7c","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:25:22:CoreHandleUpdateDatabases() initiated
+19:25:22:Client # [{"id":"2","clientId":"o02uzh1wxz7yxaew318qsac3hk9hs7c","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:25:23:CaseUpdate
+19:25:25:Server # [{"id":"2","clientId":"o02uzh1wxz7yxaew318qsac3hk9hs7c","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:25:25:Client # [{"id":"3","clientId":"o02uzh1wxz7yxaew318qsac3hk9hs7c","channel":"/meta/connect","connectionType":"websocket"}]
+19:25:27:CoreHandleUpdateDatabases() initiated
+19:25:28:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+19:25:28:CoreHandleUpdateDatabases() initiated
+19:25:43:Client # [{"id":"4","clientId":"o02uzh1wxz7yxaew318qsac3hk9hs7c","channel":"/meta/connect","connectionType":"websocket"}]
+19:25:43:Server # [{"id":"3","clientId":"o02uzh1wxz7yxaew318qsac3hk9hs7c","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:25:43:CoreHandleUpdateDatabases() initiated
+19:26:00:Settings read
+19:26:00:Settings checked
+19:26:00:
+19:26:00:
+19:26:00:###################################################################################################################
+19:26:00:Core.Start() at:23-01-2017 19:26:00
+19:26:00:###################################################################################################################
+19:26:00:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+19:26:00:Controller started
+19:26:00:Communicator started
+19:26:00:Subscriber created
+19:26:00:Subscriber now triggers events
+19:26:00:Client # Subscriber started
+19:26:00:Excel (Office) started
+19:26:00:Client # Subscriber connecting
+19:26:00:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+19:26:00:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+19:26:01:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+19:26:01:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"mvc3382lrn8hcsmt7bz6dfs2xxw7xa7","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:26:01:CoreHandleUpdateDatabases() initiated
+19:26:01:Client # [{"id":"2","clientId":"mvc3382lrn8hcsmt7bz6dfs2xxw7xa7","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:26:01:Server # [{"id":"2","clientId":"mvc3382lrn8hcsmt7bz6dfs2xxw7xa7","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+19:26:01:CoreHandleUpdateDatabases() initiated
+19:26:01:Client # [{"id":"3","clientId":"mvc3382lrn8hcsmt7bz6dfs2xxw7xa7","channel":"/meta/connect","connectionType":"websocket"}]
+19:26:01:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+19:26:01:CoreHandleUpdateDatabases() initiated
+19:26:01:CaseUpdate
+19:29:12:Client # [{"id":"4","clientId":"mvc3382lrn8hcsmt7bz6dfs2xxw7xa7","channel":"/meta/connect","connectionType":"websocket"}]
+19:29:17:Server # [{"id":"3","clientId":"mvc3382lrn8hcsmt7bz6dfs2xxw7xa7","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+19:29:18:CoreHandleUpdateDatabases() initiated
+19:29:19:Client # WebSocket Close (1000): 
+19:29:45:Client # Subscriber connection restarting in 10sec
+20:02:05:Settings read
+20:02:05:Settings checked
+20:02:05:
+20:02:05:
+20:02:05:###################################################################################################################
+20:02:05:Core.Start() at:23-01-2017 20:02:05
+20:02:05:###################################################################################################################
+20:02:05:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+20:02:05:Controller started
+20:02:05:Communicator started
+20:02:05:Subscriber created
+20:02:05:Subscriber now triggers events
+20:02:05:Client # Subscriber started
+20:02:05:Excel (Office) started
+20:02:05:Client # Subscriber connecting
+20:02:05:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+20:02:05:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+20:02:05:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+20:02:06:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"3b3ih7jwbcav7ct8agse8h1m1hrkueb","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+20:02:06:CoreHandleUpdateDatabases() initiated
+20:02:06:Client # [{"id":"2","clientId":"3b3ih7jwbcav7ct8agse8h1m1hrkueb","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+20:02:06:Server # [{"id":"2","clientId":"3b3ih7jwbcav7ct8agse8h1m1hrkueb","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+20:02:06:CoreHandleUpdateDatabases() initiated
+20:02:06:Client # [{"id":"3","clientId":"3b3ih7jwbcav7ct8agse8h1m1hrkueb","channel":"/meta/connect","connectionType":"websocket"}]
+20:02:06:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+20:02:06:CoreHandleUpdateDatabases() initiated
+20:02:07:CaseUpdate
+20:02:22:Client # [{"id":"4","clientId":"3b3ih7jwbcav7ct8agse8h1m1hrkueb","channel":"/meta/connect","connectionType":"websocket"}]
+20:02:27:Server # [{"id":"3","clientId":"3b3ih7jwbcav7ct8agse8h1m1hrkueb","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+20:02:27:CoreHandleUpdateDatabases() initiated
+20:03:44:Settings read
+20:03:44:Settings checked
+20:03:44:
+20:03:44:
+20:03:44:###################################################################################################################
+20:03:44:Core.Start() at:23-01-2017 20:03:44
+20:03:44:###################################################################################################################
+20:03:44:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+20:03:44:Controller started
+20:03:44:Communicator started
+20:03:44:Subscriber created
+20:03:44:Subscriber now triggers events
+20:03:44:Client # Subscriber started
+20:03:44:Excel (Office) started
+20:03:44:Client # Subscriber connecting
+20:03:44:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+20:03:44:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+20:03:44:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+20:03:44:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"i4wxiaxyvz9muqlbbga0635zwpry23u","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+20:03:44:CoreHandleUpdateDatabases() initiated
+20:03:44:Client # [{"id":"2","clientId":"i4wxiaxyvz9muqlbbga0635zwpry23u","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+20:03:45:Server # [{"id":"2","clientId":"i4wxiaxyvz9muqlbbga0635zwpry23u","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+20:03:45:CoreHandleUpdateDatabases() initiated
+20:03:45:Client # [{"id":"3","clientId":"i4wxiaxyvz9muqlbbga0635zwpry23u","channel":"/meta/connect","connectionType":"websocket"}]
+20:03:45:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+20:03:45:CoreHandleUpdateDatabases() initiated
+20:03:45:CaseUpdate
+20:03:58:Client # [{"id":"4","clientId":"i4wxiaxyvz9muqlbbga0635zwpry23u","channel":"/meta/connect","connectionType":"websocket"}]
+20:04:00:Server # [{"id":"4","clientId":"i4wxiaxyvz9muqlbbga0635zwpry23u","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+20:04:00:CoreHandleUpdateDatabases() initiated
+20:04:07:Settings read
+20:04:07:Settings checked
+20:04:07:
+20:04:07:
+20:04:07:###################################################################################################################
+20:04:07:Core.Start() at:23-01-2017 20:04:07
+20:04:07:###################################################################################################################
+20:04:07:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+20:04:07:Controller started
+20:04:07:Communicator started
+20:04:07:Subscriber created
+20:04:07:Subscriber now triggers events
+20:04:07:Client # Subscriber started
+20:04:07:Excel (Office) started
+20:04:07:Client # Subscriber connecting
+20:04:07:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+20:04:08:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+20:04:08:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+20:04:08:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"cbsfb77hmkdwq1u57jjkpuvl9spyck9","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+20:04:08:CoreHandleUpdateDatabases() initiated
+20:04:08:Client # [{"id":"2","clientId":"cbsfb77hmkdwq1u57jjkpuvl9spyck9","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+20:04:08:Server # [{"id":"2","clientId":"cbsfb77hmkdwq1u57jjkpuvl9spyck9","channel":"/meta/subscribe","successful":true,"subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+20:04:08:CoreHandleUpdateDatabases() initiated
+20:04:08:Client # [{"id":"3","clientId":"cbsfb77hmkdwq1u57jjkpuvl9spyck9","channel":"/meta/connect","connectionType":"websocket"}]
+20:04:08:Server # [{"channel":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update","data":{"html":"\u003Cjson\u003E{\"data\":[]}\u003C/json\u003E\n"},"ext":{}}]
+20:04:08:CoreHandleUpdateDatabases() initiated
+20:04:09:CaseUpdate
+20:04:11:CaseUpdate
+20:04:21:Client # [{"id":"4","clientId":"cbsfb77hmkdwq1u57jjkpuvl9spyck9","channel":"/meta/connect","connectionType":"websocket"}]
+20:04:23:Server # [{"id":"4","clientId":"cbsfb77hmkdwq1u57jjkpuvl9spyck9","channel":"/meta/connect","successful":true,"advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+20:04:23:CoreHandleUpdateDatabases() initiated
+20:04:24:Core.Close() at:23-01-2017 20:04:24
+20:04:24:Subscriber requested to close connection
+20:04:24:Client # Subscriber is trying to close connection
+20:04:34:Client # WebSocket Close (1001): 
+20:04:34:Client # Subscriber closed
+20:04:34:Subscriber no longer triggers events
+20:04:34:Controller closed
+20:04:34:

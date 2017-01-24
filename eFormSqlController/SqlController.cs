@@ -608,6 +608,28 @@ namespace eFormSqlController
             }
         }
 
+        public void                 FieldValueUpdate(int caseId, int fieldId, string value)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    field_values fieldMatch = db.field_values.Where(x => x.case_id == caseId && x.field_id == fieldId).ToList().First();
+
+                    fieldMatch.value = value;
+                    fieldMatch.updated_at = DateTime.Now;
+                    fieldMatch.version = fieldMatch.version + 1;
+
+                    db.version_field_values.Add(MapFieldValueVersions(fieldMatch));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueUpdate failed", ex);
+            }
+        }
+
         public List<string>         FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end)
         {
             try
