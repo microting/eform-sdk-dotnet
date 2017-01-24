@@ -583,6 +583,9 @@ namespace Microting
                             return true;
                         }
                         catch { }
+
+                        HandleCaseDeleted(aCase, EventArgs.Empty);
+                        TriggerMessage(aCase.ToString() + " has been removed");
                     }
                     return false;
                 }
@@ -604,19 +607,18 @@ namespace Microting
                 {
                     TriggerLog("caseUId:" + caseUId + ", requested to be deleted");
                     int deleted = 0;
+                    bool success;
 
                     List<Case_Dto> lst = sqlController.CaseReadByCaseUId(caseUId);
                     TriggerLog("lst.Count:" + lst.Count + ", found");
 
                     foreach (var item in lst)
                     {
-                        Response resp = new Response();
-                        resp = resp.XmlToClass(communicator.Delete(item.MicrotingUId, item.SiteId));
+                        success = CaseDelete(item.MicrotingUId);
 
-                        if (resp.Value == "success")
+                        if (success)
                             deleted++;
                     }
-                    TriggerLog("deleted:" + deleted.ToString());
 
                     return deleted;
                 }
@@ -674,17 +676,15 @@ namespace Microting
             {
                 if (coreRunning)
                 {
-                    TriggerLog("CaseUpdate"); //TODO more later
+                    TriggerLog("CaseUpdate caseId:'" + caseId + "', newValueList.Count:'" + newValueList.Count + "'");
 
                     int fieldId = 0;
                     string value = "";
-                    List<string> temp = null;
 
                     foreach (string str in newValueList)
                     {
-                        temp = t.SplitToList(str, true);
-                        fieldId = int.Parse(temp[0]);
-                        value = temp[1];
+                        fieldId = int.Parse(t.SplitToList(str, 0, false));
+                        value = t.SplitToList(str, 1, false);
                         sqlController.FieldValueUpdate(caseId, fieldId, value);
                     }
 
@@ -994,9 +994,10 @@ namespace Microting
 
         private List<List<string>> GenerateDataSetFromCases (int templatId, DateTime? start, DateTime? end)
         {
-            List<List<string>> dataSet = new List<List<string>>();
+            List<List<string>>  dataSet         = new List<List<string>>();
+            List<cases>         caseList        = sqlController.CaseReadAllIds(templatId, start, end);
+            List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<cases> caseList = sqlController.CaseReadAllIds(templatId, start, end);
             #region remove case that has been "removed"
             for (int i = caseList.Count; i < 0; i--)
             {
@@ -1005,7 +1006,6 @@ namespace Microting
             }
             #endregion
 
-            List<string> colume1CaseIds = new List<string> { "Id" };
             #region firstColumes generate
             {
                 List<string> colume2 = new List<string> { "Dato" };
@@ -1022,13 +1022,13 @@ namespace Microting
                     DateTime time = item.done_at.Value;
 
                     colume1CaseIds.Add(item.id.ToString());
-                    colume2.Add(time.ToShortDateString());
+                    colume2.Add(time.ToString("dd.MM.yyyy"));
                     colume3.Add(time.DayOfWeek.ToString());
                     colume4.Add(time.Year.ToString() + "-" + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
-                    colume5.Add(time.ToString("MMMM").Substring(0, 3) + "-" + time.Year.ToString().Substring(2, 2));
+                    colume5.Add(time.Year.ToString().Substring(2, 2) + "-" + time.ToString("MMMM").Substring(0, 3));
                     colume6.Add(time.Year.ToString());
                     colume7.Add(item.site_id.ToString()); //TODO
-                    colume8.Add(item.unit_id.ToString()); //TODO
+                    colume8.Add(item.unit_id.ToString()); //ALSO
                 }
 
                 dataSet.Add(colume1CaseIds);
@@ -1052,9 +1052,8 @@ namespace Microting
                 List<string> newRow;
                 foreach (string set in lstReturn)
                 {
-                    int mark = set.IndexOf('|');
-                    int fieldId = int.Parse(set.Substring(0, mark));
-                    string label = set.Remove(0, mark + 1);
+                    int fieldId = int.Parse(t.SplitToList(set, 0, false));
+                    string label = t.SplitToList(set, 1, false);
 
                     newRow = sqlController.FieldValueReadAllValues(fieldId, start, end);
                     newRow.Insert(0, label);
@@ -1293,21 +1292,8 @@ namespace Microting
                                             }
                                             else
                                             {
-                                                #region delete eForm on other tablets and update DB to "deleted"
-
-                                                string respXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
-                                                Response resp = new Response();
-                                                resp = resp.XmlToClass(respXml);
-
-                                                if (resp.Type == Response.ResponseTypes.Success)
-                                                    sqlController.CaseDelete(aCase.MicrotingUId);
-                                                else
-                                                    TriggerWarning("Failed to delete eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
-
-                                                HandleCaseDeleted(aCase, EventArgs.Empty);
-                                                TriggerMessage(aCase.ToString() + " has been removed");
-
-                                                #endregion
+                                                //delete eForm on other tablets and update DB to "deleted"
+                                                CaseDelete(aCase.MicrotingUId);
                                             }
                                         }
 

@@ -149,7 +149,7 @@ namespace Trools
             }
         }
 
-        public List<string>     SplitToList(string textToBeSplit, bool lastInstedOfFirst)
+        public string           SplitToList(string textToBeSplit, byte index)
         {
             try
             {
@@ -162,12 +162,37 @@ namespace Trools
                 List<string> partsLst = textToBeSplit.Split('|').ToList();
 
                 if (partsLst.Count == 2)
-                    return partsLst;
+                    return partsLst[index];
 
-                if (partsLst.Count < 2)
+                //Not two resultats...
+                //more logic needed 
+
+                throw new ArgumentException("SplitFirst failed, due to count != 2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SplitFirst failed.", ex);
+            }
+        }
+
+        public string           SplitToList(string textToBeSplit, byte index, bool lastInstedOfFirst)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(textToBeSplit))
                     throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit.ToString() + "'");
 
-                List<string> rtnLst = new List<string>();
+                if (!textToBeSplit.Contains('|'))
+                    throw new ArgumentException("SplitFirst failed, due to '|' not found in textToBeSplit");
+
+                List<string> partsLst = textToBeSplit.Split('|').ToList();
+
+                if (partsLst.Count == 2)
+                    return partsLst[index];
+
+                //Not two resultats... More logic needed 
+                if (partsLst.Count < 2)
+                    throw new ArgumentException("SplitFirst failed, due to count < 2");
 
                 int mark = -1;
                 if (lastInstedOfFirst)
@@ -175,10 +200,10 @@ namespace Trools
                 else
                     mark = textToBeSplit.IndexOf('|');
 
-                rtnLst.Add(textToBeSplit.Substring(0, mark));
-                rtnLst.Add(textToBeSplit.Substring(mark + 1, textToBeSplit.Length - mark - 1));
-
-                return rtnLst;
+                if (index == 0)
+                    return textToBeSplit.Substring(0, mark);
+                else
+                    return textToBeSplit.Remove(0, mark + 1);
             }
             catch (Exception ex)
             {

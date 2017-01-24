@@ -567,7 +567,8 @@ namespace eFormSqlController
                         }
                     #endregion
                     answer.Value = reply.value;
-                    #region answer.ValueReadable = reply.value 'ish';
+                    #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
+
                     if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
                     {
                         List<entity_items> matches = db.entity_items.Where(x => x.microting_uid == reply.value).ToList();
@@ -581,6 +582,8 @@ namespace eFormSqlController
                         string key = answer.Value;
                         string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
                         answer.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+
+                        answer.KeyValuePairList = ReadPairs(question.key_value_pair_list);
                     }
 
                     if (answer.FieldType == "MultiSelect")
@@ -595,9 +598,10 @@ namespace eFormSqlController
                             string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
                             answer.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
+
+                        answer.KeyValuePairList = ReadPairs(question.key_value_pair_list);
                     }
                     #endregion
-                    answer.KeyValuePairList = ReadPairs(question.key_value_pair_list);
 
                     return answer;
                 }
@@ -1155,7 +1159,7 @@ namespace eFormSqlController
             }
         }
         #endregion
-       #endregion
+        #endregion
 
         #region private
         #region EformCreateDb
