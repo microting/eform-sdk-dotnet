@@ -80,6 +80,29 @@ namespace eFormSqlController
                 throw new Exception("TemplatRead failed", ex);
             }
         }
+
+        public List<int>    TemplatReadAll()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<check_lists> matches = null;
+                    List<int> rtrnLst = new List<int>();
+
+                    matches = db.check_lists.Where(x => x.parent_id == 0).ToList();
+
+                    foreach (check_lists cl in matches)
+                        rtrnLst.Add(cl.id);
+
+                    return rtrnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("TemplatGetAll failed", ex);
+            }
+        }
         #endregion
 
         #region case
@@ -155,11 +178,22 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    string stat = "failed";
+
                     try
                     {
                         check_list_sites match = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
                         check_lists cL = db.check_lists.Where(x => x.id == match.check_list_id).ToList().First();
-                        Case_Dto cDto = new Case_Dto((int)match.site_id, cL.case_type, "ReversedCase", match.microting_uid, match.last_check_id, cL.custom);
+
+                        #region stat = match.workflow_state;
+                        if (match.workflow_state == "created")
+                            stat = "Created";
+
+                        if (match.workflow_state == "removed")
+                            stat = "Deleted";
+                        #endregion
+
+                        Case_Dto cDto = new Case_Dto(stat, (int)match.site_id, cL.case_type, "ReversedCase", match.microting_uid, match.last_check_id, cL.custom);
                         return cDto;
                     }
                     catch { }
@@ -168,7 +202,22 @@ namespace eFormSqlController
                     {
                         cases aCase = db.cases.Where(x => x.microting_uid == microtingUId).ToList().First();
                         check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
-                        Case_Dto cDto = new Case_Dto((int)aCase.site_id, cL.case_type, aCase.case_uid, microtingUId, null, cL.custom);
+
+                        #region stat = aCase.workflow_state;
+                        if (aCase.workflow_state == "created" && aCase.unit_id == null)
+                            stat = "Created";
+
+                        if (aCase.workflow_state == "created" && aCase.unit_id != null) //TODO
+                            stat = "Retrived";
+
+                        if (aCase.workflow_state == "retracted")
+                            stat = "Completed";
+
+                        if (aCase.workflow_state == "removed")
+                            stat = "Deleted";
+                        #endregion
+
+                        Case_Dto cDto = new Case_Dto(stat, (int)aCase.site_id, cL.case_type, aCase.case_uid, microtingUId, null, cL.custom);
                         return cDto;
                     }
                     catch { }
@@ -198,9 +247,8 @@ namespace eFormSqlController
 
                     List<Case_Dto> lstDto = new List<Case_Dto>();
                     foreach (cases aCase in matchs)
-                    {
                         lstDto.Add(CaseReadByMUId(aCase.microting_uid));
-                    }
+
                     return lstDto;
                 }
             }

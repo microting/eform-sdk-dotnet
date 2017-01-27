@@ -14,7 +14,7 @@ namespace eFormSqlController
         {
         }
 
-        public Case_Dto(int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
+        public Case_Dto(string stat, int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
         {
             if (caseType == null)
                 caseType = "";
@@ -25,6 +25,7 @@ namespace eFormSqlController
             if (checkUId == null)
                 checkUId = "";
 
+            Stat = stat;
             SiteId = siteId;
             CaseType = caseType;
             CaseUId = caseUId;
@@ -35,6 +36,11 @@ namespace eFormSqlController
         #endregion
 
         #region var
+        /// <summary>
+        /// Status of the case
+        /// </summary>
+        public string Stat { get; }
+
         /// <summary>
         /// Unique identifier of device
         /// </summary>
@@ -68,13 +74,9 @@ namespace eFormSqlController
 
         public override string ToString()
         {
-            if (CheckUId == null)
-                return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-
-            if (CheckUId == "")
-                return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
+            if (CheckUId == null) return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            if (CheckUId == "")   return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
         }
     }
     #endregion

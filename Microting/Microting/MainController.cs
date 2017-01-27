@@ -189,21 +189,6 @@ namespace Microting
             }
         }
 
-        private void        CaseReadFromGroup(string caseUId)
-        {
-            try
-            {
-                CoreElement replyElement = core.CaseRead(caseUId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
         private void        CaseDelete(string muuId)
         {
             try
@@ -223,7 +208,7 @@ namespace Microting
         {
             try
             {
-                int deletedCases = core.CaseDeleteAllSites(caseUId);
+                int deletedCases = core.CaseDeleteAll(caseUId);
             }
             catch (Exception ex)
             {

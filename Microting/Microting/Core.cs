@@ -61,7 +61,7 @@ namespace Microting
         Communicator communicator;
         SqlController sqlController;
         Subscriber subscriber;
-        ExcelController excelController;
+        ExcelController2 excelController;
         Tools t = new Tools();
 
         object _lockMain = new object();
@@ -175,7 +175,7 @@ namespace Microting
 
 
                     //communicators
-                    excelController = new ExcelController();
+                    excelController = new ExcelController2();
                     TriggerLog("Excel (Office) started");
 
 
@@ -398,6 +398,25 @@ namespace Microting
                 throw new Exception("TemplatRead failed", ex);
             }
         }
+
+        public List<int>        TemplatReadAll()
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("TemplatGetAll() called");
+                    return sqlController.TemplatReadAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplatGetAll failed", ex, true);
+                throw new Exception("TemplatGetAll failed", ex);
+            }
+        }
         #endregion
 
         #region case
@@ -522,33 +541,91 @@ namespace Microting
             }
         }
 
-        public ReplyElement     CaseRead(string caseUId)
+        public void             CaseReadAll(string microtingUId)
         {
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("caseUId:" + caseUId + ", requested to be read");
+                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
 
-                    ReplyElement replyElement;
-
-                    string mUID = sqlController.CaseFindActive(caseUId);
-                    TriggerLog("mUID:" + mUID + ", found");
-
-                    if (mUID == "")
-                        return null;
-
-                    replyElement = CaseRead(mUID, null);
-
-                    return replyElement;
+                    throw new NotImplementedException();
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseReadAllSites failed", ex, true);
-                throw new Exception("CaseReadAllSites failed", ex);
+                TriggerHandleExpection("CaseLookup failed", ex, true);
+                throw new Exception("CaseLookup failed", ex);
+            }
+        }
+
+        public Case_Dto         CaseLookupMUId(string microtingUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
+                    return sqlController.CaseReadByMUId(microtingUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseLookupId failed", ex, true);
+                throw new Exception("CaseLookupId failed", ex);
+            }
+        }
+
+        public List<Case_Dto>   CaseLookupCaseUId(string caseUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("caseUId:" + caseUId + ", requested to be looked up");
+                    return sqlController.CaseReadByCaseUId(caseUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseLookupGroup failed", ex, true);
+                throw new Exception("CaseLookupGroup failed", ex);
+            }
+        }
+
+        public bool             CaseUpdate(int caseId, List<string> newValueList)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("CaseUpdate caseId:'" + caseId + "', newValueList.Count:'" + newValueList.Count + "'");
+
+                    int fieldId = 0;
+                    string value = "";
+
+                    foreach (string str in newValueList)
+                    {
+                        fieldId = int.Parse(t.SplitToList(str, 0, false));
+                        value = t.SplitToList(str, 1, false);
+                        sqlController.FieldValueUpdate(caseId, fieldId, value);
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseUpdate failed", ex, true);
+                throw new Exception("CaseUpdate failed", ex);
             }
         }
 
@@ -599,7 +676,7 @@ namespace Microting
             }
         }
 
-        public int              CaseDeleteAllSites(string caseUId)
+        public int              CaseDeleteAll(string caseUId)
         {
             try
             {
@@ -632,74 +709,6 @@ namespace Microting
             }
         }
 
-        public Case_Dto         CaseLookup(string microtingUId)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
-                    return sqlController.CaseReadByMUId(microtingUId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseLookup failed", ex, true);
-                throw new Exception("CaseLookup failed", ex);
-            }
-        }
-
-        public List<Case_Dto>   CaseLookupAllSites(string caseUId)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("caseUId:" + caseUId + ", requested to be looked up");
-                    return sqlController.CaseReadByCaseUId(caseUId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseLookupAllSites failed", ex, true);
-                throw new Exception("CaseLookupAllSites failed", ex);
-            }
-        }
-
-        public bool             CaseUpdate(int caseId, List<string> newValueList)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("CaseUpdate caseId:'" + caseId + "', newValueList.Count:'" + newValueList.Count + "'");
-
-                    int fieldId = 0;
-                    string value = "";
-
-                    foreach (string str in newValueList)
-                    {
-                        fieldId = int.Parse(t.SplitToList(str, 0, false));
-                        value = t.SplitToList(str, 1, false);
-                        sqlController.FieldValueUpdate(caseId, fieldId, value);
-                    }
-
-                    return true;
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseUpdate failed", ex, true);
-                throw new Exception("CaseUpdate failed", ex);
-            }
-        }
-
         public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string path, string name)
         {
             try
@@ -707,6 +716,9 @@ namespace Microting
                 if (coreRunning)
                 {
                     List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
+
+                    if (dataSet == null)
+                        return "";
 
                     return excelController.CreateExcel(dataSet, path, name);
                 }
@@ -727,6 +739,9 @@ namespace Microting
                 if (coreRunning)
                 {
                     List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
+
+                    if (dataSet == null)
+                        return "";
 
                     throw new NotImplementedException();
                 }
@@ -995,8 +1010,12 @@ namespace Microting
         private List<List<string>> GenerateDataSetFromCases (int templatId, DateTime? start, DateTime? end)
         {
             List<List<string>>  dataSet         = new List<List<string>>();
-            List<cases>         caseList        = sqlController.CaseReadAllIds(templatId, start, end);
             List<string>        colume1CaseIds  = new List<string> { "Id" };
+
+            List<cases>         caseList        = sqlController.CaseReadAllIds(templatId, start, end);
+
+            if (caseList.Count == 0)
+                return null;
 
             #region remove case that has been "removed"
             for (int i = caseList.Count; i < 0; i--)
@@ -1047,7 +1066,7 @@ namespace Microting
                 MainElement templateData = sqlController.TemplatRead(templatId);
 
                 List<string> lstReturn = new List<string>();
-                lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList);
+                lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList, "");
 
                 List<string> newRow;
                 foreach (string set in lstReturn)
@@ -1065,14 +1084,18 @@ namespace Microting
             return dataSet;
         }
 
-        private List<string>    GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList)
+        private List<string>    GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList, string preLabel)
         {
             foreach (Element element in elementList)
             {
+                string sep = " / ";
+
                 #region if DataElement
                 if (element.GetType() == typeof(DataElement))
                 {
                     DataElement dataE = (DataElement)element;
+
+                    preLabel = preLabel + sep + dataE.Label;
 
                     foreach (eFormRequest.DataItem dataItem in dataE.DataItemList)
                     {
@@ -1081,7 +1104,7 @@ namespace Microting
                         if (dataItem.GetType() == typeof(None))
                             continue;
 
-                        lstReturn.Add(dataItem.Id + "|" + dataItem.Label);
+                        lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItem.Label);
                     }
                 }
                 #endregion
@@ -1091,7 +1114,7 @@ namespace Microting
                 {
                     GroupElement groupE = (GroupElement)element;
 
-                    GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList);
+                    GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList, preLabel + sep + groupE.Label);
                 }
                 #endregion
             }

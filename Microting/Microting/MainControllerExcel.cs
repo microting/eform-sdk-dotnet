@@ -87,7 +87,9 @@ namespace Microting
 
                 if (input.ToLower() == "r")
                 {
-                    Console.WriteLine(core.CasesToExcel(1, null, DateTime.Now, "", "test"));
+                    //Console.WriteLine(core.CasesToExcel(6, null, DateTime.Now, "", "test"));
+
+                    var temp = core.TemplatReadAll();
 
                     //List<string> temp = new List<string>();
                     //temp.Add("2|andMoreTest");
@@ -198,21 +200,6 @@ namespace Microting
             }
         }
 
-        private void        CaseReadFromGroup(string caseUId)
-        {
-            try
-            {
-                CoreElement replyElement = core.CaseRead(caseUId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
         private void        CaseDelete(string muuId)
         {
             try
@@ -232,7 +219,7 @@ namespace Microting
         {
             try
             {
-                int deletedCases = core.CaseDeleteAllSites(caseUId);
+                int deletedCases = core.CaseDeleteAll(caseUId);
             }
             catch (Exception ex)
             {

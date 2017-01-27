@@ -56,6 +56,8 @@ namespace Microting
         /// <param name="templatId">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         MainElement TemplatRead(int templatId);
 
+        List<int> TemplatReadAll();
+
         //---------------------------------------------------------------------------------------
 
         /// <summary>
@@ -87,24 +89,24 @@ namespace Microting
         ReplyElement CaseRead(string microtingUId, string checkUId);
 
         /// <summary>
-        /// Tries to retrieve the answered full case in the DB, from the set
+        /// Looks up a case's markers
         /// </summary>
-        /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
-        ReplyElement CaseRead(string caseUId);
+        /// <param name="microtingUId">Microting unique ID of the eForm case</param>
+        void CaseReadAll(string caseUId);
 
         //---------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Looks up a case's markers
+        /// Looks up a case's markers, from the set
         /// </summary>
-        /// <param name="microtingUId">Microting ID of the eForm case</param>
-        Case_Dto CaseLookup(string microtingUId);
+        /// <param name="microtingUId">Microting unique ID of the eForm case</param>
+        Case_Dto CaseLookupMUId(string microtingUId);
 
         /// <summary>
         /// Looks up a case's markers, from the set
         /// </summary>
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
-        List<Case_Dto> CaseLookupAllSites(string caseUId);
+        List<Case_Dto> CaseLookupCaseUId(string caseUId);
 
         //---------------------------------------------------------------------------------------
 
@@ -126,7 +128,7 @@ namespace Microting
         /// Marks a set of case(s) as deleted, and will remove it/them from the device(s), if needed
         /// </summary>
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
-        int CaseDeleteAllSites(string caseUId);
+        int CaseDeleteAll(string caseUId);
 
         //---------------------------------------------------------------------------------------
 

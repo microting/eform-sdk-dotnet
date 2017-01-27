@@ -28,17 +28,32 @@ namespace eFormOffice
             xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
             xlWorkSheet.Name = "Data dump";
 
-            int lstNum = 1;
+            Excel.XlRgbColor color;
+            int colNum = 1;
+            bool evenRow = true;
             foreach (List<string> lst in dataSet)
             {
-                int itemNum = 1;
+                color = Excel.XlRgbColor.rgbGray;
+
+                int rowNum = 1;
                 foreach (string content in lst)
                 {
-                    xlWorkSheet.Cells[itemNum, lstNum] = content;
+                    xlWorkSheet.Cells[rowNum, colNum] = content;
+                    xlWorkSheet.Cells[rowNum, colNum].Interior.Color = color;
+                    rowNum++;
 
-                    itemNum++;
+                    if (evenRow)
+                    {
+                        color = Excel.XlRgbColor.rgbSilver;
+                        evenRow = false;
+                    }
+                    else
+                    {
+                        color = Excel.XlRgbColor.rgbWhite;
+                        evenRow = true;
+                    }
                 }
-                lstNum++;
+                colNum++;
             }
 
             try
