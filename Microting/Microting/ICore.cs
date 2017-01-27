@@ -89,14 +89,6 @@ namespace Microting
         ReplyElement CaseRead(string microtingUId, string checkUId);
 
         /// <summary>
-        /// Looks up a case's markers
-        /// </summary>
-        /// <param name="microtingUId">Microting unique ID of the eForm case</param>
-        void CaseReadAll(string caseUId);
-
-        //---------------------------------------------------------------------------------------
-
-        /// <summary>
         /// Looks up a case's markers, from the set
         /// </summary>
         /// <param name="microtingUId">Microting unique ID of the eForm case</param>

@@ -541,15 +541,15 @@ namespace Microting
             }
         }
 
-        public void             CaseReadAll(string microtingUId)
+        public List<cases>      CaseReadAll(int templatId, DateTime? start, DateTime? end)
         {
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
+                    TriggerLog("Templat id:" + templatId.ToString() + " trying to read all cases");
 
-                    throw new NotImplementedException();
+                    return sqlController.CaseReadAllIds(templatId, start, end);
                 }
                 else
                     throw new Exception("Core is not running");
