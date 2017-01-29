@@ -56,7 +56,7 @@ namespace Microting
         /// <param name="templatId">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         MainElement TemplatRead(int templatId);
 
-        List<int> TemplatReadAll();
+        List<MainElement> TemplatReadAll();
 
         //---------------------------------------------------------------------------------------
 

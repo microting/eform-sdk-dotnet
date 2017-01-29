@@ -81,19 +81,24 @@ namespace eFormSqlController
             }
         }
 
-        public List<int>    TemplatReadAll()
+        public List<MainElement>    TemplatReadAll()
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     List<check_lists> matches = null;
-                    List<int> rtrnLst = new List<int>();
+                    List<MainElement> rtrnLst = new List<MainElement>();
 
                     matches = db.check_lists.Where(x => x.parent_id == 0).ToList();
 
-                    foreach (check_lists cl in matches)
-                        rtrnLst.Add(cl.id);
+                    foreach (check_lists mainCl in matches)
+                    {
+                        MainElement mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                        t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
+
+                        rtrnLst.Add(mainElement);
+                    }
 
                     return rtrnLst;
                 }

@@ -399,7 +399,7 @@ namespace Microting
             }
         }
 
-        public List<int>        TemplatReadAll()
+        public List<MainElement>        TemplatReadAll()
         {
             try
             {
