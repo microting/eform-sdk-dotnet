@@ -77,6 +77,7 @@ namespace Microting
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
         /// <param name="reversed">Default is false. If true, cases will not be created until a check has been completed</param>
+        List<string>    CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed);
 
         //---------------------------------------------------------------------------------------
 
@@ -156,6 +157,7 @@ namespace Microting
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="path">Location where fil is to be placed. Relative or absolut. WARNING: Excel might its default location</param>
         /// <param name="name">Name of the Excel fil</param>
+        string          CasesToExcel(int templatId, DateTime? start, DateTime? end, string fullPathName);
 
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
@@ -165,5 +167,6 @@ namespace Microting
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="path">Location where fil is to be placed. Relative or absolut</param>
         /// <param name="name">Name of the CSV fil</param>
+        string          CasesToCsv(int templatId, DateTime? start, DateTime? end, string fullPathName);
     }
 }

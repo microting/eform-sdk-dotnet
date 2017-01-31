@@ -61,7 +61,7 @@ namespace Microting
         Communicator communicator;
         SqlController sqlController;
         Subscriber subscriber;
-        ExcelController2 excelController;
+        ExcelController excelController;
         Tools t = new Tools();
 
         object _lockMain = new object();
@@ -175,7 +175,7 @@ namespace Microting
 
 
                     //communicators
-                    excelController = new ExcelController2();
+                    excelController = new ExcelController();
                     TriggerLog("Excel (Office) started");
 
 
@@ -420,39 +420,67 @@ namespace Microting
         #endregion
 
         #region case
-        public void             CaseCreate(MainElement mainElement, string caseUId, int siteId)
+        public string           CaseCreate(MainElement mainElement, string caseUId, int siteId)
         {
-            try
-            {
-                if (coreRunning)
-                {
-                    List<int> siteIds = new List<int> { siteId };
-                    TriggerLog("caseUId:" + caseUId + " siteId:" + siteId + ", requested to be created");
-
-                    Thread subscriberThread = new Thread(() => CaseCreateMethodThreaded(mainElement, caseUId, siteIds, "", false));
-                    subscriberThread.Start();
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseCreate failed", ex, true);
-                throw new Exception("CaseCreate failed", ex);
-            }
+            List<string> lst = CaseCreate(mainElement, caseUId, new List<int> { siteId }, "", false);
+            return lst[0];
         }
 
-        public void             CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
+        public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
         {
             try
             {
                 if (coreRunning)
                 {
-                    string siteIdsStr = string.Join(",", siteIds);
-                    TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + " reversed:" + reversed.ToString() + ", requested to be created");
+                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+                    {
+                        string siteIdsStr = string.Join(",", siteIds);
+                        TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + " reversed:" + reversed.ToString() + ", requested to be created");
 
-                    Thread caseThread = new Thread(() => CaseCreateMethodThreaded(mainElement, caseUId, siteIds, custom, reversed));
-                    caseThread.Start();
+                        #region check input
+                        DateTime start = DateTime.Parse(mainElement.StartDate);
+                        start = DateTime.Parse(start.ToShortTimeString());
+
+                        DateTime end = DateTime.Parse(mainElement.EndDate);
+                        start = DateTime.Parse(start.ToShortTimeString());
+
+                        if (end < DateTime.Now)
+                            throw new ArgumentException("mainElement.EndDate needs to be a future date");
+
+                        if (end <= start)
+                            throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+
+                        if (reversed == false && mainElement.Repeated != 1)
+                            throw new ArgumentException("if reversed == false, mainElement.Repeat has to be 1");
+
+                        if (reversed == true && caseUId != "")
+                            throw new ArgumentException("if reversed == true, caseUId can't be used and has to be left blank");
+
+                        if (reversed == true && caseUId != "")
+                            throw new ArgumentException("if reversed == true, caseUId can't be used and has to be left blank");
+                        #endregion
+
+                        //sending and getting a reply
+                        List<string> lstMUId = new List<string>();
+
+                        foreach (int siteId in siteIds)
+                        {
+                            string mUId = SendXml(mainElement, siteId);
+
+                            if (reversed == false)
+                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, caseUId, custom);
+                            else
+                                sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
+
+                            Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
+                            HandleCaseCreated(cDto, EventArgs.Empty);
+                            TriggerMessage(cDto.ToString() + " has been created");
+
+                            lstMUId.Add(mUId);
+                        }
+
+                        return lstMUId;
+                    }
                 }
                 else
                     throw new Exception("Core is not running");
@@ -561,44 +589,6 @@ namespace Microting
             }
         }
 
-        public Case_Dto         CaseLookupMUId(string microtingUId)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
-                    return sqlController.CaseReadByMUId(microtingUId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseLookupId failed", ex, true);
-                throw new Exception("CaseLookupId failed", ex);
-            }
-        }
-
-        public List<Case_Dto>   CaseLookupCaseUId(string caseUId)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("caseUId:" + caseUId + ", requested to be looked up");
-                    return sqlController.CaseReadByCaseUId(caseUId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseLookupGroup failed", ex, true);
-                throw new Exception("CaseLookupGroup failed", ex);
-            }
-        }
-
         public bool             CaseUpdate(int caseId, List<string> newValueList)
         {
             try
@@ -676,40 +666,64 @@ namespace Microting
             }
         }
 
-        public int              CaseDeleteAll(string caseUId)
+        public Case_Dto         CaseLookupMUId(string microtingUId)
         {
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("caseUId:" + caseUId + ", requested to be deleted");
-                    int deleted = 0;
-                    bool success;
-
-                    List<Case_Dto> lst = sqlController.CaseReadByCaseUId(caseUId);
-                    TriggerLog("lst.Count:" + lst.Count + ", found");
-
-                    foreach (var item in lst)
-                    {
-                        success = CaseDelete(item.MicrotingUId);
-
-                        if (success)
-                            deleted++;
-                    }
-
-                    return deleted;
+                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
+                    return sqlController.CaseReadByMUId(microtingUId);
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseDeleteAllSites failed", ex, true);
-                throw new Exception("CaseDeleteAllSites failed", ex);
+                TriggerHandleExpection("CaseLookupId failed", ex, true);
+                throw new Exception("CaseLookupId failed", ex);
             }
         }
 
-        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string path, string name)
+        public Case_Dto         CaseLookupCaseId(int caseId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("caseId:" + caseId + ", requested to be looked up");
+                    return sqlController.CaseReadByCaseId(caseId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseLookupGroup failed", ex, true);
+                throw new Exception("CaseLookupGroup failed", ex);
+            }
+        }
+
+        public List<Case_Dto>   CaseLookupCaseUId(string caseUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("caseUId:" + caseUId + ", requested to be looked up");
+                    return sqlController.CaseReadByCaseUId(caseUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseLookupGroup failed", ex, true);
+                throw new Exception("CaseLookupGroup failed", ex);
+            }
+        }
+
+        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string fullPathName)
         {
             try
             {
@@ -720,7 +734,7 @@ namespace Microting
                     if (dataSet == null)
                         return "";
 
-                    return excelController.CreateExcel(dataSet, path, name);
+                    return excelController.CreateExcel(dataSet, fullPathName);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -732,7 +746,7 @@ namespace Microting
             }
         }
 
-        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string path, string name)
+        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string fullPathName)
         {
             try
             {
@@ -743,7 +757,24 @@ namespace Microting
                     if (dataSet == null)
                         return "";
 
-                    throw new NotImplementedException();
+                    using (TextWriter writer = File.CreateText(fullPathName))
+                    {
+                        List<string> temp;
+
+                        for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
+                        {
+                            temp = new List<string>();
+
+                            foreach (List<string> lst in dataSet)
+                            {
+                                temp.Add(lst[rowN]); 
+                            }
+
+                            writer.WriteLine(string.Join(";", temp.ToArray()));
+                        }
+                    }
+
+                    return fullPathName;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -869,58 +900,6 @@ namespace Microting
         #endregion
 
         #region private
-        private void            CaseCreateMethodThreaded(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
-        {
-            try //Threaded method, hence the try/catch
-            {
-                lock (_lockMain)
-                {
-                    if (mainElement.Repeated != 1 && reversed == false)
-                        throw new ArgumentException("mainElement.Repeat was not equal to 1 & reversed is false. Hence no case can be created");
-
-                    DateTime start = DateTime.Parse(mainElement.StartDate);
-                    start = DateTime.Parse(start.ToShortTimeString());
-
-                    DateTime end = DateTime.Parse(mainElement.EndDate);
-                    start = DateTime.Parse(start.ToShortTimeString());
-
-                    if (end < DateTime.Now)
-                        throw new ArgumentException("mainElement.EndDate needs to be a future date");
-
-                    if (end <= start)
-                        throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
-
-
-                    //sending and getting a reply
-                    bool found = false;
-                    foreach (int siteId in siteIds)
-                    {
-                        string mUId = SendXml(mainElement, siteId);
-
-                        if (reversed == false)
-                            sqlController.CaseCreate(mUId, mainElement.Id, siteId, caseUId, custom);
-                        else
-                            sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
-
-                        Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
-                        HandleCaseCreated(cDto, EventArgs.Empty);
-                        TriggerMessage(cDto.ToString() + " has been created");
-
-                        found = true;
-                    }
-
-                    if (!found)
-                        throw new Exception("CaseCreateFullMethod failed. No matching sites found. No eForms created");
-
-                    TriggerMessage("eForm created");
-                }
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CaseCreateMethodThreaded failed", ex, true);
-            }
-        }
-
         private List<Element>   ReplaceDataElementsAndDataItems(int caseId, List<Element> elementList, List<FieldValue> lstAnswers)
         {
             List<Element> elementListReplaced = new List<Element>();
