@@ -140,7 +140,7 @@ namespace eFormSqlController
             }
         }
 
-        public int                  CaseCreate(string microtingUId, int checkListId, int siteId, string caseUId, string custom)
+        public int                  CaseCreate(int checkListId, int siteId, string microtingUId, string caseUId, string custom)
         {
             try
             {
@@ -183,56 +183,70 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    string stat = "failed";
-
-                    try
-                    {
-                        check_list_sites match = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
-                        check_lists cL = db.check_lists.Where(x => x.id == match.check_list_id).ToList().First();
-
-                        #region stat = match.workflow_state;
-                        if (match.workflow_state == "created")
-                            stat = "Created";
-
-                        if (match.workflow_state == "removed")
-                            stat = "Deleted";
-                        #endregion
-
-                        Case_Dto cDto = new Case_Dto(stat, (int)match.site_id, cL.case_type, "ReversedCase", match.microting_uid, match.last_check_id, cL.custom);
-                        return cDto;
-                    }
-                    catch { }
-
                     try
                     {
                         cases aCase = db.cases.Where(x => x.microting_uid == microtingUId).ToList().First();
-                        check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
+                        return CaseReadByCaseId(aCase.id);
+                    } catch { }
 
-                        #region stat = aCase.workflow_state;
-                        if (aCase.workflow_state == "created" && aCase.unit_id == null)
+                    try
+                    {
+                        check_list_sites cls = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
+                        check_lists cL = db.check_lists.Where(x => x.id == cls.check_list_id).ToList().First();
+
+                        #region string stat = aCase.workflow_state ...
+                        string stat = "";
+                        if (cls.workflow_state == "created")
                             stat = "Created";
 
-                        if (aCase.workflow_state == "created" && aCase.unit_id != null) //TODO
-                            stat = "Retrived";
-
-                        if (aCase.workflow_state == "retracted")
-                            stat = "Completed";
-
-                        if (aCase.workflow_state == "removed")
+                        if (cls.workflow_state == "removed")
                             stat = "Deleted";
                         #endregion
 
-                        Case_Dto cDto = new Case_Dto(stat, (int)aCase.site_id, cL.case_type, aCase.case_uid, microtingUId, null, cL.custom);
-                        return cDto;
-                    }
-                    catch { }
+                        Case_Dto rtrnCase = new Case_Dto(stat, (int)cls.site_id, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom);
+                        return rtrnCase;
+                    } catch { }
 
-                    throw new Exception("CaseReadByMUId failed. Was unable to find a match in the database.");
+                    throw new Exception("CaseReadByMuuId failed");
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception("CaseReadByMuuId failed", ex);
+            }
+        }
+
+        public Case_Dto             CaseReadByCaseId(int caseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases aCase = db.cases.Where(x => x.id == caseId).ToList().First();
+                    check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
+
+                    #region string stat = aCase.workflow_state ...
+                    string stat = "";
+                    if (aCase.workflow_state == "created" && aCase.unit_id == null)
+                        stat = "Created";
+
+                    if (aCase.workflow_state == "created" && aCase.unit_id != null) //TODO
+                        stat = "Retrived";
+
+                    if (aCase.workflow_state == "retracted")
+                        stat = "Completed";
+
+                    if (aCase.workflow_state == "removed")
+                        stat = "Deleted";
+                    #endregion
+
+                    Case_Dto cDto = new Case_Dto(stat, (int)aCase.site_id, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
+                    return cDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByCaseUId failed", ex);
             }
         }
 
@@ -252,7 +266,7 @@ namespace eFormSqlController
 
                     List<Case_Dto> lstDto = new List<Case_Dto>();
                     foreach (cases aCase in matchs)
-                        lstDto.Add(CaseReadByMUId(aCase.microting_uid));
+                        lstDto.Add(CaseReadByCaseId(aCase.id));
 
                     return lstDto;
                 }
@@ -445,7 +459,7 @@ namespace eFormSqlController
                     List<cases> lstMatchs = db.cases.Where(x => x.custom == customString && x.workflow_state == "created").ToList();
 
                     foreach (cases match in lstMatchs)
-                        foundCasesThatMatch.Add(CaseReadByMUId(match.microting_uid));
+                        foundCasesThatMatch.Add(CaseReadByCaseId(match.id));
 
                     return foundCasesThatMatch;
                 }
@@ -857,7 +871,7 @@ namespace eFormSqlController
                         field_values fV = db.field_values.Where(x => x.uploaded_data_id == dU.id).ToList().First();
                         cases aCase = db.cases.Where(x => x.id == fV.case_id).ToList().First();
 
-                        return CaseReadByMUId(aCase.microting_uid);
+                        return CaseReadByCaseId(aCase.id);
                     }
                     catch
                     {
@@ -1808,7 +1822,7 @@ namespace eFormSqlController
                     try
                     {
                         check_list_sites cLS = db.check_list_sites.Where(x => x.microting_uid == response.Value).ToList().First();
-                        caseId = CaseCreate(cLS.microting_uid, (int)cLS.check_list_id, (int)cLS.site_id, "ReversedCase", "");
+                        caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site_id, cLS.microting_uid, "ReversedCase", "");
                     }
                     catch { }
 

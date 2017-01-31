@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelController2.cs" />
     <Compile Include="ExcelController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -203,22 +203,6 @@ namespace Microting
                 throw new NotImplementedException();
             }
         }
-
-        private void        CaseDeleteAll(string caseUId)
-        {
-            try
-            {
-                int deletedCases = core.CaseDeleteAll(caseUId);
-            }
-            catch (Exception ex)
-            {
-                EventMessage(ex.ToString(), EventArgs.Empty);
-
-                //DOSOMETHING: Handle the expection
-                throw new NotImplementedException();
-            }
-        }
-
         #endregion
 
         #region events

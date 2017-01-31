@@ -124,7 +124,7 @@ namespace Microting
         #region key logic
         private void    Setup()
         {
-            if (!sqlCustom.VariableGetBool("setup_done"))
+            if (sqlCustom.VariableGet("setup_done") == "false")
             {
                 Console.WriteLine("Type 'Y' only IF you are sure you want to remove ALL eForms");
                 Console.WriteLine("from devices, and clean the database COMPLETLY, and resetup system.");
@@ -437,7 +437,7 @@ namespace Microting
             {
                 try
                 {
-                    if (!sqlCustom.VariableGetBool("synced"))
+                    if (sqlCustom.VariableGet("synced") == "fale")
                     {
                         string mUId;
                         EntityGroup eG;

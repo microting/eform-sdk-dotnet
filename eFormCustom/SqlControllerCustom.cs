@@ -90,7 +90,7 @@ namespace eFormCustom
             }
         }
 
-        public string VariableGet(string variableName)
+        public string           VariableGet(string variableName)
         {
             try
             {
@@ -112,19 +112,7 @@ namespace eFormCustom
                 throw new Exception("VariableGet failed.", ex);
             }
         }
-
-        public bool VariableGetBool(string variableName)
-        {
-            try
-            {
-                return bool.Parse(VariableGet(variableName));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("VariableGet failed.", ex);
-            }
-        }
-
+        
         public void             VariableSet(string variableName, string variableValue)
         {
             try
@@ -183,7 +171,21 @@ namespace eFormCustom
                     List<workers> conLst = db.workers.Where(x => x.site_id == siteId).ToList();
 
                     if (conLst.Count != 1)
-                        throw new Exception("WorkerRead failed, count != 1");
+                    {
+                        if (conLst.Count == 0)
+                        {
+                            workers newWorker = new workers();
+                            newWorker.location = "New worker, 'location' not entered";
+                            newWorker.name = "New worker, 'name' not entered";
+                            newWorker.phone = "New worker, 'phone' not entered";
+                            newWorker.site_id = siteId;
+
+                            db.workers.Add(newWorker);
+                            db.SaveChanges();
+                        }
+                        else
+                            throw new Exception("WorkerRead failed, count > 1");
+                    }
 
                     rtnLst.Add(conLst[0].location);
                     rtnLst.Add(conLst[0].name);

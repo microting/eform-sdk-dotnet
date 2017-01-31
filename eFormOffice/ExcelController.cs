@@ -11,7 +11,7 @@ namespace eFormOffice
 {
     public class ExcelController
     {
-        public string CreateExcel(List<List<string>> dataSet, string path, string name)
+        public string CreateExcel(List<List<string>> dataSet, string fullPathName)
         {
             Excel.Application xlApp = new Excel.Application();
             xlApp.DisplayAlerts = false;
@@ -58,7 +58,7 @@ namespace eFormOffice
 
             try
             {
-                xlWorkBook.SaveAs(path + name, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                xlWorkBook.SaveAs(fullPathName, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
             }
             catch (Exception ex)
             {
