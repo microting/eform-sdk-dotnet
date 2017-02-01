@@ -589,22 +589,35 @@ namespace Microting
             }
         }
 
-        public bool             CaseUpdate(int caseId, List<string> newValueList)
+        public bool             CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst)
         {
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("CaseUpdate caseId:'" + caseId + "', newValueList.Count:'" + newValueList.Count + "'");
+                    if (newFieldValuePairLst == null)
+                        newFieldValuePairLst = new List<string>();
 
-                    int fieldId = 0;
+                    if (newCheckListValuePairLst == null)
+                        newCheckListValuePairLst = new List<string>();
+
+                    TriggerLog("CaseUpdate caseId:'" + caseId + "', newFieldValuePairLst.Count:'" + newFieldValuePairLst.Count + "', newCheckListValuePairLst.Count:'" + newCheckListValuePairLst.Count + "'");
+
+                    int id = 0;
                     string value = "";
 
-                    foreach (string str in newValueList)
+                    foreach (string str in newFieldValuePairLst)
                     {
-                        fieldId = int.Parse(t.SplitToList(str, 0, false));
+                        id = int.Parse(t.SplitToList(str, 0, false));
                         value = t.SplitToList(str, 1, false);
-                        sqlController.FieldValueUpdate(caseId, fieldId, value);
+                        sqlController.FieldValueUpdate(caseId, id, value);
+                    }
+
+                    foreach (string str in newCheckListValuePairLst)
+                    {
+                        id = int.Parse(t.SplitToList(str, 0, false));
+                        value = t.SplitToList(str, 1, false);
+                        sqlController.CheckListValueStatusUpdate(caseId, id, value);
                     }
 
                     return true;

@@ -751,6 +751,28 @@ namespace eFormSqlController
                 throw new Exception("CheckListValueStatusRead failed", ex);
             }
         }
+
+        public void                 CheckListValueStatusUpdate(int caseId, int checkListId, string value)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_list_values match = db.check_list_values.Where(x => x.case_id == caseId && x.check_list_id == checkListId).ToList().First();
+
+                    match.status = value;
+                    match.updated_at = DateTime.Now;
+                    match.version = match.version + 1;
+
+                    db.version_check_list_values.Add(MapCheckListValueVersions(match));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueUpdate failed", ex);
+            }
+        }
         #endregion
 
         #region notification

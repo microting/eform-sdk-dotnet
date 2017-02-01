@@ -91,8 +91,9 @@ namespace Microting
         /// <summary>
         /// Tries to set the resultats of a case to new values
         /// </summary>
-        /// <param name="newValueList">List of '[fieldId]|[new value]'</param>
-        bool            CaseUpdate(int caseId, List<string> newValueList);
+        /// <param name="newFieldValuePairLst">List of '[fieldValueId]|[new value]'</param>
+        /// <param name="newCheckListValuePairLst">List of '[checkListValueId]|[new status]'</param>
+        bool            CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst);
 
         /// <summary>
         /// Marks a case as deleted, and will remove it from the device, if needed
