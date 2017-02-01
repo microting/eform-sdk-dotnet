@@ -1,0 +1,21 @@
+15:42:02:Settings read
+15:42:02:Settings checked
+15:42:02:
+15:42:02:
+15:42:02:###################################################################################################################
+15:42:02:Core.Start() at:01-02-2017 15:42:02
+15:42:02:###################################################################################################################
+15:42:02:comToken:b86d3f45bd8b7340416447762784bc9c comAddress: https://prelive.microting.com subscriberToken:b86d3f45bd8b7340416447762784bc9c subscriberAddress:not-prelive.microting.com subscriberName:TA_Test serverConnectionString:Data Source=DESKTOP-7V1APE5\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True fileLocation:datafolder/ logEvents:True
+15:42:02:Controller started
+15:42:02:Communicator started
+15:42:02:Subscriber created
+15:42:02:Subscriber now triggers events
+15:42:02:Client # Subscriber started
+15:42:02:Excel (Office) started
+15:42:02:Client # Subscriber connecting
+15:42:02:Client # URL  = https://not-prelive.microting.com:443/feeds/b86d3f45bd8b7340416447762784bc9c/read
+15:42:02:Client # Auth = /ef63be7f13bf078950650d3d74a2da84f5bb5d2a
+15:42:02:Client # [{"id":"1","channel":"/meta/handshake","version":"1.0","supportedConnectionTypes":["in-process","websocket","long-polling"]}]
+15:42:03:Server # [{"id":"1","channel":"/meta/handshake","successful":true,"version":"1.0","supportedConnectionTypes":["long-polling","cross-origin-long-polling","callback-polling","websocket","eventsource","in-process"],"clientId":"0u4a0p6nnmq8f3pmu3bpd3s6krpey4z","advice":{"reconnect":"retry","interval":0,"timeout":15000}}]
+15:42:03:Client # [{"id":"2","clientId":"0u4a0p6nnmq8f3pmu3bpd3s6krpey4z","channel":"/meta/subscribe","subscription":"/ef63be7f13bf078950650d3d74a2da84f5bb5d2a-update"}]
+15:42:03:CoreHandleUpdateDatabases() initiated

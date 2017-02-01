@@ -25,6 +25,7 @@ namespace eFormSqlController
 
             using (var db = new MicrotingDb(connectionStr))
             {
+                #region SettingCount
                 if (SettingCount() < 9)
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
@@ -41,7 +42,9 @@ namespace eFormSqlController
 
                     SettingUpdate("firstRunDone", "false");
                 }
+                #endregion
 
+                #region FieldTypeCount
                 if (FieldTypeCount() < 18)
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
@@ -65,7 +68,9 @@ namespace eFormSqlController
                     FieldTypeAdd(17, "FieldGroup", "Field group");
                     FieldTypeAdd(18, "SaveButton", "Save eForm");
                 }
+                #endregion
 
+                #region SettingRead
                 if (!bool.Parse(SettingRead("firstRunDone")))
                 {
                     var lines = File.ReadAllLines("input\\first_run.txt");
@@ -84,13 +89,14 @@ namespace eFormSqlController
                     SettingUpdate("firstRunDone", "true");
                     SettingUpdate("logLevel", "true");
                 }
+                #endregion
             }
         }
         #endregion
 
         #region public
         #region templat
-        public int          TemplatCreate(MainElement mainElement)
+        public int                  TemplatCreate(MainElement mainElement)
         {
             try
             {
@@ -103,7 +109,7 @@ namespace eFormSqlController
             }
         }
 
-        public MainElement  TemplatRead(int templatId)
+        public MainElement          TemplatRead(int templatId)
         {
             try
             {
@@ -113,23 +119,15 @@ namespace eFormSqlController
                     GetConverter();
 
                     check_lists mainCl = null;
-                    try
-                    {
-                        //getting mainElement
-                        mainCl = db.check_lists.Where(x => x.id == templatId).ToList().First();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Failed to find matching check_list:" + templatId, ex);
-                    }
+                
+                    //getting mainElement
+                    mainCl = db.check_lists.Single(x => x.id == templatId);
 
                     mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
                         t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
 
-
                     //getting elements
                     List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templatId).ToList();
-
                     foreach (check_lists cl in lst)
                     {
                         mainElement.ElementList.Add(GetElement(cl.id));
@@ -210,7 +208,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_lists chkLst = db.check_lists.Where(x => x.id == checkListId).ToList().First();
+                    check_lists chkLst = db.check_lists.Single(x => x.id == checkListId);
 
                     cases aCase = new cases();
                     aCase.status = 66;
@@ -255,8 +253,8 @@ namespace eFormSqlController
 
                     try
                     {
-                        check_list_sites cls = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
-                        check_lists cL = db.check_lists.Where(x => x.id == cls.check_list_id).ToList().First();
+                        check_list_sites cls = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
+                        check_lists cL = db.check_lists.Single(x => x.id == cls.check_list_id);
 
                         #region string stat = aCase.workflow_state ...
                         string stat = "";
@@ -286,8 +284,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases aCase = db.cases.Where(x => x.id == caseId).ToList().First();
-                    check_lists cL = db.check_lists.Where(x => x.id == aCase.check_list_id).ToList().First();
+                    cases aCase = db.cases.Single(x => x.id == caseId);
+                    check_lists cL = db.check_lists.Single(x => x.id == aCase.check_list_id);
 
                     #region string stat = aCase.workflow_state ...
                     string stat = "";
@@ -326,10 +324,10 @@ namespace eFormSqlController
 
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<cases> matchs = db.cases.Where(x => x.case_uid == caseUId).ToList();
-
+                    List<cases> matches = db.cases.Where(x => x.case_uid == caseUId).ToList();
                     List<Case_Dto> lstDto = new List<Case_Dto>();
-                    foreach (cases aCase in matchs)
+
+                    foreach (cases aCase in matches)
                         lstDto.Add(CaseReadByCaseId(aCase.id));
 
                     return lstDto;
@@ -347,15 +345,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        check_list_sites match = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
-                        return match.last_check_id;
-                    }
-                    catch
-                    {
-                        return null;
-                    }
+                    check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.microting_uid == microtingUId);
+                    return match.last_check_id;
                 }
             }
             catch (Exception ex)
@@ -370,16 +361,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        cases match = db.cases.Where(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId).ToList().First();
-                        return match;
-                    }
-                    catch
-                    {
-                        //no match found
-                        return null;
-                    }
+                    cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
+                    return match;
                 }
             }
             catch (Exception ex)
@@ -394,22 +377,14 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        if (start == null)
-                            start = DateTime.MinValue;
+                    if (start == null)
+                        start = DateTime.MinValue;
 
-                        if (end == null)
-                            end = DateTime.MaxValue;
+                    if (end == null)
+                        end = DateTime.MaxValue;
 
-                        List<cases> matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
-                        return matches;
-                    }
-                    catch
-                    {
-                        //no match found
-                        return null;
-                    }
+                    List<cases> matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
+                    return matches;
                 }
             }
             catch (Exception ex)
@@ -424,7 +399,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases caseStd = db.cases.Where(x => x.microting_uid == microtingUId && x.microting_check_uid == null).ToList().First();
+                    cases caseStd = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == null);
 
                     caseStd.status = 100;
                     caseStd.done_at = doneAt;
@@ -436,7 +411,7 @@ namespace eFormSqlController
                     #region caseStd.microting_check_id = microtingCheckId; and update "check_list_sites" if needed
                     if (microtingCheckId != null)
                     {
-                        check_list_sites match = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
+                        check_list_sites match = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
                         match.last_check_id = microtingCheckId;
                         match.version = match.version + 1;
                         match.updated_at = DateTime.Now;
@@ -466,7 +441,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases caseStd = db.cases.Where(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId).ToList().First();
+                    cases caseStd = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
 
                     caseStd.case_uid = newCaseUId;
                     caseStd.custom = newCustom;
@@ -480,35 +455,6 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("CaseUpdate failed", ex);
-            }
-        }
-
-        public string               CaseFindActive(string caseUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    if (caseUId == "")
-                        throw new Exception("CaseFindActive failed. Due invalid input:''. This would return incorrect data");
-
-                    if (caseUId == "ReversedCase")
-                        throw new Exception("CaseFindActive failed. Due invalid input:'ReversedCase'. This would return incorrect data");
-
-                    try
-                    {
-                        cases match = db.cases.Where(x => x.case_uid == caseUId && x.workflow_state == "created").ToList().First();
-                        return match.microting_uid;
-                    }
-                    catch
-                    {
-                        return "";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseFindMatchs failed", ex);
             }
         }
 
@@ -540,8 +486,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    int count = db.cases.Where(x => x.case_uid == caseUId && x.done_by_user_id != null).ToList().Count();
-                    return count;
+                    return db.cases.Count(x => x.case_uid == caseUId && x.done_by_user_id != null);
                 }
             }
             catch (Exception ex)
@@ -557,10 +502,10 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     //checks if infinity case
-                    if (db.check_list_sites.Where(x => x.microting_uid == microtingUId).Count() > 0)
+                    if (db.check_list_sites.Count(x => x.microting_uid == microtingUId) > 0)
                         return;
 
-                    cases aCase = db.cases.Where(x => x.microting_uid == microtingUId).ToList().First();
+                    cases aCase = db.cases.Single(x => x.microting_uid == microtingUId);
 
                     aCase.updated_at = DateTime.Now;
                     aCase.workflow_state = "retracted";
@@ -582,7 +527,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases aCase = db.cases.Where(x => x.microting_uid == microtingUId).ToList().First();
+                    cases aCase = db.cases.Single(x => x.microting_uid == microtingUId);
 
                     aCase.updated_at = DateTime.Now;
                     aCase.workflow_state = "removed";
@@ -604,7 +549,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_list_sites site = db.check_list_sites.Where(x => x.microting_uid == microtingUId).ToList().First();
+                    check_list_sites site = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
 
                     site.updated_at = DateTime.Now;
                     site.workflow_state = "removed";
@@ -624,7 +569,145 @@ namespace eFormSqlController
         #region check
         public void                 ChecksCreate(Response response, string xmlString)
         {
-            EformCheckCreateDb(response, xmlString);
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    int elementId;
+                    int userId = int.Parse(response.Checks[0].WorkerId);
+
+                    List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
+
+                    int caseId = -1;
+
+                    try
+                    {
+                        check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
+                        caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site_id, cLS.microting_uid, "ReversedCase", "");
+                    }
+                    catch { }
+
+                    foreach (string elementStr in elements)
+                    {
+                        #region foreach element
+                        if (caseId == -1)
+                        {
+                            try
+                            {
+                                cases c = db.cases.Single(x => x.microting_uid == response.Value);
+                                caseId = c.id;
+                            }
+                            catch { }
+                        }
+
+                        if (caseId == -1)
+                            throw new Exception("EformCheckCreateDb failed. Due to unable to find a matching case");
+
+
+                        check_list_values clv = new check_list_values();
+
+                        clv.created_at = DateTime.Now;
+                        clv.updated_at = DateTime.Now;
+                        clv.check_list_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
+                        clv.case_id = caseId;
+                        clv.status = t.Locate(elementStr, "<Status>", "</");
+                        clv.version = 1;
+                        clv.user_id = userId;
+                        clv.workflow_state = "created";
+
+                        db.check_list_values.Add(clv);
+                        db.SaveChanges();
+
+                        db.version_check_list_values.Add(MapCheckListValueVersions(clv));
+                        db.SaveChanges();
+
+                        #region foreach dataItem
+                        elementId = clv.id;
+                        List<string> dataItems = t.LocateList(elementStr, "<DataItem>", "</DataItem>");
+
+                        if (dataItems != null)
+                        {
+                            foreach (string dataItemStr in dataItems)
+                            {
+                                field_values fieldV = new field_values();
+
+                                #region if contains a file
+                                string urlXml = t.Locate(xmlString, "<URL>", "</URL>");
+                                if (urlXml != "" && urlXml != "none")
+                                {
+                                    data_uploaded dU = new data_uploaded();
+
+                                    dU.created_at = DateTime.Now;
+                                    dU.updated_at = DateTime.Now;
+                                    dU.extension = t.Locate(xmlString, "<Extension>", "</");
+                                    dU.uploader_id = userId;
+                                    dU.uploader_type = "system";
+                                    dU.workflow_state = "pre_created";
+                                    dU.version = 1;
+                                    dU.local = 0;
+                                    dU.file_location = t.Locate(xmlString, "<URL>", "</");
+
+                                    db.data_uploaded.Add(dU);
+                                    db.SaveChanges();
+
+                                    db.version_data_uploaded.Add(MapUploadedDataVersions(dU));
+                                    db.SaveChanges();
+
+
+
+                                    fieldV.uploaded_data_id = dU.id;
+                                }
+                                #endregion
+
+                                fieldV.created_at = DateTime.Now;
+                                fieldV.updated_at = DateTime.Now;
+                                #region fieldV.value = t.Locate(xml, "<Value>", "</");
+                                string temp = t.Locate(xmlString, "<Value>", "</");
+
+                                if (temp.Length > 8)
+                                {
+                                    if (temp.StartsWith(@"<![CDATA["))
+                                    {
+                                        temp = temp.Substring(9);
+                                        temp = temp.Substring(0, temp.Length - 3);
+                                    }
+                                }
+
+                                fieldV.value = temp;
+                                #endregion
+                                //geo
+                                fieldV.latitude = t.Locate(xmlString, " < Latitude>", "</");
+                                fieldV.longitude = t.Locate(xmlString, "<Longitude>", "</");
+                                fieldV.altitude = t.Locate(xmlString, "<Altitude>", "</");
+                                fieldV.heading = t.Locate(xmlString, "<Heading>", "</");
+                                fieldV.accuracy = t.Locate(xmlString, "<Accuracy>", "</");
+                                fieldV.date = t.Date(t.Locate(xmlString, "<Date>", "</"));
+                                //
+                                fieldV.workflow_state = "created";
+                                fieldV.version = 1;
+                                fieldV.case_id = caseId;
+                                fieldV.field_id = int.Parse(t.Locate(xmlString, "<Id>", "</"));
+                                fieldV.user_id = userId;
+                                fieldV.check_list_id = elementId;
+                                fieldV.done_at = t.Date(response.Checks[0].Date);
+
+                                db.field_values.Add(fieldV);
+                                db.SaveChanges();
+
+                                db.version_field_values.Add(MapFieldValueVersions(fieldV));
+                                db.SaveChanges();
+                            }
+                        }
+                        #endregion
+
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EformCheckCreateDb failed", ex);
+            }
         }
 
         public List<field_values>   ChecksRead(string microtingUId)
@@ -633,7 +716,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var aCase = db.cases.Where(x => x.microting_uid == microtingUId).ToList().First();
+                    var aCase = db.cases.Single(x => x.microting_uid == microtingUId);
                     int caseId = aCase.id;
 
                     List<field_values> lst = db.field_values.Where(x => x.case_id == caseId).ToList();
@@ -652,8 +735,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    field_values reply = db.field_values.Where(x => x.id == id).ToList().First();
-                    fields question = db.fields.Where(x => x.id == reply.field_id).ToList().First();
+                    field_values reply = db.field_values.Single(x => x.id == id);
+                    fields question = db.fields.Single(x => x.id == reply.field_id);
 
                     FieldValue answer = new FieldValue();
                     answer.Accuracy = reply.accuracy;
@@ -686,7 +769,7 @@ namespace eFormSqlController
                             {
                                 uploadedDataId = (int)fV.uploaded_data_id;
 
-                                uploadedData = db.data_uploaded.Where(x => x.id == uploadedDataId).ToList().First();
+                                uploadedData = db.data_uploaded.Single(x => x.id == uploadedDataId);
 
                                 if (uploadedData.file_name != null)
                                     locations += uploadedData.file_location + uploadedData.file_name + Environment.NewLine;
@@ -702,10 +785,10 @@ namespace eFormSqlController
 
                     if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
                     {
-                        List<entity_items> matches = db.entity_items.Where(x => x.microting_uid == reply.value).ToList();
+                        entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
 
-                        if (matches.Count == 1)
-                            answer.ValueReadable = matches[0].name;
+                        if (match != null)
+                            answer.ValueReadable = match.name;
                     }
 
                     if (answer.FieldType == "SingleSelect")
@@ -749,7 +832,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    field_values fieldMatch = db.field_values.Where(x => x.case_id == caseId && x.field_id == fieldId).ToList().First();
+                    field_values fieldMatch = db.field_values.Single(x => x.case_id == caseId && x.field_id == fieldId);
 
                     fieldMatch.value = value;
                     fieldMatch.updated_at = DateTime.Now;
@@ -771,27 +854,19 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        if (start == null)
-                            start = DateTime.MinValue;
+                    if (start == null)
+                        start = DateTime.MinValue;
 
-                        if (end == null)
-                            end = DateTime.MaxValue;
+                    if (end == null)
+                        end = DateTime.MaxValue;
 
-                        List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && x.done_at > start && x.done_at < end).ToList();
-                        List<string> rtrnLst = new List<string>();
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && x.done_at > start && x.done_at < end).ToList();
+                    List<string> rtrnLst = new List<string>();
 
-                        foreach (field_values item in matches)
-                            rtrnLst.Add(item.value);
+                    foreach (field_values item in matches)
+                        rtrnLst.Add(item.value);
 
-                        return rtrnLst;
-                    }
-                    catch
-                    {
-                        //no match found
-                        return null;
-                    }
+                    return rtrnLst;
                 }
             }
             catch (Exception ex)
@@ -806,7 +881,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_list_values clv = db.check_list_values.Where(x => x.case_id == caseId && x.check_list_id == checkListId).ToList().First();
+                    check_list_values clv = db.check_list_values.Single(x => x.case_id == caseId && x.check_list_id == checkListId);
                     return clv.status;
                 }
             }
@@ -822,7 +897,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_list_values match = db.check_list_values.Where(x => x.case_id == caseId && x.check_list_id == checkListId).ToList().First();
+                    check_list_values match = db.check_list_values.Single(x => x.case_id == caseId && x.check_list_id == checkListId);
 
                     match.status = value;
                     match.updated_at = DateTime.Now;
@@ -840,13 +915,13 @@ namespace eFormSqlController
         #endregion
 
         #region notification
-        public int                  NotificationCreate(string microtingUId, string transmission)
+        public void                 NotificationCreate(string microtingUId, string transmission)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (db.notifications.Where(x => x.transmission == transmission).Count() == 0)
+                    if (db.notifications.Count(x => x.transmission == transmission) == 0)
                     {
                         notifications aNoti = new notifications();
 
@@ -858,11 +933,9 @@ namespace eFormSqlController
 
                         db.notifications.Add(aNoti);
                         db.SaveChanges();
-
-                        return aNoti.id;
                     }
-                    else
-                        return -1;
+
+                    //TODO else log warning
                 }
             }
             catch (Exception ex)
@@ -877,17 +950,12 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        var temp = db.notifications.Where(x => x.workflow_state == "created").ToList();
-                        notifications aNoti = temp.First();
-
+                    notifications aNoti = db.notifications.FirstOrDefault(x => x.workflow_state == "created");
+                        
+                    if (aNoti != null)
                         return aNoti.transmission;
-                    }
-                    catch
-                    {
+                    else
                         return "";
-                    }
                 }
             }
             catch (Exception ex)
@@ -902,12 +970,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var lst = db.notifications.Where(x => x.transmission == transmission).ToList();
-
-                    if (lst.Count != 1)
-                        throw new Exception("NotificationProcessed failed. Count != 1");
-                    
-                    notifications aNoti = lst[0];
+                    notifications aNoti = db.notifications.Single(x => x.transmission == transmission);
                     aNoti.workflow_state = workflowState;
                     aNoti.updated_at = DateTime.Now;
 
@@ -928,15 +991,12 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        data_uploaded dU = db.data_uploaded.Where(x => x.workflow_state == "pre_created").ToList().First();
+                    data_uploaded dU = db.data_uploaded.SingleOrDefault(x => x.workflow_state == "pre_created");
+                        
+                    if (dU != null)
                         return dU.file_location;
-                    }
-                    catch
-                    {
+                    else
                         return "";
-                    }
                 }
             }
             catch (Exception ex)
@@ -953,9 +1013,9 @@ namespace eFormSqlController
                 {
                     try
                     {
-                        data_uploaded dU = db.data_uploaded.Where(x => x.file_location == urlString).ToList().First();
-                        field_values fV = db.field_values.Where(x => x.uploaded_data_id == dU.id).ToList().First();
-                        cases aCase = db.cases.Where(x => x.id == fV.case_id).ToList().First();
+                        data_uploaded dU = db.data_uploaded.Single(x => x.file_location == urlString);
+                        field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.id);
+                        cases aCase = db.cases.Single(x => x.id == fV.case_id);
 
                         return CaseReadByCaseId(aCase.id);
                     }
@@ -977,21 +1037,17 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        data_uploaded uD = db.data_uploaded.Where(x => x.file_location == urlString).ToList().First();
+                    data_uploaded uD = db.data_uploaded.Single(x => x.file_location == urlString);
 
-                        uD.checksum = chechSum;
-                        uD.file_location = fileLocation;
-                        uD.file_name = fileName;
-                        uD.local = 1;
-                        uD.workflow_state = "created";
-                        uD.updated_at = DateTime.Now;
-                        uD.version = uD.version + 1;
+                    uD.checksum = chechSum;
+                    uD.file_location = fileLocation;
+                    uD.file_name = fileName;
+                    uD.local = 1;
+                    uD.workflow_state = "created";
+                    uD.updated_at = DateTime.Now;
+                    uD.version = uD.version + 1;
 
-                        db.SaveChanges();
-                    }
-                    catch { }
+                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -1043,31 +1099,22 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    entity_groups eG;
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId);
 
-                    List<entity_groups> eGLst = db.entity_groups.Where(x => x.microting_uid == entityGroupMUId).ToList();
-
-                    if (eGLst == null)
+                    if (eG == null)
                         return null;
-                    if (eGLst.Count == 0)
-                        return null;
-                    if (eGLst.Count > 1)
-                        throw new Exception("EntityGroupRead failed. Due more than 1 match found");
-
-                    eG = eGLst[0];
 
                     List<EntityItem> lst = new List<EntityItem>();
                     EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst);
 
                     List<entity_items> eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").ToList();
 
-                    if (eILst != null)
-                        if (eILst.Count > 0)
-                            foreach (entity_items item in eILst)
-                            {
-                                EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid);
-                                lst.Add(eI);
-                            }
+                    if (eILst.Count > 0)
+                        foreach (entity_items item in eILst)
+                        {
+                            EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid);
+                            lst.Add(eI);
+                        }
 
                     return rtnEG;
                 }
@@ -1084,15 +1131,10 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    entity_groups eG;
-                    try
-                    {
-                        eG = db.entity_groups.Where(x => x.id == entityGroupId).ToList().First();
-                    }
-                    catch
-                    {
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.id == entityGroupId);
+
+                    if (eG == null)
                         return false;
-                    }
 
                     eG.microting_uid = entityGroupMUId;
                     eG.updated_at = DateTime.Now;
@@ -1163,15 +1205,11 @@ namespace eFormSqlController
                 {
                     List<string> killLst = new List<string>();
 
-                    entity_groups eG;
-                    try
-                    {
-                        eG = db.entity_groups.Where(x => x.microting_uid == entityGroupMUId && x.workflow_state != "removed").ToList().First();
-                    }
-                    catch
-                    {
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId && x.workflow_state != "removed");
+
+                    if (eG == null)
                         return null;
-                    }
+
                     killLst.Add(eG.microting_uid);
 
                     eG.workflow_state = "removed";
@@ -1213,14 +1251,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    try
-                    {
-                        return db.entity_items.Where(x => x.synced == 0).ToList().First();
-                    }
-                    catch
-                    {
-                        return null;
-                    }
+                    return db.entity_items.FirstOrDefault(x => x.synced == 0);
                 }
             }
             catch (Exception ex)
@@ -1235,11 +1266,10 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var lst = db.entity_items.Where(x => x.entity_item_uid == entityItemId && x.entity_group_id == entityGroupMUId).ToList();
+                    entity_items eItem = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItemId && x.entity_group_id == entityGroupMUId);
 
-                    if (lst.Count == 1)
+                    if (eItem != null)
                     {
-                        entity_items eItem = lst[0];
                         eItem.workflow_state = workflowState;
                         eItem.updated_at = DateTime.Now;
                         eItem.version = eItem.version + 1;
@@ -1253,7 +1283,7 @@ namespace eFormSqlController
                     }
                     else
                     {
-                        //Warning...
+                        //TODO log warning
                     }
                 }
             }
@@ -1265,21 +1295,14 @@ namespace eFormSqlController
         #endregion
 
         #region settings
-        public string SettingRead(string variableName)
+        public string   SettingRead(string variableName)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<setting> matchs = db.setting.Where(x => x.name == variableName).ToList();
-
-                    if (matchs == null)
-                        throw new Exception("SettingGet failed, matchs == null");
-
-                    if (matchs.Count() != 1)
-                        throw new Exception("SettingGet failed, matchs != 1. match.count:'" + matchs.Count.ToString() + "'");
-
-                    return matchs[0].value;
+                    setting match = db.setting.Single(x => x.name == variableName);
+                    return match.value;
                 }
             }
             catch (Exception ex)
@@ -1288,21 +1311,14 @@ namespace eFormSqlController
             }
         }
 
-        public void SettingUpdate(string variableName, string variableValue)
+        public void     SettingUpdate(string variableName, string variableValue)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<setting> matchs = db.setting.Where(x => x.name == variableName).ToList();
-
-                    if (matchs == null)
-                        throw new Exception("SettingUpdate failed, matchs == null");
-
-                    if (matchs.Count() != 1)
-                        throw new Exception("SettingGet failed, matchs != 1. match.count:'" + matchs.Count.ToString() + "'");
-
-                    matchs[0].value = variableValue;
+                    setting match = db.setting.Single(x => x.name == variableName);
+                    match.value = variableValue;
                     db.SaveChanges();
                 }
             }
@@ -1705,7 +1721,7 @@ namespace eFormSqlController
                         //the actual DataElement
                         try
                         {
-                            check_lists cl = db.check_lists.Where(x => x.id == elementId).ToList().First();
+                            check_lists cl = db.check_lists.Single(x => x.id == elementId);
                             GroupElement gElement = new GroupElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
                                 t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", lst);
 
@@ -1726,7 +1742,7 @@ namespace eFormSqlController
                         //the actual DataElement
                         try
                         {
-                            check_lists cl = db.check_lists.Where(x => x.id == elementId).ToList().First();
+                            check_lists cl = db.check_lists.Single(x => x.id == elementId);
                             DataElement dElement = new DataElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
                                 t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", new List<DataItemGroup>(), new List<eFormRequest.DataItem>());
 
@@ -1758,7 +1774,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    fields f = db.fields.Where(x => x.id == dataItemId).ToList().First();
+                    fields f = db.fields.Single(x => x.id == dataItemId);
                     string fieldTypeStr = Find(t.Int(f.field_type_id));
 
                     //KEY POINT - mapping
@@ -1887,167 +1903,6 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region EformCheckCreateDb
-        //TODO rollback for failed inserts?
-        private void            EformCheckCreateDb(Response response, string xml)
-        {
-            if (response.Checks.Count == 0)
-                throw new Exception("response.Checks.count == 0. Hence there was no checks to create");
-
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    int elementId;
-                    int userId = int.Parse(response.Checks[0].WorkerId);
-
-                    List<string> elements = t.LocateList(xml, "<ElementList>", "</ElementList>");
-
-                    int caseId = -1;
-
-                    try
-                    {
-                        check_list_sites cLS = db.check_list_sites.Where(x => x.microting_uid == response.Value).ToList().First();
-                        caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site_id, cLS.microting_uid, "ReversedCase", "");
-                    }
-                    catch { }
-
-                    foreach (string elementStr in elements)
-                    {
-                        if (caseId == -1)
-                        {
-                            try
-                            {
-                                cases c = db.cases.Where(x => x.microting_uid == response.Value).ToList().First();
-                                caseId = c.id;
-                            }
-                            catch { }
-                        }
-
-                        if (caseId == -1)
-                            throw new Exception("EformCheckCreateDb failed. Due to unable to find a matching case");
-
-
-                        check_list_values clv = new check_list_values();
-
-                        clv.created_at = DateTime.Now;
-                        clv.updated_at = DateTime.Now;
-                        clv.check_list_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
-                        clv.case_id = caseId;
-                        clv.status = t.Locate(elementStr, "<Status>", "</");
-                        clv.version = 1;
-                        clv.user_id = userId;
-                        clv.workflow_state = "created";
-
-                        db.check_list_values.Add(clv);
-                        db.SaveChanges();
-
-                        db.version_check_list_values.Add(MapCheckListValueVersions(clv));
-                        db.SaveChanges();
-
-                        #region foreach dataItem
-                        elementId = clv.id;
-                        List<string> dataItems = t.LocateList(elementStr, "<DataItem>", "</DataItem>");
-
-                        if (dataItems != null)
-                        {
-                            foreach (string dataItemStr in dataItems)
-                            {
-                                CreateDataItemCheck(dataItemStr, clv.case_id, clv.user_id, elementId, response.Checks[0].Date);
-                            }
-                        }
-                        #endregion
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EformCheckCreateDb failed", ex);
-            }
-        }
-
-        private void            CreateDataItemCheck(string xml, int? caseId, int? userId, int elementId, string doneAt)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    field_values fieldV = new field_values();
-
-                    #region if contains a file
-                    string urlXml = t.Locate(xml, "<URL>", "</URL>");
-                    if (urlXml != "" && urlXml != "none")
-                    {
-                        data_uploaded dU = new data_uploaded();
-
-                        dU.created_at = DateTime.Now;
-                        dU.updated_at = DateTime.Now;
-                        dU.extension = t.Locate(xml, "<Extension>", "</");
-                        dU.uploader_id = userId;
-                        dU.uploader_type = "system";
-                        dU.workflow_state = "pre_created";
-                        dU.version = 1;
-                        dU.local = 0;
-                        dU.file_location = t.Locate(xml, "<URL>", "</");
-
-                        db.data_uploaded.Add(dU);
-                        db.SaveChanges();
-
-                        db.version_data_uploaded.Add(MapUploadedDataVersions(dU));
-                        db.SaveChanges();
-
-
-
-                        fieldV.uploaded_data_id = dU.id;
-                    }
-                    #endregion
-
-                    fieldV.created_at = DateTime.Now;
-                    fieldV.updated_at = DateTime.Now;
-                    #region fieldV.value = t.Locate(xml, "<Value>", "</");
-                    string temp = t.Locate(xml, "<Value>", "</");
-
-                    if (temp.Length > 8)
-                    {
-                        if (temp.StartsWith(@"<![CDATA["))
-                        {
-                            temp = temp.Substring(9);
-                            temp = temp.Substring(0, temp.Length - 3);
-                        }
-                    }
-
-                    fieldV.value = temp;
-                    #endregion
-                    //geo
-                    fieldV.latitude = t.Locate(xml, " < Latitude>", "</");
-                        fieldV.longitude = t.Locate(xml, "<Longitude>", "</");
-                        fieldV.altitude = t.Locate(xml, "<Altitude>", "</");
-                        fieldV.heading = t.Locate(xml, "<Heading>", "</");
-                        fieldV.accuracy = t.Locate(xml, "<Accuracy>", "</");
-                        fieldV.date = t.Date(t.Locate(xml, "<Date>", "</"));
-                    //
-                    fieldV.workflow_state = "created";
-                    fieldV.version = 1;
-                    fieldV.case_id = caseId;
-                    fieldV.field_id = int.Parse(t.Locate(xml, "<Id>", "</"));
-                    fieldV.user_id = userId;
-                    fieldV.check_list_id = elementId;
-                    fieldV.done_at = t.Date(doneAt);
-
-                    db.field_values.Add(fieldV);
-                    db.SaveChanges();
-
-                    db.version_field_values.Add(MapFieldValueVersions(fieldV));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EformReadDb failed", ex);
-            }
-        }
-        #endregion
-
         #region EntityItem 
         private void    EntityItemCreateUpdate(string entityGroupMUId, EntityItem entityItem)
         {
@@ -2055,12 +1910,12 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var matches = db.entity_items.Where(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupMUId).ToList();
+                    var match = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupMUId);
 
-                    if (matches.Count == 1)
+                    if (match != null)
                     {
                         #region same or update
-                        if (matches[0].name == entityItem.Name && matches[0].description == entityItem.Description)
+                        if (match.name == entityItem.Name && match.description == entityItem.Description)
                         {
                             //same
                             return; 
@@ -2068,24 +1923,23 @@ namespace eFormSqlController
                         else
                         {
                             //update
-                            matches[0].description = entityItem.Description;
-                            matches[0].name = entityItem.Name;
-                            matches[0].synced = t.Bool(false);
-                            matches[0].updated_at = DateTime.Now;
-                            matches[0].version = matches[0].version + 1;
-                            matches[0].workflow_state = "updated";
+                            match.description = entityItem.Description;
+                            match.name = entityItem.Name;
+                            match.synced = t.Bool(false);
+                            match.updated_at = DateTime.Now;
+                            match.version = match.version + 1;
+                            match.workflow_state = "updated";
 
                             db.SaveChanges();
 
-                            db.version_entity_items.Add(MapEntityItemVersions(matches[0]));
+                            db.version_entity_items.Add(MapEntityItemVersions(match));
                             db.SaveChanges();
 
                             return;
                         }
                         #endregion
                     }
-
-                    if (matches.Count == 0)
+                    else
                     {
                         #region new
                         entity_items eI = new entity_items();
@@ -2110,8 +1964,6 @@ namespace eFormSqlController
                         return;
                         #endregion
                     }
-
-                    throw new Exception("EntityItemCreateUpdate failed. Due match list was not 0 or 1");
                 }
             }
             catch (Exception ex)
@@ -2126,24 +1978,16 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<entity_items> lst = db.entity_items.Where(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId).ToList();
+                    entity_items match = db.entity_items.Single(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId);
 
-                    if (lst == null)
-                        throw new Exception("EntityGroupRead failed. Due list was null");
-                    if (lst.Count == 0)
-                        throw new Exception("EntityGroupRead failed. Due list was empty");
-                    if (lst.Count > 1)
-                        throw new Exception("EntityGroupRead failed. Due list was more than 1 match");
-                    entity_items eI = lst[0];
-
-                    eI.synced = t.Bool(false);
-                    eI.updated_at = DateTime.Now;
-                    eI.version = eI.version + 1;
-                    eI.workflow_state = "removed";
+                    match.synced = t.Bool(false);
+                    match.updated_at = DateTime.Now;
+                    match.version = match.version + 1;
+                    match.workflow_state = "removed";
 
                     db.SaveChanges();
 
-                    db.version_entity_items.Add(MapEntityItemVersions(eI));
+                    db.version_entity_items.Add(MapEntityItemVersions(match));
                     db.SaveChanges();
                 }
             }
@@ -2529,7 +2373,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool UnitTest_CleanAndResetDB()
+        public bool     UnitTest_CleanAndResetDB()
         {
             try
             {
@@ -2584,7 +2428,7 @@ namespace eFormSqlController
             }
         }
 
-        private int FieldTypeCount()
+        private int     FieldTypeCount()
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -2592,7 +2436,7 @@ namespace eFormSqlController
             }
         }
 
-        private void FieldTypeAdd(int id, string fieldType, string description)
+        private void    FieldTypeAdd(int id, string fieldType, string description)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -2606,7 +2450,7 @@ namespace eFormSqlController
             }
         }
 
-        private int SettingCount()
+        private int     SettingCount()
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -2614,7 +2458,7 @@ namespace eFormSqlController
             }
         }
 
-        private void SettingAdd(int id, string name)
+        private void    SettingAdd(int id, string name)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
