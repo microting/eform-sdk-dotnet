@@ -79,7 +79,6 @@
     <Compile Include="table\setting.cs" />
     <Compile Include="table\sites.cs" />
     <Compile Include="SqlController.cs" />
-    <Compile Include="SqlControllerUnitTest.cs" />
     <Compile Include="table\version_cases.cs" />
     <Compile Include="table\version_check_lists.cs" />
     <Compile Include="table\version_check_list_sites.cs" />

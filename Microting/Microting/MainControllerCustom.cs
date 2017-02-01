@@ -43,7 +43,7 @@ namespace Microting
 
         string serverConnectionString;
         ICore core;
-        SqlController sqlContro;
+        SqlController sqlCon;
         SqlControllerCustom sqlCustom;
         Tools t = new Tools();
         #endregion
@@ -67,7 +67,7 @@ namespace Microting
             core.HandleEventException += EventException;
             #endregion
 
-            sqlContro = new SqlController(serverConnectionString);
+            sqlCon = new SqlController(serverConnectionString);
             sqlCustom = new SqlControllerCustom(serverConnectionString.Insert(serverConnectionString.IndexOf("Microting")+9, "Custom"));
         }
         #endregion
@@ -135,35 +135,12 @@ namespace Microting
                 {
                     Console.WriteLine("Program setting up...");
 
-                    #region set settings
-                    if (!bool.Parse(sqlContro.SettingRead("firstRunDone")))
-                    {
-                        var lines = File.ReadAllLines("input\\first_run.txt");
-                        string name;
-                        string value;
-
-                        foreach (var item in lines)
-                        {
-                            string[] line = item.Split('|');
-
-                            name = line[0];
-                            value = line[1];
-
-                            sqlContro.SettingUpdate(name, value);
-                        }
-                        sqlContro.SettingUpdate("firstRunDone", "true");
-                        sqlContro.SettingUpdate("logLevel", "true");
-                    }
-                    #endregion
-
                     core.Start(serverConnectionString);
 
                     #region clean database
                     try
                     {
-                        SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString);
-
-                        List<string> lstCaseMUIds = sqlConUT.FindAllActiveCases();
+                        List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
                         foreach (string mUId in lstCaseMUIds)
                         {
                             try
@@ -176,7 +153,7 @@ namespace Microting
                             }
                         }
 
-                        List<string> lstEntityMUIds = sqlConUT.FindAllActiveEntities();
+                        List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
                         foreach (string mUId in lstEntityMUIds)
                         {
                             try
@@ -189,7 +166,7 @@ namespace Microting
                             }
                         }
 
-                        sqlConUT.CleanDB();
+                        sqlCon.UnitTest_CleanAndResetDB();
                     }
                     catch (Exception ex)
                     {
@@ -340,7 +317,7 @@ namespace Microting
                 bool isFirst = false;
                 try
                 {
-                    int count = sqlContro.CaseCountResponses(caseUid);
+                    int count = sqlCon.CaseCountResponses(caseUid);
                     if (count == 1)
                         isFirst = true;
                 }
@@ -498,7 +475,7 @@ namespace Microting
         private void    UpdateBooking(string bookingId, string label, string description)
         {
             //Delete old
-            List<Case_Dto> lstCDto = sqlContro.CaseFindCustomMatchs(bookingId);
+            List<Case_Dto> lstCDto = sqlCon.CaseFindCustomMatchs(bookingId);
             foreach (Case_Dto item in lstCDto)
                 core.CaseDelete(item.MicrotingUId);
 

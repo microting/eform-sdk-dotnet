@@ -34,8 +34,8 @@ namespace Microting
 
             //var mainController = new MainController(serverConnectionString);
             //var mainController = new MainControllerCustom(serverConnectionString);
-            var mainController = new MainControllerExcel(serverConnectionString);
-            //var mainController = new MainControllerSamples(serverConnectionString);
+            //var mainController = new MainControllerExcel(serverConnectionString);
+            var mainController = new MainControllerSamples(serverConnectionString);
 
             mainController.Run();
         }

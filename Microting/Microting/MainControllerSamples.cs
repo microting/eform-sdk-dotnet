@@ -340,22 +340,21 @@ namespace Microting
             try
             {
                 string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
-                SqlControllerUnitTest sqlConUT = new SqlControllerUnitTest(serverConnectionString);
                 MainController temp = new MainController(serverConnectionString);
                 ICore core = temp.core;
 
                 #region clean database
                 try
                 {
-                    List<string> lstCaseMUIds = sqlConUT.FindAllActiveCases();
+                    List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
                     foreach (string mUId in lstCaseMUIds)
                         core.CaseDelete(mUId);
 
-                    List<string> lstEntityMUIds = sqlConUT.FindAllActiveEntities();
+                    List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
                     foreach (string mUId in lstEntityMUIds)
                         core.EntityGroupDelete(mUId);
 
-                    sqlConUT.CleanDB();
+                    sqlCon.UnitTest_CleanAndResetDB();
                 }
                 catch (Exception ex)
                 {

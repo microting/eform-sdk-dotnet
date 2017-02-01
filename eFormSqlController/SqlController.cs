@@ -5,6 +5,7 @@ using Trools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace eFormSqlController
 {
@@ -21,6 +22,69 @@ namespace eFormSqlController
         public SqlController(string connectionString)
         {
             connectionStr = connectionString;
+
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                if (SettingCount() < 9)
+                {
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
+
+                    SettingAdd(1, "firstRunDone");
+                    SettingAdd(2, "logLevel");
+                    SettingAdd(3, "comToken");
+                    SettingAdd(4, "comAddress");
+                    SettingAdd(5, "organizationId");
+                    SettingAdd(6, "subscriberToken");
+                    SettingAdd(7, "subscriberAddress");
+                    SettingAdd(8, "subscriberName");
+                    SettingAdd(9, "fileLocation");
+
+                    SettingUpdate("firstRunDone", "false");
+                }
+
+                if (FieldTypeCount() < 18)
+                {
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
+
+                    FieldTypeAdd(1, "Text", "Simple text field");
+                    FieldTypeAdd(2, "Number", "Simple number field");
+                    FieldTypeAdd(3, "None", "Simple text to be displayed");
+                    FieldTypeAdd(4, "CheckBox", "Simple check box field");
+                    FieldTypeAdd(5, "Picture", "Simple picture field");
+                    FieldTypeAdd(6, "Audio", "Simple audio field");
+                    FieldTypeAdd(7, "Movie", "Simple movie field");
+                    FieldTypeAdd(8, "SingleSelect", "Single selection list");
+                    FieldTypeAdd(9, "Comment", "Simple comment field");
+                    FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
+                    FieldTypeAdd(11, "Date", "Date selection");
+                    FieldTypeAdd(12, "Signature", "Simple signature field");
+                    FieldTypeAdd(13, "Timer", "Simple timer field");
+                    FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
+                    FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
+                    FieldTypeAdd(16, "ShowPdf", "Show PDF");
+                    FieldTypeAdd(17, "FieldGroup", "Field group");
+                    FieldTypeAdd(18, "SaveButton", "Save eForm");
+                }
+
+                if (!bool.Parse(SettingRead("firstRunDone")))
+                {
+                    var lines = File.ReadAllLines("input\\first_run.txt");
+                    string name;
+                    string value;
+
+                    foreach (var item in lines)
+                    {
+                        string[] line = item.Split('|');
+
+                        name = line[0];
+                        value = line[1];
+
+                        SettingUpdate(name, value);
+                    }
+                    SettingUpdate("firstRunDone", "true");
+                    SettingUpdate("logLevel", "true");
+                }
+            }
         }
         #endregion
 
@@ -185,7 +249,7 @@ namespace eFormSqlController
                 {
                     try
                     {
-                        cases aCase = db.cases.Where(x => x.microting_uid == microtingUId).ToList().First();
+                        cases aCase = db.cases.Single(x => x.microting_uid == microtingUId);
                         return CaseReadByCaseId(aCase.id);
                     } catch { }
 
@@ -2381,6 +2445,187 @@ namespace eFormSqlController
             return entityItemVer;
         }
         #endregion
+        #endregion
+
+        #region unit test
+        public List<string> UnitTest_CheckCase()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> lstMUId = new List<string>();
+
+                    List<cases> lstCases = db.cases.Where(x => x.workflow_state == "created").ToList();
+                    foreach (cases aCase in lstCases)
+                    {
+                        lstMUId.Add(aCase.microting_uid);
+                    }
+
+                    List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state == "created").ToList();
+                    foreach (check_list_sites cLS in lstCLS)
+                    {
+                        lstMUId.Add(cLS.microting_uid);
+                    }
+
+                    return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CheckCase failed", ex);
+            }
+        }
+
+        public List<string> UnitTest_FindAllActiveCases()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> lstMUId = new List<string>();
+
+                    List<cases> lstCases = db.cases.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
+                    foreach (cases aCase in lstCases)
+                    {
+                        lstMUId.Add(aCase.microting_uid);
+                    }
+
+                    List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
+                    foreach (check_list_sites cLS in lstCLS)
+                    {
+                        lstMUId.Add(cLS.microting_uid);
+                    }
+
+                    return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindAllActiveCases failed", ex);
+            }
+        }
+
+        public List<string> UnitTest_FindAllActiveEntities()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> lstMUId = new List<string>();
+
+                    List<entity_groups> lstEGs = db.entity_groups.Where(x => x.workflow_state != "removed").ToList();
+                    foreach (entity_groups eG in lstEGs)
+                    {
+                        lstMUId.Add(eG.microting_uid);
+                    }
+
+                    return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindAllActiveCases failed", ex);
+            }
+        }
+
+        public bool UnitTest_CleanAndResetDB()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[cases]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_cases]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_sites]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_sites]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_values]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_values]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_lists]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_lists]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_groups]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_groups]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_items]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_items]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_values]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_field_values]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[fields]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_fields]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[notifications]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[outlook]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_sites]");
+                    //---
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[data_uploaded]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_data_uploaded]");
+                    //---
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
+                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
+                    //---
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string exStr = ex.ToString();
+                return false;
+            }
+        }
+
+        private int FieldTypeCount()
+        {
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                return db.field_types.Count();
+            }
+        }
+
+        private void FieldTypeAdd(int id, string fieldType, string description)
+        {
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                field_types fT = new field_types();
+                fT.id = id;
+                fT.field_type = fieldType;
+                fT.description = description;
+
+                db.field_types.Add(fT);
+                db.SaveChanges();
+            }
+        }
+
+        private int SettingCount()
+        {
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                return db.setting.Count();
+            }
+        }
+
+        private void SettingAdd(int id, string name)
+        {
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                setting set = new setting();
+                set.id = id;
+                set.name = name;
+
+                db.setting.Add(set);
+                db.SaveChanges();
+            }
+        }
         #endregion
     }
 }
