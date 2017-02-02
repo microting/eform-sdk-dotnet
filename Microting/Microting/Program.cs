@@ -22,22 +22,71 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.IO;
+using System.Threading;
+using Trools;
 
 namespace Microting
 {
     class Program
     {
-        static void     Main(string[] args)
+        static void Main(string[] args)
         {
-            string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
+            try
+            {
+                string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
 
-            //var mainController = new MainController(serverConnectionString);
-            //var mainController = new MainControllerCustom(serverConnectionString);
-            //var mainController = new MainControllerExcel(serverConnectionString);
-            var mainController = new MainControllerSamples(serverConnectionString);
 
-            mainController.Run();
+
+                Console.WriteLine("Press following keys to run:");
+                Console.WriteLine("'C' for custom program");
+                Console.WriteLine("'S' for sample programs");
+                Console.WriteLine("'A' for admin tools program");
+                Console.WriteLine("any other will close Console");
+                string input = Console.ReadLine();
+
+
+
+                if (input.ToUpper() == "C")
+                {
+                    var program = new MainControllerCustom(serverConnectionString);
+                    program.Run();
+                }
+
+                if (input.ToUpper() == "S")
+                {
+                    var program = new MainControllerSamples(serverConnectionString);
+                    program.Run();
+                }
+
+                if (input.ToUpper() == "A")
+                {
+                    var program = new AdminTools(serverConnectionString);
+                    program.Run();
+                }
+
+
+
+                Console.WriteLine("Console will close in 2s");
+                Thread.Sleep(2000);
+                Environment.Exit(0);
+            }
+            catch (Exception ex) //Catch ALL
+            {
+                try
+                {
+                    Tools t = new Tools();
+                    File.AppendAllText("log\\FatalException_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Fatal Exception", ex));
+                }
+                catch { }
+
+                Console.WriteLine("");
+                Console.WriteLine("Fatal Exception found and logged. Fil can be found at log/");
+                Console.WriteLine("Console will close in 5s");
+                Thread.Sleep(5000);
+                Environment.Exit(0);
+            }
         }
     }
 }

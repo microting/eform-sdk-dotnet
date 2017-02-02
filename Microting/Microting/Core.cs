@@ -320,6 +320,10 @@ namespace Microting
                     xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
                     xmlString = xmlString.Replace("<DoneButtonEnabled>true", "<DoneButtonEnabled>false");
                 }
+
+                xmlString = xmlString.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
+                xmlString = xmlString.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
                 #endregion
 
                 MainElement mainElement = new MainElement();

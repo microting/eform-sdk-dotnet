@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Trools;
 
 namespace Microting
 {
@@ -84,10 +85,9 @@ namespace Microting
                 Console.WriteLine("");
                 Console.WriteLine("Select which MainController element to start. Type:");
                 Console.WriteLine("'E' for exiting program,");
-                Console.WriteLine("'1' for sample 1,");
-                Console.WriteLine("'2' for sample 2,");
-                Console.WriteLine("'3' for sample 3, and");
-                Console.WriteLine("'C' for cleaning database and devices");
+                Console.WriteLine("'1' for sample 1");
+                Console.WriteLine("'2' for sample 2");
+                Console.WriteLine("'3' for sample 3");
 
                 string input = Console.ReadLine();
 
@@ -102,14 +102,7 @@ namespace Microting
 
                 if (input.ToLower() == "3")
                     Sample3();
-
-                if (input.ToLower() == "c")
-                    CleanUp();
             }
-
-            Console.WriteLine("Program has been closed. Will close Console in 2s");
-            Thread.Sleep(2000);
-            Environment.Exit(0);
         }
 
         public void Sample1()
@@ -326,47 +319,6 @@ namespace Microting
             }
             Console.WriteLine("Trying to shutting down");
             Close();
-        }
-
-        public void CleanUp()
-        {
-            Console.WriteLine("Type 'Y' only IF you are sure you want to remove ALL eForms");
-            Console.WriteLine("from devices, and clean the database. Any other key to return");
-            string input = Console.ReadLine();
-
-            if (input.ToLower() != "y")
-                return;
-
-            try
-            {
-                string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
-                MainController temp = new MainController(serverConnectionString);
-                ICore core = temp.core;
-
-                #region clean database
-                try
-                {
-                    List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
-                    foreach (string mUId in lstCaseMUIds)
-                        core.CaseDelete(mUId);
-
-                    List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
-                    foreach (string mUId in lstEntityMUIds)
-                        core.EntityGroupDelete(mUId);
-
-                    sqlCon.UnitTest_CleanAndResetDB();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("CleanUp failed", ex);
-                }
-                #endregion
-                core.Close();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CleanUp failed", ex);
-            }
         }
         #endregion
 

@@ -75,42 +75,17 @@ namespace Microting
         #region public
         public void Run()
         {
-            try
-            {
-                Setup();
+            Setup();
 
-                core.Start(serverConnectionString);
+            core.Start(serverConnectionString);
 
-                Thread syncThread = new Thread(() => Sync());
-                syncThread.Start();
+            Thread syncThread = new Thread(() => Sync());
+            syncThread.Start();
 
-                Console.WriteLine("Program running. Press any key to close");
-                Console.ReadKey();
+            Console.WriteLine("Program running. Press any key to close");
+            Console.ReadKey();
 
-                Close();
-
-                Console.WriteLine("Program has been closed. Will close Console in 2s");
-                Thread.Sleep(2000);
-                Environment.Exit(0);
-            }
-            catch (Exception ex) //Catch ALL
-            {
-                try
-                {
-                    Tools t = new Tools();
-                    File.AppendAllText("log\\FatalException_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Fatal Exception", ex));
-                }
-                catch { }
-
-                Console.WriteLine("");
-                Console.WriteLine("Fatal Exception found and logged");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("");
-
-                Console.WriteLine("Will close Console in 2s");
-                Thread.Sleep(2000);
-                Environment.Exit(0);
-            }
+            Close();
         }
 
         public void Close()
