@@ -1276,7 +1276,7 @@ namespace Microting
 
                                                         if (lastId == null)
                                                         {
-                                                            sqlController.CaseUpdate(noteUId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), null, int.Parse(resp.Checks[0].UnitId));
+                                                            sqlController.CaseUpdateCompleted(noteUId, null, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), int.Parse(resp.Checks[0].UnitId));
 
                                                             #region retract case, thereby completing the process
 
@@ -1294,7 +1294,7 @@ namespace Microting
                                                             #endregion
                                                         }
                                                         else
-                                                            sqlController.CaseUpdate(noteUId, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), resp.Checks[0].Id, int.Parse(resp.Checks[0].UnitId));
+                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), int.Parse(resp.Checks[0].UnitId));
 
                                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                         HandleCaseCompleted(cDto, EventArgs.Empty);
@@ -1320,6 +1320,7 @@ namespace Microting
                                 #region unit fetch / checklist retrieve by device
                                 case "unit_fetch":
                                     {
+                                        sqlController.CaseUpdateRetrived(noteUId);
                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                         HandleCaseRetrived(cDto, EventArgs.Empty);
                                         TriggerMessage(cDto.ToString() + " has been retrived");

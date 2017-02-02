@@ -96,15 +96,8 @@ namespace eFormCustom
             {
                 using (var db = new CustomDb(connectionStr))
                 {
-                    List<variable> matchs = db.variable.Where(x => x.name == variableName).ToList();
-
-                    if (matchs == null)
-                        throw new Exception("VariableGet failed, matchs == null");
-
-                    if (matchs.Count() != 1)
-                        throw new Exception("VariableGet failed, matchs != 1. match.count:'" + matchs.Count.ToString() + "'");
-
-                    return matchs[0].value;
+                    variable match = db.variable.Single(x => x.name == variableName);
+                    return match.value;
                 }
             }
             catch (Exception ex)
@@ -119,15 +112,8 @@ namespace eFormCustom
             {
                 using (var db = new CustomDb(connectionStr))
                 {
-                    List<variable> matchs = db.variable.Where(x => x.name == variableName).ToList();
-
-                    if (matchs == null)
-                        throw new Exception("VariableSet failed, matchs == null");
-
-                    if (matchs.Count() != 1)
-                        throw new Exception("VariableSet failed, matchs != 1");
-
-                    matchs[0].value = variableValue;
+                    variable match = db.variable.Single(x => x.name == variableName);
+                    match.value = variableValue;
                     db.SaveChanges();
                 }
             }
@@ -147,7 +133,7 @@ namespace eFormCustom
                     List<sites> conLst = db.sites.Where(x => x.type == type).ToList();
 
                     if (conLst.Count == 0)
-                        throw new Exception("SitesRead failed, count == 0");
+                        throw new Exception("SitesRead failed, type:'" + type + "' resolute in count == 0");
 
                     foreach (sites con in conLst)
                         rtnLst.Add(con.site_id);
@@ -168,28 +154,25 @@ namespace eFormCustom
                 using (var db = new CustomDb(connectionStr))
                 {
                     List<string> rtnLst = new List<string>();
-                    List<workers> conLst = db.workers.Where(x => x.site_id == siteId).ToList();
+                    workers match = db.workers.SingleOrDefault(x => x.site_id == siteId);
 
-                    if (conLst.Count != 1)
+                    if (match == null)
                     {
-                        if (conLst.Count == 0)
-                        {
-                            workers newWorker = new workers();
-                            newWorker.location = "New worker, 'location' not entered";
-                            newWorker.name = "New worker, 'name' not entered";
-                            newWorker.phone = "New worker, 'phone' not entered";
-                            newWorker.site_id = siteId;
+                        workers newWorker = new workers();
+                        newWorker.location  = "'location' not entered";
+                        newWorker.name      = "'name' not entered";
+                        newWorker.phone     = "'phone' not entered";
+                        newWorker.site_id = siteId;
 
-                            db.workers.Add(newWorker);
-                            db.SaveChanges();
-                        }
-                        else
-                            throw new Exception("WorkerRead failed, count > 1");
+                        db.workers.Add(newWorker);
+                        db.SaveChanges();
+
+                        match = newWorker;
                     }
 
-                    rtnLst.Add(conLst[0].location);
-                    rtnLst.Add(conLst[0].name);
-                    rtnLst.Add(conLst[0].phone);
+                    rtnLst.Add(match.location);
+                    rtnLst.Add(match.name);
+                    rtnLst.Add(match.phone);
 
                     return rtnLst;
                 }

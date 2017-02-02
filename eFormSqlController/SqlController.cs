@@ -289,10 +289,10 @@ namespace eFormSqlController
 
                     #region string stat = aCase.workflow_state ...
                     string stat = "";
-                    if (aCase.workflow_state == "created" && aCase.unit_id == null)
+                    if (aCase.workflow_state == "created" && aCase.status != 77)
                         stat = "Created";
 
-                    if (aCase.workflow_state == "created" && aCase.unit_id != null) //TODO
+                    if (aCase.workflow_state == "created" && aCase.status == 77)
                         stat = "Retrived";
 
                     if (aCase.workflow_state == "retracted")
@@ -393,7 +393,32 @@ namespace eFormSqlController
             }
         }
 
-        public void                 CaseUpdate(string microtingUId, DateTime doneAt, int doneByUserId, string microtingCheckId, int unitId)
+        public void                 CaseUpdateRetrived(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId);
+
+                    if (match != null)
+                    {
+                        match.status = 77;
+                        match.updated_at = DateTime.Now;
+                        match.version = match.version + 1;
+
+                        db.version_cases.Add(MapCaseVersions(match));
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
+        public void                 CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int doneByUserId, int unitId)
         {
             try
             {
@@ -435,13 +460,13 @@ namespace eFormSqlController
             }
         }
 
-        public void                 CaseUpdate(string microtingUId, string checkUId, string newCaseUId, string newCustom)
+        public void                 CaseUpdateDetails(string microtingUId, string microtingCheckId, string newCaseUId, string newCustom)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases caseStd = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
+                    cases caseStd = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
 
                     caseStd.case_uid = newCaseUId;
                     caseStd.custom = newCustom;
