@@ -64,7 +64,6 @@
     <Compile Include="MainControllerSamples.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -89,6 +88,10 @@
     <ProjectReference Include="..\..\eFormResponse\eFormResponse.csproj">
       <Project>{5290e431-a86d-480a-afd5-673ef5cb6664}</Project>
       <Name>eFormResponse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\eFormShared\eFormShared.csproj">
+      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
+      <Name>eFormShared</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\eFormSqlController\eFormSqlController.csproj">
       <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>

@@ -22,10 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using eFormShared;
+
 using System;
 using System.IO;
 using System.Threading;
-using Trools;
 
 namespace Microting
 {
@@ -35,11 +36,7 @@ namespace Microting
         {
             try
             {
-                string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
-
-
-
-                Console.WriteLine("Press following keys to run:");
+                Console.WriteLine("Press following keys to start:");
                 Console.WriteLine("'C' for custom program");
                 Console.WriteLine("'S' for sample programs");
                 Console.WriteLine("'A' for admin tools program");
@@ -47,26 +44,23 @@ namespace Microting
                 string input = Console.ReadLine();
 
 
-
+                string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
                 if (input.ToUpper() == "C")
                 {
                     var program = new MainControllerCustom(serverConnectionString);
                     program.Run();
                 }
-
                 if (input.ToUpper() == "S")
                 {
                     var program = new MainControllerSamples(serverConnectionString);
                     program.Run();
                 }
-
                 if (input.ToUpper() == "A")
                 {
                     var program = new AdminTools(serverConnectionString);
                     program.Run();
                 }
-
-
+                
 
                 Console.WriteLine("Console will close in 2s");
                 Thread.Sleep(2000);

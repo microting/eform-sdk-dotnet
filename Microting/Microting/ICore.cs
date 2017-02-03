@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using eFormRequest;
-using eFormSqlController;
+using eFormShared;
 
 namespace Microting
 {
@@ -104,13 +104,13 @@ namespace Microting
         //---------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Looks up the case's markers, from the matches
+        /// Looks up the case's markers, from the match
         /// </summary>
         /// <param name="microtingUId">Microting unique ID of the eForm case</param>
         Case_Dto        CaseLookupMUId(string microtingUId);
 
         /// <summary>
-        /// Looks up the case's markers, from the matches
+        /// Looks up the case's markers, from the match
         /// </summary>
         /// <param name="CaseId">Microting DB's ID of the eForm case</param>
         Case_Dto        CaseLookupCaseId(int CaseId);
@@ -120,6 +120,13 @@ namespace Microting
         /// </summary>
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         List<Case_Dto>  CaseLookupCaseUId(string caseUId);
+
+        /// <summary>
+        /// Looks up the case's ID, from the match
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
+        /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
+        int             CaseIdLookup(string microtingUId, string checkUId);
 
         //---------------------------------------------------------------------------------------
 
@@ -169,5 +176,19 @@ namespace Microting
         /// <param name="path">Location where fil is to be placed. Relative or absolut</param>
         /// <param name="name">Name of the CSV fil</param>
         string          CasesToCsv(int templatId, DateTime? start, DateTime? end, string fullPathName);
+
+        //---------------------------------------------------------------------------------------
+
+        List<Site_Dto> SiteGetAll();
+
+        Site_Dto SiteCreate(string siteName, string userFirstName, string userLastName);
+
+        Site_Dto SiteRead(int siteId);
+
+        bool SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName);
+
+        bool SiteReset(int siteId);
+
+        bool SiteDelete(int siteId);
     }
 }

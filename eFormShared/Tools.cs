@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trools
+namespace eFormShared
 {
-    class Tools
+    public class Tools
     {
         #region Text Manipulation
         public string           Locate(string textStr, string startStr, string endStr)

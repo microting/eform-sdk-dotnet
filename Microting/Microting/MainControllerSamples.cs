@@ -24,12 +24,12 @@ SOFTWARE.
 
 using eFormRequest;
 using eFormSqlController;
+using eFormShared;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Trools;
 
 namespace Microting
 {
@@ -440,8 +440,6 @@ namespace Microting
             string caseUid = temp.CaseUId;
             string mUId = temp.MicrotingUId;
             string checkUId = temp.CheckUId;
-
-
         }
 
         public void     EventCaseRetrived(object sender, EventArgs args)
@@ -453,7 +451,6 @@ namespace Microting
             string caseUid = temp.CaseUId;
             string mUId = temp.MicrotingUId;
             string checkUId = temp.CheckUId;
-
         }
 
         public void     EventCaseCompleted(object sender, EventArgs args)

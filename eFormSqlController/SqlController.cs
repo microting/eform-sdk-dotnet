@@ -1,6 +1,6 @@
 ﻿using eFormRequest;
 using eFormResponse;
-using Trools;
+using eFormShared;
 
 using System;
 using System.Collections.Generic;
@@ -735,13 +735,13 @@ namespace eFormSqlController
             }
         }
 
-        public List<field_values>   ChecksRead(string microtingUId)
+        public List<field_values>   ChecksRead(string microtingUId, string checkUId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    var aCase = db.cases.Single(x => x.microting_uid == microtingUId);
+                    var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
                     int caseId = aCase.id;
 
                     List<field_values> lst = db.field_values.Where(x => x.case_id == caseId).ToList();
@@ -771,7 +771,7 @@ namespace eFormSqlController
                     answer.FieldId = reply.field_id.ToString();
                     answer.FieldType = Find((int)question.field_type_id);
                     answer.DateOfDoing = t.Date(reply.done_at);
-                    answer.Description = new eFormRequest.CDataValue();
+                    answer.Description = new CDataValue();
                     answer.Description.InderValue = question.description;
                     answer.DisplayOrder = t.Int(question.display_index);
                     answer.Heading = reply.heading;

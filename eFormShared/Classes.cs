@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace eFormSqlController
+namespace eFormShared
 {
     #region Case_Dto
     public class Case_Dto
@@ -75,7 +77,7 @@ namespace eFormSqlController
         public override string ToString()
         {
             if (CheckUId == null) return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            if (CheckUId == "")   return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            if (CheckUId == "") return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
             return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
         }
     }
@@ -146,25 +148,78 @@ namespace eFormSqlController
     }
     #endregion
 
-    #region Holder
-    internal class Holder
+    #region Site_Dto
+    public class Site_Dto
     {
-        internal Holder(int index, string field_type)
+        #region con
+        public Site_Dto()
+        {
+        }
+
+        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName)
+        {
+            if (siteName == null)
+                siteName = "";
+            if (userFirstName == null)
+                userFirstName = "";
+            if (userLastName == null)
+                userLastName = "";
+
+            SiteId = siteId;
+            SiteName = siteName;
+            UserFirstName = userFirstName;
+            UserLastName = userLastName;
+        }
+        #endregion
+
+        #region var
+        /// <summary>
+        ///...
+        /// </summary>
+        public int SiteId { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string SiteName { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string UserFirstName { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string UserLastName { get; }
+        #endregion
+
+        public override string ToString()
+        {
+            return "Site:" + SiteId + " / SiteName:" + SiteName + " / UserFirstName:" + UserFirstName + " / UserLastName:" + UserLastName + ".";
+        }
+    }
+    #endregion
+
+    #region Holder
+    public class Holder
+    {
+        public Holder(int index, string field_type)
         {
             Index = index;
             FieldType = field_type;
         }
 
-        internal int Index { get; }
+        public int Index { get; }
 
-        internal string FieldType { get; }
+        public string FieldType { get; }
     }
     #endregion
 
     #region EntityItemUpdateInfo
-    internal class EntityItemUpdateInfo
+    public class EntityItemUpdateInfo
     {
-        internal EntityItemUpdateInfo(string entityItemMUid, string status)
+        public EntityItemUpdateInfo(string entityItemMUid, string status)
         {
             EntityItemMUid = entityItemMUid;
             Status = status;
@@ -172,6 +227,69 @@ namespace eFormSqlController
 
         public string EntityItemMUid { get; set; }
         public string Status { get; set; }
+    }
+    #endregion
+
+    #region KeyValuePair
+    [Serializable()]
+    public class KeyValuePair
+    {
+        #region con
+        internal KeyValuePair()
+        {
+
+        }
+
+        public KeyValuePair(string key, string value, bool selected, string displayOrder)
+        {
+            Key = key;
+            Value = value;
+            Selected = selected;
+            DisplayOrder = displayOrder;
+        }
+        #endregion
+
+        #region var
+        public string Key { get; set; }
+        public string Value { get; set; }
+        public bool Selected { get; set; }
+        public string DisplayOrder { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region CDataValue
+    public class CDataValue
+    {
+        [XmlIgnore]
+        public string InderValue { get; set; }
+
+        [XmlText]
+        public XmlNode[] CDataWrapper
+        {
+            get
+            {
+                var dummy = new XmlDocument();
+                return new XmlNode[] { dummy.CreateCDataSection(InderValue) };
+            }
+            set
+            {
+                if (value == null)
+                {
+                    InderValue = null;
+                    return;
+                }
+
+                if (value.Length != 1)
+                {
+                    throw new InvalidOperationException(
+                        String.Format(
+                            "Invalid array length {0}", value.Length));
+                }
+
+                InderValue = value[0].Value;
+            }
+        }
     }
     #endregion
 }

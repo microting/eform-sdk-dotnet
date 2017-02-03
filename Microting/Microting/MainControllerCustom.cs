@@ -25,17 +25,112 @@ SOFTWARE.
 using eFormCustom;
 using eFormRequest;
 using eFormSqlController;
+using eFormShared;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Trools;
 
 namespace Microting
 {
     class MainControllerCustom
     {
+        #region events
+        public void EventCaseCreated(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventCaseRetrived(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventCaseCompleted(object sender, EventArgs args)
+        {
+            lock (_lockLogic)
+            {
+                Case_Dto cDto = (Case_Dto)sender;
+                Logic(cDto);
+            }
+        }
+
+        public void EventCaseDeleted(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventFileDownloaded(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventSiteActivated(object sender, EventArgs args)
+        {
+
+        }
+
+        public void EventLog(object sender, EventArgs args)
+        {
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_log.txt", sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
+        }
+
+        public void EventMessage(object sender, EventArgs args)
+        {
+            try
+            {
+                Console.WriteLine(sender.ToString());
+            }
+            catch (Exception ex)
+            {
+                EventException(ex, EventArgs.Empty);
+            }
+        }
+
+        public void EventWarning(object sender, EventArgs args)
+        {
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + "_warning.txt", sender.ToString() + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
+        }
+
+        public void EventException(object sender, EventArgs args)
+        {
+            Exception inEx = (Exception)sender;
+
+            lock (_lockLogFil)
+            {
+                try
+                {
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + "_EXCEPTION.txt", t.PrintException("Exception from Core", inEx) + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    EventException(ex, EventArgs.Empty);
+                }
+            }
+        }
+        #endregion
+
         #region var
         object _lockLogFil = new object();
         object _lockLogic = new object();
@@ -75,17 +170,21 @@ namespace Microting
         #region public
         public void Run()
         {
-            Setup();
-
             core.Start(serverConnectionString);
+            core.CasesToCsv(1, null, DateTime.Now.AddDays(1), "text.csv");
 
-            Thread syncThread = new Thread(() => Sync());
-            syncThread.Start();
 
-            Console.WriteLine("Program running. Press any key to close");
-            Console.ReadKey();
+            //Setup();
 
-            Close();
+            //core.Start(serverConnectionString);
+
+            //Thread syncThread = new Thread(() => Sync());
+            //syncThread.Start();
+
+            //Console.WriteLine("Program running. Press any key to close");
+            //Console.ReadKey();
+
+            //Close();
         }
 
         public void Close()
@@ -503,101 +602,6 @@ namespace Microting
             return rtnStr;
         }
         #endregion
-        #endregion
-
-        #region events
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            lock (_lockLogic)
-            {
-                Case_Dto cDto = (Case_Dto)sender;
-                Logic(cDto);
-            }
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
- 
-        }
-
-        public void EventLog(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_log.txt", sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventMessage(object sender, EventArgs args)
-        {
-            try
-            {
-                Console.WriteLine(sender.ToString());
-            }
-            catch (Exception ex)
-            {
-                EventException(ex, EventArgs.Empty);
-            }
-        }
-
-        public void EventWarning(object sender, EventArgs args)
-        {
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + "_warning.txt", sender.ToString() + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
-
-        public void EventException(object sender, EventArgs args)
-        {
-            Exception inEx = (Exception)sender;
-
-            lock (_lockLogFil)
-            {
-                try
-                {
-                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + "_EXCEPTION.txt", t.PrintException("Exception from Core", inEx) + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    EventException(ex, EventArgs.Empty);
-                }
-            }
-        }
         #endregion
     }
 }

@@ -28,7 +28,7 @@ using eFormRequest;
 using eFormResponse;
 using eFormSubscriber;
 using eFormSqlController;
-using Trools;
+using eFormShared;
 
 using System;
 using System.Collections.Generic;
@@ -347,7 +347,6 @@ namespace Microting
             catch (Exception ex)
             {
                 TriggerHandleExpection("TemplatFromXml failed", ex, false);
-
                 return null;
             }
         }
@@ -409,7 +408,7 @@ namespace Microting
             {
                 if (coreRunning)
                 {
-                    TriggerLog("TemplatGetAll() called");
+                    TriggerLog("TemplatReadAll() called");
                     return sqlController.TemplatReadAll();
                 }
                 else
@@ -417,8 +416,8 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplatGetAll failed", ex, true);
-                throw new Exception("TemplatGetAll failed", ex);
+                TriggerHandleExpection("TemplatReadAll failed", ex, true);
+                throw new Exception("TemplatReadAll failed", ex);
             }
         }
         #endregion
@@ -528,7 +527,7 @@ namespace Microting
                     replyElement.UnitId = (int)aCase.unit_id;
 
                     List<FieldValue> lstAnswers = new List<FieldValue>();
-                    List<field_values> lstReplies = sqlController.ChecksRead(microtingUId);
+                    List<field_values> lstReplies = sqlController.ChecksRead(microtingUId, checkUId);
                     #region remove replicates from lstReplies. Ex. multiple pictures
                     List<field_values> lstRepliesTemp = new List<field_values>();
                     bool found;
@@ -588,8 +587,8 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookup failed", ex, true);
-                throw new Exception("CaseLookup failed", ex);
+                TriggerHandleExpection("CaseReadAll failed", ex, true);
+                throw new Exception("CaseReadAll failed", ex);
             }
         }
 
@@ -697,8 +696,8 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookupId failed", ex, true);
-                throw new Exception("CaseLookupId failed", ex);
+                TriggerHandleExpection("CaseLookupMUId failed", ex, true);
+                throw new Exception("CaseLookupMUId failed", ex);
             }
         }
 
@@ -716,8 +715,8 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookupGroup failed", ex, true);
-                throw new Exception("CaseLookupGroup failed", ex);
+                TriggerHandleExpection("CaseLookupCaseId failed", ex, true);
+                throw new Exception("CaseLookupCaseId failed", ex);
             }
         }
 
@@ -735,12 +734,49 @@ namespace Microting
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookupGroup failed", ex, true);
-                throw new Exception("CaseLookupGroup failed", ex);
+                TriggerHandleExpection("CaseLookupCaseUId failed", ex, true);
+                throw new Exception("CaseLookupCaseUId failed", ex);
             }
         }
 
-        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string fullPathName)
+        public int              CaseIdLookup(string microtingUId, string checkUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    if (checkUId == null)
+                        checkUId = "";
+
+                    TriggerLog("microtingUId:" + microtingUId + " checkUId:" + checkUId + ", requested to be read");
+
+                    if (checkUId == "" || checkUId == "0")
+                        checkUId = null;
+
+                    cases aCase = sqlController.CaseReadFull(microtingUId, checkUId);
+                    #region handling if no match case found
+                    if (aCase == null)
+                    {
+                        HandleEventWarning("No case found with MuuId:'" + microtingUId + "'", EventArgs.Empty);
+                        return -1;
+                    }
+                    #endregion
+                    int id = aCase.id;
+                    TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
+
+                    return id;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseIdLookup failed", ex, true);
+                throw new Exception("CaseIdLookup failed", ex);
+            }
+        }
+
+        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string pathAndFilName)
         {
             try
             {
@@ -751,7 +787,7 @@ namespace Microting
                     if (dataSet == null)
                         return "";
 
-                    return excelController.CreateExcel(dataSet, fullPathName);
+                    return excelController.CreateExcel(dataSet, pathAndFilName);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -763,7 +799,7 @@ namespace Microting
             }
         }
 
-        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string fullPathName)
+        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string pathAndFilName)
         {
             try
             {
@@ -774,7 +810,7 @@ namespace Microting
                     if (dataSet == null)
                         return "";
 
-                    using (TextWriter writer = File.CreateText(fullPathName))
+                    using (TextWriter writer = File.CreateText(pathAndFilName))
                     {
                         List<string> temp;
 
@@ -791,7 +827,7 @@ namespace Microting
                         }
                     }
 
-                    return fullPathName;
+                    return pathAndFilName;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -912,6 +948,38 @@ namespace Microting
                 TriggerHandleExpection("EntityGroupDelete failed", ex, true);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
+        }
+        #endregion
+
+        #region sites
+        public List<Site_Dto> SiteGetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Site_Dto SiteCreate(string siteName, string userFirstName, string userLastName)
+        {
+            return null;
+        }
+
+        public Site_Dto SiteRead(int siteId)
+        {
+            return null;
+        }
+
+        public bool SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        {
+            return false;
+        }
+
+        public bool SiteReset(int siteId)
+        {
+            return false;
+        }
+
+        public bool SiteDelete(int siteId)
+        {
+            return false;
         }
         #endregion
         #endregion
@@ -1683,12 +1751,5 @@ namespace Microting
 
         public string Description { get; set; }
         public DateTime Time { get; set; }
-    }
-
-    public enum Log
-    {
-        Minimum,
-        Basic,
-        All
     }
 }

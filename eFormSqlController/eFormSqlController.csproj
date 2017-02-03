@@ -58,14 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microting\Microting\Tools.cs">
-      <Link>Tools.cs</Link>
-    </Compile>
     <Compile Include="table\cases.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
     <Compile Include="table\check_list_values.cs" />
-    <Compile Include="Classes.cs" />
     <Compile Include="table\data_uploaded.cs" />
     <Compile Include="table\entity_groups.cs" />
     <Compile Include="table\entity_items.cs" />
@@ -94,7 +90,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
+      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
+      <Name>eFormShared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
