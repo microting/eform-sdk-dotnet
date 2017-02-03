@@ -156,7 +156,7 @@ namespace eFormShared
         {
         }
 
-        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName)
+        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName, string resetCode)
         {
             if (siteName == null)
                 siteName = "";
@@ -164,11 +164,14 @@ namespace eFormShared
                 userFirstName = "";
             if (userLastName == null)
                 userLastName = "";
+            if (resetCode == null)
+                resetCode = "";
 
             SiteId = siteId;
             SiteName = siteName;
             UserFirstName = userFirstName;
             UserLastName = userLastName;
+            ResetCode = resetCode;
         }
         #endregion
 
@@ -192,11 +195,16 @@ namespace eFormShared
         ///...
         /// </summary>
         public string UserLastName { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string ResetCode { get; }
         #endregion
 
         public override string ToString()
         {
-            return "Site:" + SiteId + " / SiteName:" + SiteName + " / UserFirstName:" + UserFirstName + " / UserLastName:" + UserLastName + ".";
+            return "Site:" + SiteId + " / SiteName:" + SiteName + " / UserFirstName:" + UserFirstName + " / UserLastName:" + UserLastName + " / ResetCode:" + ResetCode + ".";
         }
     }
     #endregion

@@ -404,6 +404,10 @@ namespace eFormSqlController
                 .IsUnicode(false);
 
             modelBuilder.Entity<sites>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<sites>()
                 .Property(e => e.created_at)
                 .HasPrecision(0);
 
@@ -681,6 +685,10 @@ namespace eFormSqlController
 
             modelBuilder.Entity<version_fields>()
                 .Property(e => e.custom)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_sites>()
+                .Property(e => e.workflow_state)
                 .IsUnicode(false);
 
             modelBuilder.Entity<version_sites>()

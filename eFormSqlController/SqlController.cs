@@ -1082,6 +1082,182 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region site
+        public int SiteCreate(int siteId, string name, int customerNumber, int otpCode, int unitUId, int userId, string userFirstName, string userLastName, int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    sites site = new sites();
+                    site.workflow_state = "created";
+                    site.version = 1;
+                    site.created_at = DateTime.Now;
+                    site.updated_at = DateTime.Now;
+                    site.site_uid = siteId;
+                    site.site_name = name;
+                    site.customer_number = customerNumber;
+                    site.otp_code = otpCode;
+                    site.unit_id = unitUId;
+                    site.user_id = userId;
+                    site.user_first_name = userFirstName;
+                    site.user_last_name = userLastName;
+                    site.worker_id = workerId;
+
+                    db.sites.Add(site);
+                    db.SaveChanges();
+
+                    db.version_sites.Add(MapSiteVersions(site));
+                    db.SaveChanges();
+
+                    return site.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Dto SiteRead(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId && x.workflow_state == "created");
+
+                    if (site != null)
+                        return new Site_Dto((int)site.site_uid, site.site_name, site.user_first_name, site.user_last_name, site.customer_number + "|" + site.otp_code);
+                    else
+                        return null; 
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId);
+
+                    if (site != null)
+                    {
+                        site.version = site.version + 1;
+                        site.updated_at = DateTime.Now;
+
+                        site.site_name = siteName;
+                        site.user_first_name = userFirstName;
+                        site.user_last_name = userLastName;
+
+                        db.version_sites.Add(MapSiteVersions(site));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Dto SiteReset(int siteId, int customerNumber, int otpCode)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId);
+
+                    if (site != null)
+                    {
+                        site.version = site.version + 1;
+                        site.updated_at = DateTime.Now;
+
+                        site.customer_number = customerNumber;
+                        site.otp_code = otpCode;
+
+                        db.version_sites.Add(MapSiteVersions(site));
+                        db.SaveChanges();
+
+                        return SiteRead(siteId);
+                    }
+                    else
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool SiteDelete(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId);
+
+                    if (site != null)
+                    {
+                        site.version = site.version + 1;
+                        site.updated_at = DateTime.Now;
+
+                        site.workflow_state = "removed";
+
+                        db.version_sites.Add(MapSiteVersions(site));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
         #region entityGroup
         public int          EntityGroupCreate(string name, string entityType)
         {
@@ -2312,6 +2488,28 @@ namespace eFormSqlController
             entityItemVer.entity_items_id = entityItem.id; //<<--
 
             return entityItemVer;
+        }
+
+        private version_sites               MapSiteVersions(sites site)
+        {
+            version_sites siteVer = new version_sites();
+            siteVer.workflow_state = site.workflow_state;
+            siteVer.version = site.version;
+            siteVer.created_at = site.created_at;
+            siteVer.updated_at = site.updated_at;
+            siteVer.site_uid = site.site_uid;
+            siteVer.site_name = site.site_name;
+            siteVer.customer_number = site.customer_number;
+            siteVer.otp_code = site.otp_code;
+            siteVer.unit_id = site.unit_id;
+            siteVer.user_id = site.user_id;
+            siteVer.user_first_name = site.user_first_name;
+            siteVer.user_last_name = site.user_last_name;
+            siteVer.worker_id = site.worker_id;
+
+            siteVer.site_id = siteVer.id; //<<--
+
+            return siteVer;
         }
         #endregion
         #endregion

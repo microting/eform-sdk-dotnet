@@ -21,10 +21,25 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        [StringLength(255)]
-        public string microting_uid { get; set; }
+        public int? site_uid { get; set; }
 
         [StringLength(255)]
-        public string name { get; set; }
+        public string site_name { get; set; }
+
+        public int? customer_number { get; set; }
+
+        public int? otp_code { get; set; }
+
+        public int? unit_id { get; set; }
+
+        public int? user_id { get; set; }
+
+        [StringLength(255)]
+        public string user_first_name { get; set; }
+
+        [StringLength(255)]
+        public string user_last_name { get; set; }
+
+        public int? worker_id { get; set; }
     }
 }

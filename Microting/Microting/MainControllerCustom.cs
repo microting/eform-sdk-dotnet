@@ -171,7 +171,7 @@ namespace Microting
         public void Run()
         {
             core.Start(serverConnectionString);
-            core.CasesToCsv(1, null, DateTime.Now.AddDays(1), "text.csv");
+            core.SiteCreate("Site's name", "User first", "User last");
 
 
             //Setup();

@@ -30,6 +30,7 @@ using System.Net.Security;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace eFormCommunicator
 {
@@ -375,6 +376,42 @@ namespace eFormCommunicator
             }
             else
                 return false;
+        }
+        #endregion
+
+        #region internal Site
+        internal int        SiteCreateUser(string userFirstName, string userLastName)
+        {
+            //WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+            //request.Method = "DELETE";
+            //request.ContentType = "application/json; charset=utf-8";
+
+            //string responseXml = PostToServerNoRedirect(request);
+
+            //if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
+            //{
+            //    WebRequest request2 = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+            //    request2.Method = "GET";
+            //    string responseXml2 = PostToServer(request2);
+
+            //    if (responseXml2.Contains("workflow_state\": \"removed"))
+            //        return true;
+            //    else
+            //        return false;
+            //}
+            //else
+            //    return false;
+            return 0;
+        }
+
+        internal List<int>  SiteCreateSite(string siteName)
+        {
+            return null;
+        }
+
+        internal int        SiteCreateWorker(int siteId, int userId)
+        {
+            return 0;
         }
         #endregion
 

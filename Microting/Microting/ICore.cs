@@ -24,12 +24,12 @@ namespace Microting
         /// <summary>
         /// Starts the Core and enables Events. Restarts if needed
         /// </summary>
-        void Start(string serverConnectionString);
+        bool Start(string serverConnectionString);
 
         /// <summary>
         /// Closes the Core and disables Events
         /// </summary>
-        void Close();
+        bool Close();
 
         /// <summary>
         /// Tells if the Core is useable
@@ -131,33 +131,6 @@ namespace Microting
         //---------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Creates an EntityGroup, and returns its unique microting id for further use
-        /// </summary>
-        /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
-        /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
-        string          EntityGroupCreate(string entityType, string name);
-
-        /// <summary>
-        /// Returns the EntityGroup and its EntityItems
-        /// </summary>
-        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
-        EntityGroup     EntityGroupRead(string entityGroupMUId);
-
-        /// <summary>
-        /// Updates the EntityGroup and its EntityItems for those needed
-        /// </summary>
-        /// <param name="entityGroup">The EntityGroup and its EntityItems</param>
-        void            EntityGroupUpdate(EntityGroup entityGroup);
-
-        /// <summary>
-        /// Deletes an EntityGroup, both its items should be deleted before using
-        /// </summary>
-        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
-        void            EntityGroupDelete(string entityGroupMUId);
-
-        //---------------------------------------------------------------------------------------
-
-        /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a Excel fil, at the returned path's location
         /// </summary>
         /// <param name="templatId">The templat's ID to be used</param>
@@ -179,16 +152,43 @@ namespace Microting
 
         //---------------------------------------------------------------------------------------
 
-        List<Site_Dto> SiteGetAll();
+        List<Site_Dto>  SiteGetAll();
 
-        Site_Dto SiteCreate(string siteName, string userFirstName, string userLastName);
+        Site_Dto        SiteCreate(string siteName, string userFirstName, string userLastName);
 
-        Site_Dto SiteRead(int siteId);
+        Site_Dto        SiteRead(int siteId);
 
-        bool SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName);
+        bool            SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName);
 
-        bool SiteReset(int siteId);
+        Site_Dto        SiteReset(int siteId);
 
-        bool SiteDelete(int siteId);
+        bool            SiteDelete(int siteId);
+
+        //---------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Creates an EntityGroup, and returns its unique microting id for further use
+        /// </summary>
+        /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
+        /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
+        string          EntityGroupCreate(string entityType, string name);
+
+        /// <summary>
+        /// Returns the EntityGroup and its EntityItems
+        /// </summary>
+        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
+        EntityGroup     EntityGroupRead(string entityGroupMUId);
+
+        /// <summary>
+        /// Updates the EntityGroup and its EntityItems for those needed
+        /// </summary>
+        /// <param name="entityGroup">The EntityGroup and its EntityItems</param>
+        bool            EntityGroupUpdate(EntityGroup entityGroup);
+
+        /// <summary>
+        /// Deletes an EntityGroup, both its items should be deleted before using
+        /// </summary>
+        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
+        bool            EntityGroupDelete(string entityGroupMUId);
     }
 }

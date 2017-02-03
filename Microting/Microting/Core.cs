@@ -96,7 +96,7 @@ namespace Microting
         #endregion
 
         #region public state
-        public void     Start(string serverConnectionString)
+        public bool     Start(string serverConnectionString)
         {
             try
             {
@@ -189,9 +189,10 @@ namespace Microting
                 coreStatChanging = false;
                 throw new Exception("FATAL Exception. Core failed to start", ex);
             }
+            return true;
         }
 
-        public void     StartSqlOnly(string serverConnectionString)
+        public bool     StartSqlOnly(string serverConnectionString)
         {
             if (string.IsNullOrEmpty(serverConnectionString))
                 throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
@@ -227,9 +228,10 @@ namespace Microting
                 coreStatChanging = false;
                 throw new Exception("FATAL Exception. Core failed to start", ex);
             }
+            return true;
         }
 
-        public void     Close()
+        public bool     Close()
         {
             try
             {
@@ -282,6 +284,7 @@ namespace Microting
                 coreStatChanging = false;
                 throw new Exception("FATAL Exception. Core failed to close", ex);
             }
+            return true;
         }
 
         public bool     Running()
@@ -840,6 +843,155 @@ namespace Microting
         }
         #endregion
 
+        #region sites
+        public List<Site_Dto>   SiteGetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Site_Dto         SiteCreate(string siteName, string userFirstName, string userLastName)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    List<int> siteData = communicator.SiteCreate(siteName, userFirstName, userLastName);
+
+                    int siteId = siteData[0];
+                    int customerNumber = siteData[1];
+                    int otpCode = siteData[2];
+                    int unitUId = siteData[3];
+                    int userId = siteData[4];
+                    int workerId = siteData[5];
+
+                    sqlController.SiteCreate(siteId, siteName, customerNumber, otpCode, unitUId, userId, userFirstName, userLastName, workerId);
+
+                    return SiteRead(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Dto         SiteRead(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    return sqlController.SiteRead(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool             SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    if (sqlController.SiteRead(siteId) == null)
+                        return false;
+
+                    bool success = communicator.SiteUpdate(siteId, siteName, userFirstName, userLastName);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteUpdate(siteId, siteName, userFirstName, userLastName);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Dto         SiteReset(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    if (sqlController.SiteRead(siteId) == null)
+                        return null;
+
+                    List<int> codes = communicator.SiteReset(siteId);
+                    if (codes == null)
+                        return null;
+
+                    int customerNumber = codes[0];
+                    int otpCode = codes[1];
+
+                    return sqlController.SiteReset(siteId, customerNumber, otpCode);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool             SiteDelete(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    bool success = communicator.SiteDelete(siteId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteDelete(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
         #region entity group
         public string           EntityGroupCreate(string entityType, string name)
         {
@@ -892,7 +1044,7 @@ namespace Microting
             }
         }
 
-        public void             EntityGroupUpdate(EntityGroup entityGroup)
+        public bool             EntityGroupUpdate(EntityGroup entityGroup)
         {
             try
             {
@@ -921,9 +1073,10 @@ namespace Microting
                 TriggerHandleExpection("EntityGroupRead failed", ex, true);
                 throw new Exception("EntityGroupRead failed", ex);
             }
+            return true;
         }
 
-        public void             EntityGroupDelete(string entityGroupMUId)
+        public bool             EntityGroupDelete(string entityGroupMUId)
         {
             try
             {
@@ -948,38 +1101,7 @@ namespace Microting
                 TriggerHandleExpection("EntityGroupDelete failed", ex, true);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
-        }
-        #endregion
-
-        #region sites
-        public List<Site_Dto> SiteGetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Site_Dto SiteCreate(string siteName, string userFirstName, string userLastName)
-        {
-            return null;
-        }
-
-        public Site_Dto SiteRead(int siteId)
-        {
-            return null;
-        }
-
-        public bool SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
-        {
-            return false;
-        }
-
-        public bool SiteReset(int siteId)
-        {
-            return false;
-        }
-
-        public bool SiteDelete(int siteId)
-        {
-            return false;
+            return true;
         }
         #endregion
         #endregion

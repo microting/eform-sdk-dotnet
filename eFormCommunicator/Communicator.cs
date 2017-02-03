@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using eFormShared;
+
 
 using System;
 using System.Collections.Generic;
@@ -31,11 +31,21 @@ namespace eFormCommunicator
 {
     public class Communicator
     {
+        #region event
+        internal void TriggerEventLog(string message)
+        {
+            System.EventHandler handler = EventLog;
+            if (handler != null)
+            {
+                handler(message, EventArgs.Empty);
+            }
+        }
+        #endregion
+
         #region var
         public event EventHandler EventLog;
         public object _lockSending = new object();
 
-        Tools t = new Tools();
         Http http;
         #endregion
 
@@ -158,6 +168,40 @@ namespace eFormCommunicator
 
                 return http.Delete(eFormId, siteId.ToString());
             }
+        }
+        #endregion
+
+        #region public site
+        public List<int>    SiteCreate(string siteName, string userFirstName, string userLastName)
+        {
+            int userId = http.SiteCreateUser(userFirstName, userLastName);
+
+            List<int> siteData = http.SiteCreateSite(siteName);
+            int siteId = siteData[0];
+            int customerNumber = siteData[1];
+            int otpCode = siteData[2];
+            int unitUId = siteData[3];
+
+            int workerId = http.SiteCreateWorker(siteId, userId);
+
+            siteData.Add(userId);
+            siteData.Add(workerId);
+            return siteData;
+        }
+
+        public bool         SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        {
+            return true;
+        }
+
+        public List<int>    SiteReset(int siteId)
+        {
+            return null;
+        }
+
+        public bool         SiteDelete(int siteId)
+        {
+            return true;
         }
         #endregion
 
@@ -299,17 +343,6 @@ namespace eFormCommunicator
         }
         #endregion
 
-        #region event
-        internal void TriggerEventLog(string message)
-        {
-            System.EventHandler handler = EventLog;
-            if (handler != null)
-            {
-                handler(message, EventArgs.Empty);
-            }
-        }
-        #endregion
-        
         #region remove unwanted/uneeded methods from finished DLL
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)
