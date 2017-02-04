@@ -171,7 +171,7 @@ namespace Microting
         public void Run()
         {
             core.Start(serverConnectionString);
-            core.SiteCreate("Site's name", "User first", "User last");
+            core.SiteCreateSimple("Site's name", "User first", "User last", "");
 
 
             //Setup();

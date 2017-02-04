@@ -154,13 +154,17 @@ namespace Microting
 
         List<Site_Dto>  SiteGetAll();
 
-        Site_Dto        SiteCreate(string siteName, string userFirstName, string userLastName);
+        List<Simple_Site_Dto> SimpleSiteGetAll();
 
-        Site_Dto        SiteRead(int siteId);
+        Site_Dto        SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
 
-        bool            SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName);
+        Site_Dto        SiteRead(int microting_uid);
 
-        Site_Dto        SiteReset(int siteId);
+        Simple_Site_Dto SiteReadSimple(int microting_uid);
+
+        bool            SiteUpdate(int microting_uid, string name);
+
+        //Site_Dto        SiteReset(int siteId);
 
         bool            SiteDelete(int siteId);
 

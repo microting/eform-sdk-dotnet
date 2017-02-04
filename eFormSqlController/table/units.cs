@@ -6,23 +6,27 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class sites
+    public partial class units
     {
         public int id { get; set; }
 
-        public DateTime? created_at { get; set; }
-
-        public DateTime? updated_at { get; set; }
-
-        [StringLength(255)]
-        public string name { get; set; }
-
-        [Key]
         public int? microting_uid { get; set; }
+
+        public int? otp_code { get; set; }
+
+        public int? customer_no { get; set; }
 
         public int? version { get; set; }
 
         [StringLength(255)]
         public string workflow_state { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? created_at { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime? updated_at { get; set; }
+
+        public int? site_id { get; set; }
     }
 }

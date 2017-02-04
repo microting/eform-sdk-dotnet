@@ -172,36 +172,60 @@ namespace eFormCommunicator
         #endregion
 
         #region public site
-        public List<int>    SiteCreate(string siteName, string userFirstName, string userLastName)
+        public List<int>    SiteCreate(string name)
         {
-            int userId = http.SiteCreateUser(userFirstName, userLastName);
-
-            List<int> siteData = http.SiteCreateSite(siteName);
-            int siteId = siteData[0];
-            int customerNumber = siteData[1];
-            int otpCode = siteData[2];
-            int unitUId = siteData[3];
-
-            int workerId = http.SiteCreateWorker(siteId, userId);
-
-            siteData.Add(userId);
-            siteData.Add(workerId);
-            return siteData;
+            return http.SiteCreate(name);
         }
 
-        public bool         SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        public bool         SiteUpdate(int siteId, string name)
         {
-            return true;
-        }
-
-        public List<int>    SiteReset(int siteId)
-        {
-            return null;
+            return http.SiteUpdate(siteId, name);
         }
 
         public bool         SiteDelete(int siteId)
         {
-            return true;
+            return http.SiteDelete(siteId);
+        }
+        #endregion
+
+        #region public worker
+        public int          WorkerCreate(string firstName, string lastName, string email)
+        {
+            return http.WorkerCreate(firstName, lastName, email);
+        }
+
+        public bool         WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        {
+            return http.WorkerUpdate(workerId, firstName, lastName, email);
+        }
+
+        public bool         WorkerDelete(int workerId)
+        {
+            return http.WorkerDelete(workerId);
+        }
+        #endregion
+
+        #region public site_worker
+        public int          SiteWorkerCreate(int siteId, int workerId)
+        {
+            return http.SiteWorkerCreate(siteId, workerId);
+        }
+
+        public bool         SiteWorkerUpdate(int id, int siteId, int workerId)
+        {
+            return http.SiteWorkerUpdate(siteId, workerId);
+        }
+
+        public bool         SiteWorkerDelete(int workerId)
+        {
+            return http.SiteWorkerDelete(workerId);
+        }
+        #endregion
+
+        #region public unit      
+        public int          UnitRequestOtp(int unitId)
+        {
+            return http.UnitRequestOtp(unitId);
         }
         #endregion
 

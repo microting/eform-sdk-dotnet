@@ -379,37 +379,60 @@ namespace eFormCommunicator
         }
         #endregion
 
-        #region internal Site
-        internal int        SiteCreateUser(string userFirstName, string userLastName)
+        #region internal site
+        internal List<int> SiteCreate(string name)
         {
-            //WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
-            //request.Method = "DELETE";
-            //request.ContentType = "application/json; charset=utf-8";
+            List<int> my_list = new List<int>();
+            return my_list;
+        }
 
-            //string responseXml = PostToServerNoRedirect(request);
+        internal bool       SiteUpdate(int id, string name)
+        {
+            return true;
+        }
 
-            //if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            //{
-            //    WebRequest request2 = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
-            //    request2.Method = "GET";
-            //    string responseXml2 = PostToServer(request2);
+        internal bool       SiteDelete(int id)
+        {
+            return true;
+        }
+        #endregion
 
-            //    if (responseXml2.Contains("workflow_state\": \"removed"))
-            //        return true;
-            //    else
-            //        return false;
-            //}
-            //else
-            //    return false;
+        #region internal Worker
+        internal int        WorkerCreate(string firstName, string lastName, string email)
+        {
             return 0;
         }
 
-        internal List<int>  SiteCreateSite(string siteName)
+        internal bool       WorkerUpdate(int id, string firstName, string lastName, string email)
         {
-            return null;
+            return true;
         }
 
-        internal int        SiteCreateWorker(int siteId, int userId)
+        internal bool        WorkerDelete(int id)
+        {
+            return true;
+        }
+        #endregion
+
+        #region internal SiteWorker
+        internal int SiteWorkerCreate(int siteId, int workerId)
+        {
+            return 0;
+        }
+
+        internal bool SiteWorkerUpdate(int siteId, int workerId)
+        {
+            return true;
+        }
+
+        internal bool SiteWorkerDelete(int id)
+        {
+            return true;
+        }
+        #endregion
+
+        #region internal Unit
+        internal int UnitRequestOtp(int id)
         {
             return 0;
         }
