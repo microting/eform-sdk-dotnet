@@ -1111,6 +1111,7 @@ namespace eFormSqlController
                     site.created_at = DateTime.Now;
                     site.updated_at = DateTime.Now;
                     site.microting_uid = microting_uid;
+                    site.name = name;
 
 
                     db.sites.Add(site);
@@ -1532,8 +1533,9 @@ namespace eFormSqlController
                     unit.created_at = DateTime.Now;
                     unit.updated_at = DateTime.Now;
                     unit.microting_uid = microting_uid;
-                    unit.customer_no = microting_uid;
-                    unit.otp_code = microting_uid;
+                    unit.customer_no = customer_no;
+                    unit.otp_code = otp_code;
+                    unit.site_id = site_id;
 
 
                     db.units.Add(unit);

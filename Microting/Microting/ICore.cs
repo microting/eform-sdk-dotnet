@@ -156,7 +156,7 @@ namespace Microting
 
         List<Simple_Site_Dto> SimpleSiteGetAll();
 
-        Site_Dto        SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
+        Simple_Site_Dto SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
 
         Site_Dto        SiteRead(int microting_uid);
 

@@ -213,10 +213,19 @@ namespace Microting
                     TriggerLog("serverConnectionString:" + serverConnectionString + " logEvents:" + logLevel.ToString());
                     TriggerLog("Controller started");
 
-
                     //sqlController
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
+
+
+                    comToken = sqlController.SettingRead("comToken");
+                    comAddress = sqlController.SettingRead("comAddress");
+                    organizationId = sqlController.SettingRead("organizationId");
+
+                                        //communicators
+                    communicator = new Communicator(comAddress, comToken, organizationId);
+                    communicator.EventLog += CoreHandleEventLog;
+                    TriggerLog("Communicator started");
 
                     coreRunning = true;
                     coreStatChanging = false;
@@ -226,7 +235,9 @@ namespace Microting
             {
                 coreRunning = false;
                 coreStatChanging = false;
-                throw new Exception("FATAL Exception. Core failed to start", ex);
+                comToken = sqlController.SettingRead("comToken");
+                comAddress = sqlController.SettingRead("comAddress");
+                organizationId = sqlController.SettingRead("organizationId"); throw new Exception("FATAL Exception. Core failed to start", ex);
             }
             return true;
         }
@@ -854,7 +865,7 @@ namespace Microting
             throw new NotImplementedException();
         }
 
-        public Site_Dto         SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
+        public Simple_Site_Dto SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -884,7 +895,7 @@ namespace Microting
 
                     SiteWorkerCreate(siteUid, workerDto.MicrotingUid);               
 
-                    return SiteRead(siteUid);
+                    return SiteReadSimple(siteUid);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1240,6 +1251,11 @@ namespace Microting
         #endregion
 
         #region units
+        public List<Unit_Dto> UnitGetAll()
+        {
+            return null;
+        }
+
         public Unit_Dto UnitRead(int unitId)
         {
             string methodName = t.GetMethodName();

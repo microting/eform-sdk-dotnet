@@ -383,6 +383,10 @@ namespace eFormCommunicator
         internal List<int> SiteCreate(string name)
         {
             List<int> my_list = new List<int>();
+            my_list.Add(1);
+            my_list.Add(2);
+            my_list.Add(3);
+            my_list.Add(4);
             return my_list;
         }
 
@@ -400,7 +404,7 @@ namespace eFormCommunicator
         #region internal Worker
         internal int        WorkerCreate(string firstName, string lastName, string email)
         {
-            return 0;
+            return 1;
         }
 
         internal bool       WorkerUpdate(int id, string firstName, string lastName, string email)

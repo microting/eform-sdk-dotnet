@@ -17,7 +17,6 @@ namespace eFormSqlController
         [StringLength(255)]
         public string name { get; set; }
 
-        [Key]
         public int? microting_uid { get; set; }
 
         public int? version { get; set; }
