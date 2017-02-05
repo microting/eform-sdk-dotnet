@@ -38,6 +38,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
 
 namespace Microting
 {
@@ -432,6 +433,28 @@ namespace Microting
             {
                 TriggerHandleExpection("TemplatReadAll failed", ex, true);
                 throw new Exception("TemplatReadAll failed", ex);
+            }
+        }
+
+        public bool                     TemplateDelete(int templatId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("templatId:" + templatId);
+
+                    return sqlController.TemplateDelete(templatId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -1038,6 +1061,44 @@ namespace Microting
                 throw new Exception(methodName + " failed", ex);
             }
         }
+        
+        public bool          SiteLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var result = communicator.SiteLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        string siteName = item["name"].ToString();
+                        int siteId = int.Parse(item["id"].ToString());
+                        Site_Dto siteDto = sqlController.SiteRead(siteId);
+                        if (siteDto == null)
+                        {
+                            sqlController.SiteCreate((int)siteId, siteName);
+                        }
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region workers
@@ -1133,6 +1194,46 @@ namespace Microting
                         return false;
 
                     return sqlController.WorkerDelete(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool WorkerLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var result = communicator.WorkerLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        string firstName = item["first_name"].ToString();
+                        string lastName = item["last_name"].ToString();
+                        string email = item["email"].ToString();
+                        int workerId = int.Parse(item["id"].ToString());
+                        Worker_Dto workerDto = sqlController.WorkerRead(workerId);
+                        if (workerDto == null)
+                        {
+                            sqlController.WorkerCreate((int)workerId, firstName, lastName, email);
+                        }
+                    }
+
+                    return true;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1248,6 +1349,45 @@ namespace Microting
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public bool SiteWorkerLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var result = communicator.SiteWorkerLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        int siteId = int.Parse(item["site_id"].ToString());
+                        int workerId = int.Parse(item["user_id"].ToString());
+                        int siteWorkerId = int.Parse(item["id"].ToString());
+                        Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(siteWorkerId);
+                        if (siteWorkerDto == null)
+                        {
+                            sqlController.SiteWorkerCreate((int)siteWorkerId, siteId, workerId);
+                        }
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region units
@@ -1296,6 +1436,54 @@ namespace Microting
                     sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteId);
 
                     return UnitRead(unitId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool UnitLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var orgResult = JRaw.Parse(communicator.OrganizationLoadAllFromRemote());
+
+                    int customerNo = int.Parse(orgResult.First().First()["customer_no"].ToString());
+
+                    var result = communicator.UnitLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        int siteId = int.Parse(item["site_id"].ToString());
+                        bool otpEnabled = bool.Parse(item["otp_enabled"].ToString());
+                        int otpCode = 0;
+                        if (otpEnabled)
+                        {
+                            otpCode = int.Parse(item["otp_code"].ToString());
+                        }
+                        int unitId = int.Parse(item["id"].ToString());
+                        Unit_Dto unitDto = sqlController.UnitRead(unitId);
+                        if (unitDto == null)
+                        {
+                            sqlController.UnitCreate((int)unitId, customerNo, otpCode, siteId);
+                        }
+                    }
+
+                    return true;
                 }
                 else
                     throw new Exception("Core is not running");

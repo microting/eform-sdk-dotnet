@@ -364,7 +364,7 @@ namespace eFormShared
             MicrotingUid = microtingUid;
             CustomerNo = customer_no;
             OtpCode = otp_code;
-            OtpCode = site_id;
+            SiteId = site_id;
         }
         #endregion
 
@@ -393,7 +393,7 @@ namespace eFormShared
 
         public override string ToString()
         {
-            return "Site:" + MicrotingUid + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + ".";
+            return "Unit:" + MicrotingUid + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + " / SiteId:" + SiteId + ".";
         }
     }
     #endregion

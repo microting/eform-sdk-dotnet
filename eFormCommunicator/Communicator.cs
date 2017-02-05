@@ -186,6 +186,11 @@ namespace eFormCommunicator
         {
             return http.SiteDelete(siteId);
         }
+
+        public string      SiteLoadAllFromRemote()
+        {
+            return http.SiteLoadAllFromRemote();
+        }
         #endregion
 
         #region public worker
@@ -202,6 +207,11 @@ namespace eFormCommunicator
         public bool         WorkerDelete(int workerId)
         {
             return http.WorkerDelete(workerId);
+        }
+
+        public string WorkerLoadAllFromRemote()
+        {
+            return http.WorkerLoadAllFromRemote();
         }
         #endregion
 
@@ -220,12 +230,30 @@ namespace eFormCommunicator
         {
             return http.SiteWorkerDelete(workerId);
         }
+
+        public string SiteWorkerLoadAllFromRemote()
+        {
+            return http.SiteWorkerLoadAllFromRemote();
+        }
         #endregion
 
         #region public unit      
         public int          UnitRequestOtp(int unitId)
         {
             return http.UnitRequestOtp(unitId);
+        }
+
+        public string UnitLoadAllFromRemote()
+        {
+            return http.UnitLoadAllFromRemote();
+        }
+        #endregion
+
+        #region public organization      
+
+        public string OrganizationLoadAllFromRemote()
+        {
+            return http.OrganizationLoadAllFromRemote();
         }
         #endregion
 

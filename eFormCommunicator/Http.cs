@@ -399,6 +399,14 @@ namespace eFormCommunicator
         {
             return true;
         }
+
+        internal string SiteLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/sites?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
         #endregion
 
         #region internal Worker
@@ -415,6 +423,14 @@ namespace eFormCommunicator
         internal bool        WorkerDelete(int id)
         {
             return true;
+        }
+
+        internal string WorkerLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/users?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
         }
         #endregion
 
@@ -433,12 +449,39 @@ namespace eFormCommunicator
         {
             return true;
         }
+
+        internal string SiteWorkerLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/workers?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
         #endregion
 
         #region internal Unit
         internal int UnitRequestOtp(int id)
         {
-            return 0;
+            return 1;
+        }
+
+        internal string UnitLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/units?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
+        #endregion
+
+        #region internal Organization
+
+        internal string OrganizationLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/organizations?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
         }
         #endregion
 

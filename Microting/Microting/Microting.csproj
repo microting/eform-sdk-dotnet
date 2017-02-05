@@ -41,6 +41,10 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>DLL\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -67,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\eFormCommunicator\eFormCommunicator.csproj">
@@ -92,6 +97,10 @@
     <ProjectReference Include="..\..\eFormShared\eFormShared.csproj">
       <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
       <Name>eFormShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\eFormSqlController\eFormSqlController.csproj">
+      <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>
+      <Name>eFormSqlController</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\eFormSubscriber\eFormSubscriber.csproj">
       <Project>{ad0bb980-6dc6-4860-801a-b6373934b629}</Project>

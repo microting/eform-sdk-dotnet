@@ -170,6 +170,41 @@ namespace eFormSqlController
                 throw new Exception("TemplatGetAll failed", ex);
             }
         }
+
+        public bool                 TemplateDelete(int templatId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    check_lists check_list = db.check_lists.Single(x => x.id == templatId);
+
+                    if (check_list != null)
+                    {
+                        check_list.version = check_list.version + 1;
+                        check_list.updated_at = DateTime.Now;
+
+                        check_list.workflow_state = "removed";
+
+                        db.version_check_lists.Add(MapCheckListVersions(check_list));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region case
@@ -1566,7 +1601,7 @@ namespace eFormSqlController
                     units unit = db.units.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (unit != null)
-                        return new Unit_Dto((int)unit.microting_uid, (int)unit.otp_code, (int)unit.customer_no, (int)unit.site_id);
+                        return new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
                     else
                         return null;
                 }
