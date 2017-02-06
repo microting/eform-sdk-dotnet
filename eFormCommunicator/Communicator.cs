@@ -172,7 +172,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public site
-        public List<int>    SiteCreate(string name)
+        public string    SiteCreate(string name)
         {
             return http.SiteCreate(name);
         }
@@ -194,7 +194,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public worker
-        public int          WorkerCreate(string firstName, string lastName, string email)
+        public string          WorkerCreate(string firstName, string lastName, string email)
         {
             return http.WorkerCreate(firstName, lastName, email);
         }
@@ -209,14 +209,14 @@ namespace eFormCommunicator
             return http.WorkerDelete(workerId);
         }
 
-        public string WorkerLoadAllFromRemote()
+        public string       WorkerLoadAllFromRemote()
         {
             return http.WorkerLoadAllFromRemote();
         }
         #endregion
 
         #region public site_worker
-        public int          SiteWorkerCreate(int siteId, int workerId)
+        public string       SiteWorkerCreate(int siteId, int workerId)
         {
             return http.SiteWorkerCreate(siteId, workerId);
         }
@@ -358,11 +358,11 @@ namespace eFormCommunicator
 
         //---
 
-        public string   EntitySelectItemCreate(string entitySearchGroupId, string name, string description, string id)
+        public string   EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string id)
         {
             try
             {
-                return http.EntitySelectItemCreate(entitySearchGroupId, name, description, id);
+                return http.EntitySelectItemCreate(entitySearchGroupId, name, displayOrder, id);
             }
             catch (Exception ex)
             {
@@ -370,11 +370,11 @@ namespace eFormCommunicator
             }
         }
 
-        public bool     EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public bool     EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string id)
         {
             try
             {
-                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
+                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, id);
             }
             catch (Exception ex)
             {

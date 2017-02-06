@@ -223,7 +223,7 @@ namespace Microting
                     comAddress = sqlController.SettingRead("comAddress");
                     organizationId = sqlController.SettingRead("organizationId");
 
-                                        //communicators
+                    //communicators
                     communicator = new Communicator(comAddress, comToken, organizationId);
                     communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
@@ -898,27 +898,41 @@ namespace Microting
                     TriggerLog(methodName + " called");
                     TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    List<int> siteData = communicator.SiteCreate(name);
+                    string result = communicator.SiteCreate(name);
 
-                    int siteUid = siteData[0];
-                    int customerNumber = siteData[1];
-                    int otpCode = siteData[2];
-                    int unitUId = siteData[3];
+                    var parsedData = JRaw.Parse(result);
 
-                    sqlController.SiteCreate(siteUid, name);
-                    sqlController.UnitCreate(unitUId, customerNumber, otpCode, siteUid);
+                    var orgResult = JRaw.Parse(communicator.OrganizationLoadAllFromRemote());
+
+                    int customerNo = int.Parse(orgResult.First().First()["customer_no"].ToString());
+
+                    string siteName = parsedData["name"].ToString();
+                    int siteId = int.Parse(parsedData["id"].ToString());
+                    int unitUId = int.Parse(parsedData["id"].ToString());
+                    int otpCode = int.Parse(parsedData["id"].ToString());
+                    Site_Dto siteDto = sqlController.SiteRead(siteId);
+                    if (siteDto == null)
+                    {
+                        sqlController.SiteCreate((int)siteId, siteName);
+                    }
+
+                    Unit_Dto unitDto = sqlController.UnitRead(unitUId);
+                    if (unitDto == null)
+                    {
+                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteId);
+                    }
 
                     if (string.IsNullOrEmpty(userEmail))
                     {
                         Random rdn = new Random();
-                        userEmail = siteUid + "." + customerNumber + "@invalid.invalid";
+                        userEmail = siteId + "." + customerNo + "@invalid.invalid";
                     }
 
                     Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
 
-                    SiteWorkerCreate(siteUid, workerDto.MicrotingUid);               
+                    SiteWorkerCreate(siteId, workerDto.MicrotingUid);
 
-                    return SiteReadSimple(siteUid);
+                    return SiteReadSimple(siteId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -962,7 +976,7 @@ namespace Microting
                     TriggerLog(methodName + " called");
                     TriggerLog("siteName:" + name);
 
-                    List<int> siteData = communicator.SiteCreate(name);
+                    string siteData = communicator.SiteCreate(name);
 
                     int siteUid = siteData[0];
                     int customerNumber = siteData[1];
@@ -1062,7 +1076,7 @@ namespace Microting
             }
         }
         
-        public bool          SiteLoadAllFromRemote()
+        public bool             SiteLoadAllFromRemote()
         {
             string methodName = t.GetMethodName();
             try
@@ -1112,9 +1126,16 @@ namespace Microting
                     TriggerLog(methodName + " called");
                     TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
 
-                    int workerUid = communicator.WorkerCreate(firstName, lastName, email);
 
-                    sqlController.WorkerCreate(workerUid, firstName, lastName, email);
+                    string result = communicator.WorkerCreate(firstName, lastName, email);
+                    var parsedData = JRaw.Parse(result);
+                    int workerUid = int.Parse(parsedData["id"].ToString());
+
+                    Worker_Dto workerDto = sqlController.WorkerRead(workerUid);
+                    if (workerDto == null)
+                    {
+                        sqlController.WorkerCreate(workerUid, firstName, lastName, email);
+                    }
 
                     return WorkerRead(workerUid);
                 }
@@ -1257,10 +1278,17 @@ namespace Microting
                     TriggerLog(methodName + " called");
                     TriggerLog("siteId:" + siteId + " / workerId:" + workerId);
 
-                    int workerUid = communicator.SiteWorkerCreate(siteId, workerId);
+                    string result = communicator.SiteWorkerCreate(siteId, workerId);
+                    var parsedData = JRaw.Parse(result);
+                    int workerUid = int.Parse(parsedData["id"].ToString());
 
-                    sqlController.SiteWorkerCreate(workerUid, siteId, workerId);
-
+                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(workerUid);
+                    
+                    if (siteWorkerDto == null)
+                    {
+                        sqlController.SiteWorkerCreate(workerUid, siteId, workerId);
+                    }
+                    
                     return SiteWorkerRead(workerUid);
                 }
                 else
@@ -2120,7 +2148,8 @@ namespace Microting
                                     {
                                         if (eI.workflow_state == "created")
                                         {
-                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
+                                            // TODO! el.displayOrder missing and remove int.Parse(eI.description)
+                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, int.Parse(eI.description), eI.entity_item_uid);
 
                                             if (microtingUId != null)
                                             {
@@ -2131,7 +2160,8 @@ namespace Microting
 
                                         if (eI.workflow_state == "updated")
                                         {
-                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
+                                            // TODO! el.displayOrder missing and remove int.Parse(eI.description)
+                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, int.Parse(eI.description), eI.entity_item_uid))
                                             {
                                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
                                                 continue;

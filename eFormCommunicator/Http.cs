@@ -31,6 +31,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace eFormCommunicator
 {
@@ -251,11 +252,12 @@ namespace eFormCommunicator
         {
             try
             {
-                string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
+                //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
+                JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id} });
 
                 WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_item_groups.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
                 request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(xmlData);
+                byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
                 request.ContentType = "application/json; charset=utf-8";
                 request.ContentLength = content.Length;
 
@@ -302,17 +304,19 @@ namespace eFormCommunicator
             }
         }
 
-        internal string     EntitySelectItemCreate(string entitySelectGroupId, string name, string description, string id)
+        internal string     EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
         {
-            string xmlData = "{ \"model\" "+
-                ": { \"data\" : \"" + name +
-                "\", \"api_uuid\" : \"" + id +
-                "\", \"display_order\" : \"" + description + 
-                "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
+            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
+
+            //string xmlData = "{ \"model\" "+
+            //    ": { \"data\" : \"" + name +
+            //    "\", \"api_uuid\" : \"" + id +
+            //    "\", \"display_order\" : \"" + display_order + 
+            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
             WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -324,17 +328,19 @@ namespace eFormCommunicator
                 return null;
         }
 
-        internal bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, string description, string id)
+        internal bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
-            string xmlData = "{ \"model\" " +
-                ": { \"data\" : \"" + name +
-                "\", \"api_uuid\" : \"" + id +
-                "\", \"display_order\" : \"" + description +
-                "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
+            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
+
+            //string xmlData = "{ \"model\" " +
+            //    ": { \"data\" : \"" + name +
+            //    "\", \"api_uuid\" : \"" + id +
+            //    "\", \"display_order\" : \"" + description +
+            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
             WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -380,14 +386,23 @@ namespace eFormCommunicator
         #endregion
 
         #region internal site
-        internal List<int> SiteCreate(string name)
+        internal string SiteCreate(string name)
         {
-            List<int> my_list = new List<int>();
-            my_list.Add(1);
-            my_list.Add(2);
-            my_list.Add(3);
-            my_list.Add(4);
-            return my_list;
+            JObject content_to_microting = JObject.FromObject(new { name = name });
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl+"?token="+token);
+            request.Method = "GET";
+
+            string response = PostToServer(request);
+
+            return response;
         }
 
         internal bool       SiteUpdate(int id, string name)
@@ -410,9 +425,23 @@ namespace eFormCommunicator
         #endregion
 
         #region internal Worker
-        internal int        WorkerCreate(string firstName, string lastName, string email)
+        internal string        WorkerCreate(string firstName, string lastName, string email)
         {
-            return 1;
+            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            string response = PostToServer(request);
+
+            return response;
         }
 
         internal bool       WorkerUpdate(int id, string firstName, string lastName, string email)
@@ -420,12 +449,12 @@ namespace eFormCommunicator
             return true;
         }
 
-        internal bool        WorkerDelete(int id)
+        internal bool       WorkerDelete(int id)
         {
             return true;
         }
 
-        internal string WorkerLoadAllFromRemote()
+        internal string     WorkerLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create("https://basic.microting.com/v1/users?token=" + token);
             request.Method = "GET";
@@ -435,17 +464,31 @@ namespace eFormCommunicator
         #endregion
 
         #region internal SiteWorker
-        internal int SiteWorkerCreate(int siteId, int workerId)
+        internal string     SiteWorkerCreate(int siteId, int workerId)
         {
-            return 0;
+            JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/workers?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            string response = PostToServer(request);
+
+            return response;
         }
 
-        internal bool SiteWorkerUpdate(int siteId, int workerId)
+        internal bool       SiteWorkerUpdate(int siteId, int workerId)
         {
             return true;
         }
 
-        internal bool SiteWorkerDelete(int id)
+        internal bool       SiteWorkerDelete(int id)
         {
             return true;
         }
@@ -513,6 +556,30 @@ namespace eFormCommunicator
             }
 
             return responseFromServer;
+        }
+
+        private string PostToServerGetRedirect(WebRequest request, byte[] content)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
+
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
+
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
+
+
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            string newUrl = "";
+            if (response.StatusCode == HttpStatusCode.Redirect ||
+                response.StatusCode == HttpStatusCode.MovedPermanently)
+            {
+                newUrl = response.Headers["Location"];
+            }
+
+            return newUrl;
         }
 
         private string PostToServerNoRedirect(WebRequest request, byte[] content)

@@ -33,5 +33,7 @@ namespace eFormSqlController
         public string description { get; set; }
 
         public short? synced { get; set; }
+
+        // TODO! Create migration to add displayOrder
     }
 }
