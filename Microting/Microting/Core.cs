@@ -223,6 +223,7 @@ namespace Microting
 
                     comToken = sqlController.SettingRead("comToken");
                     comAddress = sqlController.SettingRead("comAddress");
+                    basicComAddress = sqlController.SettingRead("basicComAddress");
                     organizationId = sqlController.SettingRead("organizationId");
 
                     //communicators
