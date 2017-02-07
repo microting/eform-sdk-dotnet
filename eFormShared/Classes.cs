@@ -222,17 +222,23 @@ namespace eFormShared
         {
         }
 
-        public Site_Dto(int microtingUid, string name)
+        public Site_Dto(int id, int microtingUid, string name)
         {
             if (name == null)
                 name = "";
 
             MicrotingUid = microtingUid;
+            Id = id;
             Name = name;
         }
         #endregion
 
         #region var
+        /// <summary>
+        ///...
+        /// </summary>
+        public int Id { get; }
+
         /// <summary>
         ///...
         /// </summary>
@@ -260,25 +266,30 @@ namespace eFormShared
         {
         }
 
-        public Worker_Dto(int microtingUid, string first_name, string last_name, string email)
+        public Worker_Dto(int id, int microtingUid, string firstName, string lastName, string email)
         {
-            if (first_name == null)
-                first_name = "";
+            if (firstName == null)
+                firstName = "";
 
-            if (last_name == null)
-                last_name = "";
+            if (lastName == null)
+                lastName = "";
 
             if (email == null)
                 email = "";
 
+            Id = id;
             MicrotingUid = microtingUid;
-            FirstName = first_name;
-            LastName = last_name;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
         }
         #endregion
 
         #region var
+        /// <summary>
+        ///...
+        /// </summary>
+        public int Id { get; }
         /// <summary>
         ///...
         /// </summary>
@@ -316,16 +327,21 @@ namespace eFormShared
         {
         }
 
-        public Site_Worker_Dto(int microtingUid, int site_id, int worker_id)
+        public Site_Worker_Dto(int id, int microtingUid, int siteId, int workerId)
         {
 
+            Id = id;
             MicrotingUid = microtingUid;
-            SiteId = site_id;
-            WorkerId = worker_id;
+            SiteId = siteId;
+            WorkerId = workerId;
         }
         #endregion
 
         #region var
+        /// <summary>
+        ///...
+        /// </summary>
+        public int Id { get; }
         /// <summary>
         ///...
         /// </summary>
@@ -358,9 +374,10 @@ namespace eFormShared
         {
         }
 
-        public Unit_Dto(int microtingUid, int customer_no, int otp_code, int site_id)
+        public Unit_Dto(int id, int microtingUid, int customer_no, int otp_code, int site_id)
         {
 
+            Id = id;
             MicrotingUid = microtingUid;
             CustomerNo = customer_no;
             OtpCode = otp_code;
@@ -369,6 +386,10 @@ namespace eFormShared
         #endregion
 
         #region var
+        /// <summary>
+        ///...
+        /// </summary>
+        public int Id { get; }
         /// <summary>
         ///...
         /// </summary>

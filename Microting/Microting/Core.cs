@@ -888,7 +888,7 @@ namespace Microting
             throw new NotImplementedException();
         }
 
-        public Simple_Site_Dto SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
+        public Simple_Site_Dto  SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -1094,11 +1094,11 @@ namespace Microting
                     foreach (JToken item in parsedData)
                     {
                         string siteName = item["name"].ToString();
-                        int siteId = int.Parse(item["id"].ToString());
-                        Site_Dto siteDto = sqlController.SiteRead(siteId);
+                        int microtingUid = int.Parse(item["id"].ToString());
+                        Site_Dto siteDto = sqlController.SiteRead(microtingUid);
                         if (siteDto == null)
                         {
-                            sqlController.SiteCreate((int)siteId, siteName);
+                            sqlController.SiteCreate((int)microtingUid, siteName);
                         }
                     }
 
@@ -1226,7 +1226,7 @@ namespace Microting
             }
         }
 
-        public bool WorkerLoadAllFromRemote()
+        public bool             WorkerLoadAllFromRemote()
         {
             string methodName = t.GetMethodName();
             try
@@ -1246,11 +1246,11 @@ namespace Microting
                         string firstName = item["first_name"].ToString();
                         string lastName = item["last_name"].ToString();
                         string email = item["email"].ToString();
-                        int workerId = int.Parse(item["id"].ToString());
-                        Worker_Dto workerDto = sqlController.WorkerRead(workerId);
+                        int microtingUid = int.Parse(item["id"].ToString());
+                        Worker_Dto workerDto = sqlController.WorkerRead(microtingUid);
                         if (workerDto == null)
                         {
-                            sqlController.WorkerCreate((int)workerId, firstName, lastName, email);
+                            sqlController.WorkerCreate((int)microtingUid, firstName, lastName, email);
                         }
                     }
 
@@ -1323,7 +1323,7 @@ namespace Microting
             }
         }
 
-        public bool SiteWorkerUpdate(int siteWorkerId, int workerId, int siteId)
+        public bool            SiteWorkerUpdate(int siteWorkerId, int workerId, int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1352,7 +1352,7 @@ namespace Microting
             }
         }
 
-        public bool SiteWorkerDelete(int workerId)
+        public bool            SiteWorkerDelete(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1378,7 +1378,7 @@ namespace Microting
             }
         }
 
-        public bool SiteWorkerLoadAllFromRemote()
+        public bool            SiteWorkerLoadAllFromRemote()
         {
             string methodName = t.GetMethodName();
             try
@@ -1395,13 +1395,15 @@ namespace Microting
 
                     foreach (JToken item in parsedData)
                     {
-                        int siteId = int.Parse(item["site_id"].ToString());
-                        int workerId = int.Parse(item["user_id"].ToString());
-                        int siteWorkerId = int.Parse(item["id"].ToString());
-                        Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(siteWorkerId);
+                        int remoteSiteId = int.Parse(item["site_id"].ToString());
+                        int localSiteId = sqlController.SiteRead(remoteSiteId).Id;
+                        int remoteWorkerId = int.Parse(item["user_id"].ToString());
+                        int localWorkerId = sqlController.WorkerRead(remoteWorkerId).Id;
+                        int microtingUid = int.Parse(item["id"].ToString());
+                        Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(microtingUid);
                         if (siteWorkerDto == null)
                         {
-                            sqlController.SiteWorkerCreate((int)siteWorkerId, siteId, workerId);
+                            sqlController.SiteWorkerCreate((int)microtingUid, localSiteId, localWorkerId);
                         }
                     }
 
@@ -1419,12 +1421,12 @@ namespace Microting
         #endregion
 
         #region units
-        public List<Unit_Dto> UnitGetAll()
+        public List<Unit_Dto>  UnitGetAll()
         {
             return null;
         }
 
-        public Unit_Dto UnitRead(int unitId)
+        public Unit_Dto        UnitRead(int unitId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1447,7 +1449,7 @@ namespace Microting
         }
 
 
-        public Unit_Dto UnitRequestOtp(int unitId)
+        public Unit_Dto        UnitRequestOtp(int unitId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1475,7 +1477,7 @@ namespace Microting
             }
         }
 
-        public bool UnitLoadAllFromRemote()
+        public bool            UnitLoadAllFromRemote()
         {
             string methodName = t.GetMethodName();
             try
@@ -1496,7 +1498,8 @@ namespace Microting
 
                     foreach (JToken item in parsedData)
                     {
-                        int siteId = int.Parse(item["site_id"].ToString());
+                        int remoteSiteId = int.Parse(item["site_id"].ToString());
+                        int localSiteId = sqlController.SiteRead(remoteSiteId).Id;                    
                         bool otpEnabled = bool.Parse(item["otp_enabled"].ToString());
                         int otpCode = 0;
                         if (otpEnabled)
@@ -1507,7 +1510,7 @@ namespace Microting
                         Unit_Dto unitDto = sqlController.UnitRead(unitId);
                         if (unitDto == null)
                         {
-                            sqlController.UnitCreate((int)unitId, customerNo, otpCode, siteId);
+                            sqlController.UnitCreate((int)unitId, customerNo, otpCode, localSiteId);
                         }
                     }
 

@@ -1130,7 +1130,7 @@ namespace eFormSqlController
 
         }
 
-        public int SiteCreate(int microting_uid, string name)
+        public int SiteCreate(int microtingUid, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1145,7 +1145,7 @@ namespace eFormSqlController
                     site.version = 1;
                     site.created_at = DateTime.Now;
                     site.updated_at = DateTime.Now;
-                    site.microting_uid = microting_uid;
+                    site.microting_uid = microtingUid;
                     site.name = name;
 
 
@@ -1178,7 +1178,7 @@ namespace eFormSqlController
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site != null)
-                        return new Site_Dto((int)site.microting_uid, site.name);
+                        return new Site_Dto((int)site.id, (int)site.microting_uid, site.name);
                     else
                         return null; 
                 }
@@ -1289,7 +1289,7 @@ namespace eFormSqlController
         #endregion
 
         #region worker
-        public int WorkerCreate(int microting_uid, string first_name, string last_name, string email)
+        public int WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -1303,9 +1303,9 @@ namespace eFormSqlController
                     worker.version = 1;
                     worker.created_at = DateTime.Now;
                     worker.updated_at = DateTime.Now;
-                    worker.microting_uid = microting_uid;
-                    worker.first_name = first_name;
-                    worker.last_name = last_name;
+                    worker.microting_uid = microtingUid;
+                    worker.first_name = firstName;
+                    worker.last_name = lastName;
                     worker.email = email;
 
 
@@ -1338,7 +1338,7 @@ namespace eFormSqlController
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (worker != null)
-                        return new Worker_Dto((int)worker.microting_uid, worker.first_name, worker.last_name, worker.email);
+                        return new Worker_Dto((int)worker.id, (int)worker.microting_uid, worker.first_name, worker.last_name, worker.email);
                     else
                         return null;
                 }
@@ -1350,7 +1350,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool WorkerUpdate(int microting_uid, string first_name, string last_name, string email)
+        public bool WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -1360,15 +1360,15 @@ namespace eFormSqlController
                     //TriggerLog(methodName + " called");
                     //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid);
+                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
                     if (worker != null)
                     {
                         worker.version = worker.version + 1;
                         worker.updated_at = DateTime.Now;
 
-                        worker.first_name = first_name;
-                        worker.last_name = last_name;
+                        worker.first_name = firstName;
+                        worker.last_name = lastName;
                         worker.email = email;
 
                         db.version_workers.Add(MapWorkerVersions(worker));
@@ -1387,7 +1387,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool WorkerDelete(int microting_uid)
+        public bool WorkerDelete(int microtingUid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1396,7 +1396,7 @@ namespace eFormSqlController
                 {
                     //TriggerLog(methodName + " called");
 
-                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid);
+                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
                     if (worker != null)
                     {
@@ -1470,7 +1470,7 @@ namespace eFormSqlController
                     site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site_worker != null)
-                        return new Site_Worker_Dto((int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
+                        return new Site_Worker_Dto((int)site_worker.id, (int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
                     else
                         return null;
                 }
@@ -1553,7 +1553,7 @@ namespace eFormSqlController
         #endregion
 
         #region unit
-        public int UnitCreate(int microting_uid, int customer_no, int otp_code, int site_id)
+        public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1567,10 +1567,10 @@ namespace eFormSqlController
                     unit.version = 1;
                     unit.created_at = DateTime.Now;
                     unit.updated_at = DateTime.Now;
-                    unit.microting_uid = microting_uid;
-                    unit.customer_no = customer_no;
-                    unit.otp_code = otp_code;
-                    unit.site_id = site_id;
+                    unit.microting_uid = microtingUid;
+                    unit.customer_no = customerNo;
+                    unit.otp_code = otpCode;
+                    unit.site_id = siteId;
 
 
                     db.units.Add(unit);
@@ -1589,7 +1589,7 @@ namespace eFormSqlController
             }
         }
 
-        public Unit_Dto UnitRead(int microting_uid)
+        public Unit_Dto UnitRead(int microtingUid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1598,10 +1598,10 @@ namespace eFormSqlController
                 {
                     //TriggerLog(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
 
                     if (unit != null)
-                        return new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
+                        return new Unit_Dto((int)unit.id, (int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
                     else
                         return null;
                 }
@@ -1613,7 +1613,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool UnitUpdate(int microting_uid, int customer_no, int otp_code, int site_id)
+        public bool UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1622,15 +1622,15 @@ namespace eFormSqlController
                 {
                     //TriggerLog(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microting_uid);
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid);
 
                     if (unit != null)
                     {
                         unit.version = unit.version + 1;
                         unit.updated_at = DateTime.Now;
 
-                        unit.customer_no = customer_no;
-                        unit.otp_code = otp_code;
+                        unit.customer_no = customerNo;
+                        unit.otp_code = otpCode;
 
                         db.version_units.Add(MapUnitVersions(unit));
                         db.SaveChanges();
@@ -1648,7 +1648,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool UnitDelete(int microting_uid)
+        public bool UnitDelete(int microtingUid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1657,7 +1657,7 @@ namespace eFormSqlController
                 {
                     //TriggerLog(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microting_uid);
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid);
 
                     if (unit != null)
                     {
