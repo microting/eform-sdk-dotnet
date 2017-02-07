@@ -918,14 +918,14 @@ namespace Microting
 
                     string siteName = parsedData["name"].ToString();
                     int siteId = int.Parse(parsedData["id"].ToString());
-                    int unitUId = int.Parse(parsedData["uni_id"].ToString());
+                    int unitUId = int.Parse(parsedData["unit_id"].ToString());
                     int otpCode = int.Parse(parsedData["otp_code"].ToString());
                     Site_Dto siteDto = sqlController.SiteRead(siteId);
                     if (siteDto == null)
                     {
                         sqlController.SiteCreate((int)siteId, siteName);
                     }
-
+                    siteDto = sqlController.SiteRead(siteId);
                     Unit_Dto unitDto = sqlController.UnitRead(unitUId);
                     if (unitDto == null)
                     {
@@ -940,7 +940,7 @@ namespace Microting
 
                     Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
 
-                    SiteWorkerCreate(siteDto.Id, workerDto.Id);
+                    SiteWorkerCreate(siteDto, workerDto);
 
                     return SiteReadSimple(siteId);
                 }
@@ -1278,7 +1278,7 @@ namespace Microting
         #endregion
 
         #region site_workers
-        public Site_Worker_Dto SiteWorkerCreate(int siteId, int workerId)
+        public Site_Worker_Dto SiteWorkerCreate(Site_Dto siteDto, Worker_Dto workerDto)
         {
             string methodName = t.GetMethodName();
             try
@@ -1286,9 +1286,9 @@ namespace Microting
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId + " / workerId:" + workerId);
+                    TriggerLog("siteId:" + siteDto.Id + " / workerId:" + workerDto.Id);
 
-                    string result = communicator.SiteWorkerCreate(siteId, workerId);
+                    string result = communicator.SiteWorkerCreate(siteDto.MicrotingUid, workerDto.MicrotingUid);
                     var parsedData = JRaw.Parse(result);
                     int workerUid = int.Parse(parsedData["id"].ToString());
 
@@ -1296,7 +1296,7 @@ namespace Microting
                     
                     if (siteWorkerDto == null)
                     {
-                        sqlController.SiteWorkerCreate(workerUid, siteId, workerId);
+                        sqlController.SiteWorkerCreate(workerUid, siteDto.Id, workerDto.Id);
                     }
                     
                     return SiteWorkerRead(workerUid);
