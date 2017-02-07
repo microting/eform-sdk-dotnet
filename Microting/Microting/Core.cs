@@ -79,6 +79,7 @@ namespace Microting
 
         string comToken;
         string comAddress;
+        string basicComAddress;
         string organizationId;
         string subscriberToken;
         string subscriberAddress;
@@ -114,6 +115,7 @@ namespace Microting
 
                     comToken = sqlController.SettingRead("comToken");
                     comAddress = sqlController.SettingRead("comAddress");
+                    basicComAddress = sqlController.SettingRead("basicComAddress");
                     organizationId = sqlController.SettingRead("organizationId");
                     subscriberToken = sqlController.SettingRead("subscriberToken");
                     subscriberAddress = sqlController.SettingRead("subscriberAddress");
@@ -161,7 +163,7 @@ namespace Microting
 
 
                     //communicators
-                    communicator = new Communicator(comAddress, comToken, organizationId);
+                    communicator = new Communicator(comAddress, comToken, organizationId, basicComAddress);
                     communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
 
@@ -224,7 +226,7 @@ namespace Microting
                     organizationId = sqlController.SettingRead("organizationId");
 
                     //communicators
-                    communicator = new Communicator(comAddress, comToken, organizationId);
+                    communicator = new Communicator(comAddress, comToken, organizationId, basicComAddress);
                     communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
 

@@ -39,6 +39,7 @@ namespace eFormSqlController
                     SettingAdd(7, "subscriberAddress");
                     SettingAdd(8, "subscriberName");
                     SettingAdd(9, "fileLocation");
+                    SettingAdd(10, "basicComAddress");
 
                     SettingUpdate("firstRunDone", "false");
                 }
