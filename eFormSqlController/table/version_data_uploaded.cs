@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_data_uploaded
     {
+        [Key]
         public int id { get; set; }
 
         public int? data_uploaded_id { get; set; }

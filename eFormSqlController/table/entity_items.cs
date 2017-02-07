@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class entity_items
     {
+        [Key]
         public int id { get; set; }
 
         [StringLength(255)]
@@ -33,5 +34,7 @@ namespace eFormSqlController
         public string description { get; set; }
 
         public short? synced { get; set; }
+
+        public int display_index { get; set; }
     }
 }

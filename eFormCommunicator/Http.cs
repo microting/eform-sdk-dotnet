@@ -31,6 +31,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace eFormCommunicator
 {
@@ -44,17 +45,19 @@ namespace eFormCommunicator
 
         private string token;
         private string srvAdd;
+        private string basicComAddress;
         private string srganizationId;
 
         Tools t = new Tools();
         #endregion
 
         #region con
-        internal Http(string serverAddress, string token, string organizationId)
+        internal Http(string serverAddress, string token, string organizationId, string basicComAddress)
         {
             this.token = token;
             srvAdd = serverAddress;
             srganizationId = organizationId;
+            this.basicComAddress = basicComAddress;
         }
         #endregion
 
@@ -251,11 +254,12 @@ namespace eFormCommunicator
         {
             try
             {
-                string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
+                //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
+                JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id} });
 
                 WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_item_groups.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
                 request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(xmlData);
+                byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
                 request.ContentType = "application/json; charset=utf-8";
                 request.ContentLength = content.Length;
 
@@ -302,17 +306,19 @@ namespace eFormCommunicator
             }
         }
 
-        internal string     EntitySelectItemCreate(string entitySelectGroupId, string name, string description, string id)
+        internal string     EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
         {
-            string xmlData = "{ \"model\" "+
-                ": { \"data\" : \"" + name +
-                "\", \"api_uuid\" : \"" + id +
-                "\", \"display_order\" : \"" + description + 
-                "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
+            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
+
+            //string xmlData = "{ \"model\" "+
+            //    ": { \"data\" : \"" + name +
+            //    "\", \"api_uuid\" : \"" + id +
+            //    "\", \"display_order\" : \"" + display_order + 
+            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
             WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -324,17 +330,19 @@ namespace eFormCommunicator
                 return null;
         }
 
-        internal bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, string description, string id)
+        internal bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
-            string xmlData = "{ \"model\" " +
-                ": { \"data\" : \"" + name +
-                "\", \"api_uuid\" : \"" + id +
-                "\", \"display_order\" : \"" + description +
-                "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
+            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
+
+            //string xmlData = "{ \"model\" " +
+            //    ": { \"data\" : \"" + name +
+            //    "\", \"api_uuid\" : \"" + id +
+            //    "\", \"display_order\" : \"" + description +
+            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
             WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -379,39 +387,146 @@ namespace eFormCommunicator
         }
         #endregion
 
-        #region internal Site
-        internal int        SiteCreateUser(string userFirstName, string userLastName)
+        #region internal site
+        internal string SiteCreate(string name)
         {
-            //WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
-            //request.Method = "DELETE";
-            //request.ContentType = "application/json; charset=utf-8";
+            JObject content_to_microting = JObject.FromObject(new { name = name });
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
 
-            //string responseXml = PostToServerNoRedirect(request);
+            string newUrl = PostToServerGetRedirect(request, content);
 
-            //if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            //{
-            //    WebRequest request2 = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
-            //    request2.Method = "GET";
-            //    string responseXml2 = PostToServer(request2);
+            request = WebRequest.Create(newUrl+"?token="+token);
+            request.Method = "GET";
 
-            //    if (responseXml2.Contains("workflow_state\": \"removed"))
-            //        return true;
-            //    else
-            //        return false;
-            //}
-            //else
-            //    return false;
-            return 0;
+            string response = PostToServer(request);
+
+            return response;
         }
 
-        internal List<int>  SiteCreateSite(string siteName)
+        internal bool       SiteUpdate(int id, string name)
         {
-            return null;
+            return true;
         }
 
-        internal int        SiteCreateWorker(int siteId, int userId)
+        internal bool       SiteDelete(int id)
         {
-            return 0;
+            return true;
+        }
+
+        internal string SiteLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/sites?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
+        #endregion
+
+        #region internal Worker
+        internal string        WorkerCreate(string firstName, string lastName, string email)
+        {
+            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            string response = PostToServer(request);
+
+            return response;
+        }
+
+        internal bool       WorkerUpdate(int id, string firstName, string lastName, string email)
+        {
+            return true;
+        }
+
+        internal bool       WorkerDelete(int id)
+        {
+            return true;
+        }
+
+        internal string     WorkerLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/users?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
+        #endregion
+
+        #region internal SiteWorker
+        internal string     SiteWorkerCreate(int siteId, int workerId)
+        {
+            JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            string response = PostToServer(request);
+
+            return response;
+        }
+
+        internal bool       SiteWorkerUpdate(int siteId, int workerId)
+        {
+            return true;
+        }
+
+        internal bool       SiteWorkerDelete(int id)
+        {
+            return true;
+        }
+
+        internal string SiteWorkerLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/workers?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
+        #endregion
+
+        #region internal Unit
+        internal int UnitRequestOtp(int id)
+        {
+            return 1;
+        }
+
+        internal string UnitLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create(basicComAddress + "/v1/units?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
+        #endregion
+
+        #region internal Organization
+
+        internal string OrganizationLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/organizations?token=" + token);
+            request.Method = "GET";
+
+            return PostToServer(request);
         }
         #endregion
 
@@ -443,6 +558,30 @@ namespace eFormCommunicator
             }
 
             return responseFromServer;
+        }
+
+        private string PostToServerGetRedirect(WebRequest request, byte[] content)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
+
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
+
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
+
+
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            string newUrl = "";
+            if (response.StatusCode == HttpStatusCode.Redirect ||
+                response.StatusCode == HttpStatusCode.MovedPermanently)
+            {
+                newUrl = response.Headers["Location"];
+            }
+
+            return newUrl;
         }
 
         private string PostToServerNoRedirect(WebRequest request, byte[] content)

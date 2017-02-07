@@ -38,6 +38,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
 
 namespace Microting
 {
@@ -78,6 +79,7 @@ namespace Microting
 
         string comToken;
         string comAddress;
+        string basicComAddress;
         string organizationId;
         string subscriberToken;
         string subscriberAddress;
@@ -113,6 +115,7 @@ namespace Microting
 
                     comToken = sqlController.SettingRead("comToken");
                     comAddress = sqlController.SettingRead("comAddress");
+                    basicComAddress = sqlController.SettingRead("basicComAddress");
                     organizationId = sqlController.SettingRead("organizationId");
                     subscriberToken = sqlController.SettingRead("subscriberToken");
                     subscriberAddress = sqlController.SettingRead("subscriberAddress");
@@ -160,7 +163,7 @@ namespace Microting
 
 
                     //communicators
-                    communicator = new Communicator(comAddress, comToken, organizationId);
+                    communicator = new Communicator(comAddress, comToken, organizationId, basicComAddress);
                     communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
 
@@ -213,10 +216,20 @@ namespace Microting
                     TriggerLog("serverConnectionString:" + serverConnectionString + " logEvents:" + logLevel.ToString());
                     TriggerLog("Controller started");
 
-
                     //sqlController
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
+
+
+                    comToken = sqlController.SettingRead("comToken");
+                    comAddress = sqlController.SettingRead("comAddress");
+                    basicComAddress = sqlController.SettingRead("basicComAddress");
+                    organizationId = sqlController.SettingRead("organizationId");
+
+                    //communicators
+                    communicator = new Communicator(comAddress, comToken, organizationId, basicComAddress);
+                    communicator.EventLog += CoreHandleEventLog;
+                    TriggerLog("Communicator started");
 
                     coreRunning = true;
                     coreStatChanging = false;
@@ -226,7 +239,9 @@ namespace Microting
             {
                 coreRunning = false;
                 coreStatChanging = false;
-                throw new Exception("FATAL Exception. Core failed to start", ex);
+                comToken = sqlController.SettingRead("comToken");
+                comAddress = sqlController.SettingRead("comAddress");
+                organizationId = sqlController.SettingRead("organizationId"); throw new Exception("FATAL Exception. Core failed to start", ex);
             }
             return true;
         }
@@ -421,6 +436,28 @@ namespace Microting
             {
                 TriggerHandleExpection("TemplatReadAll failed", ex, true);
                 throw new Exception("TemplatReadAll failed", ex);
+            }
+        }
+
+        public bool                     TemplateDelete(int templatId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("templatId:" + templatId);
+
+                    return sqlController.TemplateDelete(templatId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -849,7 +886,12 @@ namespace Microting
             throw new NotImplementedException();
         }
 
-        public Site_Dto         SiteCreate(string siteName, string userFirstName, string userLastName)
+        public List<Simple_Site_Dto> SimpleSiteGetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Simple_Site_Dto  SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -857,20 +899,98 @@ namespace Microting
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    List<int> siteData = communicator.SiteCreate(siteName, userFirstName, userLastName);
+                    string result = communicator.SiteCreate(name);
 
-                    int siteId = siteData[0];
+                    var parsedData = JRaw.Parse(result);
+
+                    var orgResult = JRaw.Parse(communicator.OrganizationLoadAllFromRemote());
+
+                    int customerNo = int.Parse(orgResult.First().First()["customer_no"].ToString());
+
+                    string siteName = parsedData["name"].ToString();
+                    int siteId = int.Parse(parsedData["id"].ToString());
+                    int unitUId = int.Parse(parsedData["id"].ToString());
+                    int otpCode = int.Parse(parsedData["id"].ToString());
+                    Site_Dto siteDto = sqlController.SiteRead(siteId);
+                    if (siteDto == null)
+                    {
+                        sqlController.SiteCreate((int)siteId, siteName);
+                    }
+
+                    Unit_Dto unitDto = sqlController.UnitRead(unitUId);
+                    if (unitDto == null)
+                    {
+                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteId);
+                    }
+
+                    if (string.IsNullOrEmpty(userEmail))
+                    {
+                        Random rdn = new Random();
+                        userEmail = siteId + "." + customerNo + "@invalid.invalid";
+                    }
+
+                    Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
+
+                    SiteWorkerCreate(siteId, workerDto.MicrotingUid);
+
+                    return SiteReadSimple(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Simple_Site_Dto  SiteReadSimple(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    return sqlController.SiteReadSimple(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Dto         SiteCreate(string name)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteName:" + name);
+
+                    string siteData = communicator.SiteCreate(name);
+
+                    int siteUid = siteData[0];
                     int customerNumber = siteData[1];
                     int otpCode = siteData[2];
                     int unitUId = siteData[3];
-                    int userId = siteData[4];
-                    int workerId = siteData[5];
 
-                    sqlController.SiteCreate(siteId, siteName, customerNumber, otpCode, unitUId, userId, userFirstName, userLastName, workerId);
+                    //sqlController.SiteCreate(microting_uid, name, customerNumber, otpCode, unitUId, userId, userFirstName, userLastName, workerId);
+                    sqlController.SiteCreate(siteUid, name);
+                    sqlController.UnitCreate(unitUId, customerNumber, otpCode, siteUid);
 
-                    return SiteRead(siteId);
+                    return SiteRead(siteUid);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -904,7 +1024,7 @@ namespace Microting
             }
         }
 
-        public bool             SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        public bool             SiteUpdate(int siteId, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -917,43 +1037,11 @@ namespace Microting
                     if (sqlController.SiteRead(siteId) == null)
                         return false;
 
-                    bool success = communicator.SiteUpdate(siteId, siteName, userFirstName, userLastName);
+                    bool success = communicator.SiteUpdate(siteId, name);
                     if (!success)
                         return false;
 
-                    return sqlController.SiteUpdate(siteId, siteName, userFirstName, userLastName);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Site_Dto         SiteReset(int siteId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
-
-                    if (sqlController.SiteRead(siteId) == null)
-                        return null;
-
-                    List<int> codes = communicator.SiteReset(siteId);
-                    if (codes == null)
-                        return null;
-
-                    int customerNumber = codes[0];
-                    int otpCode = codes[1];
-
-                    return sqlController.SiteReset(siteId, customerNumber, otpCode);
+                    return sqlController.SiteUpdate(siteId, name);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -980,6 +1068,456 @@ namespace Microting
                         return false;
 
                     return sqlController.SiteDelete(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        
+        public bool             SiteLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var result = communicator.SiteLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        string siteName = item["name"].ToString();
+                        int microtingUid = int.Parse(item["id"].ToString());
+                        Site_Dto siteDto = sqlController.SiteRead(microtingUid);
+                        if (siteDto == null)
+                        {
+                            sqlController.SiteCreate((int)microtingUid, siteName);
+                        }
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region workers
+        public Worker_Dto       WorkerCreate(string firstName, string lastName, string email)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+
+
+                    string result = communicator.WorkerCreate(firstName, lastName, email);
+                    var parsedData = JRaw.Parse(result);
+                    int workerUid = int.Parse(parsedData["id"].ToString());
+
+                    Worker_Dto workerDto = sqlController.WorkerRead(workerUid);
+                    if (workerDto == null)
+                    {
+                        sqlController.WorkerCreate(workerUid, firstName, lastName, email);
+                    }
+
+                    return WorkerRead(workerUid);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Worker_Dto       WorkerRead(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId);
+
+                    return sqlController.WorkerRead(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool             WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId + " / firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+
+                    if (sqlController.WorkerRead(workerId) == null)
+                        return false;
+
+                    bool success = communicator.WorkerUpdate(workerId, firstName, lastName, email);
+                    if (!success)
+                        return false;
+
+                    return sqlController.WorkerUpdate(workerId, firstName, lastName, email);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool             WorkerDelete(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId);
+
+                    bool success = communicator.WorkerDelete(workerId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.WorkerDelete(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool             WorkerLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var result = communicator.WorkerLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        string firstName = item["first_name"].ToString();
+                        string lastName = item["last_name"].ToString();
+                        string email = item["email"].ToString();
+                        int microtingUid = int.Parse(item["id"].ToString());
+                        Worker_Dto workerDto = sqlController.WorkerRead(microtingUid);
+                        if (workerDto == null)
+                        {
+                            sqlController.WorkerCreate((int)microtingUid, firstName, lastName, email);
+                        }
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region site_workers
+        public Site_Worker_Dto SiteWorkerCreate(int siteId, int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId + " / workerId:" + workerId);
+
+                    string result = communicator.SiteWorkerCreate(siteId, workerId);
+                    var parsedData = JRaw.Parse(result);
+                    int workerUid = int.Parse(parsedData["id"].ToString());
+
+                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(workerUid);
+                    
+                    if (siteWorkerDto == null)
+                    {
+                        sqlController.SiteWorkerCreate(workerUid, siteId, workerId);
+                    }
+                    
+                    return SiteWorkerRead(workerUid);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Worker_Dto SiteWorkerRead(int siteWorkerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteWorkerId:" + siteWorkerId);
+
+                    return sqlController.SiteWorkerRead(siteWorkerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool            SiteWorkerUpdate(int siteWorkerId, int workerId, int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteWorkerId:" + siteWorkerId + " / workerId:" + workerId + " / siteId:" + siteId);
+
+                    if (sqlController.SiteWorkerRead(siteWorkerId) == null)
+                        return false;
+
+                    bool success = communicator.SiteWorkerUpdate(siteWorkerId, workerId, siteId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteWorkerUpdate(siteWorkerId, workerId, siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool            SiteWorkerDelete(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId);
+
+                    bool success = communicator.SiteWorkerDelete(workerId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteWorkerDelete(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool            SiteWorkerLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var result = communicator.SiteWorkerLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        int remoteSiteId = int.Parse(item["site_id"].ToString());
+                        int localSiteId = sqlController.SiteRead(remoteSiteId).Id;
+                        int remoteWorkerId = int.Parse(item["user_id"].ToString());
+                        int localWorkerId = sqlController.WorkerRead(remoteWorkerId).Id;
+                        int microtingUid = int.Parse(item["id"].ToString());
+                        Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(microtingUid);
+                        if (siteWorkerDto == null)
+                        {
+                            sqlController.SiteWorkerCreate((int)microtingUid, localSiteId, localWorkerId);
+                        }
+                    }
+
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region units
+        public List<Unit_Dto>  UnitGetAll()
+        {
+            return null;
+        }
+
+        public Unit_Dto        UnitRead(int unitId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("unitId:" + unitId);
+
+                    return sqlController.UnitRead(unitId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+
+        public Unit_Dto        UnitRequestOtp(int unitId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("unitId:" + unitId);
+
+                    int otp_code = communicator.UnitRequestOtp(unitId);
+
+                    Unit_Dto my_dto = UnitRead(unitId);
+
+                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteId);
+
+                    return UnitRead(unitId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool            UnitLoadAllFromRemote()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    var orgResult = JRaw.Parse(communicator.OrganizationLoadAllFromRemote());
+
+                    int customerNo = int.Parse(orgResult.First().First()["customer_no"].ToString());
+
+                    var result = communicator.UnitLoadAllFromRemote();
+                    if (result == null)
+                        return false;
+
+                    var parsedData = JRaw.Parse(result);
+
+                    foreach (JToken item in parsedData)
+                    {
+                        int remoteSiteId = int.Parse(item["site_id"].ToString());
+                        int localSiteId = sqlController.SiteRead(remoteSiteId).Id;                    
+                        bool otpEnabled = bool.Parse(item["otp_enabled"].ToString());
+                        int otpCode = 0;
+                        if (otpEnabled)
+                        {
+                            otpCode = int.Parse(item["otp_code"].ToString());
+                        }
+                        int unitId = int.Parse(item["id"].ToString());
+                        Unit_Dto unitDto = sqlController.UnitRead(unitId);
+                        if (unitDto == null)
+                        {
+                            sqlController.UnitCreate((int)unitId, customerNo, otpCode, localSiteId);
+                        }
+                    }
+
+                    return true;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1616,7 +2154,8 @@ namespace Microting
                                     {
                                         if (eI.workflow_state == "created")
                                         {
-                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
+                                            // TODO! el.displayOrder missing and remove int.Parse(eI.description)
+                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, int.Parse(eI.description), eI.entity_item_uid);
 
                                             if (microtingUId != null)
                                             {
@@ -1627,7 +2166,8 @@ namespace Microting
 
                                         if (eI.workflow_state == "updated")
                                         {
-                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
+                                            // TODO! el.displayOrder missing and remove int.Parse(eI.description)
+                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, int.Parse(eI.description), eI.entity_item_uid))
                                             {
                                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
                                                 continue;

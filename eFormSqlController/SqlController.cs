@@ -39,6 +39,7 @@ namespace eFormSqlController
                     SettingAdd(7, "subscriberAddress");
                     SettingAdd(8, "subscriberName");
                     SettingAdd(9, "fileLocation");
+                    SettingAdd(10, "basicComAddress");
 
                     SettingUpdate("firstRunDone", "false");
                 }
@@ -168,6 +169,41 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("TemplatGetAll failed", ex);
+            }
+        }
+
+        public bool                 TemplateDelete(int templatId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    check_lists check_list = db.check_lists.Single(x => x.id == templatId);
+
+                    if (check_list != null)
+                    {
+                        check_list.version = check_list.version + 1;
+                        check_list.updated_at = DateTime.Now;
+
+                        check_list.workflow_state = "removed";
+
+                        db.version_check_lists.Add(MapCheckListVersions(check_list));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -1083,7 +1119,19 @@ namespace eFormSqlController
         #endregion
 
         #region site
-        public int SiteCreate(int siteId, string name, int customerNumber, int otpCode, int unitUId, int userId, string userFirstName, string userLastName, int workerId)
+        public List<Site_Dto> SiteGetAll()
+        {
+            throw new NotImplementedException();
+
+        }
+
+        public List<Simple_Site_Dto> SimpleSiteGetAll()
+        {
+            throw new NotImplementedException();
+
+        }
+
+        public int SiteCreate(int microtingUid, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1098,15 +1146,9 @@ namespace eFormSqlController
                     site.version = 1;
                     site.created_at = DateTime.Now;
                     site.updated_at = DateTime.Now;
-                    site.site_uid = siteId;
-                    site.site_name = name;
-                    site.customer_number = customerNumber;
-                    site.otp_code = otpCode;
-                    site.unit_id = unitUId;
-                    site.user_id = userId;
-                    site.user_first_name = userFirstName;
-                    site.user_last_name = userLastName;
-                    site.worker_id = workerId;
+                    site.microting_uid = microtingUid;
+                    site.name = name;
+
 
                     db.sites.Add(site);
                     db.SaveChanges();
@@ -1124,7 +1166,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Dto SiteRead(int siteId)
+        public Site_Dto SiteRead(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1134,10 +1176,10 @@ namespace eFormSqlController
                     //TriggerLog(methodName + " called");
                     //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId && x.workflow_state == "created");
+                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site != null)
-                        return new Site_Dto((int)site.site_uid, site.site_name, site.user_first_name, site.user_last_name, site.customer_number + "|" + site.otp_code);
+                        return new Site_Dto((int)site.id, (int)site.microting_uid, site.name);
                     else
                         return null; 
                 }
@@ -1149,7 +1191,34 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        public Simple_Site_Dto SiteReadSimple(int microting_uid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    site_workers site_worker = db.site_workers.Where(x => x.site_id == site.id).ToList().First();
+                    workers worker = db.workers.Single(x => x.id == site_worker.worker_id);
+                    units unit = db.units.Where(x => x.site_id == site.id).ToList().First();
+
+                    if (site != null)
+                        return new Simple_Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code);
+                    else
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool SiteUpdate(int microting_uid, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1159,16 +1228,14 @@ namespace eFormSqlController
                     //TriggerLog(methodName + " called");
                     //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId);
+                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid);
 
                     if (site != null)
                     {
                         site.version = site.version + 1;
                         site.updated_at = DateTime.Now;
 
-                        site.site_name = siteName;
-                        site.user_first_name = userFirstName;
-                        site.user_last_name = userLastName;
+                        site.name = name;
 
                         db.version_sites.Add(MapSiteVersions(site));
                         db.SaveChanges();
@@ -1186,7 +1253,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Dto SiteReset(int siteId, int customerNumber, int otpCode)
+        public bool SiteDelete(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1196,21 +1263,83 @@ namespace eFormSqlController
                     //TriggerLog(methodName + " called");
                     //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId);
+                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid);
 
                     if (site != null)
                     {
                         site.version = site.version + 1;
                         site.updated_at = DateTime.Now;
 
-                        site.customer_number = customerNumber;
-                        site.otp_code = otpCode;
+                        site.workflow_state = "removed";
 
                         db.version_sites.Add(MapSiteVersions(site));
                         db.SaveChanges();
 
-                        return SiteRead(siteId);
+                        return true;
                     }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region worker
+        public int WorkerCreate(int microtingUid, string firstName, string lastName, string email)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    workers worker = new workers();
+                    worker.workflow_state = "created";
+                    worker.version = 1;
+                    worker.created_at = DateTime.Now;
+                    worker.updated_at = DateTime.Now;
+                    worker.microting_uid = microtingUid;
+                    worker.first_name = firstName;
+                    worker.last_name = lastName;
+                    worker.email = email;
+
+
+                    db.workers.Add(worker);
+                    db.SaveChanges();
+
+                    db.version_workers.Add(MapWorkerVersions(worker));
+                    db.SaveChanges();
+
+                    return worker.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Worker_Dto WorkerRead(int microting_uid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+
+                    if (worker != null)
+                        return new Worker_Dto((int)worker.id, (int)worker.microting_uid, worker.first_name, worker.last_name, worker.email);
                     else
                         return null;
                 }
@@ -1222,7 +1351,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteDelete(int siteId)
+        public bool WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -1232,16 +1361,313 @@ namespace eFormSqlController
                     //TriggerLog(methodName + " called");
                     //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    sites site = db.sites.SingleOrDefault(x => x.site_uid == siteId);
+                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
-                    if (site != null)
+                    if (worker != null)
                     {
-                        site.version = site.version + 1;
-                        site.updated_at = DateTime.Now;
+                        worker.version = worker.version + 1;
+                        worker.updated_at = DateTime.Now;
 
-                        site.workflow_state = "removed";
+                        worker.first_name = firstName;
+                        worker.last_name = lastName;
+                        worker.email = email;
 
-                        db.version_sites.Add(MapSiteVersions(site));
+                        db.version_workers.Add(MapWorkerVersions(worker));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool WorkerDelete(int microtingUid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microtingUid);
+
+                    if (worker != null)
+                    {
+                        worker.version = worker.version + 1;
+                        worker.updated_at = DateTime.Now;
+
+                        worker.workflow_state = "removed";
+
+                        db.version_workers.Add(MapWorkerVersions(worker));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region site_worker
+        public int SiteWorkerCreate(int microting_uid, int site_id, int worker_id)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    site_workers site_worker = new site_workers();
+                    site_worker.workflow_state = "created";
+                    site_worker.version = 1;
+                    site_worker.created_at = DateTime.Now;
+                    site_worker.updated_at = DateTime.Now;
+                    site_worker.microting_uid = microting_uid;
+                    site_worker.site_id = site_id;
+                    site_worker.worker_id = worker_id;
+
+
+                    db.site_workers.Add(site_worker);
+                    db.SaveChanges();
+
+                    db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
+                    db.SaveChanges();
+
+                    return site_worker.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Worker_Dto SiteWorkerRead(int microting_uid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+
+                    if (site_worker != null)
+                        return new Site_Worker_Dto((int)site_worker.id, (int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
+                    else
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool SiteWorkerUpdate(int microting_uid, int site_id, int worker_id)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid);
+
+                    if (site_worker != null)
+                    {
+                        site_worker.version = site_worker.version + 1;
+                        site_worker.updated_at = DateTime.Now;
+
+                        site_worker.site_id = site_id;
+                        site_worker.worker_id = worker_id;
+
+                        db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool SiteWorkerDelete(int microting_uid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid);
+
+                    if (site_worker != null)
+                    {
+                        site_worker.version = site_worker.version + 1;
+                        site_worker.updated_at = DateTime.Now;
+
+                        site_worker.workflow_state = "removed";
+
+                        db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region unit
+        public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    units unit = new units();
+                    unit.workflow_state = "created";
+                    unit.version = 1;
+                    unit.created_at = DateTime.Now;
+                    unit.updated_at = DateTime.Now;
+                    unit.microting_uid = microtingUid;
+                    unit.customer_no = customerNo;
+                    unit.otp_code = otpCode;
+                    unit.site_id = siteId;
+
+
+                    db.units.Add(unit);
+                    db.SaveChanges();
+
+                    db.version_units.Add(MapUnitVersions(unit));
+                    db.SaveChanges();
+
+                    return unit.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Unit_Dto UnitRead(int microtingUid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
+
+                    if (unit != null)
+                        return new Unit_Dto((int)unit.id, (int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
+                    else
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid);
+
+                    if (unit != null)
+                    {
+                        unit.version = unit.version + 1;
+                        unit.updated_at = DateTime.Now;
+
+                        unit.customer_no = customerNo;
+                        unit.otp_code = otpCode;
+
+                        db.version_units.Add(MapUnitVersions(unit));
+                        db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool UnitDelete(int microtingUid)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid);
+
+                    if (unit != null)
+                    {
+                        unit.version = unit.version + 1;
+                        unit.updated_at = DateTime.Now;
+
+                        unit.workflow_state = "removed";
+
+                        db.version_units.Add(MapUnitVersions(unit));
                         db.SaveChanges();
 
                         return true;
@@ -1804,8 +2230,8 @@ namespace eFormSqlController
                         case "Date":
                             Date date = (Date)dataItem;
                             field.default_value = date.DefaultValue;
-                            field.min_value = date.MinValue.ToString("yyyy-MM-dd HH:mm:ss");
-                            field.max_value = date.MaxValue.ToString("yyyy-MM-dd HH:mm:ss");
+                            field.min_value = date.MinValue;
+                            field.max_value = date.MaxValue;
                             break;
 
                         case "None":
@@ -1998,7 +2424,7 @@ namespace eFormSqlController
 
                         case "Date":
                             lstDataItem.Add(new Date(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
-                                DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value));
+                                f.min_value, f.max_value, f.default_value));
                             break;
 
                         case "None":
@@ -2484,10 +2910,27 @@ namespace eFormSqlController
             entityItemVer.name = entityItem.name;
             entityItemVer.description = entityItem.description;
             entityItemVer.synced = entityItem.synced;
+            entityItemVer.display_index = entityItem.display_index;
 
             entityItemVer.entity_items_id = entityItem.id; //<<--
 
             return entityItemVer;
+        }
+
+        private version_site_workers        MapSiteWorkerVersions(site_workers site_workers)
+        {
+            version_site_workers siteWorkerVer = new version_site_workers();
+            siteWorkerVer.workflow_state = site_workers.workflow_state;
+            siteWorkerVer.version = site_workers.version;
+            siteWorkerVer.created_at = site_workers.created_at;
+            siteWorkerVer.updated_at = site_workers.updated_at;
+            siteWorkerVer.microting_uid = site_workers.microting_uid;
+            siteWorkerVer.site_id = site_workers.site_id;
+            siteWorkerVer.worker_id = site_workers.worker_id;
+
+            siteWorkerVer.site_worker_id = site_workers.id; //<<--
+
+            return siteWorkerVer;
         }
 
         private version_sites               MapSiteVersions(sites site)
@@ -2497,19 +2940,45 @@ namespace eFormSqlController
             siteVer.version = site.version;
             siteVer.created_at = site.created_at;
             siteVer.updated_at = site.updated_at;
-            siteVer.site_uid = site.site_uid;
-            siteVer.site_name = site.site_name;
-            siteVer.customer_number = site.customer_number;
-            siteVer.otp_code = site.otp_code;
-            siteVer.unit_id = site.unit_id;
-            siteVer.user_id = site.user_id;
-            siteVer.user_first_name = site.user_first_name;
-            siteVer.user_last_name = site.user_last_name;
-            siteVer.worker_id = site.worker_id;
+            siteVer.microting_uid = site.microting_uid;
+            siteVer.name = site.name;
 
-            siteVer.site_id = siteVer.id; //<<--
+            siteVer.site_id = site.id; //<<--
 
             return siteVer;
+        }
+
+        private version_units               MapUnitVersions(units units)
+        {
+            version_units unitVer = new version_units();
+            unitVer.workflow_state = units.workflow_state;
+            unitVer.version = units.version;
+            unitVer.created_at = units.created_at;
+            unitVer.updated_at = units.updated_at;
+            unitVer.microting_uid = units.microting_uid;
+            unitVer.site_id = units.site_id;
+            unitVer.customer_no = units.customer_no;
+            unitVer.otp_code = units.otp_code;
+
+            unitVer.unit_id = units.id; //<<--
+
+            return unitVer;
+        }
+
+        private version_workers             MapWorkerVersions(workers workers)
+        {
+            version_workers workerVer = new version_workers();
+            workerVer.workflow_state = workers.workflow_state;
+            workerVer.version = workers.version;
+            workerVer.created_at = workers.created_at;
+            workerVer.updated_at = workers.updated_at;
+            workerVer.microting_uid = workers.microting_uid;
+            workerVer.first_name = workers.first_name;
+            workerVer.last_name = workers.last_name;
+
+            workerVer.worker_id = workers.id; //<<--
+
+            return workerVer;
         }
         #endregion
         #endregion

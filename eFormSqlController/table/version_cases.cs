@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_cases
     {
+        [Key]
         public int id { get; set; }
 
         public int? case_id { get; set; }

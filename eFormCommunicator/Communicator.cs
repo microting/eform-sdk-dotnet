@@ -56,7 +56,7 @@ namespace eFormCommunicator
         /// <param name="address">Microting's eForm API server address.</param>
         /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="organizationId">Your company's organization id.</param>
-        public Communicator(string address, string token, string organizationId)
+        public Communicator(string address, string token, string organizationId, string basicComAddress)
         {
             #region CheckInput token & serverAddress
             string errorsFound = "";
@@ -66,6 +66,9 @@ namespace eFormCommunicator
 
             if (!address.Contains("http://") && !address.Contains("https://"))
                 errorsFound += "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
+
+            if (!basicComAddress.Contains("http://") && !basicComAddress.Contains("https://"))
+                errorsFound += "Basic Com Address is missing 'http://' or 'https://'" + Environment.NewLine;
 
             if (organizationId == null)
                 organizationId = "";
@@ -77,7 +80,7 @@ namespace eFormCommunicator
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(address, token, organizationId);
+            http = new Http(address, token, organizationId, basicComAddress);
         }
         #endregion
 
@@ -172,36 +175,88 @@ namespace eFormCommunicator
         #endregion
 
         #region public site
-        public List<int>    SiteCreate(string siteName, string userFirstName, string userLastName)
+        public string    SiteCreate(string name)
         {
-            int userId = http.SiteCreateUser(userFirstName, userLastName);
-
-            List<int> siteData = http.SiteCreateSite(siteName);
-            int siteId = siteData[0];
-            int customerNumber = siteData[1];
-            int otpCode = siteData[2];
-            int unitUId = siteData[3];
-
-            int workerId = http.SiteCreateWorker(siteId, userId);
-
-            siteData.Add(userId);
-            siteData.Add(workerId);
-            return siteData;
+            return http.SiteCreate(name);
         }
 
-        public bool         SiteUpdate(int siteId, string siteName, string userFirstName, string userLastName)
+        public bool         SiteUpdate(int siteId, string name)
         {
-            return true;
-        }
-
-        public List<int>    SiteReset(int siteId)
-        {
-            return null;
+            return http.SiteUpdate(siteId, name);
         }
 
         public bool         SiteDelete(int siteId)
         {
-            return true;
+            return http.SiteDelete(siteId);
+        }
+
+        public string      SiteLoadAllFromRemote()
+        {
+            return http.SiteLoadAllFromRemote();
+        }
+        #endregion
+
+        #region public worker
+        public string          WorkerCreate(string firstName, string lastName, string email)
+        {
+            return http.WorkerCreate(firstName, lastName, email);
+        }
+
+        public bool         WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        {
+            return http.WorkerUpdate(workerId, firstName, lastName, email);
+        }
+
+        public bool         WorkerDelete(int workerId)
+        {
+            return http.WorkerDelete(workerId);
+        }
+
+        public string       WorkerLoadAllFromRemote()
+        {
+            return http.WorkerLoadAllFromRemote();
+        }
+        #endregion
+
+        #region public site_worker
+        public string       SiteWorkerCreate(int siteId, int workerId)
+        {
+            return http.SiteWorkerCreate(siteId, workerId);
+        }
+
+        public bool         SiteWorkerUpdate(int id, int siteId, int workerId)
+        {
+            return http.SiteWorkerUpdate(siteId, workerId);
+        }
+
+        public bool         SiteWorkerDelete(int workerId)
+        {
+            return http.SiteWorkerDelete(workerId);
+        }
+
+        public string SiteWorkerLoadAllFromRemote()
+        {
+            return http.SiteWorkerLoadAllFromRemote();
+        }
+        #endregion
+
+        #region public unit      
+        public int          UnitRequestOtp(int unitId)
+        {
+            return http.UnitRequestOtp(unitId);
+        }
+
+        public string UnitLoadAllFromRemote()
+        {
+            return http.UnitLoadAllFromRemote();
+        }
+        #endregion
+
+        #region public organization      
+
+        public string OrganizationLoadAllFromRemote()
+        {
+            return http.OrganizationLoadAllFromRemote();
         }
         #endregion
 
@@ -306,11 +361,11 @@ namespace eFormCommunicator
 
         //---
 
-        public string   EntitySelectItemCreate(string entitySearchGroupId, string name, string description, string id)
+        public string   EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string id)
         {
             try
             {
-                return http.EntitySelectItemCreate(entitySearchGroupId, name, description, id);
+                return http.EntitySelectItemCreate(entitySearchGroupId, name, displayOrder, id);
             }
             catch (Exception ex)
             {
@@ -318,11 +373,11 @@ namespace eFormCommunicator
             }
         }
 
-        public bool     EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public bool     EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string id)
         {
             try
             {
-                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
+                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, id);
             }
             catch (Exception ex)
             {

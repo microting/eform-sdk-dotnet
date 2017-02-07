@@ -26,6 +26,9 @@ namespace eFormSqlController
         public virtual DbSet<outlook> outlook { get; set; }
         public virtual DbSet<setting> setting { get; set; }
         public virtual DbSet<sites> sites { get; set; }
+        public virtual DbSet<units> units { get; set; }
+        public virtual DbSet<workers> workers { get; set; }
+        public virtual DbSet<site_workers> site_workers { get; set; }
         public virtual DbSet<version_cases> version_cases { get; set; }
         public virtual DbSet<version_check_list_sites> version_check_list_sites { get; set; }
         public virtual DbSet<version_check_list_values> version_check_list_values { get; set; }
@@ -36,9 +39,15 @@ namespace eFormSqlController
         public virtual DbSet<version_field_values> version_field_values { get; set; }
         public virtual DbSet<version_fields> version_fields { get; set; }
         public virtual DbSet<version_sites> version_sites { get; set; }
+        public virtual DbSet<version_units> version_units { get; set; }
+        public virtual DbSet<version_workers> version_workers { get; set; }
+        public virtual DbSet<version_site_workers> version_site_workers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+            //Database.SetInitializer<MicrotingDb>(null);
+
             modelBuilder.Entity<cases>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);
@@ -415,6 +424,54 @@ namespace eFormSqlController
                 .Property(e => e.updated_at)
                 .HasPrecision(0);
 
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<site_workers>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<units>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<units>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<units>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<workers>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<workers>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<workers>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<workers>()
+                .Property(e => e.first_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<workers>()
+                .Property(e => e.last_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<workers>()
+                .Property(e => e.email)
+                .IsUnicode(false);
+
             modelBuilder.Entity<version_cases>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);
@@ -698,6 +755,54 @@ namespace eFormSqlController
             modelBuilder.Entity<version_sites>()
                 .Property(e => e.updated_at)
                 .HasPrecision(0);
+
+            modelBuilder.Entity<version_site_workers>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_site_workers>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<version_site_workers>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<version_units>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_units>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<version_units>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<version_workers>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<version_workers>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<version_workers>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_workers>()
+                .Property(e => e.first_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_workers>()
+                .Property(e => e.last_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<version_workers>()
+                .Property(e => e.email)
+                .IsUnicode(false);
         }
     }
 }
