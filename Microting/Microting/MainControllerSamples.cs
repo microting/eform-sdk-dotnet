@@ -435,7 +435,7 @@ namespace Microting
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
+            int siteId = temp.SiteUid;
             string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string mUId = temp.MicrotingUId;
@@ -446,7 +446,7 @@ namespace Microting
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
+            int siteId = temp.SiteUid;
             string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string mUId = temp.MicrotingUId;
@@ -460,7 +460,7 @@ namespace Microting
                 try
                 {
                     Case_Dto trigger = (Case_Dto)sender;
-                    int siteId = trigger.SiteId;
+                    int siteId = trigger.SiteUid;
                     string caseType = trigger.CaseType;
                     string caseUid = trigger.CaseUId;
                     string mUId = trigger.MicrotingUId;
@@ -601,7 +601,7 @@ namespace Microting
         {
             //DOSOMETHING: changed to fit your wishes and needs
             Case_Dto temp = (Case_Dto)sender;
-            int siteId = temp.SiteId;
+            int siteId = temp.SiteUid;
             string caseType = temp.CaseType;
             string caseUid = temp.CaseUId;
             string mUId = temp.MicrotingUId;

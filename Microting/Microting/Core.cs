@@ -691,7 +691,7 @@ namespace Microting
                     TriggerLog("microtingUId:" + microtingUId + ", requested to be deleted");
 
                     var aCase = sqlController.CaseReadByMUId(microtingUId);
-                    string xmlResponse = communicator.Delete(microtingUId, aCase.SiteId);
+                    string xmlResponse = communicator.Delete(microtingUId, aCase.SiteUid);
 
                     TriggerLog("XML response:");
                     TriggerLog(xmlResponse);
@@ -1933,7 +1933,7 @@ namespace Microting
                         #endregion
 
                         Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
-                        File_Dto fDto = new File_Dto(dto.SiteId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocation + fileName);
+                        File_Dto fDto = new File_Dto(dto.SiteUid, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocation + fileName);
                         HandleFileDownloaded(fDto, EventArgs.Empty);
                         TriggerMessage("Downloaded file '" + urlStr + "'.");
 
@@ -1993,16 +1993,16 @@ namespace Microting
 
                                         foreach (Case_Dto aCase in lstCase)
                                         {
-                                            if (aCase.SiteId == concreteCase.SiteId)
+                                            if (aCase.SiteUid == concreteCase.SiteUid)
                                             {
                                                 #region get response's data and update DB with data
                                                 string lastId = sqlController.CaseReadCheckIdByMUId(noteUId);
                                                 string respXml;
 
                                                 if (lastId == null)
-                                                    respXml = communicator.Retrieve(noteUId, concreteCase.SiteId);
+                                                    respXml = communicator.Retrieve(noteUId, concreteCase.SiteUid);
                                                 else
-                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteId, lastId);
+                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteUid, lastId);
 
                                                 Response resp = new Response();
                                                 resp = resp.XmlToClass(respXml);
@@ -2017,11 +2017,11 @@ namespace Microting
                                                         {
                                                             int localUnitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).Id;
                                                             int localWorkerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).Id;
-                                                            sqlController.CaseUpdateCompleted(noteUId, null, DateTime.Parse(resp.Checks[0].Date), localWorkerId, localUnitId);
+                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), localWorkerId, localUnitId);
 
                                                             #region retract case, thereby completing the process
 
-                                                            string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteId);
+                                                            string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUid);
                                                             Response respRet = new Response();
                                                             respRet = respRet.XmlToClass(respXml);
 
@@ -2031,7 +2031,7 @@ namespace Microting
                                                                 TriggerLog(aCase.ToString() + " has been retracted");
                                                             }
                                                             else
-                                                                TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                                TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUid + ". Not a critical issue, but needs to be fixed if repeated");
                                                             #endregion
                                                         }
                                                         else
@@ -2048,7 +2048,7 @@ namespace Microting
                                                     }
                                                 }
                                                 else
-                                                    throw new Exception("Failed to retrive eForm " + noteUId + " from site " + aCase.SiteId);
+                                                    throw new Exception("Failed to retrive eForm " + noteUId + " from site " + aCase.SiteUid);
                                                 #endregion
                                             }
                                             else
@@ -2091,7 +2091,7 @@ namespace Microting
                                     throw new IndexOutOfRangeException("Notification type '" + noteType + "' is not known or mapped");
                             }
                         }
-                        catch
+                        catch (Exception ex)
                         {
                             sqlController.NotificationProcessed(notificationStr, "not_found");
                         }

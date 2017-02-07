@@ -337,7 +337,7 @@ namespace Microting
 
         private void    Logic(Case_Dto cDto)
         {
-            int siteId = cDto.SiteId;
+            int siteId = cDto.SiteUid;
             string caseType = cDto.CaseType;
             string caseUid = cDto.CaseUId;
             string mUId = cDto.MicrotingUId;

@@ -16,7 +16,7 @@ namespace eFormShared
         {
         }
 
-        public Case_Dto(string stat, int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
+        public Case_Dto(string stat, int siteUid, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
         {
             if (caseType == null)
                 caseType = "";
@@ -28,7 +28,7 @@ namespace eFormShared
                 checkUId = "";
 
             Stat = stat;
-            SiteId = siteId;
+            SiteUid = siteUid;
             CaseType = caseType;
             CaseUId = caseUId;
             MicrotingUId = microtingUId;
@@ -46,7 +46,7 @@ namespace eFormShared
         /// <summary>
         /// Unique identifier of device
         /// </summary>
-        public int SiteId { get; }
+        public int SiteUid { get; }
 
         /// <summary>
         /// Identifier of a collection of cases in your system
@@ -76,9 +76,9 @@ namespace eFormShared
 
         public override string ToString()
         {
-            if (CheckUId == null) return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            if (CheckUId == "") return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            return "Stat:" + Stat + " / Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
+            if (CheckUId == null) return "Stat:" + Stat + " / SiteUid:" + SiteUid + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            if (CheckUId == "") return "Stat:" + Stat + " / SiteUid:" + SiteUid + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            return "Stat:" + Stat + " / SiteUid:" + SiteUid + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
         }
     }
     #endregion

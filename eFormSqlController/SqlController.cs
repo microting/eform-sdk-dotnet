@@ -301,7 +301,8 @@ namespace eFormSqlController
                             stat = "Deleted";
                         #endregion
 
-                        Case_Dto rtrnCase = new Case_Dto(stat, (int)cls.site_id, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom);
+                        int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
+                        Case_Dto rtrnCase = new Case_Dto(stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom);
                         return rtrnCase;
                     } catch { }
 
@@ -337,8 +338,10 @@ namespace eFormSqlController
                     if (aCase.workflow_state == "removed")
                         stat = "Deleted";
                     #endregion
+                    int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
 
-                    Case_Dto cDto = new Case_Dto(stat, (int)aCase.site_id, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
+                    Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
+                    //Case_Dto cDto = new Case_Dto(stat, (int)aCase.site_id, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
                     return cDto;
                 }
             }
@@ -382,7 +385,10 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.microting_uid == microtingUId);
-                    return match.last_check_id;
+                    if (match == null)
+                        return null;
+                    else
+                        return match.last_check_id;
                 }
             }
             catch (Exception ex)
@@ -472,15 +478,19 @@ namespace eFormSqlController
                     #region caseStd.microting_check_id = microtingCheckId; and update "check_list_sites" if needed
                     if (microtingCheckId != null)
                     {
-                        check_list_sites match = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
-                        match.last_check_id = microtingCheckId;
-                        match.version = match.version + 1;
-                        match.updated_at = DateTime.Now;
+                        check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.microting_uid == microtingUId);
+                        if (match != null)
+                        {
+                            match.last_check_id = microtingCheckId;
+                            match.version = match.version + 1;
+                            match.updated_at = DateTime.Now;
 
-                        db.SaveChanges();
+                            db.SaveChanges();
 
-                        db.version_check_list_sites.Add(MapCheckListSiteVersions(match));
-                        db.SaveChanges();
+                            db.version_check_list_sites.Add(MapCheckListSiteVersions(match));
+                            db.SaveChanges();
+                        }
+
                     }
 
                     caseStd.microting_check_uid = microtingCheckId;
@@ -693,7 +703,7 @@ namespace eFormSqlController
                                 field_values fieldV = new field_values();
 
                                 #region if contains a file
-                                string urlXml = t.Locate(xmlString, "<URL>", "</URL>");
+                                string urlXml = t.Locate(dataItemStr, "<URL>", "</URL>");
                                 if (urlXml != "" && urlXml != "none")
                                 {
                                     data_uploaded dU = new data_uploaded();
@@ -1052,7 +1062,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    data_uploaded dU = db.data_uploaded.SingleOrDefault(x => x.workflow_state == "pre_created");
+                    data_uploaded dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
                         
                     if (dU != null)
                         return dU.file_location;
