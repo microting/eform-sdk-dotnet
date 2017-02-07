@@ -56,7 +56,7 @@ namespace eFormCommunicator
         /// <param name="address">Microting's eForm API server address.</param>
         /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="organizationId">Your company's organization id.</param>
-        public Communicator(string address, string token, string organizationId, string basicComAddress)
+        public Communicator(string address, string token, string organizationId, string comAddressBasic)
         {
             #region CheckInput token & serverAddress
             string errorsFound = "";
@@ -67,7 +67,7 @@ namespace eFormCommunicator
             if (!address.Contains("http://") && !address.Contains("https://"))
                 errorsFound += "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
 
-            if (!basicComAddress.Contains("http://") && !basicComAddress.Contains("https://"))
+            if (!comAddressBasic.Contains("http://") && !comAddressBasic.Contains("https://"))
                 errorsFound += "Basic Com Address is missing 'http://' or 'https://'" + Environment.NewLine;
 
             if (organizationId == null)
@@ -80,7 +80,7 @@ namespace eFormCommunicator
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(address, token, organizationId, basicComAddress);
+            http = new Http(address, token, organizationId, comAddressBasic);
         }
         #endregion
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}</ProjectGuid>
+    <ProjectGuid>{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eFormOffice</RootNamespace>
-    <AssemblyName>eFormOffice</AssemblyName>
+    <RootNamespace>eFormCore</RootNamespace>
+    <AssemblyName>eFormCore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,28 +41,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelController.cs" />
+    <Compile Include="AdminTools.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="ICore.cs" />
+    <Compile Include="MainControllerCustom.cs" />
+    <Compile Include="MainControllerExcel.cs" />
+    <Compile Include="MainControllerSamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>8</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>9</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
+    <ProjectReference Include="..\eFormCommunicator\eFormCommunicator.csproj">
+      <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
+      <Name>eFormCommunicator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormCustom\eFormCustom.csproj">
+      <Project>{462a8f66-3efe-4962-8d4e-56ec2cf5b051}</Project>
+      <Name>eFormCustom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormOffice\eFormOffice.csproj">
+      <Project>{fababf50-4e7e-4345-80aa-2edab01f9abf}</Project>
+      <Name>eFormOffice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormRequest\eFormRequest.csproj">
+      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
+      <Name>eFormRequest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormResponse\eFormResponse.csproj">
+      <Project>{5290e431-a86d-480a-afd5-673ef5cb6664}</Project>
+      <Name>eFormResponse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
+      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
+      <Name>eFormShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormSqlController\eFormSqlController.csproj">
+      <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>
+      <Name>eFormSqlController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormSubscriber\eFormSubscriber.csproj">
+      <Project>{ad0bb980-6dc6-4860-801a-b6373934b629}</Project>
+      <Name>eFormSubscriber</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

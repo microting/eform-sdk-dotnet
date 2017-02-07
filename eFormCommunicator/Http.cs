@@ -45,19 +45,19 @@ namespace eFormCommunicator
 
         private string token;
         private string srvAdd;
-        private string basicComAddress;
+        private string comAddressBasic;
         private string srganizationId;
 
         Tools t = new Tools();
         #endregion
 
         #region con
-        internal Http(string serverAddress, string token, string organizationId, string basicComAddress)
+        internal Http(string serverAddress, string token, string organizationId, string comAddressBasic)
         {
             this.token = token;
             srvAdd = serverAddress;
             srganizationId = organizationId;
-            this.basicComAddress = basicComAddress;
+            this.comAddressBasic = comAddressBasic;
         }
         #endregion
 
@@ -391,7 +391,7 @@ namespace eFormCommunicator
         internal string SiteCreate(string name)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name });
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -419,7 +419,7 @@ namespace eFormCommunicator
 
         internal string SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/sites?token=" + token);
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -430,7 +430,7 @@ namespace eFormCommunicator
         internal string        WorkerCreate(string firstName, string lastName, string email)
         {
             JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -458,7 +458,7 @@ namespace eFormCommunicator
 
         internal string     WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/users?token=" + token);
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -469,7 +469,7 @@ namespace eFormCommunicator
         internal string     SiteWorkerCreate(int siteId, int workerId)
         {
             JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -497,7 +497,7 @@ namespace eFormCommunicator
 
         internal string SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/workers?token=" + token);
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/workers?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -512,7 +512,7 @@ namespace eFormCommunicator
 
         internal string UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(basicComAddress + "/v1/units?token=" + token);
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/units?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);

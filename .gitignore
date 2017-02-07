@@ -323,5 +323,5 @@ paket-files/
 >>>>>>> e83bb4f... Initial commit
 
 Complied/input/sql_connection.txt
-Complied/log
 Complied/input/first_run.txt
+Complied/log/*.*

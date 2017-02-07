@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormRequest", "eFormReques
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormCommunicator", "eFormCommunicator\eFormCommunicator.csproj", "{BA524FAD-0323-4565-8ED2-2253E5460216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microting", "Microting\Microting\Microting.csproj", "{2779518E-DEDD-40BD-A072-52573546A577}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSqlController", "eFormSqlController\eFormSqlController.csproj", "{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormCustom", "eFormCustom\eFormCustom.csproj", "{462A8F66-3EFE-4962-8D4E-56EC2CF5B051}"
@@ -20,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormOffice", "eFormOffice\eFormOffice.csproj", "{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormShared", "eFormShared\eFormShared.csproj", "{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormCore", "eFormCore\eFormCore.csproj", "{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceCode", "SourceCode\SourceCode.csproj", "{4B3A5031-33E3-4862-83C4-E2EB6472C228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +45,6 @@ Global
 		{BA524FAD-0323-4565-8ED2-2253E5460216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA524FAD-0323-4565-8ED2-2253E5460216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA524FAD-0323-4565-8ED2-2253E5460216}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2779518E-DEDD-40BD-A072-52573546A577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2779518E-DEDD-40BD-A072-52573546A577}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2779518E-DEDD-40BD-A072-52573546A577}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2779518E-DEDD-40BD-A072-52573546A577}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +61,14 @@ Global
 		{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

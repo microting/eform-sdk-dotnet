@@ -26,7 +26,7 @@ namespace eFormSqlController
             using (var db = new MicrotingDb(connectionStr))
             {
                 #region SettingCount
-                if (SettingCount() < 9)
+                if (SettingCount() < 10)
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
 
@@ -34,12 +34,12 @@ namespace eFormSqlController
                     SettingAdd(2, "logLevel");
                     SettingAdd(3, "comToken");
                     SettingAdd(4, "comAddress");
-                    SettingAdd(5, "organizationId");
-                    SettingAdd(6, "subscriberToken");
-                    SettingAdd(7, "subscriberAddress");
-                    SettingAdd(8, "subscriberName");
-                    SettingAdd(9, "fileLocation");
-                    SettingAdd(10, "basicComAddress");
+                    SettingAdd(5, "comAddressBasic");
+                    SettingAdd(6, "organizationId");
+                    SettingAdd(7, "subscriberToken");
+                    SettingAdd(8, "subscriberAddress");
+                    SettingAdd(9, "subscriberName");
+                    SettingAdd(10, "fileLocation");
 
                     SettingUpdate("firstRunDone", "false");
                 }

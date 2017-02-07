@@ -1,0 +1,8 @@
+comToken|b86d3f45bd8b7340416447762784bc9c
+comAddress|https://prelive.microting.com
+comAddressBasic|https://basic.microting.com
+organizationId|136
+subscriberToken|b86d3f45bd8b7340416447762784bc9c
+subscriberAddress|not-prelive.microting.com
+subscriberName|TA_Test
+fileLocation|datafolder/

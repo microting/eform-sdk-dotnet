@@ -16,7 +16,7 @@ namespace eFormShared
         {
         }
 
-        public Case_Dto(string stat, int siteUid, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
+        public Case_Dto(string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
         {
             if (caseType == null)
                 caseType = "";
@@ -28,7 +28,7 @@ namespace eFormShared
                 checkUId = "";
 
             Stat = stat;
-            SiteUid = siteUid;
+            SiteUId = siteUId;
             CaseType = caseType;
             CaseUId = caseUId;
             MicrotingUId = microtingUId;
@@ -46,7 +46,7 @@ namespace eFormShared
         /// <summary>
         /// Unique identifier of device
         /// </summary>
-        public int SiteUid { get; }
+        public int SiteUId { get; }
 
         /// <summary>
         /// Identifier of a collection of cases in your system
@@ -76,9 +76,9 @@ namespace eFormShared
 
         public override string ToString()
         {
-            if (CheckUId == null) return "Stat:" + Stat + " / SiteUid:" + SiteUid + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            if (CheckUId == "") return "Stat:" + Stat + " / SiteUid:" + SiteUid + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            return "Stat:" + Stat + " / SiteUid:" + SiteUid + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
+            if (CheckUId == null) return "Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            if (CheckUId == "") return "Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            return "Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
         }
     }
     #endregion
@@ -87,7 +87,7 @@ namespace eFormShared
     public class File_Dto
     {
         #region con
-        public File_Dto(int siteId, string caseType, string caseUId, string microtingUId, string checkUId, string fileLocation)
+        public File_Dto(int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string fileLocation)
         {
             if (caseType == null)
                 caseType = "";
@@ -100,7 +100,7 @@ namespace eFormShared
             if (fileLocation == null)
                 fileLocation = "";
 
-            SiteId = siteId;
+            SiteUId = siteUId;
             CaseType = caseType;
             CaseUId = caseUId;
             MicrotingUId = microtingUId;
@@ -113,7 +113,7 @@ namespace eFormShared
         /// <summary>
         /// Unique identifier of device
         /// </summary>
-        public int SiteId { get; }
+        public int SiteUId { get; }
 
         /// <summary>
         /// Identifier of a collection of cases in your system
@@ -143,7 +143,7 @@ namespace eFormShared
 
         public override string ToString()
         {
-            return "Site:" + SiteId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
+            return "SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
         }
     }
     #endregion
