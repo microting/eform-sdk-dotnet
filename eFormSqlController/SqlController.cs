@@ -733,7 +733,7 @@ namespace eFormSqlController
                                 fieldV.created_at = DateTime.Now;
                                 fieldV.updated_at = DateTime.Now;
                                 #region fieldV.value = t.Locate(xml, "<Value>", "</");
-                                string temp = t.Locate(xmlString, "<Value>", "</");
+                                string temp = t.Locate(dataItemStr, "<Value>", "</");
 
                                 if (temp.Length > 8)
                                 {
@@ -747,19 +747,19 @@ namespace eFormSqlController
                                 fieldV.value = temp;
                                 #endregion
                                 //geo
-                                fieldV.latitude = t.Locate(xmlString, " < Latitude>", "</");
-                                fieldV.longitude = t.Locate(xmlString, "<Longitude>", "</");
-                                fieldV.altitude = t.Locate(xmlString, "<Altitude>", "</");
-                                fieldV.heading = t.Locate(xmlString, "<Heading>", "</");
-                                fieldV.accuracy = t.Locate(xmlString, "<Accuracy>", "</");
-                                fieldV.date = t.Date(t.Locate(xmlString, "<Date>", "</"));
+                                fieldV.latitude = t.Locate(dataItemStr, " < Latitude>", "</");
+                                fieldV.longitude = t.Locate(dataItemStr, "<Longitude>", "</");
+                                fieldV.altitude = t.Locate(dataItemStr, "<Altitude>", "</");
+                                fieldV.heading = t.Locate(dataItemStr, "<Heading>", "</");
+                                fieldV.accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
+                                fieldV.date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
                                 //
                                 fieldV.workflow_state = "created";
                                 fieldV.version = 1;
                                 fieldV.case_id = caseId;
-                                fieldV.field_id = int.Parse(t.Locate(xmlString, "<Id>", "</"));
+                                fieldV.field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
                                 fieldV.user_id = userId;
-                                fieldV.check_list_id = elementId;
+                                fieldV.check_list_id = clv.check_list_id;
                                 fieldV.done_at = t.Date(response.Checks[0].Date);
 
                                 db.field_values.Add(fieldV);
