@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class field_values
     {
+        [Key]
         public int id { get; set; }
 
         [StringLength(255)]

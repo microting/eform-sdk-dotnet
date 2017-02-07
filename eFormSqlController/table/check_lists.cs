@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class check_lists
     {
+        [Key]
         public int id { get; set; }
 
         [StringLength(255)]

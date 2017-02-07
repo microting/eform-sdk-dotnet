@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class site_workers
     {
+        [Key]
         public int id { get; set; }
 
         public int? site_id { get; set; }

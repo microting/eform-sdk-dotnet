@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_field_values
     {
+        [Key]
         public int id { get; set; }
 
         public int? field_value_id { get; set; }

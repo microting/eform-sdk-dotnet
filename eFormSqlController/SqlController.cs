@@ -2909,6 +2909,7 @@ namespace eFormSqlController
             entityItemVer.name = entityItem.name;
             entityItemVer.description = entityItem.description;
             entityItemVer.synced = entityItem.synced;
+            entityItemVer.display_index = entityItem.display_index;
 
             entityItemVer.entity_items_id = entityItem.id; //<<--
 

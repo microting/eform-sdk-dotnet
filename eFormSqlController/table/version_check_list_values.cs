@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_check_list_values
     {
+        [Key]
         public int id { get; set; }
 
         public int? check_list_value_id { get; set; }

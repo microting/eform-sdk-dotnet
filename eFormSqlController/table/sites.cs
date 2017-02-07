@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class sites
     {
+        [Key]
         public int id { get; set; }
 
         public DateTime? created_at { get; set; }

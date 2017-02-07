@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class workers
     {
+        [Key]
         public int id { get; set; }
 
         [Column(TypeName = "datetime2")]

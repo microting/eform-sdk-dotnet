@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class entity_items
     {
+        [Key]
         public int id { get; set; }
 
         [StringLength(255)]
@@ -34,6 +35,6 @@ namespace eFormSqlController
 
         public short? synced { get; set; }
 
-        // TODO! Create migration to add displayOrder
+        public int display_index { get; set; }
     }
 }

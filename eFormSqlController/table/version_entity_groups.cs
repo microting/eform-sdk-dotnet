@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_entity_groups
     {
+        [Key]
         public int id { get; set; }
 
         public int entity_group_id { get; set; }

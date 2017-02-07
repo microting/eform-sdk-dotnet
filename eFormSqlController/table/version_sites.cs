@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_sites
     {
+        [Key]
         public int id { get; set; }
 
         [Column(TypeName = "datetime2")]

@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class version_entity_items
     {
+        [Key]
         public int id { get; set; }
 
         public int entity_items_id { get; set; }
@@ -35,5 +36,7 @@ namespace eFormSqlController
         public string description { get; set; }
 
         public short? synced { get; set; }
+
+        public int display_index { get; set; }
     }
 }

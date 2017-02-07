@@ -8,6 +8,7 @@ namespace eFormSqlController
 
     public partial class units
     {
+        [Key]
         public int id { get; set; }
 
         public int? microting_uid { get; set; }
