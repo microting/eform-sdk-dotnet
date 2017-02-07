@@ -511,9 +511,16 @@ namespace Microting
                             string mUId = SendXml(mainElement, siteId);
 
                             if (reversed == false)
-                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, caseUId, custom);
+                            {
+                                int localSiteId = sqlController.SiteRead(siteId).Id;
+                                sqlController.CaseCreate(mainElement.Id, localSiteId, mUId, caseUId, custom);
+                            }                              
                             else
-                                sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
+                            {
+                                int localSiteId = sqlController.SiteRead(siteId).Id;
+                                sqlController.CheckListSitesCreate(mainElement.Id, localSiteId, mUId);
+                            }
+                                
 
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                             HandleCaseCreated(cDto, EventArgs.Empty);
@@ -911,8 +918,8 @@ namespace Microting
 
                     string siteName = parsedData["name"].ToString();
                     int siteId = int.Parse(parsedData["id"].ToString());
-                    int unitUId = int.Parse(parsedData["id"].ToString());
-                    int otpCode = int.Parse(parsedData["id"].ToString());
+                    int unitUId = int.Parse(parsedData["uni_id"].ToString());
+                    int otpCode = int.Parse(parsedData["otp_code"].ToString());
                     Site_Dto siteDto = sqlController.SiteRead(siteId);
                     if (siteDto == null)
                     {
@@ -922,7 +929,7 @@ namespace Microting
                     Unit_Dto unitDto = sqlController.UnitRead(unitUId);
                     if (unitDto == null)
                     {
-                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteId);
+                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.Id);
                     }
 
                     if (string.IsNullOrEmpty(userEmail))
@@ -933,7 +940,7 @@ namespace Microting
 
                     Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
 
-                    SiteWorkerCreate(siteId, workerDto.MicrotingUid);
+                    SiteWorkerCreate(siteDto.Id, workerDto.Id);
 
                     return SiteReadSimple(siteId);
                 }
@@ -2008,7 +2015,9 @@ namespace Microting
 
                                                         if (lastId == null)
                                                         {
-                                                            sqlController.CaseUpdateCompleted(noteUId, null, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), int.Parse(resp.Checks[0].UnitId));
+                                                            int localUnitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).Id;
+                                                            int localWorkerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).Id;
+                                                            sqlController.CaseUpdateCompleted(noteUId, null, DateTime.Parse(resp.Checks[0].Date), localWorkerId, localUnitId);
 
                                                             #region retract case, thereby completing the process
 
@@ -2026,7 +2035,12 @@ namespace Microting
                                                             #endregion
                                                         }
                                                         else
-                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), int.Parse(resp.Checks[0].WorkerId), int.Parse(resp.Checks[0].UnitId));
+                                                        {
+                                                            int localUnitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).Id;
+                                                            int localWorkerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).Id;
+                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), localWorkerId, localUnitId);
+                                                        }
+                                                            
 
                                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                         HandleCaseCompleted(cDto, EventArgs.Empty);
