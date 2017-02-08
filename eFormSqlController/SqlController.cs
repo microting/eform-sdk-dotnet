@@ -39,6 +39,25 @@ namespace eFormSqlController
                 #region SettingCount
                 if (SettingCount() < 11)
                 {
+                    string[] lines = new string[] { };
+                    try
+                    {
+                        // This line is here for "normal" programs.
+                        lines = File.ReadAllLines(@"input\first_run.txt");
+                    }
+                    catch (Exception)
+                    {
+                        try
+                        {
+                            // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
+                            lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(@"input\first_run.txt not found", ex);
+                        }
+                    }
+
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
 
                     SettingAdd(1, "firstRunDone");
@@ -87,7 +106,24 @@ namespace eFormSqlController
                 #region SettingRead
                 if (!bool.Parse(SettingRead("firstRunDone")))
                 {
-                    var lines = File.ReadAllLines("input\\first_run.txt");
+                    string[] lines = new string[] { };
+                    try
+                    {
+                        // This line is here for "normal" programs.
+                        lines = File.ReadAllLines(@"input\first_run.txt");
+                    }
+                    catch (Exception)
+                    {
+                        try
+                        {
+                            // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
+                            lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(@"input\first_run.txt not found", ex);
+                        }
+                    }
                     string name;
                     string value;
 
