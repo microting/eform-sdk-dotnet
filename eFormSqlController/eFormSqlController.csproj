@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MigrationsContextFactory .cs" />
     <Compile Include="table\cases.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
