@@ -154,7 +154,7 @@ namespace eFormRequest
         }
 
         public Date(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            string minValue, string maxValue, string defaultValue)
+            DateTime minValue, DateTime maxValue, string defaultValue)
         {
             Id = id;
             Mandatory = mandatory;
@@ -173,8 +173,8 @@ namespace eFormRequest
 
         #region var
         public string DefaultValue { get; set; }
-        public string MaxValue { get; set; }
-        public string MinValue { get; set; }
+        public DateTime MaxValue { get; set; }
+        public DateTime MinValue { get; set; }
         #endregion
     }
     #endregion

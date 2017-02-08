@@ -525,8 +525,8 @@ namespace eFormCore
                             dataE.Description = new CDataValue();
                             dataE.Description.InderValue = DateTime.Now.ToShortDateString() + "/" + DateTime.Now.ToLongTimeString();
 
-                            date.MinValue = DateTime.Now.ToString();
-                            date.MaxValue = DateTime.Now.AddDays(1).ToString();
+                            date.MinValue = DateTime.Now;
+                            date.MaxValue = DateTime.Now.AddDays(1);
                             date.DefaultValue = DateTime.Now.AddMinutes(1).ToString("u");
 
 

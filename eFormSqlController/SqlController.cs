@@ -2240,8 +2240,8 @@ namespace eFormSqlController
                         case "Date":
                             Date date = (Date)dataItem;
                             field.default_value = date.DefaultValue;
-                            field.min_value = date.MinValue;
-                            field.max_value = date.MaxValue;
+                            field.min_value = date.MinValue.ToString("yyyy-MM-dd HH:mm:ss");
+                            field.max_value = date.MaxValue.ToString("yyyy-MM-dd HH:mm:ss");
                             break;
 
                         case "None":
@@ -2434,7 +2434,7 @@ namespace eFormSqlController
 
                         case "Date":
                             lstDataItem.Add(new Date(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
-                                f.min_value, f.max_value, f.default_value));
+                                DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value));
                             break;
 
                         case "None":
