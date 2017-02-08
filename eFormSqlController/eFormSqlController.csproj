@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MigrationsContextFactory .cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\cases.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
@@ -103,7 +104,6 @@
       <Name>eFormShared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

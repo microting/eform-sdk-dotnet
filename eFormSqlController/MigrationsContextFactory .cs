@@ -14,7 +14,7 @@ namespace eFormSqlController
 
         public MicrotingDb Create()
         {
-            string serverConnectionString =  File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\Compiled\input\sql_connection.txt").Trim();
+            string serverConnectionString =  File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"..\..\Compiled\input\sql_connection.txt").Trim();
 
             return new MicrotingDb(serverConnectionString);
         }
