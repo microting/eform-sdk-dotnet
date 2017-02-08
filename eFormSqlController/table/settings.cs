@@ -6,8 +6,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("setting")]
-    public partial class setting
+    public partial class settings
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }

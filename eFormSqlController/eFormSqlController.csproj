@@ -74,7 +74,7 @@
     <Compile Include="table\notifications.cs" />
     <Compile Include="table\outlook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="table\setting.cs" />
+    <Compile Include="table\settings.cs" />
     <Compile Include="table\version_units.cs" />
     <Compile Include="table\version_site_workers.cs" />
     <Compile Include="table\site_workers.cs" />

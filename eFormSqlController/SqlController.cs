@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Data.Entity.Migrations;
+using eFormSqlController.Migrations;
+using System.Data.Entity.Infrastructure;
 
 namespace eFormSqlController
 {
@@ -21,6 +24,10 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
+            //var configuration = new Configuration();
+            //configuration.TargetDatabase = new DbConnectionInfo(connectionString);
+            //var migrator = new DbMigrator(configuration);
+            //migrator.Update();
             connectionStr = connectionString;
 
             using (var db = new MicrotingDb(connectionStr))
@@ -1953,7 +1960,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    setting match = db.setting.Single(x => x.name == variableName);
+                    settings match = db.settings.Single(x => x.name == variableName);
                     return match.value;
                 }
             }
@@ -1969,7 +1976,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    setting match = db.setting.Single(x => x.name == variableName);
+                    settings match = db.settings.Single(x => x.name == variableName);
                     match.value = variableValue;
                     db.SaveChanges();
                 }
@@ -3220,7 +3227,7 @@ namespace eFormSqlController
         {
             using (var db = new MicrotingDb(connectionStr))
             {
-                return db.setting.Count();
+                return db.settings.Count();
             }
         }
 
@@ -3228,11 +3235,11 @@ namespace eFormSqlController
         {
             using (var db = new MicrotingDb(connectionStr))
             {
-                setting set = new setting();
+                settings set = new settings();
                 set.id = id;
                 set.name = name;
 
-                db.setting.Add(set);
+                db.settings.Add(set);
                 db.SaveChanges();
             }
         }
