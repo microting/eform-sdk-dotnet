@@ -26,22 +26,24 @@ namespace eFormSqlController
             using (var db = new MicrotingDb(connectionStr))
             {
                 #region SettingCount
-                if (SettingCount() < 10)
+                if (SettingCount() < 11)
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
 
                     SettingAdd(1, "firstRunDone");
-                    SettingAdd(2, "logLevel");
-                    SettingAdd(3, "comToken");
-                    SettingAdd(4, "comAddress");
-                    SettingAdd(5, "comAddressBasic");
-                    SettingAdd(6, "organizationId");
-                    SettingAdd(7, "subscriberToken");
-                    SettingAdd(8, "subscriberAddress");
-                    SettingAdd(9, "subscriberName");
-                    SettingAdd(10, "fileLocation");
+                    SettingAdd(2, "knownSitesDone");
+                    SettingAdd(3, "logLevel");
+                    SettingAdd(4, "comToken");
+                    SettingAdd(5, "comAddress");
+                    SettingAdd(6, "comAddressBasic");
+                    SettingAdd(7, "organizationId");
+                    SettingAdd(8, "subscriberToken");
+                    SettingAdd(9, "subscriberAddress");
+                    SettingAdd(10, "subscriberName");
+                    SettingAdd(11, "fileLocation");
 
                     SettingUpdate("firstRunDone", "false");
+                    SettingUpdate("knownSitesDone", "false");
                 }
                 #endregion
 
@@ -95,8 +97,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public
-        #region templat
+        #region public templat
         public int                  TemplatCreate(MainElement mainElement)
         {
             try
@@ -208,7 +209,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region case
+        #region public case
         public void                 CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
         {
             try
@@ -637,6 +638,7 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region public "replies
         #region check
         public void                 ChecksCreate(Response response, string xmlString)
         {
@@ -1127,15 +1129,17 @@ namespace eFormSqlController
             }
         }
         #endregion
+        #endregion
 
+        #region public sites
         #region site
-        public List<Site_Dto> SiteGetAll()
+        public List<SiteName_Dto> SiteGetAll()
         {
             throw new NotImplementedException();
 
         }
 
-        public List<Simple_Site_Dto> SimpleSiteGetAll()
+        public List<Site_Dto> SimpleSiteGetAll()
         {
             throw new NotImplementedException();
 
@@ -1176,7 +1180,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Dto SiteRead(int microting_uid)
+        public SiteName_Dto SiteRead(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1189,7 +1193,7 @@ namespace eFormSqlController
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site != null)
-                        return new Site_Dto((int)site.id, (int)site.microting_uid, site.name);
+                        return new SiteName_Dto((int)site.microting_uid, site.name);
                     else
                         return null; 
                 }
@@ -1201,7 +1205,7 @@ namespace eFormSqlController
             }
         }
 
-        public Simple_Site_Dto SiteReadSimple(int microting_uid)
+        public Site_Dto SiteReadSimple(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1216,7 +1220,7 @@ namespace eFormSqlController
                     units unit = db.units.Where(x => x.site_id == site.id).ToList().First();
 
                     if (site != null)
-                        return new Simple_Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code);
+                        return new Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code);
                     else
                         return null;
                 }
@@ -1349,7 +1353,7 @@ namespace eFormSqlController
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (worker != null)
-                        return new Worker_Dto((int)worker.id, (int)worker.microting_uid, worker.first_name, worker.last_name, worker.email);
+                        return new Worker_Dto((int)worker.microting_uid, worker.first_name, worker.last_name, worker.email);
                     else
                         return null;
                 }
@@ -1434,7 +1438,7 @@ namespace eFormSqlController
         #endregion
 
         #region site_worker
-        public int SiteWorkerCreate(int microting_uid, int site_id, int worker_id)
+        public int SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1443,14 +1447,17 @@ namespace eFormSqlController
                 {
                     //TriggerLog(methodName + " called");
 
+                    int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
+                    int localWorkerId = db.workers.Single(x => x.microting_uid == workerUId).id;
+
                     site_workers site_worker = new site_workers();
                     site_worker.workflow_state = "created";
                     site_worker.version = 1;
                     site_worker.created_at = DateTime.Now;
                     site_worker.updated_at = DateTime.Now;
-                    site_worker.microting_uid = microting_uid;
-                    site_worker.site_id = site_id;
-                    site_worker.worker_id = worker_id;
+                    site_worker.microting_uid = microtingUId;
+                    site_worker.site_id = localSiteId;
+                    site_worker.worker_id = localWorkerId;
 
 
                     db.site_workers.Add(site_worker);
@@ -1481,7 +1488,7 @@ namespace eFormSqlController
                     site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site_worker != null)
-                        return new Site_Worker_Dto((int)site_worker.id, (int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
+                        return new Site_Worker_Dto((int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
                     else
                         return null;
                 }
@@ -1564,7 +1571,7 @@ namespace eFormSqlController
         #endregion
 
         #region unit
-        public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteId)
+        public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1572,6 +1579,7 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     //TriggerLog(methodName + " called");
+                    int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
 
                     units unit = new units();
                     unit.workflow_state = "created";
@@ -1581,7 +1589,7 @@ namespace eFormSqlController
                     unit.microting_uid = microtingUid;
                     unit.customer_no = customerNo;
                     unit.otp_code = otpCode;
-                    unit.site_id = siteId;
+                    unit.site_id = localSiteId;
 
 
                     db.units.Add(unit);
@@ -1612,7 +1620,7 @@ namespace eFormSqlController
                     units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
 
                     if (unit != null)
-                        return new Unit_Dto((int)unit.id, (int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
+                        return new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
                     else
                         return null;
                 }
@@ -1693,7 +1701,9 @@ namespace eFormSqlController
             }
         }
         #endregion
+        #endregion
 
+        #region public entities
         #region entityGroup
         public int          EntityGroupCreate(string name, string entityType)
         {
@@ -1930,8 +1940,9 @@ namespace eFormSqlController
             }
         }
         #endregion
+        #endregion
 
-        #region settings
+        #region public settings
         public string   SettingRead(string variableName)
         {
             try
@@ -1964,7 +1975,6 @@ namespace eFormSqlController
                 throw new Exception("SettingUpdate failed.", ex);
             }
         }
-        #endregion
         #endregion
 
         #region private
@@ -3075,50 +3085,100 @@ namespace eFormSqlController
             }
         }
 
-        public bool     UnitTest_CleanAndResetDB()
+        public bool         UnitTest_CleanAndResetAllOfDB()
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[cases]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_cases]");
+                    {
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[cases]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_cases]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_sites]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_sites]");
+                    }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_sites]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_sites]");
+                    {
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_values]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_values]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_lists]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_lists]");
+                    }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_values]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_values]");
+                    {
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_groups]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_groups]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_items]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_items]");
+                    }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_lists]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_lists]");
+                    { 
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[fields]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_fields]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_values]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_field_values]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[data_uploaded]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_data_uploaded]");
+                    }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_groups]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_groups]");
-                    //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_items]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_items]");
-                    //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_values]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_field_values]");
-                    //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[fields]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_fields]");
+                    {
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_sites]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[site_workers]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_site_workers]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[units]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_units]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[workers]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_workers]");
+                    }
                     //---
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[notifications]");
                     //---
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[outlook]");
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_sites]");
-                    //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[data_uploaded]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_data_uploaded]");
-                    //---
                     //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
                     //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
                     //---
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string exStr = ex.ToString();
+                return false;
+            }
+        }
+
+        public bool         UnitTest_CleanAllSitesTabels()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //---
+                    {
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_sites]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[site_workers]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_site_workers]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[units]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_units]");
+                        //---
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[workers]");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_workers]");
+                    }
 
                     return true;
                 }

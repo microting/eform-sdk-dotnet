@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 
+using eFormShared;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -190,31 +192,53 @@ namespace eFormCommunicator
             return http.SiteDelete(siteId);
         }
 
-        public string      SiteLoadAllFromRemote()
+        public List<SiteName_Dto>  SiteLoadAllFromRemote()
         {
-            return http.SiteLoadAllFromRemote();
+            var parsedData = JRaw.Parse(http.SiteLoadAllFromRemote());
+            List<SiteName_Dto> lst = new List<SiteName_Dto>();
+
+            foreach (JToken item in parsedData)
+            {
+                string name = item["name"].ToString();
+                int microtingUid = int.Parse(item["id"].ToString());
+                SiteName_Dto temp = new SiteName_Dto(microtingUid, name);
+                lst.Add(temp);
+            }
+            return lst;
         }
         #endregion
 
         #region public worker
-        public string          WorkerCreate(string firstName, string lastName, string email)
+        public string           WorkerCreate(string firstName, string lastName, string email)
         {
             return http.WorkerCreate(firstName, lastName, email);
         }
 
-        public bool         WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        public bool             WorkerUpdate(int workerId, string firstName, string lastName, string email)
         {
             return http.WorkerUpdate(workerId, firstName, lastName, email);
         }
 
-        public bool         WorkerDelete(int workerId)
+        public bool             WorkerDelete(int workerId)
         {
             return http.WorkerDelete(workerId);
         }
 
-        public string       WorkerLoadAllFromRemote()
+        public List<Worker_Dto> WorkerLoadAllFromRemote()
         {
-            return http.WorkerLoadAllFromRemote();
+            var parsedData = JRaw.Parse(http.WorkerLoadAllFromRemote());
+            List<Worker_Dto> lst = new List<Worker_Dto>();
+
+            foreach (JToken item in parsedData)
+            {
+                string firstName = item["first_name"].ToString();
+                string lastName = item["last_name"].ToString();
+                string email = item["email"].ToString();
+                int microtingUid = int.Parse(item["id"].ToString());
+                Worker_Dto temp = new Worker_Dto(microtingUid, firstName, lastName, email);
+                lst.Add(temp);
+            }
+            return lst;
         }
         #endregion
 
@@ -234,9 +258,20 @@ namespace eFormCommunicator
             return http.SiteWorkerDelete(workerId);
         }
 
-        public string SiteWorkerLoadAllFromRemote()
+        public List<Site_Worker_Dto> SiteWorkerLoadAllFromRemote()
         {
-            return http.SiteWorkerLoadAllFromRemote();
+            var parsedData = JRaw.Parse(http.SiteWorkerLoadAllFromRemote());
+            List<Site_Worker_Dto> lst = new List<Site_Worker_Dto>();
+
+            foreach (JToken item in parsedData)
+            {
+                int microtingUid = int.Parse(item["id"].ToString());
+                int siteUId = int.Parse(item["site_id"].ToString());
+                int workerUId = int.Parse(item["user_id"].ToString());
+                Site_Worker_Dto temp = new Site_Worker_Dto(microtingUid, siteUId, workerUId);
+                lst.Add(temp);
+            }
+            return lst;
         }
         #endregion
 
@@ -246,17 +281,40 @@ namespace eFormCommunicator
             return http.UnitRequestOtp(unitId);
         }
 
-        public string UnitLoadAllFromRemote()
+        public List<Unit_Dto> UnitLoadAllFromRemote(int customerNo)
         {
-            return http.UnitLoadAllFromRemote();
+            var parsedData = JRaw.Parse(http.UnitLoadAllFromRemote());
+            List<Unit_Dto> lst = new List<Unit_Dto>();
+
+            foreach (JToken item in parsedData)
+            {
+                int microtingUid = int.Parse(item["id"].ToString());
+                int siteUId = int.Parse(item["site_id"].ToString());
+
+                bool otpEnabled = bool.Parse(item["otp_enabled"].ToString());
+                int otpCode = 0;
+                if (otpEnabled)
+                {
+                    otpCode = int.Parse(item["otp_code"].ToString());
+                }
+
+                Unit_Dto temp = new Unit_Dto(microtingUid, customerNo, otpCode, siteUId);
+                lst.Add(temp);
+            }
+            return lst;
         }
         #endregion
 
         #region public organization      
 
-        public string OrganizationLoadAllFromRemote()
+        public int OrganizationLoadAllFromRemote()
         {
-            return http.OrganizationLoadAllFromRemote();
+            JToken orgResult = JRaw.Parse(http.OrganizationLoadAllFromRemote());
+
+            int customerNo = int.Parse(orgResult.First.First["customer_no"].ToString());
+            // First() or First?
+
+            return customerNo;
         }
         #endregion
 

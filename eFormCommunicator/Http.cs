@@ -388,7 +388,7 @@ namespace eFormCommunicator
         #endregion
 
         #region internal site
-        internal string SiteCreate(string name)
+        internal string     SiteCreate(string name)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name });
             WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
@@ -426,7 +426,7 @@ namespace eFormCommunicator
             return true;
         }
 
-        internal string SiteLoadAllFromRemote()
+        internal string     SiteLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites?token=" + token);
             request.Method = "GET";
@@ -436,7 +436,7 @@ namespace eFormCommunicator
         #endregion
 
         #region internal Worker
-        internal string        WorkerCreate(string firstName, string lastName, string email)
+        internal string     WorkerCreate(string firstName, string lastName, string email)
         {
             JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
             WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
@@ -513,7 +513,7 @@ namespace eFormCommunicator
             return true;
         }
 
-        internal string SiteWorkerLoadAllFromRemote()
+        internal string     SiteWorkerLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(comAddressBasic + "/v1/workers?token=" + token);
             request.Method = "GET";
@@ -523,7 +523,7 @@ namespace eFormCommunicator
         #endregion
 
         #region internal Unit
-        internal int UnitRequestOtp(int id)
+        internal int        UnitRequestOtp(int id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { unit_id = id } });
             WebRequest request = WebRequest.Create(comAddressBasic + "/v1/units/"+id+"?token=" + token + "&new_otp=true" + "&model=" + content_to_microting.ToString());
@@ -542,7 +542,7 @@ namespace eFormCommunicator
             return response;
         }
 
-        internal string UnitLoadAllFromRemote()
+        internal string     UnitLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(comAddressBasic + "/v1/units?token=" + token);
             request.Method = "GET";
@@ -552,10 +552,9 @@ namespace eFormCommunicator
         #endregion
 
         #region internal Organization
-
         internal string OrganizationLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create("https://basic.microting.com/v1/organizations?token=" + token);
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/organizations?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
