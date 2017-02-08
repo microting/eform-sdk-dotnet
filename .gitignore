@@ -325,3 +325,6 @@ paket-files/
 Complied/input/sql_connection.txt
 Complied/input/first_run.txt
 Complied/log/*.*
+*.txt
+*.jpeg
+SourceCode/DLL/*

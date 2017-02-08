@@ -409,6 +409,15 @@ namespace eFormCommunicator
 
         internal bool       SiteUpdate(int id, string name)
         {
+            JObject content_to_microting = JObject.FromObject(new { name = name });
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites/" + id + "?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "PUT";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
             return true;
         }
 
@@ -448,6 +457,15 @@ namespace eFormCommunicator
 
         internal bool       WorkerUpdate(int id, string firstName, string lastName, string email)
         {
+            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users/" + id + "?token=" + token + "&model=" + content_to_microting.ToString());
+            request.Method = "PUT";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
             return true;
         }
 
@@ -507,7 +525,21 @@ namespace eFormCommunicator
         #region internal Unit
         internal int        UnitRequestOtp(int id)
         {
-            return 1;
+            JObject content_to_microting = JObject.FromObject(new { model = new { unit_id = id } });
+            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/units/"+id+"?token=" + token + "&new_otp=true" + "&model=" + content_to_microting.ToString());
+            request.Method = "PUT";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            int response = int.Parse(JRaw.Parse(PostToServer(request))["otp_code"].ToString());
+
+            return response;
         }
 
         internal string     UnitLoadAllFromRemote()
@@ -566,6 +598,26 @@ namespace eFormCommunicator
             Stream dataRequestStream = request.GetRequestStream();
             dataRequestStream.Write(content, 0, content.Length);
             dataRequestStream.Close();
+
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
+
+
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            string newUrl = "";
+            if (response.StatusCode == HttpStatusCode.Redirect ||
+                response.StatusCode == HttpStatusCode.MovedPermanently)
+            {
+                newUrl = response.Headers["Location"];
+            }
+
+            return newUrl;
+        }
+
+        private string PostToServerGetRedirect(WebRequest request)
+        {
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
             httpRequest.CookieContainer = new CookieContainer();
