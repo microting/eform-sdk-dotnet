@@ -170,21 +170,17 @@ namespace eFormCore
         #region public
         public void Run()
         {
+            Setup();
+
             core.Start(serverConnectionString);
-            core.SiteCreateSimple("Site's name", "User first", "User last", "");
 
+            Thread syncThread = new Thread(() => Sync());
+            syncThread.Start();
 
-            //Setup();
+            Console.WriteLine("Program running. Press any key to close");
+            Console.ReadKey();
 
-            //core.Start(serverConnectionString);
-
-            //Thread syncThread = new Thread(() => Sync());
-            //syncThread.Start();
-
-            //Console.WriteLine("Program running. Press any key to close");
-            //Console.ReadKey();
-
-            //Close();
+            Close();
         }
 
         public void Close()
@@ -247,6 +243,9 @@ namespace eFormCore
                         throw new Exception("CleanUp failed", ex);
                     }
                     #endregion
+
+                    core.Close();
+                    core.Start(serverConnectionString);
 
                     int copiesOnTable = 5;
 
@@ -539,7 +538,7 @@ namespace eFormCore
                     List<int> siteShortList = new List<int>();
                     siteShortList.Add(siteId);
 
-                    core.CaseCreate(mainElement, "ReversedCase", siteShortList, GenerateUId(), true);
+                    core.CaseCreate(mainElement, "", siteShortList, GenerateUId(), true);
                 }
             }
 

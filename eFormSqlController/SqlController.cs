@@ -210,12 +210,14 @@ namespace eFormSqlController
         #endregion
 
         #region public case
-        public void                 CheckListSitesCreate(int checkListId, int siteId, string microtingUId)
+        public void                 CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
+
                     check_list_sites cLS = new check_list_sites();
                     cLS.check_list_id = checkListId;
                     cLS.created_at = DateTime.Now;
@@ -239,17 +241,18 @@ namespace eFormSqlController
             }
         }
 
-        public int                  CaseCreate(int checkListId, int siteId, string microtingUId, string caseUId, string custom)
+        public int                  CaseCreate(int checkListId, int siteUId, string microtingUId, string caseUId, string custom)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_lists chkLst = db.check_lists.Single(x => x.id == checkListId);
+                    string caseType = db.check_lists.Single(x => x.id == checkListId).case_type;
+                    int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
 
                     cases aCase = new cases();
                     aCase.status = 66;
-                    aCase.type = chkLst.case_type;
+                    aCase.type = caseType;
                     aCase.created_at = DateTime.Now;
                     aCase.updated_at = DateTime.Now;
                     aCase.check_list_id = checkListId;
@@ -339,10 +342,9 @@ namespace eFormSqlController
                     if (aCase.workflow_state == "removed")
                         stat = "Deleted";
                     #endregion
-                    int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
 
+                    int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
                     Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
-                    //Case_Dto cDto = new Case_Dto(stat, (int)aCase.site_id, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
                     return cDto;
                 }
             }
@@ -461,18 +463,20 @@ namespace eFormSqlController
             }
         }
 
-        public void                 CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int doneByUserId, int unitId)
+        public void                 CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int userUId, int unitUId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     cases caseStd = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == null);
+                    int userId = db.workers.Single(x => x.microting_uid == userUId).id;
+                    int unitId = db.units.Single(x => x.microting_uid == unitUId).id;
 
                     caseStd.status = 100;
                     caseStd.done_at = doneAt;
                     caseStd.updated_at = DateTime.Now;
-                    caseStd.done_by_user_id = doneByUserId;
+                    caseStd.done_by_user_id = userId;
                     caseStd.workflow_state = "created";
                     caseStd.version = caseStd.version + 1;
                     caseStd.unit_id = unitId;
@@ -3145,8 +3149,8 @@ namespace eFormSqlController
                     //---
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[outlook]");
                     //---
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
-                    //db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
                     //---
 
                     return true;

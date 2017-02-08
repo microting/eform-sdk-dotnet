@@ -60,6 +60,8 @@ namespace eFormCore
             Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
             #endregion
 
+            core.Start(serverConnectionString);
+
             while (true)
             {
                 #region text

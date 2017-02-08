@@ -1374,7 +1374,6 @@ namespace eFormCore
             }
         }
 
-
         public Unit_Dto        UnitRequestOtp(int unitId)
         {
             string methodName = t.GetMethodName();
@@ -1884,9 +1883,9 @@ namespace eFormCore
 
                                                         if (lastId == null)
                                                         {
-                                                            int unitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
-                                                            int workerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
-                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerId, unitId);
+                                                            int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
+                                                            int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
+                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
 
                                                             #region retract case, thereby completing the process
 
