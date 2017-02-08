@@ -29,7 +29,24 @@ Several examples can be found in the Program.cs file:
 
   - Visual Studio 2008
   - MS SQL Server Management Studio
+  
+## Known bugs as of January 8th 2017
 
+  - The Core.TemplatFromXml(string xmlString) are not able to parse DataItems of the following types:
+	- Date
+	- ShowPdf
+	- EntitySearch
+	- EntitySelect
+
+## Changelog
+
+  - Version: 1.3.0 *(January 8th 2017*)
+	- **Breaking changes to db structure.**
+	- Introducing usage of EntityFramework for migrating db.
+	- Making db use keys + foeing keys, which enables use of EntityFramework.
+	- Loading of existing sites/units/workers from Microting API.
+	
+	
 ## License
 
 The MIT License (MIT)
