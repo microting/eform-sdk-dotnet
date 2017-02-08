@@ -177,15 +177,15 @@ namespace eFormCore
 
         //---------------------------------------------------------------------------------------
 
-        List<Site_Dto>  SiteGetAll();
+        List<SiteName_Dto>  SiteGetAll();
 
-        List<Simple_Site_Dto> SimpleSiteGetAll();
+        List<Site_Dto> SimpleSiteGetAll();
 
-        Simple_Site_Dto SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
+        Site_Dto SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
 
-        Site_Dto        SiteRead(int microting_uid);
+        SiteName_Dto        SiteRead(int microting_uid);
 
-        Simple_Site_Dto SiteReadSimple(int microting_uid);
+        Site_Dto SiteReadSimple(int microting_uid);
 
         bool            SiteUpdate(int microting_uid, string name);
 

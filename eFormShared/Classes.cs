@@ -148,25 +148,25 @@ namespace eFormShared
     }
     #endregion
 
-    #region simple_site_Dto
-    public class Simple_Site_Dto
+    #region Site_Dto
+    public class Site_Dto
     {
         #region con
-        public Simple_Site_Dto()
+        public Site_Dto()
         {
         }
 
-        public Simple_Site_Dto(int microtingUid, string name, string userFirstName, string userLastName, int customerNo, int otpCode)
+        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName, int customerNo, int otpCode)
         {
-            if (name == null)
-                name = "";
+            if (siteName == null)
+                siteName = "";
             if (userFirstName == null)
                 userFirstName = "";
             if (userLastName == null)
                 userLastName = "";
 
-            MicrotingUid = microtingUid;
-            Name = name;
+            SiteId = siteId;
+            SiteName = siteName;
             FirstName = userFirstName;
             LastName = userLastName;
             CustomerNo = customerNo;
@@ -178,12 +178,12 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int MicrotingUid { get; }
+        public int SiteId { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string Name { get; }
+        public string SiteName { get; }
 
         /// <summary>
         ///...
@@ -209,27 +209,26 @@ namespace eFormShared
 
         public override string ToString()
         {
-            return "Site:" + MicrotingUid + " / SiteName:" + Name + " / FirstName:" + FirstName + " / LastName:" + LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + ".";
+            return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" + LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + ".";
         }
     }
     #endregion
 
-    #region Site_Dto
-    public class Site_Dto
+    #region SiteName_Dto
+    public class SiteName_Dto
     {
         #region con
-        public Site_Dto()
+        public SiteName_Dto()
         {
         }
 
-        public Site_Dto(int id, int microtingUid, string name)
+        public SiteName_Dto(int siteUId, string siteName)
         {
-            if (name == null)
-                name = "";
+            if (siteName == null)
+                siteName = "";
 
-            MicrotingUid = microtingUid;
-            Id = id;
-            Name = name;
+            SiteUId = siteUId;
+            SiteName = siteName;
         }
         #endregion
 
@@ -237,23 +236,18 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int Id { get; }
+        public int SiteUId { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int MicrotingUid { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string Name { get; }
+        public string SiteName { get; }
        
         #endregion
 
         public override string ToString()
         {
-            return "Site:" + MicrotingUid + " / SiteName:" + Name + ".";
+            return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + ".";
         }
     }
     #endregion
@@ -266,7 +260,7 @@ namespace eFormShared
         {
         }
 
-        public Worker_Dto(int id, int microtingUid, string firstName, string lastName, string email)
+        public Worker_Dto(int workerUId, string firstName, string lastName, string email)
         {
             if (firstName == null)
                 firstName = "";
@@ -277,8 +271,7 @@ namespace eFormShared
             if (email == null)
                 email = "";
 
-            Id = id;
-            MicrotingUid = microtingUid;
+            WorkerUId = workerUId;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
@@ -289,11 +282,7 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int Id { get; }
-        /// <summary>
-        ///...
-        /// </summary>
-        public int MicrotingUid { get; }
+        public int WorkerUId { get; }
 
         /// <summary>
         ///...
@@ -314,7 +303,7 @@ namespace eFormShared
 
         public override string ToString()
         {
-            return "Worker:" + MicrotingUid + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" + Email + ".";
+            return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" + Email + ".";
         }
     }
     #endregion
@@ -327,13 +316,11 @@ namespace eFormShared
         {
         }
 
-        public Site_Worker_Dto(int id, int microtingUid, int siteId, int workerId)
+        public Site_Worker_Dto(int microtingUId, int siteUId, int workerUId)
         {
-
-            Id = id;
-            MicrotingUid = microtingUid;
-            SiteId = siteId;
-            WorkerId = workerId;
+            MicrotingUId = microtingUId;
+            SiteUId = siteUId;
+            WorkerUId = workerUId;
         }
         #endregion
 
@@ -341,27 +328,23 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int Id { get; }
-        /// <summary>
-        ///...
-        /// </summary>
-        public int MicrotingUid { get; }
+        public int MicrotingUId { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int SiteId { get; }
+        public int SiteUId { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int WorkerId { get; }
+        public int WorkerUId { get; }
 
         #endregion
 
         public override string ToString()
         {
-            return "Site:" + MicrotingUid + " / SiteId:" + SiteId + " / WorkerId:" + WorkerId + ".";
+            return "MicrotingUId:" + MicrotingUId + " / SiteUId:" + SiteUId + " / WorkerUId:" + WorkerUId + ".";
         }
     }
     #endregion
@@ -374,14 +357,12 @@ namespace eFormShared
         {
         }
 
-        public Unit_Dto(int id, int microtingUid, int customer_no, int otp_code, int site_id)
+        public Unit_Dto(int unitUId, int customerNo, int otpCode, int siteUId)
         {
-
-            Id = id;
-            MicrotingUid = microtingUid;
-            CustomerNo = customer_no;
-            OtpCode = otp_code;
-            SiteId = site_id;
+            UnitUId = unitUId;
+            CustomerNo = customerNo;
+            OtpCode = otpCode;
+            SiteUId = siteUId;
         }
         #endregion
 
@@ -389,11 +370,7 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int Id { get; }
-        /// <summary>
-        ///...
-        /// </summary>
-        public int MicrotingUid { get; }
+        public int UnitUId { get; }
 
         /// <summary>
         ///...
@@ -408,13 +385,13 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int SiteId { get; }
+        public int SiteUId { get; }
 
         #endregion
 
         public override string ToString()
         {
-            return "Unit:" + MicrotingUid + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + " / SiteId:" + SiteId + ".";
+            return "UnitUId:" + UnitUId + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + " / SiteUId:" + SiteUId + ".";
         }
     }
     #endregion

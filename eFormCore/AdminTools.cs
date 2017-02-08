@@ -138,7 +138,7 @@ namespace eFormCore
             foreach (string mUId in lstEntityMUIds)
                 core.EntityGroupDelete(mUId);
 
-            sqlCon.UnitTest_CleanAndResetDB();
+            sqlCon.UnitTest_CleanAndResetAllOfDB();
         }
 
         #region events

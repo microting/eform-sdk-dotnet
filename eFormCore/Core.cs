@@ -112,6 +112,8 @@ namespace eFormCore
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
 
+
+                    #region settings read and checked
                     comToken = sqlController.SettingRead("comToken");
                     comAddress = sqlController.SettingRead("comAddress");
                     comAddressBasic = sqlController.SettingRead("comAddressBasic");
@@ -122,35 +124,22 @@ namespace eFormCore
                     fileLocation = sqlController.SettingRead("fileLocation");
                     logLevel = bool.Parse(sqlController.SettingRead("logLevel"));
                     this.serverConnectionString = serverConnectionString;
-
-
                     TriggerLog("Settings read");
 
-                    if (string.IsNullOrEmpty(comToken))
-                        throw new ArgumentException("comToken is not allowed to be null or empty");
 
-                    if (string.IsNullOrEmpty(comAddress))
-                        throw new ArgumentException("comAddress is not allowed to be null or empty");
-
-                    if (string.IsNullOrEmpty(organizationId))
-                        throw new ArgumentException("organizationId is not allowed to be null or empty");
-
-                    if (string.IsNullOrEmpty(subscriberToken))
-                        throw new ArgumentException("subscriberToken is not allowed to be null or empty");
-
-                    if (string.IsNullOrEmpty(subscriberAddress))
-                        throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
-
-                    if (string.IsNullOrEmpty(subscriberName))
-                        throw new ArgumentException("subscriberName is not allowed to be null or empty");
-                    if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å"))
-                        throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
-
-                    if (string.IsNullOrEmpty(fileLocation))
-                        throw new ArgumentException("fileLocation is not allowed to be null or empty");
-
+                    if (string.IsNullOrEmpty(comToken)) throw new ArgumentException("comToken is not allowed to be null or empty");
+                    if (string.IsNullOrEmpty(comAddress)) throw new ArgumentException("comAddress is not allowed to be null or empty");
+                    if (string.IsNullOrEmpty(organizationId)) throw new ArgumentException("organizationId is not allowed to be null or empty");
+                    if (string.IsNullOrEmpty(subscriberToken)) throw new ArgumentException("subscriberToken is not allowed to be null or empty");
+                    if (string.IsNullOrEmpty(subscriberAddress)) throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
+                    if (string.IsNullOrEmpty(subscriberName)) throw new ArgumentException("subscriberName is not allowed to be null or empty");
+                    if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å")) throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
+                    if (string.IsNullOrEmpty(fileLocation)) throw new ArgumentException("fileLocation is not allowed to be null or empty");
                     TriggerLog("Settings checked");
+                    #endregion
 
+
+                    #region core.Start()
                     TriggerLog("");
                     TriggerLog("");
                     TriggerLog("###################################################################################################################");
@@ -158,7 +147,8 @@ namespace eFormCore
                     TriggerLog("###################################################################################################################");
                     TriggerLog("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
                         " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logLevel.ToString());
-                    TriggerLog("Controller started");
+                    TriggerLog("Core started");
+                    #endregion
 
 
                     //communicators
@@ -179,6 +169,54 @@ namespace eFormCore
                     //communicators
                     excelController = new ExcelController();
                     TriggerLog("Excel (Office) started");
+
+
+                    #region known sites
+                    if (!bool.Parse(sqlController.SettingRead("knownSitesDone")))
+                    {
+                        sqlController.UnitTest_CleanAllSitesTabels();
+
+                        foreach (var item in communicator.SiteLoadAllFromRemote())
+                        {
+                            SiteName_Dto siteDto = sqlController.SiteRead(item.SiteUId);
+                            if (siteDto == null)
+                            {
+                                sqlController.SiteCreate(item.SiteUId, item.SiteName);
+                            }
+                        }
+
+                        foreach (var item in communicator.WorkerLoadAllFromRemote())
+                        {
+                            Worker_Dto workerDto = sqlController.WorkerRead(item.WorkerUId);
+                            if (workerDto == null)
+                            {
+                                sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
+                            }
+                        }
+
+                        foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
+                        {
+                            Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(item.MicrotingUId);
+                            if (siteWorkerDto == null)
+                            {
+                                sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
+                            }
+                        }
+
+                        int customerNo = communicator.OrganizationLoadAllFromRemote();
+                        foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
+                        {
+                            Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);
+                            if (unitDto == null)
+                            {
+                                sqlController.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
+                            }
+                        }
+
+                        TriggerLog("Known sites added to Database");
+                        sqlController.SettingUpdate("knownSitesDone", "true");
+                    }
+                    #endregion
 
 
                     coreRunning = true;
@@ -510,16 +548,10 @@ namespace eFormCore
                             string mUId = SendXml(mainElement, siteId);
 
                             if (reversed == false)
-                            {
-                                int localSiteId = sqlController.SiteRead(siteId).Id;
-                                sqlController.CaseCreate(mainElement.Id, localSiteId, mUId, caseUId, custom);
-                            }                              
+                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, caseUId, custom);
                             else
-                            {
-                                int localSiteId = sqlController.SiteRead(siteId).Id;
-                                sqlController.CheckListSitesCreate(mainElement.Id, localSiteId, mUId);
-                            }
-                                
+                                sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
+
 
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                             HandleCaseCreated(cDto, EventArgs.Empty);
@@ -887,17 +919,17 @@ namespace eFormCore
         #endregion
 
         #region sites
-        public List<Site_Dto>   SiteGetAll()
+        public List<SiteName_Dto>   SiteGetAll()
         {
             throw new NotImplementedException();
         }
 
-        public List<Simple_Site_Dto> SimpleSiteGetAll()
+        public List<Site_Dto> SimpleSiteGetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Simple_Site_Dto  SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
+        public Site_Dto  SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -954,7 +986,7 @@ namespace eFormCore
             }
         }
 
-        public Simple_Site_Dto  SiteReadSimple(int siteId)
+        public Site_Dto  SiteReadSimple(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -976,7 +1008,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto         SiteCreate(string name)
+        public SiteName_Dto         SiteCreate(string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1009,7 +1041,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto         SiteRead(int siteId)
+        public SiteName_Dto         SiteRead(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1202,7 +1234,7 @@ namespace eFormCore
         #endregion
 
         #region site_workers
-        public Site_Worker_Dto SiteWorkerCreate(Site_Dto siteDto, Worker_Dto workerDto)
+        public Site_Worker_Dto SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
         {
             string methodName = t.GetMethodName();
             try
@@ -1357,7 +1389,7 @@ namespace eFormCore
 
                     Unit_Dto my_dto = UnitRead(unitId);
 
-                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteId);
+                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
 
                     return UnitRead(unitId);
                 }
@@ -1852,9 +1884,9 @@ namespace eFormCore
 
                                                         if (lastId == null)
                                                         {
-                                                            int localUnitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).Id;
-                                                            int localWorkerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).Id;
-                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), localWorkerId, localUnitId);
+                                                            int unitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
+                                                            int workerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
+                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerId, unitId);
 
                                                             #region retract case, thereby completing the process
 
@@ -1873,12 +1905,12 @@ namespace eFormCore
                                                         }
                                                         else
                                                         {
-                                                            int localUnitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).Id;
-                                                            int localWorkerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).Id;
-                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), localWorkerId, localUnitId);
+                                                            throw new Exception("Damn!!! - Still needed"); //TODO - remove? and above?
+                                                            //int unitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).MicrotingUId;
+                                                            //int workerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).MicrotingUid;
+                                                            //sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerId, unitId);
                                                         }
-                                                            
-
+  
                                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                         HandleCaseCompleted(cDto, EventArgs.Empty);
                                                         TriggerMessage(cDto.ToString() + " has been completed");

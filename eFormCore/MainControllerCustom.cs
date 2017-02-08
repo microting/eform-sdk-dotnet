@@ -240,7 +240,7 @@ namespace eFormCore
                             }
                         }
 
-                        sqlCon.UnitTest_CleanAndResetDB();
+                        sqlCon.UnitTest_CleanAndResetAllOfDB();
                     }
                     catch (Exception ex)
                     {
