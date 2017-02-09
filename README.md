@@ -10,7 +10,10 @@ A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Setup
 
-To get started with Microting eForm SDK, we recommend you add it to your project.
+To get started with Microting eForm SDK, we recommend you to add the DLL's from the Compiled directory as references to your project.
+
+[We also recommend you to have a look at the reference web frontend](https://github.com/microting/eform-frontend-dotnet)
+At this project you will be able to see best practice for using our SDK.
 
 ## Get access token
 
@@ -40,7 +43,7 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
-  - Version: 1.3.0 *(January 8th 2017*)
+  - Version: 1.3.0 *(January 8th 2017)*
 	- **Breaking changes to db structure.**
 	- Introducing usage of EntityFramework for migrating db.
 	- Making db use keys + foeing keys, which enables use of EntityFramework.
