@@ -220,7 +220,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool                 TemplateDelete(int templatId)
+        public bool                 TemplatDelete(int templatId)
         {
             string methodName = t.GetMethodName();
             try
@@ -246,6 +246,29 @@ namespace eFormSqlController
                     }
                     else
                         return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public List<fields>         TemplatFieldReadAll(int templatId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    MainElement mainElement = TemplatRead(templatId);
+                    List<fields> fieldLst = new List<fields>();
+
+                    foreach (var dataItem in mainElement.DataItemGetAll())
+                        fieldLst.Add(db.fields.Single(x => x.id == dataItem.Id));
+
+                    return fieldLst;
                 }
             }
             catch (Exception ex)
@@ -698,45 +721,36 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     int elementId;
-                    int userId = int.Parse(response.Checks[0].WorkerId);
-
+                    int userUId = int.Parse(response.Checks[0].WorkerId);
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
+                    List<fields> TemplatFieldLst = null;
+                    cases responseCase = null;
 
-                    int caseId = -1;
-
-                    try
+                    try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
-                        caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, cLS.microting_uid, "ReversedCase", "");
+                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, cLS.microting_uid, "ReversedCase", "");
+                        Case_Dto cDto = CaseReadByCaseId(caseId);
+                        responseCase = db.cases.Single(x => x.microting_uid == cDto.MicrotingUId && x.microting_check_uid == cDto.CheckUId);
                     }
-                    catch { }
+                    catch //already created case id retrived
+                    {
+                        responseCase = db.cases.Single(x => x.microting_uid == response.Value);
+                    }
+
+                    TemplatFieldLst = TemplatFieldReadAll((int)responseCase.check_list_id);
 
                     foreach (string elementStr in elements)
                     {
                         #region foreach element
-                        if (caseId == -1)
-                        {
-                            try
-                            {
-                                cases c = db.cases.Single(x => x.microting_uid == response.Value);
-                                caseId = c.id;
-                            }
-                            catch { }
-                        }
-
-                        if (caseId == -1)
-                            throw new Exception("EformCheckCreateDb failed. Due to unable to find a matching case");
-
-
                         check_list_values clv = new check_list_values();
-
                         clv.created_at = DateTime.Now;
                         clv.updated_at = DateTime.Now;
                         clv.check_list_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
-                        clv.case_id = caseId;
+                        clv.case_id = responseCase.id;
                         clv.status = t.Locate(elementStr, "<Status>", "</");
                         clv.version = 1;
-                        clv.user_id = userId;
+                        clv.user_id = userUId;
                         clv.workflow_state = "created";
 
                         db.check_list_values.Add(clv);
@@ -745,7 +759,7 @@ namespace eFormSqlController
                         db.version_check_list_values.Add(MapCheckListValueVersions(clv));
                         db.SaveChanges();
 
-                        #region foreach dataItem
+                        #region foreach (string dataItemStr in dataItems)
                         elementId = clv.id;
                         List<string> dataItems = t.LocateList(elementStr, "<DataItem>", "</DataItem>");
 
@@ -764,7 +778,7 @@ namespace eFormSqlController
                                     dU.created_at = DateTime.Now;
                                     dU.updated_at = DateTime.Now;
                                     dU.extension = t.Locate(xmlString, "<Extension>", "</");
-                                    dU.uploader_id = userId;
+                                    dU.uploader_id = userUId;
                                     dU.uploader_type = "system";
                                     dU.workflow_state = "pre_created";
                                     dU.version = 1;
@@ -809,9 +823,9 @@ namespace eFormSqlController
                                 //
                                 fieldV.workflow_state = "created";
                                 fieldV.version = 1;
-                                fieldV.case_id = caseId;
+                                fieldV.case_id = responseCase.id;
                                 fieldV.field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
-                                fieldV.user_id = userId;
+                                fieldV.user_id = userUId;
                                 fieldV.check_list_id = clv.check_list_id;
                                 fieldV.done_at = t.Date(response.Checks[0].Date);
 
@@ -820,12 +834,57 @@ namespace eFormSqlController
 
                                 db.version_field_values.Add(MapFieldValueVersions(fieldV));
                                 db.SaveChanges();
+
+                                #region remove dataItem duplicate from TemplatDataItemLst
+                                int index = 0;
+                                foreach (var field in TemplatFieldLst)
+                                {
+                                    if (fieldV.field_id == field.id)
+                                        break;
+
+                                    index++;
+                                }
+                                TemplatFieldLst.RemoveAt(index);
+                                #endregion
                             }
                         }
                         #endregion
-
                         #endregion
                     }
+
+                    #region foreach (var field in TemplatFieldLst)
+                    foreach (var field in TemplatFieldLst)
+                    {
+                        field_values fieldV = new field_values();
+
+                        fieldV.created_at = DateTime.Now;
+                        fieldV.updated_at = DateTime.Now;
+
+                        fieldV.value = null;
+
+                        //geo
+                        fieldV.latitude = null;
+                        fieldV.longitude = null;
+                        fieldV.altitude = null;
+                        fieldV.heading = null;
+                        fieldV.accuracy = null;
+                        fieldV.date = null;
+                        //
+                        fieldV.workflow_state = "created";
+                        fieldV.version = 1;
+                        fieldV.case_id = responseCase.id;
+                        fieldV.field_id = field.id;
+                        fieldV.user_id = userUId;
+                        fieldV.check_list_id = field.check_list_id;
+                        fieldV.done_at = t.Date(response.Checks[0].Date);
+
+                        db.field_values.Add(fieldV);
+                        db.SaveChanges();
+
+                        db.version_field_values.Add(MapFieldValueVersions(fieldV));
+                        db.SaveChanges();
+                    }
+                    #endregion
                 }
             }
             catch (Exception ex)
@@ -867,14 +926,14 @@ namespace eFormSqlController
                     answer.Altitude = reply.altitude;
                     answer.Color = question.color;
                     answer.Date = reply.date;
-                    answer.FieldId = reply.field_id.ToString();
+                    answer.FieldId = t.Int(reply.field_id);
                     answer.FieldType = Find((int)question.field_type_id);
                     answer.DateOfDoing = t.Date(reply.done_at);
                     answer.Description = new CDataValue();
                     answer.Description.InderValue = question.description;
                     answer.DisplayOrder = t.Int(question.display_index);
                     answer.Heading = reply.heading;
-                    answer.Id = reply.id.ToString();
+                    answer.Id = reply.id;
                     answer.Label = question.label;
                     answer.Latitude = reply.latitude;
                     answer.Longitude = reply.longitude;
@@ -2479,80 +2538,80 @@ namespace eFormSqlController
                     switch (fieldTypeStr)
                     {
                         case "Audio":
-                            lstDataItem.Add(new Audio(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Audio(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.multi)));
                             break;
 
                         case "CheckBox":
-                            lstDataItem.Add(new CheckBox(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new CheckBox(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.default_value), t.Bool(f.selected)));
                             break;
 
                         case "Comment":
-                            lstDataItem.Add(new Comment(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Comment(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value, t.Int(f.max_length), t.Bool(f.split_screen)));
                             break;
 
                         case "Date":
-                            lstDataItem.Add(new Date(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Date(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value));
                             break;
 
                         case "None":
-                            lstDataItem.Add(new None(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
+                            lstDataItem.Add(new None(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
                             break;
 
                         case "Number":
-                            lstDataItem.Add(new Number(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Number(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 long.Parse(f.min_value), long.Parse(f.max_value), int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
                             break;
 
                         case "MultiSelect":
-                            lstDataItem.Add(new MultiSelect(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new MultiSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 ReadPairs(f.key_value_pair_list)));
                             break;
 
                         case "Picture":
-                            lstDataItem.Add(new Picture(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Picture(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.multi), t.Bool(f.geolocation_enabled)));
                             break;
 
                         case "SaveButton":
-                            lstDataItem.Add(new SaveButton(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new SaveButton(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value));
                             break;
 
                         case "ShowPdf":
-                            lstDataItem.Add(new ShowPdf(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new ShowPdf(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value));
                             break;
 
                         case "Signature":
-                            lstDataItem.Add(new Signature(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
+                            lstDataItem.Add(new Signature(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
                             break;
 
                         case "SingleSelect":
-                            lstDataItem.Add(new SingleSelect(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new SingleSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 ReadPairs(f.key_value_pair_list)));
                             break;
 
                         case "Text":
-                            lstDataItem.Add(new Text(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy), 
+                            lstDataItem.Add(new Text(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy), 
                                 f.default_value, t.Int(f.max_length), t.Bool(f.geolocation_enabled), t.Bool(f.geolocation_forced), t.Bool(f.geolocation_hidden), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
                         case "Timer":
-                            lstDataItem.Add(new Timer(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Timer(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.stop_on_save)));
                             break;
                             
                         case "EntitySearch":
-                            lstDataItem.Add(new EntitySearch(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new EntitySearch(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id), t.Bool(f.is_num), f.query_type, t.Int(f.min_value), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
                         case "EntitySelect":
-                            lstDataItem.Add(new EntitySelect(f.id.ToString(), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new EntitySelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id)));
                             break;
 

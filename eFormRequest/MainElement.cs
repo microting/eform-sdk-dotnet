@@ -82,6 +82,40 @@ namespace eFormRequest
         [XmlArray("ElementList"), XmlArrayItem(typeof(Element), ElementName = "Element")]
         public List<Element> ElementList { get; set; }
         #endregion
+
+        public List<DataItem> DataItemGetAll()
+        {
+            try
+            { 
+                return DataItemGetAllFromList(ElementList, new List<DataItem>());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("DataItemGetAll failed, to get all DataItems", ex);
+            }
+        }
+
+        private List<DataItem> DataItemGetAllFromList(List<Element> elementLst, List<DataItem> dataItemLst)
+        {
+            foreach (Element element in elementLst)
+            {
+                if (element.GetType() == typeof(DataElement))
+                {
+                    DataElement dataE = (DataElement)element;
+                    foreach (var item in dataE.DataItemList)
+                    {
+                        dataItemLst.Add(item);
+                    }
+                }
+
+                if (element.GetType() == typeof(GroupElement))
+                {
+                    GroupElement groupE = (GroupElement)element;
+                    DataItemGetAllFromList(groupE.ElementList, dataItemLst);
+                }
+            }
+            return dataItemLst;
+        }
     }
 
     #region MainElement : CoreElement
@@ -175,7 +209,7 @@ namespace eFormRequest
             }
             catch (Exception ex)
             {
-                throw new Exception("MainElement failed to convert XML", ex);
+                throw new Exception("MainElement failed, to convert XML", ex);
             }
         }
 

@@ -486,7 +486,7 @@ namespace eFormCore
                     TriggerLog(methodName + " called");
                     TriggerLog("templatId:" + templatId);
 
-                    return sqlController.TemplateDelete(templatId);
+                    return sqlController.TemplatDelete(templatId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1864,13 +1864,13 @@ namespace eFormCore
                                             if (aCase.SiteUId == concreteCase.SiteUId)
                                             {
                                                 #region get response's data and update DB with data
-                                                string lastId = sqlController.CaseReadCheckIdByMUId(noteUId);
+                                                string checkIdLastKnown = sqlController.CaseReadCheckIdByMUId(noteUId); //null if NOT a checkListSite
                                                 string respXml;
 
-                                                if (lastId == null)
+                                                if (checkIdLastKnown == null)
                                                     respXml = communicator.Retrieve(noteUId, concreteCase.SiteUId);
                                                 else
-                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteUId, lastId);
+                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteUId, checkIdLastKnown);
 
                                                 Response resp = new Response();
                                                 resp = resp.XmlToClass(respXml);
@@ -1881,14 +1881,13 @@ namespace eFormCore
                                                     {
                                                         sqlController.ChecksCreate(resp, respXml);
 
-                                                        if (lastId == null)
+                                                        int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
+                                                        int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
+                                                        sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
+
+                                                        #region IF needed retract case, thereby completing the process
+                                                        if (checkIdLastKnown == null)
                                                         {
-                                                            int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
-                                                            int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
-                                                            sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
-
-                                                            #region retract case, thereby completing the process
-
                                                             string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
                                                             Response respRet = new Response();
                                                             respRet = respRet.XmlToClass(respXml);
@@ -1900,23 +1899,9 @@ namespace eFormCore
                                                             }
                                                             else
                                                                 TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
-                                                            #endregion
                                                         }
-                                                        else
-                                                        {
-                                                            if (concreteCase.CaseUId == "ReversedCase")
-                                                            {
-                                                                int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
-                                                                int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
-                                                                sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
-                                                                //resp.Checks[0].Id // check_id
-                                                            }
-                                                            //throw new Exception("Damn!!! - Still needed"); //TODO - remove? and above?
-                                                            //int unitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).MicrotingUId;
-                                                            //int workerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).MicrotingUid;
-                                                            //sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerId, unitId);
-                                                        }
-  
+                                                        #endregion
+
                                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                         HandleCaseCompleted(cDto, EventArgs.Empty);
                                                         TriggerMessage(cDto.ToString() + " has been completed");

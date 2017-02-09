@@ -177,7 +177,8 @@ namespace eFormCommunicator
         #endregion
 
         #region public site
-        public string    SiteCreate(string name)
+        #region public siteName
+        public string       SiteCreate(string name)
         {
             return http.SiteCreate(name);
         }
@@ -306,7 +307,6 @@ namespace eFormCommunicator
         #endregion
 
         #region public organization      
-
         public int OrganizationLoadAllFromRemote()
         {
             JToken orgResult = JRaw.Parse(http.OrganizationLoadAllFromRemote());
@@ -316,6 +316,7 @@ namespace eFormCommunicator
 
             return customerNo;
         }
+        #endregion
         #endregion
 
         #region public entity

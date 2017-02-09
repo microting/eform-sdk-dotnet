@@ -29,7 +29,6 @@ using eFormShared;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 
 namespace eFormCore
 {
@@ -90,18 +89,10 @@ namespace eFormCore
                 Console.WriteLine("'3' for sample 3");
 
                 string input = Console.ReadLine();
-
-                if (input.ToLower() == "e")
-                    break;
-
-                if (input.ToLower() == "1")
-                    Sample1();
-
-                if (input.ToLower() == "2")
-                    Sample2();
-
-                if (input.ToLower() == "3")
-                    Sample3();
+                if (input.ToLower() == "e") break;
+                if (input.ToLower() == "1") Sample1();
+                if (input.ToLower() == "2") Sample2();
+                if (input.ToLower() == "3") Sample3();
             }
         }
 

@@ -35,7 +35,7 @@ namespace eFormRequest
         #endregion
 
         #region var
-        public string Id { get; set; }
+        public int Id { get; set; }
         public bool Mandatory { get; set; }
         public bool ReadOnly { get; set; }
         public string Label { get; set; }
@@ -59,7 +59,7 @@ namespace eFormRequest
 
         }
 
-        public Audio(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Audio(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             int multi)
         {
             Id = id;
@@ -87,7 +87,7 @@ namespace eFormRequest
 
         }
 
-        public CheckBox(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public CheckBox(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             bool defaultValue, bool selected)
         {
             Id = id;
@@ -119,7 +119,7 @@ namespace eFormRequest
 
         }
 
-        public Comment(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Comment(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             string value, int maxLength, bool splitScreen)
         {
             Id = id;
@@ -153,7 +153,7 @@ namespace eFormRequest
 
         }
 
-        public Date(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Date(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             DateTime minValue, DateTime maxValue, string defaultValue)
         {
             Id = id;
@@ -187,7 +187,7 @@ namespace eFormRequest
 
         }
 
-        public None(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy)
+        public None(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy)
         {
             Id = id;
             Mandatory = mandatory;
@@ -210,7 +210,7 @@ namespace eFormRequest
 
         }
 
-        public Number(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Number(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             long minValue, long maxValue, int defaultValue, int decimalCount, string unitName)
         {
             Id = id;
@@ -248,7 +248,7 @@ namespace eFormRequest
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public MultiSelect(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
@@ -279,7 +279,7 @@ namespace eFormRequest
 
         }
 
-        public ShowPdf(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             string defaultValue)
         {
             Id = id;
@@ -307,7 +307,7 @@ namespace eFormRequest
 
         }
 
-        public Picture(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Picture(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             int multi, bool geolocationEnabled)
         {
             Id = id;
@@ -339,7 +339,7 @@ namespace eFormRequest
 
         }
 
-        public SaveButton(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public SaveButton(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             string value)
         {
             Id = id;
@@ -367,7 +367,7 @@ namespace eFormRequest
 
         }
 
-        public Signature(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy)
+        public Signature(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy)
         {
             Id = id;
             Mandatory = mandatory;
@@ -390,7 +390,7 @@ namespace eFormRequest
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public SingleSelect(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
@@ -421,7 +421,7 @@ namespace eFormRequest
 
         }
 
-        public Text(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Text(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden, bool barcodeEnabled, string barcodeType)
         {
             Id = id;
@@ -463,7 +463,7 @@ namespace eFormRequest
 
         }
 
-        public Timer(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Timer(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             bool stopOnSave)
         {
             Id = id;
@@ -492,7 +492,7 @@ namespace eFormRequest
 
         }
 
-        public EntitySearch(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public EntitySearch(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             int defaultValue, int entityTypeId, bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled, string barcodeType)
         {
             Id = id;
@@ -537,7 +537,7 @@ namespace eFormRequest
 
         }
 
-        public EntitySelect(string id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public EntitySelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
             int defaultValue, int source)
 
         {
@@ -566,7 +566,7 @@ namespace eFormRequest
 
     public class FieldValue : DataItem
     {
-        public string FieldId { get; set; }
+        public int FieldId { get; set; }
         public string FieldType { get; set; }
         public DateTime DateOfDoing { get; set; }
         public string Value { get; set; }
