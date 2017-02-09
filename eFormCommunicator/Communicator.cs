@@ -178,9 +178,16 @@ namespace eFormCommunicator
 
         #region public site
         #region public siteName
-        public string       SiteCreate(string name)
+        public Tuple<Site_Dto, Unit_Dto>       SiteCreate(string name)
         {
-            return http.SiteCreate(name);
+            string response = http.SiteCreate(name);
+            var parsedData = JRaw.Parse(response);
+
+            Site_Dto siteDto = new Site_Dto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0);
+            Unit_Dto unitDto = new Unit_Dto(int.Parse(parsedData["unit_id"].ToString()), 0, 0, siteDto.SiteId);
+            Tuple<Site_Dto, Unit_Dto> result = new Tuple<Site_Dto, Unit_Dto>(siteDto, unitDto);
+
+            return result;
         }
 
         public bool         SiteUpdate(int siteId, string name)
@@ -210,9 +217,13 @@ namespace eFormCommunicator
         #endregion
 
         #region public worker
-        public string           WorkerCreate(string firstName, string lastName, string email)
+        public Worker_Dto       WorkerCreate(string firstName, string lastName, string email)
         {
-            return http.WorkerCreate(firstName, lastName, email);
+            string result = http.WorkerCreate(firstName, lastName, email);
+            var parsedData = JRaw.Parse(result);
+            int workerUid = int.Parse(parsedData["id"].ToString());
+            return new Worker_Dto(workerUid, firstName, lastName, email);
+
         }
 
         public bool             WorkerUpdate(int workerId, string firstName, string lastName, string email)
@@ -244,9 +255,12 @@ namespace eFormCommunicator
         #endregion
 
         #region public site_worker
-        public string       SiteWorkerCreate(int siteId, int workerId)
+        public Site_Worker_Dto SiteWorkerCreate(int siteId, int workerId)
         {
-            return http.SiteWorkerCreate(siteId, workerId);
+            string result = http.SiteWorkerCreate(siteId, workerId);
+            var parsedData = JRaw.Parse(result);
+            int workerUid = int.Parse(parsedData["id"].ToString());
+            return new Site_Worker_Dto(workerUid, siteId, workerId);
         }
 
         public bool         SiteWorkerUpdate(int id, int siteId, int workerId)
@@ -307,14 +321,16 @@ namespace eFormCommunicator
         #endregion
 
         #region public organization      
-        public int OrganizationLoadAllFromRemote()
+        public Organization_Dto OrganizationLoadAllFromRemote()
         {
             JToken orgResult = JRaw.Parse(http.OrganizationLoadAllFromRemote());
 
-            int customerNo = int.Parse(orgResult.First.First["customer_no"].ToString());
-            // First() or First?
+            Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()), 
+                orgResult.First.First["name"].ToString(), 
+                int.Parse(orgResult.First.First["customer_no"].ToString()), 
+                int.Parse(orgResult.First.First["unit_license_number"].ToString()));
 
-            return customerNo;
+            return organizationDto;
         }
         #endregion
         #endregion

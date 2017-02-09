@@ -202,8 +202,8 @@ namespace eFormCore
                                 sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
                             }
                         }
-
-                        int customerNo = communicator.OrganizationLoadAllFromRemote();
+                        Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
+                        int customerNo = organizationDto.CustomerNo;
                         foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
                         {
                             Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);
@@ -936,46 +936,42 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    //string result = communicator.SiteCreate(name);
+                    Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
-                    //var parsedData = JRaw.Parse(result);
+                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
 
-                    //var orgResult = JRaw.Parse(communicator.OrganizationLoadAllFromRemote());
+                    int customerNo = organizationDto.CustomerNo;
 
-                    //int customerNo = int.Parse(orgResult.First().First()["customer_no"].ToString());
+                    string siteName = siteResult.Item1.SiteName;
+                    int siteId = siteResult.Item1.SiteId;
+                    int unitUId = siteResult.Item2.UnitUId;
+                    int otpCode = siteResult.Item2.OtpCode;
+                    SiteName_Dto siteDto = sqlController.SiteRead(siteResult.Item1.SiteId);
+                    if (siteDto == null)
+                    {
+                        sqlController.SiteCreate((int)siteId, siteName);
+                    }
+                    siteDto = sqlController.SiteRead(siteId);
+                    Unit_Dto unitDto = sqlController.UnitRead(unitUId);
+                    if (unitDto == null)
+                    {
+                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.SiteUId);
+                    }
 
-                    //string siteName = parsedData["name"].ToString();
-                    //int siteId = int.Parse(parsedData["id"].ToString());
-                    //int unitUId = int.Parse(parsedData["unit_id"].ToString());
-                    //int otpCode = int.Parse(parsedData["otp_code"].ToString());
-                    //Site_Dto siteDto = sqlController.SiteRead(siteId);
-                    //if (siteDto == null)
-                    //{
-                    //    sqlController.SiteCreate((int)siteId, siteName);
-                    //}
-                    //siteDto = sqlController.SiteRead(siteId);
-                    //Unit_Dto unitDto = sqlController.UnitRead(unitUId);
-                    //if (unitDto == null)
-                    //{
-                    //    sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.Id);
-                    //}
+                    if (string.IsNullOrEmpty(userEmail))
+                    {
+                        Random rdn = new Random();
+                        userEmail = siteId + "." + customerNo + "@invalid.invalid";
+                    }
 
-                    //if (string.IsNullOrEmpty(userEmail))
-                    //{
-                    //    Random rdn = new Random();
-                    //    userEmail = siteId + "." + customerNo + "@invalid.invalid";
-                    //}
+                    Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
 
-                    //Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
+                    SiteWorkerCreate(siteDto, workerDto);
 
-                    //SiteWorkerCreate(siteDto, workerDto);
-
-                    //return SiteReadSimple(siteId);
-                    return null;
-                }
+                    return SiteReadSimple(siteId);                }
                 else
                     throw new Exception("Core is not running");
             }
@@ -1018,18 +1014,28 @@ namespace eFormCore
                     TriggerLog(methodName + " called");
                     TriggerLog("siteName:" + name);
 
-                    string siteData = communicator.SiteCreate(name);
+                    Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
-                    int siteUid = siteData[0];
-                    int customerNumber = siteData[1];
-                    int otpCode = siteData[2];
-                    int unitUId = siteData[3];
+                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
 
-                    //sqlController.SiteCreate(microting_uid, name, customerNumber, otpCode, unitUId, userId, userFirstName, userLastName, workerId);
-                    sqlController.SiteCreate(siteUid, name);
-                    sqlController.UnitCreate(unitUId, customerNumber, otpCode, siteUid);
+                    int customerNo = organizationDto.CustomerNo;
 
-                    return SiteRead(siteUid);
+                    string siteName = siteResult.Item1.SiteName;
+                    int siteId = siteResult.Item1.SiteId;
+                    int unitUId = siteResult.Item2.UnitUId;
+                    int otpCode = siteResult.Item2.OtpCode;
+                    SiteName_Dto siteDto = sqlController.SiteRead(siteResult.Item1.SiteId);
+                    if (siteDto == null)
+                    {
+                        sqlController.SiteCreate((int)siteId, siteName);
+                    }
+                    siteDto = sqlController.SiteRead(siteId);
+                    Unit_Dto unitDto = sqlController.UnitRead(unitUId);
+                    if (unitDto == null)
+                    {
+                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.SiteUId);
+                    }
+                    return SiteRead(siteDto.SiteUId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1128,22 +1134,19 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+                    TriggerLog(methodName + " called");
+                    TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
 
 
-                    //string result = communicator.WorkerCreate(firstName, lastName, email);
-                    //var parsedData = JRaw.Parse(result);
-                    //int workerUid = int.Parse(parsedData["id"].ToString());
+                    Worker_Dto workerDto = communicator.WorkerCreate(firstName, lastName, email);
 
-                    //Worker_Dto workerDto = sqlController.WorkerRead(workerUid);
-                    //if (workerDto == null)
-                    //{
-                    //    sqlController.WorkerCreate(workerUid, firstName, lastName, email);
-                    //}
+                    workerDto = sqlController.WorkerRead(workerDto.WorkerUId);
+                    if (workerDto == null)
+                    {
+                        sqlController.WorkerCreate(workerDto.WorkerUId, firstName, lastName, email);
+                    }
 
-                    //return WorkerRead(workerUid);
-                    return null;
+                    return WorkerRead(workerDto.WorkerUId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1241,22 +1244,22 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteId:" + siteDto.Id + " / workerId:" + workerDto.Id);
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteDto.SiteUId + " / workerId:" + workerDto.WorkerUId);
 
-                    //string result = communicator.SiteWorkerCreate(siteDto.MicrotingUid, workerDto.MicrotingUid);
+                    Site_Worker_Dto result = communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
                     //var parsedData = JRaw.Parse(result);
                     //int workerUid = int.Parse(parsedData["id"].ToString());
 
-                    //Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(workerUid);
+                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.WorkerUId);
 
-                    //if (siteWorkerDto == null)
-                    //{
-                    //    sqlController.SiteWorkerCreate(workerUid, siteDto.Id, workerDto.Id);
-                    //}
+                    if (siteWorkerDto == null)
+                    {
+                        sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
+                    }
 
-                    //return SiteWorkerRead(workerUid);
-                    return null;
+                    return SiteWorkerRead(result.WorkerUId);
+                    //return null;
                 }
                 else
                     throw new Exception("Core is not running");

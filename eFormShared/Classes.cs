@@ -396,6 +396,53 @@ namespace eFormShared
     }
     #endregion
 
+    #region Organization_Dto
+    public class Organization_Dto
+    {
+        #region con
+        public Organization_Dto()
+        {
+        }
+
+        public Organization_Dto(int organizationUid, string name, int customerNo, int unitLicenseNumber)
+        {
+            OrganizationUid = organizationUid;
+            Name = name;
+            CustomerNo = customerNo;
+            UnitLicenseNumber = unitLicenseNumber;
+        }
+        #endregion
+
+        #region var
+        /// <summary>
+        ///...
+        /// </summary>
+        public int OrganizationUid { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public int CustomerNo { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public int UnitLicenseNumber { get; }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return "OrganizationUid:" + OrganizationUid + " / Name:" + Name + " / CustomerNo:" + CustomerNo + " / SiteUId:" + UnitLicenseNumber + ".";
+        }
+    }
+    #endregion
+
     #region Holder
     public class Holder
     {
