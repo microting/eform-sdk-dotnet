@@ -24,10 +24,14 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
-            //var configuration = new Configuration();
-            //configuration.TargetDatabase = new DbConnectionInfo(connectionString);
-            //var migrator = new DbMigrator(configuration);
-            //migrator.Update();
+            //try {
+            //    var configuration = new Configuration();
+            //    configuration.TargetDatabase = new DbConnectionInfo(connectionString, "System.Data.SqlClient");
+            //    var migrator = new DbMigrator(configuration);
+            //    migrator.Update();
+            //} catch
+            //{ }
+            
             connectionStr = connectionString;
 
             using (var db = new MicrotingDb(connectionStr))
@@ -667,7 +671,7 @@ namespace eFormSqlController
                     try
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
-                        caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site_id, cLS.microting_uid, "ReversedCase", "");
+                        caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, cLS.microting_uid, "ReversedCase", "");
                     }
                     catch { }
 

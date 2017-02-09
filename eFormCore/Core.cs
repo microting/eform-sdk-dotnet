@@ -1904,7 +1904,14 @@ namespace eFormCore
                                                         }
                                                         else
                                                         {
-                                                            throw new Exception("Damn!!! - Still needed"); //TODO - remove? and above?
+                                                            if (concreteCase.CaseUId == "ReversedCase")
+                                                            {
+                                                                int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
+                                                                int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
+                                                                sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
+                                                                //resp.Checks[0].Id // check_id
+                                                            }
+                                                            //throw new Exception("Damn!!! - Still needed"); //TODO - remove? and above?
                                                             //int unitId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).MicrotingUId;
                                                             //int workerId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).MicrotingUid;
                                                             //sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerId, unitId);

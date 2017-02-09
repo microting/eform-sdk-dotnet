@@ -22,8 +22,10 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
+        [ForeignKey("site")]
         public int? site_id { get; set; }
 
+        [ForeignKey("check_list")]
         public int? check_list_id { get; set; }
 
         [StringLength(255)]
@@ -31,5 +33,9 @@ namespace eFormSqlController
 
         [StringLength(255)]
         public string last_check_id { get; set; }
+
+        public virtual sites site { get; set; }
+
+        public virtual check_lists check_list { get; set; }
     }
 }
