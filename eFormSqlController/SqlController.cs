@@ -58,7 +58,7 @@ namespace eFormSqlController
                         }
                     }
 
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
+                    TruncateTable(typeof(settings).Name);
 
                     SettingAdd(1, "firstRunDone");
                     SettingAdd(2, "knownSitesDone");
@@ -80,7 +80,7 @@ namespace eFormSqlController
                 #region FieldTypeCount
                 if (FieldTypeCount() < 18)
                 {
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
+                    TruncateTable(typeof(field_types).Name);
 
                     FieldTypeAdd(1, "Text", "Simple text field");
                     FieldTypeAdd(2, "Number", "Simple number field");
@@ -3201,71 +3201,68 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //---
                     {
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[cases]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_cases]");
+                        TruncateTable(typeof(cases).Name);
+                        TruncateTable(typeof(version_cases).Name);
                         //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_sites]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_sites]");
-                    }
-                    //---
-                    {
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_list_values]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_list_values]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[check_lists]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_check_lists]");
+                        TruncateTable(typeof(check_list_sites).Name);
+                        TruncateTable(typeof(version_check_list_sites).Name);
                     }
                     //---
                     {
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_groups]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_groups]");
+                        TruncateTable(typeof(check_list_values).Name);
+                        TruncateTable(typeof(version_check_list_values).Name);
                         //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[entity_items]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_entity_items]");
-                    }
-                    //---
-                    { 
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[fields]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_fields]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_values]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_field_values]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[data_uploaded]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_data_uploaded]");
+                        TruncateTable(typeof(check_lists).Name);
+                        TruncateTable(typeof(version_check_lists).Name);
                     }
                     //---
                     {
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_sites]");
+                        TruncateTable(typeof(entity_groups).Name);
+                        TruncateTable(typeof(version_entity_groups).Name);
                         //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[site_workers]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_site_workers]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[units]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_units]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[workers]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_workers]");
+                        TruncateTable(typeof(entity_items).Name);
+                        TruncateTable(typeof(version_entity_items).Name);
                     }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[notifications]");
+                    {
+                        TruncateTable(typeof(fields).Name);
+                        TruncateTable(typeof(version_fields).Name);
+                        //---
+                         TruncateTable(typeof(field_values).Name);
+                        TruncateTable(typeof(version_field_values).Name);
+                        //---
+                        TruncateTable(typeof(data_uploaded).Name);
+                        TruncateTable(typeof(version_data_uploaded).Name);
+                    }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[outlook]");
+                    {
+                        TruncateTable(typeof(sites).Name);
+                        TruncateTable(typeof(version_sites).Name);
+                        //---
+                        TruncateTable(typeof(site_workers).Name);
+                        TruncateTable(typeof(version_site_workers).Name);
+                        //---
+                        TruncateTable(typeof(units).Name);
+                        TruncateTable(typeof(version_units).Name);
+                        //---
+                        TruncateTable(typeof(workers).Name);
+                        TruncateTable(typeof(version_workers).Name);
+                    }
                     //---
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[setting]");
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[field_types]");
+                    TruncateTable(typeof(notifications).Name);
+                    TruncateTable(typeof(outlook).Name);
+                    //---
+                    TruncateTable(typeof(settings).Name);
+                    TruncateTable(typeof(field_types).Name);
                     //---
 
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                string exStr = ex.ToString();
-                return false;
+                 return false;
             }
         }
 
@@ -3275,21 +3272,34 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    TruncateTable(typeof(sites).Name);
+                    TruncateTable(typeof(version_sites).Name);
                     //---
-                    {
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[sites]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_sites]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[site_workers]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_site_workers]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[units]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_units]");
-                        //---
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[workers]");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[version_workers]");
-                    }
+                    TruncateTable(typeof(site_workers).Name);
+                    TruncateTable(typeof(version_site_workers).Name);
+                    //---
+                    TruncateTable(typeof(units).Name);
+                    TruncateTable(typeof(version_units).Name);
+                    //---
+                    TruncateTable(typeof(workers).Name);
+                    TruncateTable(typeof(version_workers).Name);
 
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool    TruncateTable(string tableName)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].["+tableName+"]");
                     return true;
                 }
             }
