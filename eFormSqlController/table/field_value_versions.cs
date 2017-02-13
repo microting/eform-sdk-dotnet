@@ -6,19 +6,17 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class version_cases
+    public partial class field_value_versions
     {
         [Key]
         public int id { get; set; }
 
-        public int? case_id { get; set; }
+        public int? field_value_id { get; set; }
 
         [StringLength(255)]
         public string workflow_state { get; set; }
 
         public int? version { get; set; }
-
-        public int? status { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
@@ -29,26 +27,36 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? done_at { get; set; }
 
-        public int? site_id { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime? date { get; set; }
 
-        public int? unit_id { get; set; }
+        public int? user_id { get; set; }
 
-        public int? done_by_user_id { get; set; }
+        public int? case_id { get; set; }
+
+        public int? field_id { get; set; }
 
         public int? check_list_id { get; set; }
 
-        [StringLength(255)]
-        public string type { get; set; }
+        public int? check_list_duplicate_id { get; set; }
+
+        public int? uploaded_data_id { get; set; }
+
+        public string value { get; set; }
 
         [StringLength(255)]
-        public string microting_uid { get; set; }
+        public string latitude { get; set; }
 
         [StringLength(255)]
-        public string microting_check_uid { get; set; }
+        public string longitude { get; set; }
 
         [StringLength(255)]
-        public string case_uid { get; set; }
+        public string altitude { get; set; }
 
-        public string custom { get; set; }
+        [StringLength(255)]
+        public string heading { get; set; }
+
+        [StringLength(255)]
+        public string accuracy { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class version_check_lists
+    public partial class check_list_versions
     {
         [Key]
         public int id { get; set; }

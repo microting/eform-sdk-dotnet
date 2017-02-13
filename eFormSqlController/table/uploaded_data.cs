@@ -6,12 +6,10 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class version_data_uploaded
+    public partial class uploaded_data
     {
         [Key]
         public int id { get; set; }
-
-        public int? data_uploaded_id { get; set; }
 
         [StringLength(255)]
         public string workflow_state { get; set; }

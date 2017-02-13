@@ -6,7 +6,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class version_site_workers
+    public partial class site_worker_versions
     {
         [Key]
         public int id { get; set; }

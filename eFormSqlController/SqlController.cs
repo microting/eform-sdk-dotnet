@@ -773,7 +773,7 @@ namespace eFormSqlController
                                 string urlXml = t.Locate(dataItemStr, "<URL>", "</URL>");
                                 if (urlXml != "" && urlXml != "none")
                                 {
-                                    data_uploaded dU = new data_uploaded();
+                                    uploaded_data dU = new uploaded_data();
 
                                     dU.created_at = DateTime.Now;
                                     dU.updated_at = DateTime.Now;
@@ -945,7 +945,7 @@ namespace eFormSqlController
                         {
                             string locations = "";
                             int uploadedDataId;
-                            data_uploaded uploadedData;
+                            uploaded_data uploadedData;
                             List<field_values> lst = db.field_values.Where(x => x.case_id == reply.case_id && x.field_id == reply.field_id).ToList();
 
                             foreach (field_values fV in lst)
@@ -1174,7 +1174,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    data_uploaded dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
+                    uploaded_data dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
                         
                     if (dU != null)
                         return dU.file_location;
@@ -1196,7 +1196,7 @@ namespace eFormSqlController
                 {
                     try
                     {
-                        data_uploaded dU = db.data_uploaded.Single(x => x.file_location == urlString);
+                        uploaded_data dU = db.data_uploaded.Single(x => x.file_location == urlString);
                         field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.id);
                         cases aCase = db.cases.Single(x => x.id == fV.case_id);
 
@@ -1220,7 +1220,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    data_uploaded uD = db.data_uploaded.Single(x => x.file_location == urlString);
+                    uploaded_data uD = db.data_uploaded.Single(x => x.file_location == urlString);
 
                     uD.checksum = chechSum;
                     uD.file_location = fileLocation;
@@ -2851,9 +2851,9 @@ namespace eFormSqlController
         #endregion
 
         #region mappers
-        private version_cases               MapCaseVersions(cases aCase)
+        private case_versions               MapCaseVersions(cases aCase)
         {
-            version_cases caseVer = new version_cases();
+            case_versions caseVer = new case_versions();
             caseVer.status = aCase.status;
             caseVer.done_at = aCase.done_at;
             caseVer.updated_at = aCase.updated_at;
@@ -2874,9 +2874,9 @@ namespace eFormSqlController
             return caseVer;
         }
 
-        private version_check_lists         MapCheckListVersions(check_lists checkList)
+        private check_list_versions         MapCheckListVersions(check_lists checkList)
         {
-            version_check_lists clv = new version_check_lists();
+            check_list_versions clv = new check_list_versions();
             clv.created_at = checkList.created_at;
             clv.updated_at = checkList.updated_at;
             clv.label = checkList.label;
@@ -2903,9 +2903,9 @@ namespace eFormSqlController
             return clv;
         }
 
-        private version_check_list_values   MapCheckListValueVersions(check_list_values checkListValue)
+        private check_list_value_versions   MapCheckListValueVersions(check_list_values checkListValue)
         {
-            version_check_list_values clvv = new version_check_list_values();
+            check_list_value_versions clvv = new check_list_value_versions();
             clvv.version = checkListValue.version;
             clvv.created_at = checkListValue.created_at;
             clvv.updated_at = checkListValue.updated_at;
@@ -2921,9 +2921,9 @@ namespace eFormSqlController
             return clvv;
         }
 
-        private version_fields              MapFieldVersions(fields field)
+        private field_versions              MapFieldVersions(fields field)
         {
-            version_fields fv = new version_fields();
+            field_versions fv = new field_versions();
 
             fv.version = field.version;
             fv.created_at = field.created_at;
@@ -2963,9 +2963,9 @@ namespace eFormSqlController
             return fv;
         }
 
-        private version_field_values        MapFieldValueVersions(field_values fieldValue)
+        private field_value_versions        MapFieldValueVersions(field_values fieldValue)
         {
-            version_field_values fvv = new version_field_values();
+            field_value_versions fvv = new field_value_versions();
 
             fvv.created_at = fieldValue.created_at;
             fvv.updated_at = fieldValue.updated_at;
@@ -2991,9 +2991,9 @@ namespace eFormSqlController
             return fvv;
         }
 
-        private version_data_uploaded       MapUploadedDataVersions(data_uploaded uploadedData)
+        private uploaded_data_versions       MapUploadedDataVersions(uploaded_data uploadedData)
         {
-            version_data_uploaded udv = new version_data_uploaded();
+            uploaded_data_versions udv = new uploaded_data_versions();
 
             udv.created_at = uploadedData.created_at;
             udv.updated_at = uploadedData.updated_at;
@@ -3014,9 +3014,9 @@ namespace eFormSqlController
             return udv;
         }
 
-        private version_check_list_sites    MapCheckListSiteVersions(check_list_sites checkListSite)
+        private check_list_site_versions    MapCheckListSiteVersions(check_list_sites checkListSite)
         {
-            version_check_list_sites checkListSiteVer = new version_check_list_sites();
+            check_list_site_versions checkListSiteVer = new check_list_site_versions();
             checkListSiteVer.check_list_id = checkListSite.check_list_id;
             checkListSiteVer.created_at = checkListSite.created_at;
             checkListSiteVer.updated_at = checkListSite.updated_at;
@@ -3031,9 +3031,9 @@ namespace eFormSqlController
             return checkListSiteVer;
         }
 
-        private version_entity_groups       MapEntityGroupVersions(entity_groups entityGroup)
+        private entity_group_versions       MapEntityGroupVersions(entity_groups entityGroup)
         {
-            version_entity_groups entityGroupVer = new version_entity_groups();
+            entity_group_versions entityGroupVer = new entity_group_versions();
             entityGroupVer.created_at = entityGroup.created_at;
             entityGroupVer.id = entityGroup.id;
             entityGroupVer.microting_uid = entityGroup.microting_uid;
@@ -3048,9 +3048,9 @@ namespace eFormSqlController
             return entityGroupVer;
         }
 
-        private version_entity_items        MapEntityItemVersions(entity_items entityItem)
+        private entity_item_versions        MapEntityItemVersions(entity_items entityItem)
         {
-            version_entity_items entityItemVer = new version_entity_items();
+            entity_item_versions entityItemVer = new entity_item_versions();
             entityItemVer.workflow_state = entityItem.workflow_state;
             entityItemVer.version = entityItem.version;
             entityItemVer.created_at = entityItem.created_at;
@@ -3067,9 +3067,9 @@ namespace eFormSqlController
             return entityItemVer;
         }
 
-        private version_site_workers        MapSiteWorkerVersions(site_workers site_workers)
+        private site_worker_versions        MapSiteWorkerVersions(site_workers site_workers)
         {
-            version_site_workers siteWorkerVer = new version_site_workers();
+            site_worker_versions siteWorkerVer = new site_worker_versions();
             siteWorkerVer.workflow_state = site_workers.workflow_state;
             siteWorkerVer.version = site_workers.version;
             siteWorkerVer.created_at = site_workers.created_at;
@@ -3083,9 +3083,9 @@ namespace eFormSqlController
             return siteWorkerVer;
         }
 
-        private version_sites               MapSiteVersions(sites site)
+        private site_versions               MapSiteVersions(sites site)
         {
-            version_sites siteVer = new version_sites();
+            site_versions siteVer = new site_versions();
             siteVer.workflow_state = site.workflow_state;
             siteVer.version = site.version;
             siteVer.created_at = site.created_at;
@@ -3098,9 +3098,9 @@ namespace eFormSqlController
             return siteVer;
         }
 
-        private version_units               MapUnitVersions(units units)
+        private unit_versions               MapUnitVersions(units units)
         {
-            version_units unitVer = new version_units();
+            unit_versions unitVer = new unit_versions();
             unitVer.workflow_state = units.workflow_state;
             unitVer.version = units.version;
             unitVer.created_at = units.created_at;
@@ -3115,9 +3115,9 @@ namespace eFormSqlController
             return unitVer;
         }
 
-        private version_workers             MapWorkerVersions(workers workers)
+        private worker_versions             MapWorkerVersions(workers workers)
         {
-            version_workers workerVer = new version_workers();
+            worker_versions workerVer = new worker_versions();
             workerVer.workflow_state = workers.workflow_state;
             workerVer.version = workers.version;
             workerVer.created_at = workers.created_at;
@@ -3223,51 +3223,51 @@ namespace eFormSqlController
                 {
                     {
                         TruncateTable(typeof(cases).Name);
-                        TruncateTable(typeof(version_cases).Name);
+                        TruncateTable(typeof(case_versions).Name);
                         //---
                         TruncateTable(typeof(check_list_sites).Name);
-                        TruncateTable(typeof(version_check_list_sites).Name);
+                        TruncateTable(typeof(check_list_site_versions).Name);
                     }
                     //---
                     {
                         TruncateTable(typeof(check_list_values).Name);
-                        TruncateTable(typeof(version_check_list_values).Name);
+                        TruncateTable(typeof(check_list_value_versions).Name);
                         //---
                         TruncateTable(typeof(check_lists).Name);
-                        TruncateTable(typeof(version_check_lists).Name);
+                        TruncateTable(typeof(check_list_versions).Name);
                     }
                     //---
                     {
                         TruncateTable(typeof(entity_groups).Name);
-                        TruncateTable(typeof(version_entity_groups).Name);
+                        TruncateTable(typeof(entity_group_versions).Name);
                         //---
                         TruncateTable(typeof(entity_items).Name);
-                        TruncateTable(typeof(version_entity_items).Name);
+                        TruncateTable(typeof(entity_item_versions).Name);
                     }
                     //---
                     {
                         TruncateTable(typeof(fields).Name);
-                        TruncateTable(typeof(version_fields).Name);
+                        TruncateTable(typeof(field_versions).Name);
                         //---
                          TruncateTable(typeof(field_values).Name);
-                        TruncateTable(typeof(version_field_values).Name);
+                        TruncateTable(typeof(field_value_versions).Name);
                         //---
-                        TruncateTable(typeof(data_uploaded).Name);
-                        TruncateTable(typeof(version_data_uploaded).Name);
+                        TruncateTable(typeof(uploaded_data).Name);
+                        TruncateTable(typeof(uploaded_data_versions).Name);
                     }
                     //---
                     {
                         TruncateTable(typeof(sites).Name);
-                        TruncateTable(typeof(version_sites).Name);
+                        TruncateTable(typeof(site_versions).Name);
                         //---
                         TruncateTable(typeof(site_workers).Name);
-                        TruncateTable(typeof(version_site_workers).Name);
+                        TruncateTable(typeof(site_worker_versions).Name);
                         //---
                         TruncateTable(typeof(units).Name);
-                        TruncateTable(typeof(version_units).Name);
+                        TruncateTable(typeof(unit_versions).Name);
                         //---
                         TruncateTable(typeof(workers).Name);
-                        TruncateTable(typeof(version_workers).Name);
+                        TruncateTable(typeof(worker_versions).Name);
                     }
                     //---
                     TruncateTable(typeof(notifications).Name);
@@ -3293,16 +3293,16 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     TruncateTable(typeof(sites).Name);
-                    TruncateTable(typeof(version_sites).Name);
+                    TruncateTable(typeof(site_versions).Name);
                     //---
                     TruncateTable(typeof(site_workers).Name);
-                    TruncateTable(typeof(version_site_workers).Name);
+                    TruncateTable(typeof(site_worker_versions).Name);
                     //---
                     TruncateTable(typeof(units).Name);
-                    TruncateTable(typeof(version_units).Name);
+                    TruncateTable(typeof(unit_versions).Name);
                     //---
                     TruncateTable(typeof(workers).Name);
-                    TruncateTable(typeof(version_workers).Name);
+                    TruncateTable(typeof(worker_versions).Name);
 
                     return true;
                 }
