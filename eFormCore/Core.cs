@@ -921,15 +921,43 @@ namespace eFormCore
         #region sites
         public List<SiteName_Dto>   SiteGetAll()
         {
-            return sqlController.SiteGetAll();
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.SiteGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
         }
 
         public List<Site_Dto> SimpleSiteGetAll()
         {
-            return sqlController.SimpleSiteGetAll();
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.SimpleSiteGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
         }
 
-        public Site_Dto  SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
+        public Site_Dto SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -971,7 +999,8 @@ namespace eFormCore
 
                     SiteWorkerCreate(siteDto, workerDto);
 
-                    return SiteReadSimple(siteId);                }
+                    return SiteReadSimple(siteId);
+                }
                 else
                     throw new Exception("Core is not running");
             }
@@ -1127,6 +1156,25 @@ namespace eFormCore
         #endregion
 
         #region workers
+        public List<Worker_Dto> WorkerGetAll()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.WorkerGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         public Worker_Dto       WorkerCreate(string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
@@ -1350,9 +1398,23 @@ namespace eFormCore
         #endregion
 
         #region units
-        public List<Unit_Dto>  UnitGetAll()
+        public List<Unit_Dto> UnitGetAll()
         {
-            return null;
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.UnitGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
         }
 
         public Unit_Dto        UnitRead(int unitId)

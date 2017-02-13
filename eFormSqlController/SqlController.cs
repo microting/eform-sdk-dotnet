@@ -1250,7 +1250,7 @@ namespace eFormSqlController
             {
                 foreach (sites aSite in db.sites.ToList())
                 {
-                    SiteName_Dto siteNameDto = new SiteName_Dto((int)aSite.microting_uid, aSite.name);
+                    SiteName_Dto siteNameDto = new SiteName_Dto((int)aSite.microting_uid, aSite.name, aSite.created_at, aSite.updated_at);
                     siteList.Add(siteNameDto);
                 }
             }
@@ -1266,9 +1266,16 @@ namespace eFormSqlController
                 foreach (sites aSite in db.sites.ToList())
                 {
                     var unit = aSite.units.First();
-                    var worker = aSite.site_workers.First().worker;
-                    Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code);
-                    siteList.Add(siteDto);
+                    try
+                    {
+                        var worker = aSite.site_workers.First().worker;
+                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, worker.microting_uid);
+                        siteList.Add(siteDto);
+                    } catch
+                    {
+                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, null, null, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, 0);
+                        siteList.Add(siteDto);
+                    }                                       
                 }
             }
             return siteList;
@@ -1323,7 +1330,7 @@ namespace eFormSqlController
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site != null)
-                        return new SiteName_Dto((int)site.microting_uid, site.name);
+                        return new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
                     else
                         return null; 
                 }
@@ -1350,7 +1357,7 @@ namespace eFormSqlController
                     units unit = db.units.Where(x => x.site_id == site.id).ToList().First();
 
                     if (site != null)
-                        return new Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code);
+                        return new Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, worker.microting_uid);
                     else
                         return null;
                 }
@@ -1434,6 +1441,31 @@ namespace eFormSqlController
         #endregion
 
         #region worker
+        public List<Worker_Dto> WorkerGetAll()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                List<Worker_Dto> listWorkerDto = new List<Worker_Dto>();
+
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    foreach (workers worker in db.workers.ToList())
+                    {
+                        Worker_Dto workerDto = new Worker_Dto(worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
+                        listWorkerDto.Add(workerDto);
+                    }
+                    return listWorkerDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+
+        }
+
         public int WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
@@ -1483,7 +1515,7 @@ namespace eFormSqlController
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (worker != null)
-                        return new Worker_Dto((int)worker.microting_uid, worker.first_name, worker.last_name, worker.email);
+                        return new Worker_Dto((int)worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
                     else
                         return null;
                 }
@@ -1701,6 +1733,29 @@ namespace eFormSqlController
         #endregion
 
         #region unit
+        public List<Unit_Dto> UnitGetAll()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                List<Unit_Dto> listWorkerDto = new List<Unit_Dto>();
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    foreach (units unit in db.units.ToList())
+                    {
+                        Unit_Dto unitDto = new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site.microting_uid, unit.created_at, unit.updated_at);
+                        listWorkerDto.Add(unitDto);
+                    }
+                }
+                return listWorkerDto;
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
             string methodName = t.GetMethodName();
@@ -1750,7 +1805,7 @@ namespace eFormSqlController
                     units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
 
                     if (unit != null)
-                        return new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id);
+                        return new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id, unit.created_at, unit.updated_at);
                     else
                         return null;
                 }

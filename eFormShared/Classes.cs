@@ -156,7 +156,7 @@ namespace eFormShared
         {
         }
 
-        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName, int customerNo, int otpCode)
+        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName, int customerNo, int otpCode, int unitId, int workerUid)
         {
             if (siteName == null)
                 siteName = "";
@@ -171,6 +171,8 @@ namespace eFormShared
             LastName = userLastName;
             CustomerNo = customerNo;
             OtpCode = otpCode;
+            UnitId = unitId;
+            WorkerUid = workerUid;
         }
         #endregion
 
@@ -205,11 +207,20 @@ namespace eFormShared
         /// </summary>
         public int OtpCode { get; }
 
+        /// <summary>
+        ///...
+        /// </summary>
+        public int UnitId { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public int WorkerUid { get; }
         #endregion
 
         public override string ToString()
         {
-            return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" + LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + ".";
+            return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" + LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + "UnitId:" + UnitId + "WorkerUid:" + WorkerUid + ".";
         }
     }
     #endregion
@@ -222,13 +233,15 @@ namespace eFormShared
         {
         }
 
-        public SiteName_Dto(int siteUId, string siteName)
+        public SiteName_Dto(int siteUId, string siteName, DateTime? createdAt, DateTime? updatedAt)
         {
             if (siteName == null)
                 siteName = "";
 
             SiteUId = siteUId;
             SiteName = siteName;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
         }
         #endregion
 
@@ -242,12 +255,22 @@ namespace eFormShared
         ///...
         /// </summary>
         public string SiteName { get; }
-       
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? CreatedAt { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? UpdatedAt { get; }
+
         #endregion
 
         public override string ToString()
         {
-            return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + ".";
+            return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
         }
     }
     #endregion
@@ -260,7 +283,7 @@ namespace eFormShared
         {
         }
 
-        public Worker_Dto(int workerUId, string firstName, string lastName, string email)
+        public Worker_Dto(int workerUId, string firstName, string lastName, string email, DateTime? createdAt, DateTime? updatedAt)
         {
             if (firstName == null)
                 firstName = "";
@@ -275,6 +298,8 @@ namespace eFormShared
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
         }
         #endregion
 
@@ -299,11 +324,21 @@ namespace eFormShared
         /// </summary>
         public string Email { get; }
 
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? CreatedAt { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? UpdatedAt { get; }
+
         #endregion
 
         public override string ToString()
         {
-            return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" + Email + ".";
+            return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" + Email + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
         }
     }
     #endregion
@@ -357,12 +392,14 @@ namespace eFormShared
         {
         }
 
-        public Unit_Dto(int unitUId, int customerNo, int otpCode, int siteUId)
+        public Unit_Dto(int unitUId, int customerNo, int otpCode, int siteUId, DateTime? createdAt, DateTime? updatedAt)
         {
             UnitUId = unitUId;
             CustomerNo = customerNo;
             OtpCode = otpCode;
             SiteUId = siteUId;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
         }
         #endregion
 
@@ -387,11 +424,21 @@ namespace eFormShared
         /// </summary>
         public int SiteUId { get; }
 
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? CreatedAt { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? UpdatedAt { get; }
+
         #endregion
 
         public override string ToString()
         {
-            return "UnitUId:" + UnitUId + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + " / SiteUId:" + SiteUId + ".";
+            return "UnitUId:" + UnitUId + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + " / SiteUId:" + SiteUId + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
         }
     }
     #endregion

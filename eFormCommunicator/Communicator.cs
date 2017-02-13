@@ -183,8 +183,9 @@ namespace eFormCommunicator
             string response = http.SiteCreate(name);
             var parsedData = JRaw.Parse(response);
 
-            Site_Dto siteDto = new Site_Dto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0);
-            Unit_Dto unitDto = new Unit_Dto(int.Parse(parsedData["unit_id"].ToString()), 0, 0, siteDto.SiteId);
+            int unitId = int.Parse(parsedData["unit_id"].ToString());
+            Site_Dto siteDto = new Site_Dto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
+            Unit_Dto unitDto = new Unit_Dto(unitId, 0, 0, siteDto.SiteId, DateTime.Parse(parsedData["created_at"].ToString()), DateTime.Parse(parsedData["updated_at"].ToString()));
             Tuple<Site_Dto, Unit_Dto> result = new Tuple<Site_Dto, Unit_Dto>(siteDto, unitDto);
 
             return result;
@@ -209,7 +210,9 @@ namespace eFormCommunicator
             {
                 string name = item["name"].ToString();
                 int microtingUid = int.Parse(item["id"].ToString());
-                SiteName_Dto temp = new SiteName_Dto(microtingUid, name);
+                DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
+                DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
+                SiteName_Dto temp = new SiteName_Dto(microtingUid, name, createdAt, updatedAt);
                 lst.Add(temp);
             }
             return lst;
@@ -222,7 +225,9 @@ namespace eFormCommunicator
             string result = http.WorkerCreate(firstName, lastName, email);
             var parsedData = JRaw.Parse(result);
             int workerUid = int.Parse(parsedData["id"].ToString());
-            return new Worker_Dto(workerUid, firstName, lastName, email);
+            DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
+            DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
+            return new Worker_Dto(workerUid, firstName, lastName, email, createdAt, updatedAt);
 
         }
 
@@ -247,7 +252,9 @@ namespace eFormCommunicator
                 string lastName = item["last_name"].ToString();
                 string email = item["email"].ToString();
                 int microtingUid = int.Parse(item["id"].ToString());
-                Worker_Dto temp = new Worker_Dto(microtingUid, firstName, lastName, email);
+                DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
+                DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
+                Worker_Dto temp = new Worker_Dto(microtingUid, firstName, lastName, email, createdAt, updatedAt);
                 lst.Add(temp);
             }
             return lst;
@@ -313,7 +320,9 @@ namespace eFormCommunicator
                     otpCode = int.Parse(item["otp_code"].ToString());
                 }
 
-                Unit_Dto temp = new Unit_Dto(microtingUid, customerNo, otpCode, siteUId);
+                DateTime? createdAt = DateTime.Parse(item["created_at"].ToString());
+                DateTime? updatedAt = DateTime.Parse(item["updated_at"].ToString());
+                Unit_Dto temp = new Unit_Dto(microtingUid, customerNo, otpCode, siteUId, createdAt, updatedAt);
                 lst.Add(temp);
             }
             return lst;
