@@ -1245,13 +1245,33 @@ namespace eFormSqlController
         #region site
         public List<SiteName_Dto> SiteGetAll()
         {
-            throw new NotImplementedException();
+            List<SiteName_Dto> siteList = new List<SiteName_Dto>();
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                foreach (sites aSite in db.sites.ToList())
+                {
+                    SiteName_Dto siteNameDto = new SiteName_Dto((int)aSite.microting_uid, aSite.name);
+                    siteList.Add(siteNameDto);
+                }
+            }
+            return siteList;
 
         }
 
         public List<Site_Dto> SimpleSiteGetAll()
         {
-            throw new NotImplementedException();
+            List<Site_Dto> siteList = new List<Site_Dto>();
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                foreach (sites aSite in db.sites.ToList())
+                {
+                    var unit = aSite.units.First();
+                    var worker = aSite.site_workers.First().worker;
+                    Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code);
+                    siteList.Add(siteDto);
+                }
+            }
+            return siteList;
 
         }
 

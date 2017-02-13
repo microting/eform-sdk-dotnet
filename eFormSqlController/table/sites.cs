@@ -8,11 +8,21 @@ namespace eFormSqlController
 
     public partial class sites
     {
+        public sites()
+        {
+            this.cases = new HashSet<cases>();
+            this.units = new HashSet<units>();
+            this.site_workers = new HashSet<site_workers>();
+            this.check_list_sites = new HashSet<check_list_sites>();
+        }
+
         [Key]
         public int id { get; set; }
 
+        [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
 
+        [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
@@ -24,5 +34,13 @@ namespace eFormSqlController
 
         [StringLength(255)]
         public string workflow_state { get; set; }
+
+        public virtual ICollection<cases> cases { get; set; }
+
+        public virtual ICollection<units> units { get; set; }
+
+        public virtual ICollection<site_workers> site_workers { get; set; }
+
+        public virtual ICollection<check_list_sites> check_list_sites { get; set; }
     }
 }

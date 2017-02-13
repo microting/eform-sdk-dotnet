@@ -11,8 +11,10 @@ namespace eFormSqlController
         [Key]
         public int id { get; set; }
 
+        [ForeignKey("site")]
         public int? site_id { get; set; }
 
+        [ForeignKey("worker")]
         public int? worker_id { get; set; }
 
         public int? microting_uid { get; set; }
@@ -27,5 +29,9 @@ namespace eFormSqlController
 
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
+
+        public virtual sites site { get; set; }
+
+        public virtual workers worker { get; set; }
     }
 }

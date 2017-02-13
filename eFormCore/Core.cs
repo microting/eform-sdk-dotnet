@@ -921,12 +921,12 @@ namespace eFormCore
         #region sites
         public List<SiteName_Dto>   SiteGetAll()
         {
-            throw new NotImplementedException();
+            return sqlController.SiteGetAll();
         }
 
         public List<Site_Dto> SimpleSiteGetAll()
         {
-            throw new NotImplementedException();
+            return sqlController.SimpleSiteGetAll();
         }
 
         public Site_Dto  SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
