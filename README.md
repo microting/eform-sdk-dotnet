@@ -10,7 +10,11 @@ A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Setup
 
-To get started with Microting eForm SDK, we recommend you to add the DLL's from the Compiled directory as references to your project.
+To get started with Microting eForm SDK, we recommend you to install the SDK using NuGet with 
+
+```
+PM> Install-Package Microting.eForm
+```
 
 [We also recommend you to have a look at the reference web frontend](https://github.com/microting/eform-frontend-dotnet)
 
