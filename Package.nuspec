@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microting.eForm</id>
+    <version>1.3.0</version>
+    <authors>Microting A/S</authors>
+    <owners>Microting A/S</owners>
+    <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/microting/eform-sdk-dotnet</projectUrl>
+	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET SDK for integrating with the Microting eForm API</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <dependencies>
+	  <dependency id="Newtonsoft.Json" version="9.0.1"/>
+	  <dependency id="EntityFramework" version="6.1.3" />
+	  <dependency id="Microsoft.Office.Interop.Excel" version="15.0.4795.1000" />
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="Compiled\eFormCommunicator.dll" target="lib"/>
+	<file src="Compiled\eFormCore.dll" target="lib"/>
+	<file src="Compiled\eFormOffice.dll" target="lib"/>
+	<file src="Compiled\eFormRequest.dll" target="lib"/>
+	<file src="Compiled\eFormResponse.dll" target="lib"/>
+	<file src="Compiled\eFormShared.dll" target="lib"/>
+	<file src="Compiled\eFormSqlController.dll" target="lib"/>
+	<file src="Compiled\eFormSubscriber.dll" target="lib"/>
+  </files>
+</package>
