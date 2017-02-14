@@ -184,8 +184,9 @@ namespace eFormCommunicator
             var parsedData = JRaw.Parse(response);
 
             int unitId = int.Parse(parsedData["unit_id"].ToString());
+            int otpCode = int.Parse(parsedData["otp_code"].ToString());
             Site_Dto siteDto = new Site_Dto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
-            Unit_Dto unitDto = new Unit_Dto(unitId, 0, 0, siteDto.SiteId, DateTime.Parse(parsedData["created_at"].ToString()), DateTime.Parse(parsedData["updated_at"].ToString()));
+            Unit_Dto unitDto = new Unit_Dto(unitId, 0, otpCode, siteDto.SiteId, DateTime.Parse(parsedData["created_at"].ToString()), DateTime.Parse(parsedData["updated_at"].ToString()));
             Tuple<Site_Dto, Unit_Dto> result = new Tuple<Site_Dto, Unit_Dto>(siteDto, unitDto);
 
             return result;

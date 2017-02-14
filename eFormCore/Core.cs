@@ -1187,14 +1187,15 @@ namespace eFormCore
 
 
                     Worker_Dto workerDto = communicator.WorkerCreate(firstName, lastName, email);
+                    int workerUId = workerDto.WorkerUId;
 
                     workerDto = sqlController.WorkerRead(workerDto.WorkerUId);
                     if (workerDto == null)
                     {
-                        sqlController.WorkerCreate(workerDto.WorkerUId, firstName, lastName, email);
+                        sqlController.WorkerCreate(workerUId, firstName, lastName, email);
                     }
 
-                    return WorkerRead(workerDto.WorkerUId);
+                    return WorkerRead(workerUId);
                 }
                 else
                     throw new Exception("Core is not running");
