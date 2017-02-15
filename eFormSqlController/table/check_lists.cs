@@ -8,6 +8,13 @@ namespace eFormSqlController
 
     public partial class check_lists
     {
+
+        public check_lists()
+        {
+            this.cases = new HashSet<cases>();
+            this.check_list_sites = new HashSet<check_list_sites>();
+        }
+
         [Key]
         public int id { get; set; }
 
@@ -57,5 +64,9 @@ namespace eFormSqlController
         public short? fast_navigation { get; set; }
 
         public short? download_entities { get; set; }
+
+        public virtual ICollection<cases> cases { get; set; }
+
+        public virtual ICollection<check_list_sites> check_list_sites { get; set; }
     }
 }

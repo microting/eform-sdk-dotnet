@@ -59,12 +59,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MigrationsContextFactory .cs" />
+    <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.cs" />
+    <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.Designer.cs">
+      <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702131247518_RenamingDataUploaded.cs" />
+    <Compile Include="Migrations\201702131247518_RenamingDataUploaded.Designer.cs">
+      <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\cases.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
     <Compile Include="table\check_list_values.cs" />
-    <Compile Include="table\data_uploaded.cs" />
+    <Compile Include="table\uploaded_data.cs" />
     <Compile Include="table\entity_groups.cs" />
     <Compile Include="table\entity_items.cs" />
     <Compile Include="table\fields.cs" />
@@ -75,24 +83,24 @@
     <Compile Include="table\outlook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="table\settings.cs" />
-    <Compile Include="table\version_units.cs" />
-    <Compile Include="table\version_site_workers.cs" />
+    <Compile Include="table\unit_versions.cs" />
+    <Compile Include="table\site_worker_versions.cs" />
     <Compile Include="table\site_workers.cs" />
     <Compile Include="table\units.cs" />
     <Compile Include="table\workers.cs" />
-    <Compile Include="table\version_workers.cs" />
+    <Compile Include="table\worker_versions.cs" />
     <Compile Include="table\sites.cs" />
     <Compile Include="SqlController.cs" />
-    <Compile Include="table\version_cases.cs" />
-    <Compile Include="table\version_check_lists.cs" />
-    <Compile Include="table\version_check_list_sites.cs" />
-    <Compile Include="table\version_check_list_values.cs" />
-    <Compile Include="table\version_data_uploaded.cs" />
-    <Compile Include="table\version_entity_groups.cs" />
-    <Compile Include="table\version_entity_items.cs" />
-    <Compile Include="table\version_fields.cs" />
-    <Compile Include="table\version_field_values.cs" />
-    <Compile Include="table\version_sites.cs" />
+    <Compile Include="table\case_versions.cs" />
+    <Compile Include="table\check_list_versions.cs" />
+    <Compile Include="table\check_list_site_versions.cs" />
+    <Compile Include="table\check_list_value_versions.cs" />
+    <Compile Include="table\uploaded_data_versions.cs" />
+    <Compile Include="table\entity_group_versions.cs" />
+    <Compile Include="table\entity_item_versions.cs" />
+    <Compile Include="table\field_versions.cs" />
+    <Compile Include="table\field_value_versions.cs" />
+    <Compile Include="table\site_versions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
@@ -107,6 +115,14 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
+      <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702131247518_RenamingDataUploaded.resx">
+      <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

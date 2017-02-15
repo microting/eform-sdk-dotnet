@@ -28,6 +28,9 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
+        [ForeignKey("site")]
         public int? site_id { get; set; }
+
+        public virtual sites site { get; set; }
     }
 }

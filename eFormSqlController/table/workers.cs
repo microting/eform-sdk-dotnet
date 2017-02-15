@@ -32,5 +32,12 @@ namespace eFormSqlController
 
         [StringLength(255)]
         public string email { get; set; }
+
+        public virtual ICollection<site_workers> site_workers { get; set; }
+
+        public string full_name()
+        {
+            return this.first_name + " " + this.last_name;
+        }
     }
 }
