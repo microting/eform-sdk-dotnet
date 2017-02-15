@@ -72,7 +72,7 @@ namespace eFormSqlController
                         }
                     }
 
-                    TruncateTable(typeof(settings).Name);
+                    UnitTest_TruncateTable(typeof(settings).Name);
 
                     SettingAdd(1, "firstRunDone");
                     SettingAdd(2, "knownSitesDone");
@@ -94,7 +94,7 @@ namespace eFormSqlController
                 #region FieldTypeCount
                 if (FieldTypeCount() < 18)
                 {
-                    TruncateTable(typeof(field_types).Name);
+                    UnitTest_TruncateTable(typeof(field_types).Name);
 
                     FieldTypeAdd(1, "Text", "Simple text field");
                     FieldTypeAdd(2, "Number", "Simple number field");
@@ -325,7 +325,7 @@ namespace eFormSqlController
             }
         }
 
-        public int                  CaseCreate(int checkListId, int siteUId, string microtingUId, string caseUId, string custom)
+        public int                  CaseCreate(int checkListId, int siteUId, string microtingUId, string microtingCheckId, string caseUId, string custom)
         {
             try
             {
@@ -341,6 +341,7 @@ namespace eFormSqlController
                     aCase.updated_at = DateTime.Now;
                     aCase.check_list_id = checkListId;
                     aCase.microting_uid = microtingUId;
+                    aCase.microting_check_uid = microtingCheckId;
                     aCase.case_uid = caseUId;
                     aCase.workflow_state = "created";
                     aCase.version = 1;
@@ -553,7 +554,11 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases caseStd = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == null);
+                    cases caseStd = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
+
+                    if (caseStd == null)
+                        caseStd = db.cases.Single(x => x.microting_uid == microtingUId);
+
                     int userId = db.workers.Single(x => x.microting_uid == userUId).id;
                     int unitId = db.units.Single(x => x.microting_uid == unitUId).id;
 
@@ -564,25 +569,20 @@ namespace eFormSqlController
                     caseStd.workflow_state = "created";
                     caseStd.version = caseStd.version + 1;
                     caseStd.unit_id = unitId;
-                    #region caseStd.microting_check_id = microtingCheckId; and update "check_list_sites" if needed
-                    if (microtingCheckId != null)
-                    {
-                        check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.microting_uid == microtingUId);
-                        if (match != null)
-                        {
-                            match.last_check_id = microtingCheckId;
-                            match.version = match.version + 1;
-                            match.updated_at = DateTime.Now;
-
-                            db.SaveChanges();
-
-                            db.version_check_list_sites.Add(MapCheckListSiteVersions(match));
-                            db.SaveChanges();
-                        }
-
-                    }
-
                     caseStd.microting_check_uid = microtingCheckId;
+                    #region - update "check_list_sites" if needed
+                    check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.microting_uid == microtingUId);
+                    if (match != null)
+                    {
+                        match.last_check_id = microtingCheckId;
+                        match.version = match.version + 1;
+                        match.updated_at = DateTime.Now;
+
+                        db.SaveChanges();
+
+                        db.version_check_list_sites.Add(MapCheckListSiteVersions(match));
+                        db.SaveChanges();
+                    }
                     #endregion
 
                     db.version_cases.Add(MapCaseVersions(caseStd));
@@ -743,9 +743,8 @@ namespace eFormSqlController
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
-                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, cLS.microting_uid, "ReversedCase", "");
-                        Case_Dto cDto = CaseReadByCaseId(caseId);
-                        responseCase = db.cases.Single(x => x.microting_uid == cDto.MicrotingUId && x.microting_check_uid == cDto.CheckUId);
+                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[0].Id, "ReversedCase", "");
+                        responseCase = db.cases.Single(x => x.id == caseId);
                     }
                     catch //already created case id retrived
                     {
@@ -3203,36 +3202,7 @@ namespace eFormSqlController
         #endregion
 
         #region unit test
-        public List<string> UnitTest_CheckCase()
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    List<string> lstMUId = new List<string>();
-
-                    List<cases> lstCases = db.cases.Where(x => x.workflow_state == "created").ToList();
-                    foreach (cases aCase in lstCases)
-                    {
-                        lstMUId.Add(aCase.microting_uid);
-                    }
-
-                    List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state == "created").ToList();
-                    foreach (check_list_sites cLS in lstCLS)
-                    {
-                        lstMUId.Add(cLS.microting_uid);
-                    }
-
-                    return lstMUId;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CheckCase failed", ex);
-            }
-        }
-
-        public List<string> UnitTest_FindAllActiveCases()
+        public List<string>     UnitTest_FindAllActiveCases()
         {
             try
             {
@@ -3257,11 +3227,11 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("FindAllActiveCases failed", ex);
+                throw new Exception("UnitTest_FindAllActiveCases failed", ex);
             }
         }
 
-        public List<string> UnitTest_FindAllActiveEntities()
+        public List<string>     UnitTest_FindAllActiveEntities()
         {
             try
             {
@@ -3280,122 +3250,86 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("FindAllActiveCases failed", ex);
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
             }
         }
 
-        public bool         UnitTest_CleanAndResetAllOfDB()
+        public bool             UnitTest_TruncateTable(string tableName)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    {
-                        TruncateTable(typeof(cases).Name);
-                        TruncateTable(typeof(case_versions).Name);
-                        //---
-                        TruncateTable(typeof(check_list_sites).Name);
-                        TruncateTable(typeof(check_list_site_versions).Name);
-                    }
-                    //---
-                    {
-                        TruncateTable(typeof(check_list_values).Name);
-                        TruncateTable(typeof(check_list_value_versions).Name);
-                        //---
-                        TruncateTable(typeof(check_lists).Name);
-                        TruncateTable(typeof(check_list_versions).Name);
-                    }
-                    //---
-                    {
-                        TruncateTable(typeof(entity_groups).Name);
-                        TruncateTable(typeof(entity_group_versions).Name);
-                        //---
-                        TruncateTable(typeof(entity_items).Name);
-                        TruncateTable(typeof(entity_item_versions).Name);
-                    }
-                    //---
-                    {
-                        TruncateTable(typeof(fields).Name);
-                        TruncateTable(typeof(field_versions).Name);
-                        //---
-                         TruncateTable(typeof(field_values).Name);
-                        TruncateTable(typeof(field_value_versions).Name);
-                        //---
-                        TruncateTable(typeof(uploaded_data).Name);
-                        TruncateTable(typeof(uploaded_data_versions).Name);
-                    }
-                    //---
-                    {
-                        TruncateTable(typeof(sites).Name);
-                        TruncateTable(typeof(site_versions).Name);
-                        //---
-                        TruncateTable(typeof(site_workers).Name);
-                        TruncateTable(typeof(site_worker_versions).Name);
-                        //---
-                        TruncateTable(typeof(units).Name);
-                        TruncateTable(typeof(unit_versions).Name);
-                        //---
-                        TruncateTable(typeof(workers).Name);
-                        TruncateTable(typeof(worker_versions).Name);
-                    }
-                    //---
-                    TruncateTable(typeof(notifications).Name);
-                    TruncateTable(typeof(outlook).Name);
-                    //---
-                    TruncateTable(typeof(settings).Name);
-                    TruncateTable(typeof(field_types).Name);
-                    //---
-
-                    return true;
-                }
-            }
-            catch
-            {
-                 return false;
-            }
-        }
-
-        public bool         UnitTest_CleanAllSitesTabels()
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    TruncateTable(typeof(sites).Name);
-                    TruncateTable(typeof(site_versions).Name);
-                    //---
-                    TruncateTable(typeof(site_workers).Name);
-                    TruncateTable(typeof(site_worker_versions).Name);
-                    //---
-                    TruncateTable(typeof(units).Name);
-                    TruncateTable(typeof(unit_versions).Name);
-                    //---
-                    TruncateTable(typeof(workers).Name);
-                    TruncateTable(typeof(worker_versions).Name);
-
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool    TruncateTable(string tableName)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].["+tableName+"]");
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[" + tableName + "]");
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                string exStr = ex.ToString();
+                string str = ex.Message;
                 return false;
+            }
+        }
+
+        public void             UnitTest_TruncateTableAll()
+        {
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                {
+                    UnitTest_TruncateTable(typeof(cases).Name);
+                    UnitTest_TruncateTable(typeof(case_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(check_list_sites).Name);
+                    UnitTest_TruncateTable(typeof(check_list_site_versions).Name);
+                }
+                //---
+                {
+                    UnitTest_TruncateTable(typeof(check_list_values).Name);
+                    UnitTest_TruncateTable(typeof(check_list_value_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(check_lists).Name);
+                    UnitTest_TruncateTable(typeof(check_list_versions).Name);
+                }
+                //---
+                {
+                    UnitTest_TruncateTable(typeof(entity_groups).Name);
+                    UnitTest_TruncateTable(typeof(entity_group_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(entity_items).Name);
+                    UnitTest_TruncateTable(typeof(entity_item_versions).Name);
+                }
+                //---
+                {
+                    UnitTest_TruncateTable(typeof(fields).Name);
+                    UnitTest_TruncateTable(typeof(field_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(field_values).Name);
+                    UnitTest_TruncateTable(typeof(field_value_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(uploaded_data).Name);
+                    UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
+                }
+                //---
+                {
+                    UnitTest_TruncateTable(typeof(sites).Name);
+                    UnitTest_TruncateTable(typeof(site_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(site_workers).Name);
+                    UnitTest_TruncateTable(typeof(site_worker_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(units).Name);
+                    UnitTest_TruncateTable(typeof(unit_versions).Name);
+                    //---
+                    UnitTest_TruncateTable(typeof(workers).Name);
+                    UnitTest_TruncateTable(typeof(worker_versions).Name);
+                }
+                //---
+                UnitTest_TruncateTable(typeof(notifications).Name);
+                UnitTest_TruncateTable(typeof(outlook).Name);
+                //---
+                UnitTest_TruncateTable(typeof(settings).Name);
+                UnitTest_TruncateTable(typeof(field_types).Name);
+                //---
             }
         }
 

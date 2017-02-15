@@ -140,7 +140,7 @@ namespace eFormCore
         ICore core;
         SqlController sqlCon;
         SqlControllerCustom sqlCustom;
-        Tools t = new Tools();
+        eFormShared.Tools t = new eFormShared.Tools();
         #endregion
 
         #region con
@@ -205,49 +205,12 @@ namespace eFormCore
                 {
                     Console.WriteLine("Program setting up...");
 
+                    AdminTools at = new AdminTools(serverConnectionString);
+                    at.SystemReset();
+
                     core.Start(serverConnectionString);
 
-                    #region clean database
-                    try
-                    {
-                        List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
-                        foreach (string mUId in lstCaseMUIds)
-                        {
-                            try
-                            {
-                                core.CaseDelete(mUId);
-                            }
-                            catch (Exception ex)
-                            {
-                                File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", "CaseDelete:'"+mUId+"' failed, due to:" + ex.Message + Environment.NewLine);
-                            }
-                        }
-
-                        List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
-                        foreach (string mUId in lstEntityMUIds)
-                        {
-                            try
-                            {
-                                core.EntityGroupDelete(mUId);
-                            }
-                            catch (Exception ex)
-                            {
-                                File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", "EntityGroupDelete:'" + mUId + "' failed, due to:" + ex.Message + Environment.NewLine);
-                            }
-                        }
-
-                        sqlCon.UnitTest_CleanAndResetAllOfDB();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("CleanUp failed", ex);
-                    }
-                    #endregion
-
-                    core.Close();
-                    core.Start(serverConnectionString);
-
-                    int copiesOnTable = 5;
+                    int copiesOnTable = 2;
 
                     #region import xml
                     string xml = File.ReadAllText("custom\\customStep1.txt");
@@ -331,6 +294,7 @@ namespace eFormCore
                     Console.WriteLine("Program setting up, done.");
                 }
                 sqlCustom.VariableSet("setup_done", "true");
+                sqlCustom.VariableSet("synced", "false");
             }
         }
 
@@ -487,7 +451,7 @@ namespace eFormCore
             {
                 try
                 {
-                    if (sqlCustom.VariableGet("synced") == "fale")
+                    if (sqlCustom.VariableGet("synced") == "false")
                     {
                         string mUId;
                         EntityGroup eG;

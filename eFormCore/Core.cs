@@ -62,7 +62,7 @@ namespace eFormCore
         SqlController sqlController;
         Subscriber subscriber;
         ExcelController excelController;
-        Tools t = new Tools();
+        eFormShared.Tools t = new eFormShared.Tools();
 
         object _lockMain = new object();
         object _lockEventClient = new object();
@@ -112,7 +112,6 @@ namespace eFormCore
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
 
-
                     #region settings read and checked
                     comToken = sqlController.SettingRead("comToken");
                     comAddress = sqlController.SettingRead("comAddress");
@@ -138,7 +137,6 @@ namespace eFormCore
                     TriggerLog("Settings checked");
                     #endregion
 
-
                     #region core.Start()
                     TriggerLog("");
                     TriggerLog("");
@@ -150,12 +148,10 @@ namespace eFormCore
                     TriggerLog("Core started");
                     #endregion
 
-
                     //communicators
                     communicator = new Communicator(comAddress, comToken, organizationId, comAddressBasic);
                     communicator.EventLog += CoreHandleEventLog;
                     TriggerLog("Communicator started");
-
 
                     //subscriber
                     subscriber = new Subscriber(subscriberToken, subscriberAddress, subscriberName);
@@ -165,17 +161,14 @@ namespace eFormCore
                     TriggerLog("Subscriber now triggers events");
                     subscriber.Start();
 
-
                     //communicators
                     excelController = new ExcelController();
                     TriggerLog("Excel (Office) started");
 
-
                     #region known sites
                     if (!bool.Parse(sqlController.SettingRead("knownSitesDone")))
                     {
-                        sqlController.UnitTest_CleanAllSitesTabels();
-
+                        sqlController.UnitTest_TruncateTable(typeof(sites).Name);
                         foreach (var item in communicator.SiteLoadAllFromRemote())
                         {
                             SiteName_Dto siteDto = sqlController.SiteRead(item.SiteUId);
@@ -185,6 +178,7 @@ namespace eFormCore
                             }
                         }
 
+                        sqlController.UnitTest_TruncateTable(typeof(workers).Name);
                         foreach (var item in communicator.WorkerLoadAllFromRemote())
                         {
                             Worker_Dto workerDto = sqlController.WorkerRead(item.WorkerUId);
@@ -194,6 +188,7 @@ namespace eFormCore
                             }
                         }
 
+                        sqlController.UnitTest_TruncateTable(typeof(site_workers).Name);
                         foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
                         {
                             Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(item.MicrotingUId);
@@ -202,8 +197,11 @@ namespace eFormCore
                                 sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
                             }
                         }
+
                         Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
                         int customerNo = organizationDto.CustomerNo;
+
+                        sqlController.UnitTest_TruncateTable(typeof(units).Name);
                         foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
                         {
                             Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);
@@ -217,7 +215,6 @@ namespace eFormCore
                         sqlController.SettingUpdate("knownSitesDone", "true");
                     }
                     #endregion
-
 
                     coreRunning = true;
                     coreStatChanging = false;
@@ -602,7 +599,7 @@ namespace eFormCore
                             string mUId = SendXml(mainElement, siteId);
 
                             if (reversed == false)
-                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, caseUId, custom);
+                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, null, caseUId, custom);
                             else
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
@@ -2167,7 +2164,7 @@ namespace eFormCore
                                         if (eI.workflow_state == "created")
                                         {
                                             // TODO! el.displayOrder missing and remove int.Parse(eI.description)
-                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, int.Parse(eI.description), eI.entity_item_uid);
+                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.display_index, eI.entity_item_uid);
 
                                             if (microtingUId != null)
                                             {
@@ -2179,7 +2176,7 @@ namespace eFormCore
                                         if (eI.workflow_state == "updated")
                                         {
                                             // TODO! el.displayOrder missing and remove int.Parse(eI.description)
-                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, int.Parse(eI.description), eI.entity_item_uid))
+                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.display_index, eI.entity_item_uid))
                                             {
                                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
                                                 continue;
@@ -2200,9 +2197,9 @@ namespace eFormCore
                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed_to_sync");
                                 TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
+                                TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync. Exception:'" + ex.Message + "'");
                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed to sync");
                             }
                         }

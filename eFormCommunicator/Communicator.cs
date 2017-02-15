@@ -28,6 +28,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 
 namespace eFormCommunicator
 {
@@ -211,8 +212,8 @@ namespace eFormCommunicator
             {
                 string name = item["name"].ToString();
                 int microtingUid = int.Parse(item["id"].ToString());
-                DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
-                DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
+                DateTime? createdAt = DateTime.Parse(item["created_at"].ToString());
+                DateTime? updatedAt = DateTime.Parse(item["updated_at"].ToString());
                 SiteName_Dto temp = new SiteName_Dto(microtingUid, name, createdAt, updatedAt);
                 lst.Add(temp);
             }
@@ -253,8 +254,8 @@ namespace eFormCommunicator
                 string lastName = item["last_name"].ToString();
                 string email = item["email"].ToString();
                 int microtingUid = int.Parse(item["id"].ToString());
-                DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
-                DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
+                DateTime? createdAt = DateTime.Parse(item["created_at"].ToString());
+                DateTime? updatedAt = DateTime.Parse(item["updated_at"].ToString());
                 Worker_Dto temp = new Worker_Dto(microtingUid, firstName, lastName, email, createdAt, updatedAt);
                 lst.Add(temp);
             }

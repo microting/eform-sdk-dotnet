@@ -1,20 +1,17 @@
 ﻿using eFormShared;
+using eFormCommunicator;
 using eFormSqlController;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eFormCore
 {
     public class AdminTools
     {
         #region var
-        string serverConnectionString;
-        ICore core;
+        Communicator communicator;
         SqlController sqlCon;
         Tools t = new Tools();
         #endregion
@@ -22,23 +19,9 @@ namespace eFormCore
         #region con
         public AdminTools(string serverConnectionString)
         {
-            this.serverConnectionString = serverConnectionString;
-
-            core = new Core();
-            #region connect event triggers
-            core.HandleCaseCreated += EventCaseCreated;
-            core.HandleCaseRetrived += EventCaseRetrived;
-            core.HandleCaseCompleted += EventCaseCompleted;
-            core.HandleCaseDeleted += EventCaseDeleted;
-            core.HandleFileDownloaded += EventFileDownloaded;
-            core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
-            core.HandleEventException += EventException;
-            #endregion
-
             sqlCon = new SqlController(serverConnectionString);
+            communicator = new Communicator(sqlCon.SettingRead("comAddress"), sqlCon.SettingRead("comToken"), 
+                sqlCon.SettingRead("organizationId"), sqlCon.SettingRead("comAddressBasic"));
         }
         #endregion
 
@@ -46,21 +29,19 @@ namespace eFormCore
         {
             #region warning
             Console.WriteLine("");
-            Console.WriteLine("Admin tools program running.");
-            Console.WriteLine("");
             Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
             Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
             Console.WriteLine("");
-            Console.WriteLine("                These tools include; tools that will remove ALL data from database,");
+            Console.WriteLine("                These admin tools include; tools that will remove ALL data from database,");
             Console.WriteLine("                and other that could be VERY harmfull if used incorrect");
             Console.WriteLine("");
-            Console.WriteLine("                Use with great care");
+            Console.WriteLine("                - Use with great care");
             Console.WriteLine("");
             Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
             Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
+            Console.WriteLine("");
+            Console.WriteLine("Admin tools program running.");
             #endregion
-
-            core.Start(serverConnectionString);
 
             while (true)
             {
@@ -83,11 +64,15 @@ namespace eFormCore
                 if (input.ToUpper() == "C")
                 {
                     Console.WriteLine("Retract all known eForm on devices");
+                    RetractEforms();
+                    Console.WriteLine("Done");
                 }
 
                 if (input.ToUpper() == "E")
                 {
                     Console.WriteLine("Retract all known Entities");
+                    RetractEntities();
+                    Console.WriteLine("Done");
                 }
 
                 if (input.ToUpper() == "D")
@@ -117,7 +102,10 @@ namespace eFormCore
                     string confirm = Console.ReadLine();
 
                     if (confirm.ToUpper() == "Y")
-                        ClearAndResetSystems();
+                    {
+                        SystemReset();
+                        Console.WriteLine("Done");
+                    }
                 }
 
                 if (input.ToUpper() == "Q")
@@ -126,63 +114,61 @@ namespace eFormCore
                     break;
                 }
             }
-
-            core.Close();
         }
 
-        public void ClearAndResetSystems()
+        public void RetractEforms()
         {
             List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
             foreach (string mUId in lstCaseMUIds)
-                core.CaseDelete(mUId);
+            {
+                try
+                {
+                    var aCase = sqlCon.CaseReadByMUId(mUId);
+                    if (aCase != null)
+                        communicator.Delete(mUId, aCase.SiteUId);
+                }
+                catch (Exception ex)
+                {
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", "CaseDelete  :'" + mUId + "' failed, due to:" + ex.Message + Environment.NewLine);
+                }
+            }
+        }
 
+        public void RetractEntities()
+        {
             List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
             foreach (string mUId in lstEntityMUIds)
-                core.EntityGroupDelete(mUId);
-
-            sqlCon.UnitTest_CleanAndResetAllOfDB();
+            {
+                try
+                {
+                    string type = sqlCon.EntityGroupDelete(mUId);
+                    if (type != null)
+                        communicator.EntityGroupDelete(type, mUId);
+                }
+                catch (Exception ex)
+                {
+                    File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", "EntityDelete:'" + mUId + "' failed, due to:" + ex.Message + Environment.NewLine);
+                }
+            }
         }
 
-        #region events
-        public void EventCaseCreated(object sender, EventArgs args)
+        public void DbClearAll()
         {
+            try
+            {
+                sqlCon.UnitTest_TruncateTableAll();
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText("log\\" + DateTime.Now.ToString("MM.dd") + "_warning_dbClean.txt", t.PrintException("ClearAndResetSystems failed", ex));
+            }
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public void SystemReset()
         {
+            RetractEforms();
+            RetractEntities();
+            DbClearAll();
         }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-        }
-
-        public void EventLog(object sender, EventArgs args)
-        {
-        }
-
-        public void EventMessage(object sender, EventArgs args)
-        {
-        }
-
-        public void EventWarning(object sender, EventArgs args)
-        {
-        }
-
-        public void EventException(object sender, EventArgs args)
-        {
-        }
-        #endregion
     }
 }
