@@ -166,15 +166,37 @@ namespace eFormRequest
             DisplayOrder = displayOrder;
             Dummy = dummy;
 
-            MinValue = minValue;
-            MaxValue = maxValue;
             DefaultValue = defaultValue;
+            MaxValue = maxValue;
+            MinValue = minValue;
         }
 
         #region var
         public string DefaultValue { get; set; }
+
+        #region public string/DateTime MaxValue { get; set; }
+        [XmlIgnore]
         public DateTime MaxValue { get; set; }
+
+        [XmlElement("MaxValue")]
+        public string MaxValueString
+        {
+            get { return MaxValue.ToString("yyyy-MM-dd"); }
+            set { MaxValue = DateTime.Parse(value); }
+        }
+        #endregion
+
+        #region public string/DateTime MinValue { get; set; }
+        [XmlIgnore]
         public DateTime MinValue { get; set; }
+
+        [XmlElement("MinValue")]
+        public string MinValueString
+        {
+            get { return MinValue.ToString("yyyy-MM-dd"); }
+            set { MinValue = DateTime.Parse(value); }
+        }
+        #endregion
         #endregion
     }
     #endregion
@@ -280,7 +302,7 @@ namespace eFormRequest
         }
 
         public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            string defaultValue)
+            string value)
         {
             Id = id;
             Mandatory = mandatory;
@@ -292,10 +314,10 @@ namespace eFormRequest
             DisplayOrder = displayOrder;
             Dummy = dummy;
 
-            DefaultValue = defaultValue;
+            Value = value;
         }
 
-        public string DefaultValue { get; set; }
+        public string Value { get; set; }
     }
     #endregion
 

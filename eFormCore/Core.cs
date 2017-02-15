@@ -364,6 +364,8 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<FolderName>", "<CheckListFolderName>");
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
 
+                xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
+       
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
                 {
@@ -406,23 +408,78 @@ namespace eFormCore
             }
         }
 
-        public int              TemplatCreate(MainElement mainElement)
+        public List<string>     TemplatValidation(MainElement mainElement)
         {
-            try
-            {
-                if (mainElement == null)
-                    throw new ArgumentNullException("mainElement not allowed to be null");
-
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("TemplatCreate input failed", ex, false);
-            }
+            if (mainElement == null)
+                throw new ArgumentNullException("mainElement not allowed to be null");
 
             try
             {
                 if (coreRunning)
                 {
+                    List<string> errorLst = new List<string>();
+                    var dataItems = mainElement.DataItemGetAll();
+
+                    foreach ( var dataItem in dataItems)
+                    {
+                        #region entities
+                        if (dataItem.GetType() == typeof(EntitySearch))
+                        {
+                            EntitySearch entitySearch = (EntitySearch)dataItem;
+                            var temp = sqlController.EntityGroupRead(entitySearch.EntityTypeId.ToString());
+                            if (temp == null)
+                                errorLst.Add("Element entitySearch.EntityTypeId:'" + entitySearch.EntityTypeId + "' is an reference to a local unknown EntitySearch group. Please update reference");
+                        }
+
+                        if (dataItem.GetType() == typeof(EntitySelect))
+                        {
+                            EntitySelect entitySelect = (EntitySelect)dataItem;
+                            var temp = sqlController.EntityGroupRead(entitySelect.Source.ToString());
+                            if (temp == null)
+                                errorLst.Add("Element entitySelect.Source:'" + entitySelect.Source + "' is an reference to a local unknown EntitySearch group. Please update reference");
+                        }
+                        #endregion
+
+                        #region PDF
+                        if (dataItem.GetType() == typeof(ShowPdf))
+                        {
+                            ShowPdf showPdf = (ShowPdf)dataItem;
+                            if (showPdf.Value.ToLower().Contains("microting.com"))
+                                errorLst.Add("Element showPdf.Id:'" + showPdf.Id + "' contains an URL that points to Microting's builder temporary hosting. Move the fil to a proper hosting URL");
+                            if (!showPdf.Value.ToLower().Contains("http"))
+                                if (!showPdf.Value.ToLower().Contains("https"))
+                                    errorLst.Add("Element showPdf.Id:'" + showPdf.Id + "' lacks HTTP or HTTPS. Indicating that it's not a proper URL");
+                        }
+                        #endregion
+                    }
+
+                    return errorLst;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplatValidation failed", ex, true);
+                throw new Exception("TemplatValidation failed", ex);
+            }
+        }
+
+        public int              TemplatCreate(MainElement mainElement)
+        {
+            if (mainElement == null)
+                throw new ArgumentNullException("mainElement not allowed to be null");
+
+            try
+            {
+                if (coreRunning)
+                {
+                    List<string> errors = TemplatValidation(mainElement);
+
+                    if (errors == null) errors = new List<string>();
+                    if (errors.Count > 0)
+                        throw new Exception("mainElement failed TemplatValidation. Run TemplatValidation to see errors");
+
                     int templatId = sqlController.TemplatCreate(mainElement);
                     TriggerLog("Templat id:" + templatId.ToString() + " created in DB");
                     return templatId;
@@ -457,7 +514,7 @@ namespace eFormCore
             }
         }
 
-        public List<MainElement>        TemplatReadAll()
+        public List<MainElement> TemplatReadAll()
         {
             try
             {
@@ -476,7 +533,7 @@ namespace eFormCore
             }
         }
 
-        public bool                     TemplateDelete(int templatId)
+        public bool             TemplateDelete(int templatId)
         {
             string methodName = t.GetMethodName();
             try
@@ -518,11 +575,8 @@ namespace eFormCore
                         TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + " reversed:" + reversed.ToString() + ", requested to be created");
 
                         #region check input
-                        DateTime start = DateTime.Parse(mainElement.StartDate);
-                        start = DateTime.Parse(start.ToShortTimeString());
-
-                        DateTime end = DateTime.Parse(mainElement.EndDate);
-                        start = DateTime.Parse(start.ToShortTimeString());
+                        DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
+                        DateTime end   = DateTime.Parse(mainElement.EndDate  .ToShortDateString());
 
                         if (end < DateTime.Now)
                             throw new ArgumentException("mainElement.EndDate needs to be a future date");
@@ -552,14 +606,12 @@ namespace eFormCore
                             else
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
-
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                             HandleCaseCreated(cDto, EventArgs.Empty);
                             TriggerMessage(cDto.ToString() + " has been created");
 
                             lstMUId.Add(mUId);
                         }
-
                         return lstMUId;
                     }
                 }
@@ -570,6 +622,25 @@ namespace eFormCore
             {
                 TriggerHandleExpection("CaseCreate failed", ex, true);
                 throw new Exception("CaseCreate failed", ex);
+            }
+        }
+
+        public string           CaseCheck(string microtingUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    Case_Dto cDto = CaseLookupMUId(microtingUId);
+                    return communicator.CheckStatus(cDto.MicrotingUId, cDto.SiteUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseCheck failed", ex, true);
+                throw new Exception("CaseCheck failed", ex);
             }
         }
 
@@ -1797,7 +1868,7 @@ namespace eFormCore
                         #endregion
 
                         #region checks checkSum
-                        if (chechSum != fileName.Substring(0, 32))
+                        if (chechSum != fileName.Substring(fileName.LastIndexOf(".")-32, 32))
                             HandleEventWarning("Download of '" + urlStr + "' failed. Check sum did not match", EventArgs.Empty);
                         #endregion
 

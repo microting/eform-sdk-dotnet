@@ -125,8 +125,8 @@ namespace eFormCore
 
                     main.Repeated = 1;
                     main.CaseType = "Test";
-                    main.SetStartDate(DateTime.Now);
-                    main.SetEndDate(DateTime.Now.AddDays(2));
+                    main.StartDate = DateTime.Now;
+                    main.EndDate = DateTime.Now.AddDays(2);
 
                     templatId = TemplatCreate(main);
                 }
@@ -141,6 +141,18 @@ namespace eFormCore
                     {
                         CaseCreate(templatId, siteIds);
                         Console.WriteLine("eForm case sent to Microting, should be able to be retrieved on your tablet soon");
+                    }
+                }
+
+                if (input.ToLower() == "t")
+                {
+                    string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
+                    var mainElement = core.TemplatFromXml(xmlStr);
+                    var errors = core.TemplatValidation(mainElement);
+
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine(error);
                     }
                 }
             }
@@ -185,8 +197,8 @@ namespace eFormCore
 
                     main.Repeated = 1;
                     main.CaseType = "Test";
-                    main.SetStartDate(DateTime.Now);
-                    main.SetEndDate(DateTime.Now.AddDays(2));
+                    main.StartDate = DateTime.Now;
+                    main.EndDate = DateTime.Now.AddDays(2);
 
                     templatId = TemplatCreate(main);
                 }
@@ -301,8 +313,8 @@ namespace eFormCore
 
                     mainElement.Repeated = 0;
                     mainElement.CaseType = "Step one";
-                    mainElement.SetStartDate(DateTime.Now);
-                    mainElement.SetEndDate(DateTime.Now.AddDays(3));
+                    mainElement.StartDate = DateTime.Now;
+                    mainElement.EndDate = DateTime.Now.AddDays(3);
 
                     TemplatCreateInfinityCase(mainElement, siteIdsDW, 4);
                     #endregion
@@ -399,9 +411,8 @@ namespace eFormCore
                 MainElement mainElement = core.TemplatRead(templatId);
                 mainElement.PushMessageTitle = "";
                 mainElement.PushMessageBody = "";
-                mainElement.SetStartDate(DateTime.Now);
-                mainElement.SetEndDate(DateTime.Now.AddDays(2));
-                
+                mainElement.StartDate = DateTime.Now;
+                mainElement.EndDate = DateTime.Now.AddDays(2);
 
                 foreach (int siteId in siteIds)
                     core.CaseCreate(mainElement, "", siteId);
@@ -624,7 +635,7 @@ namespace eFormCore
                 try
                 {
                     //DOSOMETHING: changed to fit your wishes and needs 
-                    File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
+                    File.AppendAllText(@"log\\log.txt", sender.ToString() + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {

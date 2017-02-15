@@ -23,8 +23,8 @@ namespace eFormRequest
             DisplayOrder = displayOrder;
             CheckListFolderName = checkListFolderName;
             Repeated = repeated;
-            SetStartDate(startDate);
-            SetEndDate(endDate);
+            StartDate = startDate;
+            EndDate = endDate;
             Language = language;
             MultiApproval = multiApproval;
             FastNavigation = fastNavigation;
@@ -44,32 +44,28 @@ namespace eFormRequest
 
         [XmlIgnore]
         public string CaseType { get; set; }
-
+        
         #region public string/DateTime StartDate { get; set; }
-        public string StartDate { get; set; }
+        [XmlIgnore]
+        public DateTime StartDate { get; set; }
 
-        public DateTime GetStartDate()
+        [XmlElement("StartDate")]
+        public string StartDateString
         {
-            return DateTime.Parse(StartDate);
-        }
-
-        public void SetStartDate(DateTime dateTime)
-        {
-            StartDate = dateTime.ToString();
+            get { return StartDate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { StartDate = DateTime.Parse(value); }
         }
         #endregion
 
         #region public string/DateTime EndDate { get; set; }
-        public string EndDate { get; set; }
+        [XmlIgnore]
+        public DateTime EndDate { get; set; }
 
-        public DateTime GetEndDate()
+        [XmlElement("EndDate")]
+        public string EndDateString
         {
-            return DateTime.Parse(EndDate);
-        }
-
-        public void SetEndDate(DateTime dateTime)
-        {
-            EndDate = dateTime.ToString();
+            get { return EndDate.ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { EndDate = DateTime.Parse(value); }
         }
         #endregion
 
@@ -136,8 +132,8 @@ namespace eFormRequest
             DisplayOrder = coreElement.DisplayOrder;
             CheckListFolderName = coreElement.CheckListFolderName;
             Repeated = coreElement.Repeated;
-            SetStartDate(coreElement.GetStartDate());
-            SetEndDate(coreElement.GetEndDate());
+            StartDate = coreElement.StartDate;
+            EndDate = coreElement.EndDate;
             Language = coreElement.Language;
             MultiApproval = coreElement.MultiApproval;
             FastNavigation = coreElement.FastNavigation;
@@ -158,8 +154,8 @@ namespace eFormRequest
             DisplayOrder = displayOrder;
             CheckListFolderName = checkListFolderName;
             Repeated = repeated;
-            SetStartDate(startDate);
-            SetEndDate(endDate);
+            StartDate = startDate;
+            EndDate = endDate;
             Language = language;
             MultiApproval = multiApproval;
             FastNavigation = fastNavigation;
@@ -258,8 +254,8 @@ namespace eFormRequest
             DisplayOrder = coreElement.DisplayOrder;
             CheckListFolderName = coreElement.CheckListFolderName;
             Repeated = coreElement.Repeated;
-            SetStartDate(coreElement.GetStartDate());
-            SetEndDate(coreElement.GetEndDate());
+            StartDate = coreElement.StartDate;
+            EndDate = coreElement.EndDate;
             Language = coreElement.Language;
             MultiApproval = coreElement.MultiApproval;
             FastNavigation = coreElement.FastNavigation;

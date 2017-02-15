@@ -712,7 +712,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public "replies
+        #region public "replies"
         #region check
         public void                 ChecksCreate(Response response, string xmlString)
         {
@@ -777,21 +777,19 @@ namespace eFormSqlController
 
                                     dU.created_at = DateTime.Now;
                                     dU.updated_at = DateTime.Now;
-                                    dU.extension = t.Locate(xmlString, "<Extension>", "</");
+                                    dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
                                     dU.uploader_id = userUId;
                                     dU.uploader_type = "system";
                                     dU.workflow_state = "pre_created";
                                     dU.version = 1;
                                     dU.local = 0;
-                                    dU.file_location = t.Locate(xmlString, "<URL>", "</");
+                                    dU.file_location = t.Locate(dataItemStr, "<URL>", "</");
 
                                     db.data_uploaded.Add(dU);
                                     db.SaveChanges();
 
                                     db.version_data_uploaded.Add(MapUploadedDataVersions(dU));
                                     db.SaveChanges();
-
-
 
                                     fieldV.uploaded_data_id = dU.id;
                                 }
@@ -814,7 +812,7 @@ namespace eFormSqlController
                                 fieldV.value = temp;
                                 #endregion
                                 //geo
-                                fieldV.latitude = t.Locate(dataItemStr, " < Latitude>", "</");
+                                fieldV.latitude = t.Locate(dataItemStr, " <Latitude>", "</");
                                 fieldV.longitude = t.Locate(dataItemStr, "<Longitude>", "</");
                                 fieldV.altitude = t.Locate(dataItemStr, "<Altitude>", "</");
                                 fieldV.heading = t.Locate(dataItemStr, "<Heading>", "</");
@@ -840,11 +838,13 @@ namespace eFormSqlController
                                 foreach (var field in TemplatFieldLst)
                                 {
                                     if (fieldV.field_id == field.id)
+                                    {
+                                        TemplatFieldLst.RemoveAt(index);
                                         break;
+                                    }
 
                                     index++;
                                 }
-                                TemplatFieldLst.RemoveAt(index);
                                 #endregion
                             }
                         }
@@ -2360,8 +2360,8 @@ namespace eFormSqlController
                         case "Date":
                             Date date = (Date)dataItem;
                             field.default_value = date.DefaultValue;
-                            field.min_value = date.MinValue.ToString("yyyy-MM-dd HH:mm:ss");
-                            field.max_value = date.MaxValue.ToString("yyyy-MM-dd HH:mm:ss");
+                            field.min_value = date.MinValue.ToString("yyyy-MM-dd");
+                            field.max_value = date.MaxValue.ToString("yyyy-MM-dd");
                             break;
 
                         case "None":
@@ -2394,7 +2394,7 @@ namespace eFormSqlController
 
                         case "ShowPdf":
                             ShowPdf showPdf = (ShowPdf)dataItem;
-                            field.default_value = showPdf.DefaultValue;
+                            field.default_value = showPdf.Value;
                             break;
 
                         case "Signature":

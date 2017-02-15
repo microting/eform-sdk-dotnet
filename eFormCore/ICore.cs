@@ -69,6 +69,8 @@ namespace eFormCore
         /// <param name="xmlString">XML string to be converted</param>
         MainElement     TemplatFromXml(string xmlString);
 
+        List<string>    TemplatValidation(MainElement mainElement);
+
         /// <summary>
         /// Tries to create an eForm template in the Microting local DB. Returns that templat's templatId
         /// </summary>
@@ -105,6 +107,12 @@ namespace eFormCore
         List<string>    CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed);
 
         //---------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Tries to retrieve the status of a case
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
+        string CaseCheck(string microtingUId);
 
         /// <summary>
         /// Tries to retrieve the answered full case from the DB
@@ -179,19 +187,19 @@ namespace eFormCore
 
         List<SiteName_Dto>  SiteGetAll();
 
-        List<Site_Dto> SimpleSiteGetAll();
+        List<Site_Dto>      SimpleSiteGetAll();
 
-        Site_Dto SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
+        Site_Dto            SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
 
         SiteName_Dto        SiteRead(int microting_uid);
 
-        Site_Dto SiteReadSimple(int microting_uid);
+        Site_Dto            SiteReadSimple(int microting_uid);
 
-        bool            SiteUpdate(int microting_uid, string name);
+        bool                SiteUpdate(int microting_uid, string name);
 
-        //Site_Dto        SiteReset(int siteId);
+        //Site_Dto            SiteReset(int siteId);
 
-        bool            SiteDelete(int siteId);
+        bool                SiteDelete(int siteId);
 
         //---------------------------------------------------------------------------------------
 

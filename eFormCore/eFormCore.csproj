@@ -45,7 +45,6 @@
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="MainControllerCustom.cs" />
-    <Compile Include="MainControllerExcel.cs" />
     <Compile Include="MainControllerSamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
