@@ -7,6 +7,9 @@ namespace eFormSqlController
 
     public partial class MicrotingDb : DbContext
     {
+        public MicrotingDb() : base("microtingdb") { }
+
+
         public MicrotingDb(string connectionString)
             : base(connectionString)
         {

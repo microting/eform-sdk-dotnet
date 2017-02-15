@@ -58,7 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MigrationsContextFactory .cs" />
     <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.cs" />
     <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.Designer.cs">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>

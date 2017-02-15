@@ -24,16 +24,30 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
-            //try {
-            //    var configuration = new Configuration();
-            //    configuration.TargetDatabase = new DbConnectionInfo(connectionString, "System.Data.SqlClient");
-            //    var migrator = new DbMigrator(configuration);
-            //    migrator.Update();
-            //} catch
-            //{ }
-            
             connectionStr = connectionString;
+            try
+            {
+                tryConnectToDb();
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("context has changed"))
+                {
+                    var configuration = new Configuration();
+                    configuration.TargetDatabase = new DbConnectionInfo(connectionString, "System.Data.SqlClient");
+                    var migrator = new DbMigrator(configuration);
+                    migrator.Update();
+                } else
+                {
+                    throw ex;
+                }
+                
+            }
+            
+        }
 
+        private void tryConnectToDb()
+        {
             using (var db = new MicrotingDb(connectionStr))
             {
                 #region SettingCount
