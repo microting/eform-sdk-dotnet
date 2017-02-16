@@ -2084,8 +2084,15 @@ namespace eFormCore
                                     {
                                         HandleSiteActivated(noteUId, EventArgs.Empty);
                                         TriggerMessage(noteUId + " has been added");
-
-                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        try
+                                        {
+                                            Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
+                                            sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
+                                            sqlController.NotificationProcessed(notificationStr, "processed");
+                                        } catch
+                                        {
+                                            sqlController.NotificationProcessed(notificationStr, "processed");
+                                        }
                                         break;
                                     }
                                 #endregion
