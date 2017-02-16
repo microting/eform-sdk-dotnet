@@ -38,7 +38,7 @@ Several examples can be found in the Program.cs file:
   - Visual Studio 2008
   - MS SQL Server Management Studio
   
-## Known bugs as of January 8th 2017
+## Known bugs as of February 8th 2017
 
   - The Core.TemplatFromXml(string xmlString) is not able to parse DataItems of the following types:
 	- Date
@@ -48,7 +48,12 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
-  - Version: 1.3.0 *(January 8th 2017)*
+  - Version: 1.3.1 *(February 16th 2017)*
+	- Fixing reverse cases.
+	- Adding changes to make SDK migrate DB automatically
+	- Adding changes to not crash on missing first_run.txt file.
+
+  - Version: 1.3.0 *(February 8th 2017)*
 	- **Breaking changes to db structure.**
 	- Introducing usage of EntityFramework for migrating db.
 	- Making db use keys + foeing keys, which enables use of EntityFramework.
