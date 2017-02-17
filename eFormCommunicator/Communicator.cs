@@ -104,9 +104,10 @@ namespace eFormCommunicator
                 //Missing serverside. Will not accept blank/empty field
                 xmlString = xmlString.Replace("<Color />", "");
                 //Missing serverside. Will not accept blank/empty field
+                xmlString = xmlString.Replace("<DefaultValue>0</DefaultValue>", "<DefaultValue></DefaultValue>");
                 xmlString = xmlString.Replace("DefaultValue", "Value");
                 //Missing serverside.
-            //XML HACK
+                //XML HACK
 
                 TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
                 TriggerEventLog(xmlString);

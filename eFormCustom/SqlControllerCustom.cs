@@ -90,6 +90,74 @@ namespace eFormCustom
             }
         }
 
+        public Container_Collection_Entry   CCEntryCreate(string bookingId)
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    Container_Collection_Entry cCEntry = new Container_Collection_Entry();
+                    cCEntry.Booking_ID = bookingId;
+                    cCEntry.Finished_NAV = 0;
+
+                    db.Container_Collection_Entry.Add(cCEntry);
+                    db.SaveChanges();
+
+                    return cCEntry;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CCEntryCreate failed.", ex);
+            }
+        }
+
+        public Container_Collection_Entry   CCEntryRead(string bookingId)
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    Container_Collection_Entry match = db.Container_Collection_Entry.Single(x => x.Booking_ID == bookingId);
+                    return match;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CCEntryRead failed.", ex);
+            }
+        }
+
+        public void                         CCEntryUpdate(Container_Collection_Entry cCEntry)
+        {
+            try
+            {
+                using (var db = new CustomDb(connectionStr))
+                {
+                    Container_Collection_Entry match = db.Container_Collection_Entry.Single(x => x.Booking_ID == cCEntry.Booking_ID);
+
+                    match.Booking_DateTime = cCEntry.Booking_DateTime;
+                    match.Collection_ID = cCEntry.Collection_ID;
+                    match.Container_ID = cCEntry.Container_ID;
+                    match.Finished_DateTime = cCEntry.Finished_DateTime;
+                    match.Finished_NAV = 0;
+                    match.Fraction_ID = cCEntry.Fraction_ID;
+                    match.Location_ID = cCEntry.Location_ID;
+                    match.Lorry_ID = cCEntry.Lorry_ID;
+                    match.Order_DateTime = cCEntry.Order_DateTime;
+                    match.Placement_ID = cCEntry.Placement_ID;
+                    match.Weight = cCEntry.Weight;
+                    match.Worker_ID = cCEntry.Worker_ID;
+
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CCEntryUpdate failed.", ex);
+            }
+        }
+
         public string           VariableGet(string variableName)
         {
             try
@@ -105,7 +173,7 @@ namespace eFormCustom
                 throw new Exception("VariableGet failed.", ex);
             }
         }
-        
+
         public void             VariableSet(string variableName, string variableValue)
         {
             try

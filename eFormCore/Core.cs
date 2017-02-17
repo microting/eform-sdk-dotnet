@@ -2028,13 +2028,14 @@ namespace eFormCore
 
                                                             if (respRet.Type == Response.ResponseTypes.Success)
                                                             {
-                                                                sqlController.CaseRetract(aCase.MicrotingUId);
                                                                 TriggerLog(aCase.ToString() + " has been retracted");
                                                             }
                                                             else
                                                                 TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                                         }
                                                         #endregion
+
+                                                        sqlController.CaseRetract(noteUId, resp.Checks[0].Id);
 
                                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                         HandleCaseCompleted(cDto, EventArgs.Empty);

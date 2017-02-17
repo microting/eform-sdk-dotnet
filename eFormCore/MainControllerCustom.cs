@@ -163,7 +163,7 @@ namespace eFormCore
             #endregion
 
             sqlCon = new SqlController(serverConnectionString);
-            sqlCustom = new SqlControllerCustom(serverConnectionString.Insert(serverConnectionString.IndexOf("Microting")+9, "Custom"));
+            sqlCustom = new SqlControllerCustom(serverConnectionString.Insert(serverConnectionString.LastIndexOf(";"), "Custom"));
         }
         #endregion
 
@@ -206,11 +206,11 @@ namespace eFormCore
                     Console.WriteLine("Program setting up...");
 
                     AdminTools at = new AdminTools(serverConnectionString);
-                    at.SystemReset();
+                    at.DbReset();
 
                     core.Start(serverConnectionString);
 
-                    int copiesOnTable = 2;
+                    int copiesOnTable = 5;
 
                     #region import xml
                     string xml = File.ReadAllText("custom\\customStep1.txt");
@@ -333,6 +333,32 @@ namespace eFormCore
                 #endregion
 
                 UpdateBooking(bookingId, label, "Bekræftet: <b>nej</b>" + description);
+
+                #region CCEntryCreate...
+                var cCEntry = sqlCustom.CCEntryCreate(bookingId);
+
+                cCEntry.Order_DateTime = reply.DoneAt;
+                cCEntry.Worker_ID = reply.DoneById;
+
+                CheckListValue dE = (CheckListValue)reply.ElementList[0];
+
+                FieldValue dI = (FieldValue)dE.DataItemList[0];
+                entity_items eI = sqlCon.EntityItemRead(dI.Value);
+                cCEntry.Location_ID = int.Parse(eI.entity_item_uid);
+
+                dI = (FieldValue)dE.DataItemList[1];
+                eI = sqlCon.EntityItemRead(dI.Value);
+                cCEntry.Container_ID = int.Parse(eI.entity_item_uid);
+
+                dI = (FieldValue)dE.DataItemList[2];
+                eI = sqlCon.EntityItemRead(dI.Value);
+                cCEntry.Fraction_ID = int.Parse(eI.entity_item_uid);
+
+                dI = (FieldValue)dE.DataItemList[3];
+                cCEntry.Placement_ID = dI.ValueReadable;
+
+                sqlCustom.CCEntryUpdate(cCEntry);
+                #endregion
             }
             #endregion
 
@@ -343,12 +369,9 @@ namespace eFormCore
                 ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
                 replyDataE = (CheckListValue)replyOld.ElementList[0];
 
-                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-                string locationWorker = worker[0];
-
                 string bookingId = tokens[2];
                 string description = GenerateOrderInfo(replyOld);
-                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
+                string label = "Sted: " + location + ", dato: " + DateTime.Now.ToShortDateString();
 
                 #region is the first?
                 bool isFirst = false;
@@ -384,6 +407,15 @@ namespace eFormCore
                     #endregion
 
                     UpdateBooking(bookingId, label, "Bekræftet: <b>ja</b>" + description);
+
+                    #region CCEntryUpdate...
+                    Container_Collection_Entry cCEntry = sqlCustom.CCEntryRead(bookingId);
+
+                    cCEntry.Booking_DateTime = reply.DoneAt;
+                    cCEntry.Lorry_ID = reply.DoneById;
+
+                    sqlCustom.CCEntryUpdate(cCEntry);
+                    #endregion
                 }
                 else
                 {
@@ -409,12 +441,9 @@ namespace eFormCore
                 ReplyElement replyOld = core.CaseRead(tokens[0], tokens[1]);
                 replyDataE = (CheckListValue)replyOld.ElementList[0];
 
-                List<string> worker = sqlCustom.WorkerRead(reply.DoneById);
-                string locationWorker = worker[0];
-
                 string bookingId = tokens[2];
                 string description = GenerateOrderInfo(replyOld);
-                string label = "Sted: " + locationWorker + ", dato: " + DateTime.Now.ToShortDateString();
+                string label = "Sted: " + location + ", dato: " + DateTime.Now.ToShortDateString();
 
                 CheckListValue replyResend = (CheckListValue)reply.ElementList[0];
                 answer = (FieldValue)replyResend.DataItemList[1];
@@ -434,10 +463,40 @@ namespace eFormCore
                     #endregion
 
                     UpdateBooking(bookingId, label, "Bekræftet: <b>nej</b> (frigivet igen)" + description);
+
+                    #region CCEntryUpdate...
+                    Container_Collection_Entry cCEntry = sqlCustom.CCEntryRead(bookingId);
+
+                    cCEntry.Lorry_ID = null;
+                    cCEntry.Booking_DateTime = null;
+
+                    sqlCustom.CCEntryUpdate(cCEntry);
+                    #endregion
                 }
                 else
                 {
                     UpdateBooking(bookingId, label, "Bekræftet: <b>afhentet</b>" + description);
+
+                    #region CCEntryUpdate...
+                    Container_Collection_Entry cCEntry = sqlCustom.CCEntryRead(bookingId);
+
+                    cCEntry.Finished_DateTime = reply.DoneAt;
+
+                    CheckListValue dE = (CheckListValue)reply.ElementList[0];
+
+                    FieldValue dI = (FieldValue)dE.DataItemList[0];
+
+                    try
+                    {
+                        cCEntry.Weight = dI.Value;
+                    }
+                    catch
+                    {
+                        cCEntry.Weight = "Invalid data";
+                    }
+
+                    sqlCustom.CCEntryUpdate(cCEntry);
+                    #endregion
                 }
             }
             #endregion

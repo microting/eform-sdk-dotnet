@@ -12,6 +12,7 @@ namespace eFormCustom
         {
         }
 
+        public virtual DbSet<Container_Collection_Entry> Container_Collection_Entry { get; set; }
         public virtual DbSet<input_containers> input_containers { get; set; }
         public virtual DbSet<input_factions> input_factions { get; set; }
         public virtual DbSet<input_locations> input_locations { get; set; }
@@ -21,6 +22,14 @@ namespace eFormCustom
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Container_Collection_Entry>()
+                .Property(e => e.Placement_ID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Container_Collection_Entry>()
+                .Property(e => e.Weight)
+                .IsUnicode(false);
+
             modelBuilder.Entity<input_containers>()
                 .Property(e => e.name)
                 .IsUnicode(false);
