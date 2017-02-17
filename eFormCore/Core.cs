@@ -273,9 +273,18 @@ namespace eFormCore
             {
                 coreRunning = false;
                 coreStatChanging = false;
-                comToken = sqlController.SettingRead("comToken");
-                comAddress = sqlController.SettingRead("comAddress");
-                organizationId = sqlController.SettingRead("organizationId"); throw new Exception("FATAL Exception. Core failed to start", ex);
+                try
+                {
+                    comToken = sqlController.SettingRead("comToken");
+                    comAddress = sqlController.SettingRead("comAddress");
+                    organizationId = sqlController.SettingRead("organizationId");
+                    return true;
+                } catch (Exception ex2)
+                {
+                    throw new Exception("FATAL Exception. Could not read settings!", ex2);
+                }
+                
+                throw new Exception("FATAL Exception. Core failed to start", ex);
             }
             return true;
         }
@@ -2076,8 +2085,15 @@ namespace eFormCore
                                     {
                                         HandleSiteActivated(noteUId, EventArgs.Empty);
                                         TriggerMessage(noteUId + " has been added");
-
-                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        try
+                                        {
+                                            Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
+                                            sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
+                                            sqlController.NotificationProcessed(notificationStr, "processed");
+                                        } catch
+                                        {
+                                            sqlController.NotificationProcessed(notificationStr, "processed");
+                                        }
                                         break;
                                     }
                                 #endregion
