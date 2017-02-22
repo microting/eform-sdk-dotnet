@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Microting.eForm</id>
-    <version>1.3.2</version>
+    <version>1.3.3</version>
     <authors>Microting A/S</authors>
     <owners>Microting A/S</owners>
     <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Improved load of settings</releaseNotes>
+    <releaseNotes>Mergning of eFormRequest and eFormResponse into eFormData</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="9.0.1"/>
@@ -22,8 +22,7 @@
 	<file src="Compiled\eFormCommunicator.dll" target="lib"/>
 	<file src="Compiled\eFormCore.dll" target="lib"/>
 	<file src="Compiled\eFormOffice.dll" target="lib"/>
-	<file src="Compiled\eFormRequest.dll" target="lib"/>
-	<file src="Compiled\eFormResponse.dll" target="lib"/>
+	<file src="Compiled\eFormData.dll" target="lib"/>
 	<file src="Compiled\eFormShared.dll" target="lib"/>
 	<file src="Compiled\eFormSqlController.dll" target="lib"/>
 	<file src="Compiled\eFormSubscriber.dll" target="lib"/>

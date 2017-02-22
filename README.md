@@ -38,19 +38,26 @@ Several examples can be found in the Program.cs file:
   - Visual Studio 2008
   - MS SQL Server Management Studio
   
-## Known bugs as of February 8th 2017
+## Known bugs as of February 21st 2017
 
   - The Core.TemplatFromXml(string xmlString) is not able to parse DataItems of the following types:
-	- Date
-	- ShowPdf
 	- EntitySearch
 	- EntitySelect
 
 ## Changelog
 
+  - Version 1.3.3 *(February 22st 2017)*
+	- Fixing parsing of PDF field types.
+	- Merging eFormRequest and eFormResponse into eFormData.
+	- Added TemplatValidation helper on Core to check the input XML for unsupported values, including:
+		- PDF
+		- EntitySelect
+		- EntitySearch
+	- eForm with repetition other than 1 are marked as retracted when completed.
+
   - Version: 1.3.1 *(February 16th 2017)*
 	- Fixing reverse cases.
-	- Adding changes to make SDK migrate DB automatically
+	- Adding changes to make SDK migrate DB automatically.
 	- Adding changes to not crash on missing first_run.txt file.
 
   - Version: 1.3.0 *(February 8th 2017)*
