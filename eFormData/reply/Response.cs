@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace eFormResponse
+namespace eFormData
 {
     public class Response
     {

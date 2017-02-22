@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace eFormRequest
+namespace eFormData
 {
     [Serializable()]
     [XmlInclude(typeof(DataElement))]

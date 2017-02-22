@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormRequest;
-using eFormSqlController;
+using eFormData;
 using eFormShared;
 
 using System;
@@ -32,7 +31,7 @@ using System.IO;
 
 namespace eFormCore
 {
-    public class MainControllerSamples
+    public class Samples
     {
         #region var
         object _logFilLock = new object();
@@ -48,11 +47,10 @@ namespace eFormCore
 
         string serverConnectionString;
         ICore core;
-        SqlController sqlCon;
         #endregion
 
         #region con
-        public MainControllerSamples(string serverConnectionString)
+        public Samples(string serverConnectionString)
         {
             this.serverConnectionString = serverConnectionString;
 
@@ -72,7 +70,6 @@ namespace eFormCore
             #endregion
 
             core.Start(serverConnectionString);
-            sqlCon = new SqlController(serverConnectionString);
         }
         #endregion
 
@@ -502,9 +499,11 @@ namespace eFormCore
                         bool isFirst = false;
                         try
                         {
+                            List<Case_Dto> lst = core.CaseLookupCaseUId(caseUid);
 
-                            if (sqlCon.CaseCountResponses(caseUid) == 1)
-                                isFirst = true;
+                            foreach (var item in lst)
+                                if (item.Stat == "Completed")
+                                    isFirst = true;
                         }
                         catch (Exception ex)
                         {

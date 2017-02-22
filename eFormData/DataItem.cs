@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace eFormRequest
+namespace eFormData
 {
     #region xml tags
     [Serializable()]

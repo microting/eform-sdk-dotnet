@@ -26,7 +26,6 @@ using WebSocketSharp;
 using eFormShared;
 
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -298,26 +297,6 @@ namespace eFormSubscriber
                 RequestToServer(command);
                 _ws.Send(command);
             }
-        }
-        #endregion
-
-        #region remove unwanted/uneeded methods from finished DLL
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override string ToString()
-        {
-            return base.ToString();
         }
         #endregion
     }

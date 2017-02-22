@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="eFormRequest">
-      <HintPath>..\Output\eFormRequest.dll</HintPath>
-    </Reference>
-    <Reference Include="eFormResponse">
-      <HintPath>..\Output\eFormResponse.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -102,6 +96,10 @@
     <Compile Include="table\site_versions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\eFormData\eFormData.csproj">
+      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
+      <Name>eFormData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
       <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
       <Name>eFormShared</Name>

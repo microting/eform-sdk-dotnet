@@ -7,8 +7,8 @@
     <ProjectGuid>{8B4A71AC-C214-4AB9-859D-66559F790133}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eFormRequest</RootNamespace>
-    <AssemblyName>eFormRequest</AssemblyName>
+    <RootNamespace>eFormData</RootNamespace>
+    <AssemblyName>eFormData</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -50,6 +50,11 @@
     <Compile Include="Entities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainElement.cs" />
+    <Compile Include="reply\Check.cs" />
+    <Compile Include="reply\DataItemReply.cs" />
+    <Compile Include="reply\ElementList.cs" />
+    <Compile Include="reply\Geolocation.cs" />
+    <Compile Include="reply\Response.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">

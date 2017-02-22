@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace eFormRequest
+namespace eFormData
 {
     public class CoreElement
     {

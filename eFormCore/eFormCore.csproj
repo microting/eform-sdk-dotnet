@@ -44,8 +44,6 @@
     <Compile Include="AdminTools.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="ICore.cs" />
-    <Compile Include="MainControllerCustom.cs" />
-    <Compile Include="MainControllerSamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,21 +51,13 @@
       <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
       <Name>eFormCommunicator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\eFormCustom\eFormCustom.csproj">
-      <Project>{462a8f66-3efe-4962-8d4e-56ec2cf5b051}</Project>
-      <Name>eFormCustom</Name>
+    <ProjectReference Include="..\eFormData\eFormData.csproj">
+      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
+      <Name>eFormData</Name>
     </ProjectReference>
     <ProjectReference Include="..\eFormOffice\eFormOffice.csproj">
       <Project>{fababf50-4e7e-4345-80aa-2edab01f9abf}</Project>
       <Name>eFormOffice</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormRequest\eFormRequest.csproj">
-      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
-      <Name>eFormRequest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormResponse\eFormResponse.csproj">
-      <Project>{5290e431-a86d-480a-afd5-673ef5cb6664}</Project>
-      <Name>eFormResponse</Name>
     </ProjectReference>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
       <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>

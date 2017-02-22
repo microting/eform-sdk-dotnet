@@ -24,8 +24,7 @@ SOFTWARE.
 
 using eFormCommunicator;
 using eFormOffice;
-using eFormRequest;
-using eFormResponse;
+using eFormData;
 using eFormShared;
 using eFormSubscriber;
 using eFormSqlController;
@@ -1677,7 +1676,7 @@ namespace eFormCore
                     {
                         FieldGroup fG = (FieldGroup)dataItemGroup;
 
-                        List<eFormRequest.DataItem> dataItemListTemp = new List<eFormRequest.DataItem>();
+                        List<DataItem> dataItemListTemp = new List<DataItem>();
                         foreach (var dataItem in fG.DataItemList)
                         {
                             foreach (var answer in lstAnswers)
@@ -1694,7 +1693,7 @@ namespace eFormCore
                     #endregion
 
                     #region replace DataItems
-                    List<eFormRequest.DataItem> dataItemListTemp2 = new List<eFormRequest.DataItem>();
+                    List<DataItem> dataItemListTemp2 = new List<DataItem>();
                     foreach (var dataItem in dataE.DataItemList)
                     {
                         foreach (var answer in lstAnswers)
@@ -1837,7 +1836,7 @@ namespace eFormCore
 
                     preLabel = preLabel + sep + dataE.Label;
 
-                    foreach (eFormRequest.DataItem dataItem in dataE.DataItemList)
+                    foreach (DataItem dataItem in dataE.DataItemList)
                     {
                         if (dataItem.GetType() == typeof(SaveButton))
                             continue;

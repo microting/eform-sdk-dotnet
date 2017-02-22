@@ -38,21 +38,15 @@ namespace SourceCode
             try
             {
                 Console.WriteLine("Press following keys to start:");
-                Console.WriteLine("'C' for custom program");
                 Console.WriteLine("'S' for sample programs");
                 Console.WriteLine("'A' for admin tools program");
                 Console.WriteLine("any other will close Console");
                 string input = Console.ReadLine();
 
                 string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
-                if (input.ToUpper() == "C")
-                {
-                    var program = new MainControllerCustom(serverConnectionString);
-                    program.Run();
-                }
                 if (input.ToUpper() == "S")
                 {
-                    var program = new MainControllerSamples(serverConnectionString);
+                    var program = new Samples(serverConnectionString);
                     program.Run();
                 }
                 if (input.ToUpper() == "A")
@@ -61,8 +55,8 @@ namespace SourceCode
                     program.Run();
                 }
 
-                Console.WriteLine("Console will close in 2s");
-                Thread.Sleep(2000);
+                Console.WriteLine("Console will close in 1s");
+                Thread.Sleep(1000);
                 Environment.Exit(0);
             }
             catch (Exception ex) //Catch !!ALL!!

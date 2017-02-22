@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace eFormResponse
+namespace eFormData
 {
     [Serializable()]
     public class GeolocationData

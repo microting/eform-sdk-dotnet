@@ -5,18 +5,20 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace eFormResponse
+namespace eFormData
 {
     [Serializable()]
-    public class DataItem
+    [XmlRoot("DataItem")]
+    public class DataItemReply
     {
-        internal DataItem()
+        internal DataItemReply()
         {
 
         }
 
         #region var
         public string Id { get; set; }
+
         public GeolocationData Geolocation { get; set; }
 
         [XmlElement("Value")]

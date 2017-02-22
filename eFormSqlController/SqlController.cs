@@ -1,5 +1,4 @@
-﻿using eFormRequest;
-using eFormResponse;
+﻿using eFormData;
 using eFormShared;
 
 using System;
@@ -637,21 +636,6 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("CaseFindCustomMatchs failed", ex);
-            }
-        }
-
-        public int                  CaseCountResponses(string caseUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    return db.cases.Count(x => x.case_uid == caseUId && x.done_by_user_id != null);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseCountResponses failed", ex);
             }
         }
 
@@ -2350,7 +2334,7 @@ namespace eFormSqlController
 
                     if (dataElement.DataItemList != null)
                     {
-                        foreach (eFormRequest.DataItem dataItem in dataElement.DataItemList)
+                        foreach (DataItem dataItem in dataElement.DataItemList)
                         {
                             CreateDataItem(cl.id, dataItem);
                         }
@@ -2369,7 +2353,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 13); //13 = "eFormRequest.".Length
+                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
                     int fieldTypeId = Find(typeStr);
 
                     fields field = new fields();
@@ -2396,7 +2380,7 @@ namespace eFormSqlController
 
                     if (fieldGroup.DataItemList != null)
                     {
-                        foreach (eFormRequest.DataItem dataItem in fieldGroup.DataItemList)
+                        foreach (DataItem dataItem in fieldGroup.DataItemList)
                         {
                             CreateDataItem(field.id, dataItem);
                         }
@@ -2409,13 +2393,13 @@ namespace eFormSqlController
             }
         }
 
-        private void    CreateDataItem         (int elementId, eFormRequest.DataItem dataItem)
+        private void    CreateDataItem         (int elementId, DataItem dataItem)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    string typeStr = dataItem.GetType().ToString().Remove(0, 13); //13 = "eFormRequest.".Length
+                    string typeStr = dataItem.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
                     int fieldTypeId = Find(typeStr);
 
                     fields field = new fields();
@@ -2436,7 +2420,7 @@ namespace eFormSqlController
 
                     #region dataItem type
                     //KEY POINT - mapping
-                    switch (typeStr) //"eFormRequest.".Length
+                    switch (typeStr)
                     {
                         case "Audio":
                             Audio audio = (Audio)dataItem;
@@ -2600,7 +2584,7 @@ namespace eFormSqlController
                         {
                             check_lists cl = db.check_lists.Single(x => x.id == elementId);
                             DataElement dElement = new DataElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
-                                t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", new List<DataItemGroup>(), new List<eFormRequest.DataItem>());
+                                t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", new List<DataItemGroup>(), new List<DataItem>());
 
                             //the actual DataItems
                             List<fields> lstFields = db.fields.Where(x => x.check_list_id == elementId).ToList();
@@ -2624,7 +2608,7 @@ namespace eFormSqlController
             }
         }
 
-        private void GetDataItem(List<eFormRequest.DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, int dataItemId)
+        private void GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, int dataItemId)
         {
             try
             {
@@ -2715,7 +2699,7 @@ namespace eFormSqlController
                             break;
 
                         case "FieldGroup":
-                            List<eFormRequest.DataItem> lst = new List<eFormRequest.DataItem>();
+                            List<DataItem> lst = new List<DataItem>();
 
                             lstDataItemGroup.Add(new FieldGroup(f.id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
