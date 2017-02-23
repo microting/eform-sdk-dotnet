@@ -497,13 +497,17 @@ namespace eFormCore
                     {
                         #region is the first?
                         bool isFirst = false;
+                        int found = 0;
                         try
                         {
                             List<Case_Dto> lst = core.CaseLookupCaseUId(caseUid);
 
                             foreach (var item in lst)
                                 if (item.Stat == "Completed")
-                                    isFirst = true;
+                                    found++;
+
+                            if (found == 1)
+                                isFirst = true;
                         }
                         catch (Exception ex)
                         {
