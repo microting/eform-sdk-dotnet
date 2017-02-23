@@ -96,16 +96,6 @@
     <Compile Include="table\site_versions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eFormData\eFormData.csproj">
-      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
-      <Name>eFormData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
-      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
-      <Name>eFormShared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
@@ -120,6 +110,16 @@
     <EmbeddedResource Include="Migrations\201702131247518_RenamingDataUploaded.resx">
       <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eFormData\eFormData.csproj">
+      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
+      <Name>eFormData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
+      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
+      <Name>eFormShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
