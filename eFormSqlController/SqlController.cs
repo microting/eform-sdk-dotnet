@@ -14,6 +14,8 @@ namespace eFormSqlController
     public class SqlController
     {
         #region var
+        int numberOfSettings = 11;
+
         List<Holder> converter;
         object _lockQuery = new object();
         string connectionStr;
@@ -23,137 +25,108 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
-            connectionStr = connectionString;
             try
             {
-                tryConnectToDb();
+                connectionStr = connectionString;
+                PrimeDb(); //if needed
             }
             catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        private void PrimeDb()
+        {
+            try
+            #region checks number of settings. 
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    if (db.settings.Count() == numberOfSettings)
+                        return;
+                }
+            }
+            #endregion
+            catch (Exception ex)
+            #region if failed, will try to update context
             {
                 if (ex.Message.Contains("context has changed"))
                 {
                     var configuration = new Configuration();
-                    configuration.TargetDatabase = new DbConnectionInfo(connectionString, "System.Data.SqlClient");
+                    configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
                     var migrator = new DbMigrator(configuration);
                     migrator.Update();
-                } else
+                }
+                else
                 {
                     throw ex;
                 }
-                
             }
-            
-        }
+            #endregion
 
-        private void tryConnectToDb()
-        {
-            using (var db = new MicrotingDb(connectionStr))
+            try
+            #region prime db
             {
-                #region SettingCount
-                if (SettingCount() < 11)
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    string[] lines = new string[] { };
-                    try
+                    if (db.settings.Count() != numberOfSettings)
                     {
-                        // This line is here for "normal" programs.
-                        lines = File.ReadAllLines(@"input\first_run.txt");
+                        #region prime Settings
+                        UnitTest_TruncateTable(typeof(settings).Name);
+
+                        SettingAdd(1, "firstRunDone");
+                        SettingAdd(2, "knownSitesDone");
+                        SettingAdd(3, "comAddressBasic");
+                        SettingAdd(4, "logLevel");
+                        SettingAdd(5, "fileLocation");
+                        SettingAdd(6, "comToken");
+                        SettingAdd(7, "comAddress");
+                        SettingAdd(8, "organizationId");
+                        SettingAdd(9, "subscriberToken");
+                        SettingAdd(10, "subscriberAddress");
+                        SettingAdd(11, "subscriberName");
+
+                        SettingUpdate("firstRunDone", "false");
+                        SettingUpdate("knownSitesDone", "false");
+                        SettingUpdate("comAddressBasic", "https://basic.microting.com");
+                        SettingUpdate("logLevel", "true");
+                        SettingUpdate("fileLocation", "dataFolder/");
+                        #endregion
                     }
-                    catch (Exception)
+
+                    if (db.field_types.Count() != 18)
                     {
-                        try
-                        {
-                            // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
-                            lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(@"input\first_run.txt not found", ex);
-                        }
+                        #region prime FieldTypes
+                        UnitTest_TruncateTable(typeof(field_types).Name);
+
+                        FieldTypeAdd(1, "Text", "Simple text field");
+                        FieldTypeAdd(2, "Number", "Simple number field");
+                        FieldTypeAdd(3, "None", "Simple text to be displayed");
+                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
+                        FieldTypeAdd(5, "Picture", "Simple picture field");
+                        FieldTypeAdd(6, "Audio", "Simple audio field");
+                        FieldTypeAdd(7, "Movie", "Simple movie field");
+                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
+                        FieldTypeAdd(9, "Comment", "Simple comment field");
+                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
+                        FieldTypeAdd(11, "Date", "Date selection");
+                        FieldTypeAdd(12, "Signature", "Simple signature field");
+                        FieldTypeAdd(13, "Timer", "Simple timer field");
+                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
+                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
+                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
+                        FieldTypeAdd(17, "FieldGroup", "Field group");
+                        FieldTypeAdd(18, "SaveButton", "Save eForm");
+                        #endregion
                     }
-
-                    UnitTest_TruncateTable(typeof(settings).Name);
-
-                    SettingAdd(1, "firstRunDone");
-                    SettingAdd(2, "knownSitesDone");
-                    SettingAdd(3, "logLevel");
-                    SettingAdd(4, "comToken");
-                    SettingAdd(5, "comAddress");
-                    SettingAdd(6, "comAddressBasic");
-                    SettingAdd(7, "organizationId");
-                    SettingAdd(8, "subscriberToken");
-                    SettingAdd(9, "subscriberAddress");
-                    SettingAdd(10, "subscriberName");
-                    SettingAdd(11, "fileLocation");
-
-                    SettingUpdate("firstRunDone", "false");
-                    SettingUpdate("knownSitesDone", "false");
                 }
-                #endregion
-
-                #region FieldTypeCount
-                if (FieldTypeCount() < 18)
-                {
-                    UnitTest_TruncateTable(typeof(field_types).Name);
-
-                    FieldTypeAdd(1, "Text", "Simple text field");
-                    FieldTypeAdd(2, "Number", "Simple number field");
-                    FieldTypeAdd(3, "None", "Simple text to be displayed");
-                    FieldTypeAdd(4, "CheckBox", "Simple check box field");
-                    FieldTypeAdd(5, "Picture", "Simple picture field");
-                    FieldTypeAdd(6, "Audio", "Simple audio field");
-                    FieldTypeAdd(7, "Movie", "Simple movie field");
-                    FieldTypeAdd(8, "SingleSelect", "Single selection list");
-                    FieldTypeAdd(9, "Comment", "Simple comment field");
-                    FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
-                    FieldTypeAdd(11, "Date", "Date selection");
-                    FieldTypeAdd(12, "Signature", "Simple signature field");
-                    FieldTypeAdd(13, "Timer", "Simple timer field");
-                    FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
-                    FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
-                    FieldTypeAdd(16, "ShowPdf", "Show PDF");
-                    FieldTypeAdd(17, "FieldGroup", "Field group");
-                    FieldTypeAdd(18, "SaveButton", "Save eForm");
-                }
-                #endregion
-
-                #region SettingRead
-                if (!bool.Parse(SettingRead("firstRunDone")))
-                {
-                    string[] lines = new string[] { };
-                    try
-                    {
-                        // This line is here for "normal" programs.
-                        lines = File.ReadAllLines(@"input\first_run.txt");
-                    }
-                    catch (Exception)
-                    {
-                        try
-                        {
-                            // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
-                            lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(@"input\first_run.txt not found", ex);
-                        }
-                    }
-                    string name;
-                    string value;
-
-                    foreach (var item in lines)
-                    {
-                        string[] line = item.Split('|');
-
-                        name = line[0];
-                        value = line[1];
-
-                        SettingUpdate(name, value);
-                    }
-                    SettingUpdate("firstRunDone", "true");
-                    SettingUpdate("logLevel", "true");
-                }
-                #endregion
             }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+            #endregion
         }
         #endregion
 
@@ -2175,6 +2148,30 @@ namespace eFormSqlController
                 throw new Exception("SettingUpdate failed.", ex);
             }
         }
+
+        public bool     SettingCheck()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    int countVal = db.settings.Count(x => x.value == "");
+                    int countSet = db.settings.Count();
+
+                    if (countVal > 0)
+                        return false;
+
+                    if (countSet < numberOfSettings)
+                        return false;
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SettingUpdate failed.", ex);
+            }
+        }
         #endregion
 
         #region private
@@ -3273,76 +3270,6 @@ namespace eFormSqlController
             }
         }
 
-        //public void             UnitTest_TruncateTableAll()
-        //{
-        //    using (var db = new MicrotingDb(connectionStr))
-        //    {
-        //        {
-        //            UnitTest_TruncateTable(typeof(cases).Name);
-        //            UnitTest_TruncateTable(typeof(case_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(check_list_sites).Name);
-        //            UnitTest_TruncateTable(typeof(check_list_site_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(check_list_values).Name);
-        //            UnitTest_TruncateTable(typeof(check_list_value_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(check_lists).Name);
-        //            UnitTest_TruncateTable(typeof(check_list_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(entity_groups).Name);
-        //            UnitTest_TruncateTable(typeof(entity_group_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(entity_items).Name);
-        //            UnitTest_TruncateTable(typeof(entity_item_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(fields).Name);
-        //            UnitTest_TruncateTable(typeof(field_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(field_values).Name);
-        //            UnitTest_TruncateTable(typeof(field_value_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(uploaded_data).Name);
-        //            UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(sites).Name);
-        //            UnitTest_TruncateTable(typeof(site_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(site_workers).Name);
-        //            UnitTest_TruncateTable(typeof(site_worker_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(units).Name);
-        //            UnitTest_TruncateTable(typeof(unit_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(workers).Name);
-        //            UnitTest_TruncateTable(typeof(worker_versions).Name);
-        //        }
-        //        //---
-        //        UnitTest_TruncateTable(typeof(notifications).Name);
-        //        UnitTest_TruncateTable(typeof(outlook).Name);
-        //        //---
-        //        UnitTest_TruncateTable(typeof(settings).Name);
-        //        UnitTest_TruncateTable(typeof(field_types).Name);
-        //        //---
-        //    }
-        //}
-
-        private int     FieldTypeCount()
-        {
-            using (var db = new MicrotingDb(connectionStr))
-            {
-                return db.field_types.Count();
-            }
-        }
-
         private void    FieldTypeAdd(int id, string fieldType, string description)
         {
             using (var db = new MicrotingDb(connectionStr))
@@ -3357,14 +3284,6 @@ namespace eFormSqlController
             }
         }
 
-        private int     SettingCount()
-        {
-            using (var db = new MicrotingDb(connectionStr))
-            {
-                return db.settings.Count();
-            }
-        }
-
         private void    SettingAdd(int id, string name)
         {
             using (var db = new MicrotingDb(connectionStr))
@@ -3372,6 +3291,7 @@ namespace eFormSqlController
                 settings set = new settings();
                 set.id = id;
                 set.name = name;
+                set.value = "";
 
                 db.settings.Add(set);
                 db.SaveChanges();

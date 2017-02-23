@@ -4,14 +4,13 @@ using eFormSqlController;
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace eFormCore
 {
     public class AdminTools
     {
         #region var
-        Communicator communicator;
+        string connectionString;
         SqlController sqlCon;
         Tools t = new Tools();
         #endregion
@@ -19,9 +18,8 @@ namespace eFormCore
         #region con
         public AdminTools(string serverConnectionString)
         {
+            connectionString = serverConnectionString;
             sqlCon = new SqlController(serverConnectionString);
-            communicator = new Communicator(sqlCon.SettingRead("comAddress"), sqlCon.SettingRead("comToken"), //TODO
-                sqlCon.SettingRead("organizationId"), sqlCon.SettingRead("comAddressBasic"));
         }
         #endregion
 
@@ -50,19 +48,21 @@ namespace eFormCore
                 Console.WriteLine("");
                 Console.WriteLine("Press the following keys to run:");
                 Console.WriteLine("");
-                Console.WriteLine("'P' to prime database");
-                Console.WriteLine("'S' to clear database for settings, entity types and sites");
-                Console.WriteLine("'I' to check database is primed");
-                Console.WriteLine("");
                 Console.WriteLine("'C' to retract all known eForm on devices");
                 Console.WriteLine("'E' to retract all known Entities");
                 Console.WriteLine("'D' to clear database for data");
                 Console.WriteLine("'T' to clear database for templats");
                 Console.WriteLine("'A' to complet database reset (all of the above)");
                 Console.WriteLine("");
+                Console.WriteLine("'P' to prime, configure and add sites database");
+                Console.WriteLine("'S' to clear database for prime, configuration and sites");
+                Console.WriteLine("'I' to check database is primed");
+                Console.WriteLine("");
                 Console.WriteLine("'Q' to close admin tools");
                 string input = Console.ReadLine();
                 #endregion
+
+                string reply = "";
 
                 if (input.ToUpper() == "Q")
                 {
@@ -70,56 +70,42 @@ namespace eFormCore
                     break;
                 }
 
-                string reply = "";
-
-                if (input.ToUpper() == "C")
+                switch (input.ToUpper())
                 {
-                    Console.WriteLine("Retract all known eForm on devices");
-                    reply = RetractEforms();
-                }
-
-                if (input.ToUpper() == "E")
-                {
-                    Console.WriteLine("Retract all known Entities");
-                    reply = RetractEntities();
-                }
-
-                if (input.ToUpper() == "D")
-                {
-                    Console.WriteLine("Clear database for data");
-                    reply = DbClearData();
-                }
-
-                if (input.ToUpper() == "T")
-                {
-                    Console.WriteLine("Clear database for templats");
-                    reply = DbClearTemplat();
-                }
-
-                if (input.ToUpper() == "S")
-                {
-                    Console.WriteLine("Clear database for settings and sites");
-                    reply = DbClearSettings();
-                }
-
-                if (input.ToUpper() == "P")
-                {
-                    Console.WriteLine("Prime database");
-                    Console.WriteLine("Enter token:");
-                    string token = Console.ReadLine();
-                    reply = DbPrime(token);
-                }
-
-                if (input.ToUpper() == "I")
-                {
-                    Console.WriteLine("Check database is primed");
-                    reply = DbPrimeIs().ToString();
-                }
-
-                if (input.ToUpper() == "A")
-                {
-                    Console.WriteLine("Complet database reset");
-                    reply = DbReset();
+                    case "C":
+                        Console.WriteLine("Retract all known eForm on devices");
+                        reply = RetractEforms();
+                        break;
+                    case "E":
+                        Console.WriteLine("Retract all known Entities");
+                        reply = RetractEntities();
+                        break;
+                    case "D":
+                        Console.WriteLine("Clear database for data");
+                        reply = DbClearData();
+                        break;
+                    case "T":
+                        Console.WriteLine("Clear database for templats");
+                        reply = DbClearTemplat();
+                        break;
+                    case "A":
+                        Console.WriteLine("Database and devices clear");
+                        reply = DbClear();
+                        break;
+                    case "S":
+                        Console.WriteLine("Clear database for prime, configuration and sites");
+                        reply = DbSetupClear();
+                        break;
+                    case "P":
+                        Console.WriteLine("Prime, configure and add sites to  database");
+                        Console.WriteLine("Enter your token:");
+                        string token = Console.ReadLine();
+                        reply = DbSetup(token);
+                        break;
+                    case "I":
+                        Console.WriteLine("Check is database primed and configured");
+                        reply = DbSetupCompleted().ToString();
+                        break;
                 }
 
                 if (reply == "")
@@ -132,6 +118,11 @@ namespace eFormCore
         public string RetractEforms()
         {
             string reply = "";
+
+            Communicator communicator = GetCommunicator();
+            if (communicator == null)
+                return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
+
             List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
             foreach (string mUId in lstCaseMUIds)
             {
@@ -164,6 +155,11 @@ namespace eFormCore
         public string RetractEntities()
         {
             string reply = "";
+
+            Communicator communicator = GetCommunicator();
+            if (communicator == null)
+                return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
+
             List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
             foreach (string mUId in lstEntityMUIds)
             {
@@ -243,9 +239,14 @@ namespace eFormCore
             }
         }
 
-        public string DbReset()
+        public string DbClear()
         {
             string reply = "";
+
+            Communicator communicator = GetCommunicator();
+            if (communicator == null)
+                return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
+
             reply += RetractEforms() + Environment.NewLine;
             reply += RetractEntities() + Environment.NewLine;
             reply += DbClearData() + Environment.NewLine;
@@ -254,14 +255,14 @@ namespace eFormCore
             return reply.TrimEnd();
         }
 
-        public bool   DbPrimeIs()
+        public bool   DbSetupCompleted()
         {
-            return false; //TODO
+            return sqlCon.SettingCheck();
         }
         #endregion
 
         #region private
-        private string DbClearSettings()
+        private string DbSetupClear()
         {
             try
             {
@@ -292,15 +293,106 @@ namespace eFormCore
             }
         }
 
-        private string DbPrime(string token)
+        private string DbSetup(string token)
         {
             try
             {
-                return "faked method"; //TODO
+                #region prime db
+                sqlCon = null;
+                sqlCon = new SqlController(connectionString);
+                #endregion
+
+                #region configure db
+                string comAddressBasic = sqlCon.SettingRead("comAddressBasic");
+                CommunicatorBasic basicCom = new CommunicatorBasic(comAddressBasic);
+                List<string> settingLst = basicCom.GetSettings(token);
+
+                foreach (var setting in settingLst)
+                {
+                    string[] line = setting.Split('|');
+                    sqlCon.SettingUpdate(line[0], line[1]);
+                }
+
+                sqlCon.SettingUpdate("firstRunDone", "true");
+                #endregion
+
+                #region add sites to db
+                Communicator communicator = GetCommunicator();
+                if (communicator == null)
+                    return "Failed to create a communicator. Action canceled. Database has not loaded sites";
+
+                if (!bool.Parse(sqlCon.SettingRead("knownSitesDone")))
+                {
+                    sqlCon.UnitTest_TruncateTable(typeof(sites).Name);
+                    foreach (var item in communicator.SiteLoadAllFromRemote())
+                    {
+                        SiteName_Dto siteDto = sqlCon.SiteRead(item.SiteUId);
+                        if (siteDto == null)
+                        {
+                            sqlCon.SiteCreate(item.SiteUId, item.SiteName);
+                        }
+                    }
+
+                    sqlCon.UnitTest_TruncateTable(typeof(workers).Name);
+                    foreach (var item in communicator.WorkerLoadAllFromRemote())
+                    {
+                        Worker_Dto workerDto = sqlCon.WorkerRead(item.WorkerUId);
+                        if (workerDto == null)
+                        {
+                            sqlCon.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
+                        }
+                    }
+
+                    sqlCon.UnitTest_TruncateTable(typeof(site_workers).Name);
+                    foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
+                    {
+                        Site_Worker_Dto siteWorkerDto = sqlCon.SiteWorkerRead(item.MicrotingUId);
+                        if (siteWorkerDto == null)
+                        {
+                            sqlCon.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
+                        }
+                    }
+
+                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
+                    int customerNo = organizationDto.CustomerNo;
+
+                    sqlCon.UnitTest_TruncateTable(typeof(units).Name);
+                    foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
+                    {
+                        Unit_Dto unitDto = sqlCon.UnitRead(item.UnitUId);
+                        if (unitDto == null)
+                        {
+                            sqlCon.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
+                        }
+                    }
+                }
+  
+                sqlCon.SettingUpdate("knownSitesDone", "true");
+                #endregion
+
+                return "";
             }
             catch (Exception ex)
             {
                 return t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        private Communicator GetCommunicator()
+        {
+            try
+            {
+                string address =        sqlCon.SettingRead("comAddress");
+                string token =          sqlCon.SettingRead("comToken");
+                string organizationId = sqlCon.SettingRead("organizationId");
+                string addressBasic =   sqlCon.SettingRead("comAddressBasic");
+
+                Communicator communicator = new Communicator(address, token, organizationId, addressBasic);
+                return communicator;
+            }
+            catch
+            {
+                return null;
             }
         }
         #endregion

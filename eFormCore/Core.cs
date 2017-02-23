@@ -112,6 +112,9 @@ namespace eFormCore
                     TriggerLog("SqlEformController started");
 
                     #region settings read and checked
+                    if (sqlController.SettingRead("firstRunDone") == "false")
+                        throw new ArgumentException("firstRunDone==false. Use AdminTools to setup settings");
+
                     comToken = sqlController.SettingRead("comToken");
                     comAddress = sqlController.SettingRead("comAddress");
                     comAddressBasic = sqlController.SettingRead("comAddressBasic");
@@ -163,57 +166,6 @@ namespace eFormCore
                     //communicators
                     excelController = new ExcelController();
                     TriggerLog("Excel (Office) started");
-
-                    #region known sites
-                    if (!bool.Parse(sqlController.SettingRead("knownSitesDone")))
-                    {
-                        sqlController.UnitTest_TruncateTable(typeof(sites).Name);
-                        foreach (var item in communicator.SiteLoadAllFromRemote())
-                        {
-                            SiteName_Dto siteDto = sqlController.SiteRead(item.SiteUId);
-                            if (siteDto == null)
-                            {
-                                sqlController.SiteCreate(item.SiteUId, item.SiteName);
-                            }
-                        }
-
-                        sqlController.UnitTest_TruncateTable(typeof(workers).Name);
-                        foreach (var item in communicator.WorkerLoadAllFromRemote())
-                        {
-                            Worker_Dto workerDto = sqlController.WorkerRead(item.WorkerUId);
-                            if (workerDto == null)
-                            {
-                                sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
-                            }
-                        }
-
-                        sqlController.UnitTest_TruncateTable(typeof(site_workers).Name);
-                        foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
-                        {
-                            Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(item.MicrotingUId);
-                            if (siteWorkerDto == null)
-                            {
-                                sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
-                            }
-                        }
-
-                        Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
-                        int customerNo = organizationDto.CustomerNo;
-
-                        sqlController.UnitTest_TruncateTable(typeof(units).Name);
-                        foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
-                        {
-                            Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);
-                            if (unitDto == null)
-                            {
-                                sqlController.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
-                            }
-                        }
-
-                        TriggerLog("Known sites added to Database");
-                        sqlController.SettingUpdate("knownSitesDone", "true");
-                    }
-                    #endregion
 
                     coreRunning = true;
                     coreStatChanging = false;

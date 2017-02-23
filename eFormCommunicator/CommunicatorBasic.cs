@@ -31,12 +31,12 @@ using System.IO;
 
 namespace eFormCommunicator
 {
-    public class BasicCom
+    public class CommunicatorBasic
     {
         string comAddressBasic;
 
         #region con
-        public BasicCom(string comAddressBasic)
+        public CommunicatorBasic(string comAddressBasic)
         {
             this.comAddressBasic = comAddressBasic;
         }
@@ -63,53 +63,7 @@ namespace eFormCommunicator
                     throw new Exception(@"input\first_run.txt not found", ex);
                 }
             }
-
-
-
-
-
-            if (!bool.Parse(SettingRead("firstRunDone")))
-            {
-                string[] lines = new string[] { };
-                try
-                {
-                    // This line is here for "normal" programs.
-                    lines = File.ReadAllLines(@"input\first_run.txt");
-                }
-                catch (Exception)
-                {
-                    try
-                    {
-                        // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
-                        lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(@"input\first_run.txt not found", ex);
-                    }
-                }
-                string name;
-                string value;
-
-                foreach (var item in lines)
-                {
-                    string[] line = item.Split('|');
-
-                    name = line[0];
-                    value = line[1];
-
-                    SettingUpdate(name, value);
-                }
-                SettingUpdate("logLevel", "true");
-            }
-
-
-
-
-
-
-
-            return null;
+            return new List<string>(lines);
         }
 
         //public Organization_Dto GetOrganization()
