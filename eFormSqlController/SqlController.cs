@@ -490,7 +490,14 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
+                    cases match = db.cases.SingleOrDefault(x => x.microting_uid      == microtingUId && x.microting_check_uid == checkUId);
+                    match.site_id             = db.sites.SingleOrDefault(x => x.id   == match.site_id).microting_uid;
+
+                    if (match.unit_id != null)
+                        match.unit_id         = db.units.SingleOrDefault(x => x.id   == match.unit_id).microting_uid;
+
+                    if (match.done_by_user_id != null)
+                        match.done_by_user_id = db.workers.SingleOrDefault(x => x.id == match.done_by_user_id).microting_uid;
                     return match;
                 }
             }
