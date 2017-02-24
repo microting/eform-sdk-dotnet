@@ -37,6 +37,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Globalization;
+using System.Text;
 
 namespace eFormCore
 {
@@ -338,6 +339,20 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
                 xmlString = xmlString.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
+
+                List<string> dILst = t.LocateList(xmlString, "type=\"Date\">", "</DataItem>");
+                if (dILst != null)
+                {
+                    foreach (var item in dILst)
+                    {
+                        string before = item;
+                        string after = item.Replace("<Value/>", "<DefaultValue/>");
+                        after = after.Replace("<Value>", "<DefaultValue>");
+                        after = after.Replace("</Value>", "</DefaultValue>");
+
+                        xmlString = xmlString.Replace(before, after);
+                    }
+                }
                 #endregion
 
                 MainElement mainElement = new MainElement();
@@ -678,7 +693,7 @@ namespace eFormCore
             }
         }
 
-        public List<cases>      CaseReadAll(int templatId, DateTime? start, DateTime? end)
+        public List<cases>      CaseReadAll(int? templatId, DateTime? start, DateTime? end)
         {
             try
             {
@@ -882,7 +897,7 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToExcel(int templatId, DateTime? start, DateTime? end, string pathAndFilName)
+        public string           CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName)
         {
             try
             {
@@ -893,7 +908,10 @@ namespace eFormCore
                     if (dataSet == null)
                         return "";
 
-                    return excelController.CreateExcel(dataSet, pathAndFilName);
+                    if (!pathAndName.Contains(".xlsx"))
+                        pathAndName = pathAndName + ".xlsx";
+
+                    return excelController.CreateExcel(dataSet, pathAndName);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -905,7 +923,7 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToCsv(int templatId, DateTime? start, DateTime? end, string pathAndFilName)
+        public string           CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName)
         {
             try
             {
@@ -916,24 +934,24 @@ namespace eFormCore
                     if (dataSet == null)
                         return "";
 
-                    using (TextWriter writer = File.CreateText(pathAndFilName))
+                    List<string> temp;
+                    string text = "";
+
+                    for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
                     {
-                        List<string> temp;
+                        temp = new List<string>();
 
-                        for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
-                        {
-                            temp = new List<string>();
+                        foreach (List<string> lst in dataSet)
+                            temp.Add(lst[rowN]); 
 
-                            foreach (List<string> lst in dataSet)
-                            {
-                                temp.Add(lst[rowN]); 
-                            }
-
-                            writer.WriteLine(string.Join(";", temp.ToArray()));
-                        }
+                        text += string.Join(";", temp.ToArray()) + Environment.NewLine;
                     }
 
-                    return pathAndFilName;
+                    if (!pathAndName.Contains(".csv"))
+                        pathAndName = pathAndName + ".csv";
+
+                    File.WriteAllText(pathAndName, text.TrimEnd(), Encoding.UTF8);
+                    return Path.GetFullPath(pathAndName);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1698,7 +1716,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private List<List<string>> GenerateDataSetFromCases (int templatId, DateTime? start, DateTime? end)
+        private List<List<string>> GenerateDataSetFromCases (int? templatId, DateTime? start, DateTime? end)
         {
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
@@ -1754,20 +1772,23 @@ namespace eFormCore
 
             #region fieldValue generate
             {
-                MainElement templateData = sqlController.TemplatRead(templatId);
-
-                List<string> lstReturn = new List<string>();
-                lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList, "");
-
-                List<string> newRow;
-                foreach (string set in lstReturn)
+                if (templatId != null)
                 {
-                    int fieldId = int.Parse(t.SplitToList(set, 0, false));
-                    string label = t.SplitToList(set, 1, false);
+                    MainElement templateData = sqlController.TemplatRead((int)templatId);
 
-                    newRow = sqlController.FieldValueReadAllValues(fieldId, start, end);
-                    newRow.Insert(0, label);
-                    dataSet.Add(newRow);
+                    List<string> lstReturn = new List<string>();
+                    lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList, "");
+
+                    List<string> newRow;
+                    foreach (string set in lstReturn)
+                    {
+                        int fieldId = int.Parse(t.SplitToList(set, 0, false));
+                        string label = t.SplitToList(set, 1, false);
+
+                        newRow = sqlController.FieldValueReadAllValues(fieldId, start, end);
+                        newRow.Insert(0, label);
+                        dataSet.Add(newRow);
+                    }
                 }
             }
             #endregion

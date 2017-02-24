@@ -480,7 +480,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<cases>          CaseReadAllIds(int templatId, DateTime? start, DateTime? end)
+        public List<cases>          CaseReadAllIds(int? templatId, DateTime? start, DateTime? end)
         {
             try
             {
@@ -492,7 +492,13 @@ namespace eFormSqlController
                     if (end == null)
                         end = DateTime.MaxValue;
 
-                    List<cases> matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
+                    List<cases> matches = null;
+
+                    if (templatId == null)
+                        matches = db.cases.Where(x => x.done_at > start && x.done_at < end).ToList();
+                    else
+                        matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
+
                     return matches;
                 }
             }
