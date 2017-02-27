@@ -693,7 +693,7 @@ namespace eFormCore
             }
         }
 
-        public List<cases>      CaseReadAll(int? templatId, DateTime? start, DateTime? end)
+        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end)
         {
             try
             {
@@ -1721,42 +1721,46 @@ namespace eFormCore
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<cases>         caseList        = sqlController.CaseReadAllIds(templatId, start, end);
+            List<Case>         caseList        = sqlController.CaseReadAllIds(templatId, start, end);
 
             if (caseList.Count == 0)
                 return null;
 
-            #region remove case that has been "removed"
+            #region remove cases that are not completed
             for (int i = caseList.Count; i < 0; i--)
             {
-                if (caseList[i].workflow_state == "removed")
+                if (caseList[i].WorkflowState != "retracted")
                     caseList.RemoveAt(i);
             }
             #endregion
 
             #region firstColumes generate
             {
-                List<string> colume2 = new List<string> { "Dato" };
-                List<string> colume3 = new List<string> { "Dag" };
-                List<string> colume4 = new List<string> { "Uge" };
-                List<string> colume5 = new List<string> { "Måned" };
-                List<string> colume6 = new List<string> { "År" };
-                List<string> colume7 = new List<string> { "Lokation" };
-                List<string> colume8 = new List<string> { "Worker" };
+                List<string> colume2 = new List<string> { "Date" };
+                List<string> colume3 = new List<string> { "Time" };
+                List<string> colume4 = new List<string> { "Day" };
+                List<string> colume5 = new List<string> { "Week" };
+                List<string> colume6 = new List<string> { "Month" };
+                List<string> colume7 = new List<string> { "Year" };
+                List<string> colume8 = new List<string> { "Site" };
+                List<string> colume9 = new List<string> { "Device User" };
+                List<string> colume10 = new List<string> { "Device Id" };
 
                 var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
-                foreach (var item in caseList)
+                foreach (var aCase in caseList)
                 {
-                    DateTime time = item.done_at.Value;
+                    DateTime time = (DateTime)aCase.DoneAt;
+                    colume1CaseIds.Add(aCase.Id.ToString());
 
-                    colume1CaseIds.Add(item.id.ToString());
-                    colume2.Add(time.ToString("dd.MM.yyyy"));
-                    colume3.Add(time.DayOfWeek.ToString());
-                    colume4.Add(time.Year.ToString() + "-" + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
-                    colume5.Add(time.Year.ToString().Substring(2, 2) + "-" + time.ToString("MMMM").Substring(0, 3));
-                    colume6.Add(time.Year.ToString());
-                    colume7.Add(item.site_id.ToString()); //TODO
-                    colume8.Add(item.unit_id.ToString()); //ALSO
+                    colume2.Add(time.ToString("yyyy.MM.dd"));
+                    colume3.Add(time.ToString("hh:mm:ss"));
+                    colume4.Add(time.DayOfWeek.ToString());
+                    colume5.Add(time.Year.ToString() + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+                    colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
+                    colume7.Add(time.Year.ToString());
+                    colume8.Add(aCase.SiteName);
+                    colume9.Add(aCase.WorkerName);
+                    colume10.Add(aCase.UnitId.ToString());
                 }
 
                 dataSet.Add(colume1CaseIds);
@@ -1767,6 +1771,8 @@ namespace eFormCore
                 dataSet.Add(colume6);
                 dataSet.Add(colume7);
                 dataSet.Add(colume8);
+                dataSet.Add(colume9);
+                dataSet.Add(colume10);
             }
             #endregion
 

@@ -24,7 +24,7 @@ namespace eFormCore
         #endregion
 
         #region public
-        public void   Run()
+        public void   RunConsole()
         {
             #region warning
             Console.WriteLine("");
@@ -100,6 +100,8 @@ namespace eFormCore
                     case "P":
                         Console.WriteLine("Prime, configure and add sites to  database");
                         Console.WriteLine("Enter your token:");
+                        Console.WriteLine("- Any string will be accepted, as method is currently a stub.");
+                        Console.WriteLine("- It reads input/first_run.txt instead of reading from basic com");
                         string token = Console.ReadLine();
                         reply = DbSetup(token);
                         break;
@@ -257,45 +259,7 @@ namespace eFormCore
             return reply.TrimEnd();
         }
 
-        public bool   DbSetupCompleted()
-        {
-            return sqlCon.SettingCheck();
-        }
-        #endregion
-
-        #region private
-        private string DbSetupClear()
-        {
-            try
-            {
-                sqlCon.UnitTest_TruncateTable(typeof(sites).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(site_versions).Name);
-                //---
-                sqlCon.UnitTest_TruncateTable(typeof(site_workers).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(site_worker_versions).Name);
-                //---
-                sqlCon.UnitTest_TruncateTable(typeof(units).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(unit_versions).Name);
-                //---
-                sqlCon.UnitTest_TruncateTable(typeof(workers).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(worker_versions).Name);
-                //---
-
-
-                //---
-                sqlCon.UnitTest_TruncateTable(typeof(settings).Name);
-                //---
-                sqlCon.UnitTest_TruncateTable(typeof(field_types).Name);
-
-                return "";
-            }
-            catch (Exception ex)
-            {
-                return t.PrintException(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        private string DbSetup(string token)
+        internal string DbSetup(string token)
         {
             try
             {
@@ -368,9 +332,47 @@ namespace eFormCore
                         }
                     }
                 }
-  
+
                 sqlCon.SettingUpdate("knownSitesDone", "true");
                 #endregion
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public bool   DbSetupCompleted()
+        {
+            return sqlCon.SettingCheck();
+        }
+        #endregion
+
+        #region private
+        private string DbSetupClear()
+        {
+            try
+            {
+                sqlCon.UnitTest_TruncateTable(typeof(sites).Name);
+                sqlCon.UnitTest_TruncateTable(typeof(site_versions).Name);
+                //---
+                sqlCon.UnitTest_TruncateTable(typeof(site_workers).Name);
+                sqlCon.UnitTest_TruncateTable(typeof(site_worker_versions).Name);
+                //---
+                sqlCon.UnitTest_TruncateTable(typeof(units).Name);
+                sqlCon.UnitTest_TruncateTable(typeof(unit_versions).Name);
+                //---
+                sqlCon.UnitTest_TruncateTable(typeof(workers).Name);
+                sqlCon.UnitTest_TruncateTable(typeof(worker_versions).Name);
+                //---
+
+
+                //---
+                sqlCon.UnitTest_TruncateTable(typeof(settings).Name);
+                //---
+                sqlCon.UnitTest_TruncateTable(typeof(field_types).Name);
 
                 return "";
             }

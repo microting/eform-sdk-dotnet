@@ -143,14 +143,7 @@ namespace eFormCore
 
                 if (input.ToLower() == "t")
                 {
-                    string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
-                    var mainElement = core.TemplatFromXml(xmlStr);
-                    var errors = core.TemplatValidation(mainElement);
-
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine(error);
-                    }
+                    core.CasesToCsv(1, null, null, "xx");
                 }
             }
             Console.WriteLine("Trying to shutting down");

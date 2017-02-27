@@ -112,7 +112,7 @@ namespace eFormCore
         /// Tries to retrieve the status of a case
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
-        string CaseCheck(string microtingUId);
+        string          CaseCheck(string microtingUId);
 
         /// <summary>
         /// Tries to retrieve the answered full case from the DB

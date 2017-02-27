@@ -52,7 +52,7 @@ namespace SourceCode
                 if (input.ToUpper() == "A")
                 {
                     var program = new AdminTools(serverConnectionString);
-                    program.Run();
+                    program.RunConsole();
                 }
 
                 Console.WriteLine("Console will close in 1s");

@@ -480,7 +480,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<cases>          CaseReadAllIds(int? templatId, DateTime? start, DateTime? end)
+        public List<Case>           CaseReadAllIds(int? templatId, DateTime? start, DateTime? end)
         {
             try
             {
@@ -488,18 +488,45 @@ namespace eFormSqlController
                 {
                     if (start == null)
                         start = DateTime.MinValue;
-
                     if (end == null)
                         end = DateTime.MaxValue;
 
-                    List<cases> matches = null;
 
+                    List<cases> matches = null;
                     if (templatId == null)
                         matches = db.cases.Where(x => x.done_at > start && x.done_at < end).ToList();
                     else
                         matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
 
-                    return matches;
+
+                    List<Case> rtrnLst = new List<Case>();
+                    #region cases -> Case
+                    foreach (var dbCase in matches)
+                    {
+                        Case nCase = new Case();
+                        nCase.CaseType = dbCase.type;
+                        nCase.CaseUId = dbCase.case_uid;
+                        nCase.CheckUIid = dbCase.microting_check_uid;
+                        nCase.CreatedAt = dbCase.created_at;
+                        nCase.Custom = dbCase.custom;
+                        nCase.DoneAt = dbCase.done_at;
+                        nCase.Id = dbCase.id;
+                        nCase.MicrotingUId = dbCase.microting_uid;
+                        nCase.SiteId = dbCase.site.microting_uid;
+                        nCase.SiteName = dbCase.site.name;
+                        nCase.Status = dbCase.status;
+                        nCase.TemplatId = dbCase.check_list_id;
+                        nCase.UnitId = dbCase.unit.microting_uid;
+                        nCase.UpdatedAt = dbCase.updated_at;
+                        nCase.Version = dbCase.version;
+                        nCase.WorkerName = dbCase.worker.first_name + " " + dbCase.worker.last_name;
+                        nCase.WorkflowState = dbCase.workflow_state; 
+
+                        rtrnLst.Add(nCase);
+                    }
+                    #endregion
+
+                    return rtrnLst;
                 }
             }
             catch (Exception ex)
