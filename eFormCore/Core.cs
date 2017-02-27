@@ -701,7 +701,7 @@ namespace eFormCore
                 {
                     TriggerLog("Templat id:" + templatId.ToString() + " trying to read all cases");
 
-                    return sqlController.CaseReadAllIds(templatId, start, end);
+                    return sqlController.CaseReadAll(templatId, start, end);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -958,8 +958,8 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CasesToCsv failed", ex, true);
-                throw new Exception("CasesToCsv failed", ex);
+                TriggerHandleExpection("CasesToCsv failed", ex, false);
+                return "";
             }
         }
         #endregion
@@ -1721,7 +1721,7 @@ namespace eFormCore
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<Case>         caseList        = sqlController.CaseReadAllIds(templatId, start, end);
+            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end);
 
             if (caseList.Count == 0)
                 return null;
@@ -1791,9 +1791,25 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        newRow = sqlController.FieldValueReadAllValues(fieldId, start, end);
-                        newRow.Insert(0, label);
-                        dataSet.Add(newRow);
+                        List<List<string>> result = sqlController.FieldValueReadAllValues(fieldId, start, end);
+
+                        if (result.Count == 1)
+                        {
+                            newRow = result[0];
+                            newRow.Insert(0, label);
+                            dataSet.Add(newRow);
+                        }
+                        else
+                        {
+                            int option = 0;
+                            foreach (var lst in result)
+                            {
+                                option++;
+                                newRow = lst;
+                                newRow.Insert(0, label + " | Option " + option);
+                                dataSet.Add(newRow);
+                            }
+                        }
                     }
                 }
             }
