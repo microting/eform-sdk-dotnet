@@ -1228,7 +1228,12 @@ namespace eFormSqlController
             }
         }
 
-        public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end)
+        public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end)
+        {
+            return CaseReadAll(templatId, start, end, "not_removed");
+        }
+
+        public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
         {
             try
             {
@@ -1241,11 +1246,39 @@ namespace eFormSqlController
 
 
                     List<cases> matches = null;
-                    if (templatId == null)
-                        matches = db.cases.Where(x => x.done_at > start && x.done_at < end).ToList();
-                    else
-                        matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
-
+                    switch (workflowState)
+                    {
+                        case "not_removed":
+                            if (templatId == null)
+                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state != "removed").ToList();
+                            else
+                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state != "removed").ToList();
+                            break;
+                        case "created":
+                            if (templatId == null)
+                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state == "created").ToList();
+                            else
+                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state == "created").ToList();
+                            break;
+                        case "retracted":
+                            if (templatId == null)
+                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state == "retracted").ToList();
+                            else
+                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state == "retracted").ToList();
+                            break;
+                        case "removed":
+                            if (templatId == null)
+                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state == "removed").ToList();
+                            else
+                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state == "removed").ToList();
+                            break;
+                        default:
+                            if (templatId == null)
+                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end).ToList();
+                            else
+                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
+                            break;
+                    }               
 
                     List<Case> rtrnLst = new List<Case>();
                     #region cases -> Case
@@ -1325,11 +1358,31 @@ namespace eFormSqlController
 
         public List<Site_Dto> SimpleSiteGetAll()
         {
+            return SimpleSiteGetAll("not_removed", null, null);
+
+        }
+        public List<Site_Dto> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
+        {
             List<Site_Dto> siteList = new List<Site_Dto>();
             using (var db = new MicrotingDb(connectionStr))
             {
-                //foreach (sites aSite in db.sites.Where(x => x.workflow_state != "removed").ToList())
-                foreach (sites aSite in db.sites.ToList())
+                List<sites> matches = null;
+                switch (workflowState)
+                {
+                    case "not_removed":
+                        matches = db.sites.Where(x => x.workflow_state != "removed").ToList();
+                        break;
+                    case "removed":
+                        matches = db.sites.Where(x => x.workflow_state == "removed").ToList();
+                        break;
+                    case "created":
+                        matches = db.sites.Where(x => x.workflow_state == "created").ToList();
+                        break;
+                    default:
+                        matches = db.sites.ToList();
+                        break;
+                }
+                foreach (sites aSite in matches)
                 {
                     var unit = aSite.units.First();
                     try
