@@ -1228,11 +1228,6 @@ namespace eFormSqlController
             }
         }
 
-        public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end)
-        {
-            return CaseReadAll(templatId, start, end, "not_removed");
-        }
-
         public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
         {
             try
@@ -1248,6 +1243,12 @@ namespace eFormSqlController
                     List<cases> matches = null;
                     switch (workflowState)
                     {
+                        case "not_retracted":
+                            if (templatId == null)
+                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state != "retracted").ToList();
+                            else
+                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state != "retracted").ToList();
+                            break;
                         case "not_removed":
                             if (templatId == null)
                                 matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state != "removed").ToList();
@@ -1356,11 +1357,6 @@ namespace eFormSqlController
 
         }
 
-        public List<Site_Dto> SimpleSiteGetAll()
-        {
-            return SimpleSiteGetAll("not_removed", null, null);
-
-        }
         public List<Site_Dto> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
             List<Site_Dto> siteList = new List<Site_Dto>();

@@ -695,13 +695,17 @@ namespace eFormCore
 
         public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end)
         {
+            return CaseReadAll(templatId, start, end, "not_removed");
+        }
+        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
+        {
             try
             {
                 if (coreRunning)
                 {
                     TriggerLog("Templat id:" + templatId.ToString() + " trying to read all cases");
 
-                    return sqlController.CaseReadAll(templatId, start, end);
+                    return sqlController.CaseReadAll(templatId, start, end, workflowState);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -984,14 +988,19 @@ namespace eFormCore
             }
         }
 
-        public List<Site_Dto> SimpleSiteGetAll()
+        public List<Site_Dto>       SimpleSiteGetAll()
+        {
+            return SimpleSiteGetAll("not_removed", null, null);
+        }
+
+        public List<Site_Dto>       SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    return sqlController.SimpleSiteGetAll();
+                    return sqlController.SimpleSiteGetAll(workflowState, offSet, limit);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1721,17 +1730,17 @@ namespace eFormCore
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end);
+            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end, "not_retracted");
 
             if (caseList.Count == 0)
                 return null;
 
             #region remove cases that are not completed
-            for (int i = caseList.Count; i < 0; i--)
-            {
-                if (caseList[i].WorkflowState != "retracted")
-                    caseList.RemoveAt(i);
-            }
+            //for (int i = caseList.Count; i < 0; i--)
+            //{
+            //    if (caseList[i].WorkflowState != "retracted")
+            //        caseList.RemoveAt(i);
+            //}
             #endregion
 
             #region firstColumes generate
