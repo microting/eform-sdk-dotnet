@@ -1263,6 +1263,7 @@ namespace eFormSqlController
             List<Site_Dto> siteList = new List<Site_Dto>();
             using (var db = new MicrotingDb(connectionStr))
             {
+                //foreach (sites aSite in db.sites.Where(x => x.workflow_state != "removed").ToList())
                 foreach (sites aSite in db.sites.ToList())
                 {
                     var unit = aSite.units.First();
