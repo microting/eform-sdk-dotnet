@@ -112,7 +112,7 @@ namespace eFormCore
         /// Tries to retrieve the status of a case
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
-        string CaseCheck(string microtingUId);
+        string          CaseCheck(string microtingUId);
 
         /// <summary>
         /// Tries to retrieve the answered full case from the DB
@@ -166,22 +166,20 @@ namespace eFormCore
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a Excel fil, at the returned path's location
         /// </summary>
-        /// <param name="templatId">The templat's ID to be used</param>
+        /// <param name="templatId">The templat's ID to be used. Null will remove this limit</param>
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
-        /// <param name="path">Location where fil is to be placed. Relative or absolut. WARNING: Excel might its default location</param>
-        /// <param name="name">Name of the Excel fil</param>
-        string          CasesToExcel(int templatId, DateTime? start, DateTime? end, string fullPathName);
+        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut. WARNING: Excel might use its default location</param>
+        string          CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName);
 
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
         /// </summary>
-        /// <param name="templatId">The templat's ID to be used</param>
+        /// <param name="templatId">The templat's ID to be used. Null will remove this limit</param>
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
-        /// <param name="path">Location where fil is to be placed. Relative or absolut</param>
-        /// <param name="name">Name of the CSV fil</param>
-        string          CasesToCsv(int templatId, DateTime? start, DateTime? end, string fullPathName);
+        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
+        string          CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName);
 
         //---------------------------------------------------------------------------------------
 

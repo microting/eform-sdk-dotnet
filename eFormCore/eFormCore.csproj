@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AdminTools.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="HelpTools.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

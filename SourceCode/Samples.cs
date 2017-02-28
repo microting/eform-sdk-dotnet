@@ -143,14 +143,7 @@ namespace eFormCore
 
                 if (input.ToLower() == "t")
                 {
-                    string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
-                    var mainElement = core.TemplatFromXml(xmlStr);
-                    var errors = core.TemplatValidation(mainElement);
-
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine(error);
-                    }
+                    core.CasesToCsv(11, null, null, "xx");
                 }
             }
             Console.WriteLine("Trying to shutting down");
@@ -497,13 +490,17 @@ namespace eFormCore
                     {
                         #region is the first?
                         bool isFirst = false;
+                        int found = 0;
                         try
                         {
                             List<Case_Dto> lst = core.CaseLookupCaseUId(caseUid);
 
                             foreach (var item in lst)
                                 if (item.Stat == "Completed")
-                                    isFirst = true;
+                                    found++;
+
+                            if (found == 1)
+                                isFirst = true;
                         }
                         catch (Exception ex)
                         {

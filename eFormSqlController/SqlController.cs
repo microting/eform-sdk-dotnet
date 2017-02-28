@@ -14,6 +14,8 @@ namespace eFormSqlController
     public class SqlController
     {
         #region var
+        int numberOfSettings = 11;
+
         List<Holder> converter;
         object _lockQuery = new object();
         string connectionStr;
@@ -23,137 +25,108 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
-            connectionStr = connectionString;
             try
             {
-                tryConnectToDb();
+                connectionStr = connectionString;
+                PrimeDb(); //if needed
             }
             catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        private void PrimeDb()
+        {
+            try
+            #region checks number of settings. 
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    if (db.settings.Count() == numberOfSettings)
+                        return;
+                }
+            }
+            #endregion
+            catch (Exception ex)
+            #region if failed, will try to update context
             {
                 if (ex.Message.Contains("context has changed"))
                 {
                     var configuration = new Configuration();
-                    configuration.TargetDatabase = new DbConnectionInfo(connectionString, "System.Data.SqlClient");
+                    configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
                     var migrator = new DbMigrator(configuration);
                     migrator.Update();
-                } else
+                }
+                else
                 {
                     throw ex;
                 }
-                
             }
-            
-        }
+            #endregion
 
-        private void tryConnectToDb()
-        {
-            using (var db = new MicrotingDb(connectionStr))
+            try
+            #region prime db
             {
-                #region SettingCount
-                if (SettingCount() < 11)
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    string[] lines = new string[] { };
-                    try
+                    if (db.settings.Count() != numberOfSettings)
                     {
-                        // This line is here for "normal" programs.
-                        lines = File.ReadAllLines(@"input\first_run.txt");
+                        #region prime Settings
+                        UnitTest_TruncateTable(typeof(settings).Name);
+
+                        SettingAdd(1, "firstRunDone");
+                        SettingAdd(2, "knownSitesDone");
+                        SettingAdd(3, "comAddressBasic");
+                        SettingAdd(4, "logLevel");
+                        SettingAdd(5, "fileLocation");
+                        SettingAdd(6, "comToken");
+                        SettingAdd(7, "comAddress");
+                        SettingAdd(8, "organizationId");
+                        SettingAdd(9, "subscriberToken");
+                        SettingAdd(10, "subscriberAddress");
+                        SettingAdd(11, "subscriberName");
+
+                        SettingUpdate("firstRunDone", "false");
+                        SettingUpdate("knownSitesDone", "false");
+                        SettingUpdate("comAddressBasic", "https://basic.microting.com");
+                        SettingUpdate("logLevel", "true");
+                        SettingUpdate("fileLocation", "dataFolder/");
+                        #endregion
                     }
-                    catch (Exception)
+
+                    if (db.field_types.Count() != 18)
                     {
-                        try
-                        {
-                            // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
-                            lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(@"input\first_run.txt not found", ex);
-                        }
+                        #region prime FieldTypes
+                        UnitTest_TruncateTable(typeof(field_types).Name);
+
+                        FieldTypeAdd(1, "Text", "Simple text field");
+                        FieldTypeAdd(2, "Number", "Simple number field");
+                        FieldTypeAdd(3, "None", "Simple text to be displayed");
+                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
+                        FieldTypeAdd(5, "Picture", "Simple picture field");
+                        FieldTypeAdd(6, "Audio", "Simple audio field");
+                        FieldTypeAdd(7, "Movie", "Simple movie field");
+                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
+                        FieldTypeAdd(9, "Comment", "Simple comment field");
+                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
+                        FieldTypeAdd(11, "Date", "Date selection");
+                        FieldTypeAdd(12, "Signature", "Simple signature field");
+                        FieldTypeAdd(13, "Timer", "Simple timer field");
+                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
+                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
+                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
+                        FieldTypeAdd(17, "FieldGroup", "Field group");
+                        FieldTypeAdd(18, "SaveButton", "Save eForm");
+                        #endregion
                     }
-
-                    UnitTest_TruncateTable(typeof(settings).Name);
-
-                    SettingAdd(1, "firstRunDone");
-                    SettingAdd(2, "knownSitesDone");
-                    SettingAdd(3, "logLevel");
-                    SettingAdd(4, "comToken");
-                    SettingAdd(5, "comAddress");
-                    SettingAdd(6, "comAddressBasic");
-                    SettingAdd(7, "organizationId");
-                    SettingAdd(8, "subscriberToken");
-                    SettingAdd(9, "subscriberAddress");
-                    SettingAdd(10, "subscriberName");
-                    SettingAdd(11, "fileLocation");
-
-                    SettingUpdate("firstRunDone", "false");
-                    SettingUpdate("knownSitesDone", "false");
                 }
-                #endregion
-
-                #region FieldTypeCount
-                if (FieldTypeCount() < 18)
-                {
-                    UnitTest_TruncateTable(typeof(field_types).Name);
-
-                    FieldTypeAdd(1, "Text", "Simple text field");
-                    FieldTypeAdd(2, "Number", "Simple number field");
-                    FieldTypeAdd(3, "None", "Simple text to be displayed");
-                    FieldTypeAdd(4, "CheckBox", "Simple check box field");
-                    FieldTypeAdd(5, "Picture", "Simple picture field");
-                    FieldTypeAdd(6, "Audio", "Simple audio field");
-                    FieldTypeAdd(7, "Movie", "Simple movie field");
-                    FieldTypeAdd(8, "SingleSelect", "Single selection list");
-                    FieldTypeAdd(9, "Comment", "Simple comment field");
-                    FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
-                    FieldTypeAdd(11, "Date", "Date selection");
-                    FieldTypeAdd(12, "Signature", "Simple signature field");
-                    FieldTypeAdd(13, "Timer", "Simple timer field");
-                    FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
-                    FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
-                    FieldTypeAdd(16, "ShowPdf", "Show PDF");
-                    FieldTypeAdd(17, "FieldGroup", "Field group");
-                    FieldTypeAdd(18, "SaveButton", "Save eForm");
-                }
-                #endregion
-
-                #region SettingRead
-                if (!bool.Parse(SettingRead("firstRunDone")))
-                {
-                    string[] lines = new string[] { };
-                    try
-                    {
-                        // This line is here for "normal" programs.
-                        lines = File.ReadAllLines(@"input\first_run.txt");
-                    }
-                    catch (Exception)
-                    {
-                        try
-                        {
-                            // This line is here because the core might get startet inside an web app, therefore the first file location is to ambiguos.
-                            lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"bin\input\first_run.txt");
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(@"input\first_run.txt not found", ex);
-                        }
-                    }
-                    string name;
-                    string value;
-
-                    foreach (var item in lines)
-                    {
-                        string[] line = item.Split('|');
-
-                        name = line[0];
-                        value = line[1];
-
-                        SettingUpdate(name, value);
-                    }
-                    SettingUpdate("firstRunDone", "true");
-                    SettingUpdate("logLevel", "true");
-                }
-                #endregion
             }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+            #endregion
         }
         #endregion
 
@@ -292,7 +265,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public case
+        #region public (pre)case
         public void                 CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
             try
@@ -363,108 +336,6 @@ namespace eFormSqlController
             }
         }
 
-        public Case_Dto             CaseReadByMUId(string microtingUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    try
-                    {
-                        cases aCase = db.cases.Single(x => x.microting_uid == microtingUId);
-                        return CaseReadByCaseId(aCase.id);
-                    } catch { }
-
-                    try
-                    {
-                        check_list_sites cls = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
-                        check_lists cL = db.check_lists.Single(x => x.id == cls.check_list_id);
-
-                        #region string stat = aCase.workflow_state ...
-                        string stat = "";
-                        if (cls.workflow_state == "created")
-                            stat = "Created";
-
-                        if (cls.workflow_state == "removed")
-                            stat = "Deleted";
-                        #endregion
-
-                        int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
-                        Case_Dto rtrnCase = new Case_Dto(stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom);
-                        return rtrnCase;
-                    } catch { }
-
-                    throw new Exception("CaseReadByMuuId failed");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadByMuuId failed", ex);
-            }
-        }
-
-        public Case_Dto             CaseReadByCaseId(int caseId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases aCase = db.cases.Single(x => x.id == caseId);
-                    check_lists cL = db.check_lists.Single(x => x.id == aCase.check_list_id);
-
-                    #region string stat = aCase.workflow_state ...
-                    string stat = "";
-                    if (aCase.workflow_state == "created" && aCase.status != 77)
-                        stat = "Created";
-
-                    if (aCase.workflow_state == "created" && aCase.status == 77)
-                        stat = "Retrived";
-
-                    if (aCase.workflow_state == "retracted")
-                        stat = "Completed";
-
-                    if (aCase.workflow_state == "removed")
-                        stat = "Deleted";
-                    #endregion
-
-                    int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
-                    Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
-                    return cDto;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadByCaseUId failed", ex);
-            }
-        }
-
-        public List<Case_Dto>       CaseReadByCaseUId(string caseUId)
-        {
-            try
-            {
-                if (caseUId == "")
-                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:''. This would return incorrect data");
-
-                if (caseUId == "ReversedCase")
-                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:'ReversedCase'. This would return incorrect data");
-
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    List<cases> matches = db.cases.Where(x => x.case_uid == caseUId).ToList();
-                    List<Case_Dto> lstDto = new List<Case_Dto>();
-
-                    foreach (cases aCase in matches)
-                        lstDto.Add(CaseReadByCaseId(aCase.id));
-
-                    return lstDto;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadByCaseUId failed", ex);
-            }
-        }
-
         public string               CaseReadCheckIdByMUId(string microtingUId)
         {
             try
@@ -481,51 +352,6 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("CaseReadByMuuId failed", ex);
-            }
-        }
-
-        public cases                CaseReadFull(string microtingUId, string checkUId)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases match = db.cases.SingleOrDefault(x => x.microting_uid      == microtingUId && x.microting_check_uid == checkUId);
-                    match.site_id             = db.sites.SingleOrDefault(x => x.id   == match.site_id).microting_uid;
-
-                    if (match.unit_id != null)
-                        match.unit_id         = db.units.SingleOrDefault(x => x.id   == match.unit_id).microting_uid;
-
-                    if (match.done_by_user_id != null)
-                        match.done_by_user_id = db.workers.SingleOrDefault(x => x.id == match.done_by_user_id).microting_uid;
-                    return match;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadFull failed", ex);
-            }
-        }
-
-        public List<cases>          CaseReadAllIds(int templatId, DateTime? start, DateTime? end)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    if (start == null)
-                        start = DateTime.MinValue;
-
-                    if (end == null)
-                        end = DateTime.MaxValue;
-
-                    List<cases> matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
-                    return matches;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadFull failed", ex);
             }
         }
 
@@ -598,51 +424,6 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("CaseUpdate failed", ex);
-            }
-        }
-
-        public void                 CaseUpdateDetails(string microtingUId, string microtingCheckId, string newCaseUId, string newCustom)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    cases match = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
-
-                    match.case_uid = newCaseUId;
-                    match.custom = newCustom;
-                    match.updated_at = DateTime.Now;
-                    match.version = match.version + 1;
-                    
-                    db.version_cases.Add(MapCaseVersions(match));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseUpdate failed", ex);
-            }
-        }
-
-        public List<Case_Dto>       CaseFindCustomMatchs(string customString)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
-
-                    List<cases> lstMatchs = db.cases.Where(x => x.custom == customString && x.workflow_state == "created").ToList();
-
-                    foreach (cases match in lstMatchs)
-                        foundCasesThatMatch.Add(CaseReadByCaseId(match.id));
-
-                    return foundCasesThatMatch;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseFindCustomMatchs failed", ex);
             }
         }
 
@@ -980,7 +761,7 @@ namespace eFormSqlController
                         string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
                         answer.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
 
-                        answer.KeyValuePairList = ReadPairs(question.key_value_pair_list);
+                        answer.KeyValuePairList = PairRead(question.key_value_pair_list);
                     }
 
                     if (answer.FieldType == "MultiSelect")
@@ -996,7 +777,7 @@ namespace eFormSqlController
                             answer.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        answer.KeyValuePairList = ReadPairs(question.key_value_pair_list);
+                        answer.KeyValuePairList = PairRead(question.key_value_pair_list);
                     }
                     #endregion
 
@@ -1031,7 +812,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string>         FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end)
+        public List<List<string>>   FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end)
         {
             try
             {
@@ -1043,11 +824,89 @@ namespace eFormSqlController
                     if (end == null)
                         end = DateTime.MaxValue;
 
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && x.done_at > start && x.done_at < end).ToList();
-                    List<string> rtrnLst = new List<string>();
+                    fields matchField = db.fields.Single(x => x.id == fieldId);
 
-                    foreach (field_values item in matches)
-                        rtrnLst.Add(item.value);
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && x.done_at > start && x.done_at < end).ToList();
+
+                    List<List<string>> rtrnLst = new List<List<string>>();
+                    List<string> replyLst1 = new List<string>();
+                    rtrnLst.Add(replyLst1);
+
+                    switch ((int)matchField.field_type_id)
+                    {
+                        #region special dataItem
+                        case 4: //"CheckBox"
+                            foreach (field_values item in matches)
+                            {
+                                if (item.value == "checked")
+                                    replyLst1.Add("1");
+                                else
+                                    replyLst1.Add("0");
+                            }
+                            break;
+
+                        case 8: //"SingleSelect"
+                            {
+                                var kVP = PairRead(matchField.key_value_pair_list);
+
+                                foreach (field_values item in matches)
+                                    replyLst1.Add(PairMatch(kVP, item.value));
+                            }
+                            break;
+
+                        case 10: //"MultiSelect"
+                            {
+                                var kVP = PairRead(matchField.key_value_pair_list);
+
+                                rtrnLst = new List<List<string>>();
+                                List<string> replyLst = null;
+                                int index = 0;
+                                string valueExt = "";
+
+                                foreach (var key in kVP)
+                                {
+                                    replyLst = new List<string>();
+                                    index++;
+
+                                    foreach (field_values item in matches)
+                                    {
+                                        valueExt = "|" + item.value + "|";
+                                        if (valueExt.Contains("|" + index.ToString() + "|"))
+                                            replyLst.Add("1");
+                                        else
+                                            replyLst.Add("0");
+                                    }
+
+                                    rtrnLst.Add(replyLst);
+                                }
+
+                            }
+                            break;
+
+                        case 14: //"EntitySearch"
+                            {
+                                var kVP = PairRead(matchField.key_value_pair_list);
+
+                                foreach (field_values item in matches)
+                                    replyLst1.Add(PairMatch(kVP, item.value));
+                            }
+                            break;
+
+                        case 15: //"EntitySelect"
+                            {
+                                var kVP = PairRead(matchField.key_value_pair_list);
+
+                                foreach (field_values item in matches)
+                                    replyLst1.Add(PairMatch(kVP, item.value));
+                            }
+                            break;
+                        #endregion
+
+                        default:
+                            foreach (field_values item in matches)
+                                replyLst1.Add(item.value);
+                            break;
+                    }
 
                     return rtrnLst;
                 }
@@ -1134,7 +993,7 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     notifications aNoti = db.notifications.FirstOrDefault(x => x.workflow_state == "created");
-                        
+
                     if (aNoti != null)
                         return aNoti.transmission;
                     else
@@ -1175,7 +1034,7 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     uploaded_data dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
-                        
+
                     if (dU != null)
                         return dU.file_location;
                     else
@@ -1239,6 +1098,212 @@ namespace eFormSqlController
             }
         }
         #endregion
+        #endregion
+
+        #region public (post)case
+        public Case_Dto             CaseReadByMUId(string microtingUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    try
+                    {
+                        cases aCase = db.cases.Single(x => x.microting_uid == microtingUId);
+                        return CaseReadByCaseId(aCase.id);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        check_list_sites cls = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
+                        check_lists cL = db.check_lists.Single(x => x.id == cls.check_list_id);
+
+                        #region string stat = aCase.workflow_state ...
+                        string stat = "";
+                        if (cls.workflow_state == "created")
+                            stat = "Created";
+
+                        if (cls.workflow_state == "removed")
+                            stat = "Deleted";
+                        #endregion
+
+                        int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
+                        Case_Dto rtrnCase = new Case_Dto(stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom);
+                        return rtrnCase;
+                    }
+                    catch { }
+
+                    throw new Exception("CaseReadByMuuId failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByMuuId failed", ex);
+            }
+        }
+
+        public Case_Dto             CaseReadByCaseId(int caseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases aCase = db.cases.Single(x => x.id == caseId);
+                    check_lists cL = db.check_lists.Single(x => x.id == aCase.check_list_id);
+
+                    #region string stat = aCase.workflow_state ...
+                    string stat = "";
+                    if (aCase.workflow_state == "created" && aCase.status != 77)
+                        stat = "Created";
+
+                    if (aCase.workflow_state == "created" && aCase.status == 77)
+                        stat = "Retrived";
+
+                    if (aCase.workflow_state == "retracted")
+                        stat = "Completed";
+
+                    if (aCase.workflow_state == "removed")
+                        stat = "Deleted";
+                    #endregion
+
+                    int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
+                    Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
+                    return cDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByCaseUId failed", ex);
+            }
+        }
+
+        public List<Case_Dto>       CaseReadByCaseUId(string caseUId)
+        {
+            try
+            {
+                if (caseUId == "")
+                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:''. This would return incorrect data");
+
+                if (caseUId == "ReversedCase")
+                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:'ReversedCase'. This would return incorrect data");
+
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<cases> matches = db.cases.Where(x => x.case_uid == caseUId).ToList();
+                    List<Case_Dto> lstDto = new List<Case_Dto>();
+
+                    foreach (cases aCase in matches)
+                        lstDto.Add(CaseReadByCaseId(aCase.id));
+
+                    return lstDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadByCaseUId failed", ex);
+            }
+        }
+
+        public cases                CaseReadFull(string microtingUId, string checkUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
+                    match.site_id = db.sites.SingleOrDefault(x => x.id == match.site_id).microting_uid;
+
+                    if (match.unit_id != null)
+                        match.unit_id = db.units.SingleOrDefault(x => x.id == match.unit_id).microting_uid;
+
+                    if (match.done_by_user_id != null)
+                        match.done_by_user_id = db.workers.SingleOrDefault(x => x.id == match.done_by_user_id).microting_uid;
+                    return match;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadFull failed", ex);
+            }
+        }
+
+        public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    if (start == null)
+                        start = DateTime.MinValue;
+                    if (end == null)
+                        end = DateTime.MaxValue;
+
+
+                    List<cases> matches = null;
+                    if (templatId == null)
+                        matches = db.cases.Where(x => x.done_at > start && x.done_at < end).ToList();
+                    else
+                        matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
+
+
+                    List<Case> rtrnLst = new List<Case>();
+                    #region cases -> Case
+                    foreach (var dbCase in matches)
+                    {
+                        Case nCase = new Case();
+                        nCase.CaseType = dbCase.type;
+                        nCase.CaseUId = dbCase.case_uid;
+                        nCase.CheckUIid = dbCase.microting_check_uid;
+                        nCase.CreatedAt = dbCase.created_at;
+                        nCase.Custom = dbCase.custom;
+                        nCase.DoneAt = dbCase.done_at;
+                        nCase.Id = dbCase.id;
+                        nCase.MicrotingUId = dbCase.microting_uid;
+                        nCase.SiteId = dbCase.site.microting_uid;
+                        nCase.SiteName = dbCase.site.name;
+                        nCase.Status = dbCase.status;
+                        nCase.TemplatId = dbCase.check_list_id;
+                        nCase.UnitId = dbCase.unit.microting_uid;
+                        nCase.UpdatedAt = dbCase.updated_at;
+                        nCase.Version = dbCase.version;
+                        nCase.WorkerName = dbCase.worker.first_name + " " + dbCase.worker.last_name;
+                        nCase.WorkflowState = dbCase.workflow_state;
+
+                        rtrnLst.Add(nCase);
+                    }
+                    #endregion
+
+                    return rtrnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadFull failed", ex);
+            }
+        }
+
+        public List<Case_Dto>       CaseFindCustomMatchs(string customString)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
+
+                    List<cases> lstMatchs = db.cases.Where(x => x.custom == customString && x.workflow_state == "created").ToList();
+
+                    foreach (cases match in lstMatchs)
+                        foundCasesThatMatch.Add(CaseReadByCaseId(match.id));
+
+                    return foundCasesThatMatch;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseFindCustomMatchs failed", ex);
+            }
+        }
         #endregion
 
         #region public sites
@@ -2176,6 +2241,30 @@ namespace eFormSqlController
                 throw new Exception("SettingUpdate failed.", ex);
             }
         }
+
+        public bool     SettingCheck()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    int countVal = db.settings.Count(x => x.value == "");
+                    int countSet = db.settings.Count();
+
+                    if (countVal > 0)
+                        return false;
+
+                    if (countSet < numberOfSettings)
+                        return false;
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SettingUpdate failed.", ex);
+            }
+        }
         #endregion
 
         #region private
@@ -2469,7 +2558,7 @@ namespace eFormSqlController
 
                         case "MultiSelect":
                             MultiSelect multiSelect = (MultiSelect)dataItem;
-                            field.key_value_pair_list = WritePairs(multiSelect.KeyValuePairList);
+                            field.key_value_pair_list = PairBuild(multiSelect.KeyValuePairList);
                             break;
 
                         case "Picture":
@@ -2493,7 +2582,7 @@ namespace eFormSqlController
 
                         case "SingleSelect":
                             SingleSelect singleSelect = (SingleSelect)dataItem;
-                            field.key_value_pair_list = WritePairs(singleSelect.KeyValuePairList);
+                            field.key_value_pair_list = PairBuild(singleSelect.KeyValuePairList);
                             break;
 
                         case "Text":
@@ -2659,7 +2748,7 @@ namespace eFormSqlController
 
                         case "MultiSelect":
                             lstDataItem.Add(new MultiSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
-                                ReadPairs(f.key_value_pair_list)));
+                                PairRead(f.key_value_pair_list)));
                             break;
 
                         case "Picture":
@@ -2683,7 +2772,7 @@ namespace eFormSqlController
 
                         case "SingleSelect":
                             lstDataItem.Add(new SingleSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
-                                ReadPairs(f.key_value_pair_list)));
+                                PairRead(f.key_value_pair_list)));
                             break;
 
                         case "Text":
@@ -2846,7 +2935,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public help methods
+        #region help methods
         private string  Find(int fieldTypeId)
         {
             foreach (var holder in converter)
@@ -2867,7 +2956,7 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
-        private string WritePairs(List<KeyValuePair> lst)
+        private string  PairBuild(List<KeyValuePair> lst)
         {
             string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><hash>";
             string inderStr;
@@ -2891,7 +2980,7 @@ namespace eFormSqlController
             return str;
         }
 
-        private List<KeyValuePair> ReadPairs(string str)
+        private List<KeyValuePair> PairRead(string str)
         {
             List<KeyValuePair> list = new List<KeyValuePair>();
             str = t.Locate(str, "<hash>", "</hash>");
@@ -2918,6 +3007,17 @@ namespace eFormSqlController
             }
 
             return list;
+        }
+
+        private string  PairMatch(List<KeyValuePair> keyValuePairs, string match)
+        {
+            foreach (var item in keyValuePairs)
+            {
+                if (item.Key == match)
+                    return item.Value;
+            }
+
+            return null;
         }
         #endregion
 
@@ -3274,76 +3374,6 @@ namespace eFormSqlController
             }
         }
 
-        //public void             UnitTest_TruncateTableAll()
-        //{
-        //    using (var db = new MicrotingDb(connectionStr))
-        //    {
-        //        {
-        //            UnitTest_TruncateTable(typeof(cases).Name);
-        //            UnitTest_TruncateTable(typeof(case_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(check_list_sites).Name);
-        //            UnitTest_TruncateTable(typeof(check_list_site_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(check_list_values).Name);
-        //            UnitTest_TruncateTable(typeof(check_list_value_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(check_lists).Name);
-        //            UnitTest_TruncateTable(typeof(check_list_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(entity_groups).Name);
-        //            UnitTest_TruncateTable(typeof(entity_group_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(entity_items).Name);
-        //            UnitTest_TruncateTable(typeof(entity_item_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(fields).Name);
-        //            UnitTest_TruncateTable(typeof(field_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(field_values).Name);
-        //            UnitTest_TruncateTable(typeof(field_value_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(uploaded_data).Name);
-        //            UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
-        //        }
-        //        //---
-        //        {
-        //            UnitTest_TruncateTable(typeof(sites).Name);
-        //            UnitTest_TruncateTable(typeof(site_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(site_workers).Name);
-        //            UnitTest_TruncateTable(typeof(site_worker_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(units).Name);
-        //            UnitTest_TruncateTable(typeof(unit_versions).Name);
-        //            //---
-        //            UnitTest_TruncateTable(typeof(workers).Name);
-        //            UnitTest_TruncateTable(typeof(worker_versions).Name);
-        //        }
-        //        //---
-        //        UnitTest_TruncateTable(typeof(notifications).Name);
-        //        UnitTest_TruncateTable(typeof(outlook).Name);
-        //        //---
-        //        UnitTest_TruncateTable(typeof(settings).Name);
-        //        UnitTest_TruncateTable(typeof(field_types).Name);
-        //        //---
-        //    }
-        //}
-
-        private int     FieldTypeCount()
-        {
-            using (var db = new MicrotingDb(connectionStr))
-            {
-                return db.field_types.Count();
-            }
-        }
-
         private void    FieldTypeAdd(int id, string fieldType, string description)
         {
             using (var db = new MicrotingDb(connectionStr))
@@ -3358,14 +3388,6 @@ namespace eFormSqlController
             }
         }
 
-        private int     SettingCount()
-        {
-            using (var db = new MicrotingDb(connectionStr))
-            {
-                return db.settings.Count();
-            }
-        }
-
         private void    SettingAdd(int id, string name)
         {
             using (var db = new MicrotingDb(connectionStr))
@@ -3373,6 +3395,7 @@ namespace eFormSqlController
                 settings set = new settings();
                 set.id = id;
                 set.name = name;
+                set.value = "";
 
                 db.settings.Add(set);
                 db.SaveChanges();
