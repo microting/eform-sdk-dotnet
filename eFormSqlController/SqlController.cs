@@ -297,7 +297,7 @@ namespace eFormSqlController
             }
         }
 
-        public int                  CaseCreate(int checkListId, int siteUId, string microtingUId, string microtingCheckId, string caseUId, string custom)
+        public int                  CaseCreate(int checkListId, int siteUId, string microtingUId, string microtingCheckId, string caseUId, string custom, DateTime createdAt)
         {
             try
             {
@@ -309,8 +309,8 @@ namespace eFormSqlController
                     cases aCase = new cases();
                     aCase.status = 66;
                     aCase.type = caseType;
-                    aCase.created_at = DateTime.Now;
-                    aCase.updated_at = DateTime.Now;
+                    aCase.created_at = createdAt;
+                    aCase.updated_at = createdAt;
                     aCase.check_list_id = checkListId;
                     aCase.microting_uid = microtingUId;
                     aCase.microting_check_uid = microtingCheckId;
@@ -512,7 +512,7 @@ namespace eFormSqlController
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
-                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[0].Id, "ReversedCase", "");
+                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[0].Id, "ReversedCase", "", (DateTime)cLS.updated_at);
                         responseCase = db.cases.Single(x => x.id == caseId);
                     }
                     catch //already created case id retrived

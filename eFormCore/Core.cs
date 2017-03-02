@@ -579,7 +579,7 @@ namespace eFormCore
                             string mUId = SendXml(mainElement, siteId);
 
                             if (reversed == false)
-                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, null, caseUId, custom);
+                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, null, caseUId, custom, DateTime.Now);
                             else
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
