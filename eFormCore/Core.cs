@@ -336,8 +336,11 @@ namespace eFormCore
                     xmlString = xmlString.Replace("<DoneButtonEnabled>true", "<DoneButtonEnabled>false");
                 }
 
+                xmlString = xmlString.Replace("<MinValue />", "<MinValue>" + long.MinValue + "</MinValue>");
                 xmlString = xmlString.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
+                xmlString = xmlString.Replace("<MaxValue />", "<MaxValue>" + long.MaxValue + "</MaxValue>");
                 xmlString = xmlString.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                xmlString = xmlString.Replace("<DecimalCount />", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
 
                 List<string> dILst = t.LocateList(xmlString, "type=\"Date\">", "</DataItem>");
@@ -346,7 +349,9 @@ namespace eFormCore
                     foreach (var item in dILst)
                     {
                         string before = item;
-                        string after = item.Replace("<Value/>", "<DefaultValue/>");
+                        string after = item;
+                        after = after.Replace("<Value />", "<DefaultValue/>");
+                        after = after.Replace("<Value/>", "<DefaultValue/>");
                         after = after.Replace("<Value>", "<DefaultValue>");
                         after = after.Replace("</Value>", "</DefaultValue>");
 
@@ -1839,6 +1844,19 @@ namespace eFormCore
                     DataElement dataE = (DataElement)element;
 
                     preLabel = preLabel + sep + dataE.Label;
+
+                    foreach (FieldGroup dataItemGroup in dataE.DataItemGroupList)
+                    {
+                        foreach (DataItem dataItem in dataItemGroup.DataItemList)
+                        {
+                            if (dataItem.GetType() == typeof(SaveButton))
+                                continue;
+                            if (dataItem.GetType() == typeof(None))
+                                continue;
+
+                            lstReturn.Add(dataItemGroup.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
+                        }
+                    }
 
                     foreach (DataItem dataItem in dataE.DataItemList)
                     {

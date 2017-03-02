@@ -143,7 +143,7 @@ namespace eFormCore
 
                 if (input.ToLower() == "t")
                 {
-                    core.CasesToCsv(11, null, null, "xx");
+                    Console.WriteLine("Result:'" + core.CasesToCsv(15, null, null, "xx") + "'");
                 }
             }
             Console.WriteLine("Trying to shutting down");

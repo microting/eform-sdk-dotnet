@@ -504,6 +504,7 @@ namespace eFormSqlController
                 {
                     int elementId;
                     int userUId = int.Parse(response.Checks[0].WorkerId);
+                    int userId = db.workers.Single(x => x.microting_uid == userUId).id;
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<fields> TemplatFieldLst = null;
                     cases responseCase = null;
@@ -531,7 +532,7 @@ namespace eFormSqlController
                         clv.case_id = responseCase.id;
                         clv.status = t.Locate(elementStr, "<Status>", "</");
                         clv.version = 1;
-                        clv.user_id = userUId;
+                        clv.user_id = userId;
                         clv.workflow_state = "created";
 
                         db.check_list_values.Add(clv);
@@ -559,7 +560,7 @@ namespace eFormSqlController
                                     dU.created_at = DateTime.Now;
                                     dU.updated_at = DateTime.Now;
                                     dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
-                                    dU.uploader_id = userUId;
+                                    dU.uploader_id = userId;
                                     dU.uploader_type = "system";
                                     dU.workflow_state = "pre_created";
                                     dU.version = 1;
@@ -604,7 +605,7 @@ namespace eFormSqlController
                                 fieldV.version = 1;
                                 fieldV.case_id = responseCase.id;
                                 fieldV.field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
-                                fieldV.user_id = userUId;
+                                fieldV.user_id = userId;
                                 fieldV.check_list_id = clv.check_list_id;
                                 fieldV.done_at = t.Date(response.Checks[0].Date);
 
@@ -655,7 +656,7 @@ namespace eFormSqlController
                         fieldV.version = 1;
                         fieldV.case_id = responseCase.id;
                         fieldV.field_id = field.id;
-                        fieldV.user_id = userUId;
+                        fieldV.user_id = userId;
                         fieldV.check_list_id = field.check_list_id;
                         fieldV.done_at = t.Date(response.Checks[0].Date);
 
@@ -842,6 +843,32 @@ namespace eFormSqlController
                                     replyLst1.Add("1");
                                 else
                                     replyLst1.Add("0");
+                            }
+                            break;
+
+                        case 5: //"Picture"
+                            int lastCaseId = -1;
+                            int lastIndex = -1;
+                            foreach (field_values item in matches)
+                            {
+                                if (item.value != null)
+                                {
+                                    if (lastCaseId == (int)item.case_id)
+                                    {
+                                        replyLst1[lastIndex] = replyLst1[lastIndex] + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
+                                    }
+                                    else
+                                    {
+                                        lastIndex++;
+                                        replyLst1.Add(item.uploaded_data.file_location + item.uploaded_data.file_name);
+                                    }
+                                }
+                                else
+                                {
+                                    lastIndex++;
+                                    replyLst1.Add("");
+                                }
+                                lastCaseId = (int)item.case_id;
                             }
                             break;
 
@@ -3412,7 +3439,9 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE [dbo].[" + tableName + "]");
+                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
+                    db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 0);");
+
                     return true;
                 }
             }
