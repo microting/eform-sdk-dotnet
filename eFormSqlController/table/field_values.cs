@@ -28,16 +28,20 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? date { get; set; }
 
+        [ForeignKey("worker")]
         public int? user_id { get; set; }
 
         public int? case_id { get; set; }
 
+        [ForeignKey("field")]
         public int? field_id { get; set; }
 
+        [ForeignKey("check_list")]
         public int? check_list_id { get; set; }
 
         public int? check_list_duplicate_id { get; set; }
 
+        [ForeignKey("uploaded_data")]
         public int? uploaded_data_id { get; set; }
 
         public string value { get; set; }
@@ -56,5 +60,13 @@ namespace eFormSqlController
 
         [StringLength(255)]
         public string accuracy { get; set; }
+
+        public virtual workers worker { get; set; }
+
+        public virtual fields field { get; set; }
+
+        public virtual check_lists check_list { get; set; }
+
+        public virtual uploaded_data uploaded_data { get; set; }
     }
 }
