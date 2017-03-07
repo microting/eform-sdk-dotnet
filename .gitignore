@@ -330,3 +330,8 @@ Compiled/custom/*.*
 *.jpeg
 SourceCode/DLL/*
 Compiled/log.txt
+Compiled/*.exe
+Compiled/*.xml
+Compiled/*.dll
+Compiled/*.config
+Compiled/*.manifest
