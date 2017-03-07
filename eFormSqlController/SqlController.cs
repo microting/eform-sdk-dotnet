@@ -60,7 +60,8 @@ namespace eFormSqlController
                 }
                 else
                 {
-                    throw ex;
+                    if (!ex.Message.Contains("'cases'"))
+                        throw ex;
                 }
             }
             #endregion
@@ -128,7 +129,19 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                // This is here because, the priming process of the DB, will require us to go through the process of migrating the DB multiple times.
+                if (ex.Message.Contains("context has changed")) 
+                {
+                    var configuration = new Configuration();
+                    configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
+                    var migrator = new DbMigrator(configuration);
+                    migrator.Update();
+                    PrimeDb(); // It's on purpose we call our self until we have no more migrations.
+                } else
+                {
+                    throw new Exception(t.GetMethodName() + " failed", ex);
+                }
+                
             }
             #endregion
         }
