@@ -271,11 +271,6 @@ namespace eFormCommunicator
             return new Site_Worker_Dto(workerUid, siteId, workerId);
         }
 
-        public bool         SiteWorkerUpdate(int id, int siteId, int workerId)
-        {
-            return http.SiteWorkerUpdate(siteId, workerId);
-        }
-
         public bool         SiteWorkerDelete(int workerId)
         {
             return http.SiteWorkerDelete(workerId);
@@ -338,7 +333,15 @@ namespace eFormCommunicator
             Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()), 
                 orgResult.First.First["name"].ToString(), 
                 int.Parse(orgResult.First.First["customer_no"].ToString()), 
-                int.Parse(orgResult.First.First["unit_license_number"].ToString()));
+                int.Parse(orgResult.First.First["unit_license_number"].ToString()),
+                orgResult.First.First["aws_endpoint"].ToString(),
+                orgResult.First.First["aws_id"].ToString(),
+                orgResult.First.First["aws_key"].ToString(),
+                orgResult.First.First["com_address"].ToString(),
+                orgResult.First.First["com_address_basic"].ToString(),
+                orgResult.First.First["subscriber_address"].ToString(),
+                orgResult.First.First["subscriber_token"].ToString(),
+                orgResult.First.First["subscriber_name"].ToString());
 
             return organizationDto;
         }

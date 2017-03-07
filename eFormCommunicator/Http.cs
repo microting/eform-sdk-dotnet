@@ -254,7 +254,6 @@ namespace eFormCommunicator
         {
             try
             {
-                //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
                 JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id} });
 
                 WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_item_groups.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
@@ -310,12 +309,6 @@ namespace eFormCommunicator
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
 
-            //string xmlData = "{ \"model\" "+
-            //    ": { \"data\" : \"" + name +
-            //    "\", \"api_uuid\" : \"" + id +
-            //    "\", \"display_order\" : \"" + display_order + 
-            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
-
             WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
@@ -333,12 +326,6 @@ namespace eFormCommunicator
         internal bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
-
-            //string xmlData = "{ \"model\" " +
-            //    ": { \"data\" : \"" + name +
-            //    "\", \"api_uuid\" : \"" + id +
-            //    "\", \"display_order\" : \"" + description +
-            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
             WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
             request.Method = "PUT";
@@ -503,14 +490,34 @@ namespace eFormCommunicator
             return response;
         }
 
-        internal bool       SiteWorkerUpdate(int siteId, int workerId)
+        internal bool SiteWorkerDelete(int id)
         {
-            return true;
-        }
+            try
+            {
+                WebRequest request = WebRequest.Create(comAddressBasic + "/v1/workers/" + id + "?token=" + token);
+                request.Method = "DELETE";
+                request.ContentType = "application/json; charset=utf-8";
 
-        internal bool       SiteWorkerDelete(int id)
-        {
-            return true;
+                string responseXml = PostToServerNoRedirect(request);
+
+                if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
+                {
+                    WebRequest request2 = WebRequest.Create(srvAdd + "/v1/workers/" + id + "?token=" + token);
+                    request2.Method = "GET";
+                    string responseXml2 = PostToServer(request2);
+
+                    if (responseXml2.Contains("workflow_state\": \"removed"))
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SiteWorkerDelete failed", ex);
+            }
         }
 
         internal string     SiteWorkerLoadAllFromRemote()

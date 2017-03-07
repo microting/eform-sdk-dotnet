@@ -14,7 +14,7 @@ namespace eFormSqlController
     public class SqlController
     {
         #region var
-        int numberOfSettings = 11;
+        int numberOfSettings = 15;
 
         List<Holder> converter;
         object _lockQuery = new object();
@@ -86,6 +86,10 @@ namespace eFormSqlController
                         SettingAdd(9, "subscriberToken");
                         SettingAdd(10, "subscriberAddress");
                         SettingAdd(11, "subscriberName");
+                        SettingAdd(12, "awsEndPoint");
+                        SettingAdd(13, "awsId");
+                        SettingAdd(14, "awsKey");
+                        SettingAdd(15, "unitLicenseNumber");
 
                         SettingUpdate("firstRunDone", "false");
                         SettingUpdate("knownSitesDone", "false");
@@ -178,6 +182,82 @@ namespace eFormSqlController
             }
         }
 
+        public Template_Dto TemplateSimpleRead(int templatId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_lists checkList = db.check_lists.Where(x => x.id == templatId).First();
+                    List<SiteName_Dto> sites = new List<SiteName_Dto>();
+                    foreach (check_list_sites check_list_site in checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
+                    {
+                        SiteName_Dto site = new SiteName_Dto((int)check_list_site.site.microting_uid, check_list_site.site.name, check_list_site.site.created_at, check_list_site.site.updated_at);
+                        sites.Add(site);
+                    }
+                    bool hasCases = false;
+                    if (checkList.cases.Count() > 0)
+                        hasCases = true;
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases);
+                    return templateDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("TemplatRead failed", ex);
+            }
+        }
+
+        public List<Template_Dto>   TemplateSimpleReadAll(string workflowState)
+        {
+            try
+            {
+                List<Template_Dto> templateList = new List<Template_Dto>();
+
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<check_lists> matches = null;
+                    switch (workflowState)
+                    {
+                        case "not_removed":
+                            matches = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state != "removed").ToList();
+                            break;
+                        case "removed":
+                            matches = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state == "removed").ToList();
+                            break;
+                        case "created":
+                            matches = db.check_lists.Where(x => x.parent_id == 0 && x.workflow_state == "created").ToList();
+                            break;
+                        default:
+                                matches = db.check_lists.Where(x => x.parent_id != 0).ToList();
+                            break;
+                    }
+
+                    foreach (check_lists checkList in matches)
+                    {
+                        List<SiteName_Dto> sites = new List<SiteName_Dto>();
+                        foreach (check_list_sites check_list_site in checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
+                        {
+                            SiteName_Dto site = new SiteName_Dto((int)check_list_site.site.microting_uid, check_list_site.site.name, check_list_site.site.created_at, check_list_site.site.updated_at);
+                            sites.Add(site);
+                        }
+                        bool hasCases = false;
+                        if (checkList.cases.Count() > 0)
+                             hasCases = true;
+                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases);
+                        templateList.Add(templateDto);
+                    }
+                    return templateList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("TemplateSimpleReadAll failed", ex);
+            }
+
+
+        }
+
         public List<MainElement>    TemplatReadAll()
         {
             try
@@ -255,6 +335,34 @@ namespace eFormSqlController
                         fieldLst.Add(db.fields.Single(x => x.id == dataItem.Id));
 
                     return fieldLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region field
+        public Field_Dto FieldRead(int id)
+        {
+
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    //TriggerLog(methodName + " called");
+                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    fields field = db.fields.SingleOrDefault(x => x.id == id);
+
+                    if (field != null)
+                        return new Field_Dto((int)field.id, field.label, field.description, (int)field.field_type_id);
+                    else
+                        return null;
                 }
             }
             catch (Exception ex)
@@ -1129,7 +1237,7 @@ namespace eFormSqlController
                         #endregion
 
                         int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
-                        Case_Dto rtrnCase = new Case_Dto(stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom);
+                        Case_Dto rtrnCase = new Case_Dto(stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom, cL.id);
                         return rtrnCase;
                     }
                     catch { }
@@ -1168,7 +1276,7 @@ namespace eFormSqlController
                     #endregion
 
                     int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
-                    Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom);
+                    Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom, cL.id);
                     return cDto;
                 }
             }
@@ -1380,15 +1488,38 @@ namespace eFormSqlController
                 }
                 foreach (sites aSite in matches)
                 {
-                    var unit = aSite.units.First();
+                    units unit = null;
+                    workers worker = null;
+                    int? unitCustomerNo = null;
+                    int? unitOptCode = null;
+                    int? unitMicrotingUid = null;
+                    int? workerMicrotingUid = null;
+                    string workerFirstName = null;
+                    string workerLastName = null;
                     try
                     {
-                        var worker = aSite.site_workers.First().worker;
-                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, worker.microting_uid);
+                        unit = aSite.units.First();
+                        unitCustomerNo = (int)unit.customer_no;
+                        unitOptCode = (int)unit.otp_code;
+                        unitMicrotingUid = (int)unit.microting_uid;
+                    }
+                    catch { }
+
+                    try
+                    {
+                        worker = aSite.site_workers.First().worker;
+                        workerMicrotingUid = worker.microting_uid;
+                        workerFirstName = worker.first_name;
+                        workerLastName = worker.last_name;
+                    } catch { }
+
+                    try
+                    {                       
+                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
                         siteList.Add(siteDto);
                     } catch
                     {
-                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, null, null, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, 0);
+                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
                         siteList.Add(siteDto);
                     }                                       
                 }
@@ -1753,7 +1884,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Worker_Dto SiteWorkerRead(int microting_uid)
+        public Site_Worker_Dto SiteWorkerRead(int? microtingUid, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1761,8 +1892,15 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     //TriggerLog(methodName + " called");
-
-                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    site_workers site_worker = null;
+                    if (microtingUid == null)
+                    {
+                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == siteId && x.worker_id == workerId);
+                    } else
+                    {
+                        site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
+                    }
+                    
 
                     if (site_worker != null)
                         return new Site_Worker_Dto((int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
@@ -1777,7 +1915,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteWorkerUpdate(int microting_uid, int site_id, int worker_id)
+        public bool SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1786,15 +1924,15 @@ namespace eFormSqlController
                 {
                     //TriggerLog(methodName + " called");
 
-                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid);
+                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
                     if (site_worker != null)
                     {
                         site_worker.version = site_worker.version + 1;
                         site_worker.updated_at = DateTime.Now;
 
-                        site_worker.site_id = site_id;
-                        site_worker.worker_id = worker_id;
+                        site_worker.site_id = siteId;
+                        site_worker.worker_id = workerId;
 
                         db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
                         db.SaveChanges();

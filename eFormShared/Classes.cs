@@ -8,6 +8,127 @@ using System.Xml.Serialization;
 
 namespace eFormShared
 {
+    #region Template_Dto
+    public class Template_Dto
+    {
+        #region con
+        public Template_Dto()
+        {
+
+        }
+
+        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            Repeated = repeated;
+            FolderName = folderName;
+            WorkflowState = workflowState;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+            DeployedSites = deployedSites;
+            HasCases = hasCases;
+        }
+        #endregion
+
+        #region var
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? CreatedAt { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? UpdatedAt { get; }
+
+        /// <summary>
+        /// Label
+        /// </summary>
+        public string Label { get; }
+
+        /// <summary>
+        /// Descrition
+        /// </summary>
+        public string Description { get; }
+
+        /// <summary>
+        /// Repeated
+        /// </summary>
+        public int Repeated { get; }
+
+        /// <summary>
+        /// FolderName
+        /// </summary>
+        public string FolderName { get; }
+
+        /// <summary>
+        /// WorkflowState
+        /// </summary>
+        public string WorkflowState { get; }
+
+        /// <summary>
+        /// WorkflowState
+        /// </summary>
+        public List<SiteName_Dto> DeployedSites { get; }
+
+        /// <summary>
+        /// WorkflowState
+        /// </summary>
+        public bool HasCases { get; }
+        #endregion
+    }
+    #endregion
+
+    #region Field_Dto
+    public class Field_Dto
+    {
+        #region con
+        public Field_Dto()
+        {
+
+        }
+
+        public Field_Dto(int id, string label, string description, int fieldTypeId)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            FieldTypeId = fieldTypeId;
+        }
+        #endregion
+
+        #region var
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; }
+
+        /// <summary>
+        /// Label
+        /// </summary>
+        public string Label { get; }
+
+        /// <summary>
+        /// Descrition
+        /// </summary>
+        public string Description { get; }
+
+        /// <summary>
+        /// Repeated
+        /// </summary>
+        public int FieldTypeId { get; }
+
+        #endregion
+    }
+    #endregion
+
     #region Case_Dto
     public class Case_Dto
     {
@@ -16,7 +137,7 @@ namespace eFormShared
         {
         }
 
-        public Case_Dto(string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom)
+        public Case_Dto(string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom, int checkListId)
         {
             if (caseType == null)
                 caseType = "";
@@ -34,6 +155,7 @@ namespace eFormShared
             MicrotingUId = microtingUId;
             CheckUId = checkUId;
             Custom = custom;
+            CheckListId = checkListId;
         }
         #endregion
 
@@ -72,6 +194,11 @@ namespace eFormShared
         /// Custom data. Only used in special cases
         /// </summary>
         public string Custom { get; }
+
+        /// <summary>
+        /// Unique identifier of device
+        /// </summary>
+        public int CheckListId { get; }
         #endregion
 
         public override string ToString()
@@ -156,7 +283,7 @@ namespace eFormShared
         {
         }
 
-        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName, int customerNo, int otpCode, int unitId, int workerUid)
+        public Site_Dto(int siteId, string siteName, string userFirstName, string userLastName, int? customerNo, int? otpCode, int? unitId, int? workerUid)
         {
             if (siteName == null)
                 siteName = "";
@@ -200,22 +327,22 @@ namespace eFormShared
         /// <summary>
         ///...
         /// </summary>
-        public int CustomerNo { get; }
+        public int? CustomerNo { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int OtpCode { get; }
+        public int? OtpCode { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int UnitId { get; }
+        public int? UnitId { get; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int WorkerUid { get; }
+        public int? WorkerUid { get; }
         #endregion
 
         public override string ToString()
@@ -451,12 +578,20 @@ namespace eFormShared
         {
         }
 
-        public Organization_Dto(int organizationUid, string name, int customerNo, int unitLicenseNumber)
+        public Organization_Dto(int organizationUid, string name, int customerNo, int unitLicenseNumber, string awsEndPoint, string awsId, string awsKey, string comAddress, string comAddressBasic, string subscriberAddress, string subscriberToken, string subscriberName)
         {
             OrganizationUid = organizationUid;
             Name = name;
             CustomerNo = customerNo;
             UnitLicenseNumber = unitLicenseNumber;
+            AwsEndPoint = awsEndPoint;
+            AwsId = awsId;
+            AwsKey = awsKey;
+            ComAddress = comAddress;
+            ComAddressBasic = comAddressBasic;
+            SubscriberAddress = subscriberAddress;
+            SubscriberToken = subscriberToken;
+            SubscriberName = subscriberName;
         }
         #endregion
 
@@ -480,6 +615,46 @@ namespace eFormShared
         ///...
         /// </summary>
         public int UnitLicenseNumber { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string AwsEndPoint { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string AwsId { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string AwsKey { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string ComAddress { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string ComAddressBasic { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string SubscriberAddress { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string SubscriberToken { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public string SubscriberName { get; }
 
         #endregion
 
