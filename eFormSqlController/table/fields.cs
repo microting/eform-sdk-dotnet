@@ -1,10 +1,8 @@
 namespace eFormSqlController
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class fields
     {
@@ -32,10 +30,10 @@ namespace eFormSqlController
 
         public short? read_only { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string label { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string description { get; set; }
 
         [StringLength(255)]
