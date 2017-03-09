@@ -1876,7 +1876,7 @@ namespace eFormCore
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end, "not_retracted");
+            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end, "not_removed");
 
             if (caseList.Count == 0)
                 return null;

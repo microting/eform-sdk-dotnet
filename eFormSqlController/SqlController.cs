@@ -820,7 +820,8 @@ namespace eFormSqlController
                 {
                     var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
                     int caseId = aCase.id;
-                    ReplyElement replyElement = new ReplyElement(TemplatRead((int)aCase.check_list_id));
+                    ReplyElement replyElement = new ReplyElement();
+                    replyElement.ElementList = new List<Element>();
                     replyElement.Custom = aCase.custom;
                     replyElement.DoneAt = (DateTime)aCase.done_at;
                     replyElement.DoneById = (int)aCase.done_by_user_id;
@@ -828,7 +829,7 @@ namespace eFormSqlController
 
                     foreach (check_lists checkList in aCase.check_list.children)
                     {
-                        replyElement.ElementList = SubChecks(checkList.id, caseId);
+                        replyElement.ElementList.Add(SubChecks(checkList.id, caseId));
                     }
                     return replyElement;
                 }
@@ -839,20 +840,23 @@ namespace eFormSqlController
             }
         }
 
-        private List<Element>  SubChecks(int parentId, int caseId)
+        private Element  SubChecks(int parentId, int caseId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     var checkList = db.check_lists.Single(x => x.id == parentId);
-                    List<Element> elementList = new List<Element>();
+                    //Element element = new Element();
                     if (checkList.children.Count() > 0)
                     {
+                        List<Element> elementList = new List<Element>();
                         foreach (check_lists subList in checkList.children)
                         {
-                            elementList = SubChecks(subList.id, caseId);
+                            elementList.Add(SubChecks(subList.id, caseId));
                         }
+                        GroupElement element = new GroupElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", elementList);
+                        return element;
                     } else
                     {
                         List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
@@ -867,10 +871,7 @@ namespace eFormSqlController
                                     Field _field = FieldRead(subField.id);
 
                                     _field.FieldValues = new List<FieldValue>();
-                                    
-                                    //field_values fieldValue = subField.field_values.First();
-                                    //FieldValue answer = FieldValueRead(subField, fieldValue, false);
-                                    foreach (field_values fieldValue in subField.field_values)
+                                    foreach (field_values fieldValue in subField.field_values.Where(x => x.case_id == caseId).ToList())
                                     {
                                         FieldValue answer = FieldValueRead(subField, fieldValue, false);
                                         _field.FieldValues.Add(answer);
@@ -881,12 +882,9 @@ namespace eFormSqlController
                                 dataItemGroupList.Add(fG);
                             } else
                             {
-                                //field_values fieldValue = field.field_values.First();
-                                //FieldValue answer = FieldValueRead(field, fieldValue, false);
-                                //dataItemList.Add(answer);
                                 Field _field = FieldRead(field.id);
                                 _field.FieldValues = new List<FieldValue>();
-                                foreach (field_values fieldValue in field.field_values)
+                                foreach (field_values fieldValue in field.field_values.Where(x => x.case_id == caseId).ToList())
                                 {
                                     FieldValue answer = FieldValueRead(field, fieldValue, false);
                                     _field.FieldValues.Add(answer);
@@ -895,9 +893,10 @@ namespace eFormSqlController
                             }
                         }
                         DataElement dataElement = new DataElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", dataItemGroupList, dataItemList);
-                        elementList.Add(new CheckListValue(dataElement, CheckListValueStatusRead(caseId, checkList.id)));
+                        //return dataElement;
+                        return new CheckListValue(dataElement, CheckListValueStatusRead(caseId, checkList.id));
                     }
-                    return elementList;
+                    //return element;
                 }
             }
             catch (Exception ex)
@@ -1006,7 +1005,7 @@ namespace eFormSqlController
                     answer.Color = question.color;
                     answer.Date = reply.date;
                     answer.FieldId = t.Int(reply.field_id);
-                    answer.FieldType = Find((int)question.field_type_id);
+                    answer.FieldType = question.field_type.field_type;
                     answer.DateOfDoing = t.Date(reply.done_at);
                     answer.Description = new CDataValue();
                     answer.Description.InderValue = question.description;
@@ -1165,10 +1164,10 @@ namespace eFormSqlController
                     List<string> replyLst1 = new List<string>();
                     rtrnLst.Add(replyLst1);
 
-                    switch ((int)matchField.field_type_id)
+                    switch (matchField.field_type.field_type)
                     {
                         #region special dataItem
-                        case 4: //"CheckBox"
+                        case "CheckBox":
                             foreach (field_values item in matches)
                             {
                                 if (item.value == "checked")
@@ -1178,7 +1177,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case 5: //"Picture"
+                        case "Picture":
                             int lastCaseId = -1;
                             int lastIndex = -1;
                             foreach (field_values item in matches)
@@ -1204,7 +1203,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case 8: //"SingleSelect"
+                        case "SingleSelect":
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
@@ -1213,7 +1212,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case 10: //"MultiSelect"
+                        case "MultiSelect":
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
@@ -1242,7 +1241,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case 14: //"EntitySearch"
+                        case "EntitySearch":
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
@@ -1251,7 +1250,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case 15: //"EntitySelect"
+                        case "EntitySelect":
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
