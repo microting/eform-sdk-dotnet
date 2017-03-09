@@ -12,6 +12,8 @@ namespace eFormSqlController
         {
             this.cases = new HashSet<cases>();
             this.check_list_sites = new HashSet<check_list_sites>();
+            this.children = new HashSet<check_lists>();
+            this.fields = new HashSet<fields>();
         }
 
         [Key]
@@ -67,5 +69,12 @@ namespace eFormSqlController
         public virtual ICollection<cases> cases { get; set; }
 
         public virtual ICollection<check_list_sites> check_list_sites { get; set; }
+
+        public virtual ICollection<fields> fields { get; set; }
+
+        public virtual check_lists parent { get; set; }
+
+        public virtual ICollection<check_lists> children { get; set; }
+
     }
 }

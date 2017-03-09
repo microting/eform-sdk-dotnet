@@ -340,6 +340,9 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
                 xmlString = xmlString.Replace("<MaxValue />", "<MaxValue>" + long.MaxValue + "</MaxValue>");
                 xmlString = xmlString.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                xmlString = xmlString.Replace("<MaxValue></MaxValue>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                xmlString = xmlString.Replace("<MinValue></MinValue>", "<MinValue>" + long.MinValue + "</MinValue>");
+                xmlString = xmlString.Replace("<DecimalCount></DecimalCount>", "<DecimalCount>0</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount />", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
 
@@ -591,7 +594,7 @@ namespace eFormCore
         #endregion
 
         #region field
-        public Field_Dto        FieldRead(int id)
+        public Field        FieldRead(int id)
         {
             string methodName = t.GetMethodName();
             try
@@ -727,45 +730,46 @@ namespace eFormCore
                     int id = aCase.id;
                     TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
 
-                    ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
-                    replyElement.Custom = aCase.custom;
-                    replyElement.DoneAt = (DateTime)aCase.done_at;
-                    replyElement.DoneById = (int)aCase.done_by_user_id;
-                    replyElement.UnitId = (int)aCase.unit_id;
+                    ReplyElement replyElement = sqlController.CheckRead(microtingUId, checkUId);
+                    //ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
+                    //replyElement.Custom = aCase.custom;
+                    //replyElement.DoneAt = (DateTime)aCase.done_at;
+                    //replyElement.DoneById = (int)aCase.done_by_user_id;
+                    //replyElement.UnitId = (int)aCase.unit_id;
 
-                    List<FieldValue> lstAnswers = new List<FieldValue>();
-                    List<field_values> lstReplies = sqlController.ChecksRead(microtingUId, checkUId);
-                    #region remove replicates from lstReplies. Ex. multiple pictures
-                    List<field_values> lstRepliesTemp = new List<field_values>();
-                    bool found;
+                    //List<FieldValue> lstAnswers = new List<FieldValue>();
+                    //List<field_values> lstReplies = sqlController.ChecksRead(microtingUId, checkUId);
+                    //#region remove replicates from lstReplies. Ex. multiple pictures
+                    //List<field_values> lstRepliesTemp = new List<field_values>();
+                    //bool found;
 
-                    foreach (var reply in lstReplies)
-                    {
-                        found = false;
-                        foreach (var tempReply in lstRepliesTemp)
-                        {
-                            if (reply.field_id == tempReply.field_id)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (found == false)
-                            lstRepliesTemp.Add(reply);
-                    }
+                    //foreach (var reply in lstReplies)
+                    //{
+                    //    found = false;
+                    //    foreach (var tempReply in lstRepliesTemp)
+                    //    {
+                    //        if (reply.field_id == tempReply.field_id)
+                    //        {
+                    //            found = true;
+                    //            break;
+                    //        }
+                    //    }
+                    //    if (found == false)
+                    //        lstRepliesTemp.Add(reply);
+                    //}
 
-                    lstReplies = lstRepliesTemp;
-                    #endregion
+                    //lstReplies = lstRepliesTemp;
+                    //#endregion
 
-                    foreach (field_values reply in lstReplies)
-                    {
-                        FieldValue answer = sqlController.FieldValueRead(reply.id);
-                        lstAnswers.Add(answer);
-                    }
-                    TriggerLog("Questons and answers found");
+                    //foreach (field_values reply in lstReplies)
+                    //{
+                    //    FieldValue answer = sqlController.FieldValueRead(reply.id);
+                    //    lstAnswers.Add(answer);
+                    //}
+                    //TriggerLog("Questons and answers found");
 
-                    //replace DataItem(s) with DataItem(s) Answer
-                    replyElement.ElementList = ReplaceDataElementsAndDataItems(aCase.id, replyElement.ElementList, lstAnswers);
+                    ////replace DataItem(s) with DataItem(s) Answer
+                    //replyElement.ElementList = ReplaceDataElementsAndDataItems(aCase.id, replyElement.ElementList, lstAnswers);
 
                     return replyElement;
                 }
@@ -862,6 +866,26 @@ namespace eFormCore
             {
                 TriggerHandleExpection("CaseUpdate failed", ex, true);
                 throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
+        public bool CaseDelete(int templateId, int siteUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("templateId:" + templateId + "siteUId:" + siteUId + ", requested to be deleted");
+                    int microtingUId = sqlController.CheckListSitesRead(templateId, siteUId);
+                    return CaseDelete(microtingUId.ToString());
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseDelete failed", ex, true);
+                throw new Exception("CaseDelete failed", ex);
             }
         }
 

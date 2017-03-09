@@ -155,6 +155,12 @@ namespace eFormSqlController
                 .Property(e => e.folder_name)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<check_lists>()
+                .HasOptional(e => e.parent)
+                .WithMany(e => e.children)
+                .HasForeignKey(e => e.parent_id)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<uploaded_data>()
                 .Property(e => e.created_at)
                 .HasPrecision(0);
@@ -330,6 +336,12 @@ namespace eFormSqlController
             modelBuilder.Entity<fields>()
                 .Property(e => e.custom)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<fields>()
+                .HasOptional(e => e.parent)
+                .WithMany(e => e.children)
+                .HasForeignKey(e => e.parent_field_id)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<notifications>()
                 .Property(e => e.workflow_state)
