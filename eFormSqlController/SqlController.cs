@@ -425,7 +425,7 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     sites site = db.sites.Single(x => x.microting_uid == siteUId);
-                    return int.Parse(db.check_list_sites.Single(x => x.site_id == site.id && x.check_list_id == templateId).microting_uid);
+                    return int.Parse(db.check_list_sites.Single(x => x.site_id == site.id && x.check_list_id == templateId && x.workflow_state != "removed").microting_uid);
                 }
             }
             catch (Exception ex)

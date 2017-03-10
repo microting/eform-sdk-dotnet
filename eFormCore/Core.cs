@@ -1995,7 +1995,7 @@ namespace eFormCore
                             if (dataItem.GetType() == typeof(None))
                                 continue;
 
-                            lstReturn.Add(dataItemGroup.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
+                            lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
                         }
                     }
 
