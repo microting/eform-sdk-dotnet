@@ -10,7 +10,7 @@
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Adding missing field_type as string on FieldDto</releaseNotes>
+    <releaseNotes>Adding missing field_type as string on FieldDto. Adding fixes for generating CSV.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="9.0.1"/>
