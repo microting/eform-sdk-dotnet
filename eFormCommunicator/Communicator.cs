@@ -335,13 +335,22 @@ namespace eFormCommunicator
         {
             JToken orgResult = JRaw.Parse(http.OrganizationLoadAllFromRemote());
 
-            Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()), 
-                orgResult.First.First["name"].ToString(), 
-                int.Parse(orgResult.First.First["customer_no"].ToString()), 
-                int.Parse(orgResult.First.First["unit_license_number"].ToString()));
+            Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()),
+                orgResult.First.First["name"].ToString(),
+                int.Parse(orgResult.First.First["customer_no"].ToString()),
+            int.Parse(orgResult.First.First["unit_license_number"].ToString()),
+                orgResult.First.First["aws_endpoint"].ToString(),
+                orgResult.First.First["aws_id"].ToString(),
+                orgResult.First.First["aws_key"].ToString(),
+                orgResult.First.First["com_address"].ToString(),
+                orgResult.First.First["com_address_basic"].ToString(),
+                orgResult.First.First["subscriber_address"].ToString(),
+                orgResult.First.First["subscriber_token"].ToString(),
+                orgResult.First.First["subscriber_name"].ToString());
 
             return organizationDto;
         }
+
         #endregion
         #endregion
 
