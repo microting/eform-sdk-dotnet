@@ -338,7 +338,7 @@ namespace eFormCore
 
         private MainElement  TemplatFromXml(string xmlString)
         {
-            MainElement temp = core.TemplatFromXml(xmlString);
+            MainElement temp = core.TemplateFromXml(xmlString);
             if (temp == null)
                 throw new Exception("TemplatFromXml failed. Failed to convert xml");
             return temp;
@@ -348,7 +348,7 @@ namespace eFormCore
         {
             try
             {
-                return core.TemplatCreate(mainElement);
+                return core.TemplateCreate(mainElement);
             }
             catch (Exception ex)
             {
@@ -367,7 +367,7 @@ namespace eFormCore
             try
             {
                 int templatId = TemplatCreate(mainElement);
-                mainElement = core.TemplatRead(templatId);
+                mainElement = core.TemplateRead(templatId);
 
                 foreach (int siteId in siteIds)
                 {
@@ -393,7 +393,7 @@ namespace eFormCore
         {
             try
             {
-                MainElement mainElement = core.TemplatRead(templatId);
+                MainElement mainElement = core.TemplateRead(templatId);
                 mainElement.PushMessageTitle = "";
                 mainElement.PushMessageBody = "";
                 mainElement.StartDate = DateTime.Now;
@@ -465,7 +465,7 @@ namespace eFormCore
                         DataElement replyDataE = (DataElement)reply.ElementList[0];
                         FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
-                        MainElement mainElement = core.TemplatRead(step2tId);
+                        MainElement mainElement = core.TemplateRead(step2tId);
                         DataElement dataE = (DataElement)mainElement.ElementList[0];
                         None none = (None)dataE.DataItemList[0];
 
@@ -511,7 +511,7 @@ namespace eFormCore
                             DataElement replyDataE = (DataElement)reply.ElementList[0];
                             FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
-                            MainElement mainElement = core.TemplatRead(step3WtId);
+                            MainElement mainElement = core.TemplateRead(step3WtId);
                             DataElement dataE = (DataElement)mainElement.ElementList[0];
                             Date date = (Date)dataE.DataItemList[0];
 
@@ -534,7 +534,7 @@ namespace eFormCore
                             DataElement replyDataE = (DataElement)reply.ElementList[0];
                             FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
-                            MainElement mainElement = core.TemplatRead(step3LtId);
+                            MainElement mainElement = core.TemplateRead(step3LtId);
                             DataElement dataE = (DataElement)mainElement.ElementList[0];
                             None none = (None)dataE.DataItemList[0];
 
@@ -571,7 +571,7 @@ namespace eFormCore
 
                         if (isWinner)
                         {
-                            MainElement mainElement = core.TemplatRead(step4tId);
+                            MainElement mainElement = core.TemplateRead(step4tId);
                             DataElement dataE = (DataElement)mainElement.ElementList[0];
                             None none = (None)dataE.DataItemList[0];
 

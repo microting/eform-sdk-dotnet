@@ -304,8 +304,8 @@ namespace eFormCore
         #endregion
 
         #region public actions
-        #region templat
-        public MainElement      TemplatFromXml(string xmlString)
+        #region template
+        public MainElement          TemplateFromXml(string xmlString)
         {
             try
             {
@@ -383,12 +383,12 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplatFromXml failed", ex, false);
+                TriggerHandleExpection("TemplateFromXml failed", ex, false);
                 return null;
             }
         }
 
-        public List<string>     TemplatValidation(MainElement mainElement)
+        public List<string>         TemplateValidation(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -440,12 +440,12 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplatValidation failed", ex, true);
-                throw new Exception("TemplatValidation failed", ex);
+                TriggerHandleExpection("TemplateValidation failed", ex, true);
+                throw new Exception("TemplateValidation failed", ex);
             }
         }
 
-        public int              TemplatCreate(MainElement mainElement)
+        public int                  TemplateCreate(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -454,34 +454,34 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    List<string> errors = TemplatValidation(mainElement);
+                    List<string> errors = TemplateValidation(mainElement);
 
                     if (errors == null) errors = new List<string>();
                     if (errors.Count > 0)
-                        throw new Exception("mainElement failed TemplatValidation. Run TemplatValidation to see errors");
+                        throw new Exception("mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
-                    int templatId = sqlController.TemplatCreate(mainElement);
-                    TriggerLog("Templat id:" + templatId.ToString() + " created in DB");
-                    return templatId;
+                    int templateId = sqlController.TemplateCreate(mainElement);
+                    TriggerLog("Template id:" + templateId.ToString() + " created in DB");
+                    return templateId;
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplatCreate failed", ex, true);
-                throw new Exception("TemplatCreate failed", ex);
+                TriggerHandleExpection("TemplateCreate failed", ex, true);
+                throw new Exception("TemplateCreate failed", ex);
             }
         }
 
-        public MainElement      TemplatRead(int templatId)
+        public MainElement          TemplateRead(int templateId)
         {
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("Templat id:" + templatId.ToString() + " trying to be read");
-                    MainElement mainElement = new MainElement(sqlController.TemplatRead(templatId));
+                    TriggerLog("Template id:" + templateId.ToString() + " trying to be read");
+                    MainElement mainElement = new MainElement(sqlController.TemplateRead(templateId));
                     return mainElement;
                 }
                 else
@@ -489,88 +489,12 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplatRead failed", ex, true);
-                throw new Exception("TemplatRead failed", ex);
+                TriggerHandleExpection("TemplateRead failed", ex, true);
+                throw new Exception("TemplateRead failed", ex);
             }
         }
 
-        public Template_Dto TemplateSimpleRead(int templatId)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("Templat id:" + templatId.ToString() + " trying to be read");
-                    return sqlController.TemplateSimpleRead(templatId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("TemplatRead failed", ex, true);
-                throw new Exception("TemplatRead failed", ex);
-            }
-        }
-
-        public List<Template_Dto> TemplateSimpleReadAll()
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("TemplateSimpleReadAll() called");
-                    return TemplateSimpleReadAll("not_removed");
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("TemplateSimpleReadAll failed", ex, true);
-                throw new Exception("TemplateSimpleReadAll failed", ex);
-            }
-        }
-
-        public List<Template_Dto> TemplateSimpleReadAll(string workflowState)
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("TemplateSimpleReadAll() called");
-                    return sqlController.TemplateSimpleReadAll(workflowState);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("TemplateSimpleReadAll failed", ex, true);
-                throw new Exception("TemplateSimpleReadAll failed", ex);
-            }
-        }
-
-        public List<MainElement> TemplatReadAll()
-        {
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog("TemplatReadAll() called");
-                    return sqlController.TemplatReadAll();
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("TemplatReadAll failed", ex, true);
-                throw new Exception("TemplatReadAll failed", ex);
-            }
-        }
-
-        public bool             TemplateDelete(int templatId)
+        public bool                 TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -578,9 +502,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    TriggerLog("templatId:" + templatId);
+                    TriggerLog("templateId:" + templateId);
 
-                    return sqlController.TemplatDelete(templatId);
+                    return sqlController.TemplateDelete(templateId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -591,28 +515,42 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
-        #endregion
 
-        #region field
-        public Field        FieldRead(int id)
+        public Template_Dto         TemplateDtoRead(int templateId)
         {
-            string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("id:" + id);
-
-                    return sqlController.FieldRead(id);
+                    TriggerLog("Template id:" + templateId.ToString() + " trying to be read");
+                    return sqlController.TemplateDtoRead(templateId);
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                TriggerHandleExpection("TemplateRead failed", ex, true);
+                throw new Exception("TemplateRead failed", ex);
+            }
+        }
+
+        public List<Template_Dto>   TemplateDtoReadAll(string workflowState)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("TemplateSimpleReadAll() called");
+                    return sqlController.TemplateDtoReadAll(workflowState);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplateSimpleReadAll failed", ex, true);
+                throw new Exception("TemplateSimpleReadAll failed", ex);
             }
         }
         #endregion
@@ -1097,8 +1035,20 @@ namespace eFormCore
         }
         #endregion
 
+                //<<-----
+                //<<-----
+        #region site
+        public void SiteCreate() { }
+        public void SiteRead() { }
+        public void SiteUpdate() { }
+        public void SiteDelete() { }
+        public void SiteListWorkers() { }
+        public void SiteListUnits() { }
+        #endregion
+                //<<-----
+                //<<-----
         #region sites
-        public List<SiteName_Dto>   SiteGetAll()
+        public List<SiteName_Dto>   BETA_SiteGetAll()
         {
             string methodName = t.GetMethodName();
             try
@@ -1117,12 +1067,12 @@ namespace eFormCore
             }
         }
 
-        public List<Site_Dto>       SimpleSiteGetAll()
+        public List<Site_Dto>       BETA_SimpleSiteGetAll()
         {
-            return SimpleSiteGetAll("not_removed", null, null);
+            return BETA_SimpleSiteGetAll("not_removed", null, null);
         }
 
-        public List<Site_Dto>       SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
+        public List<Site_Dto>       BETA_SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName();
             try
@@ -1141,7 +1091,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
+        public Site_Dto             BETA_SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -1179,11 +1129,11 @@ namespace eFormCore
                         userEmail = siteId + "." + customerNo + "@invalid.invalid";
                     }
 
-                    Worker_Dto workerDto = WorkerCreate(userFirstName, userLastName, userEmail);
+                    Worker_Dto workerDto = BETA_WorkerCreate(userFirstName, userLastName, userEmail);
 
-                    SiteWorkerCreate(siteDto, workerDto);
+                    BETA_SiteWorkerCreate(siteDto, workerDto);
 
-                    return SiteReadSimple(siteId);
+                    return BETA_SiteReadSimple(siteId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1195,7 +1145,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto  SiteReadSimple(int siteId)
+        public Site_Dto             BETA_SiteReadSimple(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1217,16 +1167,16 @@ namespace eFormCore
             }
         }
 
-        public bool                 SiteUpdateSimple(int siteId, string name, string userFirstName, string userLastName, string userEmail)
+        public bool                 BETA_SiteUpdateSimple(int siteId, string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    Site_Dto siteDto = SiteReadSimple(siteId);
-                    SiteUpdate(siteId, name);
-                    WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail);
+                    Site_Dto siteDto = BETA_SiteReadSimple(siteId);
+                    BETA_SiteUpdate(siteId, name);
+                    BETA_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail);
                     return true;
                 } else
                     throw new Exception("Core is not running");
@@ -1238,18 +1188,18 @@ namespace eFormCore
             }
         }
 
-        public bool                 SiteDeleteSimple(int siteId)
+        public bool                 BETA_SiteDeleteSimple(int siteId)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    Site_Dto siteDto = SiteReadSimple(siteId);
-                    SiteDelete(siteId);
-                    Site_Worker_Dto siteWorkerDto = SiteWorkerRead(null, siteId, siteDto.WorkerUid);
-                    SiteWorkerDelete(siteWorkerDto.MicrotingUId);
-                    WorkerDelete((int)siteDto.WorkerUid);
+                    Site_Dto siteDto = BETA_SiteReadSimple(siteId);
+                    BETA_SiteDelete(siteId);
+                    Site_Worker_Dto siteWorkerDto = BETA_SiteWorkerRead(null, siteId, siteDto.WorkerUid);
+                    BETA_SiteWorkerDelete(siteWorkerDto.MicrotingUId);
+                    BETA_WorkerDelete((int)siteDto.WorkerUid);
                     return true;
                 }
                 else
@@ -1263,7 +1213,7 @@ namespace eFormCore
             }
         }
 
-        public SiteName_Dto         SiteCreate(string name)
+        public SiteName_Dto         BETA_SiteCreate(string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1294,7 +1244,7 @@ namespace eFormCore
                     {
                         sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.SiteUId);
                     }
-                    return SiteRead(siteDto.SiteUId);
+                    return BETA_SiteRead(siteDto.SiteUId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1306,7 +1256,7 @@ namespace eFormCore
             }
         }
 
-        public SiteName_Dto         SiteRead(int siteId)
+        public SiteName_Dto         BETA_SiteRead(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1328,7 +1278,7 @@ namespace eFormCore
             }
         }
 
-        public bool             SiteUpdate(int siteId, string name)
+        public bool                 BETA_SiteUpdate(int siteId, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1357,7 +1307,7 @@ namespace eFormCore
             }
         }
 
-        public bool             SiteDelete(int siteId)
+        public bool                 BETA_SiteDelete(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1386,7 +1336,7 @@ namespace eFormCore
         #endregion
 
         #region workers
-        public List<Worker_Dto> WorkerGetAll()
+        public List<Worker_Dto> BETA_WorkerGetAll()
         {
             string methodName = t.GetMethodName();
             try
@@ -1405,7 +1355,7 @@ namespace eFormCore
             }
         }
 
-        public Worker_Dto       WorkerCreate(string firstName, string lastName, string email)
+        public Worker_Dto       BETA_WorkerCreate(string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -1425,7 +1375,7 @@ namespace eFormCore
                         sqlController.WorkerCreate(workerUId, firstName, lastName, email);
                     }
 
-                    return WorkerRead(workerUId);
+                    return BETA_WorkerRead(workerUId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1437,7 +1387,7 @@ namespace eFormCore
             }
         }
 
-        public Worker_Dto       WorkerRead(int workerId)
+        public Worker_Dto       BETA_WorkerRead(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1459,7 +1409,7 @@ namespace eFormCore
             }
         }
 
-        public bool             WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        public bool             BETA_WorkerUpdate(int workerId, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -1488,7 +1438,7 @@ namespace eFormCore
             }
         }
 
-        public bool             WorkerDelete(int workerId)
+        public bool             BETA_WorkerDelete(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1516,7 +1466,7 @@ namespace eFormCore
         #endregion
 
         #region site_workers
-        public Site_Worker_Dto SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
+        public Site_Worker_Dto BETA_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
         {
             string methodName = t.GetMethodName();
             try
@@ -1537,7 +1487,7 @@ namespace eFormCore
                         sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
                     }
 
-                    return SiteWorkerRead(result.WorkerUId, null, null);
+                    return BETA_SiteWorkerRead(result.WorkerUId, null, null);
                     //return null;
                 }
                 else
@@ -1550,7 +1500,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Worker_Dto SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
+        public Site_Worker_Dto BETA_SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1572,7 +1522,7 @@ namespace eFormCore
             }
         }
 
-        public bool            SiteWorkerDelete(int workerId)
+        public bool            BETA_SiteWorkerDelete(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1600,7 +1550,7 @@ namespace eFormCore
         #endregion
 
         #region units
-        public List<Unit_Dto> UnitGetAll()
+        public List<Unit_Dto>  BETA_UnitGetAll()
         {
             string methodName = t.GetMethodName();
             try
@@ -1619,7 +1569,7 @@ namespace eFormCore
             }
         }
 
-        public Unit_Dto        UnitRead(int unitId)
+        public Unit_Dto        BETA_UnitRead(int unitId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1641,7 +1591,7 @@ namespace eFormCore
             }
         }
 
-        public Unit_Dto        UnitRequestOtp(int unitId)
+        public Unit_Dto        BETA_UnitRequestOtp(int unitId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1653,11 +1603,11 @@ namespace eFormCore
 
                     int otp_code = communicator.UnitRequestOtp(unitId);
 
-                    Unit_Dto my_dto = UnitRead(unitId);
+                    Unit_Dto my_dto = BETA_UnitRead(unitId);
 
                     sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
 
-                    return UnitRead(unitId);
+                    return BETA_UnitRead(unitId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1669,6 +1619,8 @@ namespace eFormCore
             }
         }
         #endregion
+                //<<-----
+                //<<-----
 
         #region entity group
         public string           EntityGroupCreate(string entityType, string name)
@@ -1780,6 +1732,30 @@ namespace eFormCore
                 throw new Exception("EntityGroupDelete failed", ex);
             }
             return true;
+        }
+        #endregion
+
+        #region internal public help methods
+        public Field FieldRead(int id)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("id:" + id);
+
+                    return sqlController.FieldRead(id);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
         }
         #endregion
         #endregion
@@ -1935,7 +1911,7 @@ namespace eFormCore
             {
                 if (templatId != null)
                 {
-                    MainElement templateData = sqlController.TemplatRead((int)templatId);
+                    MainElement templateData = sqlController.TemplateRead((int)templatId);
 
                     List<string> lstReturn = new List<string>();
                     lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList, "");

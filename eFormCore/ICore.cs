@@ -67,23 +67,39 @@ namespace eFormCore
         /// Converts XML from ex. eForm Builder or other sources, into a MainElement
         /// </summary>
         /// <param name="xmlString">XML string to be converted</param>
-        MainElement     TemplatFromXml(string xmlString);
+        MainElement     TemplateFromXml(string xmlString);
 
-        List<string>    TemplatValidation(MainElement mainElement);
+        List<string>    TemplateValidation(MainElement mainElement);
 
         /// <summary>
         /// Tries to create an eForm template in the Microting local DB. Returns that templat's templatId
         /// </summary>
         /// <param name="mainElement">Templat MainElement to be inserted into the Microting local DB</param>
-        int             TemplatCreate(MainElement mainElement);
+        int             TemplateCreate(MainElement mainElement);
 
         /// <summary>
-        /// Tries to retrieve the templat MainElement from the Microting DB
+        /// Tries to retrieve the template MainElement from the Microting DB
         /// </summary>
-        /// <param name="templatId">Templat MainElement's ID to be retrieved from the Microting local DB</param>
-        MainElement     TemplatRead(int templatId);
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
+        MainElement     TemplateRead(int templateId);
 
-        List<MainElement> TemplatReadAll();
+        /// <summary>
+        /// Tries to delete an eForm template in the Microting local DB. Returns if it was successfully
+        /// </summary>
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
+        bool            TemplateDelete(int templateId);
+
+        /// <summary>
+        /// Tries to retrieve the template meta data from the Microting DB
+        /// </summary>
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
+        Template_Dto        TemplateDtoRead(int templateId);
+
+        /// <summary>
+        /// Tries to retrieve all templates meta data from the Microting DB
+        /// </summary>
+        /// <param name="workflowState">Filter options for templates: 'created', 'removed' or 'null' will return all. Anything else will throw an ArgumentException</param>
+        List<Template_Dto>  TemplateDtoReadAll(string workflowState);
 
         //---------------------------------------------------------------------------------------
 
@@ -166,38 +182,38 @@ namespace eFormCore
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a Excel fil, at the returned path's location
         /// </summary>
-        /// <param name="templatId">The templat's ID to be used. Null will remove this limit</param>
+        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut. WARNING: Excel might use its default location</param>
-        string          CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName);
+        string          CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName);
 
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
         /// </summary>
-        /// <param name="templatId">The templat's ID to be used. Null will remove this limit</param>
+        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
-        string          CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName);
+        string          CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName);
 
         //---------------------------------------------------------------------------------------
 
-        List<SiteName_Dto>  SiteGetAll();
+        List<SiteName_Dto>  BETA_SiteGetAll();
 
-        List<Site_Dto>      SimpleSiteGetAll();
+        List<Site_Dto>      BETA_SimpleSiteGetAll();
 
-        Site_Dto            SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
+        Site_Dto            BETA_SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
 
-        SiteName_Dto        SiteRead(int microting_uid);
+        SiteName_Dto        BETA_SiteRead(int microting_uid);
 
-        Site_Dto            SiteReadSimple(int microting_uid);
+        Site_Dto            BETA_SiteReadSimple(int microting_uid);
 
-        bool                SiteUpdate(int microting_uid, string name);
+        bool                BETA_SiteUpdate(int microting_uid, string name);
 
         //Site_Dto            SiteReset(int siteId);
 
-        bool                SiteDelete(int siteId);
+        bool                BETA_SiteDelete(int siteId);
 
         //---------------------------------------------------------------------------------------
 

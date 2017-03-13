@@ -100,8 +100,6 @@ namespace eFormCore
                     case "P":
                         Console.WriteLine("Prime, configure and add sites to  database");
                         Console.WriteLine("Enter your token:");
-                        Console.WriteLine("- Any string will be accepted, as method is currently a stub.");
-                        Console.WriteLine("- It reads input/first_run.txt instead of reading from basic com");
                         string token = Console.ReadLine();
                         reply = DbSetup(token);
                         break;

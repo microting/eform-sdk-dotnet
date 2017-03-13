@@ -4,7 +4,6 @@ using eFormShared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using System.Data.Entity.Migrations;
 using eFormSqlController.Migrations;
 using System.Data.Entity.Infrastructure;
@@ -147,8 +146,8 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public templat
-        public int                  TemplatCreate(MainElement mainElement)
+        #region public template
+        public int                  TemplateCreate(MainElement mainElement)
         {
             try
             {
@@ -161,7 +160,7 @@ namespace eFormSqlController
             }
         }
 
-        public MainElement          TemplatRead(int templatId)
+        public MainElement          TemplateRead(int templateId)
         {
             try
             {
@@ -173,13 +172,13 @@ namespace eFormSqlController
                     check_lists mainCl = null;
                 
                     //getting mainElement
-                    mainCl = db.check_lists.Single(x => x.id == templatId);
+                    mainCl = db.check_lists.Single(x => x.id == templateId);
 
                     mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
                         t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
 
                     //getting elements
-                    List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templatId).ToList();
+                    List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templateId).ToList();
                     foreach (check_lists cl in lst)
                     {
                         mainElement.ElementList.Add(GetElement(cl.id));
@@ -195,13 +194,13 @@ namespace eFormSqlController
             }
         }
 
-        public Template_Dto TemplateSimpleRead(int templatId)
+        public Template_Dto         TemplateDtoRead(int templateId)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_lists checkList = db.check_lists.Where(x => x.id == templatId).First();
+                    check_lists checkList = db.check_lists.Where(x => x.id == templateId).First();
                     List<SiteName_Dto> sites = new List<SiteName_Dto>();
                     foreach (check_list_sites check_list_site in checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
                     {
@@ -221,7 +220,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<Template_Dto>   TemplateSimpleReadAll(string workflowState)
+        public List<Template_Dto>   TemplateDtoReadAll(string workflowState)
         {
             try
             {
@@ -232,8 +231,8 @@ namespace eFormSqlController
                     List<check_lists> matches = null;
                     switch (workflowState)
                     {
-                        case "not_removed":
-                            matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state != "removed").ToList();
+                        case null:
+                            matches = db.check_lists.Where(x => x.parent_id != null).ToList();
                             break;
                         case "removed":
                             matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "removed").ToList();
@@ -242,8 +241,7 @@ namespace eFormSqlController
                             matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "created").ToList();
                             break;
                         default:
-                                matches = db.check_lists.Where(x => x.parent_id != null).ToList();
-                            break;
+                            throw new ArgumentException("Accepted workflow state : null, 'created' or 'removed'");
                     }
 
                     foreach (check_lists checkList in matches)
@@ -271,35 +269,30 @@ namespace eFormSqlController
 
         }
 
-        public List<MainElement>    TemplatReadAll()
+        public List<fields>         TemplateFieldReadAll(int templateId)
         {
+            string methodName = t.GetMethodName();
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<check_lists> matches = null;
-                    List<MainElement> rtrnLst = new List<MainElement>();
+                    MainElement mainElement = TemplateRead(templateId);
+                    List<fields> fieldLst = new List<fields>();
 
-                    matches = db.check_lists.Where(x => x.parent_id == 0).ToList();
+                    foreach (var dataItem in mainElement.DataItemGetAll())
+                        fieldLst.Add(db.fields.Single(x => x.id == dataItem.Id));
 
-                    foreach (check_lists mainCl in matches)
-                    {
-                        MainElement mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
-                        t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
-
-                        rtrnLst.Add(mainElement);
-                    }
-
-                    return rtrnLst;
+                    return fieldLst;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("TemplatGetAll failed", ex);
+                //TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
-        public bool                 TemplatDelete(int templatId)
+        public bool                 TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -309,7 +302,7 @@ namespace eFormSqlController
                     //TriggerLog(methodName + " called");
                     //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    check_lists check_list = db.check_lists.Single(x => x.id == templatId);
+                    check_lists check_list = db.check_lists.Single(x => x.id == templateId);
 
                     if (check_list != null)
                     {
@@ -333,59 +326,8 @@ namespace eFormSqlController
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
-        public List<fields>         TemplatFieldReadAll(int templatId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    MainElement mainElement = TemplatRead(templatId);
-                    List<fields> fieldLst = new List<fields>();
-
-                    foreach (var dataItem in mainElement.DataItemGetAll())
-                        fieldLst.Add(db.fields.Single(x => x.id == dataItem.Id));
-
-                    return fieldLst;
-                }
-            }
-            catch (Exception ex)
-            {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
         #endregion
-
-        #region field
-        //public Field_Dto FieldRead(int id)
-        //{
-
-        //    string methodName = t.GetMethodName();
-        //    try
-        //    {
-        //        using (var db = new MicrotingDb(connectionStr))
-        //        {
-        //            //TriggerLog(methodName + " called");
-        //            //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
-
-        //            fields field = db.fields.SingleOrDefault(x => x.id == id);
-
-        //            if (field != null)
-        //                return new Field_Dto((int)field.id, field.label, field.description, (int)field.field_type_id, field.field_type.field_type);
-        //            else
-        //                return null;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //TriggerHandleExpection(methodName + " failed", ex, true);
-        //        throw new Exception(methodName + " failed", ex);
-        //    }
-        //}
-        #endregion
-
+        
         #region public (pre)case
         public void                 CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
@@ -631,7 +573,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public "replies"
+        #region public "reply"
         #region check
         public void                 ChecksCreate(Response response, string xmlString)
         {
@@ -657,7 +599,7 @@ namespace eFormSqlController
                         responseCase = db.cases.Single(x => x.microting_uid == response.Value);
                     }
 
-                    TemplatFieldLst = TemplatFieldReadAll((int)responseCase.check_list_id);
+                    TemplatFieldLst = TemplateFieldReadAll((int)responseCase.check_list_id);
 
                     foreach (string elementStr in elements)
                     {
@@ -840,7 +782,7 @@ namespace eFormSqlController
             }
         }
 
-        private Element  SubChecks(int parentId, int caseId)
+        private Element             SubChecks(int parentId, int caseId)
         {
             try
             {
@@ -924,7 +866,7 @@ namespace eFormSqlController
             }
         }
 
-        public Field FieldRead(int id)
+        public Field                FieldRead(int id)
         {
 
             string methodName = t.GetMethodName();
@@ -932,9 +874,6 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
-
                     fields fieldDb = db.fields.SingleOrDefault(x => x.id == id);
 
                     if (fieldDb != null)
@@ -944,41 +883,15 @@ namespace eFormSqlController
                         field.Description = new CDataValue();
                         field.Description.InderValue = fieldDb.description;
                         field.FieldType = fieldDb.field_type.field_type;
-                        //return new Field((int)field.id, field.label, field.description, (int)field.field_type_id, field.field_type.field_type);
-                        //if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
-                        //{
-                        //    entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
-
-                        //    if (match != null)
-                        //        answer.ValueReadable = match.name;
-                        //}
 
                         if (field.FieldType == "SingleSelect")
                         {
-                            //string key = answer.Value;
-                            //string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
-                            //answer.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
-
                             field.KeyValuePairList = PairRead(fieldDb.key_value_pair_list);
                         }
 
                         if (field.FieldType == "MultiSelect")
                         {
                             field.KeyValuePairList = PairRead(fieldDb.key_value_pair_list);
-
-                            //{
-                            //    answer.ValueReadable = "";
-
-                            //    string keys = answer.Value;
-                            //    List<string> keyLst = keys.Split('|').ToList();
-
-                            //    foreach (string key in keyLst)
-                            //    {
-                            //        string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
-                            //        answer.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
-                            //    }
-
-                            //    answer.KeyValuePairList = PairRead(question.key_value_pair_list);
                         }
                         return field;
                     }
@@ -1105,7 +1018,7 @@ namespace eFormSqlController
             }
         }
 
-        public FieldValue FieldValueRead(int id)
+        public FieldValue           FieldValueRead(int id)
         {
             try
             {
@@ -1709,7 +1622,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public sites
+        #region public site
         #region site
         public List<SiteName_Dto> SiteGetAll()
         {
@@ -2402,7 +2315,7 @@ namespace eFormSqlController
         #endregion
         #endregion
 
-        #region public entities
+        #region public entity
         #region entityGroup
         public int          EntityGroupCreate(string name, string entityType)
         {
@@ -2656,7 +2569,7 @@ namespace eFormSqlController
         #endregion
         #endregion
 
-        #region public settings
+        #region public setting
         public string   SettingRead(string variableName)
         {
             try
