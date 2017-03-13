@@ -46,6 +46,28 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.4.1 *(March 8th 2017)*
+	- Fixing the string length of description on check_lists and fields.
+
+  - Version 1.4.0 *(March 7th 2017)*
+	- **Breaking changes to db structure.**
+		- Upgrading from 1.3.x to version 1.4.0 is not possible automatically.
+		- The following tables data needs to be altered by hand or script:
+			- cases
+			- case_versions
+			- field_values
+			- field_value_versions
+			- check_list_value
+			- check_list_value_versions
+			- site_workers
+			- site_worker_versions
+			- units
+			- unit_versions
+		- For some cases the following tables data also needs to be modified by hand or script.
+			- check_list_sites
+			- check_list_site_versions
+	- Adding AdminTools to prime the DB and ease the setup of new installations.
+
   - Version 1.3.3 *(February 22st 2017)*
 	- Fixing parsing of PDF field types.
 	- Merging eFormRequest and eFormResponse into eFormData.

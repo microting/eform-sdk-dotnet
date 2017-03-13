@@ -340,6 +340,9 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
                 xmlString = xmlString.Replace("<MaxValue />", "<MaxValue>" + long.MaxValue + "</MaxValue>");
                 xmlString = xmlString.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                xmlString = xmlString.Replace("<MaxValue></MaxValue>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                xmlString = xmlString.Replace("<MinValue></MinValue>", "<MinValue>" + long.MinValue + "</MinValue>");
+                xmlString = xmlString.Replace("<DecimalCount></DecimalCount>", "<DecimalCount>0</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount />", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
 
@@ -491,6 +494,63 @@ namespace eFormCore
             }
         }
 
+        public Template_Dto TemplateSimpleRead(int templatId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("Templat id:" + templatId.ToString() + " trying to be read");
+                    return sqlController.TemplateSimpleRead(templatId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplatRead failed", ex, true);
+                throw new Exception("TemplatRead failed", ex);
+            }
+        }
+
+        public List<Template_Dto> TemplateSimpleReadAll()
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("TemplateSimpleReadAll() called");
+                    return TemplateSimpleReadAll("not_removed");
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplateSimpleReadAll failed", ex, true);
+                throw new Exception("TemplateSimpleReadAll failed", ex);
+            }
+        }
+
+        public List<Template_Dto> TemplateSimpleReadAll(string workflowState)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("TemplateSimpleReadAll() called");
+                    return sqlController.TemplateSimpleReadAll(workflowState);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("TemplateSimpleReadAll failed", ex, true);
+                throw new Exception("TemplateSimpleReadAll failed", ex);
+            }
+        }
+
         public List<MainElement> TemplatReadAll()
         {
             try
@@ -521,6 +581,30 @@ namespace eFormCore
                     TriggerLog("templatId:" + templatId);
 
                     return sqlController.TemplatDelete(templatId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region field
+        public Field        FieldRead(int id)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("id:" + id);
+
+                    return sqlController.FieldRead(id);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -646,45 +730,46 @@ namespace eFormCore
                     int id = aCase.id;
                     TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
 
-                    ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
-                    replyElement.Custom = aCase.custom;
-                    replyElement.DoneAt = (DateTime)aCase.done_at;
-                    replyElement.DoneById = (int)aCase.done_by_user_id;
-                    replyElement.UnitId = (int)aCase.unit_id;
+                    ReplyElement replyElement = sqlController.CheckRead(microtingUId, checkUId);
+                    //ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
+                    //replyElement.Custom = aCase.custom;
+                    //replyElement.DoneAt = (DateTime)aCase.done_at;
+                    //replyElement.DoneById = (int)aCase.done_by_user_id;
+                    //replyElement.UnitId = (int)aCase.unit_id;
 
-                    List<FieldValue> lstAnswers = new List<FieldValue>();
-                    List<field_values> lstReplies = sqlController.ChecksRead(microtingUId, checkUId);
-                    #region remove replicates from lstReplies. Ex. multiple pictures
-                    List<field_values> lstRepliesTemp = new List<field_values>();
-                    bool found;
+                    //List<FieldValue> lstAnswers = new List<FieldValue>();
+                    //List<field_values> lstReplies = sqlController.ChecksRead(microtingUId, checkUId);
+                    //#region remove replicates from lstReplies. Ex. multiple pictures
+                    //List<field_values> lstRepliesTemp = new List<field_values>();
+                    //bool found;
 
-                    foreach (var reply in lstReplies)
-                    {
-                        found = false;
-                        foreach (var tempReply in lstRepliesTemp)
-                        {
-                            if (reply.field_id == tempReply.field_id)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (found == false)
-                            lstRepliesTemp.Add(reply);
-                    }
+                    //foreach (var reply in lstReplies)
+                    //{
+                    //    found = false;
+                    //    foreach (var tempReply in lstRepliesTemp)
+                    //    {
+                    //        if (reply.field_id == tempReply.field_id)
+                    //        {
+                    //            found = true;
+                    //            break;
+                    //        }
+                    //    }
+                    //    if (found == false)
+                    //        lstRepliesTemp.Add(reply);
+                    //}
 
-                    lstReplies = lstRepliesTemp;
-                    #endregion
+                    //lstReplies = lstRepliesTemp;
+                    //#endregion
 
-                    foreach (field_values reply in lstReplies)
-                    {
-                        FieldValue answer = sqlController.FieldValueRead(reply.id);
-                        lstAnswers.Add(answer);
-                    }
-                    TriggerLog("Questons and answers found");
+                    //foreach (field_values reply in lstReplies)
+                    //{
+                    //    FieldValue answer = sqlController.FieldValueRead(reply.id);
+                    //    lstAnswers.Add(answer);
+                    //}
+                    //TriggerLog("Questons and answers found");
 
-                    //replace DataItem(s) with DataItem(s) Answer
-                    replyElement.ElementList = ReplaceDataElementsAndDataItems(aCase.id, replyElement.ElementList, lstAnswers);
+                    ////replace DataItem(s) with DataItem(s) Answer
+                    //replyElement.ElementList = ReplaceDataElementsAndDataItems(aCase.id, replyElement.ElementList, lstAnswers);
 
                     return replyElement;
                 }
@@ -695,6 +780,25 @@ namespace eFormCore
             {
                 TriggerHandleExpection("CaseRead failed", ex, true);
                 throw new Exception("CaseRead failed", ex);
+            }
+        }
+
+        public Case_Dto CaseReadByCaseId(int id)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("Templat id:" + id.ToString() + " trying to read all cases");
+                    return sqlController.CaseReadByCaseId(id);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseReadAll failed", ex, true);
+                throw new Exception("CaseReadAll failed", ex);
             }
         }
 
@@ -762,6 +866,26 @@ namespace eFormCore
             {
                 TriggerHandleExpection("CaseUpdate failed", ex, true);
                 throw new Exception("CaseUpdate failed", ex);
+            }
+        }
+
+        public bool CaseDelete(int templateId, int siteUId)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog("templateId:" + templateId + "siteUId:" + siteUId + ", requested to be deleted");
+                    int microtingUId = sqlController.CheckListSitesRead(templateId, siteUId);
+                    return CaseDelete(microtingUId.ToString());
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection("CaseDelete failed", ex, true);
+                throw new Exception("CaseDelete failed", ex);
             }
         }
 
@@ -1093,6 +1217,52 @@ namespace eFormCore
             }
         }
 
+        public bool                 SiteUpdateSimple(int siteId, string name, string userFirstName, string userLastName, string userEmail)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    Site_Dto siteDto = SiteReadSimple(siteId);
+                    SiteUpdate(siteId, name);
+                    WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail);
+                    return true;
+                } else
+                    throw new Exception("Core is not running");
+
+            } catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool                 SiteDeleteSimple(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    Site_Dto siteDto = SiteReadSimple(siteId);
+                    SiteDelete(siteId);
+                    Site_Worker_Dto siteWorkerDto = SiteWorkerRead(null, siteId, siteDto.WorkerUid);
+                    SiteWorkerDelete(siteWorkerDto.MicrotingUId);
+                    WorkerDelete((int)siteDto.WorkerUid);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         public SiteName_Dto         SiteCreate(string name)
         {
             string methodName = t.GetMethodName();
@@ -1360,14 +1530,14 @@ namespace eFormCore
                     //var parsedData = JRaw.Parse(result);
                     //int workerUid = int.Parse(parsedData["id"].ToString());
 
-                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.WorkerUId);
+                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.WorkerUId, null, null);
 
                     if (siteWorkerDto == null)
                     {
                         sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
                     }
 
-                    return SiteWorkerRead(result.WorkerUId);
+                    return SiteWorkerRead(result.WorkerUId, null, null);
                     //return null;
                 }
                 else
@@ -1380,7 +1550,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Worker_Dto SiteWorkerRead(int siteWorkerId)
+        public Site_Worker_Dto SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1390,36 +1560,7 @@ namespace eFormCore
                     TriggerLog(methodName + " called");
                     TriggerLog("siteWorkerId:" + siteWorkerId);
 
-                    return sqlController.SiteWorkerRead(siteWorkerId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public bool            SiteWorkerUpdate(int siteWorkerId, int workerId, int siteId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteWorkerId:" + siteWorkerId + " / workerId:" + workerId + " / siteId:" + siteId);
-
-                    if (sqlController.SiteWorkerRead(siteWorkerId) == null)
-                        return false;
-
-                    bool success = communicator.SiteWorkerUpdate(siteWorkerId, workerId, siteId);
-                    if (!success)
-                        return false;
-
-                    return sqlController.SiteWorkerUpdate(siteWorkerId, workerId, siteId);
+                    return sqlController.SiteWorkerRead(siteWorkerId, siteId, workerId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1735,7 +1876,7 @@ namespace eFormCore
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end, "not_retracted");
+            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end, "not_removed");
 
             if (caseList.Count == 0)
                 return null;
@@ -1854,7 +1995,7 @@ namespace eFormCore
                             if (dataItem.GetType() == typeof(None))
                                 continue;
 
-                            lstReturn.Add(dataItemGroup.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
+                            lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
                         }
                     }
 

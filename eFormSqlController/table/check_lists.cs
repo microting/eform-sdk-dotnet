@@ -4,7 +4,6 @@ namespace eFormSqlController
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class check_lists
     {
@@ -13,6 +12,8 @@ namespace eFormSqlController
         {
             this.cases = new HashSet<cases>();
             this.check_list_sites = new HashSet<check_list_sites>();
+            this.children = new HashSet<check_lists>();
+            this.fields = new HashSet<fields>();
         }
 
         [Key]
@@ -29,10 +30,10 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string label { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string description { get; set; }
 
         public string custom { get; set; }
@@ -68,5 +69,12 @@ namespace eFormSqlController
         public virtual ICollection<cases> cases { get; set; }
 
         public virtual ICollection<check_list_sites> check_list_sites { get; set; }
+
+        public virtual ICollection<fields> fields { get; set; }
+
+        public virtual check_lists parent { get; set; }
+
+        public virtual ICollection<check_lists> children { get; set; }
+
     }
 }

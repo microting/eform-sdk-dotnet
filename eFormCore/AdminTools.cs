@@ -259,7 +259,7 @@ namespace eFormCore
             return reply.TrimEnd();
         }
 
-        internal string DbSetup(string token)
+        public string DbSetup(string token)
         {
             try
             {
@@ -270,20 +270,32 @@ namespace eFormCore
 
                 #region configure db
                 string comAddressBasic = sqlCon.SettingRead("comAddressBasic");
-                CommunicatorBasic basicCom = new CommunicatorBasic(comAddressBasic);
-                List<string> settingLst = basicCom.GetSettings(token);
-
-                foreach (var setting in settingLst)
+                Communicator communicator = null;
+                Organization_Dto organizationDto = null;
+                if (comAddressBasic.Contains("basic.microting.com"))
                 {
-                    string[] line = setting.Split('|');
-                    sqlCon.SettingUpdate(line[0], line[1]);
-                }
+                    communicator = GetCommunicator("https://srv05.microting.com", token, "1234567890", "https://basic.microting.com");
+                    organizationDto = communicator.OrganizationLoadAllFromRemote();
+                    sqlCon.SettingUpdate("comToken", token);
+                    sqlCon.SettingUpdate("comAddress", organizationDto.ComAddress);
+                    sqlCon.SettingUpdate("comAddressBasic", organizationDto.ComAddressBasic);
+                    sqlCon.SettingUpdate("organizationId", organizationDto.OrganizationUid.ToString());
+                    sqlCon.SettingUpdate("subscriberToken", organizationDto.SubscriberToken);
+                    sqlCon.SettingUpdate("subscriberAddress", organizationDto.SubscriberAddress);
+                    sqlCon.SettingUpdate("subscriberName", organizationDto.SubscriberName);
+                    sqlCon.SettingUpdate("awsEndPoint", organizationDto.AwsEndPoint);
+                    sqlCon.SettingUpdate("awsId", organizationDto.AwsId);
+                    sqlCon.SettingUpdate("awsKey", organizationDto.AwsKey);
+                    sqlCon.SettingUpdate("unitLicenseNumber", organizationDto.UnitLicenseNumber.ToString());
+                } else
+                    organizationDto = communicator.OrganizationLoadAllFromRemote();
 
+                int customerNo = organizationDto.CustomerNo;
+                
                 sqlCon.SettingUpdate("firstRunDone", "true");
                 #endregion
 
                 #region add sites to db
-                Communicator communicator = GetCommunicator();
                 if (communicator == null)
                     return "Failed to create a communicator. Action canceled. Database has not loaded sites";
 
@@ -312,15 +324,21 @@ namespace eFormCore
                     sqlCon.UnitTest_TruncateTable(typeof(site_workers).Name);
                     foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
                     {
-                        Site_Worker_Dto siteWorkerDto = sqlCon.SiteWorkerRead(item.MicrotingUId);
+                        Site_Worker_Dto siteWorkerDto = sqlCon.SiteWorkerRead(item.MicrotingUId, null, null);
                         if (siteWorkerDto == null)
                         {
-                            sqlCon.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
+                            try
+                            {
+                                sqlCon.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
+                            }
+                            catch
+                            {
+                                // We do catch this because right now we a descripency at the API side.
+                            }
+                            
                         }
                     }
 
-                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
-                    int customerNo = organizationDto.CustomerNo;
 
                     sqlCon.UnitTest_TruncateTable(typeof(units).Name);
                     foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
@@ -328,7 +346,15 @@ namespace eFormCore
                         Unit_Dto unitDto = sqlCon.UnitRead(item.UnitUId);
                         if (unitDto == null)
                         {
-                            sqlCon.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
+                            try
+                            {
+                                sqlCon.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
+                            }
+                            catch
+                            {
+                                // We do catch this because right now we a descripency at the API side.
+                            }
+
                         }
                     }
                 }
@@ -382,6 +408,12 @@ namespace eFormCore
             }
         }
 
+        private Communicator GetCommunicator(string address, string token, string organizationId, string addressBasic)
+        {
+            Communicator communicator = new Communicator(address, token, organizationId, addressBasic);
+            return communicator;
+        }
+
         private Communicator GetCommunicator()
         {
             try
@@ -391,8 +423,7 @@ namespace eFormCore
                 string organizationId = sqlCon.SettingRead("organizationId");
                 string addressBasic =   sqlCon.SettingRead("comAddressBasic");
 
-                Communicator communicator = new Communicator(address, token, organizationId, addressBasic);
-                return communicator;
+                return GetCommunicator(address, token, organizationId, addressBasic);
             }
             catch
             {

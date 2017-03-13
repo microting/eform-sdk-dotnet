@@ -4,10 +4,15 @@ namespace eFormSqlController
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class fields
     {
+        public fields()
+        {
+            this.children = new HashSet<fields>();
+            this.field_values = new HashSet<field_values>();
+        }
+
         [Key]
         public int id { get; set; }
 
@@ -24,18 +29,20 @@ namespace eFormSqlController
 
         public int? parent_field_id { get; set; }
 
+        [ForeignKey("check_list")]
         public int? check_list_id { get; set; }
 
+        [ForeignKey("field_type")]
         public int? field_type_id { get; set; }
 
         public short? mandatory { get; set; }
 
         public short? read_only { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string label { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string description { get; set; }
 
         [StringLength(255)]
@@ -92,5 +99,15 @@ namespace eFormSqlController
         public string custom { get; set; }
 
         public int? entity_group_id { get; set; }
+
+        public virtual field_types field_type { get; set; }
+
+        public virtual check_lists check_list { get; set; }
+
+        public virtual fields parent { get; set; }
+
+        public virtual ICollection<fields> children { get; set; }
+
+        public virtual ICollection<field_values> field_values { get; set; }
     }
 }

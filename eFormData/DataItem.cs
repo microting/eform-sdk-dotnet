@@ -586,8 +586,16 @@ namespace eFormData
     #endregion
     #endregion
 
+    public class Field : DataItem
+    {
+        public List<FieldValue> FieldValues { get; set; }
+        public string FieldType { get; set; }
+        public List<KeyValuePair> KeyValuePairList { get; set; }
+    }
+
     public class FieldValue : DataItem
     {
+
         public int FieldId { get; set; }
         public string FieldType { get; set; }
         public DateTime DateOfDoing { get; set; }
@@ -600,7 +608,20 @@ namespace eFormData
         public string Accuracy { get; set; }
         public DateTime? Date { get; set; }
         public string UploadedData { get; set; }
+        public UploadedData UploadedDataObj { get; set; }
         public List<KeyValuePair> KeyValuePairList { get; set; }
+    }
+
+    public class UploadedData
+    {
+        public string Checksum { get; set; }
+        public string Extension { get; set; }
+        public string CurrentFile { get; set; }
+        public int? UploaderId { get; set; }
+        public string UploaderType { get; set; }
+        public string FileLocation { get; set; }
+        public string FileName { get; set; }
+
     }
 
     public enum DataItemColors

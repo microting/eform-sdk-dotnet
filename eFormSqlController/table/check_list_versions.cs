@@ -1,10 +1,8 @@
 namespace eFormSqlController
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class check_list_versions
     {
@@ -24,10 +22,10 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string label { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string description { get; set; }
 
         public string custom { get; set; }
