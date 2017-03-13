@@ -614,6 +614,7 @@ namespace eFormData
 
     public class UploadedData
     {
+        public int Id { get; set; }
         public string Checksum { get; set; }
         public string Extension { get; set; }
         public string CurrentFile { get; set; }

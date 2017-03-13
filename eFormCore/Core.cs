@@ -2053,23 +2053,23 @@ namespace eFormCore
                     updateIsRunningFiles = true;
 
                     #region update files
+                    UploadedData ud = null;
                     string urlStr = "";
                     bool oneFound = true;
                     while (oneFound)
                     {
-                        urlStr = sqlController.FileRead();
-                        if (urlStr == "")
-                        {
-                            oneFound = false;
+                        ud = sqlController.FileRead();
+                        if (ud != null)
+                            urlStr = ud.FileLocation;
+                        else
                             break;
-                        }
-
+                        
                         #region finding file name and creating folder if needed
                         FileInfo file = new FileInfo(fileLocation);
                         file.Directory.Create(); // If the directory already exists, this method does nothing.
 
                         int index = urlStr.LastIndexOf("/") + 1;
-                        string fileName = urlStr.Remove(0, index);
+                        string fileName = ud.Id.ToString() + "_" + urlStr.Remove(0, index);
                         #endregion
 
                         #region download file
@@ -2108,7 +2108,7 @@ namespace eFormCore
                         HandleFileDownloaded(fDto, EventArgs.Empty);
                         TriggerMessage("Downloaded file '" + urlStr + "'.");
 
-                        sqlController.FileProcessed(urlStr, chechSum, fileLocation, fileName);
+                        sqlController.FileProcessed(urlStr, chechSum, fileLocation, fileName, ud.Id);
                     }
                     #endregion
 

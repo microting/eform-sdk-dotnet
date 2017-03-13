@@ -1385,7 +1385,7 @@ namespace eFormSqlController
         #endregion
 
         #region file
-        public string               FileRead()
+        public UploadedData               FileRead()
         {
             try
             {
@@ -1394,9 +1394,20 @@ namespace eFormSqlController
                     uploaded_data dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
 
                     if (dU != null)
-                        return dU.file_location;
+                    {
+                        UploadedData ud = new UploadedData();
+                        ud.Checksum = dU.checksum;
+                        ud.Extension = dU.extension;
+                        ud.CurrentFile = dU.current_file;
+                        ud.UploaderId = dU.uploader_id;
+                        ud.UploaderType = dU.uploader_type;
+                        ud.FileLocation = dU.file_location;
+                        ud.FileName = dU.file_name;
+                        ud.Id = dU.id;
+                        return ud;
+                    }                        
                     else
-                        return "";
+                        return null;
                 }
             }
             catch (Exception ex)
@@ -1413,7 +1424,7 @@ namespace eFormSqlController
                 {
                     try
                     {
-                        uploaded_data dU = db.data_uploaded.Single(x => x.file_location == urlString);
+                        uploaded_data dU = db.data_uploaded.Where(x => x.file_location == urlString).First();
                         field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.id);
                         cases aCase = db.cases.Single(x => x.id == fV.case_id);
 
@@ -1431,13 +1442,13 @@ namespace eFormSqlController
             }
         }
 
-        public void                 FileProcessed(string urlString, string chechSum, string fileLocation, string fileName)
+        public void                 FileProcessed(string urlString, string chechSum, string fileLocation, string fileName, int id)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    uploaded_data uD = db.data_uploaded.Single(x => x.file_location == urlString);
+                    uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
 
                     uD.checksum = chechSum;
                     uD.file_location = fileLocation;
