@@ -1885,7 +1885,7 @@ namespace eFormCore
         #endregion
 
         #region inward Event handlers
-        private void    CoreHandleUpdateDatabases()
+        public void     CoreHandleUpdateDatabases()
         {
             try
             {

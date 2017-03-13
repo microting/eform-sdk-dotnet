@@ -140,11 +140,6 @@ namespace eFormCore
                         Console.WriteLine("eForm case sent to Microting, should be able to be retrieved on your tablet soon");
                     }
                 }
-
-                if (input.ToLower() == "t")
-                {
-                    Console.WriteLine("Result:'" + core.CasesToCsv(15, null, null, "xx") + "'");
-                }
             }
             Console.WriteLine("Trying to shutting down");
             Close();

@@ -3433,6 +3433,29 @@ namespace eFormSqlController
             }
         }
 
+        public List<string>     UnitTest_FindAllActiveNotifications()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> lstMUId = new List<string>();
+
+                    List<notifications> lst = db.notifications.Where(x => x.workflow_state == "created").ToList();
+                    foreach (notifications note in lst)
+                    {
+                        lstMUId.Add(note.microting_uid);
+                    }
+
+                    return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+            }
+        }
+
         public bool             UnitTest_TruncateTable(string tableName)
         {
             try
