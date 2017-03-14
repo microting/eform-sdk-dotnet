@@ -84,22 +84,22 @@ namespace eFormCore
         MainElement     TemplateRead(int templateId);
 
         /// <summary>
-        /// Tries to delete an eForm template in the Microting local DB. Returns if it was successfully
-        /// </summary>
-        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
-        bool            TemplateDelete(int templateId);
-
-        /// <summary>
         /// Tries to retrieve the template meta data from the Microting DB
         /// </summary>
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
-        Template_Dto        TemplateDtoRead(int templateId);
+        Template_Dto    TemplateItemRead(int templateId);
 
         /// <summary>
         /// Tries to retrieve all templates meta data from the Microting DB
         /// </summary>
-        /// <param name="workflowState">Filter options for templates: 'created', 'removed' or 'null' will return all. Anything else will throw an ArgumentException</param>
-        List<Template_Dto>  TemplateDtoReadAll(string workflowState);
+        /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
+        List<Template_Dto> TemplateItemReadAll(bool includeRemoved);
+
+        /// <summary>
+        /// Tries to delete an eForm template in the Microting local DB. Returns if it was successfully
+        /// </summary>
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
+        bool            TemplateDelete(int templateId);
 
         //---------------------------------------------------------------------------------------
 
@@ -199,21 +199,48 @@ namespace eFormCore
 
         //---------------------------------------------------------------------------------------
 
-        List<SiteName_Dto>  BETA_SiteGetAll();
+        /// <summary>
+        /// Tries to create an site in the Microting local DB and Microting API. Returns that site's data
+        /// </summary>
+        /// <param name="name">Site's name to be created</param>
+        /// <param name="userFirstName">Site user's first name to be created</param>
+        /// <param name="userLastName">Site user's last name to be created</param>
+        /// <param name="userEmail">Site user's email to be created</param>
+        Site_Dto        SiteCreate(string name, string userFirstName, string userLastName, string userEmail);
 
-        List<Site_Dto>      BETA_SimpleSiteGetAll();
+        /// <summary>
+        /// Tries to retrieve the site data from the Microting DB
+        /// </summary>
+        /// <param name="siteId">Site ID to be retrieved from the Microting local DB</param>
+        Site_Dto        SiteRead(int siteId);
 
-        Site_Dto            BETA_SiteCreateSimple(string siteName, string userFirstName, string userLastName, string userEmail);
+        /// <summary>
+        /// Tries to retrieve all sites data from the Microting DB
+        /// </summary>
+        /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
+        List<Site_Dto>  SiteReadAll(bool includeRemoved);
 
-        SiteName_Dto        BETA_SiteRead(int microting_uid);
+        /// <summary>
+        /// Tries to retrieve reset the site's access details
+        /// </summary>
+        /// <param name="siteId">Site ID to be reset</param>
+        Site_Dto        SiteReset(int siteId);
 
-        Site_Dto            BETA_SiteReadSimple(int microting_uid);
+        /// <summary>
+        /// Tries to update a site's data in the Microting local DB and Microting API. Returns that site's data
+        /// </summary>
+        /// <param name="siteId">Site ID of the site to be updated</param>
+        /// <param name="name">Site's name to be updated</param>
+        /// <param name="userFirstName">Site user's first name to be updated</param>
+        /// <param name="userLastName">Site user's last name to updated</param>
+        /// <param name="userEmail">Site user's email to be updated</param>
+        bool            SiteUpdate(int siteId, string name, string userFirstName, string userLastName, string userEmail);
 
-        bool                BETA_SiteUpdate(int microting_uid, string name);
-
-        //Site_Dto            SiteReset(int siteId);
-
-        bool                BETA_SiteDelete(int siteId);
+        /// <summary>
+        /// Tries to delete the site
+        /// </summary>
+        /// <param name="siteId">Site ID to be deleted</param>
+        bool            SiteDelete(int siteId);
 
         //---------------------------------------------------------------------------------------
 
@@ -222,7 +249,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
-        string          EntityGroupCreate(string entityType, string name);
+        string EntityGroupCreate(string entityType, string name);
 
         /// <summary>
         /// Returns the EntityGroup and its EntityItems

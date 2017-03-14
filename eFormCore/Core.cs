@@ -307,8 +307,10 @@ namespace eFormCore
         #region template
         public MainElement          TemplateFromXml(string xmlString)
         {
+            string methodName = t.GetMethodName();
             try
             {
+                TriggerLog(methodName + " called");
                 TriggerLog("XML to transform:");
                 TriggerLog(xmlString);
 
@@ -383,7 +385,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplateFromXml failed", ex, false);
+                TriggerHandleExpection(methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -393,10 +395,13 @@ namespace eFormCore
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
 
+            string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
+                    TriggerLog(methodName + " called");
+                    
                     List<string> errorLst = new List<string>();
                     var dataItems = mainElement.DataItemGetAll();
 
@@ -440,8 +445,8 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplateValidation failed", ex, true);
-                throw new Exception("TemplateValidation failed", ex);
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -450,10 +455,13 @@ namespace eFormCore
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
 
+            string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
+                    TriggerLog(methodName + " called");
+
                     List<string> errors = TemplateValidation(mainElement);
 
                     if (errors == null) errors = new List<string>();
@@ -469,28 +477,30 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplateCreate failed", ex, true);
-                throw new Exception("TemplateCreate failed", ex);
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public MainElement          TemplateRead(int templateId)
         {
+            string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("Template id:" + templateId.ToString() + " trying to be read");
-                    MainElement mainElement = new MainElement(sqlController.TemplateRead(templateId));
-                    return mainElement;
+                    TriggerLog(methodName + " called");
+                    TriggerLog("templateId:" + templateId);
+
+                    return sqlController.TemplateRead(templateId);
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplateRead failed", ex, true);
-                throw new Exception("TemplateRead failed", ex);
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -516,41 +526,47 @@ namespace eFormCore
             }
         }
 
-        public Template_Dto         TemplateDtoRead(int templateId)
+        public Template_Dto         TemplateItemRead(int templateId)
         {
+            string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("Template id:" + templateId.ToString() + " trying to be read");
-                    return sqlController.TemplateDtoRead(templateId);
+                    TriggerLog(methodName + " called");
+                    TriggerLog("templateId:" + templateId);
+
+                    return sqlController.TemplateItemRead(templateId);
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplateRead failed", ex, true);
-                throw new Exception("TemplateRead failed", ex);
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
-        public List<Template_Dto>   TemplateDtoReadAll(string workflowState)
+        public List<Template_Dto>   TemplateItemReadAll(bool includeRemoved)
         {
+            string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    TriggerLog("TemplateSimpleReadAll() called");
-                    return sqlController.TemplateDtoReadAll(workflowState);
+                    TriggerLog(methodName + " called");
+                    TriggerLog("includeRemoved:" + includeRemoved);
+
+                    return sqlController.TemplateItemReadAll(includeRemoved);
                 }
                 else
                     throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("TemplateSimpleReadAll failed", ex, true);
-                throw new Exception("TemplateSimpleReadAll failed", ex);
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -665,50 +681,11 @@ namespace eFormCore
                         return null;
                     }
                     #endregion
+
                     int id = aCase.id;
                     TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
 
                     ReplyElement replyElement = sqlController.CheckRead(microtingUId, checkUId);
-                    //ReplyElement replyElement = new ReplyElement(sqlController.TemplatRead((int)aCase.check_list_id));
-                    //replyElement.Custom = aCase.custom;
-                    //replyElement.DoneAt = (DateTime)aCase.done_at;
-                    //replyElement.DoneById = (int)aCase.done_by_user_id;
-                    //replyElement.UnitId = (int)aCase.unit_id;
-
-                    //List<FieldValue> lstAnswers = new List<FieldValue>();
-                    //List<field_values> lstReplies = sqlController.ChecksRead(microtingUId, checkUId);
-                    //#region remove replicates from lstReplies. Ex. multiple pictures
-                    //List<field_values> lstRepliesTemp = new List<field_values>();
-                    //bool found;
-
-                    //foreach (var reply in lstReplies)
-                    //{
-                    //    found = false;
-                    //    foreach (var tempReply in lstRepliesTemp)
-                    //    {
-                    //        if (reply.field_id == tempReply.field_id)
-                    //        {
-                    //            found = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    if (found == false)
-                    //        lstRepliesTemp.Add(reply);
-                    //}
-
-                    //lstReplies = lstRepliesTemp;
-                    //#endregion
-
-                    //foreach (field_values reply in lstReplies)
-                    //{
-                    //    FieldValue answer = sqlController.FieldValueRead(reply.id);
-                    //    lstAnswers.Add(answer);
-                    //}
-                    //TriggerLog("Questons and answers found");
-
-                    ////replace DataItem(s) with DataItem(s) Answer
-                    //replyElement.ElementList = ReplaceDataElementsAndDataItems(aCase.id, replyElement.ElementList, lstAnswers);
-
                     return replyElement;
                 }
                 else
@@ -721,7 +698,7 @@ namespace eFormCore
             }
         }
 
-        public Case_Dto CaseReadByCaseId(int id)
+        public Case_Dto         CaseReadByCaseId(int id)
         {
             try
             {
@@ -744,6 +721,7 @@ namespace eFormCore
         {
             return CaseReadAll(templatId, start, end, "not_removed");
         }
+
         public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
         {
             try
@@ -1035,63 +1013,8 @@ namespace eFormCore
         }
         #endregion
 
-                //<<-----
-                //<<-----
         #region site
-        public void SiteCreate() { }
-        public void SiteRead() { }
-        public void SiteUpdate() { }
-        public void SiteDelete() { }
-        public void SiteListWorkers() { }
-        public void SiteListUnits() { }
-        #endregion
-                //<<-----
-                //<<-----
-        #region sites
-        public List<SiteName_Dto>   BETA_SiteGetAll()
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    return sqlController.SiteGetAll();
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public List<Site_Dto>       BETA_SimpleSiteGetAll()
-        {
-            return BETA_SimpleSiteGetAll("not_removed", null, null);
-        }
-
-        public List<Site_Dto>       BETA_SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    return sqlController.SimpleSiteGetAll(workflowState, offSet, limit);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Site_Dto             BETA_SiteCreateSimple(string name, string userFirstName, string userLastName, string userEmail)
+        public Site_Dto         SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -1099,13 +1022,11 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName + " / userEmail:" + userEmail);
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
-                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
-
-                    int customerNo = organizationDto.CustomerNo;
+                    int customerNo = int.Parse(sqlController.SettingRead("organizationId"));
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;
@@ -1129,11 +1050,10 @@ namespace eFormCore
                         userEmail = siteId + "." + customerNo + "@invalid.invalid";
                     }
 
-                    Worker_Dto workerDto = BETA_WorkerCreate(userFirstName, userLastName, userEmail);
+                    Worker_Dto workerDto = Advanced_WorkerCreate(userFirstName, userLastName, userEmail);
+                    Advanced_SiteWorkerCreate(siteDto, workerDto);
 
-                    BETA_SiteWorkerCreate(siteDto, workerDto);
-
-                    return BETA_SiteReadSimple(siteId);
+                    return SiteRead(siteId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1145,7 +1065,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto             BETA_SiteReadSimple(int siteId)
+        public Site_Dto         SiteRead(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1167,39 +1087,88 @@ namespace eFormCore
             }
         }
 
-        public bool                 BETA_SiteUpdateSimple(int siteId, string name, string userFirstName, string userLastName, string userEmail)
+        public List<Site_Dto>   SiteReadAll(bool includeRemoved)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    Site_Dto siteDto = BETA_SiteReadSimple(siteId);
-                    BETA_SiteUpdate(siteId, name);
-                    BETA_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail);
+                    if (includeRemoved)
+                        return Advanced_SiteReadAll(null, null, null);
+                    else
+                        return Advanced_SiteReadAll("not_removed", null, null);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Dto         SiteReset(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    Site_Dto site = SiteRead(siteId);
+                    Advanced_UnitRequestOtp((int)site.UnitId);
+
+                    return SiteRead(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool             SiteUpdate(int siteId, string name, string userFirstName, string userLastName, string userEmail)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    Site_Dto siteDto = SiteRead(siteId);
+                    Advanced_SiteItemUpdate(siteId, name);
+                    Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail);
                     return true;
-                } else
+                }
+                else
                     throw new Exception("Core is not running");
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 TriggerHandleExpection(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
 
-        public bool                 BETA_SiteDeleteSimple(int siteId)
+        public bool             SiteDelete(int siteId)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    Site_Dto siteDto = BETA_SiteReadSimple(siteId);
-                    BETA_SiteDelete(siteId);
-                    Site_Worker_Dto siteWorkerDto = BETA_SiteWorkerRead(null, siteId, siteDto.WorkerUid);
-                    BETA_SiteWorkerDelete(siteWorkerDto.MicrotingUId);
-                    BETA_WorkerDelete((int)siteDto.WorkerUid);
+                    Site_Dto siteDto = SiteRead(siteId);
+                    Advanced_SiteItemDelete(siteId);
+                    Site_Worker_Dto siteWorkerDto = Advanced_SiteWorkerRead(null, siteId, siteDto.WorkerUid);
+                    Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId);
+                    Advanced_WorkerDelete((int)siteDto.WorkerUid);
                     return true;
                 }
                 else
@@ -1212,415 +1181,7 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
-        public SiteName_Dto         BETA_SiteCreate(string name)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteName:" + name);
-
-                    Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
-
-                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
-
-                    int customerNo = organizationDto.CustomerNo;
-
-                    string siteName = siteResult.Item1.SiteName;
-                    int siteId = siteResult.Item1.SiteId;
-                    int unitUId = siteResult.Item2.UnitUId;
-                    int otpCode = siteResult.Item2.OtpCode;
-                    SiteName_Dto siteDto = sqlController.SiteRead(siteResult.Item1.SiteId);
-                    if (siteDto == null)
-                    {
-                        sqlController.SiteCreate((int)siteId, siteName);
-                    }
-                    siteDto = sqlController.SiteRead(siteId);
-                    Unit_Dto unitDto = sqlController.UnitRead(unitUId);
-                    if (unitDto == null)
-                    {
-                        sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.SiteUId);
-                    }
-                    return BETA_SiteRead(siteDto.SiteUId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public SiteName_Dto         BETA_SiteRead(int siteId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
-
-                    return sqlController.SiteRead(siteId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public bool                 BETA_SiteUpdate(int siteId, string name)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
-
-                    if (sqlController.SiteRead(siteId) == null)
-                        return false;
-
-                    bool success = communicator.SiteUpdate(siteId, name);
-                    if (!success)
-                        return false;
-
-                    return sqlController.SiteUpdate(siteId, name);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public bool                 BETA_SiteDelete(int siteId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
-
-                    bool success = communicator.SiteDelete(siteId);
-                    if (!success)
-                        return false;
-
-                    return sqlController.SiteDelete(siteId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-        
         #endregion
-
-        #region workers
-        public List<Worker_Dto> BETA_WorkerGetAll()
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    return sqlController.WorkerGetAll();
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Worker_Dto       BETA_WorkerCreate(string firstName, string lastName, string email)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
-
-
-                    Worker_Dto workerDto = communicator.WorkerCreate(firstName, lastName, email);
-                    int workerUId = workerDto.WorkerUId;
-
-                    workerDto = sqlController.WorkerRead(workerDto.WorkerUId);
-                    if (workerDto == null)
-                    {
-                        sqlController.WorkerCreate(workerUId, firstName, lastName, email);
-                    }
-
-                    return BETA_WorkerRead(workerUId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Worker_Dto       BETA_WorkerRead(int workerId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId);
-
-                    return sqlController.WorkerRead(workerId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public bool             BETA_WorkerUpdate(int workerId, string firstName, string lastName, string email)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId + " / firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
-
-                    if (sqlController.WorkerRead(workerId) == null)
-                        return false;
-
-                    bool success = communicator.WorkerUpdate(workerId, firstName, lastName, email);
-                    if (!success)
-                        return false;
-
-                    return sqlController.WorkerUpdate(workerId, firstName, lastName, email);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public bool             BETA_WorkerDelete(int workerId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId);
-
-                    bool success = communicator.WorkerDelete(workerId);
-                    if (!success)
-                        return false;
-
-                    return sqlController.WorkerDelete(workerId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-        #endregion
-
-        #region site_workers
-        public Site_Worker_Dto BETA_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteDto.SiteUId + " / workerId:" + workerDto.WorkerUId);
-
-                    Site_Worker_Dto result = communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
-                    //var parsedData = JRaw.Parse(result);
-                    //int workerUid = int.Parse(parsedData["id"].ToString());
-
-                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.WorkerUId, null, null);
-
-                    if (siteWorkerDto == null)
-                    {
-                        sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
-                    }
-
-                    return BETA_SiteWorkerRead(result.WorkerUId, null, null);
-                    //return null;
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Site_Worker_Dto BETA_SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteWorkerId:" + siteWorkerId);
-
-                    return sqlController.SiteWorkerRead(siteWorkerId, siteId, workerId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public bool            BETA_SiteWorkerDelete(int workerId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId);
-
-                    bool success = communicator.SiteWorkerDelete(workerId);
-                    if (!success)
-                        return false;
-
-                    return sqlController.SiteWorkerDelete(workerId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-        #endregion
-
-        #region units
-        public List<Unit_Dto>  BETA_UnitGetAll()
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    return sqlController.UnitGetAll();
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Unit_Dto        BETA_UnitRead(int unitId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("unitId:" + unitId);
-
-                    return sqlController.UnitRead(unitId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        public Unit_Dto        BETA_UnitRequestOtp(int unitId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("unitId:" + unitId);
-
-                    int otp_code = communicator.UnitRequestOtp(unitId);
-
-                    Unit_Dto my_dto = BETA_UnitRead(unitId);
-
-                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
-
-                    return BETA_UnitRead(unitId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-        #endregion
-                //<<-----
-                //<<-----
 
         #region entity group
         public string           EntityGroupCreate(string entityType, string name)
@@ -1735,7 +1296,412 @@ namespace eFormCore
         }
         #endregion
 
-        #region internal public help methods
+        #region public help methods
+
+
+        #region sites
+        public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.SimpleSiteGetAll(workflowState, offSet, limit);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public SiteName_Dto Advanced_SiteItemRead(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    return sqlController.SiteRead(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public List<SiteName_Dto> Advanced_SiteItemReadAll()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.SiteGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool Advanced_SiteItemUpdate(int siteId, string name)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    if (sqlController.SiteRead(siteId) == null)
+                        return false;
+
+                    bool success = communicator.SiteUpdate(siteId, name);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteUpdate(siteId, name);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool Advanced_SiteItemDelete(int siteId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteId);
+
+                    bool success = communicator.SiteDelete(siteId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteDelete(siteId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        #endregion
+
+        #region workers
+        public Worker_Dto Advanced_WorkerCreate(string firstName, string lastName, string email)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+
+
+                    Worker_Dto workerDto = communicator.WorkerCreate(firstName, lastName, email);
+                    int workerUId = workerDto.WorkerUId;
+
+                    workerDto = sqlController.WorkerRead(workerDto.WorkerUId);
+                    if (workerDto == null)
+                    {
+                        sqlController.WorkerCreate(workerUId, firstName, lastName, email);
+                    }
+
+                    return Advanced_WorkerRead(workerUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Worker_Dto Advanced_WorkerRead(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId);
+
+                    return sqlController.WorkerRead(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public List<Worker_Dto> Advanced_WorkerReadAll()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.WorkerGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId + " / firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+
+                    if (sqlController.WorkerRead(workerId) == null)
+                        return false;
+
+                    bool success = communicator.WorkerUpdate(workerId, firstName, lastName, email);
+                    if (!success)
+                        return false;
+
+                    return sqlController.WorkerUpdate(workerId, firstName, lastName, email);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool Advanced_WorkerDelete(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId);
+
+                    bool success = communicator.WorkerDelete(workerId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.WorkerDelete(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region site_workers
+        public Site_Worker_Dto Advanced_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteId:" + siteDto.SiteUId + " / workerId:" + workerDto.WorkerUId);
+
+                    Site_Worker_Dto result = communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
+                    //var parsedData = JRaw.Parse(result);
+                    //int workerUid = int.Parse(parsedData["id"].ToString());
+
+                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.WorkerUId, null, null);
+
+                    if (siteWorkerDto == null)
+                    {
+                        sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
+                    }
+
+                    return Advanced_SiteWorkerRead(result.WorkerUId, null, null);
+                    //return null;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Site_Worker_Dto Advanced_SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("siteWorkerId:" + siteWorkerId);
+
+                    return sqlController.SiteWorkerRead(siteWorkerId, siteId, workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool Advanced_SiteWorkerDelete(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("workerId:" + workerId);
+
+                    bool success = communicator.SiteWorkerDelete(workerId);
+                    if (!success)
+                        return false;
+
+                    return sqlController.SiteWorkerDelete(workerId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region units
+        public Unit_Dto Advanced_UnitRead(int unitId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("unitId:" + unitId);
+
+                    return sqlController.UnitRead(unitId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public List<Unit_Dto> Advanced_UnitReadAll()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    return sqlController.UnitGetAll();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public Unit_Dto Advanced_UnitRequestOtp(int unitId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("unitId:" + unitId);
+
+                    int otp_code = communicator.UnitRequestOtp(unitId);
+
+                    Unit_Dto my_dto = Advanced_UnitRead(unitId);
+
+                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
+
+                    return Advanced_UnitRead(unitId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
         public Field FieldRead(int id)
         {
             string methodName = t.GetMethodName();

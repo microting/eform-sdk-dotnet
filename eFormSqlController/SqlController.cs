@@ -194,7 +194,7 @@ namespace eFormSqlController
             }
         }
 
-        public Template_Dto         TemplateDtoRead(int templateId)
+        public Template_Dto         TemplateItemRead(int templateId)
         {
             try
             {
@@ -220,7 +220,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<Template_Dto>   TemplateDtoReadAll(string workflowState)
+        public List<Template_Dto>   TemplateItemReadAll(bool includeRemoved)
         {
             try
             {
@@ -229,20 +229,11 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     List<check_lists> matches = null;
-                    switch (workflowState)
-                    {
-                        case null:
-                            matches = db.check_lists.Where(x => x.parent_id != null).ToList();
-                            break;
-                        case "removed":
-                            matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "removed").ToList();
-                            break;
-                        case "created":
-                            matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "created").ToList();
-                            break;
-                        default:
-                            throw new ArgumentException("Accepted workflow state : null, 'created' or 'removed'");
-                    }
+
+                    if (includeRemoved)
+                        matches = db.check_lists.Where(x => x.parent_id != null).ToList();
+                    else
+                        matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "created").ToList();
 
                     foreach (check_lists checkList in matches)
                     {

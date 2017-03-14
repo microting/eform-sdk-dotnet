@@ -264,16 +264,16 @@ namespace eFormCore
                 #region prime db
                 sqlCon = null;
                 sqlCon = new SqlController(connectionString);
+                Communicator communicator = GetCommunicator("https://srv05.microting.com", token, "1234567890", "https://basic.microting.com");
+
+                if (communicator == null)
+                    return "Failed to create a communicator. Action canceled. Database has not loaded sites";
                 #endregion
 
                 #region configure db
-                string comAddressBasic = sqlCon.SettingRead("comAddressBasic");
-                Communicator communicator = null;
-                Organization_Dto organizationDto = null;
-                if (comAddressBasic.Contains("basic.microting.com"))
+                if (!bool.Parse(sqlCon.SettingRead("firstRunDone")))
                 {
-                    communicator = GetCommunicator("https://srv05.microting.com", token, "1234567890", "https://basic.microting.com");
-                    organizationDto = communicator.OrganizationLoadAllFromRemote();
+                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
                     sqlCon.SettingUpdate("comToken", token);
                     sqlCon.SettingUpdate("comAddress", organizationDto.ComAddress);
                     sqlCon.SettingUpdate("comAddressBasic", organizationDto.ComAddressBasic);
@@ -285,18 +285,12 @@ namespace eFormCore
                     sqlCon.SettingUpdate("awsId", organizationDto.AwsId);
                     sqlCon.SettingUpdate("awsKey", organizationDto.AwsKey);
                     sqlCon.SettingUpdate("unitLicenseNumber", organizationDto.UnitLicenseNumber.ToString());
-                } else
-                    organizationDto = communicator.OrganizationLoadAllFromRemote();
 
-                int customerNo = organizationDto.CustomerNo;
-                
-                sqlCon.SettingUpdate("firstRunDone", "true");
+                    sqlCon.SettingUpdate("firstRunDone", "true");
+                }
                 #endregion
 
-                #region add sites to db
-                if (communicator == null)
-                    return "Failed to create a communicator. Action canceled. Database has not loaded sites";
-
+                #region add site's data to db
                 if (!bool.Parse(sqlCon.SettingRead("knownSitesDone")))
                 {
                     sqlCon.UnitTest_TruncateTable(typeof(sites).Name);
@@ -338,6 +332,8 @@ namespace eFormCore
                     }
 
 
+                    int customerNo = int.Parse(sqlCon.SettingRead("organizationId"));
+
                     sqlCon.UnitTest_TruncateTable(typeof(units).Name);
                     foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
                     {
@@ -355,9 +351,8 @@ namespace eFormCore
 
                         }
                     }
+                    sqlCon.SettingUpdate("knownSitesDone", "true");
                 }
-
-                sqlCon.SettingUpdate("knownSitesDone", "true");
                 #endregion
 
                 return "";
