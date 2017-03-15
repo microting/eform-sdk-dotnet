@@ -1813,12 +1813,13 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private List<List<string>> GenerateDataSetFromCases (int? templatId, DateTime? start, DateTime? end, string customPathForUploadedData)
+        private List<List<string>> GenerateDataSetFromCases (int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData)
         {
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templatId, start, end, "not_removed");
+            List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed");
+            var                template        = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)
                 return null;
@@ -1842,6 +1843,7 @@ namespace eFormCore
                 List<string> colume8 = new List<string> { "Site" };
                 List<string> colume9 = new List<string> { "Device User" };
                 List<string> colume10 = new List<string> { "Device Id" };
+                List<string> colume11 = new List<string> { "eForm Name" };
 
                 var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
                 foreach (var aCase in caseList)
@@ -1858,6 +1860,7 @@ namespace eFormCore
                     colume8.Add(aCase.SiteName);
                     colume9.Add(aCase.WorkerName);
                     colume10.Add(aCase.UnitId.ToString());
+                    colume11.Add(template.Label);
                 }
 
                 dataSet.Add(colume1CaseIds);
@@ -1870,14 +1873,15 @@ namespace eFormCore
                 dataSet.Add(colume8);
                 dataSet.Add(colume9);
                 dataSet.Add(colume10);
+                dataSet.Add(colume11);
             }
             #endregion
 
             #region fieldValue generate
             {
-                if (templatId != null)
+                if (templateId != null)
                 {
-                    MainElement templateData = sqlController.TemplateRead((int)templatId);
+                    MainElement templateData = sqlController.TemplateRead((int)templateId);
 
                     List<string> lstReturn = new List<string>();
                     lstReturn = GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList, "");
@@ -1926,7 +1930,8 @@ namespace eFormCore
                 {
                     DataElement dataE = (DataElement)element;
 
-                    preLabel = preLabel + sep + dataE.Label;
+                    if (preLabel != "")
+                        preLabel = preLabel + sep + dataE.Label;
 
                     foreach (FieldGroup dataItemGroup in dataE.DataItemGroupList)
                     {
@@ -1937,7 +1942,10 @@ namespace eFormCore
                             if (dataItem.GetType() == typeof(None))
                                 continue;
 
-                            lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
+                            if (preLabel != "")
+                                lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
+                            else
+                                lstReturn.Add(dataItem.Id + "|" + dataItemGroup.Label + sep + dataItem.Label);
                         }
                     }
 
@@ -1948,7 +1956,10 @@ namespace eFormCore
                         if (dataItem.GetType() == typeof(None))
                             continue;
 
-                        lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItem.Label);
+                        if (preLabel != "")
+                            lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItem.Label);
+                        else
+                            lstReturn.Add(dataItem.Id + "|" + dataItem.Label);
                     }
                 }
                 #endregion
@@ -1958,7 +1969,10 @@ namespace eFormCore
                 {
                     GroupElement groupE = (GroupElement)element;
 
-                    GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList, preLabel + sep + groupE.Label);
+                    if (preLabel != "")
+                        GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList, preLabel + sep + groupE.Label);
+                    else
+                        GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList, groupE.Label);
                 }
                 #endregion
             }
