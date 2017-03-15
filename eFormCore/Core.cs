@@ -946,13 +946,13 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName)
+        public string           CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             try
             {
                 if (coreRunning)
                 {
-                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end, customPathForUploadedData);
 
                     if (dataSet == null)
                         return "";
@@ -972,13 +972,13 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName)
+        public string           CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             try
             {
                 if (coreRunning)
                 {
-                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end);
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end, customPathForUploadedData);
 
                     if (dataSet == null)
                         return "";
@@ -1813,7 +1813,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private List<List<string>> GenerateDataSetFromCases (int? templatId, DateTime? start, DateTime? end)
+        private List<List<string>> GenerateDataSetFromCases (int? templatId, DateTime? start, DateTime? end, string customPathForUploadedData)
         {
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
@@ -1850,7 +1850,7 @@ namespace eFormCore
                     colume1CaseIds.Add(aCase.Id.ToString());
 
                     colume2.Add(time.ToString("yyyy.MM.dd"));
-                    colume3.Add(time.ToString("hh:mm:ss"));
+                    colume3.Add(time.ToString("HH:mm:ss"));
                     colume4.Add(time.DayOfWeek.ToString());
                     colume5.Add(time.Year.ToString() + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
                     colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
@@ -1888,7 +1888,7 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<string>> result = sqlController.FieldValueReadAllValues(fieldId, start, end);
+                        List<List<string>> result = sqlController.FieldValueReadAllValues(fieldId, start, end, customPathForUploadedData);
 
                         if (result.Count == 1)
                         {

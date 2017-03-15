@@ -1048,7 +1048,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<List<string>>   FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end)
+        public List<List<string>>   FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end, string customPathForUploadedData)
         {
             try
             {
@@ -1090,12 +1090,24 @@ namespace eFormSqlController
                                 {
                                     if (lastCaseId == (int)item.case_id)
                                     {
-                                        replyLst1[lastIndex] = replyLst1[lastIndex] + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
+                                        if (customPathForUploadedData != null)
+                                            replyLst1[lastIndex] = replyLst1[lastIndex] + "|" + customPathForUploadedData + item.uploaded_data.file_name;
+                                        else
+                                            replyLst1[lastIndex] = replyLst1[lastIndex] + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
                                     }
                                     else
                                     {
                                         lastIndex++;
-                                        replyLst1.Add(item.uploaded_data.file_location + item.uploaded_data.file_name);
+                                        if (item.uploaded_data_id != null)
+                                        {
+                                            if (customPathForUploadedData != null)
+                                                replyLst1.Add(customPathForUploadedData + item.uploaded_data.file_name);
+                                            else
+                                                replyLst1.Add(item.uploaded_data.file_location + item.uploaded_data.file_name);
+                                        } else
+                                        {
+                                            replyLst1.Add("UPLOADED DATA IS NOT READY FOR FIELD_VALUE ID : " + item.id.ToString());
+                                        }
                                     }
                                 }
                                 else
