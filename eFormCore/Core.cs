@@ -62,11 +62,9 @@ namespace eFormCore
         SqlController sqlController;
         Subscriber subscriber;
         ExcelController excelController;
-        eFormShared.Tools t = new eFormShared.Tools();
+        Tools t = new Tools();
 
         object _lockMain = new object();
-        object _lockEventClient = new object();
-        object _lockEventServer = new object();
         object _lockEventMessage = new object();
         bool updateIsRunningFiles = false;
         bool updateIsRunningNotifications = false;
@@ -76,14 +74,6 @@ namespace eFormCore
         bool coreStatChanging = false;
         List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
 
-        string comToken;
-        string comAddress;
-        string comAddressBasic;
-        string organizationId;
-        string subscriberToken;
-        string subscriberAddress;
-        string subscriberName;
-
         string serverConnectionString;
         string fileLocation;
         bool logLevel = false;
@@ -92,7 +82,8 @@ namespace eFormCore
         #region con
         public Core()
         {
-
+            Thread updateDataThread = new Thread(() => CoreHandleUpdateDatabases());
+            updateDataThread.Start();
         }
         #endregion
 
@@ -112,32 +103,14 @@ namespace eFormCore
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
 
-                    #region settings read and checked
-                    if (sqlController.SettingRead("firstRunDone") == "false")
+                    #region settings read
+                    if (sqlController.SettingRead(Settings.firstRunDone) == "false")
                         throw new ArgumentException("firstRunDone==false. Use AdminTools to setup settings");
 
-                    comToken = sqlController.SettingRead("comToken");
-                    comAddress = sqlController.SettingRead("comAddress");
-                    comAddressBasic = sqlController.SettingRead("comAddressBasic");
-                    organizationId = sqlController.SettingRead("organizationId");
-                    subscriberToken = sqlController.SettingRead("subscriberToken");
-                    subscriberAddress = sqlController.SettingRead("subscriberAddress");
-                    subscriberName = sqlController.SettingRead("subscriberName");
-                    fileLocation = sqlController.SettingRead("fileLocation");
-                    logLevel = bool.Parse(sqlController.SettingRead("logLevel"));
+                    fileLocation = sqlController.SettingRead(Settings.fileLocation);
+                    logLevel = bool.Parse(sqlController.SettingRead(Settings.logLevel));
                     this.serverConnectionString = serverConnectionString;
                     TriggerLog("Settings read");
-
-
-                    if (string.IsNullOrEmpty(comToken)) throw new ArgumentException("comToken is not allowed to be null or empty");
-                    if (string.IsNullOrEmpty(comAddress)) throw new ArgumentException("comAddress is not allowed to be null or empty");
-                    if (string.IsNullOrEmpty(organizationId)) throw new ArgumentException("organizationId is not allowed to be null or empty");
-                    if (string.IsNullOrEmpty(subscriberToken)) throw new ArgumentException("subscriberToken is not allowed to be null or empty");
-                    if (string.IsNullOrEmpty(subscriberAddress)) throw new ArgumentException("subscriberAddress is not allowed to be null or empty");
-                    if (string.IsNullOrEmpty(subscriberName)) throw new ArgumentException("subscriberName is not allowed to be null or empty");
-                    if (subscriberName.Contains(" ") || subscriberName.Contains("æ") || subscriberName.Contains("ø") || subscriberName.Contains("å")) throw new ArgumentException("subscriberName is not allowed to contain blank spaces ' ', æ, ø and å");
-                    if (string.IsNullOrEmpty(fileLocation)) throw new ArgumentException("fileLocation is not allowed to be null or empty");
-                    TriggerLog("Settings checked");
                     #endregion
 
                     #region core.Start()
@@ -146,23 +119,18 @@ namespace eFormCore
                     TriggerLog("###################################################################################################################");
                     TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     TriggerLog("###################################################################################################################");
-                    TriggerLog("comToken:" + comToken + " comAddress: " + comAddress + " subscriberToken:" + subscriberToken + " subscriberAddress:" + subscriberAddress +
-                        " subscriberName:" + subscriberName + " serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logLevel.ToString());
+                    TriggerLog("serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logLevel.ToString());
                     TriggerLog("Core started");
                     #endregion
 
                     //communicators
-                    communicator = new Communicator(comAddress, comToken, organizationId, comAddressBasic);
-                    communicator.EventLog += CoreHandleEventLog;
+                    communicator = new Communicator(sqlController);
                     TriggerLog("Communicator started");
 
                     //subscriber
-                    subscriber = new Subscriber(subscriberToken, subscriberAddress, subscriberName);
-                    TriggerLog("Subscriber created");
-                    subscriber.EventMsgClient += CoreHandleEventClient;
-                    subscriber.EventMsgServer += CoreHandleEventServer;
-                    TriggerLog("Subscriber now triggers events");
+                    subscriber = new Subscriber(sqlController);
                     subscriber.Start();
+                    TriggerLog("Subscriber started");
 
                     //communicators
                     excelController = new ExcelController();
@@ -206,15 +174,8 @@ namespace eFormCore
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
 
-
-                    comToken = sqlController.SettingRead("comToken");
-                    comAddress = sqlController.SettingRead("comAddress");
-                    comAddressBasic = sqlController.SettingRead("comAddressBasic");
-                    organizationId = sqlController.SettingRead("organizationId");
-
                     //communicators
-                    communicator = new Communicator(comAddress, comToken, organizationId, comAddressBasic);
-                    communicator.EventLog += CoreHandleEventLog;
+                    communicator = new Communicator(sqlController);
                     TriggerLog("Communicator started");
 
                     coreRunning = true;
@@ -227,9 +188,6 @@ namespace eFormCore
                 coreStatChanging = false;
                 try
                 {
-                    comToken = sqlController.SettingRead("comToken");
-                    comAddress = sqlController.SettingRead("comAddress");
-                    organizationId = sqlController.SettingRead("organizationId");
                     return true;
                 } catch (Exception ex2)
                 {
@@ -260,21 +218,6 @@ namespace eFormCore
                             subscriber.Close();
                         }
                         catch { }
-
-                        #region remove triggers
-                        try
-                        {
-                            communicator.EventLog += CoreHandleEventLog;
-                        }
-                        catch { }
-
-                        try
-                        {
-                            subscriber.EventMsgClient -= CoreHandleEventClient;
-                            subscriber.EventMsgServer -= CoreHandleEventServer;
-                        }
-                        catch { }
-                        #endregion
 
                         subscriber = null;
                         communicator = null;
@@ -1026,7 +969,7 @@ namespace eFormCore
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
-                    int customerNo = int.Parse(sqlController.SettingRead("organizationId"));
+                    int customerNo = int.Parse(sqlController.SettingRead(Settings.comOrganizationId));
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;
@@ -1986,17 +1929,29 @@ namespace eFormCore
         {
             try
             {
-                TriggerLog("CoreHandleUpdateDatabases() initiated");
+                while (true)
+                {
+                    if (coreRunning)
+                    {
+                        TriggerLog("CoreHandleUpdateDatabases() initiated");
 
-                Thread updateFilesThread            = new Thread(() => CoreHandleUpdateFiles());
-                updateFilesThread.Start();
+                        Thread updateFilesThread = new Thread(() => CoreHandleUpdateFiles());
+                        updateFilesThread.Start();
 
-                Thread updateNotificationsThread    = new Thread(() => CoreHandleUpdateNotifications());
-                updateNotificationsThread.Start();
+                        Thread updateNotificationsThread = new Thread(() => CoreHandleUpdateNotifications());
+                        updateNotificationsThread.Start();
+
+                        Thread.Sleep(2000);
+                    }
+
+                    Thread.Sleep(500);
+                }
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CoreHandleUpdateDatabases failed", ex, true);
+                coreRunning = false;
+                coreStatChanging = false;
+                throw new Exception("FATAL Exception. CoreHandleUpdateDatabases failed", ex);
             }
         }
 
@@ -2086,27 +2041,25 @@ namespace eFormCore
                     updateIsRunningNotifications = true;
 
                     #region update notifications
-                    string notificationStr = "";
-                    string noteUId = "";
-                    string noteType = "";
+                    Note_Dto notification;
+                    string noteUId;
                     bool oneFound = true;
                     while (oneFound)
                     {
-                        notificationStr = sqlController.NotificationRead();
+                        notification = sqlController.NotificationReadFirst();
                         #region if no new notification found - stops method
-                        if (notificationStr == "")
+                        if (notification == null)
                         {
                             oneFound = false;
                             break;
                         }
                         #endregion
 
+                        noteUId = notification.MicrotingUId;
+
                         try
                         {
-                            noteUId = t.Locate(notificationStr, "microting_uuid\\\":\\\"", "\\");
-                            noteType = t.Locate(notificationStr, "text\\\":\\\"", "\\\"");
-
-                            switch (noteType)
+                            switch (notification.Activity)
                             {
                                 #region check_status / checklist completed on the device
                                 case "check_status":
@@ -2180,7 +2133,7 @@ namespace eFormCore
                                             }
                                         }
 
-                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        sqlController.NotificationProcessed(notification.Id, "processed");
                                         break;
                                     }
                                 #endregion
@@ -2193,7 +2146,7 @@ namespace eFormCore
                                         HandleCaseRetrived(cDto, EventArgs.Empty);
                                         TriggerMessage(cDto.ToString() + " has been retrived");
 
-                                        sqlController.NotificationProcessed(notificationStr, "processed");
+                                        sqlController.NotificationProcessed(notification.Id, "processed");
                                         break;
                                     }
                                 #endregion
@@ -2207,23 +2160,23 @@ namespace eFormCore
                                         {
                                             Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
                                             sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
-                                            sqlController.NotificationProcessed(notificationStr, "processed");
+                                            sqlController.NotificationProcessed(notification.Id, "processed");
                                         } catch
                                         {
-                                            sqlController.NotificationProcessed(notificationStr, "processed");
+                                            sqlController.NotificationProcessed(notification.Id, "processed");
                                         }
                                         break;
                                     }
                                 #endregion
 
                                 default:
-                                    throw new IndexOutOfRangeException("Notification type '" + noteType + "' is not known or mapped");
+                                    throw new IndexOutOfRangeException("Notification activity '" + notification.Activity + "' is not known or mapped");
                             }
                         }
                         catch (Exception ex)
                         {
                             HandleEventWarning("CoreHandleUpdateNotifications failed. Case:'" + noteUId + "' marked as 'not_found'. " + ex.Message, EventArgs.Empty);
-                            sqlController.NotificationProcessed(notificationStr, "not_found");
+                            sqlController.NotificationProcessed(notification.Id, "not_found");
                         }
                     }
                     #endregion
@@ -2350,67 +2303,6 @@ namespace eFormCore
             {
                 TriggerWarning     (ex.Message);
                 TriggerHandleExpection("CoreHandleUpdateEntityItems failed", ex, true);
-            }
-        }
-
-        private void    CoreHandleEventClient(object sender, EventArgs args)
-        {
-            try
-            {
-                lock (_lockEventClient)
-                {
-                    TriggerLog("Client # " + sender.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CoreHandleEventClient failed", ex, false);
-            }
-        }
-
-        private void    CoreHandleEventServer(object sender, EventArgs args)
-        {
-            try
-            {
-                lock (_lockEventServer)
-                {
-                    string reply = sender.ToString();
-                    TriggerLog("Server # " + reply);
-
-                    if (reply.Contains("-update\",\"data"))
-                    {
-                        if (reply.Contains("\"id\\\":"))
-                        {
-                            string mUId = t.Locate(reply, "microting_uuid\\\":\\\"", "\\");
-                            string nfId = t.Locate(reply, "\"id\\\":", ",");
-
-                            sqlController.NotificationCreate(mUId, reply);
-                            subscriber.ConfirmId(nfId);
-                        }
-                    }
-
-                    //checks if there already are unprocessed files and notifications in the system
-                    CoreHandleUpdateDatabases();
-                }
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CoreHandleEventServer failed", ex, true);
-            }
-        }
-
-        private void    CoreHandleEventLog(object sender, EventArgs args)
-        {
-            try
-            {
-                lock (_lockEventMessage)
-                {
-                    TriggerLog("Log    # " + sender.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                TriggerHandleExpection("CoreHandleEventMessage failed", ex, true);
             }
         }
         #endregion

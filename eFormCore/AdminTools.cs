@@ -11,7 +11,7 @@ namespace eFormCore
     {
         #region var
         string connectionString;
-        SqlController sqlCon;
+        SqlController sqlController;
         Tools t = new Tools();
         #endregion
 
@@ -19,7 +19,7 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlCon = new SqlController(serverConnectionString);
+            sqlController = new SqlController(serverConnectionString);
         }
         #endregion
 
@@ -121,27 +121,27 @@ namespace eFormCore
         {
             string reply = "";
 
-            Communicator communicator = GetCommunicator();
+            Communicator communicator = new Communicator(sqlController);
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
-            List<string> lstCaseMUIds = sqlCon.UnitTest_FindAllActiveCases();
+            List<string> lstCaseMUIds = sqlController.UnitTest_FindAllActiveCases();
             foreach (string mUId in lstCaseMUIds)
             {
                 try
                 {
-                    var aCase = sqlCon.CaseReadByMUId(mUId);
+                    var aCase = sqlController.CaseReadByMUId(mUId);
                     if (aCase != null)
                     {
                         communicator.Delete(mUId, aCase.SiteUId);
 
                         try
                         {
-                            sqlCon.CaseDelete(mUId);
+                            sqlController.CaseDelete(mUId);
                         }
                         catch
                         {
-                            sqlCon.CaseDeleteReversed(mUId);
+                            sqlController.CaseDeleteReversed(mUId);
                         }
                     }
                 }
@@ -158,16 +158,16 @@ namespace eFormCore
         {
             string reply = "";
 
-            Communicator communicator = GetCommunicator();
+            Communicator communicator = new Communicator(sqlController);
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
-            List<string> lstEntityMUIds = sqlCon.UnitTest_FindAllActiveEntities();
+            List<string> lstEntityMUIds = sqlController.UnitTest_FindAllActiveEntities();
             foreach (string mUId in lstEntityMUIds)
             {
                 try
                 {
-                    string type = sqlCon.EntityGroupDelete(mUId);
+                    string type = sqlController.EntityGroupDelete(mUId);
                     if (type != null)
                         communicator.EntityGroupDelete(type, mUId);
                 }
@@ -186,26 +186,26 @@ namespace eFormCore
             {
                 RetractEforms();
 
-                sqlCon.UnitTest_TruncateTable(typeof(cases).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(case_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(cases).Name);
+                sqlController.UnitTest_TruncateTable(typeof(case_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(check_list_sites).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(check_list_site_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_list_sites).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_list_site_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(check_list_values).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(check_list_value_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_list_values).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_list_value_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(field_values).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(field_value_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(field_values).Name);
+                sqlController.UnitTest_TruncateTable(typeof(field_value_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(uploaded_data).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(uploaded_data).Name);
+                sqlController.UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(outlook).Name);
+                sqlController.UnitTest_TruncateTable(typeof(outlook).Name);
                 //---
 
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(notifications).Name);
+                sqlController.UnitTest_TruncateTable(typeof(notifications).Name);
 
                 return "";
             }
@@ -221,17 +221,17 @@ namespace eFormCore
             {
                 RetractEntities();
 
-                sqlCon.UnitTest_TruncateTable(typeof(entity_groups).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(entity_group_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(entity_groups).Name);
+                sqlController.UnitTest_TruncateTable(typeof(entity_group_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(entity_items).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(entity_item_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(entity_items).Name);
+                sqlController.UnitTest_TruncateTable(typeof(entity_item_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(check_lists).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(check_list_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_lists).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_list_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(fields).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(field_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(fields).Name);
+                sqlController.UnitTest_TruncateTable(typeof(field_versions).Name);
 
                 return "";
             }
@@ -245,7 +245,7 @@ namespace eFormCore
         {
             string reply = "";
 
-            Communicator communicator = GetCommunicator();
+            Communicator communicator = new Communicator(sqlController);
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
@@ -261,67 +261,61 @@ namespace eFormCore
         {
             try
             {
-                #region prime db
-                sqlCon = null;
-                sqlCon = new SqlController(connectionString);
-                Communicator communicator = GetCommunicator("https://srv05.microting.com", token, "1234567890", "https://basic.microting.com");
-
-                if (communicator == null)
-                    return "Failed to create a communicator. Action canceled. Database has not loaded sites";
-                #endregion
+                sqlController = new SqlController(connectionString);
+                Communicator communicator = new Communicator(sqlController);
 
                 #region configure db
-                if (!bool.Parse(sqlCon.SettingRead("firstRunDone")))
+                if (!bool.Parse(sqlController.SettingRead(Settings.firstRunDone)))
                 {
-                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote();
-                    sqlCon.SettingUpdate("comToken", token);
-                    sqlCon.SettingUpdate("comAddress", organizationDto.ComAddress);
-                    sqlCon.SettingUpdate("comAddressBasic", organizationDto.ComAddressBasic);
-                    sqlCon.SettingUpdate("organizationId", organizationDto.OrganizationUid.ToString());
-                    sqlCon.SettingUpdate("subscriberToken", organizationDto.SubscriberToken);
-                    sqlCon.SettingUpdate("subscriberAddress", organizationDto.SubscriberAddress);
-                    sqlCon.SettingUpdate("subscriberName", organizationDto.SubscriberName);
-                    sqlCon.SettingUpdate("awsEndPoint", organizationDto.AwsEndPoint);
-                    sqlCon.SettingUpdate("awsId", organizationDto.AwsId);
-                    sqlCon.SettingUpdate("awsKey", organizationDto.AwsKey);
-                    sqlCon.SettingUpdate("unitLicenseNumber", organizationDto.UnitLicenseNumber.ToString());
+                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
+                    sqlController.SettingUpdate(Settings.token, token);
+                    sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
+                    sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
+                    sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
+                    sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
+                    sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
+                    sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
+                    sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
 
-                    sqlCon.SettingUpdate("firstRunDone", "true");
+                    sqlController.SettingUpdate(Settings.firstRunDone, "true");
                 }
                 #endregion
 
+                sqlController = new SqlController(connectionString);
+                communicator = new Communicator(sqlController);
+
                 #region add site's data to db
-                if (!bool.Parse(sqlCon.SettingRead("knownSitesDone")))
+                if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
                 {
-                    sqlCon.UnitTest_TruncateTable(typeof(sites).Name);
+                    sqlController.UnitTest_TruncateTable(typeof(sites).Name);
                     foreach (var item in communicator.SiteLoadAllFromRemote())
                     {
-                        SiteName_Dto siteDto = sqlCon.SiteRead(item.SiteUId);
+                        SiteName_Dto siteDto = sqlController.SiteRead(item.SiteUId);
                         if (siteDto == null)
                         {
-                            sqlCon.SiteCreate(item.SiteUId, item.SiteName);
+                            sqlController.SiteCreate(item.SiteUId, item.SiteName);
                         }
                     }
 
-                    sqlCon.UnitTest_TruncateTable(typeof(workers).Name);
+                    sqlController.UnitTest_TruncateTable(typeof(workers).Name);
                     foreach (var item in communicator.WorkerLoadAllFromRemote())
                     {
-                        Worker_Dto workerDto = sqlCon.WorkerRead(item.WorkerUId);
+                        Worker_Dto workerDto = sqlController.WorkerRead(item.WorkerUId);
                         if (workerDto == null)
                         {
-                            sqlCon.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
+                            sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
                         }
                     }
 
-                    sqlCon.UnitTest_TruncateTable(typeof(site_workers).Name);
+                    sqlController.UnitTest_TruncateTable(typeof(site_workers).Name);
                     foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
                     {
-                        Site_Worker_Dto siteWorkerDto = sqlCon.SiteWorkerRead(item.MicrotingUId, null, null);
+                        Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
                         if (siteWorkerDto == null)
                         {
                             try
                             {
-                                sqlCon.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
+                                sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
                             }
                             catch
                             {
@@ -332,17 +326,17 @@ namespace eFormCore
                     }
 
 
-                    int customerNo = int.Parse(sqlCon.SettingRead("organizationId"));
+                    int customerNo = int.Parse(sqlController.SettingRead(Settings.comOrganizationId));
 
-                    sqlCon.UnitTest_TruncateTable(typeof(units).Name);
+                    sqlController.UnitTest_TruncateTable(typeof(units).Name);
                     foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
                     {
-                        Unit_Dto unitDto = sqlCon.UnitRead(item.UnitUId);
+                        Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);
                         if (unitDto == null)
                         {
                             try
                             {
-                                sqlCon.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
+                                sqlController.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
                             }
                             catch
                             {
@@ -351,7 +345,7 @@ namespace eFormCore
 
                         }
                     }
-                    sqlCon.SettingUpdate("knownSitesDone", "true");
+                    sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 }
                 #endregion
 
@@ -365,7 +359,7 @@ namespace eFormCore
 
         public bool   DbSetupCompleted()
         {
-            return sqlCon.SettingCheck();
+            return sqlController.SettingCheck();
         }
         #endregion
 
@@ -374,53 +368,30 @@ namespace eFormCore
         {
             try
             {
-                sqlCon.UnitTest_TruncateTable(typeof(sites).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(site_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(sites).Name);
+                sqlController.UnitTest_TruncateTable(typeof(site_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(site_workers).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(site_worker_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(site_workers).Name);
+                sqlController.UnitTest_TruncateTable(typeof(site_worker_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(units).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(unit_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(units).Name);
+                sqlController.UnitTest_TruncateTable(typeof(unit_versions).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(workers).Name);
-                sqlCon.UnitTest_TruncateTable(typeof(worker_versions).Name);
+                sqlController.UnitTest_TruncateTable(typeof(workers).Name);
+                sqlController.UnitTest_TruncateTable(typeof(worker_versions).Name);
                 //---
 
 
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(settings).Name);
+                sqlController.UnitTest_TruncateTable(typeof(settings).Name);
                 //---
-                sqlCon.UnitTest_TruncateTable(typeof(field_types).Name);
+                sqlController.UnitTest_TruncateTable(typeof(field_types).Name);
 
                 return "";
             }
             catch (Exception ex)
             {
                 return t.PrintException(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        private Communicator GetCommunicator(string address, string token, string organizationId, string addressBasic)
-        {
-            Communicator communicator = new Communicator(address, token, organizationId, addressBasic);
-            return communicator;
-        }
-
-        private Communicator GetCommunicator()
-        {
-            try
-            {
-                string address =        sqlCon.SettingRead("comAddress");
-                string token =          sqlCon.SettingRead("comToken");
-                string organizationId = sqlCon.SettingRead("organizationId");
-                string addressBasic =   sqlCon.SettingRead("comAddressBasic");
-
-                return GetCommunicator(address, token, organizationId, addressBasic);
-            }
-            catch
-            {
-                return null;
             }
         }
         #endregion

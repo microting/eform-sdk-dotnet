@@ -13,8 +13,6 @@ namespace eFormSqlController
     public class SqlController
     {
         #region var
-        int numberOfSettings = 15;
-
         List<Holder> converter;
         object _lockQuery = new object();
         string connectionStr;
@@ -38,12 +36,11 @@ namespace eFormSqlController
         private void PrimeDb()
         {
             try
-            #region checks number of settings. 
+            #region checks database connectionString works
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (db.settings.Count() == numberOfSettings)
-                        return;
+                    db.settings.Count();
                 }
             }
             #endregion
@@ -65,37 +62,40 @@ namespace eFormSqlController
             }
             #endregion
 
-            try
+            if (SettingCheck())
+                return;
+
             #region prime db
+            try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (db.settings.Count() != numberOfSettings)
+                    if (db.settings.Count() != Enum.GetNames(typeof(Settings)).Length)
                     {
                         #region prime Settings
                         UnitTest_TruncateTable(typeof(settings).Name);
 
-                        SettingAdd(1, "firstRunDone");
-                        SettingAdd(2, "knownSitesDone");
-                        SettingAdd(3, "comAddressBasic");
-                        SettingAdd(4, "logLevel");
-                        SettingAdd(5, "fileLocation");
-                        SettingAdd(6, "comToken");
-                        SettingAdd(7, "comAddress");
-                        SettingAdd(8, "organizationId");
-                        SettingAdd(9, "subscriberToken");
-                        SettingAdd(10, "subscriberAddress");
-                        SettingAdd(11, "subscriberName");
-                        SettingAdd(12, "awsEndPoint");
-                        SettingAdd(13, "awsId");
-                        SettingAdd(14, "awsKey");
-                        SettingAdd(15, "unitLicenseNumber");
+                        SettingCreate(Settings.firstRunDone         , 1);
+                        SettingCreate(Settings.knownSitesDone       , 2);
+                        SettingCreate(Settings.logLevel             , 3);
+                        SettingCreate(Settings.fileLocation         , 4);
+                        SettingCreate(Settings.token                , 5);
+                        SettingCreate(Settings.comAddressBasic      , 6);
+                        SettingCreate(Settings.comAddressApi        , 7);
+                        SettingCreate(Settings.comOrganizationId    , 8);
+                        SettingCreate(Settings.awsAccessKeyId       , 9);
+                        SettingCreate(Settings.awsSecretAccessKey   , 10);
+                        SettingCreate(Settings.awsEndPoint          , 11);
+                        SettingCreate(Settings.unitLicenseNumber    , 12);
 
-                        SettingUpdate("firstRunDone", "false");
-                        SettingUpdate("knownSitesDone", "false");
-                        SettingUpdate("comAddressBasic", "https://basic.microting.com");
-                        SettingUpdate("logLevel", "true");
-                        SettingUpdate("fileLocation", "dataFolder/");
+                        SettingUpdate(Settings.firstRunDone, "false");
+                        SettingUpdate(Settings.knownSitesDone, "false");
+                        SettingUpdate(Settings.logLevel, "true");
+                        SettingUpdate(Settings.fileLocation, "defaultDataFolder/");
+                        SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                        SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
+                        SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
+                        SettingUpdate(Settings.comOrganizationId, "0");
                         #endregion
                     }
 
@@ -1231,23 +1231,24 @@ namespace eFormSqlController
         #endregion
 
         #region notification
-        public void                 NotificationCreate(string microtingUId, string transmission)
+        public void                 NotificationCreate(string notificationUId, string microtingUId, string activity)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (db.notifications.Count(x => x.transmission == transmission) == 0)
+                    if (db.notifications.Count(x => x.notification_uid == notificationUId) == 0)
                     {
-                        notifications aNoti = new notifications();
+                        notifications aNote = new notifications();
 
-                        aNoti.microting_uid = microtingUId;
-                        aNoti.transmission = transmission;
-                        aNoti.workflow_state = "created";
-                        aNoti.created_at = DateTime.Now;
-                        aNoti.updated_at = DateTime.Now;
+                        aNote.workflow_state = "created";
+                        aNote.created_at = DateTime.Now;
+                        aNote.updated_at = DateTime.Now;
+                        aNote.notification_uid = notificationUId;
+                        aNote.microting_uid = microtingUId;
+                        aNote.activity = activity;
 
-                        db.notifications.Add(aNoti);
+                        db.notifications.Add(aNote);
                         db.SaveChanges();
                     }
 
@@ -1256,11 +1257,11 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("NotificationRead failed", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
 
-        public string               NotificationRead()
+        public Note_Dto             NotificationReadFirst()
         {
             try
             {
@@ -1269,24 +1270,27 @@ namespace eFormSqlController
                     notifications aNoti = db.notifications.FirstOrDefault(x => x.workflow_state == "created");
 
                     if (aNoti != null)
-                        return aNoti.transmission;
+                    {
+                        Note_Dto aNote = new Note_Dto(aNoti.notification_uid, aNoti.microting_uid, aNoti.activity);
+                        return aNote;
+                    }
                     else
-                        return "";
+                        return null;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("NotificationRead failed", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
 
-        public void                 NotificationProcessed(string transmission, string workflowState)
+        public void                 NotificationProcessed(string notificationUId, string workflowState)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    notifications aNoti = db.notifications.Single(x => x.transmission == transmission);
+                    notifications aNoti = db.notifications.Single(x => x.notification_uid == notificationUId);
                     aNoti.workflow_state = workflowState;
                     aNoti.updated_at = DateTime.Now;
 
@@ -1295,7 +1299,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("NotificationProcessed failed", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
         #endregion
@@ -2573,36 +2577,50 @@ namespace eFormSqlController
         #endregion
 
         #region public setting
-        public string   SettingRead(string variableName)
+        private void    SettingCreate(Settings name, int id)
+        {
+            using (var db = new MicrotingDb(connectionStr))
+            {
+                settings set = new settings();
+                set.id = id;
+                set.name = name.ToString();
+                set.value = "";
+
+                db.settings.Add(set);
+                db.SaveChanges();
+            }
+        }
+
+        public string   SettingRead  (Settings name)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    settings match = db.settings.Single(x => x.name == variableName);
+                    settings match = db.settings.Single(x => x.name == name.ToString());
                     return match.value;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("SettingGet failed.", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
 
-        public void     SettingUpdate(string variableName, string variableValue)
+        public void     SettingUpdate(Settings name, string newValue)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    settings match = db.settings.Single(x => x.name == variableName);
-                    match.value = variableValue;
+                    settings match = db.settings.Single(x => x.name == name.ToString());
+                    match.value = newValue;
                     db.SaveChanges();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("SettingUpdate failed.", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
 
@@ -2618,7 +2636,7 @@ namespace eFormSqlController
                     if (countVal > 0)
                         return false;
 
-                    if (countSet < numberOfSettings)
+                    if (countSet < Enum.GetNames(typeof(Settings)).Length)
                         return false;
 
                     return true;
@@ -2626,7 +2644,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("SettingUpdate failed.", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
         #endregion
@@ -3764,7 +3782,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    FieldTypeAdd(int id, string fieldType, string description)
+        private void            FieldTypeAdd(int id, string fieldType, string description)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -3777,20 +3795,22 @@ namespace eFormSqlController
                 db.SaveChanges();
             }
         }
-
-        private void    SettingAdd(int id, string name)
-        {
-            using (var db = new MicrotingDb(connectionStr))
-            {
-                settings set = new settings();
-                set.id = id;
-                set.name = name;
-                set.value = "";
-
-                db.settings.Add(set);
-                db.SaveChanges();
-            }
-        }
         #endregion
+    }
+
+    public enum Settings
+    {
+        firstRunDone,
+        knownSitesDone,
+        logLevel,
+        fileLocation,
+        token,
+        comAddressBasic,
+        comAddressApi,
+        comOrganizationId,
+        awsAccessKeyId,
+        awsSecretAccessKey,
+        awsEndPoint,
+        unitLicenseNumber
     }
 }

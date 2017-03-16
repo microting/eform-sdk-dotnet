@@ -21,30 +21,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-using WebSocketSharp;
 using eFormShared;
+using eFormSqlController;
 
 using System;
-using System.IO;
-using System.Net;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Amazon.SQS;
+using Amazon.Runtime;
+using Amazon;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace eFormSubscriber
 {
     public class Subscriber
     {
-        #region events
-        public event EventHandler EventMsgClient;
-        public event EventHandler EventMsgServer;
-        #endregion
-
         #region var
-        WebSocket _ws;
-        bool keepSubscribed, keepConnectionAlive, isRunning;
-        string authToken, address, token, clientId, name;
-        int numberOfMessages;
-        object _lock;
+        SqlController sqlController;
+        bool keepSubscribed;
+        bool isActive;
+        Thread subscriberThread;
         Tools t = new Tools();
         #endregion
 
@@ -55,63 +54,42 @@ namespace eFormSubscriber
         /// <param name="token">Your company's notification server access token.</param>
         /// <param name="address">Microting's notification server address.</param>
         /// <param name="name">Your name, as shown on the notification server.</param>
-        public Subscriber(string token, string address, string name)
+        public Subscriber(SqlController sqlController)
         {
-            this.token = token;
-            this.address = address;
-            this.name = name;
-            #region CheckInput token & serverAddress
-            string errorsFound = "";
-
-            if (token.Length != 32)
-            {
-                errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
-            }
-
-            if (address.Contains("http://") || address.Contains("https://"))
-            {
-                errorsFound += "Server Address must not contain 'http://' or 'https://'" + Environment.NewLine;
-            }
-
-            if (errorsFound != "")
-                throw new InvalidOperationException(errorsFound.TrimEnd());
-            #endregion
-
-            isRunning = false;
+            this.sqlController = sqlController;
         }
         #endregion
 
-        #region public
+        #region public state
         /// <summary>
-        /// Starts a notification subscriber to Microting. Messages from the Microting and the subscriber trigger events.
+        /// Starts a Notification Subscriber to Microting
         /// </summary>
         public void Start()
         {
-            if (!isRunning)
+            if (!isActive)
             {
-                Thread subscriberThread = new Thread(() => ProgramThread());
+                subscriberThread = new Thread(() => SubriberThread());
                 subscriberThread.Start();
-
-                EventMsgClient("Subscriber started", null);
             }
         }
 
         /// <summary>
-        /// Sends the close command to the notification subscriber to Microting.
+        /// Sends the close command to the Notification Subscriber
         /// </summary>
         public void Close()
         {
             try
             {
-                EventMsgClient("Subscriber is trying to close connection", null);
-
-                keepConnectionAlive = false;
                 keepSubscribed = false;
+                int tries = 0;
 
-                if (isRunning)
+                while (isActive)
                 {
-                    while (isRunning)
-                        Thread.Sleep(100);
+                    if (tries > 200) //50 secs
+                        subscriberThread.Abort();
+
+                    Thread.Sleep(250);
+                    tries++;
                 }
             }
             catch
@@ -125,178 +103,66 @@ namespace eFormSubscriber
         /// </summary>
         public bool IsActive()
         {
-            return isRunning;
-        }
-
-        /// <summary>
-        /// Informs the notification server, that message has been recieved.
-        /// </summary>
-        /// <param name="notificationId">Id of message that is confirmed recieved from the notification server.</param>
-        public void ConfirmId(string notificationId)
-        {
-            string command = "[{\"channel\":\"/meta/done_msg\",\"data\":\"{\\\"token\\\":\\\"" + token + "\\\",\\\"notification_id\\\":" + notificationId + "}\",\"clientId\":\"" + clientId + "\",\"id\":\"" + numberOfMessages + "\"}]";
-            SendToServer(command);
-        }
-        #endregion
-
-        #region internal
-        internal void ReplyFromServer(string msg)
-        {
-            if (msg.StartsWith("WebSocket Error") || msg.StartsWith("WebSocket Close"))
-            {
-                keepConnectionAlive = false; //will restart connection
-                EventMsgClient(msg, EventArgs.Empty);
-            }
-            else
-                EventMsgServer(msg, EventArgs.Empty);
-        }
-
-        internal void RequestToServer(string msg)
-        {
-            EventMsgClient(msg, EventArgs.Empty);
+            return isActive;
         }
         #endregion
 
         #region private
-        private void ProgramThread()
+        private void SubriberThread()
         {
-            isRunning = true;
+            #region setup
+            isActive = true;
             keepSubscribed = true;
+
+            string awsAccessKeyId = sqlController.SettingRead(Settings.awsAccessKeyId);
+            string awsSecretAccessKey = sqlController.SettingRead(Settings.awsSecretAccessKey);
+            string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token);
+            
+            var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
+            DateTime lastExpection = DateTime.MinValue;
+            DateTime lastCheckAdd15s;
+            #endregion
+
             while (keepSubscribed)
             {
                 try
                 {
-                    EventMsgClient("Subscriber connecting", null);
+                    lastCheckAdd15s = DateTime.Now.AddSeconds(15);
+                    var res = sqsClient.ReceiveMessage(awsQueueUrl);
 
-                    numberOfMessages = 1;
-                    _lock = new object();
-
-                    #region get auth token
-                    string html = string.Empty;
-                    string url = @"https://" + address + ":443/feeds/" + token + "/read";
-                    RequestToServer("URL  = " + url);
-
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                    request.AutomaticDecompression = DecompressionMethods.GZip;
-
-                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                    using (Stream stream = response.GetResponseStream())
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        html = reader.ReadToEnd();
-                    }
-
-                    authToken = t.Locate(html, "authToken: '", "'");
-                    RequestToServer("Auth = " + authToken);
-                    #endregion
-
-                    #region keep connection to websocket
-                    using (var nf = new Notifier(this))
-                    using (var ws = new WebSocket("wss://" + address + "/faye?subscriber_id=" + name + "&token=" + token + "&host_id=" + name ))
-                    {
-                        _ws = ws;
-                        #region create nf events
-                        //ws.OnOpen += (sender, e) => ws.Send("Hi, there!");
-
-                        ws.OnMessage += (sender, e) =>
-                          nf.Notify(
-                            new NotificationMessage
-                            {
-                                Summary = "WebSocket Message",
-                                Body = !e.IsPing ? e.Data : "Received a ping.",
-                                Icon = "notification-message-im"
-                            });
-
-                        ws.OnError += (sender, e) =>
-                          nf.Notify(
-                            new NotificationMessage
-                            {
-                                Summary = "WebSocket Error",
-                                Body = e.Message,
-                                Icon = "notification-message-im"
-                            });
-
-                        ws.OnClose += (sender, e) =>
-                          nf.Notify(
-                            new NotificationMessage
-                            {
-                                Summary = string.Format("WebSocket Close ({0})", e.Code),
-                                Body = e.Reason,
-                                Icon = "notification-message-im"
-                            });
-
-                        // Connect to the server.
-                        #endregion
-                        _ws.Connect();
-
-                        Thread.Sleep(25);
-                        SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"channel\":\"/meta/handshake\",\"version\":\"1.0\",\"supportedConnectionTypes\":[\"in-process\",\"websocket\",\"long-polling\"]}]");
-
-                        #region string reply = reply from Notifier
-                        int runs = 0;
-                        string reply = nf.reply;
-                        while ("" == reply)
+                    if (res.Messages.Count > 0)
+                        foreach (var message in res.Messages)
                         {
-                            Thread.Sleep(100);
-                            reply = nf.reply;
-                            runs++;
-                            if (runs > 100) //after 10secs throws TimeoutException
-                            {
-                                throw new TimeoutException("Subscriber timed out, due to no reply to handshake.");
-                            }
+                            #region JSON -> var
+                            var parsedData = JRaw.Parse(message.Body);
+                            string notificationUId = parsedData["id"].ToString();
+                            string microtingUId = parsedData["microting_uuid"].ToString();
+                            string action = parsedData["text"].ToString();
+                            #endregion
+                            sqlController.NotificationCreate(notificationUId, microtingUId, action);
+
+                            sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
                         }
-                        #endregion
-                        clientId = t.Locate(reply, "clientId\":\"", "\"");
-                        SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/subscribe\",\"subscription\":\"" + authToken + "-update\"}]");
-
-                        Thread.Sleep(250);
-                        int timeout = int.Parse(t.Locate(reply, "\"timeout\":", "}")) - 2000;
-                        if (timeout < 100)
-                            throw new SystemException("Timeout-2s is smaller than 0.1s. Timeout=" + timeout.ToString());
-
-                        //keeping connection alive
-                        keepConnectionAlive = true;
-                        while (keepConnectionAlive && keepSubscribed)
-                        {
-                            SendToServer("[{\"id\":\"" + numberOfMessages + "\",\"clientId\":\"" + clientId + "\",\"channel\":\"/meta/connect\",\"connectionType\":\"websocket\"}]");
-                            Thread.Sleep(timeout);
-                        }
-                    }
-                    #endregion
+                    else
+                        while (lastCheckAdd15s > DateTime.Now)
+                            Thread.Sleep(500);
                 }
-                catch (Exception ex) //Logs the found expection 
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        EventMsgClient("Subscriver ## EXCEPTION ## " + ex.Message + Environment.NewLine +
-                                    ex.StackTrace + Environment.NewLine +
-                                    ex.InnerException,
-                                    null);
-                    }
-                    catch
-                    {
+                    //Log expection
 
-                    }
-                }
+                    if (DateTime.Compare(lastExpection.AddMinutes(10), DateTime.Now) > 0)
+                        keepSubscribed = false; //TODO //throw new Exception(t.GetMethodName() + " failed, more than twice in the last 10 minuts", ex);
 
-                if (keepSubscribed)
-                {
-                    EventMsgClient("Subscriber connection restarting in 10sec", null);
-                    Thread.Sleep(10000);
+                    lastExpection = DateTime.Now;
                 }
             }
-            EventMsgClient("Subscriber closed", null);
-            isRunning = false;
-        }
 
-        private void SendToServer(string command)
-        {
-            lock (_lock)
-            {
-                numberOfMessages++;
-                RequestToServer(command);
-                _ws.Send(command);
-            }
+            #region clean up
+            //EventMsgClient("Subscriber closed", null);
+            keepSubscribed = false;
+            isActive = false;
+            #endregion
         }
         #endregion
     }

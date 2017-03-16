@@ -358,6 +358,38 @@ namespace eFormShared
     }
     #endregion
 
+    #region Note_Dto
+    public class Note_Dto
+    {
+        #region con
+        public Note_Dto()
+        {
+
+        }
+
+        public Note_Dto(string id, string microtingUId, string activity)
+        {
+            Id = id;
+            MicrotingUId = microtingUId;
+            Activity = activity;
+        }
+        #endregion
+
+        #region var
+        public string Id { get; }
+
+        public string MicrotingUId { get; }
+
+        public string Activity { get; }
+        #endregion
+
+        public override string ToString()
+        {
+            return "Id:" + Id + " / MicrotingUId:" + MicrotingUId + " / Activity:" + Activity + ".";
+        }
+    }
+    #endregion
+
     #region SiteName_Dto
     public class SiteName_Dto
     {
@@ -582,91 +614,40 @@ namespace eFormShared
         #region con
         public Organization_Dto()
         {
+
         }
 
-        public Organization_Dto(int organizationUid, string name, int customerNo, int unitLicenseNumber, string awsEndPoint, string awsId, string awsKey, string comAddress, string comAddressBasic, string subscriberAddress, string subscriberToken, string subscriberName)
+        public Organization_Dto(int id, string name, int customerNo, int unitLicenseNumber, string awsAccessKeyId, string awsSecretAccessKey, string awsEndPoint, string comAddress, string comAddressBasic)
         {
-            OrganizationUid = organizationUid;
+            Id = id;
             Name = name;
             CustomerNo = customerNo;
             UnitLicenseNumber = unitLicenseNumber;
+            AwsAccessKeyId = awsAccessKeyId;
+            AwsSecretAccessKey = awsSecretAccessKey;
             AwsEndPoint = awsEndPoint;
-            AwsId = awsId;
-            AwsKey = awsKey;
-            ComAddress = comAddress;
+            ComAddressApi = comAddress;
             ComAddressBasic = comAddressBasic;
-            SubscriberAddress = subscriberAddress;
-            SubscriberToken = subscriberToken;
-            SubscriberName = subscriberName;
         }
         #endregion
 
         #region var
-        /// <summary>
-        ///...
-        /// </summary>
-        public int OrganizationUid { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
+        public int Id { get; }
         public string Name { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
         public int CustomerNo { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
         public int UnitLicenseNumber { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
+        public string AwsAccessKeyId { get; }
+        public string AwsSecretAccessKey { get; }
         public string AwsEndPoint { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string AwsId { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string AwsKey { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string ComAddress { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
+        public string ComAddressApi { get; }
         public string ComAddressBasic { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string SubscriberAddress { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string SubscriberToken { get; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string SubscriberName { get; }
-
         #endregion
 
         public override string ToString()
         {
-            return "OrganizationUid:" + OrganizationUid + " / Name:" + Name + " / CustomerNo:" + CustomerNo + " / SiteUId:" + UnitLicenseNumber + ".";
+            return "OrganizationUid:" + Id + " / Name:" + Name + " / CustomerNo:" + CustomerNo + " / UnitLicenseNumber:" + UnitLicenseNumber
+                + " / AwsAccessKeyId:" + AwsAccessKeyId + " / AwsSecretAccessKey:" + AwsSecretAccessKey + " / AwsEndPoint:" + AwsEndPoint
+                + " / ComAddress:" + ComAddressApi + " / ComAddressBasic:" + ComAddressBasic + " / SubscriberAddress:" + ".";
         }
     }
     #endregion

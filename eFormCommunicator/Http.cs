@@ -44,20 +44,20 @@ namespace eFormCommunicator
         private string protocolEntitySelect = "4";
 
         private string token;
-        private string srvAdd;
-        private string comAddressBasic;
-        private string srganizationId;
+        private string addressApi;
+        private string addressBasic;
+        private string organizationId;
 
         Tools t = new Tools();
         #endregion
 
         #region con
-        internal Http(string serverAddress, string token, string organizationId, string comAddressBasic)
+        internal Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId)
         {
             this.token = token;
-            srvAdd = serverAddress;
-            srganizationId = organizationId;
-            this.comAddressBasic = comAddressBasic;
+            addressBasic = comAddressBasic;
+            addressApi = comAddressApi;
+            organizationId = comOrganizationId;
         }
         #endregion
 
@@ -70,7 +70,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/integration/?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId);
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(xmlData);
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -92,7 +92,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false");
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false");
                 request.Method = "GET";
 
                 return PostToServer(request);
@@ -112,7 +112,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/integration/" + microtingUuid + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=true&delete=false&last_check_id=" + microtingCheckUuid);
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + microtingUuid + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=true&delete=false&last_check_id=" + microtingCheckUuid);
                 request.Method = "GET";
 
                 return PostToServer(request);
@@ -131,7 +131,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=true");
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=true");
                 request.Method = "GET";
 
                 return PostToServer(request);
@@ -150,7 +150,7 @@ namespace eFormCommunicator
             {
                 string xmlData = "<EntityTypes><EntityType><Name>" + name + "</Name><Id>" + id + "</Id></EntityType></EntityTypes>";
 
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/entity_app/entity_types?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + srganizationId);
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + organizationId);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(xmlData);
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -173,7 +173,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/entity_app/entity_types/" + entityGroupId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + srganizationId);
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types/" + entityGroupId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + organizationId);
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
@@ -198,7 +198,7 @@ namespace eFormCommunicator
                 "<Id>" + id + "</Id>" + 
                 "</Entity></Entities>";
 
-            WebRequest request = WebRequest.Create(srvAdd + "/gwt/entity_app/entities?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + srganizationId);
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + organizationId);
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(xmlData);
             request.ContentType = "application/x-www-form-urlencoded";
@@ -220,7 +220,7 @@ namespace eFormCommunicator
                 "<Id>" + id + "</Id>" +
                 "</Entity></Entities>";
 
-            WebRequest request = WebRequest.Create(srvAdd + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + srganizationId);
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + organizationId);
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(xmlData);
             request.ContentType = "application/x-www-form-urlencoded";
@@ -236,7 +236,7 @@ namespace eFormCommunicator
 
         internal bool       EntitySearchItemDelete(string entitySearchItemId)
         {
-            WebRequest request = WebRequest.Create(srvAdd + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + srganizationId);
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + organizationId);
             request.Method = "DELETE";
             request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
@@ -257,7 +257,7 @@ namespace eFormCommunicator
                 //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
                 JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id} });
 
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_item_groups.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
                 request.ContentType = "application/json; charset=utf-8";
@@ -280,7 +280,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
                 request.Method = "DELETE";
                 request.ContentType = "application/json; charset=utf-8";
 
@@ -288,7 +288,7 @@ namespace eFormCommunicator
 
                 if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
                 {
-                    WebRequest request2 = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+                    WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
                     request2.Method = "GET";
                     string responseXml2 = PostToServer(request2);
 
@@ -316,7 +316,7 @@ namespace eFormCommunicator
             //    "\", \"display_order\" : \"" + display_order + 
             //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
-            WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -340,7 +340,7 @@ namespace eFormCommunicator
             //    "\", \"display_order\" : \"" + description +
             //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
-            WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -350,7 +350,7 @@ namespace eFormCommunicator
 
             if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
             {
-                WebRequest request2 = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
                 request2.Method = "GET";
                 string responseXml2 = PostToServer(request2);
 
@@ -365,7 +365,7 @@ namespace eFormCommunicator
 
         internal bool       EntitySelectItemDelete(string entitySelectItemId)
         {
-            WebRequest request = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
             request.Method = "DELETE";
             request.ContentType = "application/json; charset=utf-8";
 
@@ -373,7 +373,7 @@ namespace eFormCommunicator
 
             if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
             {
-                WebRequest request2 = WebRequest.Create(srvAdd + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + srganizationId);
+                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
                 request2.Method = "GET";
                 string responseXml2 = PostToServer(request2);
 
@@ -391,7 +391,7 @@ namespace eFormCommunicator
         internal string     SiteCreate(string name)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name });
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -410,7 +410,7 @@ namespace eFormCommunicator
         internal bool       SiteUpdate(int id, string name)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name });
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites/" + id + "?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/sites/" + id + "?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -428,7 +428,7 @@ namespace eFormCommunicator
 
         internal string     SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/sites?token=" + token);
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/sites?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -439,7 +439,7 @@ namespace eFormCommunicator
         internal string     WorkerCreate(string firstName, string lastName, string email)
         {
             JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -458,7 +458,7 @@ namespace eFormCommunicator
         internal bool       WorkerUpdate(int id, string firstName, string lastName, string email)
         {
             JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users/" + id + "?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/users/" + id + "?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -476,7 +476,7 @@ namespace eFormCommunicator
 
         internal string     WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/users?token=" + token);
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/users?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -487,7 +487,7 @@ namespace eFormCommunicator
         internal string     SiteWorkerCreate(int siteId, int workerId)
         {
             JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString());
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -515,7 +515,7 @@ namespace eFormCommunicator
 
         internal string     SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/workers?token=" + token);
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -526,7 +526,7 @@ namespace eFormCommunicator
         internal int        UnitRequestOtp(int id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { unit_id = id } });
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/units/"+id+"?token=" + token + "&new_otp=true" + "&model=" + content_to_microting.ToString());
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/units/"+id+"?token=" + token + "&new_otp=true" + "&model=" + content_to_microting.ToString());
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -544,7 +544,7 @@ namespace eFormCommunicator
 
         internal string     UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/units?token=" + token);
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/units?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);
@@ -554,7 +554,7 @@ namespace eFormCommunicator
         #region internal Organization
         internal string OrganizationLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(comAddressBasic + "/v1/organizations?token=" + token);
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/organizations?token=" + token);
             request.Method = "GET";
 
             return PostToServer(request);

@@ -23,7 +23,9 @@ SOFTWARE.
 */
 
 using eFormShared;
+using eFormSqlController;
 using Newtonsoft.Json.Linq;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,56 +34,51 @@ namespace eFormCommunicator
 {
     public class Communicator
     {
-        #region event
-        internal void TriggerEventLog(string message)
-        {
-            System.EventHandler handler = EventLog;
-            if (handler != null)
-            {
-                handler(message, EventArgs.Empty);
-            }
-        }
-        #endregion
-
         #region var
-        public event EventHandler EventLog;
         public object _lockSending = new object();
-
         Http http;
+        SqlController sqlController;
         #endregion
 
         #region con
         /// <summary>
         /// Microting XML eForm API C# DLL.
         /// </summary>
-        /// <param name="address">Microting's eForm API server address.</param>
         /// <param name="token">Your company's XML eForm API access token.</param>
-        /// <param name="organizationId">Your company's organization id.</param>
-        public Communicator(string address, string token, string organizationId, string comAddressBasic)
+        /// <param name="comAddressApi">Microting's eForm API server address.</param>
+        /// <param name="comOrganizationId">Your company's organization id.</param>
+        public Communicator(SqlController sqlController)
         {
+            this.sqlController = sqlController;
+
+            string token = sqlController.SettingRead(Settings.token);
+            string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
+            string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
+            string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
+
             #region CheckInput token & serverAddress
             string errorsFound = "";
 
             if (token.Length != 32)
                 errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
 
-            if (!address.Contains("http://") && !address.Contains("https://"))
-                errorsFound += "Server Address is missing 'http://' or 'https://'" + Environment.NewLine;
+            if (!comAddressApi.Contains("http://") && !comAddressApi.Contains("https://"))
+                errorsFound += "comAddressApi is missing 'http://' or 'https://'" + Environment.NewLine;
 
             if (!comAddressBasic.Contains("http://") && !comAddressBasic.Contains("https://"))
-                errorsFound += "Basic Com Address is missing 'http://' or 'https://'" + Environment.NewLine;
+                errorsFound += "comAddressBasic is missing 'http://' or 'https://'" + Environment.NewLine;
 
-            if (organizationId == null)
-                organizationId = "";
+            if (comOrganizationId == null)
+                comOrganizationId = "";
 
-            if (organizationId == "")
-                errorsFound += "OrganizationId is missing" + Environment.NewLine;
+            if (comOrganizationId == "")
+                errorsFound += "comOrganizationId is missing" + Environment.NewLine;
 
             if (errorsFound != "")
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(address, token, organizationId, comAddressBasic);
+            http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId);
         }
         #endregion
 
@@ -107,8 +104,8 @@ namespace eFormCommunicator
                 //Missing serverside.
                 //XML HACK
 
-                TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
-                TriggerEventLog(xmlString);
+                //TriggerEventLog("siteId:" + siteId.ToString() + ", xmlString:");
+                //TriggerEventLog(xmlString);
 
                 return http.Post(xmlString, siteId.ToString());
             }
@@ -123,7 +120,7 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+                //TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
                 return http.Status(eFormId, siteId.ToString());
             }
@@ -138,7 +135,7 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+                //TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
                 return http.Retrieve(eFormId, "0", siteId); //Always gets the first
             }
@@ -154,7 +151,7 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString() + ", eFormCheckId:" + eFormCheckId);
+                //TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString() + ", eFormCheckId:" + eFormCheckId);
 
                 return http.Retrieve(eFormId, eFormCheckId, siteId);
             }
@@ -169,7 +166,7 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
+                //TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
                 return http.Delete(eFormId, siteId.ToString());
             }
@@ -331,22 +328,21 @@ namespace eFormCommunicator
         #endregion
 
         #region public organization      
-        public Organization_Dto OrganizationLoadAllFromRemote()
+        public Organization_Dto OrganizationLoadAllFromRemote(string token)
         {
-            JToken orgResult = JRaw.Parse(http.OrganizationLoadAllFromRemote());
+            Http specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "666");
+
+            JToken orgResult = JRaw.Parse(specialHttp.OrganizationLoadAllFromRemote());
 
             Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()),
                 orgResult.First.First["name"].ToString(),
                 int.Parse(orgResult.First.First["customer_no"].ToString()),
-            int.Parse(orgResult.First.First["unit_license_number"].ToString()),
-                orgResult.First.First["aws_endpoint"].ToString(),
+                int.Parse(orgResult.First.First["unit_license_number"].ToString()),
                 orgResult.First.First["aws_id"].ToString(),
                 orgResult.First.First["aws_key"].ToString(),
+                orgResult.First.First["aws_endpoint"].ToString(),
                 orgResult.First.First["com_address"].ToString(),
-                orgResult.First.First["com_address_basic"].ToString(),
-                orgResult.First.First["subscriber_address"].ToString(),
-                orgResult.First.First["subscriber_token"].ToString(),
-                orgResult.First.First["subscriber_name"].ToString());
+                orgResult.First.First["com_address_basic"].ToString());
 
             return organizationDto;
         }

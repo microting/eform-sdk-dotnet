@@ -71,7 +71,7 @@
       <Name>eFormSqlController</Name>
     </ProjectReference>
     <ProjectReference Include="..\eFormSubscriber\eFormSubscriber.csproj">
-      <Project>{ad0bb980-6dc6-4860-801a-b6373934b629}</Project>
+      <Project>{7008b919-f965-4081-88b6-7004bb31d2ba}</Project>
       <Name>eFormSubscriber</Name>
     </ProjectReference>
   </ItemGroup>
