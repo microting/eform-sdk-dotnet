@@ -47,18 +47,15 @@ namespace eFormSqlController
             catch (Exception ex)
             #region if failed, will try to update context
             {
-                if (ex.Message.Contains("context has changed"))
+                if (ex.Message.Contains("context has changed") || ex.Message.Contains("'cases'"))
                 {
                     var configuration = new Configuration();
                     configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
                     var migrator = new DbMigrator(configuration);
                     migrator.Update();
                 }
-                else
-                {
-                    if (!ex.Message.Contains("'cases'"))
-                        throw ex;
-                }
+                else         
+                    throw ex;
             }
             #endregion
 
