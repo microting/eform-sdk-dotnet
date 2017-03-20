@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Microting.eForm</id>
-    <version>1.4.2</version>
+    <version>1.5.0</version>
     <authors>Microting A/S</authors>
     <owners>Microting A/S</owners>
     <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Adding missing field_type as string on FieldDto. Adding fixes for generating CSV.</releaseNotes>
+    <releaseNotes>Making all methods for advanced purposes to be prefixed with advanced..</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="9.0.1"/>
@@ -26,6 +26,5 @@
 	<file src="Compiled\eFormShared.dll" target="lib"/>
 	<file src="Compiled\eFormSqlController.dll" target="lib"/>
 	<file src="Compiled\eFormSubscriber.dll" target="lib"/>
-	<file src="Compiled\websocket-sharp.dll" target="lib"/>
   </files>
 </package>

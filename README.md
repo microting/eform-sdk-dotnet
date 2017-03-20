@@ -46,6 +46,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.0 *(March 17th 2017)*
+	- Making all methods for advanced purposes to be prefixed with advanced.
+
   - Version 1.4.1 *(March 8th 2017)*
 	- Fixing the string length of description on check_lists and fields.
 

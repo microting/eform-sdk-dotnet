@@ -1947,6 +1947,11 @@ namespace eFormCore
                     Thread.Sleep(500);
                 }
             }
+            catch (ThreadAbortException) {
+                coreRunning = false;
+                coreStatChanging = false;
+                TriggerWarning("CoreHandleUpdateDatabases() catch of ThreadAbortException");
+            }
             catch (Exception ex)
             {
                 coreRunning = false;
