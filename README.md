@@ -46,6 +46,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.1.2 *(March 22th 2017)*
+	- Fixing binding issue for deleting site internally.
+
   - Version 1.5.1.1 *(March 22th 2017)*
 	- Fixing API endpoint timeout.
 
