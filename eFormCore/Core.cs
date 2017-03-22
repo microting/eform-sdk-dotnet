@@ -1511,7 +1511,7 @@ namespace eFormCore
 
                     if (siteWorkerDto == null)
                     {
-                        sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
+                        sqlController.SiteWorkerCreate(result.MicrotingUId, siteDto.SiteUId, workerDto.WorkerUId);
                     }
 
                     return Advanced_SiteWorkerRead(result.WorkerUId, null, null);
