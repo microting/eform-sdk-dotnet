@@ -2075,7 +2075,9 @@ namespace eFormSqlController
                     site_workers site_worker = null;
                     if (microtingUid == null)
                     {
-                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == siteId && x.worker_id == workerId);
+                        sites site = db.sites.Single(x => x.microting_uid == siteId);
+                        workers worker = db.workers.Single(x => x.microting_uid == workerId);
+                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == site.id && x.worker_id == worker.id);
                     } else
                     {
                         site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
