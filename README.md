@@ -46,7 +46,13 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
-  - Version 1.5.0 *(March 17th 2017)*
+  - Version 1.5.1.1 *(March 22th 2017)*
+	- Fixing API endpoint timeout.
+
+  - Version 1.5.1 *(March 21th 2017)*
+	- Adding missing AWS dependencies.
+
+  - Version 1.5.0 *(March 20th 2017)*
 	- Making all methods for advanced purposes to be prefixed with advanced.
 
   - Version 1.4.1 *(March 8th 2017)*
