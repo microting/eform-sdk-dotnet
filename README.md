@@ -46,6 +46,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.1.4 *(March 23th 2017)*
+	- Making the prime DB not owerwrite settings if they are incorrect.
+
   - Version 1.5.1.3 *(March 23th 2017)*
 	- Fixing correct customer no saved to units table.
 
