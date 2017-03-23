@@ -35,12 +35,14 @@ namespace eFormSqlController
 
         private void PrimeDb()
         {
+            int settingsCount = 0;
+                
             try
             #region checks database connectionString works
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    db.settings.Count();
+                    settingsCount = db.settings.Count();
                 }
             }
             #endregion
@@ -59,7 +61,7 @@ namespace eFormSqlController
             }
             #endregion
 
-            if (SettingCheck())
+            if (SettingCheckAll())
                 return;
 
             #region prime db
@@ -67,61 +69,40 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (db.settings.Count() != Enum.GetNames(typeof(Settings)).Length)
+                    if (settingsCount != Enum.GetNames(typeof(Settings)).Length)
                     {
-                        #region prime Settings
-                        UnitTest_TruncateTable(typeof(settings).Name);
+                        if (settingsCount == 0)
+                        {
+                            #region prime Settings
+                            UnitTest_TruncateTable(typeof(settings).Name);
 
-                        SettingCreate(Settings.firstRunDone         , 1);
-                        SettingCreate(Settings.knownSitesDone       , 2);
-                        SettingCreate(Settings.logLevel             , 3);
-                        SettingCreate(Settings.fileLocationPicture  , 4);
-                        SettingCreate(Settings.fileLocationPdf      , 5);
-                        SettingCreate(Settings.token                , 6);
-                        SettingCreate(Settings.comAddressBasic      , 7);
-                        SettingCreate(Settings.comAddressApi        , 8);
-                        SettingCreate(Settings.comOrganizationId    , 9);
-                        SettingCreate(Settings.awsAccessKeyId       , 10);
-                        SettingCreate(Settings.awsSecretAccessKey   , 11);
-                        SettingCreate(Settings.awsEndPoint          , 12);
-                        SettingCreate(Settings.unitLicenseNumber    , 13);
+                            SettingCreate(Settings.firstRunDone, 1);
+                            SettingCreate(Settings.knownSitesDone, 2);
+                            SettingCreate(Settings.logLevel, 3);
+                            SettingCreate(Settings.fileLocationPicture, 4);
+                            SettingCreate(Settings.fileLocationPdf, 5);
+                            SettingCreate(Settings.token, 6);
+                            SettingCreate(Settings.comAddressBasic, 7);
+                            SettingCreate(Settings.comAddressApi, 8);
+                            SettingCreate(Settings.comOrganizationId, 9);
+                            SettingCreate(Settings.awsAccessKeyId, 10);
+                            SettingCreate(Settings.awsSecretAccessKey, 11);
+                            SettingCreate(Settings.awsEndPoint, 12);
+                            SettingCreate(Settings.unitLicenseNumber, 13);
 
-                        SettingUpdate(Settings.firstRunDone, "false");
-                        SettingUpdate(Settings.knownSitesDone, "false");
-                        SettingUpdate(Settings.logLevel, "true");
-                        SettingUpdate(Settings.fileLocationPicture, "DataFolder/Picture/");
-                        SettingUpdate(Settings.fileLocationPdf, "DataFolder/Pdf/");
-                        SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-                        SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
-                        SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
-                        SettingUpdate(Settings.comOrganizationId, "0");
-                        #endregion
-                    }
-
-                    if (db.field_types.Count() != 18)
-                    {
-                        #region prime FieldTypes
-                        UnitTest_TruncateTable(typeof(field_types).Name);
-
-                        FieldTypeAdd(1, "Text", "Simple text field");
-                        FieldTypeAdd(2, "Number", "Simple number field");
-                        FieldTypeAdd(3, "None", "Simple text to be displayed");
-                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
-                        FieldTypeAdd(5, "Picture", "Simple picture field");
-                        FieldTypeAdd(6, "Audio", "Simple audio field");
-                        FieldTypeAdd(7, "Movie", "Simple movie field");
-                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
-                        FieldTypeAdd(9, "Comment", "Simple comment field");
-                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
-                        FieldTypeAdd(11, "Date", "Date selection");
-                        FieldTypeAdd(12, "Signature", "Simple signature field");
-                        FieldTypeAdd(13, "Timer", "Simple timer field");
-                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
-                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
-                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
-                        FieldTypeAdd(17, "FieldGroup", "Field group");
-                        FieldTypeAdd(18, "SaveButton", "Save eForm");
-                        #endregion
+                            SettingUpdate(Settings.firstRunDone, "false");
+                            SettingUpdate(Settings.knownSitesDone, "false");
+                            SettingUpdate(Settings.logLevel, "true");
+                            SettingUpdate(Settings.fileLocationPicture, "DataFolder/Picture/");
+                            SettingUpdate(Settings.fileLocationPdf, "DataFolder/Pdf/");
+                            SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                            SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
+                            SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
+                            SettingUpdate(Settings.comOrganizationId, "0");
+                            #endregion
+                        }
+                        else
+                            throw new Exception("FATAL Exception. Settings needs to be corrected. Please either inspect or clear the Settings table in the Microting database");
                     }
                 }
             }
@@ -135,11 +116,9 @@ namespace eFormSqlController
                     var migrator = new DbMigrator(configuration);
                     migrator.Update();
                     PrimeDb(); // It's on purpose we call our self until we have no more migrations.
-                } else
-                {
-                    throw new Exception(t.GetMethodName() + " failed", ex);
                 }
-                
+                else
+                    throw new Exception(t.GetMethodName() + " failed", ex);
             }
             #endregion
         }
@@ -2598,7 +2577,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    settings match = db.settings.Single(x => x.name == name.ToString());
+                    settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
                     return match.value;
                 }
             }
@@ -2625,12 +2604,38 @@ namespace eFormSqlController
             }
         }
 
-        public bool     SettingCheck()
+        public bool     SettingCheckAll()
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    if (db.field_types.Count() != 18)
+                    {
+                        #region prime FieldTypes
+                        UnitTest_TruncateTable(typeof(field_types).Name);
+
+                        FieldTypeAdd(1, "Text", "Simple text field");
+                        FieldTypeAdd(2, "Number", "Simple number field");
+                        FieldTypeAdd(3, "None", "Simple text to be displayed");
+                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
+                        FieldTypeAdd(5, "Picture", "Simple picture field");
+                        FieldTypeAdd(6, "Audio", "Simple audio field");
+                        FieldTypeAdd(7, "Movie", "Simple movie field");
+                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
+                        FieldTypeAdd(9, "Comment", "Simple comment field");
+                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
+                        FieldTypeAdd(11, "Date", "Date selection");
+                        FieldTypeAdd(12, "Signature", "Simple signature field");
+                        FieldTypeAdd(13, "Timer", "Simple timer field");
+                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
+                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
+                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
+                        FieldTypeAdd(17, "FieldGroup", "Field group");
+                        FieldTypeAdd(18, "SaveButton", "Save eForm");
+                        #endregion
+                    }
+
                     int countVal = db.settings.Count(x => x.value == "");
                     int countSet = db.settings.Count();
 
@@ -2638,6 +2643,23 @@ namespace eFormSqlController
                         return false;
 
                     if (countSet < Enum.GetNames(typeof(Settings)).Length)
+                        return false;
+
+                    int failed = 0;
+                    failed += SettingCheck(Settings.awsAccessKeyId);
+                    failed += SettingCheck(Settings.awsEndPoint);
+                    failed += SettingCheck(Settings.awsSecretAccessKey);
+                    failed += SettingCheck(Settings.comAddressApi);
+                    failed += SettingCheck(Settings.comAddressBasic);
+                    failed += SettingCheck(Settings.comOrganizationId);
+                    failed += SettingCheck(Settings.fileLocationPdf);
+                    failed += SettingCheck(Settings.fileLocationPicture);
+                    failed += SettingCheck(Settings.firstRunDone);
+                    failed += SettingCheck(Settings.knownSitesDone);
+                    failed += SettingCheck(Settings.logLevel);
+                    failed += SettingCheck(Settings.token);
+                    failed += SettingCheck(Settings.unitLicenseNumber);
+                    if (failed > 0)
                         return false;
 
                     return true;
@@ -3402,6 +3424,19 @@ namespace eFormSqlController
             }
 
             return null;
+        }
+
+        private int     SettingCheck(Settings setting)
+        {
+            try
+            {
+                SettingRead(setting);
+                return 0;
+            }
+            catch
+            {    
+                return 1;
+            }
         }
         #endregion
 

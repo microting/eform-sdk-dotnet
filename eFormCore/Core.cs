@@ -105,8 +105,8 @@ namespace eFormCore
                     TriggerLog("SqlEformController started");
 
                     #region settings read
-                    if (sqlController.SettingRead(Settings.firstRunDone) == "false")
-                        throw new ArgumentException("firstRunDone==false. Use AdminTools to setup settings");
+                    if (!sqlController.SettingCheckAll())
+                        throw new ArgumentException("Use AdminTool to setup database correct");
 
                     fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
                     fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);

@@ -261,7 +261,6 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString);
                 Communicator communicator = new Communicator(sqlController);
 
                 #region configure db
@@ -358,7 +357,7 @@ namespace eFormCore
 
         public bool   DbSetupCompleted()
         {
-            return sqlController.SettingCheck();
+            return sqlController.SettingCheckAll();
         }
         #endregion
 
