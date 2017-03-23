@@ -32,6 +32,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace eFormCommunicator
 {
@@ -612,6 +613,16 @@ namespace eFormCommunicator
                 newUrl = response.Headers["Location"];
             }
 
+            // Clean up the streams.
+            try
+            {
+                response.Close();
+            }
+            catch
+            {
+
+            }
+
             return newUrl;
         }
 
@@ -630,6 +641,17 @@ namespace eFormCommunicator
                 response.StatusCode == HttpStatusCode.MovedPermanently)
             {
                 newUrl = response.Headers["Location"];
+            }
+
+
+            // Clean up the streams.
+            try
+            {
+                response.Close();
+            }
+            catch
+            {
+
             }
 
             return newUrl;

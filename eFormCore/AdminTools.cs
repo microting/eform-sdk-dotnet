@@ -325,8 +325,7 @@ namespace eFormCore
                         }
                     }
 
-
-                    int customerNo = int.Parse(sqlController.SettingRead(Settings.comOrganizationId));
+                    int customerNo = communicator.OrganizationLoadAllFromRemote(token).CustomerNo;
 
                     sqlController.UnitTest_TruncateTable(typeof(units).Name);
                     foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))

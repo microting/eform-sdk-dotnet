@@ -75,7 +75,8 @@ namespace eFormCore
         List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
 
         string serverConnectionString;
-        string fileLocation;
+        string fileLocationPicture;
+        string fileLocationPdf;
         bool logLevel = false;
         #endregion
 
@@ -107,7 +108,8 @@ namespace eFormCore
                     if (sqlController.SettingRead(Settings.firstRunDone) == "false")
                         throw new ArgumentException("firstRunDone==false. Use AdminTools to setup settings");
 
-                    fileLocation = sqlController.SettingRead(Settings.fileLocation);
+                    fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
+                    fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);
                     logLevel = bool.Parse(sqlController.SettingRead(Settings.logLevel));
                     this.serverConnectionString = serverConnectionString;
                     TriggerLog("Settings read");
@@ -119,7 +121,7 @@ namespace eFormCore
                     TriggerLog("###################################################################################################################");
                     TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
                     TriggerLog("###################################################################################################################");
-                    TriggerLog("serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocation + " logEvents:" + logLevel.ToString());
+                    TriggerLog("serverConnectionString:" + serverConnectionString + " fileLocation:" + fileLocationPicture + " logEvents:" + logLevel.ToString());
                     TriggerLog("Core started");
                     #endregion
 
@@ -969,7 +971,8 @@ namespace eFormCore
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
-                    int customerNo = int.Parse(sqlController.SettingRead(Settings.comOrganizationId));
+                    string token = sqlController.SettingRead(Settings.token);
+                    int customerNo = communicator.OrganizationLoadAllFromRemote(token).CustomerNo;
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;
@@ -1509,7 +1512,7 @@ namespace eFormCore
 
                     if (siteWorkerDto == null)
                     {
-                        sqlController.SiteWorkerCreate(result.WorkerUId, siteDto.SiteUId, workerDto.WorkerUId);
+                        sqlController.SiteWorkerCreate(result.MicrotingUId, siteDto.SiteUId, workerDto.WorkerUId);
                     }
 
                     return Advanced_SiteWorkerRead(result.WorkerUId, null, null);
@@ -1981,7 +1984,7 @@ namespace eFormCore
                             break;
                         
                         #region finding file name and creating folder if needed
-                        FileInfo file = new FileInfo(fileLocation);
+                        FileInfo file = new FileInfo(fileLocationPicture);
                         file.Directory.Create(); // If the directory already exists, this method does nothing.
 
                         int index = urlStr.LastIndexOf("/") + 1;
@@ -1993,7 +1996,7 @@ namespace eFormCore
                         {
                             try
                             {
-                                client.DownloadFile(urlStr, fileLocation + fileName);
+                                client.DownloadFile(urlStr, fileLocationPicture + fileName);
                             }
                             catch (Exception ex)
                             {
@@ -2006,7 +2009,7 @@ namespace eFormCore
                         string chechSum = "";
                         using (var md5 = MD5.Create())
                         {
-                            using (var stream = File.OpenRead(fileLocation + fileName))
+                            using (var stream = File.OpenRead(fileLocationPicture + fileName))
                             {
                                 byte[] grr = md5.ComputeHash(stream);
                                 chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
@@ -2020,11 +2023,11 @@ namespace eFormCore
                         #endregion
 
                         Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
-                        File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocation + fileName);
+                        File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocationPicture + fileName);
                         HandleFileDownloaded(fDto, EventArgs.Empty);
                         TriggerMessage("Downloaded file '" + urlStr + "'.");
 
-                        sqlController.FileProcessed(urlStr, chechSum, fileLocation, fileName, ud.Id);
+                        sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, ud.Id);
                     }
                     #endregion
 

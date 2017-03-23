@@ -75,20 +75,22 @@ namespace eFormSqlController
                         SettingCreate(Settings.firstRunDone         , 1);
                         SettingCreate(Settings.knownSitesDone       , 2);
                         SettingCreate(Settings.logLevel             , 3);
-                        SettingCreate(Settings.fileLocation         , 4);
-                        SettingCreate(Settings.token                , 5);
-                        SettingCreate(Settings.comAddressBasic      , 6);
-                        SettingCreate(Settings.comAddressApi        , 7);
-                        SettingCreate(Settings.comOrganizationId    , 8);
-                        SettingCreate(Settings.awsAccessKeyId       , 9);
-                        SettingCreate(Settings.awsSecretAccessKey   , 10);
-                        SettingCreate(Settings.awsEndPoint          , 11);
-                        SettingCreate(Settings.unitLicenseNumber    , 12);
+                        SettingCreate(Settings.fileLocationPicture  , 4);
+                        SettingCreate(Settings.fileLocationPdf      , 5);
+                        SettingCreate(Settings.token                , 6);
+                        SettingCreate(Settings.comAddressBasic      , 7);
+                        SettingCreate(Settings.comAddressApi        , 8);
+                        SettingCreate(Settings.comOrganizationId    , 9);
+                        SettingCreate(Settings.awsAccessKeyId       , 10);
+                        SettingCreate(Settings.awsSecretAccessKey   , 11);
+                        SettingCreate(Settings.awsEndPoint          , 12);
+                        SettingCreate(Settings.unitLicenseNumber    , 13);
 
                         SettingUpdate(Settings.firstRunDone, "false");
                         SettingUpdate(Settings.knownSitesDone, "false");
                         SettingUpdate(Settings.logLevel, "true");
-                        SettingUpdate(Settings.fileLocation, "defaultDataFolder/");
+                        SettingUpdate(Settings.fileLocationPicture, "DataFolder/Picture/");
+                        SettingUpdate(Settings.fileLocationPdf, "DataFolder/Pdf/");
                         SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
                         SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
                         SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
@@ -2073,7 +2075,9 @@ namespace eFormSqlController
                     site_workers site_worker = null;
                     if (microtingUid == null)
                     {
-                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == siteId && x.worker_id == workerId);
+                        sites site = db.sites.Single(x => x.microting_uid == siteId);
+                        workers worker = db.workers.Single(x => x.microting_uid == workerId);
+                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == site.id && x.worker_id == worker.id);
                     } else
                     {
                         site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
@@ -3800,7 +3804,8 @@ namespace eFormSqlController
         firstRunDone,
         knownSitesDone,
         logLevel,
-        fileLocation,
+        fileLocationPicture,
+        fileLocationPdf,
         token,
         comAddressBasic,
         comAddressApi,
