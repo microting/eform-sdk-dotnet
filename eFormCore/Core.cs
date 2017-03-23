@@ -971,7 +971,8 @@ namespace eFormCore
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
-                    int customerNo = int.Parse(sqlController.SettingRead(Settings.comOrganizationId));
+                    string token = sqlController.SettingRead(Settings.token);
+                    int customerNo = communicator.OrganizationLoadAllFromRemote(token).CustomerNo;
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;
