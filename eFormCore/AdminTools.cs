@@ -227,12 +227,12 @@ namespace eFormCore
                 sqlController.UnitTest_TruncateTable(typeof(entity_items).Name);
                 sqlController.UnitTest_TruncateTable(typeof(entity_item_versions).Name);
                 //---
-                sqlController.UnitTest_TruncateTable(typeof(check_lists).Name);
-                sqlController.UnitTest_TruncateTable(typeof(check_list_versions).Name);
-                //---
                 sqlController.UnitTest_TruncateTable(typeof(fields).Name);
                 sqlController.UnitTest_TruncateTable(typeof(field_versions).Name);
-
+                //---
+                sqlController.UnitTest_TruncateTable(typeof(check_lists).Name);
+                sqlController.UnitTest_TruncateTable(typeof(check_list_versions).Name);
+   
                 return "";
             }
             catch (Exception ex)
