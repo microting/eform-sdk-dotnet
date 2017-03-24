@@ -270,6 +270,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
 
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
+                xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
        
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")

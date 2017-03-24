@@ -120,12 +120,24 @@ namespace eFormCore
                     string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
                     var main = TemplatFromXml(xmlStr);
 
-                    main.Repeated = 1;
-                    main.CaseType = "Test";
-                    main.StartDate = DateTime.Now;
-                    main.EndDate = DateTime.Now.AddDays(2);
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    List<string> validationErrors = core.TemplateValidation(main);
+                    if (validationErrors.Count < 1)
+                    {
+                        main.Repeated = 1;
+                        main.CaseType = "Test";
+                        main.StartDate = DateTime.Now;
+                        main.EndDate = DateTime.Now.AddDays(2);
 
-                    templatId = TemplatCreate(main);
+                        templatId = TemplatCreate(main);
+                    } else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample1xml.txt and try again");
+                    }                    
                 }
 
                 if (input.ToLower() == "c")
@@ -180,12 +192,25 @@ namespace eFormCore
                     string xmlStr = File.ReadAllText("sample\\sample2xml.txt");
                     var main = TemplatFromXml(xmlStr);
 
-                    main.Repeated = 1;
-                    main.CaseType = "Test";
-                    main.StartDate = DateTime.Now;
-                    main.EndDate = DateTime.Now.AddDays(2);
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    List<string> validationErrors = core.TemplateValidation(main);
+                    if (validationErrors.Count < 1)
+                    {
+                        main.Repeated = 1;
+                        main.CaseType = "Test";
+                        main.StartDate = DateTime.Now;
+                        main.EndDate = DateTime.Now.AddDays(2);
 
-                    templatId = TemplatCreate(main);
+                        templatId = TemplatCreate(main);
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample1xml.txt and try again");
+                    }
                 }
 
                 if (input.ToLower() == "c")
@@ -249,44 +274,92 @@ namespace eFormCore
                     string xmlStr2 = File.ReadAllText("sample\\sample3step2xml.txt");
                     mainElement = TemplatFromXml(xmlStr2);
 
-                    mainElement.CaseType = "Step two";
-                    mainElement.CheckListFolderName = "Orders";
-
-                    int tId2 = TemplatCreate(mainElement);
-                    filStr += tId2 + Environment.NewLine;
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    List<string> validationErrors = core.TemplateValidation(mainElement);
+                    if (validationErrors.Count < 1)
+                    {
+                        mainElement.CaseType = "Step two";
+                        mainElement.CheckListFolderName = "Orders";
+                        int tId2 = TemplatCreate(mainElement);
+                        filStr += tId2 + Environment.NewLine;
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample3step2xml.txt and try again");
+                    }
                     #endregion
 
                     #region step 3
                     string xmlStr3W = File.ReadAllText("sample\\sample3step3Wxml.txt");
                     mainElement = TemplatFromXml(xmlStr3W);
 
-                    mainElement.CaseType = "Step three";
-                    mainElement.CheckListFolderName = "Orders";
-
-                    int tId3W = TemplatCreate(mainElement);
-                    filStr += tId3W + Environment.NewLine;
-
-
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    validationErrors = core.TemplateValidation(mainElement);
+                    if (validationErrors.Count < 1)
+                    {
+                        mainElement.CaseType = "Step three";
+                        mainElement.CheckListFolderName = "Orders";
+                        int tId3W = TemplatCreate(mainElement);
+                        filStr += tId3W + Environment.NewLine;
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample3step3Wxml.txt and try again");
+                    }
 
                     string xmlStr3L = File.ReadAllText("sample\\sample3step3Lxml.txt");
                     mainElement = TemplatFromXml(xmlStr3L);
 
-                    mainElement.CaseType = "Step three";
-                    mainElement.CheckListFolderName = "Orders";
-
-                    int tId3L = TemplatCreate(mainElement);
-                    filStr += tId3L + Environment.NewLine;
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    validationErrors = core.TemplateValidation(mainElement);
+                    if (validationErrors.Count < 1)
+                    {
+                        mainElement.CaseType = "Step three";
+                        mainElement.CheckListFolderName = "Orders";
+                        int tId3L = TemplatCreate(mainElement);
+                        filStr += tId3L + Environment.NewLine;
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample3step3Lxml.txt and try again");
+                    }
+                    
                     #endregion
 
                     #region step 4
                     string xmlStr4 = File.ReadAllText("sample\\sample3step4xml.txt");
                     mainElement = TemplatFromXml(xmlStr4);
 
-                    mainElement.CaseType = "Step four";
-                    mainElement.CheckListFolderName = "Containers";
-
-                    int tId4 = TemplatCreate(mainElement);
-                    filStr += tId4;
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    validationErrors = core.TemplateValidation(mainElement);
+                    if (validationErrors.Count < 1)
+                    {
+                        mainElement.CaseType = "Step four";
+                        mainElement.CheckListFolderName = "Containers";
+                        int tId4 = TemplatCreate(mainElement);
+                        filStr += tId4;
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample3step4xml.txt and try again");
+                    }
+                    
                     #endregion
 
                     File.WriteAllText("sample\\sample3settings.txt", filStr);
@@ -296,12 +369,25 @@ namespace eFormCore
                     string xmlStr1 = File.ReadAllText("sample\\sample3step1xml.txt");
                     mainElement = TemplatFromXml(xmlStr1);
 
-                    mainElement.Repeated = 0;
-                    mainElement.CaseType = "Step one";
-                    mainElement.StartDate = DateTime.Now;
-                    mainElement.EndDate = DateTime.Now.AddDays(3);
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    validationErrors = core.TemplateValidation(mainElement);
+                    if (validationErrors.Count < 1)
+                    {
+                        mainElement.Repeated = 1;
+                        mainElement.CaseType = "Step one";
+                        mainElement.StartDate = DateTime.Now;
+                        mainElement.EndDate = DateTime.Now.AddDays(3);
 
-                    TemplatCreateInfinityCase(mainElement, siteIdsDW, 4);
+                        TemplatCreateInfinityCase(mainElement, siteIdsDW, 4);
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\sample3step1xml.txt and try again");
+                    }
                     #endregion
                 }
             }
