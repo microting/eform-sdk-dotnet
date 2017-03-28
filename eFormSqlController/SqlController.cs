@@ -946,10 +946,16 @@ namespace eFormSqlController
 
                     if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
                     {
-                        entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
+                        try
+                        {
+                            if (reply.value != "" || reply.value != null)
+                            {
+                                entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
 
-                        if (match != null)
-                            answer.ValueReadable = match.name;
+                                if (match != null)
+                                    answer.ValueReadable = match.name;
+                            }
+                        } catch { }                                              
                     }
 
                     if (answer.FieldType == "SingleSelect")

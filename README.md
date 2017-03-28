@@ -46,6 +46,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.1.5 *(March 28th 2017)*
+	- Fixing the situation, where no value is selected for an EntitySearch or EntitySelect field and not all items have been synced with the API.
+
   - Version 1.5.1.4 *(March 23th 2017)*
 	- Making the prime DB not owerwrite settings if they are incorrect.
 
