@@ -61,7 +61,7 @@ namespace eFormSubscriber
         }
         #endregion
 
-        #region public state
+        #region public
         /// <summary>
         /// Starts a Notification Subscriber to Microting
         /// </summary>

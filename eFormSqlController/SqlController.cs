@@ -93,8 +93,8 @@ namespace eFormSqlController
                             SettingUpdate(Settings.firstRunDone, "false");
                             SettingUpdate(Settings.knownSitesDone, "false");
                             SettingUpdate(Settings.logLevel, "true");
-                            SettingUpdate(Settings.fileLocationPicture, "DataFolder/Picture/");
-                            SettingUpdate(Settings.fileLocationPdf, "DataFolder/Pdf/");
+                            SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
+                            SettingUpdate(Settings.fileLocationPdf, "dataFolder/pdf/");
                             SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
                             SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
                             SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
@@ -124,6 +124,7 @@ namespace eFormSqlController
         }
         #endregion
 
+        #region public
         #region public template
         public int                  TemplateCreate(MainElement mainElement)
         {
@@ -2690,6 +2691,7 @@ namespace eFormSqlController
                 throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
+        #endregion
         #endregion
 
         #region private

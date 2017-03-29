@@ -33,6 +33,7 @@ using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using System.Net.Http;
 
 namespace eFormCommunicator
 {
@@ -62,6 +63,7 @@ namespace eFormCommunicator
         }
         #endregion
 
+        #region internal
         #region internal API
         /// <summary>
         /// Posts the element to Microting and returns the XML encoded restponse.
@@ -388,6 +390,27 @@ namespace eFormCommunicator
         }
         #endregion
 
+        #region internal EntitySelect
+        internal bool PdfUpload(string name, string hash)
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string url = @"https://prelive-inspection.microting.com/data_uploads/upload?token="+ token + "&hash=" + hash + "&extension=pdf";
+                    client.UploadFile(url, name);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //Log expection
+                return false; 
+            }
+        }
+        #endregion
+
         #region internal site
         internal string     SiteCreate(string name)
         {
@@ -560,6 +583,7 @@ namespace eFormCommunicator
 
             return PostToServer(request);
         }
+        #endregion
         #endregion
 
         #region private

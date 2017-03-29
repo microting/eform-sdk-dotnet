@@ -119,6 +119,7 @@ namespace eFormCore
 
                     string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
                     var main = TemplatFromXml(xmlStr);
+                    main = core.TemplateUploadData(main);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     List<string> validationErrors = core.TemplateValidation(main);

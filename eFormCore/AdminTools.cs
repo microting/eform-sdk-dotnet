@@ -261,6 +261,7 @@ namespace eFormCore
         {
             try
             {
+                sqlController = new SqlController(connectionString);
                 Communicator communicator = new Communicator(sqlController);
 
                 #region configure db
@@ -280,7 +281,6 @@ namespace eFormCore
                 }
                 #endregion
 
-                sqlController = new SqlController(connectionString);
                 communicator = new Communicator(sqlController);
 
                 #region add site's data to db

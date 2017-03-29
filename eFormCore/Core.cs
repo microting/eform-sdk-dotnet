@@ -68,6 +68,7 @@ namespace eFormCore
         object _lockEventMessage = new object();
         bool updateIsRunningFiles = false;
         bool updateIsRunningNotifications = false;
+        bool updateIsRunningTables = false;
         bool updateIsRunningEntities = false;
         bool coreRunning = false;
         bool coreRestarting = false;
@@ -347,11 +348,11 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    
+
                     List<string> errorLst = new List<string>();
                     var dataItems = mainElement.DataItemGetAll();
 
-                    foreach ( var dataItem in dataItems)
+                    foreach (var dataItem in dataItems)
                     {
                         #region entities
                         if (dataItem.GetType() == typeof(EntitySearch))
@@ -375,16 +376,86 @@ namespace eFormCore
                         if (dataItem.GetType() == typeof(ShowPdf))
                         {
                             ShowPdf showPdf = (ShowPdf)dataItem;
-                            if (showPdf.Value.ToLower().Contains("microting.com"))
-                                errorLst.Add("Element showPdf.Id:'" + showPdf.Id + "' contains an URL that points to Microting's builder temporary hosting. Move the fil to a proper hosting URL");
-                            if (!showPdf.Value.ToLower().Contains("http"))
-                                if (!showPdf.Value.ToLower().Contains("https"))
-                                    errorLst.Add("Element showPdf.Id:'" + showPdf.Id + "' lacks HTTP or HTTPS. Indicating that it's not a proper URL");
+                            errorLst.AddRange(PdfValidate(showPdf.Value, showPdf.Id));
                         }
                         #endregion
                     }
 
                     return errorLst;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public MainElement          TemplateUploadData(MainElement mainElement)
+        {
+            if (mainElement == null)
+                throw new ArgumentNullException("mainElement not allowed to be null");
+
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+
+                    List<string> errorLst = new List<string>();
+                    var dataItems = mainElement.DataItemGetAll();
+
+                    foreach (var dataItem in dataItems)
+                    {
+                        #region PDF
+                        if (dataItem.GetType() == typeof(ShowPdf))
+                        {
+                            ShowPdf showPdf = (ShowPdf)dataItem;
+
+                            if (PdfValidate(showPdf.Value, showPdf.Id).Count != 0)
+                            {
+                                try
+                                {
+                                    //download file
+                                    string downloadPath = sqlController.SettingRead(Settings.fileLocationPdf);
+                                    try
+                                    {
+                                        (new FileInfo(downloadPath)).Directory.Create();
+
+                                        using (WebClient client = new WebClient())
+                                        {
+                                            client.DownloadFile(showPdf.Value, downloadPath + "temp.pdf");
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        throw new Exception("Download failed. Path:'" + showPdf.Value + "'", ex);
+                                    }
+
+                                    //upload file
+                                    string hash = PdfUpload(downloadPath + "temp.pdf");
+
+                                    //rename local file
+                                    FileInfo FileInfo = new FileInfo(downloadPath + "temp.pdf");
+                                    FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
+                                    FileInfo.Delete();
+
+                                    showPdf.Value = hash;
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception(methodName + " failed, for one PDF file id:'" + showPdf.Id + "'", ex);
+                                }
+
+                            }
+                        }
+                        #endregion
+                    }
+
+                    return mainElement;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -731,7 +802,7 @@ namespace eFormCore
             }
         }
 
-        public bool CaseDelete(int templateId, int siteUId)
+        public bool             CaseDelete(int templateId, int siteUId)
         {
             try
             {
@@ -1130,7 +1201,7 @@ namespace eFormCore
         }
         #endregion
 
-        #region entity group
+        #region entity
         public string           EntityGroupCreate(string entityType, string name)
         {
             try
@@ -1240,6 +1311,40 @@ namespace eFormCore
                 throw new Exception("EntityGroupDelete failed", ex);
             }
             return true;
+        }
+
+        public string           PdfUpload(string localPath)
+        {
+            try
+            {
+                if (coreRunning)
+                {
+                    string chechSum = "";
+                    using (var md5 = MD5.Create())
+                    {
+                        using (var stream = File.OpenRead(localPath))
+                        {
+                            byte[] grr = md5.ComputeHash(stream);
+                            chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+                        }
+                    }
+
+                    if (communicator.PdfUpload(localPath, chechSum))
+                        return chechSum;
+                    else
+                    {
+                        TriggerWarning("Uploading of PDF failed");
+                        return null;
+                    }
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
         }
         #endregion
 
@@ -1926,6 +2031,23 @@ namespace eFormCore
 
             return lstReturn;
         }
+
+        private List<string>    PdfValidate(string pdfString, int pdfId)
+        {
+            List<string> errorLst = new List<string>();
+
+            if (pdfString.ToLower().Contains("microting.com"))
+                errorLst.Add("Element showPdf.Id:'" + pdfId + "' contains an URL that points to Microting's builder temporary hosting. Indicating that it's not a proper hash");
+            if (pdfString.ToLower().Contains("http") || pdfString.ToLower().Contains("https"))
+                errorLst.Add("Element showPdf.Id:'" + pdfId + "' contains an HTTP or HTTPS. Indicating that it's not a proper hash");
+            if (pdfString.Length != 32)
+                errorLst.Add("Element showPdf.Id:'" + pdfId + "' lenght is not the correct lenght (32). Indicating that it's not a proper hash");
+
+            if (errorLst.Count > 0)
+                errorLst.Add("Element showPdf.Id:'" + pdfId + "' please check 'value' input, and consider running PdfUpload");
+
+            return errorLst;
+        }
         #endregion
 
         #region inward Event handlers
@@ -1937,13 +2059,19 @@ namespace eFormCore
                 {
                     if (coreRunning)
                     {
-                        TriggerLog("CoreHandleUpdateDatabases() initiated");
+                        TriggerLog(t.GetMethodName() + " initiated");
 
-                        Thread updateFilesThread = new Thread(() => CoreHandleUpdateFiles());
+                        Thread updateFilesThread            
+                            = new Thread(() => CoreHandleUpdateFiles());
                         updateFilesThread.Start();
 
-                        Thread updateNotificationsThread = new Thread(() => CoreHandleUpdateNotifications());
+                        Thread updateNotificationsThread    
+                            = new Thread(() => CoreHandleUpdateNotifications());
                         updateNotificationsThread.Start();
+
+                        //Thread updateTablesThread           
+                        //    = new Thread(() => CoreHandleUpdateTables());
+                        //updateTablesThread.Start();
 
                         Thread.Sleep(2000);
                     }
@@ -1954,13 +2082,13 @@ namespace eFormCore
             catch (ThreadAbortException) {
                 coreRunning = false;
                 coreStatChanging = false;
-                TriggerWarning("CoreHandleUpdateDatabases() catch of ThreadAbortException");
+                TriggerWarning(t.GetMethodName() + " catch of ThreadAbortException");
             }
             catch (Exception ex)
             {
                 coreRunning = false;
                 coreStatChanging = false;
-                throw new Exception("FATAL Exception. CoreHandleUpdateDatabases failed", ex);
+                throw new Exception("FATAL Exception. " + t.GetMethodName() + " failed", ex);
             }
         }
 
@@ -2037,7 +2165,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CoreHandleUpdateFiles failed", ex, true);
+                TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
             }
         }
 
@@ -2195,7 +2323,46 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CoreHandleUpdateNotifications failed", ex, true);
+                TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
+            }
+        }
+
+        private void    CoreHandleUpdateTables()
+        {
+            try
+            {
+                if (!updateIsRunningTables)
+                {
+                    updateIsRunningTables = true;
+
+                    #region update tables
+                    bool oneFound = false;
+                    while (oneFound)
+                    {
+                        //a_input_cases
+                        //a_output_cases
+                        //check if out of sync
+                        //if found process
+
+                        //if input
+                        var retrn = CaseCreate(null, "", null, "", false);
+                        //add return to db
+
+                        //if output
+
+
+
+                        //repeat
+                    }
+                    #endregion
+
+                    updateIsRunningTables = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                TriggerWarning(ex.Message);
+                TriggerHandleExpection(t.GetMethodName()+  " failed", ex, true);
             }
         }
 

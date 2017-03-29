@@ -486,6 +486,20 @@ namespace eFormCommunicator
                 throw new Exception("EntitySearchItemDelete failed", ex);
             }
         }
+
+        //---
+
+        public bool     PdfUpload(string localPath, string hash)
+        {
+            try
+            {
+                return http.PdfUpload(localPath, hash);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntitySearchItemCreate failed", ex);
+            }
+        }
         #endregion
 
         #region remove unwanted/uneeded methods from finished DLL

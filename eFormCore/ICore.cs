@@ -71,6 +71,9 @@ namespace eFormCore
 
         List<string>    TemplateValidation(MainElement mainElement);
 
+        MainElement     TemplateUploadData(MainElement mainElement);
+
+
         /// <summary>
         /// Tries to create an eForm template in the Microting local DB. Returns that templat's templatId
         /// </summary>
@@ -249,7 +252,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
-        string EntityGroupCreate(string entityType, string name);
+        string          EntityGroupCreate(string entityType, string name);
 
         /// <summary>
         /// Returns the EntityGroup and its EntityItems
@@ -268,5 +271,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         bool            EntityGroupDelete(string entityGroupMUId);
+
+        string          PdfUpload(string localPath);
     }
 }
