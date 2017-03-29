@@ -46,6 +46,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.1.6 *(March 29th 2017)*
+	- Fixing the return value in Core.CasesToCsv and Core.CaseRead for EntitySearch and EntitySelect.
+
   - Version 1.5.1.5 *(March 28th 2017)*
 	- Fixing the situation, where no value is selected for an EntitySearch or EntitySelect field and not all items have been synced with the API.
 

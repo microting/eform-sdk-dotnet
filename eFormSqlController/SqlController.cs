@@ -953,7 +953,11 @@ namespace eFormSqlController
                                 entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
 
                                 if (match != null)
+                                {
                                     answer.ValueReadable = match.name;
+                                    answer.Value = match.entity_item_uid;
+                                }
+                                    
                             }
                         } catch { }                                              
                     }
@@ -1064,7 +1068,7 @@ namespace eFormSqlController
                                     replyLst1.Add("0");
                             }
                             break;
-
+                        case "Signature":
                         case "Picture":
                             int lastCaseId = -1;
                             int lastIndex = -1;
@@ -1141,21 +1145,31 @@ namespace eFormSqlController
                             }
                             break;
 
+                        case "EntitySelect":
                         case "EntitySearch":
                             {
-                                var kVP = PairRead(matchField.key_value_pair_list);
-
                                 foreach (field_values item in matches)
-                                    replyLst1.Add(PairMatch(kVP, item.value));
-                            }
-                            break;
+                                {
+                                    try
+                                    {
+                                        if (item.value != "" || item.value != null)
+                                        {
+                                            entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == item.value);
 
-                        case "EntitySelect":
-                            {
-                                var kVP = PairRead(matchField.key_value_pair_list);
+                                            if (match != null)
+                                            {
+                                                replyLst1.Add(match.name);
+                                            } else
+                                            {
+                                                replyLst1.Add("");
+                                            }
 
-                                foreach (field_values item in matches)
-                                    replyLst1.Add(PairMatch(kVP, item.value));
+                                        }
+                                    }
+                                    catch {
+                                        replyLst1.Add("");
+                                    }
+                                }
                             }
                             break;
                         #endregion
