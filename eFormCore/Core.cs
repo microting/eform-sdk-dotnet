@@ -156,9 +156,7 @@ namespace eFormCore
         {
             if (string.IsNullOrEmpty(serverConnectionString))
                 throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
-
-            this.serverConnectionString = serverConnectionString;
-       
+      
             try
             {
                 if (!coreRunning && !coreStatChanging)
@@ -177,6 +175,17 @@ namespace eFormCore
                     sqlController = new SqlController(serverConnectionString);
                     TriggerLog("SqlEformController started");
 
+                    #region settings read
+                    if (!sqlController.SettingCheckAll())
+                        throw new ArgumentException("Use AdminTool to setup database correct");
+
+                    fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
+                    fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);
+                    logLevel = bool.Parse(sqlController.SettingRead(Settings.logLevel));
+                    this.serverConnectionString = serverConnectionString;
+                    TriggerLog("Settings read");
+                    #endregion
+
                     //communicators
                     communicator = new Communicator(sqlController);
                     TriggerLog("Communicator started");
@@ -189,6 +198,10 @@ namespace eFormCore
             {
                 coreRunning = false;
                 coreStatChanging = false;
+                if (ex.InnerException.Message.Contains("PrimeDb"))
+                {
+                    throw ex.InnerException;
+                }
                 try
                 {
                     return true;
@@ -437,19 +450,24 @@ namespace eFormCore
 
                                     //upload file
                                     string hash = PdfUpload(downloadPath + "temp.pdf");
+                                    if (hash != null)
+                                    {
+                                        //rename local file
+                                        FileInfo FileInfo = new FileInfo(downloadPath + "temp.pdf");
+                                        FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
+                                        FileInfo.Delete();
 
-                                    //rename local file
-                                    FileInfo FileInfo = new FileInfo(downloadPath + "temp.pdf");
-                                    FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
-                                    FileInfo.Delete();
-
-                                    showPdf.Value = hash;
+                                        showPdf.Value = hash;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception(methodName + " hash is null for field id:'" + showPdf.Id + "'");
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
-                                    throw new Exception(methodName + " failed, for one PDF file id:'" + showPdf.Id + "'", ex);
+                                    throw new Exception(methodName + " failed, for one PDF field id:'" + showPdf.Id + "'", ex);
                                 }
-
                             }
                         }
                         #endregion

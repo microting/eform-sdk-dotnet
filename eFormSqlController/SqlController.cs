@@ -33,6 +33,20 @@ namespace eFormSqlController
             }
         }
 
+        public SqlController(string connectionString, bool primeDb)
+        {
+            try
+            {
+                connectionStr = connectionString;
+                if (primeDb)
+                    PrimeDb(); //if needed
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
         private void PrimeDb()
         {
             int settingsCount = 0;
@@ -89,6 +103,7 @@ namespace eFormSqlController
                             SettingCreate(Settings.awsSecretAccessKey, 11);
                             SettingCreate(Settings.awsEndPoint, 12);
                             SettingCreate(Settings.unitLicenseNumber, 13);
+                            SettingCreate(Settings.comAddressPdfUpload, 14);
 
                             SettingUpdate(Settings.firstRunDone, "false");
                             SettingUpdate(Settings.knownSitesDone, "false");
@@ -2578,7 +2593,7 @@ namespace eFormSqlController
         #endregion
 
         #region public setting
-        private void    SettingCreate(Settings name, int id)
+        public void    SettingCreate(Settings name, int id)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -2673,6 +2688,7 @@ namespace eFormSqlController
                     failed += SettingCheck(Settings.comAddressApi);
                     failed += SettingCheck(Settings.comAddressBasic);
                     failed += SettingCheck(Settings.comOrganizationId);
+                    failed += SettingCheck(Settings.comAddressPdfUpload);
                     failed += SettingCheck(Settings.fileLocationPdf);
                     failed += SettingCheck(Settings.fileLocationPicture);
                     failed += SettingCheck(Settings.firstRunDone);
@@ -3864,8 +3880,9 @@ namespace eFormSqlController
         fileLocationPicture,
         fileLocationPdf,
         token,
-        comAddressBasic,
         comAddressApi,
+        comAddressBasic,
+        comAddressPdfUpload,
         comOrganizationId,
         awsAccessKeyId,
         awsSecretAccessKey,

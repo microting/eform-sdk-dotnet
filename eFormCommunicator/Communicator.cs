@@ -55,6 +55,14 @@ namespace eFormCommunicator
             string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
             string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
             string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
+            string ComAddressPdfUpload = "";
+            try {
+                ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
+            } catch
+            {               
+                // This is okay in a upgrade case.
+            }
+            
 
             #region CheckInput token & serverAddress
             string errorsFound = "";
@@ -78,7 +86,7 @@ namespace eFormCommunicator
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId);
+            http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId, ComAddressPdfUpload);
         }
         #endregion
 
@@ -330,7 +338,7 @@ namespace eFormCommunicator
         #region public organization      
         public Organization_Dto OrganizationLoadAllFromRemote(string token)
         {
-            Http specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "666");
+            Http specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "666", "");
 
             JToken orgResult = JRaw.Parse(specialHttp.OrganizationLoadAllFromRemote());
 
@@ -342,7 +350,8 @@ namespace eFormCommunicator
                 orgResult.First.First["aws_key"].ToString(),
                 orgResult.First.First["aws_endpoint"].ToString(),
                 orgResult.First.First["com_address"].ToString(),
-                orgResult.First.First["com_address_basic"].ToString());
+                orgResult.First.First["com_address_basic"].ToString(),
+                orgResult.First.First["com_address_pdf_upload"].ToString());
 
             return organizationDto;
         }

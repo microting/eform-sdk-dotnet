@@ -46,6 +46,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.0 *(March 30th 2017)*
+	- Adding support for handling PDF fields..
+	- Run AdminTools.DbSettingsReloadRemote prio using Core the first time. This will load the new settings from API endpoint.
+
   - Version 1.5.1.6 *(March 29th 2017)*
 	- Fixing the return value in Core.CasesToCsv and Core.CaseRead for EntitySearch and EntitySelect.
 

@@ -48,17 +48,19 @@ namespace eFormCommunicator
         private string token;
         private string addressApi;
         private string addressBasic;
+        private string addressPdfUpload;
         private string organizationId;
 
         Tools t = new Tools();
         #endregion
 
         #region con
-        internal Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId)
+        internal Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload)
         {
             this.token = token;
             addressBasic = comAddressBasic;
             addressApi = comAddressApi;
+            addressPdfUpload = comAddressPdfUpload;
             organizationId = comOrganizationId;
         }
         #endregion
@@ -397,7 +399,7 @@ namespace eFormCommunicator
             {
                 using (WebClient client = new WebClient())
                 {
-                    string url = @"https://prelive-inspection.microting.com/data_uploads/upload?token="+ token + "&hash=" + hash + "&extension=pdf";
+                    string url = @"https://"+ addressPdfUpload + "/data_uploads/upload?token="+ token + "&hash=" + hash + "&extension=pdf";
                     client.UploadFile(url, name);
                 }
 
