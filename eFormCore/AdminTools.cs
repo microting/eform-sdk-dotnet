@@ -21,6 +21,12 @@ namespace eFormCore
             connectionString = serverConnectionString;
             sqlController = new SqlController(serverConnectionString);
         }
+
+        public AdminTools(string serverConnectionString, bool primeDb)
+        {
+            connectionString = serverConnectionString;
+            sqlController = new SqlController(connectionString, false);
+        }
         #endregion
 
         #region public
@@ -259,8 +265,13 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString);
+                sqlController = new SqlController(connectionString, true);
                 Communicator communicator = new Communicator(sqlController);
+
+                if (token == null)
+                {
+                    token = sqlController.SettingRead(Settings.token);
+                }
 
                 #region configure db
                 if (!bool.Parse(sqlController.SettingRead(Settings.firstRunDone)))
@@ -274,6 +285,7 @@ namespace eFormCore
                     sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                     sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                     sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
+                    sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
 
                     sqlController.SettingUpdate(Settings.firstRunDone, "true");
                 }
@@ -344,6 +356,35 @@ namespace eFormCore
                     sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 }
                 #endregion
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public string DbSettingsReloadRemote()
+        {
+            try
+            {
+                sqlController = new SqlController(connectionString, false);
+                Communicator communicator = new Communicator(sqlController);
+                string token = sqlController.SettingRead(Settings.token);
+
+                Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
+                sqlController.SettingUpdate(Settings.token, token);
+                sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
+                sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
+                sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
+                sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
+                sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
+                sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
+                sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
+                sqlController.SettingCreate(Settings.comAddressPdfUpload, 14);
+                sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
+
 
                 return "";
             }

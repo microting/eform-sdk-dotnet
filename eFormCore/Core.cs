@@ -211,6 +211,10 @@ namespace eFormCore
             {
                 coreRunning = false;
                 coreStatChanging = false;
+                if (ex.InnerException.Message.Contains("PrimeDb"))
+                {
+                    throw ex.InnerException;
+                }
                 try
                 {
                     return true;
@@ -462,19 +466,24 @@ namespace eFormCore
 
                                     //upload file
                                     string hash = PdfUpload(downloadPath + "temp.pdf");
+                                    if (hash != null)
+                                    {
+                                        //rename local file
+                                        FileInfo FileInfo = new FileInfo(downloadPath + "temp.pdf");
+                                        FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
+                                        FileInfo.Delete();
 
-                                    //rename local file
-                                    FileInfo FileInfo = new FileInfo(downloadPath + "temp.pdf");
-                                    FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
-                                    FileInfo.Delete();
-
-                                    showPdf.Value = hash;
+                                        showPdf.Value = hash;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception(methodName + " hash is null for field id:'" + showPdf.Id + "'");
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
-                                    throw new Exception(methodName + " failed, for one PDF file id:'" + showPdf.Id + "'", ex);
+                                    throw new Exception(methodName + " failed, for one PDF field id:'" + showPdf.Id + "'", ex);
                                 }
-
                             }
                         }
                         #endregion
