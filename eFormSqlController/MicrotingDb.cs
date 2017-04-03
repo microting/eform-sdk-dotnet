@@ -7,7 +7,7 @@ namespace eFormSqlController
 
     public partial class MicrotingDb : DbContext
     {
-        public MicrotingDb() : base("microtingdb") { }
+        public MicrotingDb() { }
 
 
         public MicrotingDb(string connectionString)
@@ -16,6 +16,7 @@ namespace eFormSqlController
         }
 
         public virtual DbSet<a_input_cases> a_input_cases { get; set; }
+        public virtual DbSet<a_output_cases> a_output_cases { get; set; }
         public virtual DbSet<cases> cases { get; set; }
         public virtual DbSet<check_list_sites> check_list_sites { get; set; }
         public virtual DbSet<check_list_values> check_list_values { get; set; }
@@ -27,7 +28,6 @@ namespace eFormSqlController
         public virtual DbSet<field_values> field_values { get; set; }
         public virtual DbSet<fields> fields { get; set; }
         public virtual DbSet<notifications> notifications { get; set; }
-        public virtual DbSet<outlook> outlook { get; set; }
         public virtual DbSet<settings> settings { get; set; }
         public virtual DbSet<sites> sites { get; set; }
         public virtual DbSet<units> units { get; set; }
@@ -362,62 +362,6 @@ namespace eFormSqlController
 
             modelBuilder.Entity<notifications>()
                 .Property(e => e.transmission)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.global_id)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.start_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.expire_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.subject)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.location)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.body)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.site_ids)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.title)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.info)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.custom_fields)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<outlook>()
-                .Property(e => e.microting_uid)
                 .IsUnicode(false);
 
             modelBuilder.Entity<settings>()

@@ -201,8 +201,6 @@ namespace eFormCore
                 sqlController.UnitTest_TruncateTable(typeof(uploaded_data).Name);
                 sqlController.UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
                 //---
-                sqlController.UnitTest_TruncateTable(typeof(outlook).Name);
-                //---
 
                 //---
                 sqlController.UnitTest_TruncateTable(typeof(notifications).Name);

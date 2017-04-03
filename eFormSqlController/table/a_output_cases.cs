@@ -6,7 +6,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class a_input_cases
+    public partial class a_output_cases
     {
         [Key]
         public int id { get; set; }
@@ -20,22 +20,25 @@ namespace eFormSqlController
         [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
-        public string site_uids { get; set; }
+        [StringLength(255)]
+        public string microting_uid { get; set; }
+
+        public string check_uid { get; set; }
+
+        public int    check_list_id { get; set; }
+
+        [StringLength(255)]
+        public string stat { get; set; }
+
+        public int    site_uid { get; set; }
+
+        public string case_type { get; set; }
 
         [StringLength(255)]
         public string case_uid { get; set; }
 
         public string custom { get; set; }
 
-        public short? reversed { get; set; }
-
-        [StringLength(255)]
-        public string microting_uids { get; set; }
-
-        public short? connected { get; set; }
-
-        public int template_id { get; set; }
-
-        public string replacements { get; set; }
+        public int case_id { get; set; }
     }
 }
