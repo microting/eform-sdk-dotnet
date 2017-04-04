@@ -26,6 +26,10 @@ You need to create an account for Microting API and get your access credentials.
 
  - Call Microting at +45 66 11 10 66 to get started.
 
+## Docs
+
+[SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-dotnet/)
+
 ## Examples, demonstrating different use cases.
 
 Several examples can be found in the Program.cs file:
