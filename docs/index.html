@@ -230,6 +230,8 @@
 
 <p>Welcome to the Documentation for Microting eForm .Net SDK</p>
 
+<p>This is still a work in progress and subject to changes and thereby not a complete descriptions of what the SDK is capable of.</p>
+
 <h1 id="basic-startup">Basic startup</h1>
 
 <h2 id="setup-the-db">Setup the db</h2>
@@ -267,6 +269,37 @@ You must replace <code>token</code> with your personal API key.
 
 <aside class="notice">
 You must replace <code>some_connection_string_to_db</code> with your MS SQL connection string.
+</aside>
+
+<h2 id="setup-path-for-images-and-pdf-documents">Setup path for images and PDF documents</h2>
+
+<p>By default the SDK is using the below paths for pictures/signatures and PDF documents. Change these values in the Settings table as needed.</p>
+
+<table><thead>
+<tr>
+<th>name</th>
+<th>value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fileLocationPicture</td>
+<td>dataFolder/picture/</td>
+</tr>
+<tr>
+<td>fileLocationPdf</td>
+<td>dataFolder/pdf/</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Remeber the trialing / at the end of the path.
+</aside> 
+ 
+
+<aside class="warning">
+DO NOT MODIFY ANY OTHER VALUE IN THE SETTINGS TABLE!
+<br>As this will break the functionallity of the communication with Microting endpoints!
+<br>All other variables will be updated automatically by the SDK.
 </aside>
 
 <h2 id="start-the-core-for-web-usage">Start the core for web usage</h2>
@@ -336,6 +369,82 @@ You must replace <code>token</code> with your personal API key.
 <aside class="notice">
 You must replace <code>token</code> with your personal API key.
 </aside>
+
+<h1 id="local-eform-templates">Local eForm templates</h1>
+
+<h2 id="create-a-basic-eform-template-from-xml">Create a basic eForm template from XML</h2>
+
+<h2 id="create-a-basic-eform-template-by-objects">Create a basic eForm template by objects</h2>
+
+<h2 id="validating-the-eform">Validating the eForm</h2>
+
+<h2 id="saving-the-eform-to-db">Saving the eForm to db</h2>
+
+<h2 id="listing-all-eform-templates">Listing all eForm templates</h2>
+
+<h2 id="deleting-an-eform-template">Deleting an eForm template</h2>
+
+<h1 id="deployment-of-eforms">Deployment of eForms</h1>
+
+<h2 id="deploying-to-one-or-more-sites">Deploying to one or more sites</h2>
+
+<h2 id="retracting-deployments">Retracting deployments</h2>
+
+<h2 id="listing-deployed-sites-pr-template">Listing deployed sites pr template</h2>
+
+<h1 id="using-results">Using results</h1>
+
+<h2 id="getting-cases-pr-template-as-object">Getting cases pr template as object</h2>
+
+<h2 id="getting-cases-pr-template-as-csv">Getting cases pr template as csv</h2>
+
+<h2 id="getting-a-single-case">Getting a single case</h2>
+
+<h2 id="saving-modified-results-for-a-case">Saving modified results for a case</h2>
+
+<h1 id="workers">&ldquo;Workers&rdquo;</h1>
+
+<h2 id="faq">FAQ</h2>
+
+<h2 id="create-a-new-worker">Create a new worker</h2>
+
+<h2 id="edit-a-worker">Edit a worker</h2>
+
+<h2 id="request-new-otp">Request new OTP</h2>
+
+<h2 id="deleting-a-worker">Deleting a worker</h2>
+
+<h1 id="adv-events">(Adv)Events</h1>
+
+<h1 id="adv-sites">(Adv)Sites</h1>
+
+<h1 id="adv-units">(Adv)Units</h1>
+
+<h1 id="adv-workers">(Adv)Workers</h1>
+
+<h1 id="adv-entitysearch">(Adv)EntitySearch</h1>
+
+<h2 id="creating-a-list">Creating a list</h2>
+
+<h2 id="adding-items-to-a-list">Adding items to a list</h2>
+
+<h2 id="editing-items-in-a-list">Editing items in a list</h2>
+
+<h2 id="deleting-items-from-a-list">Deleting items from a list</h2>
+
+<h2 id="using-the-list-in-a-eform-template">Using the list in a eForm template</h2>
+
+<h1 id="adv-entityselect">(Adv)EntitySelect</h1>
+
+<h2 id="creating-a-list">Creating a list</h2>
+
+<h2 id="adding-items-to-a-list">Adding items to a list</h2>
+
+<h2 id="editing-items-in-a-list">Editing items in a list</h2>
+
+<h2 id="deleting-items-from-a-list">Deleting items from a list</h2>
+
+<h2 id="using-the-list-in-a-eform-template">Using the list in a eForm template</h2>
 
           <h1 id="errors">Errors</h1>
 
