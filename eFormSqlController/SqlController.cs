@@ -560,14 +560,14 @@ namespace eFormSqlController
 
         #region public "reply"
         #region check
-        public void                 ChecksCreate(Response response, string xmlString)
+        public void                 ChecksCreate(Response response, string xmlString, int xmlIndex)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     int elementId;
-                    int userUId = int.Parse(response.Checks[0].WorkerId);
+                    int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
                     int userId = db.workers.Single(x => x.microting_uid == userUId).id;
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<fields> TemplatFieldLst = null;
@@ -576,7 +576,7 @@ namespace eFormSqlController
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
-                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[0].Id, "ReversedCase", "", (DateTime)cLS.updated_at);
+                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[xmlIndex].Id, "ReversedCase", "", (DateTime)cLS.updated_at);
                         responseCase = db.cases.Single(x => x.id == caseId);
                     }
                     catch //already created case id retrived
@@ -671,7 +671,7 @@ namespace eFormSqlController
                                 fieldV.field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
                                 fieldV.user_id = userId;
                                 fieldV.check_list_id = clv.check_list_id;
-                                fieldV.done_at = t.Date(response.Checks[0].Date);
+                                fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
 
                                 db.field_values.Add(fieldV);
                                 db.SaveChanges();
@@ -722,7 +722,7 @@ namespace eFormSqlController
                         fieldV.field_id = field.id;
                         fieldV.user_id = userId;
                         fieldV.check_list_id = field.check_list_id;
-                        fieldV.done_at = t.Date(response.Checks[0].Date);
+                        fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
 
                         db.field_values.Add(fieldV);
                         db.SaveChanges();

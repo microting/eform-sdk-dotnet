@@ -38,6 +38,7 @@ using System.Security.Cryptography;
 using System.Linq;
 using System.Globalization;
 using System.Text;
+using System.Xml;
 
 namespace eFormCore
 {
@@ -2242,39 +2243,76 @@ namespace eFormCore
                                                     respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteUId, checkIdLastKnown);
 
                                                 Response resp = new Response();
-                                                resp = resp.XmlToClass(respXml);
+                                                resp = resp.XmlToClassUsingXmlDocument(respXml);
+                                                //resp = resp.XmlToClass(respXml);
 
                                                 if (resp.Type == Response.ResponseTypes.Success)
                                                 {
                                                     if (resp.Checks.Count > 0)
                                                     {
-                                                        sqlController.ChecksCreate(resp, respXml);
+                                                        XmlDocument xDoc = new XmlDocument();
 
-                                                        int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
-                                                        int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
-                                                        sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
-
-                                                        #region IF needed retract case, thereby completing the process
-                                                        if (checkIdLastKnown == null)
+                                                        xDoc.LoadXml(respXml);
+                                                        XmlNode checks = xDoc.DocumentElement.LastChild;
+                                                        int i = 0;
+                                                        foreach (Check check in resp.Checks)
                                                         {
-                                                            string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
-                                                            Response respRet = new Response();
-                                                            respRet = respRet.XmlToClass(respXml);
+                                                            sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
-                                                            if (respRet.Type == Response.ResponseTypes.Success)
+                                                            int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).UnitUId;
+                                                            int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
+                                                            sqlController.CaseUpdateCompleted(noteUId, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
+
+                                                            #region IF needed retract case, thereby completing the process
+                                                            if (checkIdLastKnown == null)
                                                             {
-                                                                TriggerLog(aCase.ToString() + " has been retracted");
+                                                                string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
+                                                                Response respRet = new Response();
+                                                                respRet = respRet.XmlToClass(respXml);
+
+                                                                if (respRet.Type == Response.ResponseTypes.Success)
+                                                                {
+                                                                    TriggerLog(aCase.ToString() + " has been retracted");
+                                                                }
+                                                                else
+                                                                    TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                                             }
-                                                            else
-                                                                TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                            #endregion
+
+                                                            sqlController.CaseRetract(noteUId, check.Id);
+
+                                                            Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
+                                                            HandleCaseCompleted(cDto, EventArgs.Empty);
+                                                            TriggerMessage(cDto.ToString() + " has been completed");
+                                                            i += 1;
                                                         }
-                                                        #endregion
+                                                        //sqlController.ChecksCreate(resp, respXml);
 
-                                                        sqlController.CaseRetract(noteUId, resp.Checks[0].Id);
+                                                        //int unitUId = sqlController.UnitRead(int.Parse(resp.Checks[0].UnitId)).UnitUId;
+                                                        //int workerUId = sqlController.WorkerRead(int.Parse(resp.Checks[0].WorkerId)).WorkerUId;
+                                                        //sqlController.CaseUpdateCompleted(noteUId, resp.Checks[0].Id, DateTime.Parse(resp.Checks[0].Date), workerUId, unitUId);
 
-                                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                                        HandleCaseCompleted(cDto, EventArgs.Empty);
-                                                        TriggerMessage(cDto.ToString() + " has been completed");
+                                                        //#region IF needed retract case, thereby completing the process
+                                                        //if (checkIdLastKnown == null)
+                                                        //{
+                                                        //    string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
+                                                        //    Response respRet = new Response();
+                                                        //    respRet = respRet.XmlToClass(respXml);
+
+                                                        //    if (respRet.Type == Response.ResponseTypes.Success)
+                                                        //    {
+                                                        //        TriggerLog(aCase.ToString() + " has been retracted");
+                                                        //    }
+                                                        //    else
+                                                        //        TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                        //}
+                                                        //#endregion
+
+                                                        //sqlController.CaseRetract(noteUId, resp.Checks[0].Id);
+
+                                                        //Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
+                                                        //HandleCaseCompleted(cDto, EventArgs.Empty);
+                                                        //TriggerMessage(cDto.ToString() + " has been completed");
                                                     }
                                                 }
                                                 else

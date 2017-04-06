@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace eFormData
@@ -34,6 +35,89 @@ namespace eFormData
         #endregion
 
         #region public
+        public Response XmlToClassUsingXmlDocument(string xmlStr)
+        {
+            try
+            {
+                ResponseTypes rType = ResponseTypes.Invalid;
+                string value = "";
+
+                #region value type
+                if (xmlStr.Contains("<Value type="))
+                {
+                    string subXmlStr = t.Locate(xmlStr, "<Response>", "</Response>").Trim();
+                    string valueTypeLower = t.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
+                    value = t.Locate(xmlStr, "\">", "</").Trim();
+
+                    switch (valueTypeLower)
+                    {
+                        case "success":
+                            rType = ResponseTypes.Success;
+                            break;
+
+                        case "error":
+                            rType = ResponseTypes.Error;
+                            break;
+
+                        case "parsing":
+                            rType = ResponseTypes.Parsing;
+                            break;
+
+                        case "received":
+                            rType = ResponseTypes.Received;
+                            break;
+
+                        case "invalid":
+                            rType = ResponseTypes.Invalid;
+                            break;
+
+                        default:
+                            throw new IndexOutOfRangeException("'" + valueTypeLower + "' is not a know ResponseType");
+                    }
+                }
+                #endregion
+
+                Response resp = new Response(rType, value);
+
+                XmlDocument xDoc = new XmlDocument();
+
+                xDoc.LoadXml(xmlStr);
+
+                XmlNode checks = xDoc.DocumentElement.LastChild;
+                foreach (XmlNode xmlCheck in checks.ChildNodes)
+                {
+                    string rawXml = xmlCheck.OuterXml.ToString();
+                    {
+                        Check check = new Check();
+
+                        check.UnitId = t.Locate(rawXml, " unit_id=\"", "\"");
+                        check.Date = t.Locate(rawXml, " date=\"", "\"");
+                        check.Worker = t.Locate(rawXml, " worker=\"", "\"");
+                        check.Id = t.Locate(rawXml, " id=\"", "\"");
+                        check.WorkerId = t.Locate(rawXml, " worker_id=\"", "\"");
+
+                        while (rawXml.Contains("<ElementList>"))
+                        {
+                            string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + t.Locate(rawXml, "<ElementList>", "</ElementList>") + "</ElementList>";
+                            ElementList eResp = XmlToClassCheck(inderXmlStr);
+                            check.ElementList.Add(eResp);
+
+                            int index = rawXml.IndexOf("</ElementList>");
+                            rawXml = rawXml.Substring(index + 14); //removes extracted xml
+                        }
+
+                        resp.Checks.Add(check);
+                    }
+                }
+
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Response failed to convert XML", ex);
+            }
+        }
+
         public Response XmlToClass(string xmlStr)
         {
             try
