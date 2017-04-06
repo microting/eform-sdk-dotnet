@@ -1,12 +1,12 @@
-﻿using eFormData;
-using eFormShared;
+﻿using eFormShared;
+using eFormData;
+using eFormSqlController.Migrations;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity.Migrations;
-using eFormSqlController.Migrations;
-using System.Data.Entity.Infrastructure;
 
 namespace eFormSqlController
 {
@@ -1319,7 +1319,7 @@ namespace eFormSqlController
         #endregion
 
         #region file
-        public UploadedData               FileRead()
+        public UploadedData         FileRead()
         {
             try
             {
@@ -1432,7 +1432,7 @@ namespace eFormSqlController
                         #endregion
 
                         int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
-                        Case_Dto rtrnCase = new Case_Dto(stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, cL.custom, cL.id);
+                        Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.id);
                         return rtrnCase;
                     }
                     catch { }
@@ -1471,7 +1471,7 @@ namespace eFormSqlController
                     #endregion
 
                     int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
-                    Case_Dto cDto = new Case_Dto(stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, cL.custom, cL.id);
+                    Case_Dto cDto = new Case_Dto(aCase.id, stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, aCase.custom, cL.id);
                     return cDto;
                 }
             }
@@ -1639,6 +1639,124 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("CaseFindCustomMatchs failed", ex);
+            }
+        }
+        #endregion
+
+        #region public input/output
+        public int                  InputCaseCreate(string siteUIds, string caseUId, string custom, bool reversed, bool connected, int templateId, string replacements)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_input_cases inputCase = new a_input_cases();
+
+                    inputCase.workflow_state = "created";
+                    inputCase.created_at = DateTime.Now;
+                    inputCase.updated_at = DateTime.Now;
+                    inputCase.site_uids = siteUIds;
+                    inputCase.case_uid = caseUId;
+                    inputCase.custom = custom;
+                    inputCase.reversed = t.Bool(reversed);
+                    inputCase.connected = t.Bool(connected);
+                    inputCase.template_id = templateId;
+                    inputCase.replacements = replacements;
+
+                    db.a_input_cases.Add(inputCase);
+                    db.SaveChanges();
+
+                    return inputCase.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public a_input_cases        InputCaseReadFirst()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_input_cases match = db.a_input_cases.FirstOrDefault(x => x.workflow_state == "created");
+                    return match;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public void                 InputCaseProcessed(int inputCaseId, string workflowState, string microtingUIds)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_input_cases inputCase = db.a_input_cases.Single(x => x.id == inputCaseId);
+                    inputCase.updated_at = DateTime.Now;
+                    inputCase.workflow_state = workflowState;
+                    inputCase.microting_uids = microtingUIds;
+                    
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public int                  OutputCaseCreateOrUpdate(Case_Dto caseDto)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_output_cases match = db.a_output_cases.SingleOrDefault(x => x.case_id == caseDto.CaseId);
+
+                    if (match != null)
+                    {
+                        match.workflow_state = "created";
+                        match.updated_at = DateTime.Now;
+                        match.stat = caseDto.Stat;
+                        match.check_uid = caseDto.CheckUId;
+             
+                        db.SaveChanges();
+
+                        return match.id;
+                    }
+                    else
+                    {
+                        a_output_cases outputCase = new a_output_cases();
+
+                        outputCase.workflow_state = "created";
+                        outputCase.created_at = DateTime.Now;
+                        outputCase.updated_at = DateTime.Now;
+                        outputCase.microting_uid = caseDto.MicrotingUId;
+                        outputCase.check_uid = caseDto.CheckUId;
+                        outputCase.check_list_id = caseDto.CheckListId;
+                        outputCase.stat = caseDto.Stat;
+                        outputCase.site_uid = caseDto.SiteUId;
+                        outputCase.case_type = caseDto.CaseType;
+                        outputCase.case_uid = caseDto.CaseUId;
+                        outputCase.custom = caseDto.Custom;
+                        outputCase.case_id = (int)caseDto.CaseId;
+
+                        db.a_output_cases.Add(outputCase);
+                        db.SaveChanges();
+
+                        return outputCase.id;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
         #endregion

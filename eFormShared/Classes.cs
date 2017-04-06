@@ -135,6 +135,45 @@ namespace eFormShared
     }
     #endregion
 
+    #region Case
+    public class Case
+    {
+        public int Id { get; set; }
+
+        public string WorkflowState { get; set; }
+
+        public int? Version { get; set; }
+
+        public int? Status { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
+        public DateTime? DoneAt { get; set; }
+
+        public int? SiteId { get; set; }
+
+        public string SiteName { get; set; }
+
+        public int? UnitId { get; set; }
+
+        public string WorkerName { get; set; }
+
+        public int? TemplatId { get; set; }
+
+        public string CaseType { get; set; }
+
+        public string MicrotingUId { get; set; }
+
+        public string CheckUIid { get; set; }
+
+        public string CaseUId { get; set; }
+
+        public string Custom { get; set; }
+    }
+    #endregion
+
     #region Case_Dto
     public class Case_Dto
     {
@@ -143,7 +182,7 @@ namespace eFormShared
         {
         }
 
-        public Case_Dto(string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom, int checkListId)
+        public Case_Dto(int? caseId, string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom, int checkListId)
         {
             if (caseType == null)
                 caseType = "";
@@ -154,6 +193,7 @@ namespace eFormShared
             if (checkUId == null)
                 checkUId = "";
 
+            CaseId = caseId;
             Stat = stat;
             SiteUId = siteUId;
             CaseType = caseType;
@@ -166,6 +206,11 @@ namespace eFormShared
         #endregion
 
         #region var
+        /// <summary>
+        /// Local case identifier
+        /// </summary>
+        public int? CaseId { get; }
+
         /// <summary>
         /// Status of the case
         /// </summary>
@@ -209,9 +254,16 @@ namespace eFormShared
 
         public override string ToString()
         {
-            if (CheckUId == null) return "Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            if (CheckUId == "") return "Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            return "Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
+            string caseIdStr;
+
+            if (CaseId == null)
+                caseIdStr = "";
+            else
+                caseIdStr = CaseId.ToString();
+
+            if (CheckUId == null) return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+            if (CheckUId == "")   return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+                                  return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
         }
     }
     #endregion
@@ -743,6 +795,25 @@ namespace eFormShared
                 InderValue = value[0].Value;
             }
         }
+    }
+    #endregion
+
+    #region ExceptionClass
+    public class ExceptionClass
+    {
+        private ExceptionClass()
+        {
+
+        }
+
+        public ExceptionClass(string description, DateTime time)
+        {
+            Description = description;
+            Time = time;
+        }
+
+        public string Description { get; set; }
+        public DateTime Time { get; set; }
     }
     #endregion
 }
