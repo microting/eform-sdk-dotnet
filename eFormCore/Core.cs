@@ -199,11 +199,7 @@ namespace eFormCore
                     //communicators
                     communicator = new Communicator(sqlController);
                     TriggerLog("Communicator started");
-
-                    //coreThread
-                    Thread coreThread = new Thread(() => CoreThread());
-                    coreThread.Start();
-                    TriggerLog("CoreThread started");
+                    coreRunning = true;
 
                     coreStatChanging = false;
                 }

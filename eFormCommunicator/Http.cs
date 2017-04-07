@@ -399,7 +399,7 @@ namespace eFormCommunicator
             {
                 using (WebClient client = new WebClient())
                 {
-                    string url = @"https://"+ addressPdfUpload + "/data_uploads/upload?token="+ token + "&hash=" + hash + "&extension=pdf";
+                    string url = addressPdfUpload + "/data_uploads/upload?token="+ token + "&hash=" + hash + "&extension=pdf";
                     client.UploadFile(url, name);
                 }
 
