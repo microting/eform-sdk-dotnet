@@ -50,6 +50,11 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.1 *(April 7th 2017)*
+	- Fixing the url for pdf upload
+	- Adding migration to drop outlook table.
+	- Fixing the core not started exception for startSql.
+
   - Version 1.5.2.0 *(March 30th 2017)*
 	- Adding support for handling PDF fields..
 	- Run AdminTools.DbSettingsReloadRemote prio using Core the first time. This will load the new settings from API endpoint.
