@@ -64,6 +64,10 @@
     <Compile Include="Migrations\201704071121081_RemoveOutlookTable.Designer.cs">
       <DependentUpon>201704071121081_RemoveOutlookTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704180753399_AddInputAndOutputTables.cs" />
+    <Compile Include="Migrations\201704180753399_AddInputAndOutputTables.Designer.cs">
+      <DependentUpon>201704180753399_AddInputAndOutputTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\a_output_cases.cs" />
     <Compile Include="table\cases.cs" />
@@ -117,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704071121081_RemoveOutlookTable.resx">
       <DependentUpon>201704071121081_RemoveOutlookTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704180753399_AddInputAndOutputTables.resx">
+      <DependentUpon>201704180753399_AddInputAndOutputTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

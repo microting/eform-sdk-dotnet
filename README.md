@@ -50,6 +50,43 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.2 *(April 18th 2017)*
+	- Fixing the broken migration
+	- If you get an error including "Invalid coulmn name 'template_id'" "Invalid column name 'replacements'" then you should drop the table: a_input_cases and run the below script:
+	```sql
+	CREATE TABLE [dbo].[a_input_cases] (
+		[id] [int] NOT NULL IDENTITY,
+		[workflow_state] [varchar](255),
+		[created_at] [datetime2](0),
+		[updated_at] [datetime2](0),
+		[site_uids] [varchar](max),
+		[case_uid] [varchar](255),
+		[custom] [varchar](max),
+		[reversed] [smallint],
+		[microting_uids] [varchar](255),
+		[connected] [smallint],
+		[template_id] [int],
+		[replacements] [varchar](max),
+		CONSTRAINT [PK_dbo.a_input_cases] PRIMARY KEY ([id])
+	)
+	CREATE TABLE [dbo].[a_output_cases] (
+		[id] [int] NOT NULL IDENTITY,
+		[workflow_state] [varchar](255),
+		[created_at] [datetime2](0),
+		[updated_at] [datetime2](0),
+		[microting_uid] [varchar](255),
+		[check_uid] [varchar](max),
+		[check_list_id] [int],
+		[stat] [varchar](255),
+		[site_uid] [varchar](max),
+		[case_type] [varchar](max),
+		[case_uid] [varchar](255),
+		[custom] [varchar](max),
+		[case_id] [int],
+		CONSTRAINT [PK_dbo.a_output_cases] PRIMARY KEY ([id])
+	)
+	```	
+
   - Version 1.5.2.1 *(April 7th 2017)*
 	- Fixing the url for pdf upload
 	- Adding migration to drop outlook table.
