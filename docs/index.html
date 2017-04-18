@@ -373,29 +373,134 @@ You must replace <code>token</code> with your personal API key.
 <h1 id="local-eform-templates">Local eForm templates</h1>
 
 <h2 id="create-a-basic-eform-template-from-xml">Create a basic eForm template from XML</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="k">void</span> <span class="nf">SaveTemplate</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormData</span><span class="p">.</span><span class="n">MainElement</span> <span class="n">newTemplate</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateFromXml</span><span class="p">(</span><span class="n">templateXmlString</span><span class="p">);</span>
+    <span class="n">newTemplate</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateUploadData</span><span class="p">(</span><span class="n">newTemplate</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="nf">TemplateValidation</span><span class="p">(</span><span class="n">newTemplate</span><span class="p">).</span><span class="n">count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">core</span><span class="p">.</span><span class="nf">TemplateCreate</span><span class="p">(</span><span class="n">newTemplate</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
 <h2 id="create-a-basic-eform-template-by-objects">Create a basic eForm template by objects</h2>
 
-<h2 id="validating-the-eform">Validating the eForm</h2>
-
-<h2 id="saving-the-eform-to-db">Saving the eForm to db</h2>
-
 <h2 id="listing-all-eform-templates">Listing all eForm templates</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Template_Dto</span><span class="p">&gt;</span> <span class="nf">ListTemplates</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateItemReadAll</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre>
 <h2 id="deleting-an-eform-template">Deleting an eForm template</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeleteTemplate</span><span class="p">(</span><span class="kt">int</span> <span class="n">id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="nf">TemplateDelete</span><span class="p">(</span><span class="n">id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
 <h1 id="deployment-of-eforms">Deployment of eForms</h1>
 
+<h2 id="deploying-to-one-site">Deploying to one site</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="kt">int</span> <span class="n">siteId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>  
+
+    <span class="n">eFormData</span><span class="p">.</span><span class="n">MainElement</span> <span class="n">mainElement</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+    <span class="n">mainElement</span><span class="p">.</span><span class="n">Repeated</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> 
+    <span class="c1">// We set this right now hardcoded, </span>
+    <span class="c1">// this will let the eForm be deployed until end date or we actively retract it.</span>
+    <span class="n">mainElement</span><span class="p">.</span><span class="n">EndDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="nf">AddYears</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+    <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+
+    <span class="n">SiteName_Dto</span> <span class="n">site</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanded_SiteItemRead</span><span class="p">(</span><span class="n">siteId</span><span class="p">);</span>
+
+    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre>
 <h2 id="deploying-to-one-or-more-sites">Deploying to one or more sites</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">sitesToBeDeployedTo</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormData</span><span class="p">.</span><span class="n">MainElement</span> <span class="n">mainElement</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+    <span class="n">mainElement</span><span class="p">.</span><span class="n">Repeated</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> 
+    <span class="c1">// We set this right now hardcoded, </span>
+    <span class="c1">// this will let the eForm be deployed until end date or we actively retract it.</span>
+    <span class="n">mainElement</span><span class="p">.</span><span class="n">EndDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="nf">AddYears</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+    <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p><code class="prettyprint">sitesToBeDeployedTo</code> should contain the SiteUId for the sites to deploy to.</p>
+</blockquote>
 
 <h2 id="retracting-deployments">Retracting deployments</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">sitesToBeRetractedFrom</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">siteUId</span> <span class="k">in</span> <span class="n">sitesToBeRetractedFrom</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">core</span><span class="p">.</span><span class="nf">CaseDelete</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">siteUId</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p><code class="prettyprint">sitesToBeRetractedFrom</code> should contain the SiteUId for the sites to retract from.</p>
+</blockquote>
 
 <h2 id="listing-deployed-sites-pr-template">Listing deployed sites pr template</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">SiteName_Dto</span><span class="p">&gt;</span> <span class="nf">ListDeployedSites</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Template_Dto</span> <span class="n">templateDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateItemRead</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">templateDto</span><span class="p">.</span><span class="n">DeployedSites</span><span class="p">;</span>    
+<span class="p">}</span>
+</code></pre>
 <h1 id="using-results">Using results</h1>
 
 <h2 id="getting-cases-pr-template-as-object">Getting cases pr template as object</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Case</span><span class="p">&gt;</span> <span class="nf">ListCasesForTemplate</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseReadAll</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre>
 <h2 id="getting-cases-pr-template-as-csv">Getting cases pr template as csv</h2>
 
 <h2 id="getting-a-single-case">Getting a single case</h2>
