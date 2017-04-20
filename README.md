@@ -50,6 +50,11 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.4 *(April 20th 2017)*
+	- CVS "" added, core close sorted
+	- Fixing the handling of threads stopping, to make the core able to restart gracefully
+	- Fixing CaseCreate broken check
+
   - Version 1.5.2.3 *(April 20th 2017)*
 	- Fixing the broken migration for notifications
 
