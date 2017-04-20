@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>Microting.eForm</id>
-    <version>1.5.2.2</version>
+    <version>1.5.2.3</version>
     <authors>Microting A/S</authors>
     <owners>Microting A/S</owners>
     <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/microting/eform-sdk-dotnet</projectUrl>
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Fixing the broken migration.</releaseNotes>
+    <releaseNotes>Fixing the broken migration for notifications.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="9.0.1"/>
