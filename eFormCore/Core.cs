@@ -1041,7 +1041,25 @@ namespace eFormCore
                         temp = new List<string>();
 
                         foreach (List<string> lst in dataSet)
-                            temp.Add(lst[rowN]); 
+                        {
+                            try
+                            {
+                                int.Parse(lst[rowN]);
+                                temp.Add(lst[rowN]);
+                            }
+                            catch
+                            {
+                                try
+                                {
+                                    DateTime.Parse(lst[rowN]);
+                                    temp.Add(lst[rowN]);
+                                }
+                                catch
+                                {
+                                    temp.Add("\"" + lst[rowN] + "\"");
+                                }
+                            }
+                        }
 
                         text += string.Join(";", temp.ToArray()) + Environment.NewLine;
                     }
@@ -2080,11 +2098,11 @@ namespace eFormCore
             return errorLst;
         }
 
-        private bool            OutputCaseUpdate(Case_Dto caseDto)
+        private bool OutputCaseUpdate(Case_Dto caseDto)
         {
             try
             {
-                sqlController.OutputCaseCreateOrUpdate(caseDto);
+                //sqlController.OutputCaseCreateOrUpdate(caseDto);
                 return true;
             }
             catch (Exception ex)
@@ -2127,17 +2145,15 @@ namespace eFormCore
                     Thread.Sleep(500);
                 }
                 catch (ThreadAbortException) {
-                    coreRunning = false;
-                    coreStatChanging = false;
                     TriggerWarning(t.GetMethodName() + " catch of ThreadAbortException");
                 }
-                catch (Exception ex)
-                {
-                    coreRunning = false;
-                    coreStatChanging = false;
+                catch (Exception ex) {
                     throw new Exception("FATAL Exception. " + t.GetMethodName() + " failed", ex);
                 }
             }
+
+            coreRunning = false;
+            coreStatChanging = false;
         }
 
         private void    CoreHandleUpdateFiles()
@@ -2213,6 +2229,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
+                updateIsRunningFiles = false;
                 TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
             }
         }
@@ -2383,6 +2400,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
+                updateIsRunningNotifications = false;
                 TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
             }
         }
@@ -2405,65 +2423,65 @@ namespace eFormCore
 
                         //a_input_template
                         #region TemplateCreate
-                        if (!oneFound)
-                        {
-                            if (null != null)
-                            {
-                                oneFound = true;
-                            }
-                        }
+                        //if (!oneFound)
+                        //{
+                        //    if (null != null)
+                        //    {
+                        //        oneFound = true;
+                        //    }
+                        //}
                         #endregion
 
                         //a_input_cases
                         #region CaseCreate
-                        if (!oneFound)
-                        {
-                            var iC = sqlController.InputCaseReadFirst();
-                            try
-                            {
-                                if (iC != null)
-                                {
-                                    oneFound = true;
+                        //if (!oneFound)
+                        //{
+                        //    var iC = sqlController.InputCaseReadFirst();
+                        //    try
+                        //    {
+                        //        if (iC != null)
+                        //        {
+                        //            oneFound = true;
 
-                                    MainElement mainElement = sqlController.TemplateRead(iC.template_id);
-                                    //do magic - replacement TODO
+                        //            MainElement mainElement = sqlController.TemplateRead(iC.template_id);
+                        //            //do magic - replacement TODO
 
-                                    List<string> siteIdsString = new List<string>();
-                                    List<int> siteIds = new List<int>();
-                                    List<int> siteId = null;
+                        //            List<string> siteIdsString = new List<string>();
+                        //            List<int> siteIds = new List<int>();
+                        //            List<int> siteId = null;
 
-                                    siteIdsString = iC.site_uids.Split(',').ToList();
-                                    foreach (var siteStr in siteIdsString)
-                                        siteIds.Add(int.Parse(siteStr));
+                        //            siteIdsString = iC.site_uids.Split(',').ToList();
+                        //            foreach (var siteStr in siteIdsString)
+                        //                siteIds.Add(int.Parse(siteStr));
 
-                                    {
-                                        List<string> lstMUIds = new List<string>();
-                                        string mUIds = "";
+                        //            {
+                        //                List<string> lstMUIds = new List<string>();
+                        //                string mUIds = "";
 
-                                        if (t.Bool(iC.connected))
-                                        {
-                                            lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom, t.Bool(iC.reversed));
-                                            mUIds = String.Join(",", lstMUIds);
-                                        }
-                                        else
-                                        {
-                                            foreach (var site in siteIds)
-                                            {
-                                                siteId = new List<int> { site };
-                                                lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, siteId, iC.custom, t.Bool(iC.reversed)));
-                                            }
-                                            mUIds = String.Join(",", lstMUIds);
-                                        }
+                        //                if (t.Bool(iC.connected))
+                        //                {
+                        //                    lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom, t.Bool(iC.reversed));
+                        //                    mUIds = String.Join(",", lstMUIds);
+                        //                }
+                        //                else
+                        //                {
+                        //                    foreach (var site in siteIds)
+                        //                    {
+                        //                        siteId = new List<int> { site };
+                        //                        lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, siteId, iC.custom, t.Bool(iC.reversed)));
+                        //                    }
+                        //                    mUIds = String.Join(",", lstMUIds);
+                        //                }
 
-                                        sqlController.InputCaseProcessed(iC.id, "processed", mUIds);
-                                    }
-                                }
-                            }
-                            catch
-                            {
-                                sqlController.InputCaseProcessed(iC.id, "failed", "");
-                            }
-                        }
+                        //                sqlController.InputCaseProcessed(iC.id, "processed", mUIds);
+                        //            }
+                        //        }
+                        //    }
+                        //    catch
+                        //    {
+                        //        sqlController.InputCaseProcessed(iC.id, "failed", "");
+                        //    }
+                        //}
                         #endregion
 
                         #endregion
@@ -2475,6 +2493,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
+                updateIsRunningTables = false;
                 TriggerHandleExpection(t.GetMethodName()+  " failed", ex, true);
             }
         }
@@ -2590,6 +2609,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
+                updateIsRunningEntities = false;
                 TriggerHandleExpection("CoreHandleUpdateEntityItems failed", ex, true);
             }
         }
