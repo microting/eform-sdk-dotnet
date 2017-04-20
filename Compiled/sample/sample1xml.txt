@@ -141,6 +141,13 @@
                     <DecimalCount />
                     <UnitName />
                 </DataItem>
+				<DataItem type="ShowPDF">
+					<Id>45715</Id>
+					<Label>Vis PDF</Label>
+					<Description><![CDATA[]]></Description>
+					<DisplayOrder>0</DisplayOrder>
+					<Value>https://eform.microting.com/app_files/uploads/20170214112333_11325_5d90c4541d537b18c08fbf671168dc82.pdf</Value>
+				</DataItem>
                 <DataItem type="SingleSelect">
                     <Id>47190</Id>
                     <Label>Single</Label>

@@ -1044,7 +1044,25 @@ namespace eFormCore
                         temp = new List<string>();
 
                         foreach (List<string> lst in dataSet)
-                            temp.Add(lst[rowN]); 
+                        {
+                            try
+                            {
+                                int.Parse(lst[rowN]);
+                                temp.Add(lst[rowN]);
+                            }
+                            catch
+                            {
+                                try
+                                {
+                                    DateTime.Parse(lst[rowN]);
+                                    temp.Add(lst[rowN]);
+                                }
+                                catch
+                                {
+                                    temp.Add("\"" + lst[rowN] + "\"");
+                                }
+                            }
+                        }
 
                         text += string.Join(";", temp.ToArray()) + Environment.NewLine;
                     }
@@ -2130,17 +2148,15 @@ namespace eFormCore
                     Thread.Sleep(500);
                 }
                 catch (ThreadAbortException) {
-                    coreRunning = false;
-                    coreStatChanging = false;
                     TriggerWarning(t.GetMethodName() + " catch of ThreadAbortException");
                 }
-                catch (Exception ex)
-                {
-                    coreRunning = false;
-                    coreStatChanging = false;
+                catch (Exception ex) {
                     throw new Exception("FATAL Exception. " + t.GetMethodName() + " failed", ex);
                 }
             }
+
+            coreRunning = false;
+            coreStatChanging = false;
         }
 
         private void    CoreHandleUpdateFiles()
