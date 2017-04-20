@@ -655,9 +655,6 @@ namespace eFormCore
 
                         if (reversed == true && caseUId != "")
                             throw new ArgumentException("if reversed == true, caseUId can't be used and has to be left blank");
-
-                        if (siteIds.Count > 1 && caseUId == "")
-                            throw new ArgumentException("if cases are connected, caseUId can't be left blank and must be unique");
                         #endregion
 
                         //sending and getting a reply
