@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.3 *(April 20th 2017)*
+	- Fixing the broken migration for notifications
+
   - Version 1.5.2.2 *(April 18th 2017)*
 	- Fixing the broken migration
 	- If you get an error including "Invalid coulmn name 'template_id'" "Invalid column name 'replacements'" then you should drop the table: a_input_cases and run the below script:

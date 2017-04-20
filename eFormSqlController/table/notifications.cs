@@ -21,12 +21,12 @@ namespace eFormSqlController
         public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
-        public string notification_uid { get; set; }
-
-        [StringLength(255)]
         public string microting_uid { get; set; }
 
         public string transmission { get; set; }
+
+        [StringLength(255)]
+        public string notification_uid { get; set; }
 
         public string activity { get; set; }
     }
