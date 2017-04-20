@@ -63,9 +63,6 @@ namespace eFormCore
             core.HandleCaseDeleted += EventCaseDeleted;
             core.HandleFileDownloaded += EventFileDownloaded;
             core.HandleSiteActivated += EventSiteActivated;
-            core.HandleEventLog += EventLog;
-            core.HandleEventMessage += EventMessage;
-            core.HandleEventWarning += EventWarning;
             core.HandleEventException += EventException;
             #endregion
 
