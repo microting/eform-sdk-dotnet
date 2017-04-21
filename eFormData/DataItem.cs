@@ -590,6 +590,7 @@ namespace eFormData
     {
         public List<FieldValue> FieldValues { get; set; }
         public string FieldType { get; set; }
+        public string FieldValue { get; set; }
         public List<KeyValuePair> KeyValuePairList { get; set; }
     }
 

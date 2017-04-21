@@ -550,7 +550,7 @@ namespace eFormCore
                     {
                         CoreElement reply = core.CaseRead(mUId, checkUId);
 
-                        DataElement replyDataE = (DataElement)reply.ElementList[0];
+                        CheckListValue replyDataE = (CheckListValue)reply.ElementList[0];
                         FieldValue answer = (FieldValue)replyDataE.DataItemList[0];
 
                         MainElement mainElement = core.TemplateRead(step2tId);

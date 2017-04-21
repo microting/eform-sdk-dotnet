@@ -868,6 +868,7 @@ namespace eFormSqlController
                         field.Description = new CDataValue();
                         field.Description.InderValue = fieldDb.description;
                         field.FieldType = fieldDb.field_type.field_type;
+                        field.FieldValue = fieldDb.default_value;
 
                         if (field.FieldType == "SingleSelect")
                         {
@@ -2711,7 +2712,7 @@ namespace eFormSqlController
         #endregion
 
         #region public setting
-        public void    SettingCreate(Settings name, int id)
+        public void     SettingCreate(Settings name, int id)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
