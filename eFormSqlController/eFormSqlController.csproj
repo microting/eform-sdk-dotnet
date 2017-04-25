@@ -73,12 +73,12 @@
       <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="table\a_output_cases.cs" />
+    <Compile Include="table\a_interaction_cases.cs" />
+    <Compile Include="table\a_interaction_case_lists.cs" />
     <Compile Include="table\cases.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
     <Compile Include="table\check_list_values.cs" />
-    <Compile Include="table\a_input_cases.cs" />
     <Compile Include="table\uploaded_data.cs" />
     <Compile Include="table\entity_groups.cs" />
     <Compile Include="table\entity_items.cs" />
