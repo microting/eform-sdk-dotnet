@@ -1918,20 +1918,13 @@ namespace eFormCore
         {
             List<List<string>>  dataSet         = new List<List<string>>();
             List<string>        colume1CaseIds  = new List<string> { "Id" };
+            List<int>           caseIds         = new List<int>();
 
             List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed");
             var                template        = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)
                 return null;
-
-            #region remove cases that are not completed
-            //for (int i = caseList.Count; i < 0; i--)
-            //{
-            //    if (caseList[i].WorkflowState != "retracted")
-            //        caseList.RemoveAt(i);
-            //}
-            #endregion
 
             #region firstColumes generate
             {
@@ -1951,6 +1944,7 @@ namespace eFormCore
                 {
                     DateTime time = (DateTime)aCase.DoneAt;
                     colume1CaseIds.Add(aCase.Id.ToString());
+                    caseIds.Add(aCase.Id);
 
                     colume2.Add(time.ToString("yyyy.MM.dd"));
                     colume3.Add(time.ToString("HH:mm:ss"));
@@ -1993,7 +1987,7 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<string>> result = sqlController.FieldValueReadAllValues(fieldId, start, end, customPathForUploadedData);
+                        List<List<string>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData);
 
                         if (result.Count == 1)
                         {

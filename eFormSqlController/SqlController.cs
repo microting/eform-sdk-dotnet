@@ -1053,21 +1053,15 @@ namespace eFormSqlController
             }
         }
 
-        public List<List<string>>   FieldValueReadAllValues(int fieldId, DateTime? start, DateTime? end, string customPathForUploadedData)
+        public List<List<string>>   FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (start == null)
-                        start = DateTime.MinValue;
-
-                    if (end == null)
-                        end = DateTime.MaxValue;
-
                     fields matchField = db.fields.Single(x => x.id == fieldId);
 
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && x.done_at > start && x.done_at < end).ToList();
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId).Where(x => caseIds.Contains(x.id)).ToList();
 
                     List<List<string>> rtrnLst = new List<List<string>>();
                     List<string> replyLst1 = new List<string>();
