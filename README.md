@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.5 *(April 25th 2017)*
+	- Fixing the broken CSV generator for removed cases.
+
   - Version 1.5.2.4 *(April 20th 2017)*
 	- CVS "" added, core close sorted
 	- Fixing the handling of threads stopping, to make the core able to restart gracefully
