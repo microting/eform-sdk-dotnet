@@ -42,7 +42,7 @@ namespace eFormSqlController
         [Column(TypeName = "varchar(MAX)")]
         public string label { get; set; }
 
-        [Column(TypeName = "varchar(MAX)")]
+        [StringLength(int.MaxValue)]
         public string description { get; set; }
 
         [StringLength(255)]

@@ -50,6 +50,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.8 *(April 27th 2017)*
+	- Adding Created at to the columns in the CSV export.
+	- Extending the description columns for check_lists and fields.
+
   - Version 1.5.2.7 *(April 25th 2017)*
 	- Fixing the timestamp for cases.created_at
 	- Fixing the selection of field_values for the CSV generator

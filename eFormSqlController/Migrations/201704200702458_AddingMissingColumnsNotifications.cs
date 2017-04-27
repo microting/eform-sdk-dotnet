@@ -7,8 +7,14 @@ namespace eFormSqlController.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.notifications", "notification_uid", c => c.String());
-            AddColumn("dbo.notifications", "activity", c => c.String());
+            try
+            {
+                AddColumn("dbo.notifications", "notification_uid", c => c.String());
+            } catch { }
+            try
+            {
+                AddColumn("dbo.notifications", "activity", c => c.String());
+            } catch { }
         }
         
         public override void Down()

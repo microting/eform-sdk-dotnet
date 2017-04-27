@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Microting.eForm</id>
-    <version>1.5.2.7</version>
+    <version>1.5.2.8</version>
     <authors>Microting A/S</authors>
     <owners>Microting A/S</owners>
     <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Fixing the timestamp for cases.created_at. Fixing the selection of field_values for the CSV generator.</releaseNotes>
+    <releaseNotes>Adding Created at to the columns in the CSV export. Extending the description columns for check_lists and fields.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="9.0.1"/>
