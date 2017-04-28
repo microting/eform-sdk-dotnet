@@ -447,9 +447,26 @@ namespace eFormCommunicator
             return true;
         }
 
-        internal bool       SiteDelete(int id)
+        internal string SiteDelete(int id)
         {
-            return true;
+            try
+            {
+                WebRequest request = WebRequest.Create(addressBasic + "/v1/sites/" + id + "?token=" + token);
+                request.Method = "DELETE";
+                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+
+                string newUrl = PostToServerGetRedirect(request);
+
+                request = WebRequest.Create(newUrl + "?token=" + token);
+                request.Method = "GET";
+
+                return PostToServer(request);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SiteDelete failed", ex);
+            }
         }
 
         internal string     SiteLoadAllFromRemote()
@@ -495,9 +512,26 @@ namespace eFormCommunicator
             return true;
         }
 
-        internal bool       WorkerDelete(int id)
+        internal string       WorkerDelete(int id)
         {
-            return true;
+            try
+            {
+                WebRequest request = WebRequest.Create(addressBasic + "/v1/users/" + id + "?token=" + token);
+                request.Method = "DELETE";
+                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+
+                string newUrl = PostToServerGetRedirect(request);
+
+                request = WebRequest.Create(newUrl + "?token=" + token);
+                request.Method = "GET";
+
+                return PostToServer(request);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("WorkerDelete failed", ex);
+            }
         }
 
         internal string     WorkerLoadAllFromRemote()
@@ -534,9 +568,26 @@ namespace eFormCommunicator
             return true;
         }
 
-        internal bool       SiteWorkerDelete(int id)
+        internal string       SiteWorkerDelete(int id)
         {
-            return true;
+            try
+            {
+                WebRequest request = WebRequest.Create(addressBasic + "/v1/workers/" + id + "?token=" + token);
+                request.Method = "DELETE";
+                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+
+                string newUrl = PostToServerGetRedirect(request);
+
+                request = WebRequest.Create(newUrl + "?token=" + token);
+                request.Method = "GET";
+
+                return PostToServer(request);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SiteWorkerDelete failed", ex);
+            }
         }
 
         internal string     SiteWorkerLoadAllFromRemote()

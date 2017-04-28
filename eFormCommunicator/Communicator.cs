@@ -204,7 +204,16 @@ namespace eFormCommunicator
 
         public bool         SiteDelete(int siteId)
         {
-            return http.SiteDelete(siteId);
+            string response = http.SiteDelete(siteId);
+            var parsedData = JRaw.Parse(response);
+
+            if(parsedData["workflow_state"].ToString() == "removed")
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
         }
 
         public List<SiteName_Dto>  SiteLoadAllFromRemote()
@@ -244,7 +253,17 @@ namespace eFormCommunicator
 
         public bool             WorkerDelete(int workerId)
         {
-            return http.WorkerDelete(workerId);
+            string response = http.WorkerDelete(workerId);
+            var parsedData = JRaw.Parse(response);
+
+            if (parsedData["workflow_state"].ToString() == "removed")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<Worker_Dto> WorkerLoadAllFromRemote()
@@ -283,7 +302,18 @@ namespace eFormCommunicator
 
         public bool         SiteWorkerDelete(int workerId)
         {
-            return http.SiteWorkerDelete(workerId);
+
+            string response = http.SiteWorkerDelete(workerId);
+            var parsedData = JRaw.Parse(response);
+
+            if (parsedData["workflow_state"].ToString() == "removed")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<Site_Worker_Dto> SiteWorkerLoadAllFromRemote()
