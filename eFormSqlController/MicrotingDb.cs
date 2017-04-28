@@ -15,8 +15,8 @@ namespace eFormSqlController
         {
         }
 
-        public virtual DbSet<a_input_cases> a_input_cases { get; set; }
-        public virtual DbSet<a_output_cases> a_output_cases { get; set; }
+        public virtual DbSet<a_interaction_cases> a_interaction_cases { get; set; }
+        public virtual DbSet<a_interaction_case_lists> a_interaction_case_lists { get; set; }
         public virtual DbSet<cases> cases { get; set; }
         public virtual DbSet<check_list_sites> check_list_sites { get; set; }
         public virtual DbSet<check_list_values> check_list_values { get; set; }

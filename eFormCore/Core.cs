@@ -670,7 +670,7 @@ namespace eFormCore
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
-                            OutputCaseUpdate(cDto);
+                            InteractionCaseUpdate(cDto);
                             HandleCaseCreated?.Invoke(cDto, EventArgs.Empty);
                             TriggerMessage(cDto.ToString() + " has been created");
 
@@ -886,7 +886,7 @@ namespace eFormCore
                         }
                         catch { }
 
-                        OutputCaseUpdate(cDto);
+                        InteractionCaseUpdate(cDto);
                         HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
                         TriggerMessage(cDto.ToString() + " has been removed");
                     }
@@ -2095,17 +2095,16 @@ namespace eFormCore
             return errorLst;
         }
 
-        private bool OutputCaseUpdate(Case_Dto caseDto)
+        private void            InteractionCaseUpdate(Case_Dto caseDto)
         {
             try
             {
-                //sqlController.OutputCaseCreateOrUpdate(caseDto);
-                return true;
+                if (!sqlController.InteractionCaseUpdate(caseDto))
+                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
             }
             catch (Exception ex)
             {
-                TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason:'" + t.PrintException("", ex) + "'");
-                return false;
+                TriggerHandleExpection(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "'", ex, true);
             }
         }
         #endregion
@@ -2325,7 +2324,7 @@ namespace eFormCore
                                                             sqlController.CaseRetract(noteUId, check.Id);
 
                                                             Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                                            OutputCaseUpdate(cDto);
+                                                            InteractionCaseUpdate(cDto);
                                                             HandleCaseCompleted(cDto, EventArgs.Empty);
                                                             TriggerMessage(cDto.ToString() + " has been completed");
                                                             i += 1;
@@ -2343,7 +2342,7 @@ namespace eFormCore
                                             }
                                         }
 
-                                        sqlController.NotificationProcessed(notification.Id, "processed");
+                                        sqlController.NotificationProcessed(notification.Id, "");
                                         break;
                                     }
                                 #endregion
@@ -2353,7 +2352,7 @@ namespace eFormCore
                                     {
                                         sqlController.CaseUpdateRetrived(noteUId);
                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                        OutputCaseUpdate(cDto);
+                                        InteractionCaseUpdate(cDto);
                                         HandleCaseRetrived?.Invoke(cDto, EventArgs.Empty);
                                         TriggerMessage(cDto.ToString() + " has been retrived");
 
@@ -2418,7 +2417,7 @@ namespace eFormCore
                         oneFound = false;
                         #region check if out of sync
 
-                        //a_input_template
+                        //a_interaction_template
                         #region TemplateCreate
                         //if (!oneFound)
                         //{
@@ -2429,56 +2428,44 @@ namespace eFormCore
                         //}
                         #endregion
 
-                        //a_input_cases
+                        //a_interaction_case
                         #region CaseCreate
-                        //if (!oneFound)
-                        //{
-                        //    var iC = sqlController.InputCaseReadFirst();
-                        //    try
-                        //    {
-                        //        if (iC != null)
-                        //        {
-                        //            oneFound = true;
+                        if (!oneFound)
+                        {
+                            a_interaction_cases iC = sqlController.InteractionCaseReadFirst();
+                            try
+                            {
+                                if (iC != null)
+                                {
+                                    oneFound = true;
 
-                        //            MainElement mainElement = sqlController.TemplateRead(iC.template_id);
-                        //            //do magic - replacement TODO
+                                    MainElement mainElement = sqlController.TemplateRead(iC.template_id);
+                                    //do magic - replacement TODO
 
-                        //            List<string> siteIdsString = new List<string>();
-                        //            List<int> siteIds = new List<int>();
-                        //            List<int> siteId = null;
+                                    List<string> lstMUIds = new List<string>();
+                                    List<int> siteIds = new List<int>();
+                          
+                                    foreach (var site in iC.a_interaction_case_lists.ToList())
+                                        siteIds.Add((int)site.siteId);
 
-                        //            siteIdsString = iC.site_uids.Split(',').ToList();
-                        //            foreach (var siteStr in siteIdsString)
-                        //                siteIds.Add(int.Parse(siteStr));
+                                    if (t.Bool(iC.connected))
+                                    {
+                                        lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom, t.Bool(iC.reversed));
+                                    }
+                                    else
+                                    {
+                                        foreach (var site in siteIds)
+                                            lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom, t.Bool(iC.reversed)));
+                                    }
 
-                        //            {
-                        //                List<string> lstMUIds = new List<string>();
-                        //                string mUIds = "";
-
-                        //                if (t.Bool(iC.connected))
-                        //                {
-                        //                    lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom, t.Bool(iC.reversed));
-                        //                    mUIds = String.Join(",", lstMUIds);
-                        //                }
-                        //                else
-                        //                {
-                        //                    foreach (var site in siteIds)
-                        //                    {
-                        //                        siteId = new List<int> { site };
-                        //                        lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, siteId, iC.custom, t.Bool(iC.reversed)));
-                        //                    }
-                        //                    mUIds = String.Join(",", lstMUIds);
-                        //                }
-
-                        //                sqlController.InputCaseProcessed(iC.id, "processed", mUIds);
-                        //            }
-                        //        }
-                        //    }
-                        //    catch
-                        //    {
-                        //        sqlController.InputCaseProcessed(iC.id, "failed", "");
-                        //    }
-                        //}
+                                    sqlController.InteractionCaseProcessed(iC.id, siteIds, lstMUIds);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseCreate logic failed", ex));
+                            }
+                        }
                         #endregion
 
                         #endregion
