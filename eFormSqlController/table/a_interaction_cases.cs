@@ -8,10 +8,19 @@ namespace eFormSqlController
 
     public partial class a_interaction_cases
     {
+
+        public a_interaction_cases()
+        {
+            this.a_interaction_case_lists = new HashSet<a_interaction_case_lists>();
+
+        }
+        [Key]
         public int id { get; set; }
 
         [StringLength(255)]
         public string workflow_state { get; set; }
+
+        public int? version { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
@@ -26,10 +35,16 @@ namespace eFormSqlController
 
         public string custom { get; set; }
 
+        public short? reversed { get; set; }
+
         public short? connected { get; set; }
 
         public string replacements { get; set; }
 
         public short? synced { get; set; }
+
+        public string expectionString { get; set; }
+
+        public virtual ICollection<a_interaction_case_lists> a_interaction_case_lists { get; set; }
     }
 }

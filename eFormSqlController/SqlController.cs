@@ -1639,7 +1639,7 @@ namespace eFormSqlController
         #endregion
 
         #region public outlook interaction
-        public int InteractionCaseCreate(string siteUIds, string caseUId, string custom, bool reversed, bool connected, int templateId, string replacements)
+        public int                  InteractionCaseCreate(string siteUIds, string caseUId, string custom, bool reversed, bool connected, int templateId, string replacements)
         {
             try
             {
@@ -1648,6 +1648,7 @@ namespace eFormSqlController
                     a_interaction_cases newCase = new a_interaction_cases();
 
                     newCase.workflow_state = "created";
+                    newCase.version = 1;
                     newCase.created_at = DateTime.Now;
                     newCase.updated_at = DateTime.Now;
                     newCase.case_uid = caseUId;
@@ -1662,17 +1663,23 @@ namespace eFormSqlController
                     db.SaveChanges();
 
                     List<string> siteIdLst = siteUIds.Split('|').ToList();
-                    a_interaction_case_lists newDetails;
+                    a_interaction_case_lists newSite;
 
                     foreach (string siteId in siteIdLst)
                     {
-                        newDetails = new a_interaction_case_lists();
+                        newSite = new a_interaction_case_lists();
 
-                        newDetails.a_interaction_case_id = newCase.id;
-                        newDetails.siteId = int.Parse(siteId);
+                        newSite.workflow_state = "created";
+                        newSite.version = 1;
+                        newSite.created_at = DateTime.Now;
+                        newSite.updated_at = DateTime.Now;
+                        newSite.a_interaction_case_id = newCase.id;
+                        newSite.siteId = int.Parse(siteId);
+                        newSite.stat = "pre_created";
 
-                        db.a_interaction_case_lists.Add(newDetails);
+                        db.a_interaction_case_lists.Add(newSite);
                     }
+                    db.SaveChanges();
 
                     return newCase.id;
                 }
@@ -1683,7 +1690,7 @@ namespace eFormSqlController
             }
         }
 
-        public a_interaction_cases InteractionCaseReadFirst()
+        public a_interaction_cases  InteractionCaseReadFirst()
         {
             try
             {
@@ -1699,47 +1706,31 @@ namespace eFormSqlController
             }
         }
 
-        public int InteractionCaseUpdate(Case_Dto caseDto)
+        public bool                 InteractionCaseUpdate(Case_Dto caseDto)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.case_id == caseDto.CaseId);
+                    a_interaction_case_lists matchSite = db.a_interaction_case_lists.SingleOrDefault(x => x.microting_uid == caseDto.MicrotingUId);
 
-                    if (match != null)
-                    {
-                        match.workflow_state = "created";
-                        match.updated_at = DateTime.Now;
-                        match.stat = caseDto.Stat;
-                        match.check_uid = caseDto.CheckUId;
+                    if (matchSite != null)
+                        return false;
 
-                        db.SaveChanges();
+                    a_interaction_cases matchCase = matchSite.a_interaction_case;
+                    matchCase.updated_at = DateTime.Now;
+                    matchCase.version = matchCase.version + 1;
+                    matchCase.synced = 0;
 
-                        return match.id;
-                    }
-                    else
-                    {
-                        a_interaction_cases outputCase = new a_interaction_cases();
+                    matchSite.case_id = caseDto.CaseId;
+                    matchSite.check_uid = caseDto.CheckUId;
+                    matchSite.stat = caseDto.Stat;
+                    matchSite.updated_at = DateTime.Now;
+                    matchSite.version = matchCase.version + 1;
 
-                        outputCase.workflow_state = "created";
-                        outputCase.created_at = DateTime.Now;
-                        outputCase.updated_at = DateTime.Now;
-                        outputCase.microting_uid = caseDto.MicrotingUId;
-                        outputCase.check_uid = caseDto.CheckUId;
-                        outputCase.check_list_id = caseDto.CheckListId;
-                        outputCase.stat = caseDto.Stat;
-                        outputCase.site_uid = caseDto.SiteUId;
-                        outputCase.case_type = caseDto.CaseType;
-                        outputCase.case_uid = caseDto.CaseUId;
-                        outputCase.custom = caseDto.Custom;
-                        outputCase.case_id = (int)caseDto.CaseId;
+                    db.SaveChanges();
 
-                        db.a_interaction_cases.Add(outputCase);
-                        db.SaveChanges();
-
-                        return outputCase.id;
-                    }
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -1748,16 +1739,52 @@ namespace eFormSqlController
             }
         }
 
-        public void InteractionCaseProcessed(int interactionCaseId, string workflowState, string microtingUIds)
+        public void                 InteractionCaseProcessed(int interactionCaseId, List<int> siteUIds, List<string> microtingUIds)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    a_interaction_cases match = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
-                    match.updated_at = DateTime.Now;
-                    match.workflow_state = workflowState;
-                    match.microting_uids = microtingUIds;
+                    a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
+                    matchCase.workflow_state = "processed";
+                    matchCase.updated_at = DateTime.Now;
+                    matchCase.version = matchCase.version + 1;
+                    matchCase.synced = 0;
+
+                    int index = 0;
+                    int count = siteUIds.Count();
+
+                    while (index < count)
+                    {
+                        a_interaction_case_lists matchSite = db.a_interaction_case_lists.Single(x => x.a_interaction_case_id == matchCase.id && x.siteId == siteUIds[index]);
+                        matchSite.updated_at = DateTime.Now;
+                        matchSite.version = matchSite.version + 1;
+                        matchSite.microting_uid = microtingUIds[index];
+
+                        index++;
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public void                 InteractionCaseFailed(int interactionCaseId, string expectionString)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
+                    matchCase.workflow_state = "failed";
+                    matchCase.updated_at = DateTime.Now;
+                    matchCase.version = matchCase.version + 1;
+                    matchCase.synced = 0;
+                    matchCase.expectionString = expectionString;
 
                     db.SaveChanges();
                 }
