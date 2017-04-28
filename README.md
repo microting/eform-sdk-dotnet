@@ -50,6 +50,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.2.9 *(April 29th 2017)*
+	- Adding MigrateDb to AdminTools, so the implementer is able to force migration of the DB.
+		- **It is recommended to run AdminTools.MigrateDb every time there has been an upgrade of the NuGet!**.
+
   - Version 1.5.2.8 *(April 27th 2017)*
 	- Adding Created at to the columns in the CSV export.
 	- Extending the description columns for check_lists and fields.

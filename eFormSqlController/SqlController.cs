@@ -47,6 +47,15 @@ namespace eFormSqlController
             }
         }
 
+        public bool MigrateDb()
+        {
+            var configuration = new Configuration();
+            configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
+            var migrator = new DbMigrator(configuration);
+            migrator.Update();
+            return true;
+        }
+
         private void PrimeDb()
         {
             int settingsCount = 0;
@@ -65,10 +74,7 @@ namespace eFormSqlController
             {
                 if (ex.Message.Contains("context has changed") || ex.Message.Contains("'cases'"))
                 {
-                    var configuration = new Configuration();
-                    configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
-                    var migrator = new DbMigrator(configuration);
-                    migrator.Update();
+                    MigrateDb();
                 }
                 else         
                     throw ex;

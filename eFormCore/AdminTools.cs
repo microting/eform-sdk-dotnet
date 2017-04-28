@@ -398,6 +398,11 @@ namespace eFormCore
         {
             return sqlController.SettingCheckAll();
         }
+
+        public bool MigrateDb()
+        {
+            return sqlController.MigrateDb();
+        }
         #endregion
 
         #region private
