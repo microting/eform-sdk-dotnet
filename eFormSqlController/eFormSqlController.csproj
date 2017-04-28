@@ -72,6 +72,10 @@
     <Compile Include="Migrations\201704200702458_AddingMissingColumnsNotifications.Designer.cs">
       <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704270817388_ChangingDescriptionToMax.cs" />
+    <Compile Include="Migrations\201704270817388_ChangingDescriptionToMax.Designer.cs">
+      <DependentUpon>201704270817388_ChangingDescriptionToMax.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\a_interaction_cases.cs" />
     <Compile Include="table\a_interaction_case_lists.cs" />
@@ -131,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704200702458_AddingMissingColumnsNotifications.resx">
       <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704270817388_ChangingDescriptionToMax.resx">
+      <DependentUpon>201704270817388_ChangingDescriptionToMax.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

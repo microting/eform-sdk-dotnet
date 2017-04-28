@@ -1934,10 +1934,11 @@ namespace eFormCore
                 List<string> colume5 = new List<string> { "Week" };
                 List<string> colume6 = new List<string> { "Month" };
                 List<string> colume7 = new List<string> { "Year" };
-                List<string> colume8 = new List<string> { "Site" };
-                List<string> colume9 = new List<string> { "Device User" };
-                List<string> colume10 = new List<string> { "Device Id" };
-                List<string> colume11 = new List<string> { "eForm Name" };
+                List<string> colume8 = new List<string> { "Created At" };
+                List<string> colume9 = new List<string> { "Site" };
+                List<string> colume10 = new List<string> { "Device User" };
+                List<string> colume11 = new List<string> { "Device Id" };
+                List<string> colume12 = new List<string> { "eForm Name" };
 
                 var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
                 foreach (var aCase in caseList)
@@ -1952,10 +1953,11 @@ namespace eFormCore
                     colume5.Add(time.Year.ToString() + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
                     colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
                     colume7.Add(time.Year.ToString());
-                    colume8.Add(aCase.SiteName);
-                    colume9.Add(aCase.WorkerName);
-                    colume10.Add(aCase.UnitId.ToString());
-                    colume11.Add(template.Label);
+                    colume8.Add(aCase.CreatedAt.Value.ToString("yyyy.MM.dd HH:mm:ss"));
+                    colume9.Add(aCase.SiteName);
+                    colume10.Add(aCase.WorkerName);
+                    colume11.Add(aCase.UnitId.ToString());
+                    colume12.Add(template.Label);
                 }
 
                 dataSet.Add(colume1CaseIds);
@@ -1969,6 +1971,7 @@ namespace eFormCore
                 dataSet.Add(colume9);
                 dataSet.Add(colume10);
                 dataSet.Add(colume11);
+                dataSet.Add(colume12);
             }
             #endregion
 

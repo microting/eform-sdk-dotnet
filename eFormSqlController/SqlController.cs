@@ -576,7 +576,7 @@ namespace eFormSqlController
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
-                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[xmlIndex].Id, "ReversedCase", "", (DateTime)cLS.updated_at);
+                        int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
                         responseCase = db.cases.Single(x => x.id == caseId);
                     }
                     catch //already created case id retrived
@@ -1061,7 +1061,7 @@ namespace eFormSqlController
                 {
                     fields matchField = db.fields.Single(x => x.id == fieldId);
 
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId).Where(x => caseIds.Contains(x.id)).ToList();
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && caseIds.Contains((int)x.case_id)).ToList();
 
                     List<List<string>> rtrnLst = new List<List<string>>();
                     List<string> replyLst1 = new List<string>();

@@ -142,6 +142,7 @@ namespace eFormSqlController
 
             modelBuilder.Entity<check_lists>()
                 .Property(e => e.description)
+                .HasMaxLength(int.MaxValue)
                 .IsUnicode(false);
 
             modelBuilder.Entity<check_lists>()
@@ -300,6 +301,7 @@ namespace eFormSqlController
 
             modelBuilder.Entity<fields>()
                 .Property(e => e.description)
+                .HasMaxLength(int.MaxValue)
                 .IsUnicode(false);
 
             modelBuilder.Entity<fields>()
@@ -522,6 +524,7 @@ namespace eFormSqlController
 
             modelBuilder.Entity<check_list_versions>()
                 .Property(e => e.description)
+                .HasMaxLength(int.MaxValue)
                 .IsUnicode(false);
 
             modelBuilder.Entity<check_list_versions>()
@@ -666,6 +669,7 @@ namespace eFormSqlController
 
             modelBuilder.Entity<field_versions>()
                 .Property(e => e.description)
+                .HasMaxLength(int.MaxValue)
                 .IsUnicode(false);
 
             modelBuilder.Entity<field_versions>()
