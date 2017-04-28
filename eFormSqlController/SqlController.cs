@@ -1714,7 +1714,7 @@ namespace eFormSqlController
                 {
                     a_interaction_case_lists matchSite = db.a_interaction_case_lists.SingleOrDefault(x => x.microting_uid == caseDto.MicrotingUId);
 
-                    if (matchSite != null)
+                    if (matchSite == null)
                         return false;
 
                     a_interaction_cases matchCase = matchSite.a_interaction_case;
