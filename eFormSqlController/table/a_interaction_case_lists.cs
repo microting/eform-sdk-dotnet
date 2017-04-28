@@ -25,7 +25,6 @@ namespace eFormSqlController
         [ForeignKey("a_interaction_case")]
         public int? a_interaction_case_id { get; set; }
 
-        [StringLength(255)]
         public int? siteId { get; set; }
 
         public string stat { get; set; }
