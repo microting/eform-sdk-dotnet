@@ -563,11 +563,6 @@ namespace eFormCommunicator
             return response;
         }
 
-        internal bool       SiteWorkerUpdate(int siteId, int workerId)
-        {
-            return true;
-        }
-
         internal string       SiteWorkerDelete(int id)
         {
             try

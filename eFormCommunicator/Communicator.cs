@@ -295,11 +295,6 @@ namespace eFormCommunicator
             return new Site_Worker_Dto(workerUid, siteId, workerId);
         }
 
-        public bool         SiteWorkerUpdate(int id, int siteId, int workerId)
-        {
-            return http.SiteWorkerUpdate(siteId, workerId);
-        }
-
         public bool         SiteWorkerDelete(int workerId)
         {
 
