@@ -1573,14 +1573,14 @@ namespace eFormCore
             }
         }
 
-        public List<Worker_Dto> Advanced_WorkerReadAll()
+        public List<Worker_Dto> Advanced_WorkerReadAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (coreRunning)
                 {
-                    return sqlController.WorkerGetAll();
+                    return sqlController.WorkerGetAll(workflowState, offSet, limit);
                 }
                 else
                     throw new Exception("Core is not running");
