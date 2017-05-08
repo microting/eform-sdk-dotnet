@@ -52,6 +52,7 @@ namespace eFormCommunicator
         private string organizationId;
 
         Tools t = new Tools();
+        object _lock = new object();
         #endregion
 
         #region con
@@ -637,186 +638,211 @@ namespace eFormCommunicator
         #region private
         private string PostToServer(WebRequest request, byte[] content)
         {
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
-            dataRequestStream.Close();
-
-            WebResponse response = request.GetResponse();
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = reader.ReadToEnd();
-
-            // Clean up the streams.
-            try
+            lock (_lock)
             {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
+                // Hack for ignoring certificate validation.
+                ServicePointManager.ServerCertificateValidationCallback = Validator;
+                Stream dataRequestStream = request.GetRequestStream();
+                dataRequestStream.Write(content, 0, content.Length);
+                dataRequestStream.Close();
 
-            }
+                WebResponse response;
+                try
+                {
+                    //File.AppendAllText("FINDMEPLS.txt", "traceB" + Environment.NewLine);
+                    response = request.GetResponse();
+                    //File.AppendAllText("FINDMEPLS.txt", "traceC" + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                  //  File.AppendAllText("FINDMEPLS.txt", t.PrintException("damn", ex) + Environment.NewLine);
+                    response = null;
 
-            return responseFromServer;
+                }
+                //File.AppendAllText("FINDMEPLS.txt", "traceA" + Environment.NewLine);
+
+                Stream dataResponseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataResponseStream);
+                string responseFromServer = reader.ReadToEnd();
+
+                // Clean up the streams.
+                try
+                {
+                    reader.Close();
+                    dataResponseStream.Close();
+                    response.Close();
+                }
+                catch
+                {
+
+                }
+
+                return responseFromServer;
+            }
         }
 
         private string PostToServerGetRedirect(WebRequest request, byte[] content)
         {
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
-            dataRequestStream.Close();
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-
-            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-            string newUrl = "";
-            if (response.StatusCode == HttpStatusCode.Redirect ||
-                response.StatusCode == HttpStatusCode.MovedPermanently)
+            lock (_lock)
             {
-                newUrl = response.Headers["Location"];
-            }
+                ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            // Clean up the streams.
-            try
-            {
-                response.Close();
-            }
-            catch
-            {
+                Stream dataRequestStream = request.GetRequestStream();
+                dataRequestStream.Write(content, 0, content.Length);
+                dataRequestStream.Close();
 
-            }
+                HttpWebRequest httpRequest = (HttpWebRequest)request;
+                httpRequest.CookieContainer = new CookieContainer();
+                httpRequest.AllowAutoRedirect = false;
 
-            return newUrl;
+
+                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+                string newUrl = "";
+                if (response.StatusCode == HttpStatusCode.Redirect ||
+                    response.StatusCode == HttpStatusCode.MovedPermanently)
+                {
+                    newUrl = response.Headers["Location"];
+                }
+
+                // Clean up the streams.
+                try
+                {
+                    response.Close();
+                }
+                catch
+                {
+
+                }
+                return newUrl;
+            }
         }
 
         private string PostToServerGetRedirect(WebRequest request)
         {
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-
-            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-            string newUrl = "";
-            if (response.StatusCode == HttpStatusCode.Redirect ||
-                response.StatusCode == HttpStatusCode.MovedPermanently)
+            lock (_lock)
             {
-                newUrl = response.Headers["Location"];
+                ServicePointManager.ServerCertificateValidationCallback = Validator;
+
+                HttpWebRequest httpRequest = (HttpWebRequest)request;
+                httpRequest.CookieContainer = new CookieContainer();
+                httpRequest.AllowAutoRedirect = false;
+
+                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+                string newUrl = "";
+                if (response.StatusCode == HttpStatusCode.Redirect ||
+                    response.StatusCode == HttpStatusCode.MovedPermanently)
+                {
+                    newUrl = response.Headers["Location"];
+                }
+
+                // Clean up the streams.
+                try
+                {
+                    response.Close();
+                }
+                catch
+                {
+
+                }
+
+                return newUrl;
             }
-
-
-            // Clean up the streams.
-            try
-            {
-                response.Close();
-            }
-            catch
-            {
-
-            }
-
-            return newUrl;
         }
 
         private string PostToServerNoRedirect(WebRequest request, byte[] content)
         {
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
-            dataRequestStream.Close();
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-
-            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = reader.ReadToEnd();
-
-            // Clean up the streams.
-            try
+            lock (_lock)
             {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
+                // Hack for ignoring certificate validation.
+                ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            }
+                Stream dataRequestStream = request.GetRequestStream();
+                dataRequestStream.Write(content, 0, content.Length);
+                dataRequestStream.Close();
 
-            return responseFromServer;
+                HttpWebRequest httpRequest = (HttpWebRequest)request;
+                httpRequest.CookieContainer = new CookieContainer();
+                httpRequest.AllowAutoRedirect = false;
+
+                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+                Stream dataResponseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataResponseStream);
+                string responseFromServer = reader.ReadToEnd();
+
+                // Clean up the streams.
+                try
+                {
+                    reader.Close();
+                    dataResponseStream.Close();
+                    response.Close();
+                }
+                catch
+                {
+
+                }
+
+                return responseFromServer;
+            }
         }
 
         private string PostToServer(WebRequest request)
         {
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            WebResponse response = request.GetResponse();
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = reader.ReadToEnd();
-
-            // Clean up the streams.
-            try
+            lock (_lock)
             {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
+                // Hack for ignoring certificate validation.
+                ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            }
+                WebResponse response = request.GetResponse();
+                Stream dataResponseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataResponseStream);
+                string responseFromServer = reader.ReadToEnd();
 
-            return responseFromServer;
+                // Clean up the streams.
+                try
+                {
+                    reader.Close();
+                    dataResponseStream.Close();
+                    response.Close();
+                }
+                catch
+                {
+
+                }
+
+                return responseFromServer;
+            }
         }
 
         private string PostToServerNoRedirect(WebRequest request)
         {
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
+            lock (_lock)
+            { 
+                // Hack for ignoring certificate validation.
+                ServicePointManager.ServerCertificateValidationCallback = Validator;
 
+                HttpWebRequest httpRequest = (HttpWebRequest)request;
+                httpRequest.CookieContainer = new CookieContainer();
+                httpRequest.AllowAutoRedirect = false;
 
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
+                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+                Stream dataResponseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataResponseStream);
+                string responseFromServer = reader.ReadToEnd();
 
+                // Clean up the streams.
+                try
+                {
+                    reader.Close();
+                    dataResponseStream.Close();
+                    response.Close();
+                }
+                catch
+                {
 
-            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = reader.ReadToEnd();
+                }
 
-            // Clean up the streams.
-            try
-            {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
+                return responseFromServer;
             }
-            catch
-            {
-
-            }
-
-            return responseFromServer;
         }
 
         /// <summary>

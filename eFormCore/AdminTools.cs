@@ -168,7 +168,7 @@ namespace eFormCore
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
-            List<string> lstEntityMUIds = sqlController.UnitTest_FindAllActiveEntities();
+            List<string> lstEntityMUIds = sqlController.UnitTest_EntitiesFindAllActive();
             foreach (string mUId in lstEntityMUIds)
             {
                 try

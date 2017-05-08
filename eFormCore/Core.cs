@@ -1322,8 +1322,7 @@ namespace eFormCore
 
                     sqlController.EntityGroupUpdateItems(entityGroup);
 
-                    Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
-                    aThread.Start();
+                    CoreHandleUpdateEntityItems();
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1350,8 +1349,7 @@ namespace eFormCore
                     if (type != null)
                         communicator.EntityGroupDelete(type, entityGroupMUId);
 
-                    Thread aThread = new Thread(() => CoreHandleUpdateEntityItems());
-                    aThread.Start();
+                    CoreHandleUpdateEntityItems();
                 }
                 else
                     throw new Exception("Core is not running");

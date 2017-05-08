@@ -3968,7 +3968,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string>     UnitTest_FindAllActiveEntities()
+        public List<string>     UnitTest_EntitiesFindAllActive()
         {
             try
             {
@@ -3983,6 +3983,26 @@ namespace eFormSqlController
                     }
 
                     return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+            }
+        }
+
+        public bool             UnitTest_EntitiesAllSynced(string entityGroupId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<entity_items> lstEGs = db.entity_items.Where(x => x.workflow_state == "failed to sync" && x.entity_group_id == entityGroupId).ToList();
+
+                    if (lstEGs.Count > 0)
+                        return false;
+
+                    return true;
                 }
             }
             catch (Exception ex)
