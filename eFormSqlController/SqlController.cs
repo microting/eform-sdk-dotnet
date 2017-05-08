@@ -2042,7 +2042,7 @@ namespace eFormSqlController
         #endregion
 
         #region worker
-        public List<Worker_Dto> WorkerGetAll()
+        public List<Worker_Dto> WorkerGetAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName();
             try
@@ -2051,7 +2051,24 @@ namespace eFormSqlController
 
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    foreach (workers worker in db.workers.ToList())
+                    List<workers> matches = null;
+
+                    switch (workflowState)
+                    {
+                        case "not_removed":
+                            matches = db.workers.Where(x => x.workflow_state != "removed").ToList();
+                            break;
+                        case "removed":
+                            matches = db.workers.Where(x => x.workflow_state == "removed").ToList();
+                            break;
+                        case "created":
+                            matches = db.workers.Where(x => x.workflow_state == "created").ToList();
+                            break;
+                        default:
+                            matches = db.workers.ToList();
+                            break;
+                    }
+                    foreach (workers worker in matches)
                     {
                         Worker_Dto workerDto = new Worker_Dto(worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
                         listWorkerDto.Add(workerDto);

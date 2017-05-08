@@ -50,6 +50,13 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.3 *(May 2nd 2017)*
+	- Making the Advanced_WorkerReadAll have parameters for workflowState, offSet and limit.
+		- Advanced_WorkerReadAll now takes (string workflowState, int? offSet, int? limit)
+	- Removing the not implemented siteworkerupdate method.
+	- Adding the missing delete calls to api endpoint.
+	- Fixing == which should be != in SqlController.
+
   - Version 1.5.2.9 *(April 29th 2017)*
 	- Adding MigrateDb to AdminTools, so the implementer is able to force migration of the DB.
 		- **It is recommended to run AdminTools.MigrateDb every time there has been an upgrade of the NuGet!**.
