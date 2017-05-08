@@ -7,6 +7,7 @@ using System.Data.Entity.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace eFormSqlController
 {
@@ -4003,7 +4004,56 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
-                    db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 0);");
+                    db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = ex.Message;
+                return false;
+            }
+        }
+
+        public bool             UnitTest_TruncateTablesIfEmpty()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> tableLst = new List<string>();
+
+                    var metadata = ((IObjectContextAdapter)db).ObjectContext.MetadataWorkspace;
+
+                    var tables = metadata.GetItemCollection(DataSpace.SSpace)
+                      .GetItems<EntityContainer>()
+                      .Single()
+                      .BaseEntitySets
+                      .OfType<EntitySet>()
+                      .Where(s => !s.MetadataProperties.Contains("Type")
+                        || s.MetadataProperties["Type"].ToString() == "Tables");
+
+                    foreach (var table in tables)
+                    {
+                        var tableName = table.MetadataProperties.Contains("Table")
+                            && table.MetadataProperties["Table"].Value != null
+                          ? table.MetadataProperties["Table"].Value.ToString()
+                          : table.Name;
+
+                        var tableSchema = table.MetadataProperties["Schema"].Value.ToString();
+
+                        tableLst.Add(tableName);
+                    }
+
+                    int count;
+                    foreach (var tableName in tableLst)
+                    {
+                        count = db.Database.SqlQuery<int>("SELECT COUNT(*) FROM " + tableName).Single();
+
+                        if (count == 0)
+                            UnitTest_TruncateTable(tableName);
+                    }
 
                     return true;
                 }

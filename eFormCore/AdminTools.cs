@@ -291,6 +291,8 @@ namespace eFormCore
                 }
                 #endregion
 
+                sqlController.UnitTest_TruncateTablesIfEmpty();
+
                 communicator = new Communicator(sqlController);
 
                 #region add site's data to db
@@ -399,7 +401,7 @@ namespace eFormCore
             return sqlController.SettingCheckAll();
         }
 
-        public bool MigrateDb()
+        public bool   MigrateDb()
         {
             return sqlController.MigrateDb();
         }

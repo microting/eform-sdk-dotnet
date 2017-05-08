@@ -7,7 +7,6 @@ namespace eFormSqlController
 
     public partial class check_lists
     {
-
         public check_lists()
         {
             this.cases = new HashSet<cases>();
