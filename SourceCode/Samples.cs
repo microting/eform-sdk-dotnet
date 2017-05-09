@@ -464,7 +464,7 @@ namespace eFormCore
                         List<int> siteShortList = new List<int>();
                         siteShortList.Add(siteId);
 
-                        core.CaseCreate(mainElement, "", siteShortList, "", true);
+                        core.CaseCreate(mainElement, "", siteShortList, "");
                     }
                 }
             }

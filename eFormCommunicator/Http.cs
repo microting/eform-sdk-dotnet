@@ -393,7 +393,7 @@ namespace eFormCommunicator
         }
         #endregion
 
-        #region internal EntitySelect
+        #region internal PdfUpload
         internal bool PdfUpload(string name, string hash)
         {
             try
@@ -646,20 +646,7 @@ namespace eFormCommunicator
                 dataRequestStream.Write(content, 0, content.Length);
                 dataRequestStream.Close();
 
-                WebResponse response;
-                try
-                {
-                    //File.AppendAllText("FINDMEPLS.txt", "traceB" + Environment.NewLine);
-                    response = request.GetResponse();
-                    //File.AppendAllText("FINDMEPLS.txt", "traceC" + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                  //  File.AppendAllText("FINDMEPLS.txt", t.PrintException("damn", ex) + Environment.NewLine);
-                    response = null;
-
-                }
-                //File.AppendAllText("FINDMEPLS.txt", "traceA" + Environment.NewLine);
+                WebResponse response = request.GetResponse();
 
                 Stream dataResponseStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(dataResponseStream);

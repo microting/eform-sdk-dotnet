@@ -622,11 +622,11 @@ namespace eFormCore
         #region case
         public string           CaseCreate(MainElement mainElement, string caseUId, int siteId)
         {
-            List<string> lst = CaseCreate(mainElement, caseUId, new List<int> { siteId }, "", false);
+            List<string> lst = CaseCreate(mainElement, caseUId, new List<int> { siteId }, "");
             return lst[0];
         }
 
-        public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed)
+        public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom)
         {
             try
             {
@@ -635,7 +635,7 @@ namespace eFormCore
                     lock (_lockMain) //Will let sending Cases sending finish, before closing
                     {
                         string siteIdsStr = string.Join(",", siteIds);
-                        TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + " reversed:" + reversed.ToString() + ", requested to be created");
+                        TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + ", requested to be created");
 
                         #region check input
                         DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
@@ -647,14 +647,8 @@ namespace eFormCore
                         if (end <= start)
                             throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
 
-                        if (reversed == false && mainElement.Repeated != 1)
-                            throw new ArgumentException("if reversed == false, mainElement.Repeat has to be 1");
-
-                        if (reversed == true && caseUId != "")
-                            throw new ArgumentException("if reversed == true, caseUId can't be used and has to be left blank");
-
-                        if (reversed == true && caseUId != "")
-                            throw new ArgumentException("if reversed == true, caseUId can't be used and has to be left blank");
+                        if (caseUId != "" && mainElement.Repeated != 1)
+                            throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
                         #endregion
 
                         //sending and getting a reply
@@ -664,8 +658,8 @@ namespace eFormCore
                         {
                             string mUId = SendXml(mainElement, siteId);
 
-                            if (reversed == false)
-                                sqlController.CaseCreate(mainElement.Id, siteId, mUId, null, caseUId, custom, DateTime.Now);
+                            if (mainElement.Repeated == 1)
+                                sqlController.CaseCreate          (mainElement.Id, siteId, mUId, null, caseUId, custom, DateTime.Now);
                             else
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
 
@@ -2098,7 +2092,9 @@ namespace eFormCore
             try
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
-                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                {
+                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                }
             }
             catch (Exception ex)
             {
@@ -2108,7 +2104,7 @@ namespace eFormCore
         #endregion
 
         #region inward Event handlers
-        public void     CoreThread()
+        private void    CoreThread()
         {
             coreRunning = true;
             coreThreadAlive = true;
@@ -2436,24 +2432,21 @@ namespace eFormCore
                                 if (iC != null)
                                 {
                                     oneFound = true;
+                                    List<int> siteIds = sqlController.InteractionCaseReadSiteIds(iC.id);
 
                                     MainElement mainElement = sqlController.TemplateRead(iC.template_id);
                                     //do magic - replacement TODO
 
                                     List<string> lstMUIds = new List<string>();
-                                    List<int> siteIds = new List<int>();
-                          
-                                    foreach (var site in iC.a_interaction_case_lists.ToList())
-                                        siteIds.Add((int)site.siteId);
 
                                     if (t.Bool(iC.connected))
                                     {
-                                        lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom, t.Bool(iC.reversed));
+                                        lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom);
                                     }
                                     else
                                     {
                                         foreach (var site in siteIds)
-                                            lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom, t.Bool(iC.reversed)));
+                                            lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
                                     }
 
                                     sqlController.InteractionCaseProcessed(iC.id, siteIds, lstMUIds);

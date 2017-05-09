@@ -1645,8 +1645,8 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public outlook interaction
-        public int                  InteractionCaseCreate(string siteUIds, string caseUId, string custom, bool reversed, bool connected, int templateId, string replacements)
+        #region public interaction tables
+        public int                  InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
         {
             try
             {
@@ -1660,7 +1660,6 @@ namespace eFormSqlController
                     newCase.updated_at = DateTime.Now;
                     newCase.case_uid = caseUId;
                     newCase.custom = custom;
-                    newCase.reversed = t.Bool(reversed);
                     newCase.connected = t.Bool(connected);
                     newCase.template_id = templateId;
                     newCase.replacements = replacements;
@@ -1669,10 +1668,8 @@ namespace eFormSqlController
                     db.a_interaction_cases.Add(newCase);
                     db.SaveChanges();
 
-                    List<string> siteIdLst = siteUIds.Split('|').ToList();
                     a_interaction_case_lists newSite;
-
-                    foreach (string siteId in siteIdLst)
+                    foreach (int siteId in siteUIds)
                     {
                         newSite = new a_interaction_case_lists();
 
@@ -1681,7 +1678,7 @@ namespace eFormSqlController
                         newSite.created_at = DateTime.Now;
                         newSite.updated_at = DateTime.Now;
                         newSite.a_interaction_case_id = newCase.id;
-                        newSite.siteId = int.Parse(siteId);
+                        newSite.siteId = siteId;
                         newSite.stat = "pre_created";
 
                         db.a_interaction_case_lists.Add(newSite);
@@ -1705,6 +1702,29 @@ namespace eFormSqlController
                 {
                     a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "created");
                     return match;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public List<int>            InteractionCaseReadSiteIds(int interactionCaseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<int> siteIds = new List<int>();
+                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "created");
+
+                    foreach (var item in match.a_interaction_case_lists)
+                    {
+                        siteIds.Add((int)item.siteId);
+                    }
+
+                    return siteIds;
                 }
             }
             catch (Exception ex)
@@ -1763,10 +1783,13 @@ namespace eFormSqlController
 
                     while (index < count)
                     {
-                        a_interaction_case_lists matchSite = db.a_interaction_case_lists.Single(x => x.a_interaction_case_id == matchCase.id && x.siteId == siteUIds[index]);
+                        int siteId = siteUIds[index];
+                        int caseId = matchCase.id;
+                        a_interaction_case_lists matchSite = db.a_interaction_case_lists.Single(x => x.a_interaction_case_id == caseId && x.siteId == siteId);
                         matchSite.updated_at = DateTime.Now;
                         matchSite.version = matchSite.version + 1;
                         matchSite.microting_uid = microtingUIds[index];
+                        matchSite.stat = "created";
 
                         index++;
                     }
@@ -1787,7 +1810,7 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
-                    matchCase.workflow_state = "failed";
+                    matchCase.workflow_state = "failed to sync";
                     matchCase.updated_at = DateTime.Now;
                     matchCase.version = matchCase.version + 1;
                     matchCase.synced = 0;

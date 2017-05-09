@@ -207,6 +207,9 @@ namespace eFormCore
                 sqlController.UnitTest_TruncateTable(typeof(uploaded_data).Name);
                 sqlController.UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
                 //---
+                sqlController.UnitTest_TruncateTable(typeof(a_interaction_case_lists).Name);
+                sqlController.UnitTest_TruncateTable(typeof(a_interaction_cases).Name);
+                //---
 
                 //---
                 sqlController.UnitTest_TruncateTable(typeof(notifications).Name);

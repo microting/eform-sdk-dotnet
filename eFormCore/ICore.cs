@@ -122,8 +122,7 @@ namespace eFormCore
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s)</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
-        /// <param name="reversed">Default is false. If true, cases will not be created until a check has been completed</param>
-        List<string>    CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed);
+        List<string>    CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom);
 
         //---------------------------------------------------------------------------------------
 
