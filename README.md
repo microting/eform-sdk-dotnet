@@ -50,6 +50,19 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.4 *(May 9th 2017)*
+	- **Breaking changes to the way CaseCreate is used.**
+	- Before
+	```cs
+	CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom, bool reversed);
+	```
+	- After
+	```cs
+	CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom);
+	```
+		- If you previously had reversed set to true, then you have to set mainElement.Repeated = 0 or any number higher than 1
+		- If you previously had reversed set to false, then you have to set mainElement.Repeated = 1
+
   - Version 1.5.3.1 *(May 8th 2017)*
 	- Fixing sync of EntityItems.
 
