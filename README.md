@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.3.1 *(May 8th 2017)*
+	- Fixing sync of EntityItems.
+
   - Version 1.5.3 *(May 2nd 2017)*
 	- Making the Advanced_WorkerReadAll have parameters for workflowState, offSet and limit.
 		- Advanced_WorkerReadAll now takes (string workflowState, int? offSet, int? limit)
