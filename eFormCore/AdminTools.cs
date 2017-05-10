@@ -54,15 +54,18 @@ namespace eFormCore
                 Console.WriteLine("");
                 Console.WriteLine("Press the following keys to run:");
                 Console.WriteLine("");
+                Console.WriteLine("> 'P' to prime, configure and add sites database");
+                Console.WriteLine("  'S' to clear database for prime, configuration and sites");
+                Console.WriteLine("  'I' to check database is primed");
+                Console.WriteLine("");
                 Console.WriteLine("> 'C' to retract all known eForm on devices");
                 Console.WriteLine("  'E' to retract all known Entities");
                 Console.WriteLine("  'D' to clear database for data");
                 Console.WriteLine("  'T' to clear database for templats");
                 Console.WriteLine("  'A' to complet database reset (all of the above)");
                 Console.WriteLine("");
-                Console.WriteLine("> 'P' to prime, configure and add sites database");
-                Console.WriteLine("  'S' to clear database for prime, configuration and sites");
-                Console.WriteLine("  'I' to check database is primed");
+                Console.WriteLine("  'M' to force migration of database");
+                Console.WriteLine("  'R' to reload settings from Microting (Token needs to be in db)");
                 Console.WriteLine("");
                 Console.WriteLine("> 'Q' to close admin tools");
                 string input = Console.ReadLine();
@@ -112,6 +115,14 @@ namespace eFormCore
                     case "I":
                         Console.WriteLine("Check is database primed and configured");
                         reply = DbSetupCompleted().ToString();
+                        break;
+                    case "M":
+                        Console.WriteLine("MigrateDb");
+                        reply = MigrateDb().ToString();
+                        break;
+                    case "R":
+                        Console.WriteLine("DbSettingsReloadRemote");
+                        reply = DbSettingsReloadRemote().ToString();
                         break;
                         #endregion
                 }
@@ -387,7 +398,11 @@ namespace eFormCore
                 sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                 sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
-                sqlController.SettingCreate(Settings.comAddressPdfUpload, 14);
+                try
+                {
+                    sqlController.SettingCreate(Settings.comAddressPdfUpload, 14);
+                }
+                catch { }
                 sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
 
 

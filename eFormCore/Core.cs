@@ -1795,7 +1795,7 @@ namespace eFormCore
         }
         #endregion
 
-        public Field FieldRead(int id)
+        public Field            FieldRead(int id)
         {
             string methodName = t.GetMethodName();
             try
@@ -1815,6 +1815,15 @@ namespace eFormCore
                 TriggerHandleExpection(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
+        }
+
+        public void             UnitTest_CompletCase(string microtingUId, string checkUId)
+        {
+            sqlController.CaseRetract(microtingUId, checkUId);
+            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
+            InteractionCaseUpdate(cDto);
+            HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
+            TriggerMessage(cDto.ToString() + " has been retrived");
         }
         #endregion
         #endregion
@@ -2093,7 +2102,7 @@ namespace eFormCore
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
                 {
-                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
                 }
             }
             catch (Exception ex)
@@ -2319,9 +2328,9 @@ namespace eFormCore
 
                                                             Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                             InteractionCaseUpdate(cDto);
-                                                            HandleCaseCompleted(cDto, EventArgs.Empty);
+                                                            HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
                                                             TriggerMessage(cDto.ToString() + " has been completed");
-                                                            i += 1;
+                                                            i++;
                                                         }
                                                     }
                                                 }
@@ -2336,7 +2345,7 @@ namespace eFormCore
                                             }
                                         }
 
-                                        sqlController.NotificationProcessed(notification.Id, "");
+                                        sqlController.NotificationProcessed(notification.Id, "processed");
                                         break;
                                     }
                                 #endregion

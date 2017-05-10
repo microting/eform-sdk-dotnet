@@ -1735,6 +1735,9 @@ namespace eFormSqlController
 
         public bool                 InteractionCaseUpdate(Case_Dto caseDto)
         {
+            if (caseDto.Stat == "Created")
+                return true;
+
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
@@ -1784,12 +1787,21 @@ namespace eFormSqlController
                     while (index < count)
                     {
                         int siteId = siteUIds[index];
-                        int caseId = matchCase.id;
-                        a_interaction_case_lists matchSite = db.a_interaction_case_lists.Single(x => x.a_interaction_case_id == caseId && x.siteId == siteId);
+                        int iCaseId = matchCase.id;
+                        a_interaction_case_lists matchSite = db.a_interaction_case_lists.Single(x => x.a_interaction_case_id == iCaseId && x.siteId == siteId);
                         matchSite.updated_at = DateTime.Now;
                         matchSite.version = matchSite.version + 1;
                         matchSite.microting_uid = microtingUIds[index];
-                        matchSite.stat = "created";
+                        matchSite.stat = "Created";
+
+                        try
+                        {
+                            matchSite.case_id = CaseReadFull(microtingUIds[index], null).id;
+                        }
+                        catch
+                        {
+
+                        }
 
                         index++;
                     }
@@ -4049,6 +4061,22 @@ namespace eFormSqlController
                     }
 
                     return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+            }
+        }
+
+        public List<a_interaction_case_lists> UnitTest_FindAllActiveInteractionCaseLists(int interactionCaseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<a_interaction_case_lists> lst = db.a_interaction_case_lists.Where(x => x.a_interaction_case_id == interactionCaseId).ToList();
+                    return lst;
                 }
             }
             catch (Exception ex)
