@@ -869,6 +869,12 @@ namespace eFormCore
                         try
                         {
                             sqlController.CaseDelete(microtingUId);
+
+                            cDto = sqlController.CaseReadByMUId(microtingUId);
+                            InteractionCaseUpdate(cDto);
+                            HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
+                            TriggerMessage(cDto.ToString() + " has been removed");
+
                             return true;
                         }
                         catch { }
@@ -876,13 +882,15 @@ namespace eFormCore
                         try
                         {
                             sqlController.CaseDeleteReversed(microtingUId);
+
+                            cDto = sqlController.CaseReadByMUId(microtingUId);
+                            InteractionCaseUpdate(cDto);
+                            HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
+                            TriggerMessage(cDto.ToString() + " has been removed");
+
                             return true;
                         }
                         catch { }
-
-                        InteractionCaseUpdate(cDto);
-                        HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
-                        TriggerMessage(cDto.ToString() + " has been removed");
                     }
                     return false;
                 }
@@ -1816,8 +1824,11 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
+        #endregion
+        #endregion
 
-        public void             UnitTest_CompletCase(string microtingUId, string checkUId)
+        #region internal
+        internal void UnitTest_CaseComplet(string microtingUId, string checkUId)
         {
             sqlController.CaseRetract(microtingUId, checkUId);
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
@@ -1825,7 +1836,21 @@ namespace eFormCore
             HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
             TriggerMessage(cDto.ToString() + " has been retrived");
         }
-        #endregion
+
+        internal void UnitTest_CaseDelete(string microtingUId)
+        {
+            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
+            Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
+
+            InteractionCaseUpdate(cDtoDel);
+            HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty);
+            TriggerMessage(cDto.ToString() + " has been deleted");
+        }
+
+        internal void UnitTest_TriggerLog(string text)
+        {
+            TriggerLog(text);
+        }
         #endregion
 
         #region private
