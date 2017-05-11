@@ -1398,8 +1398,9 @@ namespace eFormCore
             }
         }
         #endregion
+        #endregion
 
-        #region help methods
+        #region public advanced actions
         #region sites
         public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
@@ -1803,6 +1804,13 @@ namespace eFormCore
         }
         #endregion
 
+        #region interaction case
+        public int InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
+        {
+            return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
+        }
+        #endregion
+
         public Field            FieldRead(int id)
         {
             string methodName = t.GetMethodName();
@@ -1825,9 +1833,8 @@ namespace eFormCore
             }
         }
         #endregion
-        #endregion
 
-        #region internal
+        #region internal UnitTest
         internal void UnitTest_CaseComplet(string microtingUId, string checkUId)
         {
             sqlController.CaseRetract(microtingUId, checkUId);
