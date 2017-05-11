@@ -869,6 +869,12 @@ namespace eFormCore
                         try
                         {
                             sqlController.CaseDelete(microtingUId);
+
+                            cDto = sqlController.CaseReadByMUId(microtingUId);
+                            InteractionCaseUpdate(cDto);
+                            HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
+                            TriggerMessage(cDto.ToString() + " has been removed");
+
                             return true;
                         }
                         catch { }
@@ -876,13 +882,15 @@ namespace eFormCore
                         try
                         {
                             sqlController.CaseDeleteReversed(microtingUId);
+
+                            cDto = sqlController.CaseReadByMUId(microtingUId);
+                            InteractionCaseUpdate(cDto);
+                            HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
+                            TriggerMessage(cDto.ToString() + " has been removed");
+
                             return true;
                         }
                         catch { }
-
-                        InteractionCaseUpdate(cDto);
-                        HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
-                        TriggerMessage(cDto.ToString() + " has been removed");
                     }
                     return false;
                 }
@@ -1390,8 +1398,9 @@ namespace eFormCore
             }
         }
         #endregion
+        #endregion
 
-        #region help methods
+        #region public advanced actions
         #region sites
         public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
@@ -1795,7 +1804,14 @@ namespace eFormCore
         }
         #endregion
 
-        public Field FieldRead(int id)
+        #region interaction case
+        public int InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
+        {
+            return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
+        }
+        #endregion
+
+        public Field            FieldRead(int id)
         {
             string methodName = t.GetMethodName();
             try
@@ -1817,6 +1833,31 @@ namespace eFormCore
             }
         }
         #endregion
+
+        #region internal UnitTest
+        internal void UnitTest_CaseComplet(string microtingUId, string checkUId)
+        {
+            sqlController.CaseRetract(microtingUId, checkUId);
+            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
+            InteractionCaseUpdate(cDto);
+            HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
+            TriggerMessage(cDto.ToString() + " has been retrived");
+        }
+
+        internal void UnitTest_CaseDelete(string microtingUId)
+        {
+            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
+            Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
+
+            InteractionCaseUpdate(cDtoDel);
+            HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty);
+            TriggerMessage(cDto.ToString() + " has been deleted");
+        }
+
+        internal void UnitTest_TriggerLog(string text)
+        {
+            TriggerLog(text);
+        }
         #endregion
 
         #region private
@@ -2093,7 +2134,7 @@ namespace eFormCore
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
                 {
-                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
                 }
             }
             catch (Exception ex)
@@ -2319,9 +2360,9 @@ namespace eFormCore
 
                                                             Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                             InteractionCaseUpdate(cDto);
-                                                            HandleCaseCompleted(cDto, EventArgs.Empty);
+                                                            HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
                                                             TriggerMessage(cDto.ToString() + " has been completed");
-                                                            i += 1;
+                                                            i++;
                                                         }
                                                     }
                                                 }
@@ -2336,7 +2377,7 @@ namespace eFormCore
                                             }
                                         }
 
-                                        sqlController.NotificationProcessed(notification.Id, "");
+                                        sqlController.NotificationProcessed(notification.Id, "processed");
                                         break;
                                     }
                                 #endregion
