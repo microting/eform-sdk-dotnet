@@ -1805,7 +1805,7 @@ namespace eFormCore
         #endregion
 
         #region interaction case
-        public int InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
+        public int Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
         {
             return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
         }
@@ -2134,7 +2134,8 @@ namespace eFormCore
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
                 {
-                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                    //TODO 
+                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
                 }
             }
             catch (Exception ex)
