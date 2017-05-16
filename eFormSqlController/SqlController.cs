@@ -1668,6 +1668,9 @@ namespace eFormSqlController
                     db.a_interaction_cases.Add(newCase);
                     db.SaveChanges();
 
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(newCase));
+                    db.SaveChanges();
+
                     a_interaction_case_lists newSite;
                     foreach (int siteId in siteUIds)
                     {
@@ -1682,11 +1685,9 @@ namespace eFormSqlController
                         newSite.stat = "pre_created";
 
                         db.a_interaction_case_lists.Add(newSite);
+                        db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(newSite));
                     }
                     db.SaveChanges();
-
-                    //db.version_sites.Add(MapSiteVersions(site));
-                    //db.SaveChanges();
 
                     return newCase.id;
                 }
@@ -1761,6 +1762,8 @@ namespace eFormSqlController
                     matchSite.updated_at = DateTime.Now;
                     matchSite.version = matchCase.version + 1;
 
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
+                    db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(matchSite));
                     db.SaveChanges();
 
                     return true;
@@ -1806,9 +1809,11 @@ namespace eFormSqlController
 
                         }
 
+                        db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(matchSite));
                         index++;
                     }
 
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
                     db.SaveChanges();
                 }
             }
@@ -1832,6 +1837,9 @@ namespace eFormSqlController
                     matchCase.expectionString = expectionString;
 
                     db.SaveChanges();
+
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
+                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -1843,7 +1851,7 @@ namespace eFormSqlController
 
         #region public site
         #region site
-        public List<SiteName_Dto> SiteGetAll()
+        public List<SiteName_Dto>   SiteGetAll()
         {
             List<SiteName_Dto> siteList = new List<SiteName_Dto>();
             using (var db = new MicrotingDb(connectionStr))
@@ -1858,7 +1866,7 @@ namespace eFormSqlController
 
         }
 
-        public List<Site_Dto> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
+        public List<Site_Dto>       SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
             List<Site_Dto> siteList = new List<Site_Dto>();
             using (var db = new MicrotingDb(connectionStr))
@@ -1921,7 +1929,7 @@ namespace eFormSqlController
 
         }
 
-        public int SiteCreate(int microtingUid, string name)
+        public int                  SiteCreate(int microtingUid, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -1956,7 +1964,7 @@ namespace eFormSqlController
             }
         }
 
-        public SiteName_Dto SiteRead(int microting_uid)
+        public SiteName_Dto         SiteRead(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -1981,7 +1989,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Dto SiteReadSimple(int microting_uid)
+        public Site_Dto             SiteReadSimple(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2008,7 +2016,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteUpdate(int microting_uid, string name)
+        public bool                 SiteUpdate(int microting_uid, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -2043,7 +2051,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteDelete(int microting_uid)
+        public bool                 SiteDelete(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2080,7 +2088,7 @@ namespace eFormSqlController
         #endregion
 
         #region worker
-        public List<Worker_Dto> WorkerGetAll(string workflowState, int? offSet, int? limit)
+        public List<Worker_Dto>     WorkerGetAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName();
             try
@@ -2122,7 +2130,7 @@ namespace eFormSqlController
 
         }
 
-        public int WorkerCreate(int microtingUid, string firstName, string lastName, string email)
+        public int                  WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -2158,7 +2166,7 @@ namespace eFormSqlController
             }
         }
 
-        public Worker_Dto WorkerRead(int microting_uid)
+        public Worker_Dto           WorkerRead(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2183,7 +2191,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
+        public bool                 WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -2220,7 +2228,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool WorkerDelete(int microtingUid)
+        public bool                 WorkerDelete(int microtingUid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2256,7 +2264,7 @@ namespace eFormSqlController
         #endregion
 
         #region site_worker
-        public int SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
+        public int                  SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2294,7 +2302,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Worker_Dto SiteWorkerRead(int? microtingUid, int? siteId, int? workerId)
+        public Site_Worker_Dto      SiteWorkerRead(int? microtingUid, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2327,7 +2335,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
+        public bool                 SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2362,7 +2370,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool SiteWorkerDelete(int microting_uid)
+        public bool                 SiteWorkerDelete(int microting_uid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2398,7 +2406,7 @@ namespace eFormSqlController
         #endregion
 
         #region unit
-        public List<Unit_Dto> UnitGetAll()
+        public List<Unit_Dto>       UnitGetAll()
         {
             string methodName = t.GetMethodName();
             try
@@ -2421,7 +2429,7 @@ namespace eFormSqlController
             }
         }
 
-        public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
+        public int                  UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2458,7 +2466,7 @@ namespace eFormSqlController
             }
         }
 
-        public Unit_Dto UnitRead(int microtingUid)
+        public Unit_Dto             UnitRead(int microtingUid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2482,7 +2490,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
+        public bool                 UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2517,7 +2525,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool UnitDelete(int microtingUid)
+        public bool                 UnitDelete(int microtingUid)
         {
             string methodName = t.GetMethodName();
             try
@@ -2555,7 +2563,7 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
-        public int          EntityGroupCreate(string name, string entityType)
+        public int                  EntityGroupCreate(string name, string entityType)
         {
             try
             {
@@ -2590,7 +2598,7 @@ namespace eFormSqlController
             }
         }
 
-        public EntityGroup  EntityGroupRead(string entityGroupMUId)
+        public EntityGroup          EntityGroupRead(string entityGroupMUId)
         {
             try
             {
@@ -2622,7 +2630,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool         EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
+        public bool                 EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
         {
             try
             {
@@ -2651,7 +2659,7 @@ namespace eFormSqlController
             }
         }
 
-        public void         EntityGroupUpdateItems(EntityGroup entityGroup)
+        public void                 EntityGroupUpdateItems(EntityGroup entityGroup)
         {
             try
             {
@@ -2694,7 +2702,7 @@ namespace eFormSqlController
             }
         }
 
-        public string       EntityGroupDelete(string entityGroupMUId)
+        public string               EntityGroupDelete(string entityGroupMUId)
         {
             try
             {
@@ -2742,7 +2750,7 @@ namespace eFormSqlController
         #endregion
 
         #region entityItem
-        public entity_items EntityItemRead(string microtingUId)
+        public entity_items         EntityItemRead(string microtingUId)
         {
             try
             {
@@ -2757,7 +2765,7 @@ namespace eFormSqlController
             }
         }
 
-        public entity_items EntityItemSyncedRead()
+        public entity_items         EntityItemSyncedRead()
         {
             try
             {
@@ -2772,7 +2780,7 @@ namespace eFormSqlController
             }
         }
 
-        public void         EntityItemSyncedProcessed(string entityGroupMUId, string entityItemId, string microting_uid, string workflowState)
+        public void                 EntityItemSyncedProcessed(string entityGroupMUId, string entityItemId, string microting_uid, string workflowState)
         {
             try
             {
@@ -2808,7 +2816,7 @@ namespace eFormSqlController
         #endregion
 
         #region public setting
-        public void     SettingCreate(Settings name, int id)
+        public void                 SettingCreate(Settings name, int id)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -2822,7 +2830,7 @@ namespace eFormSqlController
             }
         }
 
-        public string   SettingRead  (Settings name)
+        public string               SettingRead  (Settings name)
         {
             try
             {
@@ -2838,7 +2846,7 @@ namespace eFormSqlController
             }
         }
 
-        public void     SettingUpdate(Settings name, string newValue)
+        public void                 SettingUpdate(Settings name, string newValue)
         {
             try
             {
@@ -2855,7 +2863,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool     SettingCheckAll()
+        public bool                 SettingCheckAll()
         {
             try
             {
