@@ -1685,6 +1685,9 @@ namespace eFormSqlController
                     }
                     db.SaveChanges();
 
+                    //db.version_sites.Add(MapSiteVersions(site));
+                    //db.SaveChanges();
+
                     return newCase.id;
                 }
             }
@@ -3691,6 +3694,46 @@ namespace eFormSqlController
         #endregion
 
         #region mappers
+        private a_interaction_case_list_versions MapInteractionCaseListVersions(a_interaction_case_lists interactionCaseList)
+        {
+            a_interaction_case_list_versions ver = new a_interaction_case_list_versions();
+            ver.case_id = interactionCaseList.case_id;
+            ver.check_uid = interactionCaseList.check_uid;
+            ver.created_at = interactionCaseList.created_at;
+            ver.microting_uid = interactionCaseList.microting_uid;
+            ver.siteId = interactionCaseList.siteId;
+            ver.stat = interactionCaseList.stat;
+            ver.version = interactionCaseList.version;
+            ver.updated_at = interactionCaseList.updated_at;
+            ver.version = interactionCaseList.version;
+            ver.workflow_state = interactionCaseList.workflow_state;
+
+            ver.a_interaction_case_list_version_id = interactionCaseList.id; //<<--
+
+            return ver;
+        }
+
+        private a_interaction_case_versions MapInteractionCaseVersions(a_interaction_cases interactionCase)
+        {
+            a_interaction_case_versions ver = new a_interaction_case_versions();
+            ver.case_uid = interactionCase.case_uid;
+            ver.connected = interactionCase.connected;
+            ver.created_at = interactionCase.created_at;
+            ver.custom = interactionCase.custom;
+            ver.expectionString = interactionCase.expectionString;
+            ver.replacements = interactionCase.replacements;
+            ver.reversed = interactionCase.reversed;
+            ver.synced = interactionCase.synced;
+            ver.template_id = interactionCase.template_id;
+            ver.updated_at = interactionCase.updated_at;
+            ver.version = interactionCase.version;
+            ver.workflow_state = interactionCase.workflow_state;
+
+            ver.a_interaction_case_id = interactionCase.id; //<<--
+
+            return ver;
+        }
+
         private case_versions               MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
@@ -3831,7 +3874,7 @@ namespace eFormSqlController
             return fvv;
         }
 
-        private uploaded_data_versions       MapUploadedDataVersions(uploaded_data uploadedData)
+        private uploaded_data_versions      MapUploadedDataVersions(uploaded_data uploadedData)
         {
             uploaded_data_versions udv = new uploaded_data_versions();
 

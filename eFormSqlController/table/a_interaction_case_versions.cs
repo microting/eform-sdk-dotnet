@@ -6,16 +6,18 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class a_interaction_cases
+    public partial class a_interaction_case_versions
     {
 
-        public a_interaction_cases()
+        public a_interaction_case_versions()
         {
-            this.a_interaction_case_lists = new HashSet<a_interaction_case_lists>();
+    
         }
 
         [Key]
         public int id { get; set; }
+
+        public int? a_interaction_case_id { get; set; }
 
         [StringLength(255)]
         public string workflow_state { get; set; }
@@ -44,7 +46,5 @@ namespace eFormSqlController
         public short? synced { get; set; }
 
         public string expectionString { get; set; }
-
-        public virtual ICollection<a_interaction_case_lists> a_interaction_case_lists { get; set; }
     }
 }

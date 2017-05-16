@@ -81,6 +81,8 @@
       <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="table\a_interaction_case_list_versions.cs" />
+    <Compile Include="table\a_interaction_case_versions.cs" />
     <Compile Include="table\a_interaction_cases.cs" />
     <Compile Include="table\a_interaction_case_lists.cs" />
     <Compile Include="table\cases.cs" />

@@ -10,6 +10,121 @@ namespace eFormShared
 {
     public class Tools
     {
+        #region Entity Framework Get
+        public bool Bool(short? input)
+        {
+            if (input == null)
+                return false;
+            string temp = input.ToString();
+            if (temp == "0" || temp.ToLower() == "false" || temp == "")
+                return false;
+            if (temp == "1" || temp.ToLower() == "true")
+                return true;
+            throw new Exception(temp + ": was not found to be a bool");
+        }
+
+        public bool Bool(string input)
+        {
+            if (input == null)
+                return false;
+            if (input == "0" || input.ToLower() == "false" || input == "")
+                return false;
+            if (input == "1" || input.ToLower() == "true")
+                return true;
+            throw new Exception(input + ": was not found to be a bool");
+        }
+
+        public short Bool(bool inputBool)
+        {
+            if (inputBool == false)
+                return 0;
+            else
+                return 1;
+        }
+
+        public int Int(int? input)
+        {
+            if (input == null)
+                return 0;
+
+            string str = input.ToString();
+            return int.Parse(str);
+        }
+
+        public int Int(string input)
+        {
+            return int.Parse(input);
+        }
+
+        public DateTime? Date(string input)
+        {
+            if (input == "")
+                return null;
+            else
+                return DateTime.Parse(input);
+        }
+
+        public DateTime Date(DateTime? input)
+        {
+            if (input != null)
+                return (DateTime)input;
+            else
+                return DateTime.MinValue;
+        }
+
+        public string IntLst(List<int> siteIds)
+        {
+            if (siteIds == null)
+                return null;
+
+            if (siteIds.Count == 0)
+                return "";
+
+            string joined = string.Join(",", siteIds);
+            return joined;
+        }
+
+        public List<int> IntLst(string str)
+        {
+            if (str == null)
+                return null;
+
+            List<int> intLst = new List<int>();
+
+            if (str == "")
+                return intLst;
+
+            intLst = str.Split(',').Select(int.Parse).ToList();
+            return intLst;
+        }
+
+        public string TextLst(List<string> strLst)
+        {
+            if (strLst == null)
+                return null;
+
+            if (strLst.Count == 0)
+                return "";
+
+            string joined = string.Join(",", strLst);
+            return joined;
+        }
+
+        public List<string> TextLst(string str)
+        {
+            if (str == null)
+                return null;
+
+            List<string> strLst = new List<string>();
+
+            if (str == "")
+                return strLst;
+
+            strLst = str.Split(',').ToList();
+            return strLst;
+        }
+        #endregion
+
         #region Text Manipulation
         public string           Locate(string textStr, string startStr, string endStr)
         {
@@ -211,69 +326,6 @@ namespace eFormShared
             {
                 throw new Exception("SplitFirst failed.", ex);
             }
-        }
-        #endregion
-
-        #region Entity Framework Get
-        public bool Bool(short? input)
-        {
-            if (input == null)
-                return false;
-            string temp = input.ToString();
-            if (temp == "0" || temp.ToLower() == "false" || temp == "")
-                return false;
-            if (temp == "1" || temp.ToLower() == "true")
-                return true;
-            throw new Exception(temp + ": was not found to be a bool");
-        }
-
-        public bool Bool(string input)
-        {
-            if (input == null)
-                return false;
-            if (input == "0" || input.ToLower() == "false" || input == "")
-                return false;
-            if (input == "1" || input.ToLower() == "true")
-                return true;
-            throw new Exception(input + ": was not found to be a bool");
-        }
-
-        public short Bool(bool inputBool)
-        {
-            if (inputBool == false)
-                return 0;
-            else
-                return 1;
-        }
-
-        public int Int(int? input)
-        {
-            if (input == null)
-                return 0;
-
-            string str = input.ToString();
-            return int.Parse(str);
-        }
-
-        public int Int(string input)
-        {
-            return int.Parse(input);
-        }
-
-        public DateTime? Date(string input)
-        {
-            if (input == "")
-                return null;
-            else
-                return DateTime.Parse(input);
-        }
-
-        public DateTime Date(DateTime? input)
-        {
-            if (input != null)
-                return (DateTime)input;
-            else
-                return DateTime.MinValue;
         }
         #endregion
 
