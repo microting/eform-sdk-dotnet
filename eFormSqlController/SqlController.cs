@@ -1685,9 +1685,11 @@ namespace eFormSqlController
                         newSite.stat = "pre_created";
 
                         db.a_interaction_case_lists.Add(newSite);
+                        db.SaveChanges();
+
                         db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(newSite));
+                        db.SaveChanges();
                     }
-                    db.SaveChanges();
 
                     return newCase.id;
                 }
