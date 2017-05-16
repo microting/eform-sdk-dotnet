@@ -80,9 +80,9 @@
     <Compile Include="Migrations\201704280759188_AddingInteractionsTable.Designer.cs">
       <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705161057264_AddingVersionedTablesForInteractionTables.cs" />
-    <Compile Include="Migrations\201705161057264_AddingVersionedTablesForInteractionTables.Designer.cs">
-      <DependentUpon>201705161057264_AddingVersionedTablesForInteractionTables.cs</DependentUpon>
+    <Compile Include="Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.cs" />
+    <Compile Include="Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.Designer.cs">
+      <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\a_interaction_case_list_versions.cs" />
@@ -152,8 +152,8 @@
     <EmbeddedResource Include="Migrations\201704280759188_AddingInteractionsTable.resx">
       <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705161057264_AddingVersionedTablesForInteractionTables.resx">
-      <DependentUpon>201705161057264_AddingVersionedTablesForInteractionTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.resx">
+      <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

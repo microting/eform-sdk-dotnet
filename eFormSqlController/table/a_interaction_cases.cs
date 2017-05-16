@@ -35,8 +35,6 @@ namespace eFormSqlController
 
         public string custom { get; set; }
 
-        public short? reversed { get; set; }
-
         public short? connected { get; set; }
 
         public string replacements { get; set; }

@@ -7,13 +7,13 @@ namespace eFormSqlController.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddingVersionedTablesForInteractionTables : IMigrationMetadata
+    public sealed partial class RemoveingReversedFromAInteractiveCase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddingVersionedTablesForInteractionTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveingReversedFromAInteractiveCase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705161057264_AddingVersionedTablesForInteractionTables"; }
+            get { return "201705161228522_RemoveingReversedFromAInteractiveCase"; }
         }
         
         string IMigrationMetadata.Source
