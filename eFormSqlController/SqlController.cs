@@ -3722,7 +3722,6 @@ namespace eFormSqlController
             ver.custom = interactionCase.custom;
             ver.expectionString = interactionCase.expectionString;
             ver.replacements = interactionCase.replacements;
-            ver.reversed = interactionCase.reversed;
             ver.synced = interactionCase.synced;
             ver.template_id = interactionCase.template_id;
             ver.updated_at = interactionCase.updated_at;
