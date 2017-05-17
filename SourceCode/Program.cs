@@ -39,6 +39,7 @@ namespace SourceCode
             {
                 Console.WriteLine("Press following keys to start:");
                 Console.WriteLine("'S' for sample programs");
+                Console.WriteLine("'T' for admin tools program on test");
                 Console.WriteLine("'A' for admin tools program");
                 Console.WriteLine("any other will close Console");
                 string input = Console.ReadLine();
@@ -48,6 +49,11 @@ namespace SourceCode
                 {
                     var program = new Samples(serverConnectionString);
                     program.Run();
+                }
+                if (input.ToUpper() == "T")
+                {
+                    var program = new AdminTools(serverConnectionString.Insert(serverConnectionString.IndexOf(";Int"), "Test"));
+                    program.RunConsole();
                 }
                 if (input.ToUpper() == "A")
                 {

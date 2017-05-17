@@ -2469,6 +2469,7 @@ namespace eFormCore
                         if (!oneFound)
                         {
                             a_interaction_cases iC = sqlController.InteractionCaseReadFirst();
+     
                             try
                             {
                                 if (iC != null)

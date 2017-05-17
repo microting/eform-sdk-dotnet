@@ -1707,6 +1707,19 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "created");
+
+                    if (match == null)
+                        return null;
+
+                    match.workflow_state = "read";
+                    match.updated_at = DateTime.Now;
+                    match.version = match.version + 1;
+
+                    db.SaveChanges();
+
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(match));
+                    db.SaveChanges();
+
                     return match;
                 }
             }
@@ -1723,7 +1736,7 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     List<int> siteIds = new List<int>();
-                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "created");
+                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "read");
 
                     foreach (var item in match.a_interaction_case_lists)
                     {
@@ -1762,7 +1775,7 @@ namespace eFormSqlController
                     matchSite.check_uid = caseDto.CheckUId;
                     matchSite.stat = caseDto.Stat;
                     matchSite.updated_at = DateTime.Now;
-                    matchSite.version = matchCase.version + 1;
+                    matchSite.version = matchSite.version + 1;
 
                     db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
                     db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(matchSite));
