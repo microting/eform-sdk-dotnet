@@ -434,7 +434,7 @@ You must replace <code>token</code> with your personal API key.
 
     <span class="n">SiteName_Dto</span> <span class="n">site</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanded_SiteItemRead</span><span class="p">(</span><span class="n">siteId</span><span class="p">);</span>
 
-    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 
 <span class="p">}</span>
 </code></pre>
@@ -451,7 +451,7 @@ You must replace <code>token</code> with your personal API key.
     <span class="c1">// this will let the eForm be deployed until end date or we actively retract it.</span>
     <span class="n">mainElement</span><span class="p">.</span><span class="n">EndDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="nf">AddYears</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
     <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
-    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
 <blockquote>
@@ -502,10 +502,62 @@ You must replace <code>token</code> with your personal API key.
 <span class="p">}</span>
 </code></pre>
 <h2 id="getting-cases-pr-template-as-csv">Getting cases pr template as csv</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="n">String</span> <span class="nf">Csv</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="kt">string</span> <span class="n">file_name</span> <span class="p">=</span> <span class="err">$</span><span class="s">"{templateId}_{DateTime.Now.Ticks}.csv"</span><span class="p">;</span>
+    <span class="kt">string</span> <span class="n">file_path</span> <span class="p">=</span> <span class="err">$</span><span class="s">"~/bin/output/{file_name}"</span><span class="p">;</span>
+    <span class="c1">// file_path is the location where you want the output file stored.</span>
+    <span class="kt">string</span> <span class="n">image_path</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="nf">Format</span><span class="p">(</span><span class="s">"{0}://{1}{2}"</span><span class="p">,</span><span class="n">Request</span><span class="p">.</span><span class="n">Url</span><span class="p">.</span><span class="n">Scheme</span><span class="p">,</span> 
+    <span class="n">Request</span><span class="p">.</span><span class="n">Url</span><span class="p">.</span><span class="n">Authority</span><span class="p">,</span> <span class="n">Url</span><span class="p">.</span><span class="nf">Content</span><span class="p">(</span><span class="s">"~"</span><span class="p">))</span> <span class="p">+</span> <span class="s">"output/dataFolder/"</span><span class="p">;</span> 
+    <span class="c1">// image_path is the location where pictures/signatures are stored</span>
+    <span class="n">core</span><span class="p">.</span><span class="nf">CasesToCsv</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">image_path</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">file_path</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
 <h2 id="getting-a-single-case">Getting a single case</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormData</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="n">ReplyElement</span> <span class="nf">Edit</span><span class="p">(</span><span class="kt">int</span> <span class="n">caseId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Case_Dto</span> <span class="n">caseDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseReadByCaseId</span><span class="p">(</span><span class="n">caseId</span><span class="p">);</span>
+    <span class="kt">string</span> <span class="n">microting_uuid</span> <span class="p">=</span> <span class="n">caseDto</span><span class="p">.</span><span class="n">MicrotingUId</span><span class="p">;</span>
+    <span class="kt">string</span> <span class="n">microting_check_uid</span> <span class="p">=</span> <span class="n">caseDto</span><span class="p">.</span><span class="n">CheckUId</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseRead</span><span class="p">(</span><span class="n">microting_uuid</span><span class="p">,</span> <span class="n">microting_check_uid</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
 <h2 id="saving-modified-results-for-a-case">Saving modified results for a case</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">Update</span><span class="p">(</span><span class="kt">int</span> <span class="n">caseId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">checkListValueList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">fieldValueList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+
+
+    <span class="c1">// For each check list value do</span>
+    <span class="n">checkListValueList</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="err">$</span><span class="s">"{id_of_check_list}|{check_list_value}"</span><span class="p">);</span>
+
+    <span class="c1">// For each field value do</span>
+    <span class="n">fieldValueList</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"{field_value_id}|{field_value}"</span><span class="p">);</span>
+
+    <span class="c1">// if the field is a MultiSelect with options [1,2,3,4] and </span>
+    <span class="c1">// option 1 and 3 was selected, the result needs to look like</span>
+    <span class="n">fieldValueList</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"{field_value_id}|1|3"</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseUpdate</span><span class="p">(</span><span class="n">caseId</span><span class="p">,</span> <span class="n">fieldValueList</span><span class="p">,</span> <span class="n">checkListValueList</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>This asumes that you are saving results coming from a form post.</p>
 
 <h1 id="workers">&ldquo;Workers&rdquo;</h1>
 
