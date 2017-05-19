@@ -1682,7 +1682,7 @@ namespace eFormSqlController
                         newSite.updated_at = DateTime.Now;
                         newSite.a_interaction_case_id = newCase.id;
                         newSite.siteId = siteId;
-                        newSite.stat = "pre_created";
+                        newSite.stat = "Created";
 
                         db.a_interaction_case_lists.Add(newSite);
                         db.SaveChanges();
@@ -1813,7 +1813,7 @@ namespace eFormSqlController
                         matchSite.updated_at = DateTime.Now;
                         matchSite.version = matchSite.version + 1;
                         matchSite.microting_uid = microtingUIds[index];
-                        matchSite.stat = "Created";
+                        matchSite.stat = "Sent";
 
                         try
                         {
