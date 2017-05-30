@@ -1700,7 +1700,7 @@ namespace eFormSqlController
             }
         }
 
-        public a_interaction_cases  InteractionCaseReadFirst()
+        public a_interaction_cases  InteractionCaseReadFirstCreate()
         {
             try
             {
@@ -1711,7 +1711,7 @@ namespace eFormSqlController
                     if (match == null)
                         return null;
 
-                    match.workflow_state = "read";
+                    match.workflow_state = "creating";
                     match.updated_at = DateTime.Now;
                     match.version = match.version + 1;
 
@@ -1729,21 +1729,52 @@ namespace eFormSqlController
             }
         }
 
-        public List<int>            InteractionCaseReadSiteIds(int interactionCaseId)
+        public a_interaction_cases  InteractionCaseReadFirstDelete()
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    List<int> siteIds = new List<int>();
-                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "read");
+                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "delete");
+
+                    if (match == null)
+                        return null;
+
+                    match.workflow_state = "deleting";
+                    match.updated_at = DateTime.Now;
+                    match.version = match.version + 1;
+
+                    db.SaveChanges();
+
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(match));
+                    db.SaveChanges();
+
+                    return match;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public List<a_interaction_case_lists> InteractionCaseListRead(int interactionCaseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
+
+                    if (match == null)
+                        return null;
+
+                    List<a_interaction_case_lists> rtnLst = new List<a_interaction_case_lists>();
 
                     foreach (var item in match.a_interaction_case_lists)
-                    {
-                        siteIds.Add((int)item.siteId);
-                    }
+                        rtnLst.Add(item);
 
-                    return siteIds;
+                    return rtnLst;
                 }
             }
             catch (Exception ex)
@@ -1767,6 +1798,7 @@ namespace eFormSqlController
                         return false;
 
                     a_interaction_cases matchCase = matchSite.a_interaction_case;
+
                     matchCase.updated_at = DateTime.Now;
                     matchCase.version = matchCase.version + 1;
                     matchCase.synced = 0;
@@ -1790,7 +1822,7 @@ namespace eFormSqlController
             }
         }
 
-        public void                 InteractionCaseProcessed(int interactionCaseId, List<int> siteUIds, List<string> microtingUIds)
+        public void                 InteractionCaseProcessedCreate(int interactionCaseId, List<int> siteUIds, List<string> microtingUIds)
         {
             try
             {
@@ -1830,6 +1862,59 @@ namespace eFormSqlController
 
                     db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
                     db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public void                 InteractionCaseProcessedDelete(int interactionCaseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
+                    matchCase.workflow_state = "removed";
+                    matchCase.updated_at = DateTime.Now;
+                    matchCase.version = matchCase.version + 1;
+                    matchCase.synced = 0;
+
+                    db.SaveChanges();
+
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public bool                 InteractionCaseDelete(int interactionCaseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_interaction_cases newSite = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
+
+                    if (newSite == null)
+                        return false;
+
+                    newSite.workflow_state = "delete";
+                    newSite.version = newSite.version + 1;
+                    newSite.updated_at = DateTime.Now;
+
+                    db.SaveChanges();
+
+                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(newSite));
+                    db.SaveChanges();
+
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -4103,6 +4188,29 @@ namespace eFormSqlController
                         return false;
 
                     return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+            }
+        }
+
+        public List<string>     UnitTest_FindAllActiveInteraction()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<string> lstMUId = new List<string>();
+
+                    List<a_interaction_cases> lst = db.a_interaction_cases.Where(x => x.workflow_state == "created" || x.workflow_state == "creating" || x.workflow_state == "delete" || x.workflow_state == "deleting").ToList();
+                    foreach (a_interaction_cases item in lst)
+                    {
+                        lstMUId.Add(item.id.ToString());
+                    }
+
+                    return lstMUId;
                 }
             }
             catch (Exception ex)

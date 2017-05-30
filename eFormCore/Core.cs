@@ -94,7 +94,7 @@ namespace eFormCore
         #endregion
 
         #region public state
-        public bool     Start(string connectionString)
+        public bool             Start(string connectionString)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace eFormCore
             return true;
         }
 
-        public bool     StartSqlOnly(string connectionString)
+        public bool             StartSqlOnly(string connectionString)
         {
             try
             {
@@ -225,7 +225,7 @@ namespace eFormCore
             return true;
         }
 
-        public bool     Close()
+        public bool             Close()
         {
             try
             {
@@ -269,7 +269,7 @@ namespace eFormCore
             return true;
         }
 
-        public bool     Running()
+        public bool             Running()
         {
             return coreRunning;
         }
@@ -277,7 +277,7 @@ namespace eFormCore
 
         #region public actions
         #region template
-        public MainElement          TemplateFromXml(string xmlString)
+        public MainElement      TemplateFromXml(string xmlString)
         {
             string methodName = t.GetMethodName();
             try
@@ -363,7 +363,7 @@ namespace eFormCore
             }
         }
 
-        public List<string>         TemplateValidation(MainElement mainElement)
+        public List<string>     TemplateValidation(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -419,7 +419,7 @@ namespace eFormCore
             }
         }
 
-        public MainElement          TemplateUploadData(MainElement mainElement)
+        public MainElement      TemplateUploadData(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -498,7 +498,7 @@ namespace eFormCore
             }
         }
 
-        public int                  TemplateCreate(MainElement mainElement)
+        public int              TemplateCreate(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -530,7 +530,7 @@ namespace eFormCore
             }
         }
 
-        public MainElement          TemplateRead(int templateId)
+        public MainElement      TemplateRead(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -552,7 +552,7 @@ namespace eFormCore
             }
         }
 
-        public bool                 TemplateDelete(int templateId)
+        public bool             TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -574,7 +574,7 @@ namespace eFormCore
             }
         }
 
-        public Template_Dto         TemplateItemRead(int templateId)
+        public Template_Dto     TemplateItemRead(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -596,7 +596,7 @@ namespace eFormCore
             }
         }
 
-        public List<Template_Dto>   TemplateItemReadAll(bool includeRemoved)
+        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved)
         {
             string methodName = t.GetMethodName();
             try
@@ -858,6 +858,15 @@ namespace eFormCore
 
                     var cDto = sqlController.CaseReadByMUId(microtingUId);
                     string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
+
+                    if (xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
+                        for (int i = 1; i < 7; i++)
+                        {
+                            Thread.Sleep(i * 200);
+                            xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
+                            if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
+                                break;
+                        }
 
                     TriggerLog("XML response:");
                     TriggerLog(xmlResponse);
@@ -1805,9 +1814,14 @@ namespace eFormCore
         #endregion
 
         #region interaction case
-        public int Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
+        public int              Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
         {
             return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
+        }
+
+        public bool             Advanced_InteractionCaseDelete(int interactionCaseId)
+        {
+            return sqlController.InteractionCaseDelete(interactionCaseId);
         }
         #endregion
 
@@ -2133,10 +2147,7 @@ namespace eFormCore
             try
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
-                {
-                    //TODO 
-                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
-                }
+                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
             }
             catch (Exception ex)
             {
@@ -2453,7 +2464,7 @@ namespace eFormCore
                         oneFound = false;
                         #region check if out of sync
 
-                        //a_interaction_template
+                            //a_interaction_template
                         #region TemplateCreate
                         //if (!oneFound)
                         //{
@@ -2464,18 +2475,22 @@ namespace eFormCore
                         //}
                         #endregion
 
-                        //a_interaction_case
+                            //a_interaction_case
                         #region CaseCreate
                         if (!oneFound)
                         {
-                            a_interaction_cases iC = sqlController.InteractionCaseReadFirst();
+                            a_interaction_cases iC = sqlController.InteractionCaseReadFirstCreate();
      
                             try
                             {
                                 if (iC != null)
                                 {
                                     oneFound = true;
-                                    List<int> siteIds = sqlController.InteractionCaseReadSiteIds(iC.id);
+                                    List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
+                                    List<int> siteIds = new List<int>();
+
+                                    foreach (var item in caseList)
+                                        siteIds.Add((int)item.siteId);
 
                                     MainElement mainElement = sqlController.TemplateRead(iC.template_id);
                                     //do magic - replacement TODO
@@ -2492,12 +2507,43 @@ namespace eFormCore
                                             lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
                                     }
 
-                                    sqlController.InteractionCaseProcessed(iC.id, siteIds, lstMUIds);
+                                    sqlController.InteractionCaseProcessedCreate(iC.id, siteIds, lstMUIds);
                                 }
                             }
                             catch (Exception ex)
                             {
                                 sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseCreate logic failed", ex));
+                            }
+                        }
+                        #endregion
+
+                        #region CaseDelete
+                        if (!oneFound)
+                        {
+                            a_interaction_cases iC = sqlController.InteractionCaseReadFirstDelete();
+
+                            try
+                            {
+                                if (iC != null)
+                                {
+                                    oneFound = true;
+                                    int found = 0;
+
+                                    List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
+                                    foreach (var item in caseList)
+                                    {
+                                        found += 1 - t.Bool(CaseDelete(item.microting_uid));
+                                    }
+
+                                    if (found == 0)
+                                        sqlController.InteractionCaseProcessedDelete(iC.id);
+                                    else
+                                        sqlController.InteractionCaseFailed(iC.id, t.GetMethodName() + " failed. CaseDelete failed. " + found + " eForms not deleted");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseDelete logic failed", ex));
                             }
                         }
                         #endregion
