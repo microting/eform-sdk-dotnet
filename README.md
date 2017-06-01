@@ -50,6 +50,12 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.4.1 *(June 1th 2017)*
+	- Fixing CaseCreate to check for existing case before creating a new one.
+	- Advanced_InteractionCaseDelete(int interactionCaseId) added
+	- CaseDelete improved
+	- Fixed multiple interaction cases create	
+
   - Version 1.5.4 *(May 9th 2017)*
 	- **Breaking changes to the way CaseCreate is used.**
 	- Before
