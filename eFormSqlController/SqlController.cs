@@ -753,17 +753,29 @@ namespace eFormSqlController
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
-                    int caseId = aCase.id;
+                    var mainCheckList = db.check_lists.Single(x => x.id == aCase.check_list_id);
+
                     ReplyElement replyElement = new ReplyElement();
-                    replyElement.ElementList = new List<Element>();
+
+                    replyElement.Id = (int)aCase.check_list_id;
+                    replyElement.CaseType = aCase.type;
                     replyElement.Custom = aCase.custom;
                     replyElement.DoneAt = (DateTime)aCase.done_at;
                     replyElement.DoneById = (int)aCase.done_by_user_id;
+                    replyElement.ElementList = new List<Element>();
+                    //replyElement.EndDate
+                    replyElement.FastNavigation = t.Bool(mainCheckList.fast_navigation);
+                    replyElement.Label = mainCheckList.label;
+                    //replyElement.Language
+                    replyElement.ManualSync = t.Bool(mainCheckList.manual_sync);
+                    replyElement.MultiApproval = t.Bool(mainCheckList.multi_approval);
+                    replyElement.Repeated = (int)mainCheckList.repeated;
+                    //replyElement.StartDate
                     replyElement.UnitId = (int)aCase.unit_id;
-
+                    
                     foreach (check_lists checkList in aCase.check_list.children)
                     {
-                        replyElement.ElementList.Add(SubChecks(checkList.id, caseId));
+                        replyElement.ElementList.Add(SubChecks(checkList.id, aCase.id));
                     }
                     return replyElement;
                 }
@@ -1030,6 +1042,31 @@ namespace eFormSqlController
                     field_values reply = db.field_values.Single(x => x.id == id);
                     fields question = db.fields.Single(x => x.id == reply.field_id);
                     return FieldValueRead(question, reply, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueUpdate failed", ex);
+            }
+        }
+
+        public List<FieldValue>     FieldValueReadList(int id, int instances)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == id).OrderByDescending(z => z.created_at).ToList();
+
+                    if (matches.Count() > instances)
+                        matches = matches.GetRange(0, instances);
+
+                    List<FieldValue> rtnLst = new List<FieldValue>();
+
+                    foreach (var item in matches)
+                        rtnLst.Add(FieldValueRead(item.id));
+
+                    return rtnLst;
                 }
             }
             catch (Exception ex)

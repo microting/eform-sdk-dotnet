@@ -1825,7 +1825,8 @@ namespace eFormCore
         }
         #endregion
 
-        public Field            FieldRead(int id)
+        #region fields
+        public Field            Advanced_FieldRead(int id)
         {
             string methodName = t.GetMethodName();
             try
@@ -1846,6 +1847,29 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public List<FieldValue> Advanced_FieldValueReadList(int id, int instances)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("id:" + id);
+
+                    return sqlController.FieldValueReadList(id, instances);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
         #endregion
 
         #region internal UnitTest
@@ -2147,7 +2171,9 @@ namespace eFormCore
             try
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
-                    TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                {
+                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                }
             }
             catch (Exception ex)
             {
