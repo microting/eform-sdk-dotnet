@@ -377,26 +377,51 @@ namespace eFormSqlController
                     string caseType = db.check_lists.Single(x => x.id == checkListId).case_type;
                     int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
 
-                    cases aCase = new cases();
-                    aCase.status = 66;
-                    aCase.type = caseType;
-                    aCase.created_at = createdAt;
-                    aCase.updated_at = createdAt;
-                    aCase.check_list_id = checkListId;
-                    aCase.microting_uid = microtingUId;
-                    aCase.microting_check_uid = microtingCheckId;
-                    aCase.case_uid = caseUId;
-                    aCase.workflow_state = "created";
-                    aCase.version = 1;
-                    aCase.site_id = siteId;
+                    cases aCase = null;
+                    // Lets see if we have an existing case with the same parameters in the db first.
+                    // This is to handle none gracefull shutdowns.                
+                    aCase = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
 
-                    aCase.custom = custom;
+                    if (aCase == null)
+                    {
+                        aCase = new cases();
+                        aCase.status = 66;
+                        aCase.type = caseType;
+                        aCase.created_at = createdAt;
+                        aCase.updated_at = createdAt;
+                        aCase.check_list_id = checkListId;
+                        aCase.microting_uid = microtingUId;
+                        aCase.microting_check_uid = microtingCheckId;
+                        aCase.case_uid = caseUId;
+                        aCase.workflow_state = "created";
+                        aCase.version = 1;
+                        aCase.site_id = siteId;
 
-                    db.cases.Add(aCase);
-                    db.SaveChanges();
+                        aCase.custom = custom;
 
-                    db.version_cases.Add(MapCaseVersions(aCase));
-                    db.SaveChanges();
+                        db.cases.Add(aCase);
+                        db.SaveChanges();
+
+                        db.version_cases.Add(MapCaseVersions(aCase));
+                        db.SaveChanges();
+                    } else
+                    {
+                        aCase.status = 66;
+                        aCase.type = caseType;
+                        aCase.check_list_id = checkListId;
+                        aCase.microting_uid = microtingUId;
+                        aCase.microting_check_uid = microtingCheckId;
+                        aCase.case_uid = caseUId;
+                        aCase.workflow_state = "created";
+                        aCase.version = 1;
+                        aCase.site_id = siteId;
+                        aCase.updated_at = DateTime.Now;
+                        aCase.version = aCase.version + 1;
+                        aCase.custom = custom;
+
+                        db.version_cases.Add(MapCaseVersions(aCase));
+                        db.SaveChanges();
+                    }                       
 
                     return aCase.id;
                 }
@@ -447,7 +472,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseUpdate failed", ex);
+                throw new Exception("CaseUpdateRetrived failed", ex);
             }
         }
 
@@ -494,7 +519,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseUpdate failed", ex);
+                throw new Exception("CaseUpdateCompleted failed", ex);
             }
         }
 
