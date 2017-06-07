@@ -414,6 +414,22 @@ namespace eFormCommunicator
         }
         #endregion
 
+        #region internal TemplateDisplayIndexChange
+        internal bool TemplateDisplayIndexChange(string microtingUId, int newDisplayIndex)
+        {
+            try
+            {
+                //TODO MAGIC
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //Log expection
+                return false;
+            }
+        }
+        #endregion
+
         #region internal site
         internal string     SiteCreate(string name)
         {

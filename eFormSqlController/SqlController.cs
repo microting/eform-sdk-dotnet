@@ -169,11 +169,11 @@ namespace eFormSqlController
                 {
                     MainElement mainElement = null;
                     GetConverter();
+                    
+                    check_lists mainCl = db.check_lists.SingleOrDefault(x => x.id == templateId);
 
-                    check_lists mainCl = null;
-                
-                    //getting mainElement
-                    mainCl = db.check_lists.Single(x => x.id == templateId);
+                    if (mainCl == null)
+                        return null;
 
                     mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
                         t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
@@ -201,7 +201,11 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    check_lists checkList = db.check_lists.Where(x => x.id == templateId).First();
+                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
+
+                    if (checkList == null)
+                        return null;
+
                     List<SiteName_Dto> sites = new List<SiteName_Dto>();
                     foreach (check_list_sites check_list_site in checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
                     {
@@ -217,7 +221,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("TemplatRead failed", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
 
@@ -281,6 +285,33 @@ namespace eFormSqlController
             {
                 //TriggerHandleExpection(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool                 TemplateDisplayIndexChange(int templateId, int newDisplayIndex)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
+
+                    if (checkList == null)
+                        return false;
+
+                    checkList.updated_at = DateTime.Now;
+                    checkList.version = checkList.version + 1;
+                    checkList.display_index = newDisplayIndex;
+
+                    db.version_check_lists.Add(MapCheckListVersions(checkList));
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
 

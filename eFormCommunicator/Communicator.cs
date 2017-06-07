@@ -38,6 +38,7 @@ namespace eFormCommunicator
         public object _lockSending = new object();
         Http http;
         SqlController sqlController;
+        Tools t = new Tools();
         #endregion
 
         #region con
@@ -531,7 +532,19 @@ namespace eFormCommunicator
             }
             catch (Exception ex)
             {
-                throw new Exception("EntitySearchItemCreate failed", ex);
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public bool     TemplateDisplayIndexChange(string microtingUId, int newDisplayIndex)
+        {
+            try
+            {
+                return http.TemplateDisplayIndexChange(microtingUId, newDisplayIndex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
         #endregion

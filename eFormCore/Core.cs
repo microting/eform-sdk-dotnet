@@ -1410,6 +1410,52 @@ namespace eFormCore
         #endregion
 
         #region public advanced actions
+        #region templat
+        public bool Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
+
+                    return sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool Advanced_TemplateDisplayIndexChangeServer(string microtingUId, int newDisplayIndex)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("microtingUId:" + microtingUId + ", newDisplayIndex:" + newDisplayIndex);
+
+                    return communicator.TemplateDisplayIndexChange(microtingUId, newDisplayIndex);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
         #region sites
         public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
@@ -2458,7 +2504,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            TriggerWarning("CoreHandleUpdateNotifications failed. Case:'" + noteUId + "' marked as 'not_found'. " + ex.Message);
+                            TriggerWarning(t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + noteUId + "' marked as 'not_found'.", ex));
                             sqlController.NotificationProcessed(notification.Id, "not_found");
                         }
                     }
