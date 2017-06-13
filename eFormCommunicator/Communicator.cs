@@ -536,11 +536,11 @@ namespace eFormCommunicator
             }
         }
 
-        public bool     TemplateDisplayIndexChange(string microtingUId, int newDisplayIndex)
+        public string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             try
             {
-                return http.TemplateDisplayIndexChange(microtingUId, newDisplayIndex);
+                return http.TemplateDisplayIndexChange(microtingUId, siteId, newDisplayIndex);
             }
             catch (Exception ex)
             {

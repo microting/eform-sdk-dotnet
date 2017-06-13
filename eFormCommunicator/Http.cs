@@ -415,17 +415,19 @@ namespace eFormCommunicator
         #endregion
 
         #region internal TemplateDisplayIndexChange
-        internal bool TemplateDisplayIndexChange(string microtingUId, int newDisplayIndex)
+        internal string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             try
             {
-                //TODO MAGIC
-                return true;
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + microtingUId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false");
+                request.Method = "GET";
+
+                return PostToServer(request);
             }
             catch (Exception ex)
             {
-                //Log expection
-                return false;
+                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " + ex.Message + "</Value>\n\t</Response>";
+                //return false;
             }
         }
         #endregion

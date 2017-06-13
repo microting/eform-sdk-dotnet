@@ -1433,7 +1433,7 @@ namespace eFormCore
             }
         }
 
-        public bool Advanced_TemplateDisplayIndexChangeServer(string microtingUId, int newDisplayIndex)
+        public bool Advanced_TemplateDisplayIndexChangeServer(string microtingUId, int siteId, int newDisplayIndex)
         {
             string methodName = t.GetMethodName();
             try
@@ -1443,7 +1443,16 @@ namespace eFormCore
                     TriggerLog(methodName + " called");
                     TriggerLog("microtingUId:" + microtingUId + ", newDisplayIndex:" + newDisplayIndex);
 
-                    return communicator.TemplateDisplayIndexChange(microtingUId, newDisplayIndex);
+                    string respXml = communicator.TemplateDisplayIndexChange(microtingUId, siteId, newDisplayIndex);
+
+                    Response resp = new Response();
+                    resp = resp.XmlToClassUsingXmlDocument(respXml);
+                    if (resp.Type == Response.ResponseTypes.Success)
+                    {
+                        return true;
+                    }
+                    else
+                        throw new Exception("Failed to set display index for eForm " + microtingUId + " to " + newDisplayIndex);
                 }
                 else
                     throw new Exception("Core is not running");

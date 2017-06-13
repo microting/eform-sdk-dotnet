@@ -50,7 +50,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
-  - Version 1.5.4.1 *(June 1th 2017)*
+  - Version 1.5.4.2 *(June 13th 2017)*
+	- Adding functionality to allow the user to update the display index of eForms already deployed.
+
+  - Version 1.5.4.1 *(June 1st 2017)*
 	- Fixing CaseCreate to check for existing case before creating a new one.
 	- Advanced_InteractionCaseDelete(int interactionCaseId) added
 	- CaseDelete improved
