@@ -2790,8 +2790,7 @@ namespace eFormSqlController
                 throw new Exception("EntityGroupCreate failed", ex);
             }
         }
-
-        public EntityGroup          EntityGroupRead(string entityGroupMUId)
+        public EntityGroup          EntityGroupReadSorted(string entityGroupMUId, string sort, string nameFilter)
         {
             try
             {
@@ -2805,7 +2804,29 @@ namespace eFormSqlController
                     List<EntityItem> lst = new List<EntityItem>();
                     EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst);
 
-                    List<entity_items> eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").ToList();
+                    List<entity_items> eILst = null;
+
+                    if (nameFilter == "")
+                    {
+                        if (sort == "id")
+                        {
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").OrderBy(x => x.id).ToList();
+                        }
+                        else
+                        {
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").OrderBy(x => x.name).ToList();
+                        }
+                    } else
+                    {
+                        if (sort == "id")
+                        {
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync" && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
+                        }
+                        else
+                        {
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync" && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
+                        }
+                    }
 
                     if (eILst.Count > 0)
                         foreach (entity_items item in eILst)
@@ -2821,6 +2842,11 @@ namespace eFormSqlController
             {
                 throw new Exception("EntityGroupRead failed", ex);
             }
+        }
+
+        public EntityGroup          EntityGroupRead(string entityGroupMUId)
+        {
+            return EntityGroupReadSorted(entityGroupMUId, "id", "");
         }
 
         public bool                 EntityGroupUpdate(int entityGroupId, string entityGroupMUId)

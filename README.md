@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.4.3 *(June 13th 2017)*
+	- Fixing the broken URL in the change display index call.
+
   - Version 1.5.4.2 *(June 13th 2017)*
 	- Adding functionality to allow the user to update the display index of eForms already deployed.
 
