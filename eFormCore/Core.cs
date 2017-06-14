@@ -1925,6 +1925,33 @@ namespace eFormCore
             }
         }
         #endregion
+
+        #region EntityGroupList
+        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    TriggerLog(methodName + " called");
+                    TriggerLog("sort:" + sort);
+                    TriggerLog("nameFilter:" + nameFilter);
+                    TriggerLog("pageIndex:" + pageIndex);
+                    TriggerLog("pageSize:" + pageSize);
+
+                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                TriggerHandleExpection(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
         #endregion
 
         #region internal UnitTest

@@ -2756,6 +2756,59 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
+        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize)
+        {
+            List<entity_groups> eG = null;
+            List<EntityGroup> e_G = null;
+            int numOfElements = 0;
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    if (nameFilter == "")
+                    {
+                        if (sort == "id")
+                        {
+                            var source = db.entity_groups.OrderBy(x => x.id);
+                            numOfElements = source.Count();
+                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        }
+                        else
+                        {
+                            var source = db.entity_groups.OrderBy(x => x.name);
+                            numOfElements = source.Count();
+                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        }
+                    } else
+                    {
+                        if (sort == "id")
+                        {
+                            var source = db.entity_groups.Where(x => x.name.Contains(nameFilter)).OrderBy(x => x.id);
+                            numOfElements = source.Count();
+                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        }
+                        else
+                        {
+                            var source = db.entity_groups.Where(x => x.name.Contains(nameFilter)).OrderBy(x => x.name);
+                            numOfElements = source.Count();
+                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        }
+                    }
+                    foreach (entity_groups eg in eG)
+                    {
+                        EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state);
+                        e_G.Add(g);
+                    }
+                    return new EntityGroupList(numOfElements, pageIndex, e_G);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupRead failed", ex);
+            }
+        }
+
+
         public int                  EntityGroupCreate(string name, string entityType)
         {
             try
@@ -2802,7 +2855,7 @@ namespace eFormSqlController
                         return null;
 
                     List<EntityItem> lst = new List<EntityItem>();
-                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst);
+                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state);
 
                     List<entity_items> eILst = null;
 
@@ -2831,7 +2884,7 @@ namespace eFormSqlController
                     if (eILst.Count > 0)
                         foreach (entity_items item in eILst)
                         {
-                            EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid);
+                            EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid, item.workflow_state);
                             lst.Add(eI);
                         }
 

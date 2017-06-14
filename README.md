@@ -50,7 +50,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
-  - Version 1.5.4.3 *(June 14th 2017)*
+  - Version 1.5.4.5 *(June 14th 2017)*
+	- Adding Advanced_EntityGroupAll to list all EntityGroups.
+
+  - Version 1.5.4.4 *(June 14th 2017)*
 	- Fixing recreating removed EntityItems.
 
   - Version 1.5.4.3 *(June 13th 2017)*
