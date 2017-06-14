@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.4.3 *(June 14th 2017)*
+	- Fixing recreating removed EntityItems.
+
   - Version 1.5.4.3 *(June 13th 2017)*
 	- Fixing the broken URL in the change display index call.
 
