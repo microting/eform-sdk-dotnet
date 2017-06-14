@@ -3741,6 +3741,19 @@ namespace eFormSqlController
                         if (match.name == entityItem.Name && match.description == entityItem.Description)
                         {
                             //same
+                            if (match.workflow_state == "removed")
+                            {
+                                match.synced = t.Bool(false);
+                                match.updated_at = DateTime.Now;
+                                match.version = match.version + 1;
+                                match.workflow_state = "updated";
+
+                                db.SaveChanges();
+
+                                db.version_entity_items.Add(MapEntityItemVersions(match));
+                                db.SaveChanges();
+                            }
+
                             return; 
                         }
                         else
