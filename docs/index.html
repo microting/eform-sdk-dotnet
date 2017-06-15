@@ -421,7 +421,7 @@ You must replace <code>token</code> with your personal API key.
 <h2 id="deploying-to-one-site">Deploying to one site</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
-<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="kt">int</span> <span class="n">siteId</span><span class="p">)</span>
+<span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="kt">int</span> <span class="n">siteId</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>  
 
@@ -434,14 +434,14 @@ You must replace <code>token</code> with your personal API key.
 
     <span class="n">SiteName_Dto</span> <span class="n">site</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanded_SiteItemRead</span><span class="p">(</span><span class="n">siteId</span><span class="p">);</span>
 
-    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 
 <span class="p">}</span>
 </code></pre>
 <h2 id="deploying-to-one-or-more-sites">Deploying to one or more sites</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
-<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">sitesToBeDeployedTo</span><span class="p">)</span>
+<span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">sitesToBeDeployedTo</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
 
@@ -451,7 +451,7 @@ You must replace <code>token</code> with your personal API key.
     <span class="c1">// this will let the eForm be deployed until end date or we actively retract it.</span>
     <span class="n">mainElement</span><span class="p">.</span><span class="n">EndDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="nf">AddYears</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
     <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
-    <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
 <blockquote>
@@ -461,7 +461,7 @@ You must replace <code>token</code> with your personal API key.
 <h2 id="retracting-deployments">Retracting deployments</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
 
-<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">sitesToBeRetractedFrom</span><span class="p">)</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">DeployTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">sitesToBeRetractedFrom</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
 
@@ -482,9 +482,28 @@ You must replace <code>token</code> with your personal API key.
 <span class="p">{</span>
     <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
 
-    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Template_Dto</span> <span class="n">templateDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateItemRead</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Template_Dto</span> <span class="n">templateDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateItemRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
 
     <span class="k">return</span> <span class="n">templateDto</span><span class="p">.</span><span class="n">DeployedSites</span><span class="p">;</span>    
+<span class="p">}</span>
+</code></pre>
+<h2 id="setting-display-index-after-deployment">Setting display index after deployment</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">SetDisplayIndexForTemplate</span><span class="p">(</span><span class="kt">int</span> <span class="n">templateId</span><span class="p">,</span> <span class="kt">int</span> <span class="n">displayIndex</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Template_Dto</span> <span class="n">templateDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateItemRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="nf">Advanced_TemplateDisplayIndexChangeDb</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">displayIndex</span><span class="p">))</span> 
+    <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="n">eFormShared</span><span class="p">.</span><span class="n">SiteName_Dto</span> <span class="n">site</span> <span class="k">in</span> <span class="n">templateDto</span><span class="p">.</span><span class="n">DeployedSites</span><span class="p">)</span> 
+        <span class="p">{</span>
+            <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_TemplateDisplayIndexChangeServer</span><span class="p">(</span><span class="n">templateDto</span><span class="p">.</span><span class="n">microtingUId</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">siteId</span><span class="p">,</span> <span class="n">displayIndex</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
 <span class="p">}</span>
 </code></pre>
 <h1 id="using-results">Using results</h1>
@@ -563,14 +582,82 @@ You must replace <code>token</code> with your personal API key.
 
 <h2 id="faq">FAQ</h2>
 
-<h2 id="create-a-new-worker">Create a new worker</h2>
+<h2 id="list-all-workers">List all &ldquo;workers&rdquo;</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
-<h2 id="edit-a-worker">Edit a worker</h2>
+<span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Site_Dto</span><span class="p">&gt;</span> <span class="nf">CreateWorker</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteReadAll</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>     
+<span class="p">}</span>
+
+</code></pre>
+<h2 id="create-a-new-worker">Create a new &ldquo;worker&rdquo;</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="n">eFormShared</span><span class="p">.</span><span class="n">Site_Dto</span> <span class="nf">CreateWorker</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteCreate</span><span class="p">(</span><span class="n">siteName</span><span class="p">,</span> <span class="n">userFirstName</span><span class="p">,</span> <span class="n">userLastName</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre>
+<aside class="warning">
+DO NOT SET THE userEmail TO ANYTHING OTHER THAN null!
+</aside>
+
+<h2 id="edit-a-worker">Edit a &ldquo;worker&rdquo;</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">UpdateWorker</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Site_Dto</span> <span class="n">siteDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteRead</span><span class="p">(</span><span class="n">id</span><span class="p">);</span> <span class="c1">// id of the worker</span>
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">Worker_Dto</span> <span class="n">workerDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_WorkerRead</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">siteDto</span><span class="p">.</span><span class="n">WorkerUid</span><span class="p">);</span>
+    <span class="kt">string</span> <span class="n">userFirstName</span> <span class="p">=</span> <span class="s">"myNewFirstName"</span><span class="p">;</span>
+    <span class="kt">string</span> <span class="n">userLastName</span> <span class="p">=</span> <span class="s">"myNewLastName"</span><span class="p">;</span>
+
+    <span class="kt">string</span> <span class="n">fullName</span> <span class="p">=</span> <span class="n">userFirstName</span> <span class="p">+</span> <span class="s">" "</span> <span class="p">+</span> <span class="n">userLastName</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteUpdate</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">fullName</span><span class="p">,</span> <span class="n">userFirstName</span><span class="p">,</span> <span class="n">userLastName</span><span class="p">,</span> <span class="n">workerDto</span><span class="p">.</span><span class="n">Email</span><span class="p">);</span>       
+<span class="p">}</span>
+
+</code></pre>
+<aside class="warning">
+DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
+</aside>
 
 <h2 id="request-new-otp">Request new OTP</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
-<h2 id="deleting-a-worker">Deleting a worker</h2>
+<span class="k">public</span> <span class="n">eFormShared</span><span class="p">.</span><span class="n">Site_Dto</span> <span class="nf">GetOtp</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
 
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteReset</span><span class="p">(</span><span class="n">id</span><span class="p">);</span> <span class="c1">// id of the worker</span>
+<span class="p">}</span>
+
+</code></pre>
+<h2 id="deleting-a-worker">Deleting a &ldquo;worker&rdquo;</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">DeleteWorker</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">eFormShared</span><span class="p">.</span><span class="n">SiteName_Dto</span> <span class="n">siteNameDto</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_SiteItemRead</span><span class="p">(</span><span class="n">id</span><span class="p">);</span> <span class="c1">// id of the worker</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteDelete</span><span class="p">(</span><span class="n">siteNameDto</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">);</span>    
+<span class="p">}</span>
+
+</code></pre>
 <h1 id="adv-events">(Adv)Events</h1>
 
 <h1 id="adv-sites">(Adv)Sites</h1>
@@ -581,10 +668,47 @@ You must replace <code>token</code> with your personal API key.
 
 <h1 id="adv-entitysearch">(Adv)EntitySearch</h1>
 
+<h2 id="listing-all-groups">Listing all groups</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="n">EntityGroupList</span> <span class="nf">ListAllEntityGroups</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_EntityGroupAll</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="s">"EntitySearch"</span><span class="p">);</span>
+    <span class="c1">// No sorting, can sort by either id or name</span>
+    <span class="c1">// No filter is applied</span>
+    <span class="c1">// We start at page 0</span>
+    <span class="c1">// We have 100 entries per page.</span>
+<span class="p">}</span>
+
+</code></pre>
 <h2 id="creating-a-list">Creating a list</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="kt">string</span> <span class="nf">ListAllEntityGroups</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupCreate</span><span class="p">(</span><span class="s">"EntitySearch"</span><span class="p">,</span> <span class="s">"NameOfMyGroup"</span><span class="p">);</span>    
+<span class="p">}</span>
+
+</code></pre>
 <h2 id="adding-items-to-a-list">Adding items to a list</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="kt">string</span> <span class="nf">ListAllEntityGroups</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="n">EntityGroup</span> <span class="n">eG</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupRead</span><span class="p">(</span><span class="n">entityGroupMUId</span><span class="p">);</span>
+    <span class="n">eG</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="k">new</span> <span class="nf">EntityItem</span><span class="p">());</span>
+<span class="p">}</span>
+
+</code></pre>
 <h2 id="editing-items-in-a-list">Editing items in a list</h2>
 
 <h2 id="deleting-items-from-a-list">Deleting items from a list</h2>
@@ -593,8 +717,34 @@ You must replace <code>token</code> with your personal API key.
 
 <h1 id="adv-entityselect">(Adv)EntitySelect</h1>
 
-<h2 id="creating-a-list">Creating a list</h2>
+<h2 id="listing-all-groups">Listing all groups</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
 
+<span class="k">public</span> <span class="n">EntityGroupList</span> <span class="nf">ListAllEntityGroups</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_EntityGroupAll</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="s">"EntitySelect"</span><span class="p">);</span>
+    <span class="c1">// No sorting, can sort by either id or name</span>
+    <span class="c1">// No filter is applied</span>
+    <span class="c1">// We start at page 0</span>
+    <span class="c1">// We have 100 entries per page.</span>
+<span class="p">}</span>
+
+</code></pre>
+<h2 id="creating-a-list">Creating a list</h2>
+<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">eFormShared</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="kt">string</span> <span class="nf">ListAllEntityGroups</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Core</span> <span class="n">core</span> <span class="p">=</span> <span class="nf">getCore</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupCreate</span><span class="p">(</span><span class="s">"EntitySelect"</span><span class="p">,</span> <span class="s">"NameOfMyGroup"</span><span class="p">);</span>    
+<span class="p">}</span>
+
+</code></pre>
 <h2 id="adding-items-to-a-list">Adding items to a list</h2>
 
 <h2 id="editing-items-in-a-list">Editing items in a list</h2>
