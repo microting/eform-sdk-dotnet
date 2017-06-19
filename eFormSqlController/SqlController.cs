@@ -2760,10 +2760,10 @@ namespace eFormSqlController
         {
 
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
-                throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
+                throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
 
             List<entity_groups> eG = null;
-            List<EntityGroup> e_G = null;
+            List<EntityGroup> e_G = new List<EntityGroup>();
             int numOfElements = 0;
             try
             {
@@ -2816,7 +2816,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupRead failed", ex);
+                throw new Exception("EntityGroupAll failed", ex);
             }
         }
 

@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.4.8 *(June 19th 2017)*
+	- Fixing the missing initalization of List<EntityGroup> in EntityGroupAll of the SqlController.
+
   - Version 1.5.4.7 *(June 16th 2017)*
 	- Adding display index to Template_Dto.
 
