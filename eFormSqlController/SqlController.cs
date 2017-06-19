@@ -2756,11 +2756,13 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
-        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc)
+        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
 
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
+            if (workflowState != "not_removed" && workflowState != "created" && workflowState != "removed")
+                throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             List<entity_groups> eG = null;
             List<EntityGroup> e_G = new List<EntityGroup>();
@@ -2769,46 +2771,38 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    IOrderedQueryable<entity_groups> source = null;
-                    if (nameFilter == "")
-                    {
-                        if (sort == "id")
-                        {
-                            if (desc)
-                                source = db.entity_groups.Where(x => x.type == entityType).OrderByDescending(x => x.id);
-                            else
-                                source = db.entity_groups.Where(x => x.type == entityType).OrderBy(x => x.id);
-                        }
+                    var source = db.entity_groups.Where(x => x.type == entityType);
+                    if (nameFilter != "")
+                        source = source.Where(x => x.name.Contains(nameFilter));
+                    if (sort == "id")
+                        if (desc)
+                            source = source.OrderByDescending(x => x.id);
                         else
-                        {
-                            if (desc)
-                                source = db.entity_groups.Where(x => x.type == entityType).OrderByDescending(x => x.name);
-                            else
-                                source = db.entity_groups.Where(x => x.type == entityType).OrderBy(x => x.name);
-                        }
-                    } else
-                    {
-                        if (sort == "id")
-                        {
-                            if (desc)
-                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderByDescending(x => x.id);
-                            else
-                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderBy(x => x.id);
-                        }
+                            source = source.OrderBy(x => x.id);
+                    else
+                        if (desc)
+                            source = source.OrderByDescending(x => x.name);
                         else
-                        {
-                            if (desc)
-                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderByDescending(x => x.name);
-                            else
-                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderBy(x => x.name);
+                            source = source.OrderBy(x => x.id);
 
-                        }
+                    switch (workflowState)
+                    {
+                        case "not_removed":
+                            source = source.Where(x => x.workflow_state != "removed");
+                            break;
+                        case "removed":
+                            source = source.Where(x => x.workflow_state == "removed");
+                            break;
+                        case "created":
+                            source = source.Where(x => x.workflow_state == "created");
+                            break;
                     }
+
                     numOfElements = source.Count();
                     eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
                     foreach (entity_groups eg in eG)
                     {
-                        EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state);
+                        EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
                         e_G.Add(g);
                     }
                     return new EntityGroupList(numOfElements, pageIndex, e_G);
@@ -2867,7 +2861,7 @@ namespace eFormSqlController
                         return null;
 
                     List<EntityItem> lst = new List<EntityItem>();
-                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state);
+                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state, eG.created_at, eG.updated_at);
 
                     List<entity_items> eILst = null;
 

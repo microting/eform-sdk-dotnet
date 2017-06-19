@@ -1927,8 +1927,13 @@ namespace eFormCore
         #endregion
 
         #region EntityGroupList
-        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc)
+        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
+            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+                throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
+            if (workflowState != "not_removed" && workflowState != "created" && workflowState != "removed")
+                throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
+
             string methodName = t.GetMethodName();
             try
             {
@@ -1941,7 +1946,7 @@ namespace eFormCore
                     TriggerLog("pageSize:" + pageSize);
                     TriggerLog("entityType:" + entityType);
 
-                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc);
+                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState);
                 }
                 else
                     throw new Exception("Core is not running");
