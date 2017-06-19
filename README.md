@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.5.1 *(June 19th 2017)*
+	- Adding the workflowState parameter to the Advanced_EntityGroupAll.
+
   - Version 1.5.5.0 *(June 19th 2017)*
 	- Adding created_at and updated_at to EntityGroup.
 
