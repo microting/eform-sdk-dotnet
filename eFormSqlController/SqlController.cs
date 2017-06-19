@@ -215,7 +215,7 @@ namespace eFormSqlController
                     bool hasCases = false;
                     if (checkList.cases.Count() > 0)
                         hasCases = true;
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases);
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
                     return templateDto;
                 }
             }
@@ -251,7 +251,7 @@ namespace eFormSqlController
                         bool hasCases = false;
                         if (checkList.cases.Count() > 0)
                              hasCases = true;
-                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases);
+                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
                         templateList.Add(templateDto);
                     }
                     return templateList;
@@ -2756,8 +2756,12 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
-        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize)
+        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc)
         {
+
+            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+                throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
+
             List<entity_groups> eG = null;
             List<EntityGroup> e_G = null;
             int numOfElements = 0;
@@ -2765,35 +2769,43 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
+                    IOrderedQueryable<entity_groups> source = null;
                     if (nameFilter == "")
                     {
                         if (sort == "id")
                         {
-                            var source = db.entity_groups.OrderBy(x => x.id);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                            if (desc)
+                                source = db.entity_groups.Where(x => x.type == entityType).OrderByDescending(x => x.id);
+                            else
+                                source = db.entity_groups.Where(x => x.type == entityType).OrderBy(x => x.id);
                         }
                         else
                         {
-                            var source = db.entity_groups.OrderBy(x => x.name);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                            if (desc)
+                                source = db.entity_groups.Where(x => x.type == entityType).OrderByDescending(x => x.name);
+                            else
+                                source = db.entity_groups.Where(x => x.type == entityType).OrderBy(x => x.name);
                         }
                     } else
                     {
                         if (sort == "id")
                         {
-                            var source = db.entity_groups.Where(x => x.name.Contains(nameFilter)).OrderBy(x => x.id);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                            if (desc)
+                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderByDescending(x => x.id);
+                            else
+                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderBy(x => x.id);
                         }
                         else
                         {
-                            var source = db.entity_groups.Where(x => x.name.Contains(nameFilter)).OrderBy(x => x.name);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                            if (desc)
+                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderByDescending(x => x.name);
+                            else
+                                source = db.entity_groups.Where(x => x.name.Contains(nameFilter) && x.type == entityType).OrderBy(x => x.name);
+
                         }
                     }
+                    numOfElements = source.Count();
+                    eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
                     foreach (entity_groups eg in eG)
                     {
                         EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state);

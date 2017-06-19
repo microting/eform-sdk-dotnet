@@ -50,6 +50,12 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.4.7 *(June 16th 2017)*
+	- Adding display index to Template_Dto.
+
+  - Version 1.5.4.6 *(June 16th 2017)*
+	- Adding entityType and desc to Advanced_EntityGroupAll.
+
   - Version 1.5.4.5 *(June 14th 2017)*
 	- Adding Advanced_EntityGroupAll to list all EntityGroups.
 

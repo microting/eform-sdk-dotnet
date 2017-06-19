@@ -1927,7 +1927,7 @@ namespace eFormCore
         #endregion
 
         #region EntityGroupList
-        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize)
+        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc)
         {
             string methodName = t.GetMethodName();
             try
@@ -1939,8 +1939,9 @@ namespace eFormCore
                     TriggerLog("nameFilter:" + nameFilter);
                     TriggerLog("pageIndex:" + pageIndex);
                     TriggerLog("pageSize:" + pageSize);
+                    TriggerLog("entityType:" + entityType);
 
-                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize);
+                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc);
                 }
                 else
                     throw new Exception("Core is not running");
