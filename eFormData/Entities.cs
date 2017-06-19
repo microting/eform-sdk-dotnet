@@ -13,6 +13,14 @@ namespace eFormData
 
         }
 
+        public EntityGroup(string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst)
+        {
+            Name = name;
+            Type = type;
+            EntityGroupMUId = entityGroupMUId;
+            EntityGroupItemLst = entityGroupItemLst;
+        }
+
         public EntityGroup(string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst, string workflowState)
         {
             Name = name;
@@ -59,6 +67,13 @@ namespace eFormData
             Name = "";
             Description = "";
             EntityItemUId = "";
+        }
+
+        public EntityItem(string name, string description, string entityItemUId)
+        {
+            Name = name;
+            Description = description;
+            EntityItemUId = entityItemUId;
         }
 
         public EntityItem(string name, string description, string entityItemUId, string workflowState)
