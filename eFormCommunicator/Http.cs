@@ -419,7 +419,7 @@ namespace eFormCommunicator
         {
             try
             {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + microtingUId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false&update_attributes&display_order=" + newDisplayIndex.ToString());
+                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + microtingUId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false&update_attributes=true&display_order=" + newDisplayIndex.ToString());
                 request.Method = "GET";
 
                 return PostToServer(request);
