@@ -1433,7 +1433,7 @@ namespace eFormCore
             }
         }
 
-        public bool Advanced_TemplateDisplayIndexChangeServer(string microtingUId, int siteId, int newDisplayIndex)
+        public bool Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteId, int newDisplayIndex)
         {
             string methodName = t.GetMethodName();
             try
@@ -1441,9 +1441,10 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    TriggerLog("microtingUId:" + microtingUId + ", newDisplayIndex:" + newDisplayIndex);
+                    TriggerLog("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
+                    int microtingUId = sqlController.CheckListSitesRead(templateId, siteId);
 
-                    string respXml = communicator.TemplateDisplayIndexChange(microtingUId, siteId, newDisplayIndex);
+                    string respXml = communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteId, newDisplayIndex);
 
                     Response resp = new Response();
                     resp = resp.XmlToClassUsingXmlDocument(respXml);

@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.5.3 *(June 20th 2017)*
+	- Fixing the broken set display index for an already deployed eForm.
+
   - Version 1.5.5.2 *(June 20th 2017)*
 	- Fixing the broken set display index for an already deployed eForm.
 
