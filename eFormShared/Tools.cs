@@ -106,7 +106,13 @@ namespace eFormShared
             if (strLst.Count == 0)
                 return "";
 
-            string joined = string.Join(",", strLst);
+            foreach (var item in strLst)
+            {
+                if (item.Contains("|"))
+                    throw new Exception("strings in the list, may not contain '|'");
+            }
+
+            string joined = string.Join("|", strLst);
             return joined;
         }
 
@@ -120,7 +126,7 @@ namespace eFormShared
             if (str == "")
                 return strLst;
 
-            strLst = str.Split(',').ToList();
+            strLst = str.Split('|').ToList();
             return strLst;
         }
         #endregion

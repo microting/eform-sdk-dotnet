@@ -72,7 +72,7 @@ namespace eFormData
                             break;
 
                         default:
-                            throw new IndexOutOfRangeException("'" + valueTypeLower + "' is not a know ResponseType");
+                            throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " + xmlStr);
                     }
                 }
                 #endregion
@@ -155,7 +155,7 @@ namespace eFormData
                             break;
 
                         default:
-                            throw new IndexOutOfRangeException("'" + valueTypeLower + "' is not a know ResponseType");
+                            throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " + xmlStr);
                     }
                 }
                 #endregion

@@ -1739,7 +1739,7 @@ namespace eFormSqlController
         #endregion
 
         #region public interaction tables
-        public int                  InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
+        public int                  InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, List<string> replacements)
         {
             try
             {
@@ -1755,7 +1755,7 @@ namespace eFormSqlController
                     newCase.custom = custom;
                     newCase.connected = t.Bool(connected);
                     newCase.template_id = templateId;
-                    newCase.replacements = replacements;
+                    newCase.replacements = t.TextLst(replacements);
                     newCase.synced = 1;
 
                     db.a_interaction_cases.Add(newCase);
