@@ -215,7 +215,7 @@ namespace eFormSqlController
                     bool hasCases = false;
                     if (checkList.cases.Count() > 0)
                         hasCases = true;
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases);
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
                     return templateDto;
                 }
             }
@@ -251,7 +251,7 @@ namespace eFormSqlController
                         bool hasCases = false;
                         if (checkList.cases.Count() > 0)
                              hasCases = true;
-                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases);
+                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
                         templateList.Add(templateDto);
                     }
                     return templateList;
@@ -2756,47 +2756,53 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
-        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize)
+        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
+
+            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+                throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
+            if (workflowState != "not_removed" && workflowState != "created" && workflowState != "removed")
+                throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
+
             List<entity_groups> eG = null;
-            List<EntityGroup> e_G = null;
+            List<EntityGroup> e_G = new List<EntityGroup>();
             int numOfElements = 0;
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (nameFilter == "")
-                    {
-                        if (sort == "id")
-                        {
-                            var source = db.entity_groups.OrderBy(x => x.id);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        }
+                    var source = db.entity_groups.Where(x => x.type == entityType);
+                    if (nameFilter != "")
+                        source = source.Where(x => x.name.Contains(nameFilter));
+                    if (sort == "id")
+                        if (desc)
+                            source = source.OrderByDescending(x => x.id);
                         else
-                        {
-                            var source = db.entity_groups.OrderBy(x => x.name);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        }
-                    } else
-                    {
-                        if (sort == "id")
-                        {
-                            var source = db.entity_groups.Where(x => x.name.Contains(nameFilter)).OrderBy(x => x.id);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        }
+                            source = source.OrderBy(x => x.id);
+                    else
+                        if (desc)
+                            source = source.OrderByDescending(x => x.name);
                         else
-                        {
-                            var source = db.entity_groups.Where(x => x.name.Contains(nameFilter)).OrderBy(x => x.name);
-                            numOfElements = source.Count();
-                            eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        }
+                            source = source.OrderBy(x => x.id);
+
+                    switch (workflowState)
+                    {
+                        case "not_removed":
+                            source = source.Where(x => x.workflow_state != "removed");
+                            break;
+                        case "removed":
+                            source = source.Where(x => x.workflow_state == "removed");
+                            break;
+                        case "created":
+                            source = source.Where(x => x.workflow_state == "created");
+                            break;
                     }
+
+                    numOfElements = source.Count();
+                    eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
                     foreach (entity_groups eg in eG)
                     {
-                        EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state);
+                        EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
                         e_G.Add(g);
                     }
                     return new EntityGroupList(numOfElements, pageIndex, e_G);
@@ -2804,7 +2810,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupRead failed", ex);
+                throw new Exception("EntityGroupAll failed", ex);
             }
         }
 
@@ -2855,7 +2861,7 @@ namespace eFormSqlController
                         return null;
 
                     List<EntityItem> lst = new List<EntityItem>();
-                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state);
+                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state, eG.created_at, eG.updated_at);
 
                     List<entity_items> eILst = null;
 

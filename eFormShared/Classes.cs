@@ -17,7 +17,7 @@ namespace eFormShared
 
         }
 
-        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases)
+        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex)
         {
             Id = id;
             Label = label;
@@ -29,6 +29,7 @@ namespace eFormShared
             UpdatedAt = updatedAt;
             DeployedSites = deployedSites;
             HasCases = hasCases;
+            DisplayIndex = displayIndex;
         }
         #endregion
 
@@ -82,6 +83,11 @@ namespace eFormShared
         /// WorkflowState
         /// </summary>
         public bool HasCases { get; }
+
+        /// <summary>
+        /// DiplayIndex
+        /// </summary>
+        public int? DisplayIndex { get; }
         #endregion
     }
     #endregion

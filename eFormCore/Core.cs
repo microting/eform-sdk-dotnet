@@ -1433,7 +1433,7 @@ namespace eFormCore
             }
         }
 
-        public bool Advanced_TemplateDisplayIndexChangeServer(string microtingUId, int siteId, int newDisplayIndex)
+        public bool Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteId, int newDisplayIndex)
         {
             string methodName = t.GetMethodName();
             try
@@ -1441,9 +1441,10 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     TriggerLog(methodName + " called");
-                    TriggerLog("microtingUId:" + microtingUId + ", newDisplayIndex:" + newDisplayIndex);
+                    TriggerLog("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
+                    int microtingUId = sqlController.CheckListSitesRead(templateId, siteId);
 
-                    string respXml = communicator.TemplateDisplayIndexChange(microtingUId, siteId, newDisplayIndex);
+                    string respXml = communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteId, newDisplayIndex);
 
                     Response resp = new Response();
                     resp = resp.XmlToClassUsingXmlDocument(respXml);
@@ -1927,8 +1928,13 @@ namespace eFormCore
         #endregion
 
         #region EntityGroupList
-        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize)
+        public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
+            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+                throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
+            if (workflowState != "not_removed" && workflowState != "created" && workflowState != "removed")
+                throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
+
             string methodName = t.GetMethodName();
             try
             {
@@ -1939,8 +1945,9 @@ namespace eFormCore
                     TriggerLog("nameFilter:" + nameFilter);
                     TriggerLog("pageIndex:" + pageIndex);
                     TriggerLog("pageSize:" + pageSize);
+                    TriggerLog("entityType:" + entityType);
 
-                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize);
+                    return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState);
                 }
                 else
                     throw new Exception("Core is not running");

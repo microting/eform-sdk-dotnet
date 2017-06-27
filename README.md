@@ -50,6 +50,27 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.5.3 *(June 20th 2017)*
+	- Fixing the broken set display index for an already deployed eForm.
+
+  - Version 1.5.5.2 *(June 20th 2017)*
+	- Fixing the broken set display index for an already deployed eForm.
+
+  - Version 1.5.5.1 *(June 19th 2017)*
+	- Adding the workflowState parameter to the Advanced_EntityGroupAll.
+
+  - Version 1.5.5.0 *(June 19th 2017)*
+	- Adding created_at and updated_at to EntityGroup.
+
+  - Version 1.5.4.8 *(June 19th 2017)*
+	- Fixing the missing initalization of List<EntityGroup> in EntityGroupAll of the SqlController.
+
+  - Version 1.5.4.7 *(June 16th 2017)*
+	- Adding display index to Template_Dto.
+
+  - Version 1.5.4.6 *(June 16th 2017)*
+	- Adding entityType and desc to Advanced_EntityGroupAll.
+
   - Version 1.5.4.5 *(June 14th 2017)*
 	- Adding Advanced_EntityGroupAll to list all EntityGroups.
 
