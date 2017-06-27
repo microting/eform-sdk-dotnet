@@ -1264,20 +1264,20 @@ namespace eFormCore
         #endregion
 
         #region entity
-        public string           EntityGroupCreate(string entityType, string name)
+        public EntityGroup           EntityGroupCreate(string entityType, string name)
         {
             try
             {
                 if (coreRunning)
                 {
-                    int entityGroupId = sqlController.EntityGroupCreate(name, entityType);
+                    EntityGroup entityGroup = sqlController.EntityGroupCreate(name, entityType);
 
-                    string entityGroupMUId = communicator.EntityGroupCreate(entityType, name, entityGroupId.ToString());
+                    string entityGroupMUId = communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString());
 
-                    bool isCreated = sqlController.EntityGroupUpdate(entityGroupId, entityGroupMUId);
+                    bool isCreated = sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMUId);
 
                     if (isCreated)
-                        return entityGroupMUId;
+                        return new EntityGroup(entityGroup.Id, entityGroup.Name, entityGroup.Type, entityGroupMUId, new List<EntityItem>());
                     else
                     {
                         sqlController.EntityGroupDelete(entityGroupMUId);
@@ -1331,6 +1331,11 @@ namespace eFormCore
                     while (updateIsRunningEntities)
                         Thread.Sleep(200);
 
+                    bool isUpdated = communicator.EntityGroupUpdate(entityGroup.Id, entityGroup.Type, entityGroup.Name, entityGroup.EntityGroupMUId);
+
+                    if (isUpdated)
+                        sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.EntityGroupMUId);
+
                     sqlController.EntityGroupUpdateItems(entityGroup);
 
                     CoreHandleUpdateEntityItems();
@@ -1344,7 +1349,7 @@ namespace eFormCore
                 throw new Exception("EntityGroupRead failed", ex);
             }
             return true;
-        }
+        }        
 
         public bool             EntityGroupDelete(string entityGroupMUId)
         {

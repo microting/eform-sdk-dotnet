@@ -418,6 +418,34 @@ namespace eFormCommunicator
             }
         }
 
+        public bool     EntityGroupUpdate(int id, string entityType, string name, string entityGroupMUId)
+        {
+            try
+            {
+                if (entityType == "EntitySearch")
+                {
+                    if (http.EntitySearchGroupUpdate(id, name, entityGroupMUId))
+                        return true;
+                    else
+                        throw new Exception("EntityGroupUpdate failed");
+                }
+
+                if (entityType == "EntitySelect")
+                {
+                    if (http.EntitySelectGroupUpdate(id, name, entityGroupMUId))
+                        return true;
+                    else
+                        throw new Exception("EntityGroupUpdate failed");
+                }
+
+                throw new Exception("entityType:'" + entityType + "' not known");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupDelete failed", ex);
+            }
+        }
+
         public void     EntityGroupDelete(string entityType, string entityGroupId)
         {
             try

@@ -2802,7 +2802,7 @@ namespace eFormSqlController
                     eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
                     foreach (entity_groups eg in eG)
                     {
-                        EntityGroup g = new EntityGroup(eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
+                        EntityGroup g = new EntityGroup(eg.id, eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
                         e_G.Add(g);
                     }
                     return new EntityGroupList(numOfElements, pageIndex, e_G);
@@ -2815,7 +2815,7 @@ namespace eFormSqlController
         }
 
 
-        public int                  EntityGroupCreate(string name, string entityType)
+        public EntityGroup                  EntityGroupCreate(string name, string entityType)
         {
             try
             {
@@ -2841,7 +2841,7 @@ namespace eFormSqlController
                     db.version_entity_groups.Add(MapEntityGroupVersions(eG));
                     db.SaveChanges();
 
-                    return eG.id;
+                    return new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, new List<EntityItem>(),eG.workflow_state, eG.created_at, eG.updated_at);
                 }
             }
             catch (Exception ex)
@@ -2861,7 +2861,7 @@ namespace eFormSqlController
                         return null;
 
                     List<EntityItem> lst = new List<EntityItem>();
-                    EntityGroup rtnEG = new EntityGroup(eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state, eG.created_at, eG.updated_at);
+                    EntityGroup rtnEG = new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state, eG.created_at, eG.updated_at);
 
                     List<entity_items> eILst = null;
 
@@ -2920,6 +2920,35 @@ namespace eFormSqlController
                         return false;
 
                     eG.microting_uid = entityGroupMUId;
+                    eG.updated_at = DateTime.Now;
+                    eG.version = eG.version + 1;
+
+                    db.SaveChanges();
+
+                    db.version_entity_groups.Add(MapEntityGroupVersions(eG));
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityGroupUpdate failed", ex);
+            }
+        }
+
+        public bool EntityGroupUpdateName(string name, string entityGroupMUId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId);
+
+                    if (eG == null)
+                        return false;
+
+                    eG.name = name;
                     eG.updated_at = DateTime.Now;
                     eG.version = eG.version + 1;
 

@@ -50,6 +50,18 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.5.5.4 *(June 27th 2017)*
+	- Adding ability to change name of the EntityGroup.
+	- **Breaking changes to the result EntityGroupCreate is returning.**
+	- Before
+	```cs
+	string EntityGroupCreate(string entityType, string name);
+	```
+	- After
+	```cs
+	EntityGroup EntityGroupCreate(string entityType, string name);
+	```	
+
   - Version 1.5.5.3 *(June 20th 2017)*
 	- Fixing the broken set display index for an already deployed eForm.
 

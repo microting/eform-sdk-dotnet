@@ -13,16 +13,18 @@ namespace eFormData
 
         }
 
-        public EntityGroup(string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst)
+        public EntityGroup(int id, string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst)
         {
+            Id = id;
             Name = name;
             Type = type;
             EntityGroupMUId = entityGroupMUId;
             EntityGroupItemLst = entityGroupItemLst;
         }
 
-        public EntityGroup(string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst, string workflowState, DateTime? createdAt, DateTime? updatedAt)
+        public EntityGroup(int id, string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst, string workflowState, DateTime? createdAt, DateTime? updatedAt)
         {
+            Id = id;
             Name = name;
             Type = type;
             EntityGroupMUId = entityGroupMUId;
@@ -32,7 +34,8 @@ namespace eFormData
             UpdatedAt = updatedAt;
         }
 
-        public string Name { get; }
+        public int Id { get; }
+        public string Name { get; set; }
         public string Type { get; }
         public string EntityGroupMUId { get; }
         public List<EntityItem> EntityGroupItemLst { get; set; }

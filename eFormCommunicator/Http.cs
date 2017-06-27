@@ -175,6 +175,24 @@ namespace eFormCommunicator
             }
         }
 
+        internal bool EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
+        {
+            string xmlData = "<EntityTypes><EntityType><Name>" + name + "</Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types/"+ entityGroupMUId + "?token=" + token + "&protocol=" + protocolEntitySearch + "&organization_id=" + organizationId);
+            request.Method = "PUT";
+            byte[] content = Encoding.UTF8.GetBytes(xmlData);
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = content.Length;
+
+            string responseXml = PostToServer(request, content);
+
+            if (responseXml.Contains("workflowState=\"created"))
+                return true;
+            else
+                return false;
+        }       
+
         internal bool       EntitySearchGroupDelete(string entityGroupId)
         {
             try
@@ -280,6 +298,33 @@ namespace eFormCommunicator
             {
                 return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
             }
+        }
+
+        internal bool EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
+        {
+            JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
+
+            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/"+ entityGroupMUId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
+            request.Method = "PUT";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string responseXml = PostToServerNoRedirect(request, content);
+
+            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
+            {
+                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupMUId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
+                request2.Method = "GET";
+                string responseXml2 = PostToServer(request2);
+
+                if (responseXml2.Contains("workflow_state\": \"created"))
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
         }
 
         internal bool       EntitySelectGroupDelete(string entityGroupId)
