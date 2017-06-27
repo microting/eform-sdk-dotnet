@@ -1869,7 +1869,7 @@ namespace eFormCore
         #endregion
 
         #region interaction case
-        public int              Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, string replacements)
+        public int              Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, List<string> replacements)
         {
             return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
         }
@@ -2606,15 +2606,11 @@ namespace eFormCore
                                     List<string> lstMUIds = new List<string>();
 
                                     if (t.Bool(iC.connected))
-                                    {
                                         lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom);
-                                    }
                                     else
-                                    {
                                         foreach (var site in siteIds)
                                             lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
-                                    }
-
+                           
                                     sqlController.InteractionCaseProcessedCreate(iC.id, siteIds, lstMUIds);
                                 }
                             }
