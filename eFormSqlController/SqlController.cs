@@ -4478,6 +4478,22 @@ namespace eFormSqlController
             }
         }
 
+        public a_interaction_cases UnitTest_FindInteractionCase(int interactionCaseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
+                    return match;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+            }
+        }
+
         public bool             UnitTest_TruncateTable(string tableName)
         {
             try
