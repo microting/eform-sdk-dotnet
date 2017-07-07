@@ -8,16 +8,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.IO;
 
 namespace eFormSqlController
 {
-    public class SqlController
+    public class SqlController : SqlControllerBase
     {
         #region var
         List<Holder> converter;
         object _lockQuery = new object();
         string connectionStr;
         Tools t = new Tools();
+
+        object _writeLock = new object();
         #endregion
 
         #region con
@@ -124,7 +127,7 @@ namespace eFormSqlController
                             #endregion
                         }
                         else
-                            throw new Exception("FATAL Exception. Settings needs to be corrected. Please either inspect or clear the Settings table in the Microting database");
+                            throw new Exception("Settings needs to be corrected. Please either inspect or clear the Settings table in the Microting database");
                     }
                 }
             }
@@ -283,7 +286,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -322,8 +325,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     check_lists check_list = db.check_lists.Single(x => x.id == templateId);
 
@@ -345,7 +348,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -962,7 +965,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2129,8 +2132,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = new sites();
                     site.workflow_state = "created";
@@ -2152,7 +2155,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2164,8 +2167,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
@@ -2177,7 +2180,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2189,7 +2192,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
                     site_workers site_worker = db.site_workers.Where(x => x.site_id == site.id).ToList().First();
@@ -2204,7 +2207,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2216,8 +2219,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid);
 
@@ -2239,7 +2242,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2251,8 +2254,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid);
 
@@ -2274,7 +2277,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2317,7 +2320,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
 
@@ -2330,7 +2333,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     workers worker = new workers();
                     worker.workflow_state = "created";
@@ -2354,7 +2357,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2366,8 +2369,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
@@ -2379,7 +2382,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2391,8 +2394,8 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
-                    //TriggerLog("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
@@ -2416,7 +2419,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2428,7 +2431,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
@@ -2450,7 +2453,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2464,7 +2467,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
                     int localWorkerId = db.workers.Single(x => x.microting_uid == workerUId).id;
@@ -2490,7 +2493,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2502,7 +2505,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
                     site_workers site_worker = null;
                     if (microtingUid == null)
                     {
@@ -2523,7 +2526,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2535,7 +2538,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid);
 
@@ -2558,7 +2561,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2570,7 +2573,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     site_workers site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microting_uid);
 
@@ -2592,7 +2595,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2617,7 +2620,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2629,7 +2632,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
                     int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
 
                     units unit = new units();
@@ -2654,7 +2657,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2666,7 +2669,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
 
@@ -2678,7 +2681,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2690,7 +2693,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid);
 
@@ -2713,7 +2716,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2725,7 +2728,7 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //TriggerLog(methodName + " called");
+                    //logger.LogEverything(methodName + " called");
 
                     units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid);
 
@@ -2747,7 +2750,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //TriggerHandleExpection(methodName + " failed", ex, true);
+                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -3236,6 +3239,18 @@ namespace eFormSqlController
             {
                 throw new Exception(t.GetMethodName() + " failed", ex);
             }
+        }
+        #endregion
+
+        #region public log
+        public override void LogText(int level, string str)
+        {
+            Write("Lvl_(" + level + "): " + str);
+        }
+
+        public override void LogVariable(string variableName, string variableContent)
+        {
+            Write("Lvl_(3): Variable Name:" + variableName + " / Content:" + variableContent);
         }
         #endregion
         #endregion
@@ -4576,6 +4591,22 @@ namespace eFormSqlController
             }
         }
         #endregion
+
+
+        private void Write(string str)
+        {
+            lock (_writeLock)
+            {
+                try
+                {
+                    File.AppendAllText(@"log\\log.txt", str + Environment.NewLine);
+                }
+                catch
+                {
+                    //magic
+                }
+            }
+        }
     }
 
     public enum Settings

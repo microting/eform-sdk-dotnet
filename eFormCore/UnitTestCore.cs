@@ -30,10 +30,5 @@ namespace eFormCore
         {
             core.UnitTest_CaseDelete(microtingUId);
         }
-
-        public void EventLog(string text)
-        {
-            core.UnitTest_TriggerLog(text);
-        }
     }
 }

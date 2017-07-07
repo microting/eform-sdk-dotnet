@@ -42,7 +42,7 @@ using System.Xml;
 
 namespace eFormCore
 {
-    public class Core : ICore
+    public class Core : CoreBase, ICore
     {
         #region events
         public event EventHandler HandleCaseCreated;
@@ -51,17 +51,14 @@ namespace eFormCore
         public event EventHandler HandleCaseDeleted;
         public event EventHandler HandleFileDownloaded;
         public event EventHandler HandleSiteActivated;
-
-        public event EventHandler HandleEventLog;
-        public event EventHandler HandleEventMessage;
-        public event EventHandler HandleEventWarning;
         public event EventHandler HandleEventException;
         #endregion
 
         #region var
+        Subscriber subscriber;
+        Logger logger;
         Communicator communicator;
         SqlController sqlController;
-        Subscriber subscriber;
         ExcelController excelController;
         Tools t = new Tools();
 
@@ -78,151 +75,132 @@ namespace eFormCore
         bool coreStatChanging = false;
         bool coreThreadAlive = false;
 
-        List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
-
         string connectionString;
         string fileLocationPicture;
         string fileLocationPdf;
-        bool logLevel = false;
         #endregion
 
-        #region con
-        public Core()
-        {
-
-        }
-        #endregion
+        //con
 
         #region public state
-        public bool             Start(string connectionString)
+        public bool StartSqlOnly(string connectionString)
         {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+
             try
             {
                 if (!coreRunning && !coreStatChanging)
                 {
-                    if (string.IsNullOrEmpty(connectionString))
-                        throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
-
                     coreStatChanging = true;
 
                     //sqlController
                     sqlController = new SqlController(connectionString);
-                    logLevel = bool.Parse(sqlController.SettingRead(Settings.logLevel));
-                    TriggerLog("SqlEformController started");
+
+                    //logger
+                    string logLevelStr = sqlController.SettingRead(Settings.logLevel);
+                    logger = new Logger(this, sqlController, int.Parse(logLevelStr));
+
+                    logger.LogCritical(t.GetMethodName() + " at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+                    logger.LogStandard("SqlEformController and Logger started");
 
                     #region settings read
                     if (!sqlController.SettingCheckAll())
                         throw new ArgumentException("Use AdminTool to setup database correct");
 
+                    this.connectionString = connectionString;
                     fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
                     fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);
-                    this.connectionString = connectionString;
-                    TriggerLog("Settings read");
                     #endregion
-
-                    #region core.Start()
-                    TriggerLog("");
-                    TriggerLog("");
-                    TriggerLog("###################################################################################################################");
-                    TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
-                    TriggerLog("###################################################################################################################");
-                    TriggerLog("connectionString:'" + connectionString + "'");
-                    TriggerLog("Core started");
-                    #endregion
+                    logger.LogStandard("Settings read");
 
                     //communicators
                     communicator = new Communicator(sqlController);
-                    TriggerLog("Communicator started");
+                    logger.LogStandard("Communicator started");
+
+                    coreRunning = true;
+                    coreStatChanging = false;
+                }
+            }
+            #region catch
+            catch (Exception ex)
+            {
+                coreRunning = false;
+                coreStatChanging = false;
+
+                if (ex.InnerException.Message.Contains("PrimeDb"))
+                    throw ex.InnerException;
+     
+                try
+                {
+                    return true;
+                }
+                catch (Exception ex2)
+                {
+                    FatalExpection(t.GetMethodName() + "failed. Could not read settings!", ex2);
+                }
+            }
+            #endregion
+
+            return true;
+        }
+
+        public bool             Start(string connectionString)
+        {
+            StartSqlOnly(connectionString);
+            logger.LogCritical(t.GetMethodName() + " rest of components at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+
+            try
+            {
+                if (!coreRunning && !coreStatChanging)
+                {
+                    coreStatChanging = true;
 
                     //subscriber
                     subscriber = new Subscriber(sqlController);
                     subscriber.Start();
-                    TriggerLog("Subscriber started");
+                    logger.LogStandard("Subscriber started");
 
                     //communicators
                     excelController = new ExcelController();
-                    TriggerLog("Excel (Office) started");
+                    logger.LogStandard("Excel (Office) started");
 
                     //coreThread
                     Thread coreThread = new Thread(() => CoreThread());
                     coreThread.Start();
-                    TriggerLog("CoreThread started");
+                    logger.LogStandard("CoreThread started");
 
                     coreStatChanging = false;
                 }
             }
             catch (Exception ex)
             {
-                coreRunning = false;
-                coreStatChanging = false;
-                throw new Exception("FATAL Exception. Core failed to start", ex);
+                FatalExpection(t.GetMethodName() + "failed", ex);
             }
             return true;
         }
 
-        public bool             StartSqlOnly(string connectionString)
+        public override void    Restart(int secondsDelay)
         {
             try
             {
-                if (!coreRunning && !coreStatChanging)
+                if (coreRestarting == false)
                 {
-                    if (string.IsNullOrEmpty(connectionString))
-                        throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+                    coreRestarting = true;
 
-                    coreStatChanging = true;
+                    logger.LogStandard("Core.Restart() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+                    Close();
+                    logger.LogStandard("Trying to restart the Core in " + secondsDelay + " seconds");
+                    Thread.Sleep(secondsDelay * 1000);
+                    Start(connectionString);
 
-                    //sqlController
-                    sqlController = new SqlController(connectionString);
-                    logLevel = bool.Parse(sqlController.SettingRead(Settings.logLevel));
-                    TriggerLog("SqlEformController started");
-
-                    #region settings read
-                    if (!sqlController.SettingCheckAll())
-                        throw new ArgumentException("Use AdminTool to setup database correct");
-
-                    fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
-                    fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);
-                    this.connectionString = connectionString;
-                    TriggerLog("Settings read");
-                    #endregion
-
-                    #region core.Start()
-                    TriggerLog("");
-                    TriggerLog("");
-                    TriggerLog("###################################################################################################################");
-                    TriggerMessage("Core.Start() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
-                    TriggerLog("###################################################################################################################");
-                    TriggerLog("connectionString:'" + connectionString + "'");
-                    TriggerLog("Core started");
-                    #endregion
-
-                    //communicators
-                    communicator = new Communicator(sqlController);
-                    TriggerLog("Communicator started");
-                    coreRunning = true;
-
-                    coreStatChanging = false;
+                    coreRestarting = false;
                 }
             }
             catch (Exception ex)
             {
-                coreRunning = false;
-                coreStatChanging = false;
-                if (ex.InnerException.Message.Contains("PrimeDb"))
-                {
-                    throw ex.InnerException;
-                }
-                try
-                {
-                    return true;
-                } catch (Exception ex2)
-                {
-                    throw new Exception("FATAL Exception. Could not read settings!", ex2);
-                }
-                
-                throw new Exception("FATAL Exception. Core failed to start", ex);
+                FatalExpection(t.GetMethodName() + "failed. Core failed to restart", ex);
             }
-            return true;
         }
 
         public bool             Close()
@@ -236,13 +214,13 @@ namespace eFormCore
                         coreStatChanging = true;
 
                         coreThreadAlive = false;
-                        TriggerMessage("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
+                        logger.LogStandard("Core.Close() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
 
                         try
                         {
-                            TriggerMessage("Subscriber requested to close connection");
+                            logger.LogStandard("Subscriber requested to close connection");
                             subscriber.Close();
-                            TriggerLog("Subscriber closed");
+                            logger.LogEverything("Subscriber closed");
                         }
                         catch { }
 
@@ -253,8 +231,8 @@ namespace eFormCore
                         communicator = null;
                         sqlController = null;
 
-                        TriggerLog("Controller closed");
-                        TriggerLog("");
+                        logger.LogEverything("Controller closed");
+                        logger.LogEverything("");
 
                         coreStatChanging = false;
                     }
@@ -262,9 +240,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                coreRunning = false;
-                coreStatChanging = false;
-                throw new Exception("FATAL Exception. Core failed to close", ex);
+                FatalExpection(t.GetMethodName() + "failed. Core failed to close", ex);
             }
             return true;
         }
@@ -272,6 +248,25 @@ namespace eFormCore
         public bool             Running()
         {
             return coreRunning;
+        }
+
+        public override void    FatalExpection(string reason, Exception exception)
+        {
+            try
+            {
+                Thread coreRestartThread = new Thread(() => Close());
+                coreRestartThread.Start();
+            }
+            catch
+            {
+
+            }
+
+            coreRunning = false;
+            coreStatChanging = false;
+
+            try { HandleEventException?.Invoke(exception, EventArgs.Empty); } catch { }
+            throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'", exception);
         }
         #endregion
 
@@ -282,9 +277,9 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                TriggerLog(methodName + " called");
-                TriggerLog("XML to transform:");
-                TriggerLog(xmlString);
+                logger.LogEverything(methodName + " called");
+                logger.LogEverything("XML to transform:");
+                logger.LogEverything(xmlString);
 
                 //XML HACK TODO
                 #region xmlString = corrected xml if needed
@@ -341,8 +336,8 @@ namespace eFormCore
                 MainElement mainElement = new MainElement();
                 mainElement = mainElement.XmlToClass(xmlString);
 
-                TriggerLog("XML after possible corrections:");
-                TriggerLog(xmlString);
+                logger.LogEverything("XML after possible corrections:");
+                logger.LogEverything(xmlString);
 
                 //XML HACK
                 mainElement.CaseType = "";
@@ -350,7 +345,7 @@ namespace eFormCore
                 mainElement.PushMessageBody = "";
                 if (mainElement.Repeated < 1)
                 {
-                    TriggerMessage("mainElement.Repeated = 1 // enforced");
+                    logger.LogStandard("mainElement.Repeated = 1 // enforced");
                     mainElement.Repeated = 1;
                 }
 
@@ -358,7 +353,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, false);
+                logger.LogException(methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -373,7 +368,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
+                    logger.LogEverything(methodName + " called");
 
                     List<string> errorLst = new List<string>();
                     var dataItems = mainElement.DataItemGetAll();
@@ -414,7 +409,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -429,7 +424,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
+                    logger.LogEverything(methodName + " called");
 
                     List<string> errorLst = new List<string>();
                     var dataItems = mainElement.DataItemGetAll();
@@ -493,7 +488,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -508,7 +503,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
+                    logger.LogEverything(methodName + " called");
 
                     List<string> errors = TemplateValidation(mainElement);
 
@@ -517,7 +512,7 @@ namespace eFormCore
                         throw new Exception("mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
                     int templateId = sqlController.TemplateCreate(mainElement);
-                    TriggerLog("Template id:" + templateId.ToString() + " created in DB");
+                    logger.LogEverything("Template id:" + templateId.ToString() + " created in DB");
                     return templateId;
                 }
                 else
@@ -525,7 +520,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -537,8 +532,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("templateId:" + templateId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("templateId:" + templateId);
 
                     return sqlController.TemplateRead(templateId);
                 }
@@ -547,7 +542,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -559,8 +554,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("templateId:" + templateId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("templateId:" + templateId);
 
                     return sqlController.TemplateDelete(templateId);
                 }
@@ -569,7 +564,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -581,8 +576,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("templateId:" + templateId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("templateId:" + templateId);
 
                     return sqlController.TemplateItemRead(templateId);
                 }
@@ -591,7 +586,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -603,8 +598,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("includeRemoved:" + includeRemoved);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("includeRemoved:" + includeRemoved);
 
                     return sqlController.TemplateItemReadAll(includeRemoved);
                 }
@@ -613,7 +608,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -635,7 +630,7 @@ namespace eFormCore
                     lock (_lockMain) //Will let sending Cases sending finish, before closing
                     {
                         string siteIdsStr = string.Join(",", siteIds);
-                        TriggerLog("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + ", requested to be created");
+                        logger.LogEverything("caseUId:" + caseUId + " siteIds:" + siteIdsStr + " custom:" + custom + ", requested to be created");
 
                         #region check input
                         DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
@@ -665,8 +660,9 @@ namespace eFormCore
 
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                             InteractionCaseUpdate(cDto);
-                            HandleCaseCreated?.Invoke(cDto, EventArgs.Empty);
-                            TriggerMessage(cDto.ToString() + " has been created");
+                            try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
+                            catch { logger.LogWarning("HandleCaseCreated event's external logic suffered an Expection"); }
+                            logger.LogStandard(cDto.ToString() + " has been created");
 
                             lstMUId.Add(mUId);
                         }
@@ -678,7 +674,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseCreate failed", ex, true);
+                logger.LogException("CaseCreate failed", ex, true);
                 throw new Exception("CaseCreate failed", ex);
             }
         }
@@ -697,7 +693,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseCheck failed", ex, true);
+                logger.LogException("CaseCheck failed", ex, true);
                 throw new Exception("CaseCheck failed", ex);
             }
         }
@@ -711,7 +707,7 @@ namespace eFormCore
                     if (checkUId == null)
                         checkUId = "";
 
-                    TriggerLog("microtingUId:" + microtingUId + " checkUId:" + checkUId + ", requested to be read");
+                    logger.LogEverything("microtingUId:" + microtingUId + " checkUId:" + checkUId + ", requested to be read");
 
                     if (checkUId == "" || checkUId == "0")
                         checkUId = null;
@@ -720,13 +716,13 @@ namespace eFormCore
                     #region handling if no match case found
                     if (aCase == null)
                     {
-                        TriggerWarning("No case found with MuuId:'" + microtingUId + "'");
+                        logger.LogWarning("No case found with MuuId:'" + microtingUId + "'");
                         return null;
                     }
                     #endregion
 
                     int id = aCase.id;
-                    TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
+                    logger.LogEverything("aCase.id:" + aCase.id.ToString() + ", found");
 
                     ReplyElement replyElement = sqlController.CheckRead(microtingUId, checkUId);
                     return replyElement;
@@ -736,7 +732,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseRead failed", ex, true);
+                logger.LogException("CaseRead failed", ex, true);
                 throw new Exception("CaseRead failed", ex);
             }
         }
@@ -747,7 +743,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("Templat id:" + id.ToString() + " trying to read all cases");
+                    logger.LogEverything("Templat id:" + id.ToString() + " trying to read all cases");
                     return sqlController.CaseReadByCaseId(id);
                 }
                 else
@@ -755,7 +751,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseReadAll failed", ex, true);
+                logger.LogException("CaseReadAll failed", ex, true);
                 throw new Exception("CaseReadAll failed", ex);
             }
         }
@@ -771,7 +767,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("Templat id:" + templatId.ToString() + " trying to read all cases");
+                    logger.LogEverything("Templat id:" + templatId.ToString() + " trying to read all cases");
 
                     return sqlController.CaseReadAll(templatId, start, end, workflowState);
                 }
@@ -780,7 +776,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseReadAll failed", ex, true);
+                logger.LogException("CaseReadAll failed", ex, true);
                 throw new Exception("CaseReadAll failed", ex);
             }
         }
@@ -797,7 +793,7 @@ namespace eFormCore
                     if (newCheckListValuePairLst == null)
                         newCheckListValuePairLst = new List<string>();
 
-                    TriggerLog("CaseUpdate caseId:'" + caseId + "', newFieldValuePairLst.Count:'" + newFieldValuePairLst.Count + "', newCheckListValuePairLst.Count:'" + newCheckListValuePairLst.Count + "'");
+                    logger.LogEverything("CaseUpdate caseId:'" + caseId + "', newFieldValuePairLst.Count:'" + newFieldValuePairLst.Count + "', newCheckListValuePairLst.Count:'" + newCheckListValuePairLst.Count + "'");
 
                     int id = 0;
                     string value = "";
@@ -823,7 +819,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseUpdate failed", ex, true);
+                logger.LogException("CaseUpdate failed", ex, true);
                 throw new Exception("CaseUpdate failed", ex);
             }
         }
@@ -834,7 +830,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("templateId:" + templateId + "siteUId:" + siteUId + ", requested to be deleted");
+                    logger.LogEverything("templateId:" + templateId + "siteUId:" + siteUId + ", requested to be deleted");
                     int microtingUId = sqlController.CheckListSitesRead(templateId, siteUId);
                     return CaseDelete(microtingUId.ToString());
                 }
@@ -843,7 +839,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseDelete failed", ex, true);
+                logger.LogException("CaseDelete failed", ex, true);
                 throw new Exception("CaseDelete failed", ex);
             }
         }
@@ -854,7 +850,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("microtingUId:" + microtingUId + ", requested to be deleted");
+                    logger.LogEverything("microtingUId:" + microtingUId + ", requested to be deleted");
 
                     var cDto = sqlController.CaseReadByMUId(microtingUId);
                     string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
@@ -868,8 +864,8 @@ namespace eFormCore
                                 break;
                         }
 
-                    TriggerLog("XML response:");
-                    TriggerLog(xmlResponse);
+                    logger.LogEverything("XML response:");
+                    logger.LogEverything(xmlResponse);
 
                     Response resp = new Response();
                     resp = resp.XmlToClass(xmlResponse);
@@ -881,8 +877,9 @@ namespace eFormCore
 
                             cDto = sqlController.CaseReadByMUId(microtingUId);
                             InteractionCaseUpdate(cDto);
-                            HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
-                            TriggerMessage(cDto.ToString() + " has been removed");
+                            try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); } 
+                            catch { logger.LogWarning("HandleCaseDeleted event's external logic suffered an Expection"); }
+                            logger.LogStandard(cDto.ToString() + " has been removed");
 
                             return true;
                         }
@@ -894,8 +891,9 @@ namespace eFormCore
 
                             cDto = sqlController.CaseReadByMUId(microtingUId);
                             InteractionCaseUpdate(cDto);
-                            HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty);
-                            TriggerMessage(cDto.ToString() + " has been removed");
+                            try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); } 
+                            catch { logger.LogWarning("HandleCaseDeleted event's external logic suffered an Expection"); }
+                            logger.LogStandard(cDto.ToString() + " has been removed");
 
                             return true;
                         }
@@ -908,7 +906,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseDelete failed", ex, true);
+                logger.LogException("CaseDelete failed", ex, true);
                 throw new Exception("CaseDelete failed", ex);
             }
         }
@@ -919,7 +917,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("microtingUId:" + microtingUId + ", requested to be looked up");
+                    logger.LogEverything("microtingUId:" + microtingUId + ", requested to be looked up");
                     return sqlController.CaseReadByMUId(microtingUId);
                 }
                 else
@@ -927,7 +925,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookupMUId failed", ex, true);
+                logger.LogException("CaseLookupMUId failed", ex, true);
                 throw new Exception("CaseLookupMUId failed", ex);
             }
         }
@@ -938,7 +936,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("caseId:" + caseId + ", requested to be looked up");
+                    logger.LogEverything("caseId:" + caseId + ", requested to be looked up");
                     return sqlController.CaseReadByCaseId(caseId);
                 }
                 else
@@ -946,7 +944,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookupCaseId failed", ex, true);
+                logger.LogException("CaseLookupCaseId failed", ex, true);
                 throw new Exception("CaseLookupCaseId failed", ex);
             }
         }
@@ -957,7 +955,7 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog("caseUId:" + caseUId + ", requested to be looked up");
+                    logger.LogEverything("caseUId:" + caseUId + ", requested to be looked up");
                     return sqlController.CaseReadByCaseUId(caseUId);
                 }
                 else
@@ -965,7 +963,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseLookupCaseUId failed", ex, true);
+                logger.LogException("CaseLookupCaseUId failed", ex, true);
                 throw new Exception("CaseLookupCaseUId failed", ex);
             }
         }
@@ -979,7 +977,7 @@ namespace eFormCore
                     if (checkUId == null)
                         checkUId = "";
 
-                    TriggerLog("microtingUId:" + microtingUId + " checkUId:" + checkUId + ", requested to be read");
+                    logger.LogEverything("microtingUId:" + microtingUId + " checkUId:" + checkUId + ", requested to be read");
 
                     if (checkUId == "" || checkUId == "0")
                         checkUId = null;
@@ -988,12 +986,12 @@ namespace eFormCore
                     #region handling if no match case found
                     if (aCase == null)
                     {
-                        TriggerWarning("No case found with MuuId:'" + microtingUId + "'");
+                        logger.LogWarning("No case found with MuuId:'" + microtingUId + "'");
                         return -1;
                     }
                     #endregion
                     int id = aCase.id;
-                    TriggerLog("aCase.id:" + aCase.id.ToString() + ", found");
+                    logger.LogEverything("aCase.id:" + aCase.id.ToString() + ", found");
 
                     return id;
                 }
@@ -1002,7 +1000,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CaseIdLookup failed", ex, true);
+                logger.LogException("CaseIdLookup failed", ex, true);
                 throw new Exception("CaseIdLookup failed", ex);
             }
         }
@@ -1028,7 +1026,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CasesToExcel failed", ex, true);
+                logger.LogException("CasesToExcel failed", ex, true);
                 throw new Exception("CasesToExcel failed", ex);
             }
         }
@@ -1086,7 +1084,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("CasesToCsv failed", ex, false);
+                logger.LogException("CasesToCsv failed", ex, false);
                 return "";
             }
         }
@@ -1100,8 +1098,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName + " / userEmail:" + userEmail);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteName:" + name + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName + " / userEmail:" + userEmail);
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
@@ -1140,7 +1138,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1152,8 +1150,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteId:" + siteId);
 
                     return sqlController.SiteReadSimple(siteId);
                 }
@@ -1162,7 +1160,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1184,7 +1182,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1196,8 +1194,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteId:" + siteId);
 
                     Site_Dto site = SiteRead(siteId);
                     Advanced_UnitRequestOtp((int)site.UnitId);
@@ -1209,7 +1207,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1232,7 +1230,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1257,14 +1255,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
 
         #region entity
-        public EntityGroup           EntityGroupCreate(string entityType, string name)
+        public EntityGroup      EntityGroupCreate(string entityType, string name)
         {
             try
             {
@@ -1289,7 +1287,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("EntityListCreate failed", ex, true);
+                logger.LogException("EntityListCreate failed", ex, true);
                 throw new Exception("EntityListCreate failed", ex);
             }
         }
@@ -1310,7 +1308,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("EntityGroupRead failed", ex, true);
+                logger.LogException("EntityGroupRead failed", ex, true);
                 throw new Exception("EntityGroupRead failed", ex);
             }
         }
@@ -1345,7 +1343,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("EntityGroupRead failed", ex, true);
+                logger.LogException("EntityGroupRead failed", ex, true);
                 throw new Exception("EntityGroupRead failed", ex);
             }
             return true;
@@ -1372,7 +1370,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection("EntityGroupDelete failed", ex, true);
+                logger.LogException("EntityGroupDelete failed", ex, true);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
             return true;
@@ -1398,7 +1396,7 @@ namespace eFormCore
                         return chechSum;
                     else
                     {
-                        TriggerWarning("Uploading of PDF failed");
+                        logger.LogWarning("Uploading of PDF failed");
                         return null;
                     }
                 }
@@ -1407,7 +1405,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
+                logger.LogException(t.GetMethodName() + " failed", ex, true);
                 throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
@@ -1423,8 +1421,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
 
                     return sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex);
                 }
@@ -1433,7 +1431,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1445,8 +1443,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("templateId:" + templateId + ", newDisplayIndex:" + newDisplayIndex);
                     int microtingUId = sqlController.CheckListSitesRead(templateId, siteId);
 
                     string respXml = communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteId, newDisplayIndex);
@@ -1465,7 +1463,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1486,7 +1484,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1498,8 +1496,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteId:" + siteId);
 
                     return sqlController.SiteRead(siteId);
                 }
@@ -1508,7 +1506,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1527,7 +1525,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1539,8 +1537,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteId:" + siteId);
 
                     if (sqlController.SiteRead(siteId) == null)
                         return false;
@@ -1556,7 +1554,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1568,8 +1566,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteId:" + siteId);
 
                     bool success = communicator.SiteDelete(siteId);
                     if (!success)
@@ -1582,7 +1580,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1597,8 +1595,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
 
 
                     Worker_Dto workerDto = communicator.WorkerCreate(firstName, lastName, email);
@@ -1617,7 +1615,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1629,8 +1627,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("workerId:" + workerId);
 
                     return sqlController.WorkerRead(workerId);
                 }
@@ -1639,7 +1637,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1658,7 +1656,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1670,8 +1668,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId + " / firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("workerId:" + workerId + " / firstName:" + firstName + " / lastName:" + lastName + " / email:" + email);
 
                     if (sqlController.WorkerRead(workerId) == null)
                         return false;
@@ -1687,7 +1685,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1699,8 +1697,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("workerId:" + workerId);
 
                     bool success = communicator.WorkerDelete(workerId);
                     if (!success)
@@ -1713,7 +1711,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1727,8 +1725,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteId:" + siteDto.SiteUId + " / workerId:" + workerDto.WorkerUId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteId:" + siteDto.SiteUId + " / workerId:" + workerDto.WorkerUId);
 
                     Site_Worker_Dto result = communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
                     //var parsedData = JRaw.Parse(result);
@@ -1749,7 +1747,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1761,8 +1759,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("siteWorkerId:" + siteWorkerId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("siteWorkerId:" + siteWorkerId);
 
                     return sqlController.SiteWorkerRead(siteWorkerId, siteId, workerId);
                 }
@@ -1771,7 +1769,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1783,8 +1781,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("workerId:" + workerId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("workerId:" + workerId);
 
                     bool success = communicator.SiteWorkerDelete(workerId);
                     if (!success)
@@ -1797,7 +1795,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1811,8 +1809,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("unitId:" + unitId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("unitId:" + unitId);
 
                     return sqlController.UnitRead(unitId);
                 }
@@ -1821,7 +1819,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1840,7 +1838,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1852,8 +1850,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("unitId:" + unitId);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("unitId:" + unitId);
 
                     int otp_code = communicator.UnitRequestOtp(unitId);
 
@@ -1868,7 +1866,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1894,8 +1892,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("id:" + id);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("id:" + id);
 
                     return sqlController.FieldRead(id);
                 }
@@ -1904,7 +1902,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1916,8 +1914,8 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("id:" + id);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("id:" + id);
 
                     return sqlController.FieldValueReadList(id, instances);
                 }
@@ -1926,7 +1924,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1945,12 +1943,12 @@ namespace eFormCore
             {
                 if (coreRunning)
                 {
-                    TriggerLog(methodName + " called");
-                    TriggerLog("sort:" + sort);
-                    TriggerLog("nameFilter:" + nameFilter);
-                    TriggerLog("pageIndex:" + pageIndex);
-                    TriggerLog("pageSize:" + pageSize);
-                    TriggerLog("entityType:" + entityType);
+                    logger.LogEverything(methodName + " called");
+                    logger.LogEverything("sort:" + sort);
+                    logger.LogEverything("nameFilter:" + nameFilter);
+                    logger.LogEverything("pageIndex:" + pageIndex);
+                    logger.LogEverything("pageSize:" + pageSize);
+                    logger.LogEverything("entityType:" + entityType);
 
                     return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState);
                 }
@@ -1959,7 +1957,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(methodName + " failed", ex, true);
+                logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1972,8 +1970,9 @@ namespace eFormCore
             sqlController.CaseRetract(microtingUId, checkUId);
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
             InteractionCaseUpdate(cDto);
-            HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
-            TriggerMessage(cDto.ToString() + " has been retrived");
+            try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
+            catch { logger.LogWarning("HandleCaseCompleted event's external logic suffered an Expection"); }
+            logger.LogStandard(cDto.ToString() + " has been retrived");
         }
 
         internal void UnitTest_CaseDelete(string microtingUId)
@@ -1982,13 +1981,9 @@ namespace eFormCore
             Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
 
             InteractionCaseUpdate(cDtoDel);
-            HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty);
-            TriggerMessage(cDto.ToString() + " has been deleted");
-        }
-
-        internal void UnitTest_TriggerLog(string text)
-        {
-            TriggerLog(text);
+            try { HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty); }
+            catch { logger.LogWarning("HandleCaseDeleted event's external logic suffered an Expection"); }
+            logger.LogStandard(cDto.ToString() + " has been deleted");
         }
         #endregion
 
@@ -2062,7 +2057,7 @@ namespace eFormCore
 
         private string          SendXml(MainElement mainElement, int siteId)
         {
-            TriggerLog("siteId:" + siteId + ", requested sent eForm");
+            logger.LogEverything("siteId:" + siteId + ", requested sent eForm");
 
             string xmlStrRequest = mainElement.ClassToXml();
             string xmlStrResponse = communicator.PostXml(xmlStrRequest, siteId);
@@ -2266,17 +2261,17 @@ namespace eFormCore
             {
                 if (!sqlController.InteractionCaseUpdate(caseDto))
                 {
-                    //TriggerWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
+                    //logger.LogWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
                 }
             }
             catch (Exception ex)
             {
-                TriggerHandleExpection(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "'", ex, true);
+                logger.LogException(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "'", ex, true);
             }
         }
         #endregion
 
-        #region inward Event handlers
+        #region intrepidation threads
         private void    CoreThread()
         {
             coreRunning = true;
@@ -2288,7 +2283,7 @@ namespace eFormCore
                 {
                     if (coreRunning)
                     {
-                        TriggerLog(t.GetMethodName() + " initiated");
+                        logger.LogEverything(t.GetMethodName() + " initiated");
 
                         Thread updateFilesThread            
                             = new Thread(() => CoreHandleUpdateFiles());
@@ -2308,10 +2303,11 @@ namespace eFormCore
                     Thread.Sleep(500);
                 }
                 catch (ThreadAbortException) {
-                    TriggerWarning(t.GetMethodName() + " catch of ThreadAbortException");
+                    logger.LogWarning(t.GetMethodName() + " catch of ThreadAbortException");
                 }
-                catch (Exception ex) {
-                    throw new Exception("FATAL Exception. " + t.GetMethodName() + " failed", ex);
+                catch (Exception ex)
+                {
+                    FatalExpection(t.GetMethodName() + "failed", ex);
                 }
             }
 
@@ -2375,13 +2371,14 @@ namespace eFormCore
 
                         #region checks checkSum
                         if (chechSum != fileName.Substring(fileName.LastIndexOf(".")-32, 32))
-                            TriggerWarning("Download of '" + urlStr + "' failed. Check sum did not match");
+                            logger.LogWarning("Download of '" + urlStr + "' failed. Check sum did not match");
                         #endregion
 
                         Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
                         File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocationPicture + fileName);
-                        HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
-                        TriggerMessage("Downloaded file '" + urlStr + "'.");
+                        try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
+                        catch { logger.LogWarning("HandleFileDownloaded event's external logic suffered an Expection"); }
+                        logger.LogStandard("Downloaded file '" + urlStr + "'.");
 
                         sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, ud.Id);
                     }
@@ -2393,7 +2390,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 updateIsRunningFiles = false;
-                TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
+                logger.LogException(t.GetMethodName() + " failed", ex, true);
             }
         }
 
@@ -2481,10 +2478,10 @@ namespace eFormCore
 
                                                                 if (respRet.Type == Response.ResponseTypes.Success)
                                                                 {
-                                                                    TriggerLog(aCase.ToString() + " has been retracted");
+                                                                    logger.LogEverything(aCase.ToString() + " has been retracted");
                                                                 }
                                                                 else
-                                                                    TriggerWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                                    logger.LogWarning("Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                                             }
                                                             #endregion
 
@@ -2492,8 +2489,9 @@ namespace eFormCore
 
                                                             Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                             InteractionCaseUpdate(cDto);
-                                                            HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty);
-                                                            TriggerMessage(cDto.ToString() + " has been completed");
+                                                            try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
+                                                            catch { logger.LogWarning("HandleCaseCompleted event's external logic suffered an Expection"); }
+                                                            logger.LogStandard(cDto.ToString() + " has been completed");
                                                             i++;
                                                         }
                                                     }
@@ -2520,8 +2518,9 @@ namespace eFormCore
                                         sqlController.CaseUpdateRetrived(noteUId);
                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                         InteractionCaseUpdate(cDto);
-                                        HandleCaseRetrived?.Invoke(cDto, EventArgs.Empty);
-                                        TriggerMessage(cDto.ToString() + " has been retrived");
+                                        try { HandleCaseRetrived?.Invoke(cDto, EventArgs.Empty); }
+                                        catch { logger.LogWarning("HandleCaseRetrived event's external logic suffered an Expection"); }
+                                        logger.LogStandard(cDto.ToString() + " has been retrived");
 
                                         sqlController.NotificationProcessed(notification.Id, "processed");
                                         break;
@@ -2531,8 +2530,9 @@ namespace eFormCore
                                 #region unit_activate / tablet added
                                 case "unit_activate":
                                     {
-                                        HandleSiteActivated?.Invoke(noteUId, EventArgs.Empty);
-                                        TriggerMessage(noteUId + " has been added");
+                                        try { HandleSiteActivated?.Invoke(noteUId, EventArgs.Empty); } 
+                                        catch { logger.LogWarning("HandleSiteActivated event's external logic suffered an Expection"); }
+                                        logger.LogStandard(noteUId + " has been added");
                                         try
                                         {
                                             Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
@@ -2552,7 +2552,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            TriggerWarning(t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + noteUId + "' marked as 'not_found'.", ex));
+                            logger.LogWarning(t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + noteUId + "' marked as 'not_found'.", ex));
                             sqlController.NotificationProcessed(notification.Id, "not_found");
                         }
                     }
@@ -2564,7 +2564,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 updateIsRunningNotifications = false;
-                TriggerHandleExpection(t.GetMethodName() + " failed", ex, true);
+                logger.LogException(t.GetMethodName() + " failed", ex, true);
             }
         }
 
@@ -2634,7 +2634,7 @@ namespace eFormCore
                                             xmlStrNew = xmlString.Replace(pre, post);
 
                                             if (xmlStrNew == xmlString)
-                                                TriggerMessage("Replacement line:'" + item + "' coursed no change");
+                                                logger.LogStandard("Replacement line:'" + item + "' coursed no change");
                                             else
                                                 xmlString = xmlStrNew;
                                         }
@@ -2646,7 +2646,7 @@ namespace eFormCore
                                     }
                                     catch (Exception ex)
                                     {
-                                        TriggerHandleExpection("Replacement magic failed. Replacements coursed xml to become unreadable", ex, false);
+                                        logger.LogException("Replacement magic failed. Replacements coursed xml to become unreadable", ex, false);
                                     }
                                     #endregion
 
@@ -2764,7 +2764,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 updateIsRunningTables = false;
-                TriggerHandleExpection(t.GetMethodName()+  " failed", ex, true);
+                logger.LogException(t.GetMethodName()+  " failed", ex, true);
             }
         }
 
@@ -2861,11 +2861,11 @@ namespace eFormCore
                                 }
 
                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed_to_sync");
-                                TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
+                                logger.LogWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
                             }
                             catch (Exception ex)
                             {
-                                TriggerWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync. Exception:'" + ex.Message + "'");
+                                logger.LogWarning("EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync. Exception:'" + ex.Message + "'");
                                 sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed to sync");
                             }
                         }
@@ -2880,125 +2880,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 updateIsRunningEntities = false;
-                TriggerHandleExpection("CoreHandleUpdateEntityItems failed", ex, true);
-            }
-        }
-        #endregion
-
-        #region outward Event triggers
-        private void    TriggerLog(string str)
-        {
-            if (logLevel)
-            {
-                HandleEventLog?.Invoke(DateTime.Now.ToLongTimeString() + ":" + str, EventArgs.Empty);
-            }
-        }
-
-        private void    TriggerMessage(string str)
-        {
-            TriggerLog(str);
-            HandleEventMessage?.Invoke(str, EventArgs.Empty);
-        }
-
-        private void    TriggerWarning(string str)
-        {
-            TriggerLog(str);
-            HandleEventWarning?.Invoke(str, EventArgs.Empty);
-        }
-
-        private void    TriggerHandleExpection(string exceptionDescription, Exception ex, bool restartCore)
-        {
-            try
-            {
-                HandleEventException?.Invoke(ex, EventArgs.Empty);
-
-                string fullExceptionDescription = t.PrintException(exceptionDescription, ex);
-                TriggerMessage (fullExceptionDescription);
-
-                ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
-                exceptionLst.Add(exCls);
-
-                int secondsDelay = CheckExceptionLst(exCls);
-
-                if (restartCore)
-                {
-                    Thread coreRestartThread = new Thread(() => Restart(secondsDelay));
-                    coreRestartThread.Start();
-                }
-            }
-            catch
-            {
-                coreRunning = false;
-                throw new Exception("FATAL Exception. Core failed to handle an Expection", ex);
-            }
-        }
-
-        private int         CheckExceptionLst(ExceptionClass exceptionClass)
-        {
-            int secondsDelay = 1;
-
-            int count = 0;
-            #region find count
-            try
-            {
-                //remove Exceptions older than an hour
-                for (int i = exceptionLst.Count; i < 0; i--)
-                {
-                    if (exceptionLst[i].Time < DateTime.Now.AddHours(-1))
-                        exceptionLst.RemoveAt(i);
-                }
-
-                //keep only the last 10 Exceptions
-                if (exceptionLst.Count > 10)
-                {
-                    exceptionLst.RemoveAt(0);
-                }
-
-                //find highest court of the same Exception
-                if (exceptionLst.Count > 1)
-                {
-                    foreach (ExceptionClass exCls in exceptionLst)
-                    {
-                        if (exceptionClass.Description == exCls.Description)
-                        {
-                            count++;
-                        }
-                    }
-                }
-            }
-            catch { }
-            #endregion
-
-            TriggerMessage(count + ". time the same Exception, within the last hour");
-            if (count == 2) secondsDelay = 6;
-            if (count == 3) secondsDelay = 60;
-            if (count == 4) secondsDelay = 600;
-            if (count >  4) throw new Exception("FATAL Exception. Same Exception repeated to many times within one hour");
-            return secondsDelay;
-        }
-
-        private void        Restart(int secondsDelay)
-        {
-            try
-            {
-                if (coreRestarting == false)
-                {
-                    coreRestarting = true;
-
-                    TriggerMessage("Core.Restart() at:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString());
-                    Close();
-                    TriggerMessage("");
-                    TriggerMessage("Trying to restart the Core in " + secondsDelay + " seconds");
-                    Thread.Sleep(secondsDelay * 1000);
-                    Start(connectionString);
-
-                    coreRestarting = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                coreRunning = false;
-                throw new Exception("FATAL Exception. Core failed to restart", ex);
+                logger.LogException("CoreHandleUpdateEntityItems failed", ex, true);
             }
         }
         #endregion

@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -56,7 +56,7 @@
       <Name>eFormShared</Name>
     </ProjectReference>
     <ProjectReference Include="..\eFormSqlController\eFormSqlController.csproj">
-      <Project>{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}</Project>
+      <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>
       <Name>eFormSqlController</Name>
     </ProjectReference>
   </ItemGroup>
