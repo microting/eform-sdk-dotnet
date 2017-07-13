@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,61 +9,72 @@ using System.Threading.Tasks;
 
 namespace eFormShared
 {
-    public class Logger
+    public class Log
     {
         #region var
         CoreBase core;
-        SqlControllerBase sqlController;
-        Tools t = new Tools();
+        LogWriter logWriter;
         int logLevel;
+        Queue logQue;
+        Tools t = new Tools();
         List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
         #endregion
 
-        #region con
-        public Logger(CoreBase core, SqlControllerBase sqlController, int logLevel)
+        // con
+        public Log(CoreBase core, LogWriter logWriter, int logLevel)
         {
             try
             {
                 this.core = core;
-                this.sqlController = sqlController;
+                this.logWriter = logWriter;
                 this.logLevel = logLevel;
+                logQue = new Queue();
             }
             catch (Exception ex)
             {
                 core.FatalExpection(t.GetMethodName() + "failed", ex);
             }
         }
-        #endregion
 
-        #region public log
+        #region public
         public void LogEverything(string str)
         {
-            if (logLevel >= 4)
-                sqlController.LogText(4, str);
+            LogLogic(new LogEntry(4, str));
         }
 
         public void LogVariable(string variableName, string variableContent)
         {
-            if (logLevel >= 3)
-                sqlController.LogVariable(variableName, variableContent);
+            LogLogic(new LogEntry(3, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
+        }
+
+        public void LogVariable(string variableName, int? variableContent)
+        {
+            LogVariable(variableName, variableContent.ToString());
+        }
+
+        public void LogVariable(string variableName, bool? variableContent)
+        {
+            LogVariable(variableName, variableContent.ToString());
+        }
+
+        public void LogVariable(string variableName, DateTime? variableContent)
+        {
+            LogVariable(variableName, variableContent.ToString());
         }
 
         public void LogStandard(string str)
         {
-            if (logLevel >= 2)
-                sqlController.LogText(2, str);
+            LogLogic(new LogEntry(2, str));
         }
 
         public void LogCritical(string str)
         {
-            if (logLevel >= 1)
-                sqlController.LogText(1, str);
+            LogLogic(new LogEntry(1, str));
         }
 
         public void LogWarning(string str)
         {
-            if (logLevel >= 0)
-                sqlController.LogText(0, str);
+            LogLogic(new LogEntry(0, str));
         }
 
         public void LogException(string exceptionDescription, Exception exception, bool restartCore)
@@ -70,13 +82,14 @@ namespace eFormShared
             try
             {
                 string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
-                sqlController.LogText(-1, fullExceptionDescription);
 
+                LogLogic(new LogEntry(-1, fullExceptionDescription));
+                LogVariable("restartCore", restartCore);
+                
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
 
                 int secondsDelay = CheckExceptionLst(exCls);
-
                 if (restartCore)
                 {
                     Thread coreRestartThread = new Thread(() => core.Restart(secondsDelay));
@@ -90,8 +103,8 @@ namespace eFormShared
         }
         #endregion
 
-        //private
-        private int CheckExceptionLst(ExceptionClass exceptionClass)
+        #region private
+        private int  CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int secondsDelay = 1;
 
@@ -134,6 +147,44 @@ namespace eFormShared
             if (count > 4) throw new Exception("The same Exception repeated to many times (5+) within one hour");
             return secondsDelay;
         }
+
+        private void LogLogic(LogEntry logEntry)
+        {
+            string reply = "";
+            string entry = "";
+
+            if (logLevel >= logEntry.Level)
+            {
+                LogCache(logEntry);
+                reply = logWriter.WriteLogEntry(logEntry);
+            }
+
+            if (reply != "")
+            {
+                reply += Environment.NewLine;
+
+                foreach (LogEntry item in logQue)
+                {
+                    entry = item.Time + " // " + "L:" + item.Level + " // " + item.Content;
+                    reply += Environment.NewLine + entry;
+                }
+
+                logWriter.WriteIfFailed(reply);
+            }
+        }
+
+        private void LogCache(LogEntry logEntry)
+        {
+            try
+            {
+                if (logQue.Count == 11)
+                    logQue.Dequeue();
+
+                logQue.Enqueue(logEntry);
+            }
+            catch { }
+        }
+        #endregion
     }
 
     public class CoreBase
@@ -149,16 +200,30 @@ namespace eFormShared
         }
     }
 
-    public class SqlControllerBase
+    public class LogWriter
     {
-        public virtual void LogText(int level, string str)
+        public virtual string WriteLogEntry(LogEntry logEntry)
         {
             throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }
 
-        public virtual void LogVariable(string variableName, string variableContent)
+        public virtual void   WriteIfFailed(string str)
         {
-            throw new Exception("SqlControllerBase." + "LogVariable" + " method should never actually be called. SqlController should override");
+            throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }
+    }
+
+    public class LogEntry
+    {
+        public LogEntry (int level, string content)
+        {
+            Level   = level;
+            Content = content;
+            Time    = DateTime.Now;
+        }
+
+        public int Level { get; }
+        public string Content { get; }
+        public DateTime Time { get; }
     }
 }

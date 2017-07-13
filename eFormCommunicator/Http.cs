@@ -300,7 +300,7 @@ namespace eFormCommunicator
             }
         }
 
-        internal bool EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
+        internal bool       EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
 
@@ -361,12 +361,6 @@ namespace eFormCommunicator
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
 
-            //string xmlData = "{ \"model\" "+
-            //    ": { \"data\" : \"" + name +
-            //    "\", \"api_uuid\" : \"" + id +
-            //    "\", \"display_order\" : \"" + display_order + 
-            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
-
             WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
@@ -384,12 +378,6 @@ namespace eFormCommunicator
         internal bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
-
-            //string xmlData = "{ \"model\" " +
-            //    ": { \"data\" : \"" + name +
-            //    "\", \"api_uuid\" : \"" + id +
-            //    "\", \"display_order\" : \"" + description +
-            //    "\", \"searchable_group_id\" : \"" + entitySelectGroupId + "\" } }";
 
             WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect + "&organization_id=" + organizationId);
             request.Method = "PUT";
@@ -451,9 +439,8 @@ namespace eFormCommunicator
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                //Log expection
                 return false; 
             }
         }

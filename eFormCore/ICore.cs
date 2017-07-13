@@ -173,7 +173,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
-        int             CaseIdLookup(string microtingUId, string checkUId);
+        int?            CaseIdLookup(string microtingUId, string checkUId);
 
         //---------------------------------------------------------------------------------------
 

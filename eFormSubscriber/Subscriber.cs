@@ -42,6 +42,7 @@ namespace eFormSubscriber
     {
         #region var
         SqlController sqlController;
+        Log logger;
         bool keepSubscribed;
         bool isActive;
         Thread subscriberThread;
@@ -55,9 +56,10 @@ namespace eFormSubscriber
         /// <param name="token">Your company's notification server access token.</param>
         /// <param name="address">Microting's notification server address.</param>
         /// <param name="name">Your name, as shown on the notification server.</param>
-        public Subscriber(SqlController sqlController)
+        public Subscriber(SqlController sqlController, Log logger)
         {
             this.sqlController = sqlController;
+            this.logger = logger;
         }
         #endregion
 
@@ -71,6 +73,16 @@ namespace eFormSubscriber
             {
                 subscriberThread = new Thread(() => SubriberThread());
                 subscriberThread.Start();
+
+                int tries = 0;
+                while (!isActive)
+                {
+                    Thread.Sleep(100);
+                    tries++;
+
+                    if (tries > 100)
+                        throw new Exception("Failed to start Subscriber after 10 secs");
+                }
             }
         }
 

@@ -12,7 +12,7 @@ using System.IO;
 
 namespace eFormSqlController
 {
-    public class SqlController : SqlControllerBase
+    public class SqlController : LogWriter
     {
         #region var
         List<Holder> converter;
@@ -50,7 +50,6 @@ namespace eFormSqlController
                 throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
-
         public bool MigrateDb()
         {
             var configuration = new Configuration();
@@ -3242,15 +3241,44 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region public log
-        public override void LogText(int level, string str)
+        #region public write log
+        public override string WriteLogEntry(LogEntry logEntry)
         {
-            Write("Lvl_(" + level + "): " + str);
+            lock (_writeLock)
+            {
+                try
+                {
+                    File.AppendAllText(@"log\\log.txt", 
+                        DateTime.Now.ToString() + " // " + "L:" + logEntry.Level + " // " + logEntry.Content + Environment.NewLine);
+
+                    int temp = 1;
+                    if (temp == 2)
+                        throw new Exception("test");
+
+                    return "";
+                }
+                catch (Exception ex)
+                {
+                    return t.PrintException(t.GetMethodName() + " failed", ex);
+                }
+            }
         }
 
-        public override void LogVariable(string variableName, string variableContent)
+        public override void WriteIfFailed(string str)
         {
-            Write("Lvl_(3): Variable Name:" + variableName + " / Content:" + variableContent);
+            lock (_writeLock)
+            {
+                try
+                {
+                    File.AppendAllText(@"log\\expection.txt",
+                        DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine 
+                        + str + Environment.NewLine);
+                }
+                catch
+                {
+                    //magic
+                }
+            }
         }
         #endregion
         #endregion
@@ -4454,6 +4482,22 @@ namespace eFormSqlController
             }
         }
 
+        public List<notifications> UnitTest_FindAllNotifications()
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    List<notifications> lst = db.notifications.ToList();
+                    return lst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
         public List<string>     UnitTest_FindAllActiveNotifications()
         {
             try
@@ -4591,22 +4635,6 @@ namespace eFormSqlController
             }
         }
         #endregion
-
-
-        private void Write(string str)
-        {
-            lock (_writeLock)
-            {
-                try
-                {
-                    File.AppendAllText(@"log\\log.txt", str + Environment.NewLine);
-                }
-                catch
-                {
-                    //magic
-                }
-            }
-        }
     }
 
     public enum Settings
