@@ -105,7 +105,7 @@ namespace eFormSubscriber
                     tries++;
                 }
             }
-            catch
+            catch (Exception ex)
             {
 
             }

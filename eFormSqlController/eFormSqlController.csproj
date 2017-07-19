@@ -89,6 +89,8 @@
     <Compile Include="table\a_interaction_case_versions.cs" />
     <Compile Include="table\a_interaction_cases.cs" />
     <Compile Include="table\a_interaction_case_lists.cs" />
+    <Compile Include="table\log_exceptions.cs" />
+    <Compile Include="table\logs.cs" />
     <Compile Include="table\cases.cs" />
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />

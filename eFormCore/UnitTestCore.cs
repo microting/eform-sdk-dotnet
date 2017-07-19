@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace eFormCore
@@ -29,6 +30,13 @@ namespace eFormCore
         public void CaseDelete(string microtingUId)
         {
             core.UnitTest_CaseDelete(microtingUId);
+        }
+
+        public void Close()
+        {
+            Thread closeCore
+                = new Thread(() => core.Close());
+                closeCore.Start();
         }
     }
 }

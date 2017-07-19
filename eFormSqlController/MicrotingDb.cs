@@ -29,6 +29,8 @@ namespace eFormSqlController
         public virtual DbSet<field_types> field_types { get; set; }
         public virtual DbSet<field_values> field_values { get; set; }
         public virtual DbSet<fields> fields { get; set; }
+        public virtual DbSet<log_exceptions> log_exceptions { get; set; }
+        public virtual DbSet<logs> logs { get; set; }
         public virtual DbSet<notifications> notifications { get; set; }
         public virtual DbSet<settings> settings { get; set; }
         public virtual DbSet<sites> sites { get; set; }

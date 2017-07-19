@@ -50,6 +50,7 @@ namespace eFormSqlController
                 throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
+
         public bool MigrateDb()
         {
             var configuration = new Configuration();
@@ -102,21 +103,23 @@ namespace eFormSqlController
                             SettingCreate(Settings.firstRunDone, 1);
                             SettingCreate(Settings.knownSitesDone, 2);
                             SettingCreate(Settings.logLevel, 3);
-                            SettingCreate(Settings.fileLocationPicture, 4);
-                            SettingCreate(Settings.fileLocationPdf, 5);
-                            SettingCreate(Settings.token, 6);
-                            SettingCreate(Settings.comAddressBasic, 7);
-                            SettingCreate(Settings.comAddressApi, 8);
-                            SettingCreate(Settings.comOrganizationId, 9);
-                            SettingCreate(Settings.awsAccessKeyId, 10);
-                            SettingCreate(Settings.awsSecretAccessKey, 11);
-                            SettingCreate(Settings.awsEndPoint, 12);
-                            SettingCreate(Settings.unitLicenseNumber, 13);
-                            SettingCreate(Settings.comAddressPdfUpload, 14);
+                            SettingCreate(Settings.logLimit, 4);
+                            SettingCreate(Settings.fileLocationPicture, 5);
+                            SettingCreate(Settings.fileLocationPdf, 6);
+                            SettingCreate(Settings.token, 7);
+                            SettingCreate(Settings.comAddressBasic, 8);
+                            SettingCreate(Settings.comAddressApi, 9);
+                            SettingCreate(Settings.comOrganizationId, 10);
+                            SettingCreate(Settings.awsAccessKeyId, 11);
+                            SettingCreate(Settings.awsSecretAccessKey, 12);
+                            SettingCreate(Settings.awsEndPoint, 13);
+                            SettingCreate(Settings.unitLicenseNumber, 14);
+                            SettingCreate(Settings.comAddressPdfUpload, 15);
 
                             SettingUpdate(Settings.firstRunDone, "false");
                             SettingUpdate(Settings.knownSitesDone, "false");
                             SettingUpdate(Settings.logLevel, "true");
+                            SettingUpdate(Settings.logLimit, "250");
                             SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
                             SettingUpdate(Settings.fileLocationPdf, "dataFolder/pdf/");
                             SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -3226,6 +3229,7 @@ namespace eFormSqlController
                     failed += SettingCheck(Settings.firstRunDone);
                     failed += SettingCheck(Settings.knownSitesDone);
                     failed += SettingCheck(Settings.logLevel);
+                    failed += SettingCheck(Settings.logLimit);
                     failed += SettingCheck(Settings.token);
                     failed += SettingCheck(Settings.unitLicenseNumber);
                     if (failed > 0)
@@ -3242,19 +3246,40 @@ namespace eFormSqlController
         #endregion
 
         #region public write log
-        public override string WriteLogEntry(LogEntry logEntry)
+        public override string      WriteLogEntry(LogEntry logEntry)
         {
             lock (_writeLock)
             {
                 try
                 {
-                    File.AppendAllText(@"log\\log.txt", 
-                        DateTime.Now.ToString() + " // " + "L:" + logEntry.Level + " // " + logEntry.Content + Environment.NewLine);
+                    using (var db = new MicrotingDb(connectionStr))
+                    {
+                        logs newLog = new logs();
+                        newLog.created_at = logEntry.Time;
+                        newLog.level = logEntry.Level;
+                        newLog.message = logEntry.Message;
+                        newLog.type = logEntry.Type;
 
-                    int temp = 1;
-                    if (temp == 2)
-                        throw new Exception("test");
+                        db.logs.Add(newLog);
+                        db.SaveChanges();
 
+                        if (logEntry.Level < 0)
+                            WriteLogExceptionEntry(logEntry);
+
+                        #region clean up of log table
+                        int limit = t.Int(SettingRead(Settings.logLimit));
+                        if (limit > 0)
+                        {
+                            List<logs> killList = db.logs.Where(x => x.id <= newLog.id - limit).ToList();
+
+                            if (killList.Count > 0)
+                            {
+                                db.logs.RemoveRange(killList);
+                                db.SaveChanges();
+                            }
+                        }
+                        #endregion
+                    }
                     return "";
                 }
                 catch (Exception ex)
@@ -3264,7 +3289,44 @@ namespace eFormSqlController
             }
         }
 
-        public override void WriteIfFailed(string str)
+        private string              WriteLogExceptionEntry(LogEntry logEntry)
+        {
+                try
+                {
+                    using (var db = new MicrotingDb(connectionStr))
+                    {
+                        log_exceptions newLog = new log_exceptions();
+                        newLog.created_at = logEntry.Time;
+                        newLog.level = logEntry.Level;
+                        newLog.message = logEntry.Message;
+                        newLog.type = logEntry.Type;
+
+                        db.log_exceptions.Add(newLog);
+                        db.SaveChanges();
+
+                        #region clean up of log exception table
+                        int limit = t.Int(SettingRead(Settings.logLimit));
+                        if (limit > 0)
+                        {
+                            List<log_exceptions> killList = db.log_exceptions.Where(x => x.id <= newLog.id - limit).ToList();
+
+                            if (killList.Count > 0)
+                            {
+                                db.log_exceptions.RemoveRange(killList);
+                                db.SaveChanges();
+                            }
+                        }
+                        #endregion
+                    }
+                    return "";
+                }
+                catch (Exception ex)
+                {
+                    return t.PrintException(t.GetMethodName() + " failed", ex);
+                }
+        }
+
+        public override void        WriteIfFailed(string logEntries)
         {
             lock (_writeLock)
             {
@@ -3272,7 +3334,7 @@ namespace eFormSqlController
                 {
                     File.AppendAllText(@"log\\expection.txt",
                         DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine 
-                        + str + Environment.NewLine);
+                        + logEntries + Environment.NewLine);
                 }
                 catch
                 {
@@ -4387,7 +4449,7 @@ namespace eFormSqlController
         #endregion
 
         #region unit test
-        public List<string>     UnitTest_FindAllActiveCases()
+        public List<string>         UnitTest_FindAllActiveCases()
         {
             try
             {
@@ -4416,7 +4478,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string>     UnitTest_EntitiesFindAllActive()
+        public List<string>         UnitTest_EntitiesFindAllActive()
         {
             try
             {
@@ -4439,7 +4501,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool             UnitTest_EntitiesAllSynced(string entityGroupId)
+        public bool                 UnitTest_EntitiesAllSynced(string entityGroupId)
         {
             try
             {
@@ -4459,7 +4521,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string>     UnitTest_FindAllActiveInteraction()
+        public List<string>         UnitTest_FindAllActiveInteraction()
         {
             try
             {
@@ -4482,7 +4544,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<notifications> UnitTest_FindAllNotifications()
+        public List<notifications>  UnitTest_FindAllNotifications()
         {
             try
             {
@@ -4498,7 +4560,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string>     UnitTest_FindAllActiveNotifications()
+        public List<string>         UnitTest_FindAllActiveNotifications()
         {
             try
             {
@@ -4537,7 +4599,7 @@ namespace eFormSqlController
             }
         }
 
-        public a_interaction_cases UnitTest_FindInteractionCase(int interactionCaseId)
+        public a_interaction_cases  UnitTest_FindInteractionCase(int interactionCaseId)
         {
             try
             {
@@ -4553,7 +4615,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool             UnitTest_TruncateTable(string tableName)
+        public bool                 UnitTest_TruncateTable(string tableName)
         {
             try
             {
@@ -4572,7 +4634,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool             UnitTest_TruncateTablesIfEmpty()
+        public bool                 UnitTest_TruncateTablesIfEmpty()
         {
             try
             {
@@ -4621,7 +4683,7 @@ namespace eFormSqlController
             }
         }
 
-        private void            FieldTypeAdd(int id, string fieldType, string description)
+        private void                FieldTypeAdd(int id, string fieldType, string description)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
@@ -4642,6 +4704,7 @@ namespace eFormSqlController
         firstRunDone,
         knownSitesDone,
         logLevel,
+        logLimit,
         fileLocationPicture,
         fileLocationPdf,
         token,

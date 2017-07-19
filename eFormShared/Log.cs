@@ -37,55 +37,55 @@ namespace eFormShared
         }
 
         #region public
-        public void LogEverything(string str)
+        public void LogEverything(string type, string message)
         {
-            LogLogic(new LogEntry(4, str));
+            LogLogic(new LogEntry(4, type, message));
         }
 
-        public void LogVariable(string variableName, string variableContent)
+        public void LogVariable (string type, string variableName, string variableContent)
         {
-            LogLogic(new LogEntry(3, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
+            LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
-        public void LogVariable(string variableName, int? variableContent)
+        public void LogVariable (string type, string variableName, int? variableContent)
         {
-            LogVariable(variableName, variableContent.ToString());
+            LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogVariable(string variableName, bool? variableContent)
+        public void LogVariable (string type, string variableName, bool? variableContent)
         {
-            LogVariable(variableName, variableContent.ToString());
+            LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogVariable(string variableName, DateTime? variableContent)
+        public void LogVariable (string type, string variableName, DateTime? variableContent)
         {
-            LogVariable(variableName, variableContent.ToString());
+            LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogStandard(string str)
+        public void LogStandard (string type, string message)
         {
-            LogLogic(new LogEntry(2, str));
+            LogLogic(new LogEntry(2, type, message));
         }
 
-        public void LogCritical(string str)
+        public void LogCritical (string type, string message)
         {
-            LogLogic(new LogEntry(1, str));
+            LogLogic(new LogEntry(1, type, message));
         }
 
-        public void LogWarning(string str)
+        public void LogWarning  (string type, string message)
         {
-            LogLogic(new LogEntry(0, str));
+            LogLogic(new LogEntry(0, type, message));
         }
 
-        public void LogException(string exceptionDescription, Exception exception, bool restartCore)
+        public void LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
         {
             try
             {
                 string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
 
-                LogLogic(new LogEntry(-1, fullExceptionDescription));
-                LogVariable("restartCore", restartCore);
-                
+                LogLogic(new LogEntry(-1, type, fullExceptionDescription));
+                LogVariable(type, "restartCore", restartCore);
+
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
 
@@ -101,10 +101,20 @@ namespace eFormShared
                 core.FatalExpection(t.GetMethodName() + "failed", ex);
             }
         }
+
+        public void LogFatalException(string exceptionDescription, Exception exception)
+        {
+            try
+            {
+                string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
+                LogLogic(new LogEntry(-3, "FatalException", PrintCache(-3, fullExceptionDescription)));
+            }
+            catch { }
+        }
         #endregion
 
         #region private
-        private int  CheckExceptionLst(ExceptionClass exceptionClass)
+        private int CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int secondsDelay = 1;
 
@@ -140,7 +150,7 @@ namespace eFormShared
             catch { }
             #endregion
 
-            LogStandard(count + ". time the same Exception, within the last hour");
+            LogStandard("Not Specified", count + ". time the same Exception, within the last hour");
             if (count == 2) secondsDelay = 6;
             if (count == 3) secondsDelay = 60;
             if (count == 4) secondsDelay = 600;
@@ -151,33 +161,37 @@ namespace eFormShared
         private void LogLogic(LogEntry logEntry)
         {
             string reply = "";
-            string entry = "";
-
+   
+            LogCache(logEntry);
             if (logLevel >= logEntry.Level)
-            {
-                LogCache(logEntry);
                 reply = logWriter.WriteLogEntry(logEntry);
-            }
 
+            //if prime log writer failed
             if (reply != "")
-            {
-                reply += Environment.NewLine;
+                logWriter.WriteIfFailed(PrintCache(-2, reply));
+        }
 
-                foreach (LogEntry item in logQue)
-                {
-                    entry = item.Time + " // " + "L:" + item.Level + " // " + item.Content;
-                    reply += Environment.NewLine + entry;
-                }
+        private string PrintCache(int level, string initialMessage)
+        {
+            string text = "";
 
-                logWriter.WriteIfFailed(reply);
-            }
+            foreach (LogEntry item in logQue)
+                text = item.Time + " // " + "L:" + item.Level + " // " + item.Message + Environment.NewLine + text;
+
+            text =  DateTime.Now + " // L:" + level + " // ###########################################################################" + Environment.NewLine +
+                    initialMessage + Environment.NewLine +
+                    Environment.NewLine +
+                    text + Environment.NewLine + 
+                    DateTime.Now + " // L:" + level + " // ###########################################################################";
+
+            return text;
         }
 
         private void LogCache(LogEntry logEntry)
         {
             try
             {
-                if (logQue.Count == 11)
+                if (logQue.Count == 12)
                     logQue.Dequeue();
 
                 logQue.Enqueue(logEntry);
@@ -215,15 +229,17 @@ namespace eFormShared
 
     public class LogEntry
     {
-        public LogEntry (int level, string content)
+        public LogEntry(int level, string type, string message)
         {
-            Level   = level;
-            Content = content;
-            Time    = DateTime.Now;
+            Time = DateTime.Now;
+            Level = level;
+            Type = type;
+            Message = message;
         }
 
-        public int Level { get; }
-        public string Content { get; }
         public DateTime Time { get; }
+        public int Level { get; }
+        public string Type { get; }
+        public string Message { get; }
     }
 }
