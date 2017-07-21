@@ -15,16 +15,17 @@ namespace eFormSqlController
     public class SqlController : LogWriter
     {
         #region var
-        List<Holder> converter;
-        object _lockQuery = new object();
         string connectionStr;
+        Log log;
         Tools t = new Tools();
+        List<Holder> converter;
 
+        object _lockQuery = new object();
         object _writeLock = new object();
         #endregion
 
         #region con
-        public SqlController(string connectionString)
+        public                      SqlController(string connectionString)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace eFormSqlController
             }
         }
 
-        public SqlController(string connectionString, bool primeDb)
+        public                      SqlController(string connectionString, bool primeDb)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool MigrateDb()
+        public bool                 MigrateDb()
         {
             var configuration = new Configuration();
             configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
@@ -60,7 +61,7 @@ namespace eFormSqlController
             return true;
         }
 
-        private void PrimeDb()
+        private void                PrimeDb()
         {
             int settingsCount = 0;
                 
@@ -148,6 +149,14 @@ namespace eFormSqlController
                     throw new Exception(t.GetMethodName() + " failed", ex);
             }
             #endregion
+        }
+
+        public Log                  StartLog(CoreBase core)
+        {
+            string logLevel = SettingRead(Settings.logLevel);
+            int logLevelInt = int.Parse(logLevel);
+            log = new Log(core, this, logLevelInt);
+            return log;
         }
         #endregion
 
@@ -3332,7 +3341,7 @@ namespace eFormSqlController
             {
                 try
                 {
-                    File.AppendAllText(@"log\\expection.txt",
+                    File.AppendAllText(@"expection.txt",
                         DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine 
                         + logEntries + Environment.NewLine);
                 }

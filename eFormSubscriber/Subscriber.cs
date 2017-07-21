@@ -42,7 +42,7 @@ namespace eFormSubscriber
     {
         #region var
         SqlController sqlController;
-        Log logger;
+        Log log;
         bool keepSubscribed;
         bool isActive;
         Thread subscriberThread;
@@ -53,13 +53,10 @@ namespace eFormSubscriber
         /// <summary>
         /// Microting notification server subscriber C# DLL.
         /// </summary>
-        /// <param name="token">Your company's notification server access token.</param>
-        /// <param name="address">Microting's notification server address.</param>
-        /// <param name="name">Your name, as shown on the notification server.</param>
-        public Subscriber(SqlController sqlController, Log logger)
+        public Subscriber(SqlController sqlController, Log log)
         {
             this.sqlController = sqlController;
-            this.logger = logger;
+            this.log = log;
         }
         #endregion
 
@@ -107,7 +104,7 @@ namespace eFormSubscriber
             }
             catch (Exception ex)
             {
-
+                log.LogException("Not Specified", t.GetMethodName() + " failed", ex, false);
             }
         }
 
@@ -163,9 +160,13 @@ namespace eFormSubscriber
                 catch (Exception ex)
                 {
                     //Log expection
+                    log.LogWarning("Not Specified", t.PrintException(t.GetMethodName() + " failed", ex));
 
-                    if (DateTime.Compare(lastExpection.AddMinutes(10), DateTime.Now) > 0)
-                        keepSubscribed = false; //TODO //throw new Exception(t.GetMethodName() + " failed, more than twice in the last 10 minuts", ex);
+                    if (DateTime.Compare(lastExpection.AddMinutes(5), DateTime.Now) > 0)
+                    {
+                        keepSubscribed = false;
+                        log.LogException("Not Specified", t.GetMethodName() + " failed, twice in the last 5 minuts", ex, true);
+                    }
 
                     lastExpection = DateTime.Now;
                 }

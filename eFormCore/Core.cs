@@ -96,24 +96,22 @@ namespace eFormCore
                     coreStatChanging = true;
 
                     //sqlController
-                    sqlController = new SqlController(connectionString, true);
+                    sqlController = new SqlController(connectionString);
 
-                    //logger
-                    string logLevelStr = sqlController.SettingRead(Settings.logLevel);
-                    log = new Log(this, sqlController, int.Parse(logLevelStr));
+                    //log
+                    log = sqlController.StartLog(this);
 
                     log.LogCritical("Not Specified", "###########################################################################");
                     log.LogCritical("Not Specified", t.GetMethodName() + " called");
-                    log.LogStandard("Not Specified", "SqlEformController and Logger started");
+                    log.LogStandard("Not Specified", "SqlController and Logger started");
 
-                    #region settings read
+                    //settings read
                     if (!sqlController.SettingCheckAll())
                         throw new ArgumentException("Use AdminTool to setup database correct");
 
                     this.connectionString = connectionString;
                     fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
                     fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);
-                    #endregion
                     log.LogStandard("Not Specified", "Settings read");
 
                     //communicators
@@ -2078,29 +2076,6 @@ namespace eFormCore
         }
         #endregion
 
-        #region internal UnitTest
-        internal void UnitTest_CaseComplet(string microtingUId, string checkUId)
-        {
-            sqlController.CaseRetract(microtingUId, checkUId);
-            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
-            InteractionCaseUpdate(cDto);
-            try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
-            catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
-            log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
-        }
-
-        internal void UnitTest_CaseDelete(string microtingUId)
-        {
-            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
-            Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
-
-            InteractionCaseUpdate(cDtoDel);
-            try { HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty); }
-            catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
-            log.LogStandard("Not Specified", cDto.ToString() + " has been deleted");
-        }
-        #endregion
-
         #region private
         private List<Element>   ReplaceDataElementsAndDataItems(int caseId, List<Element> elementList, List<FieldValue> lstAnswers)
         {
@@ -2399,8 +2374,7 @@ namespace eFormCore
                     subscriber.Close();
                     log.LogEverything("Not Specified", "Subscriber closed");
                 }
-                catch (Exception ex)
-                { }
+                catch { }
 
                 int tries = 0;
                 while (coreRunning)
@@ -3046,6 +3020,29 @@ namespace eFormCore
                 updateIsRunningEntities = false;
                 log.LogException("Not Specified", "CoreHandleUpdateEntityItems failed", ex, true);
             }
+        }
+        #endregion
+
+        #region internal UnitTest
+        internal void UnitTest_CaseComplet(string microtingUId, string checkUId)
+        {
+            sqlController.CaseRetract(microtingUId, checkUId);
+            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
+            InteractionCaseUpdate(cDto);
+            try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
+            catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
+            log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
+        }
+
+        internal void UnitTest_CaseDelete(string microtingUId)
+        {
+            Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
+            Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
+
+            InteractionCaseUpdate(cDtoDel);
+            try { HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty); }
+            catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
+            log.LogStandard("Not Specified", cDto.ToString() + " has been deleted");
         }
         #endregion
     }

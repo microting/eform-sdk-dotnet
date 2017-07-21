@@ -21,7 +21,7 @@ namespace eFormShared
         #endregion
 
         // con
-        public Log(CoreBase core, LogWriter logWriter, int logLevel)
+        public          Log(CoreBase core, LogWriter logWriter, int logLevel)
         {
             try
             {
@@ -37,47 +37,47 @@ namespace eFormShared
         }
 
         #region public
-        public void LogEverything(string type, string message)
+        public void     LogEverything(string type, string message)
         {
             LogLogic(new LogEntry(4, type, message));
         }
 
-        public void LogVariable (string type, string variableName, string variableContent)
+        public void     LogVariable (string type, string variableName, string variableContent)
         {
             LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
-        public void LogVariable (string type, string variableName, int? variableContent)
+        public void     LogVariable (string type, string variableName, int? variableContent)
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogVariable (string type, string variableName, bool? variableContent)
+        public void     LogVariable (string type, string variableName, bool? variableContent)
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogVariable (string type, string variableName, DateTime? variableContent)
+        public void     LogVariable (string type, string variableName, DateTime? variableContent)
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogStandard (string type, string message)
+        public void     LogStandard (string type, string message)
         {
             LogLogic(new LogEntry(2, type, message));
         }
 
-        public void LogCritical (string type, string message)
+        public void     LogCritical (string type, string message)
         {
             LogLogic(new LogEntry(1, type, message));
         }
 
-        public void LogWarning  (string type, string message)
+        public void     LogWarning  (string type, string message)
         {
             LogLogic(new LogEntry(0, type, message));
         }
 
-        public void LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
+        public void     LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace eFormShared
             }
         }
 
-        public void LogFatalException(string exceptionDescription, Exception exception)
+        public void     LogFatalException(string exceptionDescription, Exception exception)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace eFormShared
         #endregion
 
         #region private
-        private int CheckExceptionLst(ExceptionClass exceptionClass)
+        private int     CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int secondsDelay = 1;
 
@@ -158,7 +158,7 @@ namespace eFormShared
             return secondsDelay;
         }
 
-        private void LogLogic(LogEntry logEntry)
+        private void    LogLogic(LogEntry logEntry)
         {
             string reply = "";
    
@@ -171,7 +171,7 @@ namespace eFormShared
                 logWriter.WriteIfFailed(PrintCache(-2, reply));
         }
 
-        private string PrintCache(int level, string initialMessage)
+        private string  PrintCache(int level, string initialMessage)
         {
             string text = "";
 
@@ -187,7 +187,7 @@ namespace eFormShared
             return text;
         }
 
-        private void LogCache(LogEntry logEntry)
+        private void    LogCache(LogEntry logEntry)
         {
             try
             {
