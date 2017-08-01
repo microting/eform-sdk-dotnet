@@ -119,7 +119,7 @@ namespace eFormSqlController
 
                             SettingUpdate(Settings.firstRunDone, "false");
                             SettingUpdate(Settings.knownSitesDone, "false");
-                            SettingUpdate(Settings.logLevel, "true");
+                            SettingUpdate(Settings.logLevel, "4");
                             SettingUpdate(Settings.logLimit, "250");
                             SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
                             SettingUpdate(Settings.fileLocationPdf, "dataFolder/pdf/");
@@ -153,10 +153,17 @@ namespace eFormSqlController
 
         public Log                  StartLog(CoreBase core)
         {
-            string logLevel = SettingRead(Settings.logLevel);
-            int logLevelInt = int.Parse(logLevel);
-            log = new Log(core, this, logLevelInt);
-            return log;
+            try
+            {
+                string logLevel = SettingRead(Settings.logLevel);
+                int logLevelInt = int.Parse(logLevel);
+                log = new Log(core, this, logLevelInt);
+                return log;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
         }
         #endregion
 
