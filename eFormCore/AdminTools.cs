@@ -19,7 +19,7 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlController = new SqlController(serverConnectionString);
+            sqlController = new SqlController(serverConnectionString, true);
         }
 
         public AdminTools(string serverConnectionString, bool primeDb)

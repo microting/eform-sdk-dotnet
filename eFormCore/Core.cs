@@ -96,7 +96,7 @@ namespace eFormCore
                     coreStatChanging = true;
 
                     //sqlController
-                    sqlController = new SqlController(connectionString);
+                    sqlController = new SqlController(connectionString, true);
 
                     //log
                     log = sqlController.StartLog(this);

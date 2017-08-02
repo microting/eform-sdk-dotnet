@@ -25,19 +25,6 @@ namespace eFormSqlController
         #endregion
 
         #region con
-        public                      SqlController(string connectionString)
-        {
-            try
-            {
-                connectionStr = connectionString;
-                PrimeDb(); //if needed
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
         public                      SqlController(string connectionString, bool primeDb)
         {
             try
@@ -77,7 +64,9 @@ namespace eFormSqlController
             catch (Exception ex)
             #region if failed, will try to update context
             {
-                if (ex.Message.Contains("context has changed") || ex.Message.Contains("'cases'"))
+                //-2146233079 - The model backing the 'DataContext' context has changed since the database was created. Consider using Code First Migrations to update the database
+                //-2146232060 - There is already an object named 'xxx' in the database.
+                if (ex.HResult == -2146233079 || ex.HResult == -2146232060) 
                 {
                     MigrateDb();
                 }
@@ -137,7 +126,9 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 // This is here because, the priming process of the DB, will require us to go through the process of migrating the DB multiple times.
-                if (ex.Message.Contains("context has changed")) 
+                //-2146233079 - The model backing the 'DataContext' context has changed since the database was created. Consider using Code First Migrations to update the database
+                //-2146232060 - There is already an object named 'xxx' in the database.
+                if (ex.HResult == -2146233079 || ex.HResult == -2146232060)
                 {
                     var configuration = new Configuration();
                     configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");

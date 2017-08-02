@@ -37,35 +37,57 @@ namespace SourceCode
         {
             try
             {
-                Console.WriteLine("Press following keys to start:");
-                Console.WriteLine("'S' for sample programs");
-                Console.WriteLine("'T' for admin tools program on test");
-                Console.WriteLine("'A' for admin tools program");
-                Console.WriteLine("any other will close Console");
+                #region Console.WriteLine(...text...)
+                Console.WriteLine("Enter one of the following keys to start:");
+                Console.WriteLine("> 'S', for sample programs");
+                Console.WriteLine("");
+                Console.WriteLine("- Admin tools program on:");
+                Console.WriteLine("> 'A', Microting");
+                Console.WriteLine("  'T', Microting Test");
+                Console.WriteLine("  'C', [custom]");
+                Console.WriteLine("");
+                Console.WriteLine("Any other will close Console");
+                #endregion
                 string input = Console.ReadLine();
 
                 string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
                 if (input.ToUpper() == "S")
                 {
-                    var program = new Samples(serverConnectionString);
+                    var program = new Samples   (serverConnectionString.Replace("Microting", "Microting"));
                     program.Run();
-                }
-                if (input.ToUpper() == "T")
-                {
-                    var program = new AdminTools(serverConnectionString.Insert(serverConnectionString.IndexOf(";Int"), "Test"));
-                    program.RunConsole();
                 }
                 if (input.ToUpper() == "A")
                 {
-                    var program = new AdminTools(serverConnectionString);
+                    var program = new AdminTools(serverConnectionString.Replace("Microting", "Microting"));
                     program.RunConsole();
                 }
+                if (input.ToUpper() == "T")
+                {
+                    var program = new AdminTools(serverConnectionString.Replace("Microting", "MicrotingTest"));
+                    program.RunConsole();
+                }
+                #region ...custom...
+                if (input.ToUpper() == "C")
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Enter the name of database to be used:");
+                    string input2 = Console.ReadLine().Replace(" ", "");
 
+                    if (!string.IsNullOrWhiteSpace(input))
+                    {
+                        var program = new AdminTools(serverConnectionString.Replace("Microting", input2));
+                        program.RunConsole();
+                    }
+                }
+                #endregion
+
+                Console.WriteLine("");
                 Console.WriteLine("Console will close in 1s");
                 Thread.Sleep(1000);
                 Environment.Exit(0);
             }
-            catch (Exception ex) //Catch !!ALL!!
+            #region ...catch all...
+            catch (Exception ex)
             {
                 try
                 {
@@ -80,6 +102,7 @@ namespace SourceCode
                 Thread.Sleep(5000);
                 Environment.Exit(0);
             }
+            #endregion
         }
     }
 }
