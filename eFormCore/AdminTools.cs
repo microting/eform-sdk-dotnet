@@ -19,13 +19,7 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlController = new SqlController(serverConnectionString, true);
-        }
-
-        public AdminTools(string serverConnectionString, bool primeDb)
-        {
-            connectionString = serverConnectionString;
-            sqlController = new SqlController(connectionString, false);
+            sqlController = new SqlController(serverConnectionString, false);
         }
         #endregion
 
@@ -394,20 +388,30 @@ namespace eFormCore
 
                 Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
                 sqlController.SettingUpdate(Settings.token, token);
-                sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
                 sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
+                sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
+                sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
                 sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
                 sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
                 sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                 sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
-                try
-                {
-                    sqlController.SettingCreate(Settings.comAddressPdfUpload, 14);
-                }
-                catch { }
-                sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
 
+                sqlController.SettingCreateIfMissing(Settings.firstRunDone);
+                sqlController.SettingCreateIfMissing(Settings.knownSitesDone);
+                sqlController.SettingCreateIfMissing(Settings.logLevel);
+                sqlController.SettingCreateIfMissing(Settings.logLimit);
+                sqlController.SettingCreateIfMissing(Settings.fileLocationPicture);
+                sqlController.SettingCreateIfMissing(Settings.fileLocationPdf);
+
+                if (sqlController.SettingRead(Settings.firstRunDone) == "")         sqlController.SettingUpdate(Settings.firstRunDone, "false");
+                if (sqlController.SettingRead(Settings.knownSitesDone) == "")       sqlController.SettingUpdate(Settings.knownSitesDone, "false");
+                if (sqlController.SettingRead(Settings.logLevel) == "")             sqlController.SettingUpdate(Settings.logLevel, "4");
+                    if (sqlController.SettingRead(Settings.logLevel) == "true")         sqlController.SettingUpdate(Settings.logLevel, "4");
+                    if (sqlController.SettingRead(Settings.logLevel) == "false")        sqlController.SettingUpdate(Settings.logLevel, "1");
+                if (sqlController.SettingRead(Settings.logLimit) == "")             sqlController.SettingUpdate(Settings.logLimit, "250");
+                if (sqlController.SettingRead(Settings.fileLocationPicture) == "")  sqlController.SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
+                if (sqlController.SettingRead(Settings.fileLocationPdf) == "")      sqlController.SettingUpdate(Settings.fileLocationPdf, "dataFolder/pdf/");
 
                 return "";
             }

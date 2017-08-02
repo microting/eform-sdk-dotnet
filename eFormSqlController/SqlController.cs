@@ -39,15 +39,6 @@ namespace eFormSqlController
             }
         }
 
-        public bool                 MigrateDb()
-        {
-            var configuration = new Configuration();
-            configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
-            var migrator = new DbMigrator(configuration);
-            migrator.Update();
-            return true;
-        }
-
         private void                PrimeDb()
         {
             int settingsCount = 0;
@@ -89,23 +80,7 @@ namespace eFormSqlController
                         {
                             #region prime Settings
                             UnitTest_TruncateTable(typeof(settings).Name);
-
-                            SettingCreate(Settings.firstRunDone, 1);
-                            SettingCreate(Settings.knownSitesDone, 2);
-                            SettingCreate(Settings.logLevel, 3);
-                            SettingCreate(Settings.logLimit, 4);
-                            SettingCreate(Settings.fileLocationPicture, 5);
-                            SettingCreate(Settings.fileLocationPdf, 6);
-                            SettingCreate(Settings.token, 7);
-                            SettingCreate(Settings.comAddressBasic, 8);
-                            SettingCreate(Settings.comAddressApi, 9);
-                            SettingCreate(Settings.comOrganizationId, 10);
-                            SettingCreate(Settings.awsAccessKeyId, 11);
-                            SettingCreate(Settings.awsSecretAccessKey, 12);
-                            SettingCreate(Settings.awsEndPoint, 13);
-                            SettingCreate(Settings.unitLicenseNumber, 14);
-                            SettingCreate(Settings.comAddressPdfUpload, 15);
-
+                            
                             SettingUpdate(Settings.firstRunDone, "false");
                             SettingUpdate(Settings.knownSitesDone, "false");
                             SettingUpdate(Settings.logLevel, "4");
@@ -116,6 +91,11 @@ namespace eFormSqlController
                             SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
                             SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
                             SettingUpdate(Settings.comOrganizationId, "0");
+                            SettingUpdate(Settings.awsAccessKeyId, "XXX");
+                            SettingUpdate(Settings.awsSecretAccessKey, "XXX");
+                            SettingUpdate(Settings.awsEndPoint, "XXX");
+                            SettingUpdate(Settings.unitLicenseNumber, "0");
+                            SettingUpdate(Settings.comAddressPdfUpload, "https://xxxxxx.xxxxxx.com");
                             #endregion
                         }
                         else
@@ -140,6 +120,15 @@ namespace eFormSqlController
                     throw new Exception(t.GetMethodName() + " failed", ex);
             }
             #endregion
+        }
+
+        public bool                 MigrateDb()
+        {
+            var configuration = new Configuration();
+            configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
+            var migrator = new DbMigrator(configuration);
+            migrator.Update();
+            return true;
         }
 
         public Log                  StartLog(CoreBase core)
@@ -2768,7 +2757,7 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
-        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
+        public EntityGroupList      EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
 
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
@@ -2826,8 +2815,7 @@ namespace eFormSqlController
             }
         }
 
-
-        public EntityGroup                  EntityGroupCreate(string name, string entityType)
+        public EntityGroup          EntityGroupCreate(string name, string entityType)
         {
             try
             {
@@ -2861,6 +2849,7 @@ namespace eFormSqlController
                 throw new Exception("EntityGroupCreate failed", ex);
             }
         }
+
         public EntityGroup          EntityGroupReadSorted(string entityGroupMUId, string sort, string nameFilter)
         {
             try
@@ -2949,7 +2938,7 @@ namespace eFormSqlController
             }
         }
 
-        public bool EntityGroupUpdateName(string name, string entityGroupMUId)
+        public bool                 EntityGroupUpdateName(string name, string entityGroupMUId)
         {
             try
             {
@@ -3135,27 +3124,106 @@ namespace eFormSqlController
         #endregion
 
         #region public setting
-        public void                 SettingCreate(Settings name, int id)
+        public bool                 SettingCreate(Settings name)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
-                settings set = new settings();
-                set.id = id;
-                set.name = name.ToString();
-                set.value = "";
+                #region id = settings.name //key point
+                int id = -1;
+                switch (name)
+                {
+                    case Settings.firstRunDone:             id =  1; break;
+                    case Settings.knownSitesDone:           id =  2; break;
+                    case Settings.logLevel:                 id =  3; break;
+                    case Settings.logLimit:                 id =  4; break;
+                    case Settings.fileLocationPicture:      id =  5; break;
+                    case Settings.fileLocationPdf:          id =  6; break;
+                    case Settings.token:                    id =  7; break;
+                    case Settings.comAddressBasic:          id =  8; break;
+                    case Settings.comAddressPdfUpload:      id =  9; break;
+                    case Settings.comAddressApi:            id = 10; break;
+                    case Settings.comOrganizationId:        id = 11; break;
+                    case Settings.awsAccessKeyId:           id = 12; break;
+                    case Settings.awsSecretAccessKey:       id = 13; break;
+                    case Settings.awsEndPoint:              id = 14; break;
+                    case Settings.unitLicenseNumber:        id = 15; break;
+                    default:
+                        throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
+                }
+                #endregion
 
-                db.settings.Add(set);
+                settings match = db.settings.SingleOrDefault(x => x.id == id);
+
+                if (match != null)
+                {
+                    //there is already a setting with that id
+
+                    if (match.name == name.ToString())
+                        return true; //setting has the right name - hence value is kept
+
+                    //otherwise old setting data is copied, and new is added
+                    settings newSettingBasedOnOld = new settings();
+                    newSettingBasedOnOld.id = (db.settings.Select(x => (int?)x.id).Max() ?? 0) + 1;
+                    newSettingBasedOnOld.name = match.name.ToString();
+                    newSettingBasedOnOld.value = match.value;
+
+                    db.settings.Add(newSettingBasedOnOld);
+          
+                    match.name = name.ToString();
+                    match.value = "";
+
+                    db.SaveChanges();
+                }
+                else
+                { 
+                    //its a new setting
+                    settings newSetting = new settings();
+                    newSetting.id = id;
+                    newSetting.name = name.ToString();
+                    newSetting.value = "";
+
+                    db.settings.Add(newSetting);
+                }
                 db.SaveChanges();
             }
+
+            return true;
         }
 
-        public string               SettingRead  (Settings name)
+        public bool                 SettingCreateIfMissing(Settings name)
         {
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
                     settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
+
+                    if (match == null)
+                    {
+                        SettingCreate(name);
+                        match = db.settings.Single(x => x.name == name.ToString());
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        public string               SettingRead(Settings name)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
+
+                    if (match == null)
+                        return null;
+
                     return match.value;
                 }
             }
@@ -3171,7 +3239,14 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    settings match = db.settings.Single(x => x.name == name.ToString());
+                    settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
+
+                    if (match == null)
+                    {
+                        SettingCreate(name);
+                        match = db.settings.Single(x => x.name == name.ToString());
+                    }
+
                     match.value = newValue;
                     db.SaveChanges();
                 }
@@ -3354,7 +3429,7 @@ namespace eFormSqlController
 
         #region private
         #region EformCreateDb
-        private int     EformCreateDb           (MainElement mainElement)
+        private int                 EformCreateDb           (MainElement mainElement)
         {
             try
             {
@@ -3407,7 +3482,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    CreateElementList      (int parentId, List<Element> lstElement)
+        private void                CreateElementList      (int parentId, List<Element> lstElement)
         {
             foreach (Element element in lstElement)
             {
@@ -3427,7 +3502,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    CreateGroupElement     (int parentId, GroupElement groupElement)
+        private void                CreateGroupElement     (int parentId, GroupElement groupElement)
         {
             try
             {
@@ -3471,7 +3546,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    CreateDataElement      (int parentId, DataElement dataElement)
+        private void                CreateDataElement      (int parentId, DataElement dataElement)
         {
             try
             {
@@ -3529,7 +3604,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    CreateDataItemGroup    (int elementId, FieldGroup fieldGroup)
+        private void                CreateDataItemGroup    (int elementId, FieldGroup fieldGroup)
         {
             try
             {
@@ -3575,7 +3650,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    CreateDataItem         (int? parentFieldId, int elementId, DataItem dataItem)
+        private void                CreateDataItem         (int? parentFieldId, int elementId, DataItem dataItem)
         {
             try
             {
@@ -3724,7 +3799,7 @@ namespace eFormSqlController
         #endregion
 
         #region EformReadDb
-        private Element GetElement(int elementId)
+        private Element             GetElement(int elementId)
         {
             try
             {
@@ -3791,7 +3866,7 @@ namespace eFormSqlController
             }
         }
 
-        private void GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, int dataItemId)
+        private void                GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, int dataItemId)
         {
             try
             {
@@ -3903,7 +3978,7 @@ namespace eFormSqlController
             }
         }
 
-        private void GetConverter()
+        private void                GetConverter()
         {
             try
             {
@@ -3927,7 +4002,7 @@ namespace eFormSqlController
         #endregion
 
         #region EntityItem 
-        private void    EntityItemCreateUpdate(string entityGroupMUId, EntityItem entityItem)
+        private void                EntityItemCreateUpdate(string entityGroupMUId, EntityItem entityItem)
         {
             try
             {
@@ -4008,7 +4083,7 @@ namespace eFormSqlController
             }
         }
 
-        private void    EntityItemDelete(string entityGroupMUId, string entityItemUId)
+        private void                EntityItemDelete(string entityGroupMUId, string entityItemUId)
         {
             try
             {
