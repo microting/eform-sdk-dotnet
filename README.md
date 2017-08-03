@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.0.0 *(August 2nd 2017)*
+	- Improving the logging.
+	
   - Version 1.5.5.4 *(June 27th 2017)*
 	- Adding ability to change name of the EntityGroup.
 	- **Breaking changes to the result EntityGroupCreate is returning.**
