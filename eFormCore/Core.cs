@@ -212,7 +212,37 @@ namespace eFormCore
                 {
                     lock (_lockMain) //Will let sending Cases sending finish, before closing
                     {
-                        CloseLogic();
+                        coreStatChanging = true;
+
+                        coreThreadAlive = false;
+                        log.LogCritical("Not Specified", t.GetMethodName() + " called");
+
+                        try
+                        {
+                            log.LogEverything("Not Specified", "Subscriber requested to close connection");
+                            subscriber.Close();
+                            log.LogEverything("Not Specified", "Subscriber closed");
+                        }
+                        catch { }
+
+                        int tries = 0;
+                        while (coreRunning)
+                        {
+                            Thread.Sleep(100);
+                            tries++;
+
+                            if (tries > 600)
+                                FatalExpection("Failed to close Core correct after 60 secs", new Exception());
+                        }
+
+                        subscriber = null;
+                        communicator = null;
+                        sqlController = null;
+
+                        log.LogStandard("Not Specified", "Controller closed");
+                        log.LogEverything("Not Specified", "");
+
+                        coreStatChanging = false;
                     }
                 }
             }
@@ -2356,44 +2386,6 @@ namespace eFormCore
             catch (Exception ex)
             {
                 log.LogException("Not Specified", t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "'", ex, true);
-            }
-        }
-
-        private void            CloseLogic()
-        {
-            lock (_lockMain) //Will let sending Cases sending finish, before closing
-            {
-                coreStatChanging = true;
-
-                coreThreadAlive = false;
-                log.LogCritical("Not Specified", t.GetMethodName() + " called");
-
-                try
-                {
-                    log.LogEverything("Not Specified", "Subscriber requested to close connection");
-                    subscriber.Close();
-                    log.LogEverything("Not Specified", "Subscriber closed");
-                }
-                catch { }
-
-                int tries = 0;
-                while (coreRunning)
-                {
-                    Thread.Sleep(100);
-                    tries++;
-
-                    if (tries > 600)
-                        FatalExpection("Failed to close Core correct after 60 secs", new Exception());
-                }
-
-                subscriber = null;
-                communicator = null;
-                sqlController = null;
-
-                log.LogEverything("Not Specified", "Controller closed");
-                log.LogEverything("Not Specified", "");
-
-                coreStatChanging = false;
             }
         }
         #endregion

@@ -44,6 +44,9 @@ namespace eFormShared
 
         public void     LogVariable (string type, string variableName, string variableContent)
         {
+            if (variableContent == null)
+                variableContent = "[null]";
+
             LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
