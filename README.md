@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.0.2 *(August 3rd 2017)*
+	- Fixing the log of null value and better upgrading of settings table.
+
   - Version 1.6.0.0 *(August 2nd 2017)*
 	- Improving the logging.
 	
