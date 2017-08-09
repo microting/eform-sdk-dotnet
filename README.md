@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.0.3 *(August 9th 2017)*
+	- Fixing the broken saving of latitude for the GPS coordinates.
+
   - Version 1.6.0.2 *(August 3rd 2017)*
 	- Fixing the log of null value and better upgrading of settings table.
 

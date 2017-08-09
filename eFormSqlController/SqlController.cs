@@ -722,7 +722,7 @@ namespace eFormSqlController
                                 fieldV.value = temp;
                                 #endregion
                                 //geo
-                                fieldV.latitude = t.Locate(dataItemStr, " <Latitude>", "</");
+                                fieldV.latitude = t.Locate(dataItemStr, "<Latitude>", "</");
                                 fieldV.longitude = t.Locate(dataItemStr, "<Longitude>", "</");
                                 fieldV.altitude = t.Locate(dataItemStr, "<Altitude>", "</");
                                 fieldV.heading = t.Locate(dataItemStr, "<Heading>", "</");
