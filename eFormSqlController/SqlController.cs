@@ -216,7 +216,7 @@ namespace eFormSqlController
                     bool hasCases = false;
                     if (checkList.cases.Count() > 0)
                         hasCases = true;
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, checkList.field_1, checkList.field_2, checkList.field_3, checkList.field_4, checkList.field_5, checkList.field_6, checkList.field_7, checkList.field_8, checkList.field_9, checkList.field_10);
                     return templateDto;
                 }
             }
@@ -1702,6 +1702,16 @@ namespace eFormSqlController
                         nCase.Version = dbCase.version;
                         nCase.WorkerName = dbCase.worker.first_name + " " + dbCase.worker.last_name;
                         nCase.WorkflowState = dbCase.workflow_state;
+                        nCase.FieldValue1 = dbCase.field_value_1;
+                        nCase.FieldValue2 = dbCase.field_value_2;
+                        nCase.FieldValue3 = dbCase.field_value_3;
+                        nCase.FieldValue4 = dbCase.field_value_4;
+                        nCase.FieldValue5 = dbCase.field_value_5;
+                        nCase.FieldValue6 = dbCase.field_value_6;
+                        nCase.FieldValue7 = dbCase.field_value_7;
+                        nCase.FieldValue8 = dbCase.field_value_8;
+                        nCase.FieldValue9 = dbCase.field_value_9;
+                        nCase.FieldValue10 = dbCase.field_value_10;
 
                         rtrnLst.Add(nCase);
                     }

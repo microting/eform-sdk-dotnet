@@ -84,6 +84,10 @@
     <Compile Include="Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.Designer.cs">
       <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs" />
+    <Compile Include="Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.Designer.cs">
+      <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\a_interaction_case_list_versions.cs" />
     <Compile Include="table\a_interaction_case_versions.cs" />
@@ -156,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.resx">
       <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.resx">
+      <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

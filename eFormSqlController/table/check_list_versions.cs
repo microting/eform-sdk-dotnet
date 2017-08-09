@@ -57,5 +57,25 @@ namespace eFormSqlController
         public short? fast_navigation { get; set; }
 
         public short? download_entities { get; set; }
+
+        public int? field_1 { get; set; }
+
+        public int? field_2 { get; set; }
+
+        public int? field_3 { get; set; }
+
+        public int? field_4 { get; set; }
+
+        public int? field_5 { get; set; }
+
+        public int? field_6 { get; set; }
+
+        public int? field_7 { get; set; }
+
+        public int? field_8 { get; set; }
+
+        public int? field_9 { get; set; }
+
+        public int? field_10 { get; set; }
     }
 }
