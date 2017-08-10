@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Microting.eForm</id>
-    <version>1.6.1.0</version>
+    <version>1.6.1.1</version>
     <authors>Microting A/S</authors>
     <owners>Microting A/S</owners>
     <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Added the functionality to allow the user to set which field values should be represented on a given case for optimized viewing.</releaseNotes>
+    <releaseNotes>Disabling automatic migration and only using explicit migrations.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="9.0.1"/>

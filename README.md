@@ -50,7 +50,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
-  - Version 1.6.1.0 *(August 9th 2017)*
+  - Version 1.6.1.1 *(August 10th 2017)*
+	- Disabling automatic migration and only using explicit migrations..
+
+  - Version 1.6.1.0 *(August 10th 2017)*
 	- Added the functionality to allow the user to set which field values should be represented on a given case for optimized viewing.
 
   - Version 1.6.0.3 *(August 9th 2017)*
