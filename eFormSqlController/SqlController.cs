@@ -316,6 +316,42 @@ namespace eFormSqlController
             }
         }
 
+        public bool                 TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
+
+                    if (checkList == null)
+                        return false;
+
+                    checkList.updated_at = DateTime.Now;
+                    checkList.version = checkList.version + 1;
+                    checkList.field_1 = fieldId1;
+                    checkList.field_2 = fieldId2;
+                    checkList.field_3 = fieldId3;
+                    checkList.field_4 = fieldId4;
+                    checkList.field_5 = fieldId5;
+                    checkList.field_6 = fieldId6;
+                    checkList.field_7 = fieldId7;
+                    checkList.field_8 = fieldId8;
+                    checkList.field_9 = fieldId9;
+                    checkList.field_10 = fieldId10;
+
+                    db.version_check_lists.Add(MapCheckListVersions(checkList));
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
+            }
+        }
+
         public bool                 TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName();
@@ -636,6 +672,7 @@ namespace eFormSqlController
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<fields> TemplatFieldLst = null;
                     cases responseCase = null;
+                    List<int?> case_fields = new List<int?>();
 
                     try //if a reversed case, case needs to be created
                     {
@@ -647,6 +684,20 @@ namespace eFormSqlController
                     {
                         responseCase = db.cases.Single(x => x.microting_uid == response.Value);
                     }
+
+                    check_lists cl = responseCase.check_list;
+
+                    case_fields.Add(cl.field_1);
+                    case_fields.Add(cl.field_2);
+                    case_fields.Add(cl.field_3);
+                    case_fields.Add(cl.field_4);
+                    case_fields.Add(cl.field_5);
+                    case_fields.Add(cl.field_6);
+                    case_fields.Add(cl.field_7);
+                    case_fields.Add(cl.field_8);
+                    case_fields.Add(cl.field_9);
+                    case_fields.Add(cl.field_10);
+                    //cl.field_1
 
                     TemplatFieldLst = TemplateFieldReadAll((int)responseCase.check_list_id);
 
@@ -742,6 +793,101 @@ namespace eFormSqlController
 
                                 db.version_field_values.Add(MapFieldValueVersions(fieldV));
                                 db.SaveChanges();
+
+                                #region update case field_values
+                                if (case_fields.Contains(fieldV.field_id))
+                                {
+                                    field_types field_type = db.fields.First(x => x.id == fieldV.field_id).field_type;
+                                    string new_value = fieldV.value;
+
+                                    if (field_type.field_type == "EntitySearch" || field_type.field_type == "EntitySelect")
+                                    {
+                                        try
+                                        {
+                                            if (fieldV.value != "" || fieldV.value != null)
+                                            {
+                                                entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == fieldV.value);
+
+                                                if (match != null)
+                                                {
+                                                    new_value = match.name;
+                                                }
+
+                                            }
+                                        }
+                                        catch { }
+                                    }
+
+                                    if (field_type.field_type == "SingleSelect")
+                                    {
+                                        string key = fieldV.value;
+                                        string fullKey = t.Locate(fieldV.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                                        new_value = t.Locate(fullKey, "<key>", "</key>");
+                                    }
+
+                                    if (field_type.field_type == "MultiSelect")
+                                    {
+                                        new_value = "";
+
+                                        string keys = fieldV.value;
+                                        List<string> keyLst = keys.Split('|').ToList();
+
+                                        foreach (string key in keyLst)
+                                        {
+                                            string fullKey = t.Locate(fieldV.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                                            if (new_value != "")
+                                            {
+                                                new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
+                                            } else
+                                            {
+                                                new_value += t.Locate(fullKey, "<key>", "</key>");
+                                            }
+                                        }
+                                    }
+
+
+                                    int i = case_fields.IndexOf(fieldV.field_id);
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            responseCase.field_value_1 = new_value;
+                                            break;
+                                        case 1:
+                                            responseCase.field_value_2 = new_value;
+                                            break;
+                                        case 2:
+                                            responseCase.field_value_3 = new_value;
+                                            break;
+                                        case 3:
+                                            responseCase.field_value_4 = new_value;
+                                            break;
+                                        case 4:
+                                            responseCase.field_value_5 = new_value;
+                                            break;
+                                        case 5:
+                                            responseCase.field_value_6 = new_value;
+                                            break;
+                                        case 6:
+                                            responseCase.field_value_7 = new_value;
+                                            break;
+                                        case 7:
+                                            responseCase.field_value_8 = new_value;
+                                            break;
+                                        case 8:
+                                            responseCase.field_value_9 = new_value;
+                                            break;
+                                        case 9:
+                                            responseCase.field_value_10 = new_value;
+                                            break;
+                                    }
+                                    responseCase.version = responseCase.version + 1;
+                                    db.cases.AddOrUpdate(responseCase);
+                                    db.SaveChanges();
+                                    db.version_cases.Add(MapCaseVersions(responseCase));
+                                    db.SaveChanges();
+                                }
+
+                                #endregion
 
                                 #region remove dataItem duplicate from TemplatDataItemLst
                                 int index = 0;
@@ -1745,6 +1891,148 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("CaseFindCustomMatchs failed", ex);
+            }
+        }
+        
+        public bool                 CaseUpdateFieldValues(int caseId)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    cases lstMatchs = db.cases.SingleOrDefault(x => x.id == caseId);
+
+                    if (lstMatchs == null)
+                        return false;
+
+                    lstMatchs.updated_at = DateTime.Now;
+                    lstMatchs.version = lstMatchs.version + 1;
+                    List<int?> case_fields = new List<int?>();
+                    check_lists cl = lstMatchs.check_list;
+
+                    case_fields.Add(cl.field_1);
+                    case_fields.Add(cl.field_2);
+                    case_fields.Add(cl.field_3);
+                    case_fields.Add(cl.field_4);
+                    case_fields.Add(cl.field_5);
+                    case_fields.Add(cl.field_6);
+                    case_fields.Add(cl.field_7);
+                    case_fields.Add(cl.field_8);
+                    case_fields.Add(cl.field_9);
+                    case_fields.Add(cl.field_10);
+
+                    lstMatchs.field_value_1 = null;
+                    lstMatchs.field_value_2 = null;
+                    lstMatchs.field_value_3 = null;
+                    lstMatchs.field_value_4 = null;
+                    lstMatchs.field_value_5 = null;
+                    lstMatchs.field_value_6 = null;
+                    lstMatchs.field_value_7 = null;
+                    lstMatchs.field_value_8 = null;
+                    lstMatchs.field_value_9 = null;
+                    lstMatchs.field_value_10 = null;
+
+                    List<field_values> field_values = db.field_values.Where(x => x.case_id == lstMatchs.id && case_fields.Contains(x.field_id)).ToList();
+
+                    foreach(field_values item in field_values)
+                    {
+                        field_types field_type = item.field.field_type;
+                        string new_value = item.value;
+
+                        if (field_type.field_type == "EntitySearch" || field_type.field_type == "EntitySelect")
+                        {
+                            try
+                            {
+                                if (item.value != "" || item.value != null)
+                                {
+                                    entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == item.value);
+
+                                    if (match != null)
+                                    {
+                                        new_value = match.name;
+                                    }
+
+                                }
+                            }
+                            catch { }
+                        }
+
+                        if (field_type.field_type == "SingleSelect")
+                        {
+                            string key = item.value;
+                            string fullKey = t.Locate(item.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                            new_value = t.Locate(fullKey, "<key>", "</key>");
+                        }
+
+                        if (field_type.field_type == "MultiSelect")
+                        {
+                            new_value = "";
+
+                            string keys = item.value;
+                            List<string> keyLst = keys.Split('|').ToList();
+
+                            foreach (string key in keyLst)
+                            {
+                                string fullKey = t.Locate(item.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                                if (new_value != "")
+                                {
+                                    new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
+                                }
+                                else
+                                {
+                                    new_value += t.Locate(fullKey, "<key>", "</key>");
+                                }
+                            }
+                        }
+
+
+                        int i = case_fields.IndexOf(item.field_id);
+                        switch (i)
+                        {
+                            case 0:
+                                lstMatchs.field_value_1 = new_value;
+                                break;
+                            case 1:
+                                lstMatchs.field_value_2 = new_value;
+                                break;
+                            case 2:
+                                lstMatchs.field_value_3 = new_value;
+                                break;
+                            case 3:
+                                lstMatchs.field_value_4 = new_value;
+                                break;
+                            case 4:
+                                lstMatchs.field_value_5 = new_value;
+                                break;
+                            case 5:
+                                lstMatchs.field_value_6 = new_value;
+                                break;
+                            case 6:
+                                lstMatchs.field_value_7 = new_value;
+                                break;
+                            case 7:
+                                lstMatchs.field_value_8 = new_value;
+                                break;
+                            case 8:
+                                lstMatchs.field_value_9 = new_value;
+                                break;
+                            case 9:
+                                lstMatchs.field_value_10 = new_value;
+                                break;
+                        }
+                    }
+
+                    db.cases.AddOrUpdate(lstMatchs);
+                    db.SaveChanges();
+                    db.version_cases.Add(MapCaseVersions(lstMatchs));
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
         #endregion
@@ -4275,6 +4563,16 @@ namespace eFormSqlController
             caseVer.check_list_id = aCase.check_list_id;
             caseVer.microting_uid = aCase.microting_uid;
             caseVer.site_id = aCase.site_id;
+            caseVer.field_value_1 = aCase.field_value_1;
+            caseVer.field_value_2 = aCase.field_value_2;
+            caseVer.field_value_3 = aCase.field_value_3;
+            caseVer.field_value_4 = aCase.field_value_4;
+            caseVer.field_value_5 = aCase.field_value_5;
+            caseVer.field_value_6 = aCase.field_value_6;
+            caseVer.field_value_7 = aCase.field_value_7;
+            caseVer.field_value_8 = aCase.field_value_8;
+            caseVer.field_value_9 = aCase.field_value_9;
+            caseVer.field_value_10 = aCase.field_value_10;
 
             caseVer.case_id = aCase.id; //<<--
 
@@ -4304,6 +4602,16 @@ namespace eFormSqlController
             clv.multi_approval = checkList.multi_approval;
             clv.fast_navigation = checkList.fast_navigation;
             clv.download_entities = checkList.download_entities;
+            clv.field_1 = checkList.field_1;
+            clv.field_2 = checkList.field_2;
+            clv.field_3 = checkList.field_3;
+            clv.field_4 = checkList.field_4;
+            clv.field_5 = checkList.field_5;
+            clv.field_6 = checkList.field_6;
+            clv.field_7 = checkList.field_7;
+            clv.field_8 = checkList.field_8;
+            clv.field_9 = checkList.field_9;
+            clv.field_10 = checkList.field_10;
 
             clv.check_list_id = checkList.id; //<<--
 
