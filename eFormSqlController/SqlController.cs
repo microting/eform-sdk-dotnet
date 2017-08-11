@@ -1773,7 +1773,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
+        public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
             try
             {
@@ -1786,45 +1786,41 @@ namespace eFormSqlController
 
 
                     List<cases> matches = null;
+                    IQueryable<cases> sub_query = db.cases.Where(x => x.done_at > start && x.done_at < end);
                     switch (workflowState)
                     {
                         case "not_retracted":
-                            if (templatId == null)
-                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state != "retracted").ToList();
-                            else
-                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state != "retracted").ToList();
+                            sub_query = sub_query.Where(x => x.workflow_state != "retracted");
                             break;
                         case "not_removed":
-                            if (templatId == null)
-                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state != "removed").ToList();
-                            else
-                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state != "removed").ToList();
+                            sub_query = sub_query.Where(x => x.workflow_state != "not_removed");
                             break;
                         case "created":
-                            if (templatId == null)
-                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state == "created").ToList();
-                            else
-                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state == "created").ToList();
+                            sub_query = sub_query.Where(x => x.workflow_state != "created");
                             break;
                         case "retracted":
-                            if (templatId == null)
-                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state == "retracted").ToList();
-                            else
-                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state == "retracted").ToList();
+                            sub_query = sub_query.Where(x => x.workflow_state != "retracted");
                             break;
                         case "removed":
-                            if (templatId == null)
-                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end && x.workflow_state == "removed").ToList();
-                            else
-                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end && x.workflow_state == "removed").ToList();
+                            sub_query = sub_query.Where(x => x.workflow_state != "removed");
                             break;
                         default:
-                            if (templatId == null)
-                                matches = db.cases.Where(x => x.done_at > start && x.done_at < end).ToList();
-                            else
-                                matches = db.cases.Where(x => x.check_list_id == templatId && x.done_at > start && x.done_at < end).ToList();
                             break;
                     }               
+
+
+                    if (templatId != null)
+                    {
+                        sub_query = sub_query.Where(x => x.check_list_id == templatId);
+                    }
+                    if (searchKey != null || searchKey != "")
+                    {
+                        sub_query= sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
+                    }
+
+                    matches = sub_query.ToList();
+
+                    //
 
                     List<Case> rtrnLst = new List<Case>();
                     #region cases -> Case

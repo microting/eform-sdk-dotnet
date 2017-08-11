@@ -788,10 +788,10 @@ namespace eFormCore
 
         public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end)
         {
-            return CaseReadAll(templatId, start, end, "not_removed");
+            return CaseReadAll(templatId, start, end, "not_removed", null);
         }
 
-        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
+        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
             string methodName = t.GetMethodName();
             try
@@ -804,7 +804,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", "end", end);
                     log.LogVariable("Not Specified", "workflowState", workflowState);
 
-                    return sqlController.CaseReadAll(templatId, start, end, workflowState);
+                    return sqlController.CaseReadAll(templatId, start, end, workflowState, searchKey);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2231,7 +2231,7 @@ namespace eFormCore
             List<string>        colume1CaseIds  = new List<string> { "Id" };
             List<int>           caseIds         = new List<int>();
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed");
+            List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed", null);
             var                template        = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)

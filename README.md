@@ -50,8 +50,21 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.2 *(August 11th 2017)*
+	- Adding the posibility to search in the cases based on field_values.
+	- **Breaking changes to the method CaseReadAll argument list.**
+	- To have the same behaviour as before, set searchKey to null.
+	- Before
+	```cs
+	List<Case>  CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
+	```
+	- After
+	```cs
+	List<Case>  CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
+	```	
+	
   - Version 1.6.1.1 *(August 10th 2017)*
-	- Disabling automatic migration and only using explicit migrations..
+	- Disabling automatic migration and only using explicit migrations.
 
   - Version 1.6.1.0 *(August 10th 2017)*
 	- Added the functionality to allow the user to set which field values should be represented on a given case for optimized viewing.
