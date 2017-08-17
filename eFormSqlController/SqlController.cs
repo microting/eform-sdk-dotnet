@@ -1796,13 +1796,13 @@ namespace eFormSqlController
                             sub_query = sub_query.Where(x => x.workflow_state != "not_removed");
                             break;
                         case "created":
-                            sub_query = sub_query.Where(x => x.workflow_state != "created");
+                            sub_query = sub_query.Where(x => x.workflow_state == "created");
                             break;
                         case "retracted":
-                            sub_query = sub_query.Where(x => x.workflow_state != "retracted");
+                            sub_query = sub_query.Where(x => x.workflow_state == "retracted");
                             break;
                         case "removed":
-                            sub_query = sub_query.Where(x => x.workflow_state != "removed");
+                            sub_query = sub_query.Where(x => x.workflow_state == "removed");
                             break;
                         default:
                             break;
@@ -1813,7 +1813,7 @@ namespace eFormSqlController
                     {
                         sub_query = sub_query.Where(x => x.check_list_id == templatId);
                     }
-                    if (searchKey != null || searchKey != "")
+                    if (searchKey != null && searchKey != "")
                     {
                         sub_query= sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
                     }

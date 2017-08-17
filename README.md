@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.3 *(August 15th 2017)*
+	- Fixing the broken listing of all cases in ReadAllCase.
+
   - Version 1.6.1.2 *(August 11th 2017)*
 	- Adding the posibility to search in the cases based on field_values.
 	- **Breaking changes to the method CaseReadAll argument list.**
