@@ -53,6 +53,26 @@ namespace eFormSqlController
 
         public string custom { get; set; }
 
+        public string field_value_1 { get; set; }
+
+        public string field_value_2 { get; set; }
+
+        public string field_value_3 { get; set; }
+
+        public string field_value_4 { get; set; }
+
+        public string field_value_5 { get; set; }
+
+        public string field_value_6 { get; set; }
+
+        public string field_value_7 { get; set; }
+
+        public string field_value_8 { get; set; }
+
+        public string field_value_9 { get; set; }
+
+        public string field_value_10 { get; set; }
+
         public virtual check_lists check_list { get; set; }
 
         public virtual sites site { get; set; }

@@ -788,10 +788,10 @@ namespace eFormCore
 
         public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end)
         {
-            return CaseReadAll(templatId, start, end, "not_removed");
+            return CaseReadAll(templatId, start, end, "not_removed", null);
         }
 
-        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState)
+        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
             string methodName = t.GetMethodName();
             try
@@ -804,7 +804,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", "end", end);
                     log.LogVariable("Not Specified", "workflowState", workflowState);
 
-                    return sqlController.CaseReadAll(templatId, start, end, workflowState);
+                    return sqlController.CaseReadAll(templatId, start, end, workflowState, searchKey);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1545,6 +1545,38 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public bool             Advanced_TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", "templateId", templateId);
+                    log.LogVariable("Not Specified", "fieldId1", fieldId1);
+                    log.LogVariable("Not Specified", "fieldId2", fieldId2);
+                    log.LogVariable("Not Specified", "fieldId3", fieldId3);
+                    log.LogVariable("Not Specified", "fieldId4", fieldId4);
+                    log.LogVariable("Not Specified", "fieldId5", fieldId5);
+                    log.LogVariable("Not Specified", "fieldId6", fieldId6);
+                    log.LogVariable("Not Specified", "fieldId7", fieldId7);
+                    log.LogVariable("Not Specified", "fieldId8", fieldId8);
+                    log.LogVariable("Not Specified", "fieldId9", fieldId9);
+                    log.LogVariable("Not Specified", "fieldId10", fieldId10);
+
+                    return sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2, fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10);                    
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region sites
@@ -2199,7 +2231,7 @@ namespace eFormCore
             List<string>        colume1CaseIds  = new List<string> { "Id" };
             List<int>           caseIds         = new List<int>();
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed");
+            List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed", null);
             var                template        = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)

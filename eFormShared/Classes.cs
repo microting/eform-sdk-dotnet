@@ -31,6 +31,33 @@ namespace eFormShared
             HasCases = hasCases;
             DisplayIndex = displayIndex;
         }
+
+
+
+        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex, int? field_1, int? field_2, int? field_3, int? field_4, int? field_5, int? field_6, int? field_7, int? field_8, int? field_9, int? field_10)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            Repeated = repeated;
+            FolderName = folderName;
+            WorkflowState = workflowState;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+            DeployedSites = deployedSites;
+            HasCases = hasCases;
+            DisplayIndex = displayIndex;
+            Field1 = field_1;
+            Field2 = field_2;
+            Field3 = field_3;
+            Field4 = field_4;
+            Field5 = field_5;
+            Field6 = field_6;
+            Field7 = field_7;
+            Field8 = field_8;
+            Field9 = field_9;
+            Field10 = field_10;
+        }
         #endregion
 
         #region var
@@ -88,6 +115,56 @@ namespace eFormShared
         /// DiplayIndex
         /// </summary>
         public int? DisplayIndex { get; }
+
+        /// <summary>
+        /// Field1
+        /// </summary>
+        public int? Field1 { get; }
+
+        /// <summary>
+        /// Field2
+        /// </summary>
+        public int? Field2 { get; }
+
+        /// <summary>
+        /// Field3
+        /// </summary>
+        public int? Field3 { get; }
+
+        /// <summary>
+        /// Field4
+        /// </summary>
+        public int? Field4 { get; }
+
+        /// <summary>
+        /// Field5
+        /// </summary>
+        public int? Field5 { get; }
+
+        /// <summary>
+        /// Field6
+        /// </summary>
+        public int? Field6 { get; }
+
+        /// <summary>
+        /// Field7
+        /// </summary>
+        public int? Field7 { get; }
+
+        /// <summary>
+        /// Field8
+        /// </summary>
+        public int? Field8 { get; }
+
+        /// <summary>
+        /// Field9
+        /// </summary>
+        public int? Field9 { get; }
+
+        /// <summary>
+        /// Field10
+        /// </summary>
+        public int? Field10 { get; }
         #endregion
     }
     #endregion
@@ -177,6 +254,26 @@ namespace eFormShared
         public string CaseUId { get; set; }
 
         public string Custom { get; set; }
+
+        public string FieldValue1 { get; set; }
+
+        public string FieldValue2 { get; set; }
+
+        public string FieldValue3 { get; set; }
+
+        public string FieldValue4 { get; set; }
+
+        public string FieldValue5 { get; set; }
+
+        public string FieldValue6 { get; set; }
+
+        public string FieldValue7 { get; set; }
+
+        public string FieldValue8 { get; set; }
+
+        public string FieldValue9 { get; set; }
+
+        public string FieldValue10 { get; set; }
     }
     #endregion
 
@@ -209,6 +306,7 @@ namespace eFormShared
             Custom = custom;
             CheckListId = checkListId;
         }
+
         #endregion
 
         #region var
@@ -256,6 +354,7 @@ namespace eFormShared
         /// Unique identifier of device
         /// </summary>
         public int CheckListId { get; }
+
         #endregion
 
         public override string ToString()
