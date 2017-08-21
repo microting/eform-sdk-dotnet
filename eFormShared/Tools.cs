@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace eFormShared
@@ -369,8 +370,26 @@ namespace eFormShared
         }
         #endregion
 
+        public string   GetRandomString(int lenght)
+        {
+            if (1 > lenght || lenght > 16)
+                throw new ArgumentOutOfRangeException("lenght needs to between 1-16");
+
+            string str = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
+            return str.Substring(0, lenght);
+        }
+
+        public int      GetRandomInt(int lenght)
+        {
+            if (1 > lenght || lenght > 16)
+                throw new ArgumentOutOfRangeException("lenght needs to between 1-16");
+
+            string str = GetRandomString(lenght);
+            return str.GetHashCode();
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public string GetMethodName()
+        public string   GetMethodName()
         {
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);

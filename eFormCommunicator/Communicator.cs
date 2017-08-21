@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using eFormData;
 using eFormShared;
 using eFormSqlController;
 using Newtonsoft.Json.Linq;
@@ -132,6 +133,52 @@ namespace eFormCommunicator
                 //TriggerEventLog("eFormId:" + eFormId + ", siteId:" + siteId.ToString());
 
                 return http.Status(eFormId, siteId.ToString());
+            }
+        }
+
+        public bool   CheckStatusUpdateIfNeeded(string microtingUId)
+        {
+            lock (_lockSending)
+            {
+                string correctStat = null;
+                Case_Dto caseDto = null;
+
+                try
+                {
+                    caseDto = sqlController.CaseReadByMUId(microtingUId);
+                    correctStat = "Created"; //Sent
+
+                    string status = CheckStatus(caseDto.MicrotingUId, caseDto.SiteUId);
+                    if (!status.Contains("id=\"\"/>"))
+                    {
+                        correctStat = "Retrived";
+
+                        string reply = Retrieve(caseDto.MicrotingUId, caseDto.SiteUId);
+
+                        Response resp = new Response();
+                        resp = resp.XmlToClassUsingXmlDocument(reply);
+                        if (resp.Type == Response.ResponseTypes.Success)
+                        {
+                            if (resp.Checks.Count > 0)
+                                correctStat = "Completed";
+                        }
+
+                        if (caseDto.Stat == "Deleted" || caseDto.Stat == correctStat)
+                            return true;
+                    }
+                }
+                catch
+                {
+
+                }
+
+                if (correctStat == "Retrived")
+                    sqlController.NotificationCreate("F:" + t.GetRandomInt(10), caseDto.MicrotingUId, "unit_fetch");
+
+                if (correctStat == "Completed")
+                    sqlController.NotificationCreate("F:" + t.GetRandomInt(10), caseDto.MicrotingUId, "check_status");
+
+                return false;
             }
         }
 

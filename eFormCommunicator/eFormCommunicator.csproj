@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\eFormData\eFormData.csproj">
+      <Project>{8B4A71AC-C214-4AB9-859D-66559F790133}</Project>
+      <Name>eFormData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
       <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
       <Name>eFormShared</Name>

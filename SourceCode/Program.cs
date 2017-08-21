@@ -40,6 +40,7 @@ namespace SourceCode
                 #region Console.WriteLine(...text...)
                 Console.WriteLine("Enter one of the following keys to start:");
                 Console.WriteLine("> 'S', for sample programs");
+                Console.WriteLine("  'I', for purely run core");
                 Console.WriteLine("");
                 Console.WriteLine("- Admin tools program on:");
                 Console.WriteLine("> 'A', Microting");
@@ -53,8 +54,22 @@ namespace SourceCode
                 string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
                 if (input.ToUpper() == "S")
                 {
-                    var program = new Samples   (serverConnectionString.Replace("Microting", "Microting"));
+                    var program = new Samples(serverConnectionString.Replace("Microting", "Microting"));
                     program.Run();
+                }
+                if (input.ToUpper() == "I")
+                {
+                    var core = new Core();
+                    core.Start(serverConnectionString);
+                    #region keep core running
+                    while (true)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to exit program,");
+                        Console.ReadLine();
+                        break;
+                    }
+                    #endregion
                 }
                 if (input.ToUpper() == "A")
                 {

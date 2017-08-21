@@ -2707,7 +2707,6 @@ namespace eFormCore
                         oneFound = false;
                         #region check if out of sync
 
-                        //a_interaction_template
                         #region TemplateCreate
                         //if (!oneFound)
                         //{
@@ -2718,7 +2717,6 @@ namespace eFormCore
                         //}
                         #endregion
 
-                        //a_interaction_case
                         #region CaseCreate
                         if (!oneFound)
                         {
@@ -2740,107 +2738,114 @@ namespace eFormCore
                                         replacements = new List<string>();
                                     MainElement mainElement = sqlController.TemplateRead(iC.template_id);
                                     #endregion
-
-                                    #region replacement magic
-                                    #region ==
-                                    string xmlString = mainElement.ClassToXml();
-                                    string xmlStrNew = xmlString;
-
-                                    foreach (var item in replacements)
+                                    if (mainElement == null)
                                     {
-                                        if (item.Contains("=="))
-                                        {
-                                            int mark = item.IndexOf("==");
-                                            string pre = item.Substring(0, mark);
-                                            string post = item.Substring(mark + 2);
-
-                                            xmlStrNew = xmlString.Replace(pre, post);
-
-                                            if (xmlStrNew == xmlString)
-                                                log.LogStandard("Not Specified", "Replacement line:'" + item + "' coursed no change");
-                                            else
-                                                xmlString = xmlStrNew;
-                                        }
-                                    }
-
-                                    try
-                                    {
-                                        mainElement = mainElement.XmlToClass(xmlString);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        log.LogException("Not Specified", "Replacement magic failed. Replacements coursed xml to become unreadable", ex, false);
-                                    }
-                                    #endregion
-
-                                    #region ::
-                                    foreach (var item in replacements)
-                                    {
-                                        if (item.Contains("::"))
-                                        {
-                                            int mark = item.IndexOf("::");
-                                            string tag = item.Substring(0, mark);
-                                            string content = item.Substring(mark + 2);
-
-                                            switch (tag.ToLower())
-                                            {
-                                                case "title":
-                                                    {
-                                                        Element elem = mainElement.ElementList[0];
-
-                                                        if (elem.Label == mainElement.Label)
-                                                            elem.Label = content;
-
-                                                        mainElement.Label = content;
-
-                                                        break;
-                                                    }
-                                                case "info":
-                                                    {
-                                                        Element elem = mainElement.ElementList[0];
-
-                                                        if (elem.GetType() == typeof(DataElement))
-                                                        {
-                                                            DataElement dElem = (DataElement)elem;
-                                                            None info = new None(0, false, false, "Info:", content, "", int.MinValue, false);
-                                                            dElem.DataItemList.Add(info);
-                                                        }
-
-                                                        break;
-                                                    }
-                                                case "expire":
-                                                    {
-                                                        mainElement.EndDate = DateTime.Parse(content);
-                                                        break;
-                                                    }
-                                                default:
-                                                    {
-                                                        Console.WriteLine("Replacement magic failed. Tag:'" + tag + "' not known");
-                                                        break;
-                                                    }
-                                            }
-                                        }
-                                    }
-                                    #endregion
-                                    #endregion
-
-                                    if (t.Bool(iC.connected))
-                                    {
-                                        if (string.IsNullOrEmpty(iC.case_uid))
-                                            lstMUIds = CaseCreate(mainElement, DateTime.Now.ToString(), siteIds, iC.custom);
-                                        else
-                                            lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom);
+                                        sqlController.InteractionCaseFailed(iC.id, "No matching template found");
                                     }
                                     else
-                                        if (string.IsNullOrEmpty(iC.case_uid))
-                                            foreach (var site in siteIds)
-                                                lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
+                                    {
+                                        #region replacement magic
+                                        #region ==
+                                        string xmlString = mainElement.ClassToXml();
+                                        string xmlStrNew = xmlString;
+
+                                        foreach (var item in replacements)
+                                        {
+                                            if (item.Contains("=="))
+                                            {
+                                                int mark = item.IndexOf("==");
+                                                string pre = item.Substring(0, mark);
+                                                string post = item.Substring(mark + 2);
+
+                                                xmlStrNew = xmlString.Replace(pre, post);
+
+                                                if (xmlStrNew == xmlString)
+                                                    log.LogStandard("Not Specified", "Replacement line:'" + item + "' coursed no change");
+                                                else
+                                                    xmlString = xmlStrNew;
+                                            }
+                                        }
+
+                                        try
+                                        {
+                                            mainElement = mainElement.XmlToClass(xmlString);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.LogException("Not Specified", "Replacement magic failed. Replacements coursed xml to become unreadable", ex, false);
+                                        }
+                                        #endregion
+
+                                        #region ::
+                                        foreach (var item in replacements)
+                                        {
+                                            if (item.Contains("::"))
+                                            {
+                                                int mark = item.IndexOf("::");
+                                                string tag = item.Substring(0, mark);
+                                                string content = item.Substring(mark + 2);
+
+                                                switch (tag.ToLower())
+                                                {
+                                                    case "title":
+                                                        {
+                                                            Element elem = mainElement.ElementList[0];
+
+                                                            if (elem.Label == mainElement.Label)
+                                                                elem.Label = content;
+
+                                                            mainElement.Label = content;
+
+                                                            break;
+                                                        }
+                                                    case "info":
+                                                        {
+                                                            Element elem = mainElement.ElementList[0];
+
+                                                            if (elem.GetType() == typeof(DataElement))
+                                                            {
+                                                                DataElement dElem = (DataElement)elem;
+                                                                None info = new None(0, false, false, "Info:", content, "", int.MinValue, false);
+                                                                dElem.DataItemList.Add(info);
+                                                            }
+
+                                                            break;
+                                                        }
+                                                    case "expire":
+                                                        {
+                                                            mainElement.EndDate = DateTime.Parse(content);
+                                                            break;
+                                                        }
+                                                    default:
+                                                        {
+                                                            Console.WriteLine("Replacement magic failed. Tag:'" + tag + "' not known");
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                        }
+                                        #endregion
+                                        #endregion
+
+                                        #region send connected or not
+                                        if (t.Bool(iC.connected))
+                                        {
+                                            if (string.IsNullOrEmpty(iC.case_uid))
+                                                lstMUIds = CaseCreate(mainElement, DateTime.Now.ToString(), siteIds, iC.custom);
+                                            else
+                                                lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom);
+                                        }
                                         else
-                                            foreach (var site in siteIds)
-                                                lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid + " site:" + site, new List<int> { site }, iC.custom));
+                                            if (string.IsNullOrEmpty(iC.case_uid))
+                                                foreach (var site in siteIds)
+                                                    lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
+                                            else
+                                                foreach (var site in siteIds)
+                                                    lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid + " site:" + site, new List<int> { site }, iC.custom));
+                                        #endregion
 
-
-                                    sqlController.InteractionCaseProcessedCreate(iC.id, siteIds, lstMUIds);
+                                        sqlController.InteractionCaseProcessedCreate(iC.id, siteIds, lstMUIds);
+                                    }
                                 }
                             }
                             catch (Exception ex)
