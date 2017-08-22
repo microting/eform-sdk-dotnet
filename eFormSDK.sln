@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "..\eForm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSubscriber", "eFormSubscriber\eFormSubscriber.csproj", "{7008B919-F965-4081-88B6-7004BB31D2BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{63E5A140-5F00-480E-81BB-7F67CF2517E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63E5A140-5F00-480E-81BB-7F67CF2517E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63E5A140-5F00-480E-81BB-7F67CF2517E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63E5A140-5F00-480E-81BB-7F67CF2517E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63E5A140-5F00-480E-81BB-7F67CF2517E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
