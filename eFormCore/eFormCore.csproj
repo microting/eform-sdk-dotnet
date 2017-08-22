@@ -58,10 +58,6 @@
       <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
       <Name>eFormData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\eFormOffice\eFormOffice.csproj">
-      <Project>{fababf50-4e7e-4345-80aa-2edab01f9abf}</Project>
-      <Name>eFormOffice</Name>
-    </ProjectReference>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
       <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
       <Name>eFormShared</Name>
