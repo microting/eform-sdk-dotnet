@@ -1,0 +1,7 @@
+language: csharp
+solution: "./eFormSDK.sln"
+install:
+- travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./eFormSDK.sln
+script:
+- xbuild ./eFormSDK.sln
+- mono ./eFormSDK/packages/xunit.runner.console*/tools/xunit.console.exe ./eFormSDK/eFormSDK.Tests/bin/Debug/eFormSDK.Tests.dll
