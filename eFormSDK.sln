@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormCommunicator", "eFormCommunicator\eFormCommunicator.csproj", "{BA524FAD-0323-4565-8ED2-2253E5460216}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSqlController", "eFormSqlController\eFormSqlController.csproj", "{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormOffice", "eFormOffice\eFormOffice.csproj", "{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormShared", "eFormShared\eFormShared.csproj", "{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}"
 EndProject
@@ -17,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceCode", "SourceCode\So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormData", "eFormData\eFormData.csproj", "{8B4A71AC-C214-4AB9-859D-66559F790133}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "..\eFormSDK Test\UnitTestProject\UnitTestProject.csproj", "{BE36FF42-D931-47A3-9D4F-6FFFAD6DFC2E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSubscriber", "eFormSubscriber\eFormSubscriber.csproj", "{7008B919-F965-4081-88B6-7004BB31D2BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FABABF50-4E7E-4345-80AA-2EDAB01F9ABF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,14 +49,14 @@ Global
 		{8B4A71AC-C214-4AB9-859D-66559F790133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B4A71AC-C214-4AB9-859D-66559F790133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B4A71AC-C214-4AB9-859D-66559F790133}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE36FF42-D931-47A3-9D4F-6FFFAD6DFC2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE36FF42-D931-47A3-9D4F-6FFFAD6DFC2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE36FF42-D931-47A3-9D4F-6FFFAD6DFC2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE36FF42-D931-47A3-9D4F-6FFFAD6DFC2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7008B919-F965-4081-88B6-7004BB31D2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

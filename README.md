@@ -1,4 +1,4 @@
-# eform-sdk-dotnet
+# eform-sdk-dotnet [![Build Status](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
 
 A .NET SDK for integrating with the Microting eForm API v1.
 

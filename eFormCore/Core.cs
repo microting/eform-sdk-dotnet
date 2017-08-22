@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 using eFormCommunicator;
-using eFormOffice;
 using eFormData;
 using eFormShared;
 using eFormSubscriber;
@@ -58,7 +57,7 @@ namespace eFormCore
         Subscriber subscriber;
         Communicator communicator;
         SqlController sqlController;
-        ExcelController excelController;
+        //ExcelController excelController;
         Tools t = new Tools();
 
         public Log log;
@@ -162,7 +161,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", "Subscriber started");
 
                     //communicators
-                    excelController = new ExcelController();
+                    //excelController = new ExcelController();
                     log.LogStandard("Not Specified", "Excel (Office) started");
 
                     //coreThread
@@ -1060,38 +1059,9 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        public string CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (coreRunning)
-                {
-                    log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templatId", templatId.ToString());
-                    log.LogVariable("Not Specified", "start", start.ToString());
-                    log.LogVariable("Not Specified", "end", end.ToString());
-                    log.LogVariable("Not Specified", "pathAndName", pathAndName);
-                    log.LogVariable("Not Specified", "customPathForUploadedData", customPathForUploadedData);
-
-                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end, customPathForUploadedData);
-
-                    if (dataSet == null)
-                        return "";
-
-                    if (!pathAndName.Contains(".xlsx"))
-                        pathAndName = pathAndName + ".xlsx";
-
-                    return excelController.CreateExcel(dataSet, pathAndName);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException("Not Specified", methodName + " failed", ex, false);
-                return null;
-            }
+            throw new NotImplementedException();
         }
 
         public string           CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)

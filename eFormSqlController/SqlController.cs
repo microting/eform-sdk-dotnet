@@ -171,7 +171,7 @@ namespace eFormSqlController
                     MainElement mainElement = null;
                     GetConverter();
                     
-                    check_lists mainCl = db.check_lists.SingleOrDefault(x => x.id == templateId && x.parent_id == null);
+                    check_lists mainCl = db.check_lists.SingleOrDefault(x => x.id == templateId && (x.parent_id == null || x.parent_id == 0));
 
                     if (mainCl == null)
                         return null;
