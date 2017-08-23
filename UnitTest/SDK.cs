@@ -1,4 +1,6 @@
-﻿using System;
+﻿using eFormCore;
+
+using System;
 using System.Linq;
 using Xunit;
 
@@ -28,16 +30,17 @@ namespace UnitTest
         public void Test0002_InitiateCore()
         {
             //Arrange
-            bool value = true;
+            Core checkValueB = null;
 
 
             //...
             //Act
+            checkValueB = new Core();
 
 
             //...
             //Assert
-            Assert.Equal(true, value);
+            Assert.NotNull(checkValueB);
         }
     }
 }
