@@ -69,27 +69,27 @@ namespace UnitTest
             Assert.Equal(checkValueA, checkValueB);
         }
 
-        //[Fact]
-        //public void Test0003b_Core_Start()
-        //{
-        //    //Arrange
-        //    bool checkValueA = true;
-        //    bool checkValueB = false;
-        //    Core core = new Core();
+        [Fact]
+        public void Test0003b_Core_Start()
+        {
+            //Arrange
+            bool checkValueA = true;
+            bool checkValueB = false;
+            Core core = new Core();
 
 
-        //    //Act
-        //    try
-        //    {
-        //        checkValueB = core.Start(serverConnectionString);
-        //    }
-        //    catch (Exception ex)
-        //    { }
+            //Act
+            try
+            {
+                checkValueB = core.Start(serverConnectionString);
+            }
+            catch (Exception ex)
+            { }
 
 
-        //    //Assert
-        //    Assert.Equal(checkValueA, checkValueB);
-        //}
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
         #endregion
     }
 }
