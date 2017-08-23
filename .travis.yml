@@ -3,5 +3,5 @@ solution: "./eFormSDK.sln"
 install:
 - travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./eFormSDK.sln
 script:
-- xbuild ./eFormSDK.sln
+- msbuild ./eFormSDK.sln
 - mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./UnitTest/bin/Debug/UnitTest.dll
