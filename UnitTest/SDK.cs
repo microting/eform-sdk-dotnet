@@ -65,6 +65,7 @@ namespace UnitTest
             Assert.Equal(true, value);
         }
 
+#if DEBUG
         #region tests - 00x - basic
         [Fact]
         public void T001_VIRTAL_Basic_SetupAndCleanUp()
@@ -1923,26 +1924,7 @@ namespace UnitTest
         //    }
         //}
         #endregion
-
-        [Fact]
-        public void T999_Final_CleanUp()
-        {
-            lock (_testLock)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName());
-
-
-                //...
-                //Act
-
-
-                //...
-                //Assert
-                core.Close();
-                Assert.Equal(true, true);
-            }
-        }
+#endif
 
         #region var
         object _testLock = new object();
