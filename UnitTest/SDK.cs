@@ -46,28 +46,28 @@ namespace UnitTest
             Assert.NotNull(checkValue);
         }
 
-        //[Fact]
-        //public void Test0003a_Core_Start_WithBlankExpection()
-        //{
-        //    //Arrange
-        //    bool checkValueA = true;
-        //    bool checkValueB = false;
-        //    Core core = new Core();
+        [Fact]
+        public void Test0003a_Core_Start_WithBlankExpection()
+        {
+            //Arrange
+            bool checkValueA = true;
+            bool checkValueB = false;
+            Core core = new Core();
 
 
-        //    //Act
-        //    try
-        //    {
-        //        core.Start("");
-        //    }
-        //    catch
-        //    {
-        //        checkValueB = true;
-        //    }
+            //Act
+            try
+            {
+                core.Start("");
+            }
+            catch
+            {
+                checkValueB = true;
+            }
 
-        //    //Assert
-        //    Assert.Equal(checkValueA, checkValueB);
-        //}
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
 
         //[Fact]
         //public void Test0003b_Core_Start()
@@ -79,8 +79,13 @@ namespace UnitTest
 
 
         //    //Act
-        //    checkValueB = core.Start(serverConnectionString);
-            
+        //    try
+        //    {
+        //        checkValueB = core.Start(serverConnectionString);
+        //    }
+        //    catch (Exception ex)
+        //    { }
+
 
         //    //Assert
         //    Assert.Equal(checkValueA, checkValueB);
