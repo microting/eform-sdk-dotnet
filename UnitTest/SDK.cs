@@ -15,12 +15,17 @@ namespace UnitTest
 {
     public class SDK
     {
+
+#if __MonoCS__
+#else
+
         string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest;Integrated Security=True";
         int siteId1 = 3818;
         int siteId2 = 3823;
         int workerMUId = 1778;
         int unitMUId = 4938;
 
+        #region pre and post
         private void            TestPrepare(string testName)
         {
             lock (_setupLock)
@@ -56,6 +61,9 @@ namespace UnitTest
                 if (core.Running())
                     utCore.Close();
         }
+        #endregion
+
+#endif
 
         [Fact]
         public void FirstTest()
@@ -65,14 +73,16 @@ namespace UnitTest
             Assert.Equal(true, value);
         }
 
-#if DEBUG
+#if __MonoCS__
+#else
+
         #region tests - 00x - basic
         [Fact]
         public void T001_VIRTAL_Basic_SetupAndCleanUp()
         {
             lock (_testLock)
             {
-                #region try to clear log before test
+        #region try to clear log before test
                 try
                 {
                     if (File.Exists(@"log\\log.txt"))
@@ -94,7 +104,7 @@ namespace UnitTest
                     }
                 }
                 catch { }
-                #endregion
+        #endregion
 
 
                 //Arrange
@@ -459,7 +469,7 @@ namespace UnitTest
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
                 MainElement main = new MainElement(1, "Sample 3", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", "", new List<Element>());
-                #region main populated
+        #region main populated
                 GroupElement g1 = new GroupElement(11, "Group of advanced check lists", 1, "Group element", false, false, false, false, "", new List<Element>());
                 main.ElementList.Add(g1);
 
@@ -500,7 +510,7 @@ namespace UnitTest
                 e2.DataItemList.Add(new Signature(9, false, false, "Signature", "this is a description", "e2f4fb", 9, false));
 
                 e3.DataItemList.Add(new CheckBox(1, true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false, false));
-                #endregion
+        #endregion
 
 
                 //...
@@ -1924,7 +1934,6 @@ namespace UnitTest
         //    }
         //}
         #endregion
-#endif
 
         #region var
         object _testLock = new object();
@@ -2213,5 +2222,8 @@ namespace UnitTest
             throw (Exception)sender;
         }
         #endregion
+
+#endif
+
     }
 }
