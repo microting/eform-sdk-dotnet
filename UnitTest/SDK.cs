@@ -2,9 +2,9 @@
 using System.Linq;
 using Xunit;
 
-namespace MicrotingService.Tests
+namespace UnitTest
 {
-    public class Service
+    public class SDK
     {
         [Fact]
         public void TestMethod1()

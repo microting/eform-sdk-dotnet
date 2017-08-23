@@ -61,7 +61,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Service.cs" />
+    <Compile Include="SDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
