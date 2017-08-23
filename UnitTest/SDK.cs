@@ -1,15 +1,4 @@
-﻿using eFormCommunicator;
-using eFormCore;
-using eFormData;
-using eFormShared;
-using eFormSqlController;
-using eFormSubscriber;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using Xunit;
+﻿using Xunit;
 
 namespace UnitTest
 {
