@@ -72,6 +72,10 @@
       <Project>{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}</Project>
       <Name>eFormCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
+      <Project>{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}</Project>
+      <Name>eFormShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
