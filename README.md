@@ -1,4 +1,4 @@
-# eform-sdk-dotnet [![Build Status](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
+# eform-sdk-dotnet [![Build Status](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet) [![Coverage Status](https://coveralls.io/repos/github/microting/eform-sdk-dotnet/badge.svg?branch=master)](https://coveralls.io/github/microting/eform-sdk-dotnet?branch=master)
 
 A .NET SDK for integrating with the Microting eForm API v1.
 
