@@ -54,13 +54,27 @@ namespace SourceCode
                 string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
                 if (input.ToUpper() == "S")
                 {
-                    var program = new Samples(serverConnectionString.Replace("Microting", "Microting"));
+                    var program = new Samples   (serverConnectionString.Replace("Microting", "Microting"));
                     program.Run();
                 }
                 if (input.ToUpper() == "I")
                 {
                     var core = new Core();
-                    core.Start(serverConnectionString);
+                    core.Start                  (serverConnectionString.Replace("Microting", "Microting"));
+                    #region keep core running
+                    while (true)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to exit program,");
+                        Console.ReadLine();
+                        break;
+                    }
+                    #endregion
+                }
+                if (input.ToUpper() == "O")
+                {
+                    var core = new Core();
+                    core.Start                  (serverConnectionString.Replace("Microting", "MicrotingOdense"));
                     #region keep core running
                     while (true)
                     {
