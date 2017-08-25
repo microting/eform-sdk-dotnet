@@ -6,6 +6,6 @@ install:
 - travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./eFormSDK.sln
 script:
 - msbuild ./eFormSDK.sln
-- mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./eFormSDK.Tests/bin/Debug/UnitTest.dll
+- mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./UnitTest/bin/Debug/UnitTest.dll
 - echo "show databases;" | mysql -u root
 
