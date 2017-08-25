@@ -160,10 +160,6 @@ namespace eFormCore
                     subscriber.Start();
                     log.LogStandard("Not Specified", "Subscriber started");
 
-                    //communicators
-                    //excelController = new ExcelController();
-                    log.LogStandard("Not Specified", "Excel (Office) started");
-
                     //coreThread
                     Thread coreThread = new Thread(() => CoreThread());
                     coreThread.Start();
@@ -3023,7 +3019,7 @@ namespace eFormCore
         #endregion
 
         #region internal UnitTest
-        internal void UnitTest_CaseComplet(string microtingUId, string checkUId)
+        internal void           UnitTest_CaseComplet(string microtingUId, string checkUId)
         {
             sqlController.CaseRetract(microtingUId, checkUId);
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
@@ -3033,7 +3029,7 @@ namespace eFormCore
             log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
         }
 
-        internal void UnitTest_CaseDelete(string microtingUId)
+        internal void           UnitTest_CaseDelete(string microtingUId)
         {
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
             Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);

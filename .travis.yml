@@ -8,3 +8,4 @@ script:
 - xbuild ./eFormSDK.sln
 - mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./eFormSDK.Tests/bin/Debug/eFormSDK.Tests.dll
 - echo "show databases;" | mysql -u root
+
