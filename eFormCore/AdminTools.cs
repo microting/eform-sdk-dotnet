@@ -19,7 +19,7 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlController = new SqlController(serverConnectionString, false);
+            sqlController = new SqlController(serverConnectionString);
         }
         #endregion
 
@@ -276,7 +276,7 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString, true);
+                sqlController = new SqlController(connectionString);
                 Communicator communicator = new Communicator(sqlController);
 
                 if (token == null)
@@ -382,7 +382,7 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString, false);
+                sqlController = new SqlController(connectionString);
                 Communicator communicator = new Communicator(sqlController);
                 string token = sqlController.SettingRead(Settings.token);
 

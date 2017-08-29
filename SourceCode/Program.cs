@@ -37,30 +37,48 @@ namespace SourceCode
         {
             try
             {
+                #region pick database
+                //string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingNew;uid=root;password=1234";
+                string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=Microting;Integrated Security=True";
+
+                Console.WriteLine("Enter database to use:");
+                Console.WriteLine("> If left blank, it will use 'Microting'");
+                Console.WriteLine("  Enter name of database to be used");
+                string databaseName = Console.ReadLine();
+
+                if (databaseName != "")
+                    serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
+                if (databaseName == "T")
+                    serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
+                if (databaseName == "O")
+                    serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+                #endregion
+
                 #region Console.WriteLine(...text...)
+                Console.WriteLine("");
                 Console.WriteLine("Enter one of the following keys to start:");
+                Console.WriteLine("  'A', for Admin tools");
                 Console.WriteLine("> 'S', for sample programs");
                 Console.WriteLine("  'I', for purely run core");
                 Console.WriteLine("");
-                Console.WriteLine("- Admin tools program on:");
-                Console.WriteLine("> 'A', Microting");
-                Console.WriteLine("  'T', Microting Test");
-                Console.WriteLine("  'C', [custom]");
-                Console.WriteLine("");
                 Console.WriteLine("Any other will close Console");
-                #endregion
                 string input = Console.ReadLine();
+                #endregion
 
-                string serverConnectionString = File.ReadAllText("input\\sql_connection.txt").Trim();
+                if (input.ToUpper() == "A")
+                {
+                    var program = new AdminTools(serverConnectionString);
+                    program.RunConsole();
+                }
                 if (input.ToUpper() == "S")
                 {
-                    var program = new Samples   (serverConnectionString.Replace("Microting", "Microting"));
+                    var program = new Samples   (serverConnectionString);
                     program.Run();
                 }
                 if (input.ToUpper() == "I")
                 {
                     var core = new Core();
-                    core.Start                  (serverConnectionString.Replace("Microting", "Microting"));
+                    core.Start                  (serverConnectionString);
                     #region keep core running
                     while (true)
                     {
@@ -71,44 +89,6 @@ namespace SourceCode
                     }
                     #endregion
                 }
-                if (input.ToUpper() == "O")
-                {
-                    var core = new Core();
-                    core.Start                  (serverConnectionString.Replace("Microting", "MicrotingOdense"));
-                    #region keep core running
-                    while (true)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("Press any key to exit program,");
-                        Console.ReadLine();
-                        break;
-                    }
-                    #endregion
-                }
-                if (input.ToUpper() == "A")
-                {
-                    var program = new AdminTools(serverConnectionString.Replace("Microting", "Microting"));
-                    program.RunConsole();
-                }
-                if (input.ToUpper() == "T")
-                {
-                    var program = new AdminTools(serverConnectionString.Replace("Microting", "MicrotingTest"));
-                    program.RunConsole();
-                }
-                #region ...custom...
-                if (input.ToUpper() == "C")
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Enter the name of database to be used:");
-                    string input2 = Console.ReadLine().Replace(" ", "");
-
-                    if (!string.IsNullOrWhiteSpace(input))
-                    {
-                        var program = new AdminTools(serverConnectionString.Replace("Microting", input2));
-                        program.RunConsole();
-                    }
-                }
-                #endregion
 
                 Console.WriteLine("");
                 Console.WriteLine("Console will close in 1s");
@@ -118,13 +98,16 @@ namespace SourceCode
             #region ...catch all...
             catch (Exception ex)
             {
+                Tools t = new Tools();
+
                 try
                 {
-                    Tools t = new Tools();
                     File.AppendAllText("log\\FatalException_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Fatal Exception", ex));
                 }
                 catch { }
 
+                Console.WriteLine("");
+                Console.WriteLine(t.PrintException("Fatal Exception", ex));
                 Console.WriteLine("");
                 Console.WriteLine("Fatal Exception found and logged. Fil can be found at log/");
                 Console.WriteLine("Console will close in 5s");

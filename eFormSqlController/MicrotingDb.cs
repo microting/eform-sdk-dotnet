@@ -4,14 +4,15 @@ namespace eFormSqlController
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Data.Common;
+    using MySql.Data.Entity;
 
     public partial class MicrotingDb : DbContext
     {
         public MicrotingDb() { }
 
-
-        public MicrotingDb(string connectionString)
-            : base(connectionString)
+        public MicrotingDb(DbConnection existingConnection, bool contextOwnsConnection)
+          : base(existingConnection, contextOwnsConnection)
         {
         }
 
@@ -53,9 +54,6 @@ namespace eFormSqlController
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
-            //Database.SetInitializer<MicrotingDb>(null);
-
             modelBuilder.Entity<cases>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);

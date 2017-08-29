@@ -83,10 +83,12 @@ namespace eFormCore
         //con
 
         #region public state
-        public bool             StartSqlOnly(string connectionString)
+        public bool             Start(string connectionString)
         {
-            if (string.IsNullOrEmpty(connectionString))
-                throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+            if (!StartSqlOnly(connectionString))
+                return false;
+
+            log.LogCritical("Not Specified", t.GetMethodName() + " called");
 
             try
             {
@@ -94,20 +96,59 @@ namespace eFormCore
                 {
                     coreStatChanging = true;
 
+                    //subscriber
+                    subscriber = new Subscriber(sqlController, log);
+                    subscriber.Start();
+                    log.LogStandard("Not Specified", "Subscriber started");
+
+                    //coreThread
+                    Thread coreThread = new Thread(() => CoreThread());
+                    coreThread.Start();
+                    log.LogStandard("Not Specified", "CoreThread started");
+
+                    coreStatChanging = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                coreRunning = false;
+                coreStatChanging = false;
+
+                FatalExpection(t.GetMethodName() + " failed", ex);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool             StartSqlOnly(string connectionString)
+        {
+            try
+            {
+                if (!coreRunning && !coreStatChanging)
+                {
+                    coreStatChanging = true;
+
+                    if (string.IsNullOrEmpty(connectionString))
+                        throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
+
                     //sqlController
-                    sqlController = new SqlController(connectionString, true);
+                    sqlController = new SqlController(connectionString);
+
+                    //check settings
+                    if (!sqlController.SettingCheckAll())
+                        throw new ArgumentException("Use AdminTool to setup database settings correct. 'SettingCheckAll()' returned false");
+
+                    if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                        throw new ArgumentException("Use AdminTool to setup database settings correct. Token not set, default value found");
 
                     //log
                     log = sqlController.StartLog(this);
-
                     log.LogCritical("Not Specified", "###########################################################################");
                     log.LogCritical("Not Specified", t.GetMethodName() + " called");
                     log.LogStandard("Not Specified", "SqlController and Logger started");
 
                     //settings read
-                    if (!sqlController.SettingCheckAll())
-                        throw new ArgumentException("Use AdminTool to setup database correct");
-
                     this.connectionString = connectionString;
                     fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
                     fileLocationPdf = sqlController.SettingRead(Settings.fileLocationPdf);
@@ -127,51 +168,10 @@ namespace eFormCore
                 coreRunning = false;
                 coreStatChanging = false;
 
-                if (ex.InnerException.Message.Contains("PrimeDb"))
-                    throw ex.InnerException;
-     
-                try
-                {
-                    return true;
-                }
-                catch (Exception ex2)
-                {
-                    FatalExpection(t.GetMethodName() + "failed. Could not read settings!", ex2);
-                }
+                FatalExpection(t.GetMethodName() + " failed", ex);
+                return false;
             }
             #endregion
-
-            return true;
-        }
-
-        public bool             Start(string connectionString)
-        {
-            if (!coreRunning && !coreStatChanging)
-            {
-                StartSqlOnly(connectionString);
-                log.LogCritical("Not Specified", t.GetMethodName() + " called");
-
-                try
-                {
-                    coreStatChanging = true;
-
-                    //subscriber
-                    subscriber = new Subscriber(sqlController, log);
-                    subscriber.Start();
-                    log.LogStandard("Not Specified", "Subscriber started");
-
-                    //coreThread
-                    Thread coreThread = new Thread(() => CoreThread());
-                    coreThread.Start();
-                    log.LogStandard("Not Specified", "CoreThread started");
-
-                    coreStatChanging = false;
-                }
-                catch (Exception ex)
-                {
-                    FatalExpection(t.GetMethodName() + "failed", ex);
-                }
-            }
 
             return true;
         }
