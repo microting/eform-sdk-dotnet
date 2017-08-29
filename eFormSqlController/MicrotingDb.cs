@@ -11,6 +11,10 @@ namespace eFormSqlController
     {
         public MicrotingDb() { }
 
+        public MicrotingDb(string connectionString)
+          : base(connectionString)
+        {
+        }
         public MicrotingDb(DbConnection existingConnection, bool contextOwnsConnection)
           : base(existingConnection, contextOwnsConnection)
         {

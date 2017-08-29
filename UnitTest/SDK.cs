@@ -8,11 +8,11 @@ namespace UnitTest
 {
     public class SDK
     {
-        string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest;Integrated Security=True";
-        int siteId1 = 3818;
-        int siteId2 = 3823;
-        int workerMUId = 1778;
-        int unitMUId = 4938;
+        //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest;Integrated Security=True";
+        //int siteId1 = 3818;
+        //int siteId2 = 3823;
+        //int workerMUId = 1778;
+        //int unitMUId = 4938;
 
         #region test 001x basic
         [Fact]

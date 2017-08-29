@@ -158,7 +158,7 @@ namespace eFormCore
                     communicator = new Communicator(sqlController);
                     log.LogStandard("Not Specified", "Communicator started");
 
-                    coreRunning = true;
+                    coreRunning = false;
                     coreStatChanging = false;
                 }
             }
@@ -1126,7 +1126,7 @@ namespace eFormCore
             }
         }
         #endregion
-
+        
         #region site
         public Site_Dto         SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
