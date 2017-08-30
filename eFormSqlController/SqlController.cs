@@ -100,7 +100,8 @@ namespace eFormSqlController
                         SettingUpdate(Settings.logLevel, "4");
                         SettingUpdate(Settings.logLimit, "250");
                         SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
-                        SettingUpdate(Settings.fileLocationPdf, "dataFolder/pdf/");
+                        SettingUpdate(Settings.fileLocationPdf,     "dataFolder/pdf/");
+                        SettingUpdate(Settings.fileLocationJasper,  "dataFolder/reports/");
                         SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
                         SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
                         SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
@@ -5101,6 +5102,7 @@ namespace eFormSqlController
         logLimit,
         fileLocationPicture,
         fileLocationPdf,
+        fileLocationJasper,
         token,
         comAddressApi,
         comAddressBasic,

@@ -1055,7 +1055,7 @@ namespace eFormCore
             }
         }
 
-        public string CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        public string           CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             throw new NotImplementedException();
         }
@@ -1113,7 +1113,7 @@ namespace eFormCore
                     if (!pathAndName.Contains(".csv"))
                         pathAndName = pathAndName + ".csv";
 
-                    File.WriteAllText(pathAndName, text.TrimEnd(), Encoding.UTF8);
+                    File.WriteAllText(pathAndName, text.Trim(), Encoding.UTF8);
                     return Path.GetFullPath(pathAndName);
                 }
                 else
@@ -1125,8 +1125,40 @@ namespace eFormCore
                 return null;
             }
         }
+
+        public string           CaseToPdf(int caseId, string jasperTemplate)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", "caseId", caseId.ToString());
+                    log.LogVariable("Not Specified", "jasperTemplate", jasperTemplate);
+
+                    //get needed data
+
+                    //convert to jasperXml
+
+                    //place in settings allocated placement
+
+                    //run jar
+
+                    //return path
+                    return Path.GetFullPath("");
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return null;
+            }
+        }
         #endregion
-        
+
         #region site
         public Site_Dto         SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {

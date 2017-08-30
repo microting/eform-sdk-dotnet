@@ -403,6 +403,7 @@ namespace eFormCore
                 sqlController.SettingCreateIfMissing(Settings.logLimit);
                 sqlController.SettingCreateIfMissing(Settings.fileLocationPicture);
                 sqlController.SettingCreateIfMissing(Settings.fileLocationPdf);
+                sqlController.SettingCreateIfMissing(Settings.fileLocationJasper);
 
                 if (sqlController.SettingRead(Settings.firstRunDone) == "")         sqlController.SettingUpdate(Settings.firstRunDone, "false");
                 if (sqlController.SettingRead(Settings.knownSitesDone) == "")       sqlController.SettingUpdate(Settings.knownSitesDone, "false");
@@ -411,7 +412,8 @@ namespace eFormCore
                     if (sqlController.SettingRead(Settings.logLevel) == "false")        sqlController.SettingUpdate(Settings.logLevel, "1");
                 if (sqlController.SettingRead(Settings.logLimit) == "")             sqlController.SettingUpdate(Settings.logLimit, "250");
                 if (sqlController.SettingRead(Settings.fileLocationPicture) == "")  sqlController.SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
-                if (sqlController.SettingRead(Settings.fileLocationPdf) == "")      sqlController.SettingUpdate(Settings.fileLocationPdf, "dataFolder/pdf/");
+                if (sqlController.SettingRead(Settings.fileLocationPdf)     == "")  sqlController.SettingUpdate(Settings.fileLocationPdf,     "dataFolder/pdf/");
+                if (sqlController.SettingRead(Settings.fileLocationJasper)  == "")  sqlController.SettingUpdate(Settings.fileLocationJasper,  "dataFolder/jasper/");
 
                 return "";
             }
