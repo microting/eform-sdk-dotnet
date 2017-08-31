@@ -29,7 +29,7 @@ namespace eFormSqlController
         #endregion
 
         #region con
-        public                      SqlController(string connectionString)
+        public                      SqlController(string connectionString, bool settingsCheck)
         {
             connectionStr = connectionString;
 
@@ -75,9 +75,12 @@ namespace eFormSqlController
             catch
             {
                 MigrateDb();
-
-                if (!SettingCheckAll())
-                    SettingsSetDefault();
+                if (settingsCheck)
+                {
+                    if (!SettingCheckAll())
+                        SettingsSetDefault();
+                }
+                
             }
             #endregion
         }
@@ -1619,6 +1622,40 @@ namespace eFormSqlController
                     uD.version = uD.version + 1;
 
                     db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FileProcessed failed", ex);
+            }
+        }
+
+        public uploaded_data        GetUploadedData(int id)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    return db.data_uploaded.SingleOrDefault(x => x.id == id); 
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception("Get uploaded data object failed");
+            }
+        }
+
+        public bool                 DeleteFile(int id)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
+
+                    uD.workflow_state = "removed";
+                    uD.updated_at = DateTime.Now;
+                    uD.version = uD.version + 1;
+                    return true;
                 }
             }
             catch (Exception ex)

@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.4 *(August 31st 2017)*
+	- Adding Advanced_DeleteUploadedData. Adding first steps for MySQL support.
+
   - Version 1.6.1.3 *(August 15th 2017)*
 	- Fixing the broken listing of all cases in ReadAllCase.
 
