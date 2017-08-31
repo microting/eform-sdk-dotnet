@@ -97,6 +97,10 @@
     <Compile Include="Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.Designer.cs">
       <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.cs" />
+    <Compile Include="Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.Designer.cs">
+      <DependentUpon>201708311254324_ChangingFieldDefaultValueMaxLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="table\a_interaction_case_list_versions.cs" />
     <Compile Include="table\a_interaction_case_versions.cs" />
@@ -172,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.resx">
       <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.resx">
+      <DependentUpon>201708311254324_ChangingFieldDefaultValueMaxLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -50,6 +50,13 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.6 *(August 31st 2017)*
+	- Fixing the startSqlOnly to set core as running. 
+	- Changing max lenght of default value for a field.
+
+  - Version 1.6.1.5 *(August 31st 2017)*
+	- Enabling so the AdminTool constructor can be initialized, so subsequent methods can be called.
+
   - Version 1.6.1.4 *(August 31st 2017)*
 	- Adding Advanced_DeleteUploadedData. Adding first steps for MySQL support.
 

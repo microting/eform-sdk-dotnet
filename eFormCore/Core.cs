@@ -158,7 +158,7 @@ namespace eFormCore
                     communicator = new Communicator(sqlController);
                     log.LogStandard("Not Specified", "Communicator started");
 
-                    coreRunning = false;
+                    coreRunning = true;
                     coreStatChanging = false;
                 }
             }
