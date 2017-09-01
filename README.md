@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.7 *(September 1st 2017)*
+	- Making the settingscheck be more explicit about which setting is missing if any.
+
   - Version 1.6.1.6 *(August 31st 2017)*
 	- Fixing the startSqlOnly to set core as running. 
 	- Changing max lenght of default value for a field.
