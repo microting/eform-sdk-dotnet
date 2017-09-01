@@ -108,7 +108,14 @@ namespace eFormCore
                         break;
                     case "I":
                         Console.WriteLine("Check is database primed and configured");
-                        reply = DbSetupCompleted().ToString();
+                        List<string> checkResult = DbSetupCompleted();
+                        if (checkResult.Count == 1)
+                        {
+                            if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                                reply = checkResult[0];
+                            else
+                                reply = "Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult);
+                        }
                         break;
                     case "M":
                         Console.WriteLine("MigrateDb");
@@ -423,9 +430,10 @@ namespace eFormCore
             }
         }
 
-        public bool   DbSetupCompleted()
+        public List<string> DbSetupCompleted()
         {
             return sqlController.SettingCheckAll();
+
         }
 
         public bool   MigrateDb()

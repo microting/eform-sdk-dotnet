@@ -136,7 +136,7 @@ namespace eFormCore
                     sqlController = new SqlController(connectionString, true);
 
                     //check settings
-                    if (!sqlController.SettingCheckAll())
+                    if (sqlController.SettingCheckAll().Count != 0)
                         throw new ArgumentException("Use AdminTool to setup database settings correct. 'SettingCheckAll()' returned false");
 
                     if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")

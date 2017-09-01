@@ -69,16 +69,35 @@ namespace eFormSqlController
             #region set default for settings, and/or migrate if needed
             try
             {
-                if (!SettingCheckAll())
-                    SettingsSetDefault();
+                List<string> checkResult = SettingCheckAll();
+                if (checkResult.Count == 1)
+                {
+                    if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                        SettingsSetDefault();
+                    else
+                        throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                }
+                else if (checkResult.Count > 1)
+                {
+                    throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                }
             }
             catch
             {
                 MigrateDb();
                 if (settingsCheck)
                 {
-                    if (!SettingCheckAll())
-                        SettingsSetDefault();
+                    List<string> checkResult = SettingCheckAll();
+                    if (checkResult.Count == 1)
+                    {
+                        if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                            SettingsSetDefault();
+                        else
+                            throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                    } else if (checkResult.Count > 1)
+                    {
+                        throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                    }
                 }
                 
             }
@@ -3572,8 +3591,9 @@ namespace eFormSqlController
             }
         }
 
-        public bool                 SettingCheckAll()
+        public List<string>                 SettingCheckAll()
         {
+            List<string> result = new List<string>();
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
@@ -3607,32 +3627,27 @@ namespace eFormSqlController
                     int countVal = db.settings.Count(x => x.value == "");
                     int countSet = db.settings.Count();
 
-                    if (countVal > 0)
-                        return false;
+                    if (countSet == 0) {
+                        result.Add("NO SETTINGS PRESENT, NEEDS PRIMING!");
+                        return result;
+                    }
 
-                    if (countSet < Enum.GetNames(typeof(Settings)).Length)
-                        return false;
-
-                    int failed = 0;
-                    failed += SettingCheck(Settings.awsAccessKeyId);
-                    failed += SettingCheck(Settings.awsEndPoint);
-                    failed += SettingCheck(Settings.awsSecretAccessKey);
-                    failed += SettingCheck(Settings.comAddressApi);
-                    failed += SettingCheck(Settings.comAddressBasic);
-                    failed += SettingCheck(Settings.comOrganizationId);
-                    failed += SettingCheck(Settings.comAddressPdfUpload);
-                    failed += SettingCheck(Settings.fileLocationPdf);
-                    failed += SettingCheck(Settings.fileLocationPicture);
-                    failed += SettingCheck(Settings.firstRunDone);
-                    failed += SettingCheck(Settings.knownSitesDone);
-                    failed += SettingCheck(Settings.logLevel);
-                    failed += SettingCheck(Settings.logLimit);
-                    failed += SettingCheck(Settings.token);
-                    failed += SettingCheck(Settings.unitLicenseNumber);
-                    if (failed > 0)
-                        return false;
-
-                    return true;
+                    foreach (var setting in Enum.GetValues(typeof(Settings)))
+                    {
+                        try
+                        {
+                            string readSetting = SettingRead((Settings)setting);
+                            if (readSetting == "")
+                            {
+                                result.Add(setting.ToString() + " has an empty value!");
+                            }
+                        }
+                        catch
+                        {
+                            result.Add("There is no setting for " + setting + "! You need to add one");
+                        }
+                    }
+                    return result;
                 }
             }
             catch (Exception ex)
