@@ -50,6 +50,10 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.8 *(September 4th 2017)*
+	- Adding the missing id for the uploadedDataObj. 
+	- Added better logging for the moving file.
+
   - Version 1.6.1.7 *(September 1st 2017)*
 	- Making the settingscheck be more explicit about which setting is missing if any.
 

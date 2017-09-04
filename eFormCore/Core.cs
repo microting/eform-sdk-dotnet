@@ -2155,7 +2155,8 @@ namespace eFormCore
                     }
                     catch (Exception exd)
                     {
-                        throw new Exception("Could not move file");
+                        log.LogException("Not Specified", methodName + " failed", exd, true);
+                        throw new Exception(methodName + " failed", exd);
                     }
 
                     return sqlController.DeleteFile(uploadedDataId);

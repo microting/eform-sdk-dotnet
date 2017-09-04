@@ -1180,6 +1180,7 @@ namespace eFormSqlController
                                 uploadedDataObj.UploaderType = uploadedData.uploader_type;
                                 uploadedDataObj.FileLocation = uploadedData.file_location;
                                 uploadedDataObj.FileName = uploadedData.file_name;
+                                uploadedDataObj.Id = uploadedData.id;
                                 answer.UploadedDataObj = uploadedDataObj;
                                 answer.UploadedData = "";
                             }
