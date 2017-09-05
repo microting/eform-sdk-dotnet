@@ -66,58 +66,23 @@ namespace eFormSqlController
             }
             #endregion
 
-            #region set default for settings, and/or migrate if needed
+            #region migrate if needed
             try
             {
-                if (!SettingCheckAll())
-                    SettingsSetDefault();
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    var match = db.settings.Count();
+                }
             }
             catch
             {
                 MigrateDb();
-
-                if (!SettingCheckAll())
-                    SettingsSetDefault();
             }
             #endregion
-        }
 
-        private void                SettingsSetDefault()
-        {
-            using (var db = new MicrotingDb(connectionStr))
-            {
-                int settingsCount = db.settings.Count();
-
-                if (settingsCount != Enum.GetNames(typeof(Settings)).Length)
-                {
-                    if (settingsCount == 0)
-                    {
-                        #region no settings present, add defaults
-                        UnitTest_TruncateTable(typeof(settings).Name);
-
-                        SettingUpdate(Settings.firstRunDone, "false");
-                        SettingUpdate(Settings.knownSitesDone, "false");
-                        SettingUpdate(Settings.logLevel, "4");
-                        SettingUpdate(Settings.logLimit, "250");
-                        SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
-                        SettingUpdate(Settings.fileLocationPdf,     "dataFolder/pdf/");
-                        SettingUpdate(Settings.fileLocationJasper,  "dataFolder/reports/");
-                        SettingUpdate(Settings.token, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-                        SettingUpdate(Settings.comAddressBasic, "https://basic.microting.com");
-                        SettingUpdate(Settings.comAddressApi, "https://xxxxxx.xxxxxx.com");
-                        SettingUpdate(Settings.comOrganizationId, "0");
-                        SettingUpdate(Settings.awsAccessKeyId, "XXX");
-                        SettingUpdate(Settings.awsSecretAccessKey, "XXX");
-                        SettingUpdate(Settings.awsEndPoint, "XXX");
-                        SettingUpdate(Settings.unitLicenseNumber, "0");
-                        SettingUpdate(Settings.comAddressPdfUpload, "https://xxxxxx.xxxxxx.com");
-                        #endregion
-                    }
-                    else
-                        throw new Exception("Settings needs to be corrected. Please either inspect or clear the Settings table in the Microting database");
-                }
-                //else db and enum match
-            }
+            //region set default for settings if needed
+            if (!SettingCheckAll())
+                SettingCreateDefaults();
         }
 
         public bool                 MigrateDb()
@@ -1166,6 +1131,7 @@ namespace eFormSqlController
                     #endregion
                     answer.Value = reply.value;
                     #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
+                    answer.ValueReadable = reply.value;
 
                     if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
                     {
@@ -1204,6 +1170,8 @@ namespace eFormSqlController
                         foreach (string key in keyLst)
                         {
                             string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                            if (answer.ValueReadable != "")
+                                answer.ValueReadable += '|';
                             answer.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
 
@@ -2443,9 +2411,6 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //logger.LogEverything(methodName + " called");
-                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
-
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site != null)
@@ -2456,7 +2421,6 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2468,9 +2432,10 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //logger.LogEverything(methodName + " called");
-
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    if (site != null)
+                        return null;
+
                     site_workers site_worker = db.site_workers.Where(x => x.site_id == site.id).ToList().First();
                     workers worker = db.workers.Single(x => x.id == site_worker.worker_id);
                     units unit = db.units.Where(x => x.site_id == site.id).ToList().First();
@@ -2483,7 +2448,6 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2638,6 +2602,27 @@ namespace eFormSqlController
             }
         }
 
+        public string               WorkerNameRead(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    workers worker = db.workers.SingleOrDefault(x => x.id == workerId && x.workflow_state == "created");
+
+                    if (worker == null)
+                        return null;
+                    else
+                        return worker.first_name + " " + worker.last_name;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         public Worker_Dto           WorkerRead(int microting_uid)
         {
             string methodName = t.GetMethodName();
@@ -2645,9 +2630,6 @@ namespace eFormSqlController
             {
                 using (var db = new MicrotingDb(connectionStr))
                 {
-                    //logger.LogEverything(methodName + " called");
-                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
-
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (worker != null)
@@ -2658,7 +2640,6 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -3402,93 +3383,100 @@ namespace eFormSqlController
         #endregion
 
         #region public setting
+        public bool                 SettingCreateDefaults()
+        {
+            //key point
+            SettingCreate(Settings.firstRunDone);
+            SettingCreate(Settings.knownSitesDone);
+            SettingCreate(Settings.logLevel);
+            SettingCreate(Settings.logLimit);
+            SettingCreate(Settings.fileLocationPicture);
+            SettingCreate(Settings.fileLocationPdf);
+            SettingCreate(Settings.fileLocationJasper);
+            SettingCreate(Settings.token);
+            SettingCreate(Settings.comAddressBasic);
+            SettingCreate(Settings.comAddressApi);
+            SettingCreate(Settings.comOrganizationId);
+            SettingCreate(Settings.awsAccessKeyId);
+            SettingCreate(Settings.awsSecretAccessKey);
+            SettingCreate(Settings.awsEndPoint);
+            SettingCreate(Settings.unitLicenseNumber);
+            SettingCreate(Settings.comAddressPdfUpload);
+
+            return true;
+        }
+
         public bool                 SettingCreate(Settings name)
         {
             using (var db = new MicrotingDb(connectionStr))
             {
-                #region id = settings.name //key point
+                //key point
+                #region id = settings.name
                 int id = -1;
+                string defaultValue = "default";
                 switch (name)
                 {
-                    case Settings.firstRunDone:             id =  1; break;
-                    case Settings.knownSitesDone:           id =  2; break;
-                    case Settings.logLevel:                 id =  3; break;
-                    case Settings.logLimit:                 id =  4; break;
-                    case Settings.fileLocationPicture:      id =  5; break;
-                    case Settings.fileLocationPdf:          id =  6; break;
-                    case Settings.token:                    id =  7; break;
-                    case Settings.comAddressBasic:          id =  8; break;
-                    case Settings.comAddressPdfUpload:      id =  9; break;
-                    case Settings.comAddressApi:            id = 10; break;
-                    case Settings.comOrganizationId:        id = 11; break;
-                    case Settings.awsAccessKeyId:           id = 12; break;
-                    case Settings.awsSecretAccessKey:       id = 13; break;
-                    case Settings.awsEndPoint:              id = 14; break;
-                    case Settings.unitLicenseNumber:        id = 15; break;
+                    case Settings.firstRunDone:             id =  1;    defaultValue = "false";                                break;
+                    case Settings.knownSitesDone:           id =  2;    defaultValue = "false";                                break;
+                    case Settings.logLevel:                 id =  3;    defaultValue = "4";                                    break;
+                    case Settings.logLimit:                 id =  4;    defaultValue = "250";                                  break;
+                    case Settings.fileLocationPicture:      id =  5;    defaultValue = "dataFolder/picture/";                  break;
+                    case Settings.fileLocationPdf:          id =  6;    defaultValue = "dataFolder/pdf/";                      break;
+                    case Settings.fileLocationJasper:       id =  7;    defaultValue = "dataFolder/reports/";                  break;
+                    case Settings.token:                    id =  8;    defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";     break;
+                    case Settings.comAddressBasic:          id =  9;    defaultValue = "https://basic.microting.com";          break;
+                    case Settings.comAddressPdfUpload:      id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";            break;
+                    case Settings.comAddressApi:            id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";            break;
+                    case Settings.comOrganizationId:        id = 12;    defaultValue = "0";                                    break;
+                    case Settings.awsAccessKeyId:           id = 13;    defaultValue = "XXX";                                  break;
+                    case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                                  break;
+                    case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                                  break;
+                    case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                    break;
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
                 }
                 #endregion
 
-                settings match = db.settings.SingleOrDefault(x => x.id == id);
+                settings matchId   = db.settings.SingleOrDefault(x => x.id   == id);
+                settings matchName = db.settings.SingleOrDefault(x => x.name == name.ToString());
 
-                if (match != null)
+                if (matchName == null)
                 {
-                    //there is already a setting with that id
+                    if (matchId != null)
+                    {
+                        #region there is already a setting with that id but different name
+                        //the old setting data is copied, and new is added
+                        settings newSettingBasedOnOld = new settings();
+                        newSettingBasedOnOld.id = (db.settings.Select(x => (int?)x.id).Max() ?? 0) + 1;
+                        newSettingBasedOnOld.name = matchId.name.ToString();
+                        newSettingBasedOnOld.value = matchId.value;
 
-                    if (match.name == name.ToString())
-                        return true; //setting has the right name - hence value is kept
+                        db.settings.Add(newSettingBasedOnOld);
 
-                    //otherwise old setting data is copied, and new is added
-                    settings newSettingBasedOnOld = new settings();
-                    newSettingBasedOnOld.id = (db.settings.Select(x => (int?)x.id).Max() ?? 0) + 1;
-                    newSettingBasedOnOld.name = match.name.ToString();
-                    newSettingBasedOnOld.value = match.value;
+                        matchId.name = name.ToString();
+                        matchId.value = defaultValue;
 
-                    db.settings.Add(newSettingBasedOnOld);
-          
-                    match.name = name.ToString();
-                    match.value = "";
+                        db.SaveChanges();
+                        #endregion
+                    }
+                    else
+                    {
+                        //its a new setting
+                        settings newSetting = new settings();
+                        newSetting.id = id;
+                        newSetting.name = name.ToString();
+                        newSetting.value = defaultValue;
 
+                        db.settings.Add(newSetting);
+                    }
                     db.SaveChanges();
                 }
                 else
-                { 
-                    //its a new setting
-                    settings newSetting = new settings();
-                    newSetting.id = id;
-                    newSetting.name = name.ToString();
-                    newSetting.value = "";
-
-                    db.settings.Add(newSetting);
-                }
-                db.SaveChanges();
+                    if (string.IsNullOrEmpty(matchName.value))
+                        matchName.value = defaultValue;
             }
 
             return true;
-        }
-
-        public bool                 SettingCreateIfMissing(Settings name)
-        {
-            try
-            {
-                using (var db = new MicrotingDb(connectionStr))
-                {
-                    settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
-
-                    if (match == null)
-                    {
-                        SettingCreate(name);
-                        match = db.settings.Single(x => x.name == name.ToString());
-                    }
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
         }
 
         public string               SettingRead(Settings name)

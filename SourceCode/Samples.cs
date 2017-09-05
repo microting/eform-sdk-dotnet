@@ -128,7 +128,8 @@ namespace eFormCore
                         main.EndDate = DateTime.Now.AddDays(2);
 
                         templatId = TemplatCreate(main);
-                    } else
+                    }
+                    else
                     {
                         foreach (string error in validationErrors)
                         {

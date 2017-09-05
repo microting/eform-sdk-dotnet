@@ -85,15 +85,16 @@ namespace eFormCore
         #region public state
         public bool             Start(string connectionString)
         {
-            if (!StartSqlOnly(connectionString))
-                return false;
-
-            log.LogCritical("Not Specified", t.GetMethodName() + " called");
-
             try
             {
                 if (!coreRunning && !coreStatChanging)
                 {
+                    if (!StartSqlOnly(connectionString))
+                        return false;
+                    log.LogCritical("Not Specified", t.GetMethodName() + " called");
+
+                    //---
+
                     coreStatChanging = true;
 
                     //subscriber
@@ -137,10 +138,13 @@ namespace eFormCore
 
                     //check settings
                     if (!sqlController.SettingCheckAll())
-                        throw new ArgumentException("Use AdminTool to setup database settings correct. 'SettingCheckAll()' returned false");
+                        throw new ArgumentException("Use AdminTool to setup database correctly. 'SettingCheckAll()' returned false");
 
                     if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-                        throw new ArgumentException("Use AdminTool to setup database settings correct. Token not set, default value found");
+                        throw new ArgumentException("Use AdminTool to setup database correctly. Token not set, only default value found");
+
+                    if (sqlController.SettingRead(Settings.firstRunDone) != "true")
+                        throw new ArgumentException("Use AdminTool to setup database correctly. FirstRunDone has not completed");
 
                     //log
                     log = sqlController.StartLog(this);
@@ -158,7 +162,7 @@ namespace eFormCore
                     communicator = new Communicator(sqlController);
                     log.LogStandard("Not Specified", "Communicator started");
 
-                    coreRunning = false;
+                    coreRunning = true;
                     coreStatChanging = false;
                 }
             }
@@ -1131,22 +1135,87 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                //if (coreRunning)
+                if (true)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", "caseId", caseId.ToString());
                     log.LogVariable("Not Specified", "jasperTemplate", jasperTemplate);
 
                     //get needed data
+                    Case_Dto cDto = CaseLookupCaseId(caseId);
+                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+                    string clsLst = "";
+                    string fldLst = "";
+                    GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);
+                    log.LogVariable("Not Specified", "clsLst", clsLst);
+                    log.LogVariable("Not Specified", "fldLst", fldLst);
+           
+                    #region convert to jasperXml
+                    string jasperXml =          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + Environment.NewLine + "<root>"
+                        + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
+                        + Environment.NewLine + "<worker>"      + Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
+                        + Environment.NewLine + "<date>"        + reply.DoneAt + "</date>"
+                        + Environment.NewLine + "<check_date>"  + reply.DoneAt + "</check_date>"
+                        + Environment.NewLine + "<check_lists>" 
 
-                    //convert to jasperXml
+                        + clsLst
+
+                        + Environment.NewLine + "</check_lists>"
+                        + Environment.NewLine + "<fields>"
+
+                        + fldLst
+
+                        + Environment.NewLine + "</fields>"
+                        + Environment.NewLine + "</C" + reply.Id + ">"
+                        + Environment.NewLine + "</root>";
+                    log.LogVariable("Not Specified", "jasperXml", jasperXml);
+                    #endregion
 
                     //place in settings allocated placement
+                    File.WriteAllText(sqlController.SettingRead(Settings.fileLocationJasper) + "utils/temp_tobeconverted.xml", jasperXml.Trim(), Encoding.UTF8);
 
-                    //run jar
+                    #region run jar
+                    // Start the child process.
+                    System.Diagnostics.Process p = new System.Diagnostics.Process();
+                    // Redirect the output stream of the child process.
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.RedirectStandardOutput = true;
+
+                    string locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/JasperExporter.jar";
+                    string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates/" + jasperTemplate + "/compact/" + jasperTemplate + ".jrxml";
+                    string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/temp_tobeconverted.xml";
+                    string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss") + "_" + caseId + ".pdf";
+
+                    string command = 
+                        "-Dfile.encoding=UTF-8 -jar " + locaJ +
+                        " -template=\"" + locaT + "\"" +
+                        " type=\"pdf\"" + 
+                        " -uri=\"" + locaC + "\"" +
+                        " -outputFile=\"" + locaR + "\"";
+
+                    log.LogVariable("Not Specified", "command", command);
+                    p.StartInfo.FileName = "java.exe";
+                    p.StartInfo.Arguments = command;
+                    p.Start();
+                    // IF needed:
+                    // Do not wait for the child process to exit before
+                    // reading to the end of its redirected stream.
+                    // p.WaitForExit();
+                    // Read the output stream first and then wait.
+                    string output = p.StandardOutput.ReadToEnd();
+                    log.LogVariable("Not Specified", "output", output);
+                    p.WaitForExit();
+
+                    if (output != "")
+                        throw new Exception("output='" + output + "', expected to be no output. This indicates an error has happened");
+                    #endregion
 
                     //return path
-                    return Path.GetFullPath("");
+                    string path = Path.GetFullPath(locaR);
+                    log.LogVariable("Not Specified", "path", path);
+                    return path;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1723,6 +1792,28 @@ namespace eFormCore
                     }
 
                     return Advanced_WorkerRead(workerUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public string           Advanced_WorkerNameRead(int workerId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", "workerId", workerId);
+
+                    return sqlController.WorkerNameRead(workerId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2417,6 +2508,42 @@ namespace eFormCore
             {
                 log.LogException("Not Specified", t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "'", ex, true);
             }
+        }
+
+        private void            GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst)
+        {
+            string jasperFieldXml = "";
+            string jasperCheckXml = "";
+
+            foreach (Element element in elementLst)
+            {
+                if (element.GetType() == typeof(CheckListValue))
+                {
+                    CheckListValue dataE = (CheckListValue)element;
+
+                    jasperCheckXml = jasperCheckXml
+                       + Environment.NewLine + "<C" + dataE.Id + ">" + dataE.Status + "</C" + dataE.Id + ">";
+
+                    foreach (Field field in dataE.DataItemList)
+                    {
+                        FieldValue answer = field.FieldValues[0];
+
+                        jasperFieldXml = jasperFieldXml
+                           + Environment.NewLine + "<F" + answer.FieldId + " name=\"" + answer.Label + "\" parent=\"" + element.Label + "\">"
+                           + Environment.NewLine + "<F" + answer.FieldId + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + (answer.ValueReadable ?? string.Empty) + "]]></F" + answer.FieldId + "_value>"
+                           + Environment.NewLine + "</F" + answer.FieldId + ">";
+                    }
+                }
+
+                if (element.GetType() == typeof(GroupElement))
+                {
+                    GroupElement groupE = (GroupElement)element;
+                    GetChecksAndFields(ref clsLst, ref fldLst, groupE.ElementList);
+                }
+            }
+            
+            clsLst = clsLst + jasperCheckXml;
+            fldLst = fldLst + jasperFieldXml;
         }
         #endregion
 

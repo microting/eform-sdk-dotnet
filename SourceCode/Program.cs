@@ -110,8 +110,8 @@ namespace SourceCode
                 Console.WriteLine(t.PrintException("Fatal Exception", ex));
                 Console.WriteLine("");
                 Console.WriteLine("Fatal Exception found and logged. Fil can be found at log/");
-                Console.WriteLine("Console will close in 5s");
-                Thread.Sleep(5000);
+                Console.WriteLine("Console will close in 6s");
+                Thread.Sleep(6000);
                 Environment.Exit(0);
             }
             #endregion

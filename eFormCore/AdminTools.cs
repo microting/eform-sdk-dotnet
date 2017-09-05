@@ -277,34 +277,18 @@ namespace eFormCore
             try
             {
                 sqlController = new SqlController(connectionString);
-                Communicator communicator = new Communicator(sqlController);
 
                 if (token == null)
-                {
                     token = sqlController.SettingRead(Settings.token);
-                }
 
-                #region configure db
-                if (!bool.Parse(sqlController.SettingRead(Settings.firstRunDone)))
-                {
-                    Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
-                    sqlController.SettingUpdate(Settings.token, token);
-                    sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
-                    sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
-                    sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
-                    sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
-                    sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
-                    sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
-                    sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
-                    sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
+                sqlController.SettingUpdate(Settings.token, token);
 
-                    sqlController.SettingUpdate(Settings.firstRunDone, "true");
-                }
-                #endregion
+                // configure db
+                DbSettingsReloadRemote();
 
                 sqlController.UnitTest_TruncateTablesIfEmpty();
 
-                communicator = new Communicator(sqlController);
+                Communicator communicator = new Communicator(sqlController);
 
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
@@ -370,6 +354,8 @@ namespace eFormCore
                 }
                 #endregion
 
+                sqlController.SettingUpdate(Settings.firstRunDone, "true");
+
                 return "";
             }
             catch (Exception ex)
@@ -383,6 +369,7 @@ namespace eFormCore
             try
             {
                 sqlController = new SqlController(connectionString);
+
                 Communicator communicator = new Communicator(sqlController);
                 string token = sqlController.SettingRead(Settings.token);
 
@@ -396,24 +383,6 @@ namespace eFormCore
                 sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                 sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
-
-                sqlController.SettingCreateIfMissing(Settings.firstRunDone);
-                sqlController.SettingCreateIfMissing(Settings.knownSitesDone);
-                sqlController.SettingCreateIfMissing(Settings.logLevel);
-                sqlController.SettingCreateIfMissing(Settings.logLimit);
-                sqlController.SettingCreateIfMissing(Settings.fileLocationPicture);
-                sqlController.SettingCreateIfMissing(Settings.fileLocationPdf);
-                sqlController.SettingCreateIfMissing(Settings.fileLocationJasper);
-
-                if (sqlController.SettingRead(Settings.firstRunDone) == "")         sqlController.SettingUpdate(Settings.firstRunDone, "false");
-                if (sqlController.SettingRead(Settings.knownSitesDone) == "")       sqlController.SettingUpdate(Settings.knownSitesDone, "false");
-                if (sqlController.SettingRead(Settings.logLevel) == "")             sqlController.SettingUpdate(Settings.logLevel, "4");
-                    if (sqlController.SettingRead(Settings.logLevel) == "true")         sqlController.SettingUpdate(Settings.logLevel, "4");
-                    if (sqlController.SettingRead(Settings.logLevel) == "false")        sqlController.SettingUpdate(Settings.logLevel, "1");
-                if (sqlController.SettingRead(Settings.logLimit) == "")             sqlController.SettingUpdate(Settings.logLimit, "250");
-                if (sqlController.SettingRead(Settings.fileLocationPicture) == "")  sqlController.SettingUpdate(Settings.fileLocationPicture, "dataFolder/picture/");
-                if (sqlController.SettingRead(Settings.fileLocationPdf)     == "")  sqlController.SettingUpdate(Settings.fileLocationPdf,     "dataFolder/pdf/");
-                if (sqlController.SettingRead(Settings.fileLocationJasper)  == "")  sqlController.SettingUpdate(Settings.fileLocationJasper,  "dataFolder/jasper/");
 
                 return "";
             }
