@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.9 *(September 5th 2017)*
+	- Adding the changes to make the AdminTool.DbSetup(token) work.
+
   - Version 1.6.1.8 *(September 4th 2017)*
 	- Adding the missing id for the uploadedDataObj. 
 	- Added better logging for the moving file.
