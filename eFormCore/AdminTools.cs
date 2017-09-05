@@ -19,7 +19,7 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlController = new SqlController(serverConnectionString);
+            sqlController = new SqlController(serverConnectionString, false);
         }
         #endregion
 
@@ -108,7 +108,14 @@ namespace eFormCore
                         break;
                     case "I":
                         Console.WriteLine("Check is database primed and configured");
-                        reply = DbSetupCompleted().ToString();
+                        List<string> checkResult = DbSetupCompleted();
+                        if (checkResult.Count == 1)
+                        {
+                            if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                                reply = checkResult[0];
+                            else
+                                reply = "Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult);
+                        }
                         break;
                     case "M":
                         Console.WriteLine("MigrateDb");
@@ -276,7 +283,20 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString);
+                sqlController = new SqlController(connectionString, false);
+                try
+                {
+                    if (sqlController.SettingRead(Settings.token) == null)
+                    {
+                        sqlController.SettingCreate(Settings.token);
+                    } 
+                }
+                catch
+                {
+                    sqlController.SettingCreate(Settings.token);
+                }
+                sqlController.SettingUpdate(Settings.token, token);
+                Communicator communicator = new Communicator(sqlController);
 
                 if (token == null)
                     token = sqlController.SettingRead(Settings.token);
@@ -287,9 +307,7 @@ namespace eFormCore
                 DbSettingsReloadRemote();
 
                 sqlController.UnitTest_TruncateTablesIfEmpty();
-
-                Communicator communicator = new Communicator(sqlController);
-
+                
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
                 {
@@ -368,8 +386,7 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString);
-
+                sqlController = new SqlController(connectionString, false);
                 Communicator communicator = new Communicator(sqlController);
                 string token = sqlController.SettingRead(Settings.token);
 
@@ -392,9 +409,10 @@ namespace eFormCore
             }
         }
 
-        public bool   DbSetupCompleted()
+        public List<string> DbSetupCompleted()
         {
             return sqlController.SettingCheckAll();
+
         }
 
         public bool   MigrateDb()

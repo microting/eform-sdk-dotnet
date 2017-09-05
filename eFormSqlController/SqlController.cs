@@ -29,7 +29,7 @@ namespace eFormSqlController
         #endregion
 
         #region con
-        public                      SqlController(string connectionString)
+        public                      SqlController(string connectionString, bool settingsCheck)
         {
             connectionStr = connectionString;
 
@@ -69,20 +69,45 @@ namespace eFormSqlController
             #region migrate if needed
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+
+                List<string> checkResult = SettingCheckAll();
+                if (checkResult.Count == 1)
                 {
-                    var match = db.settings.Count();
+                    if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                        SettingCreateDefaults();
+                    else
+                        throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                }
+                else if (checkResult.Count > 1)
+                {
+                    throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 MigrateDb();
+
+                if (settingsCheck)
+                {
+                    List<string> checkResult = SettingCheckAll();
+                    if (checkResult.Count == 1)
+                    {
+                        if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                            SettingCreateDefaults();
+                        else
+                            throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                    } else if (checkResult.Count > 1)
+                    {
+                        throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                    }
+                }
+                
             }
             #endregion
 
             //region set default for settings if needed
-            if (!SettingCheckAll())
-                SettingCreateDefaults();
+            //if (!SettingCheckAll())
+            //    SettingCreateDefaults();
         }
 
         public bool                 MigrateDb()
@@ -1123,6 +1148,7 @@ namespace eFormSqlController
                                 uploadedDataObj.UploaderType = uploadedData.uploader_type;
                                 uploadedDataObj.FileLocation = uploadedData.file_location;
                                 uploadedDataObj.FileName = uploadedData.file_name;
+                                uploadedDataObj.Id = uploadedData.id;
                                 answer.UploadedDataObj = uploadedDataObj;
                                 answer.UploadedData = "";
                             }
@@ -1587,6 +1613,40 @@ namespace eFormSqlController
                     uD.version = uD.version + 1;
 
                     db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FileProcessed failed", ex);
+            }
+        }
+
+        public uploaded_data        GetUploadedData(int id)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    return db.data_uploaded.SingleOrDefault(x => x.id == id); 
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception("Get uploaded data object failed");
+            }
+        }
+
+        public bool                 DeleteFile(int id)
+        {
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
+                {
+                    uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
+
+                    uD.workflow_state = "removed";
+                    uD.updated_at = DateTime.Now;
+                    uD.version = uD.version + 1;
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -3432,6 +3492,7 @@ namespace eFormSqlController
                     case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                                  break;
                     case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                                  break;
                     case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                    break;
+
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
                 }
@@ -3523,8 +3584,9 @@ namespace eFormSqlController
             }
         }
 
-        public bool                 SettingCheckAll()
+        public List<string>                 SettingCheckAll()
         {
+            List<string> result = new List<string>();
             try
             {
                 using (var db = new MicrotingDb(connectionStr))
@@ -3558,32 +3620,27 @@ namespace eFormSqlController
                     int countVal = db.settings.Count(x => x.value == "");
                     int countSet = db.settings.Count();
 
-                    if (countVal > 0)
-                        return false;
+                    if (countSet == 0) {
+                        result.Add("NO SETTINGS PRESENT, NEEDS PRIMING!");
+                        return result;
+                    }
 
-                    if (countSet < Enum.GetNames(typeof(Settings)).Length)
-                        return false;
-
-                    int failed = 0;
-                    failed += SettingCheck(Settings.awsAccessKeyId);
-                    failed += SettingCheck(Settings.awsEndPoint);
-                    failed += SettingCheck(Settings.awsSecretAccessKey);
-                    failed += SettingCheck(Settings.comAddressApi);
-                    failed += SettingCheck(Settings.comAddressBasic);
-                    failed += SettingCheck(Settings.comOrganizationId);
-                    failed += SettingCheck(Settings.comAddressPdfUpload);
-                    failed += SettingCheck(Settings.fileLocationPdf);
-                    failed += SettingCheck(Settings.fileLocationPicture);
-                    failed += SettingCheck(Settings.firstRunDone);
-                    failed += SettingCheck(Settings.knownSitesDone);
-                    failed += SettingCheck(Settings.logLevel);
-                    failed += SettingCheck(Settings.logLimit);
-                    failed += SettingCheck(Settings.token);
-                    failed += SettingCheck(Settings.unitLicenseNumber);
-                    if (failed > 0)
-                        return false;
-
-                    return true;
+                    foreach (var setting in Enum.GetValues(typeof(Settings)))
+                    {
+                        try
+                        {
+                            string readSetting = SettingRead((Settings)setting);
+                            if (readSetting == "")
+                            {
+                                result.Add(setting.ToString() + " has an empty value!");
+                            }
+                        }
+                        catch
+                        {
+                            result.Add("There is no setting for " + setting + "! You need to add one");
+                        }
+                    }
+                    return result;
                 }
             }
             catch (Exception ex)

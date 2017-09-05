@@ -50,6 +50,26 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.1.9 *(September 5th 2017)*
+	- Adding the changes to make the AdminTool.DbSetup(token) work.
+
+  - Version 1.6.1.8 *(September 4th 2017)*
+	- Adding the missing id for the uploadedDataObj. 
+	- Added better logging for the moving file.
+
+  - Version 1.6.1.7 *(September 1st 2017)*
+	- Making the settingscheck be more explicit about which setting is missing if any.
+
+  - Version 1.6.1.6 *(August 31st 2017)*
+	- Fixing the startSqlOnly to set core as running. 
+	- Changing max lenght of default value for a field.
+
+  - Version 1.6.1.5 *(August 31st 2017)*
+	- Enabling so the AdminTool constructor can be initialized, so subsequent methods can be called.
+
+  - Version 1.6.1.4 *(August 31st 2017)*
+	- Adding Advanced_DeleteUploadedData. Adding first steps for MySQL support.
+
   - Version 1.6.1.3 *(August 15th 2017)*
 	- Fixing the broken listing of all cases in ReadAllCase.
 

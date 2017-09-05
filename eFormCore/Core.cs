@@ -134,11 +134,12 @@ namespace eFormCore
                         throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
                     //sqlController
-                    sqlController = new SqlController(connectionString);
+                    sqlController = new SqlController(connectionString, true);
 
                     //check settings
-                    if (!sqlController.SettingCheckAll())
-                        throw new ArgumentException("Use AdminTool to setup database correctly. 'SettingCheckAll()' returned false");
+
+                    if (sqlController.SettingCheckAll().Count != 0)
+                        throw new ArgumentException("Use AdminTool to setup database settings correct. 'SettingCheckAll()' returned false");
 
                     if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                         throw new ArgumentException("Use AdminTool to setup database correctly. Token not set, only default value found");
@@ -2225,6 +2226,43 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public bool            Advanced_DeleteUploadedData(int fieldId, int uploadedDataId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", "fieldId", fieldId);
+                    log.LogVariable("Not Specified", "uploadedDataId", uploadedDataId);
+
+                    uploaded_data uD = sqlController.GetUploadedData(uploadedDataId);
+
+                    try
+                    {
+                        Directory.CreateDirectory(uD.file_location + "Deleted");
+                        File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted\"+ uD.file_name);
+                    }
+                    catch (Exception exd)
+                    {
+                        log.LogException("Not Specified", methodName + " failed", exd, true);
+                        throw new Exception(methodName + " failed", exd);
+                    }
+
+                    return sqlController.DeleteFile(uploadedDataId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         #endregion
 
         #region private
