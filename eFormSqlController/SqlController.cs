@@ -82,7 +82,7 @@ namespace eFormSqlController
                     throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 MigrateDb();
                 if (settingsCheck)
@@ -3482,6 +3482,7 @@ namespace eFormSqlController
                     case Settings.awsSecretAccessKey:       id = 13; break;
                     case Settings.awsEndPoint:              id = 14; break;
                     case Settings.unitLicenseNumber:        id = 15; break;
+                    case Settings.fileLocationJasper:       id = 16; break;
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
                 }

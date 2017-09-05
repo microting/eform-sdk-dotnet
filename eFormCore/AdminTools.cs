@@ -284,6 +284,18 @@ namespace eFormCore
             try
             {
                 sqlController = new SqlController(connectionString, false);
+                try
+                {
+                    if (sqlController.SettingRead(Settings.token) == null)
+                    {
+                        sqlController.SettingCreate(Settings.token);
+                    } 
+                }
+                catch
+                {
+                    sqlController.SettingCreate(Settings.token);
+                }
+                sqlController.SettingUpdate(Settings.token, token);
                 Communicator communicator = new Communicator(sqlController);
 
                 if (token == null)
