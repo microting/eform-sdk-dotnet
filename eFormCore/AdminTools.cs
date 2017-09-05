@@ -19,7 +19,7 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlController = new SqlController(serverConnectionString, false);
+            sqlController = new SqlController(serverConnectionString);
         }
         #endregion
 
@@ -107,7 +107,7 @@ namespace eFormCore
                         reply = DbSetup(token);
                         break;
                     case "I":
-                        Console.WriteLine("Check is database primed and configured");
+                        Console.WriteLine("Check is database primed");
                         List<string> checkResult = DbSetupCompleted();
                         if (checkResult.Count == 1)
                         {
@@ -283,20 +283,7 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString, false);
-                try
-                {
-                    if (sqlController.SettingRead(Settings.token) == null)
-                    {
-                        sqlController.SettingCreate(Settings.token);
-                    } 
-                }
-                catch
-                {
-                    sqlController.SettingCreate(Settings.token);
-                }
-                sqlController.SettingUpdate(Settings.token, token);
-                Communicator communicator = new Communicator(sqlController);
+                sqlController = new SqlController(connectionString);
 
                 if (token == null)
                     token = sqlController.SettingRead(Settings.token);
@@ -307,7 +294,9 @@ namespace eFormCore
                 DbSettingsReloadRemote();
 
                 sqlController.UnitTest_TruncateTablesIfEmpty();
-                
+
+                Communicator communicator = new Communicator(sqlController);
+
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
                 {
@@ -345,7 +334,7 @@ namespace eFormCore
                             {
                                 // We do catch this because right now we a descripency at the API side.
                             }
-                            
+
                         }
                     }
 
@@ -386,7 +375,8 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString, false);
+                sqlController = new SqlController(connectionString);
+
                 Communicator communicator = new Communicator(sqlController);
                 string token = sqlController.SettingRead(Settings.token);
 

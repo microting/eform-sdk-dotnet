@@ -134,12 +134,11 @@ namespace eFormCore
                         throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
                     //sqlController
-                    sqlController = new SqlController(connectionString, true);
+                    sqlController = new SqlController(connectionString);
 
                     //check settings
-
-                    if (sqlController.SettingCheckAll().Count != 0)
-                        throw new ArgumentException("Use AdminTool to setup database settings correct. 'SettingCheckAll()' returned false");
+                    if (sqlController.SettingCheckAll().Count > 0)
+                        throw new ArgumentException("Use AdminTool to setup database correctly. 'SettingCheckAll()' returned with errors");
 
                     if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                         throw new ArgumentException("Use AdminTool to setup database correctly. Token not set, only default value found");

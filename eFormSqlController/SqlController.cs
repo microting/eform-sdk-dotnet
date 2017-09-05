@@ -29,7 +29,7 @@ namespace eFormSqlController
         #endregion
 
         #region con
-        public                      SqlController(string connectionString, bool settingsCheck)
+        public                      SqlController(string connectionString)
         {
             connectionStr = connectionString;
 
@@ -69,48 +69,23 @@ namespace eFormSqlController
             #region migrate if needed
             try
             {
-
-                List<string> checkResult = SettingCheckAll();
-                if (checkResult.Count == 1)
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
-                        SettingCreateDefaults();
-                    else
-                        throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
-                }
-                else if (checkResult.Count > 1)
-                {
-                    throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
+                    var match = db.settings.Count();
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MigrateDb();
-
-                if (settingsCheck)
-                {
-                    List<string> checkResult = SettingCheckAll();
-                    if (checkResult.Count == 1)
-                    {
-                        if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
-                            SettingCreateDefaults();
-                        else
-                            throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
-                    } else if (checkResult.Count > 1)
-                    {
-                        throw new Exception("Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult));
-                    }
-                }
-                
             }
             #endregion
 
             //region set default for settings if needed
-            //if (!SettingCheckAll())
-            //    SettingCreateDefaults();
+            if (SettingCheckAll().Count > 0)
+                SettingCreateDefaults();
         }
 
-        public bool                 MigrateDb()
+        public bool MigrateDb()
         {
             var configuration = new Configuration();
             configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
@@ -1629,9 +1604,10 @@ namespace eFormSqlController
                 {
                     return db.data_uploaded.SingleOrDefault(x => x.id == id); 
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed");
+                throw new Exception("Get uploaded data object failed", ex);
             }
         }
 
@@ -3584,7 +3560,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<string>                 SettingCheckAll()
+        public List<string>         SettingCheckAll()
         {
             List<string> result = new List<string>();
             try
@@ -3596,24 +3572,24 @@ namespace eFormSqlController
                         #region prime FieldTypes
                         UnitTest_TruncateTable(typeof(field_types).Name);
 
-                        FieldTypeAdd(1, "Text", "Simple text field");
-                        FieldTypeAdd(2, "Number", "Simple number field");
-                        FieldTypeAdd(3, "None", "Simple text to be displayed");
-                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
-                        FieldTypeAdd(5, "Picture", "Simple picture field");
-                        FieldTypeAdd(6, "Audio", "Simple audio field");
-                        FieldTypeAdd(7, "Movie", "Simple movie field");
-                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
-                        FieldTypeAdd(9, "Comment", "Simple comment field");
-                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
-                        FieldTypeAdd(11, "Date", "Date selection");
-                        FieldTypeAdd(12, "Signature", "Simple signature field");
-                        FieldTypeAdd(13, "Timer", "Simple timer field");
-                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
-                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
-                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
-                        FieldTypeAdd(17, "FieldGroup", "Field group");
-                        FieldTypeAdd(18, "SaveButton", "Save eForm");
+                        FieldTypeAdd(1,  "Text",            "Simple text field");
+                        FieldTypeAdd(2,  "Number",          "Simple number field");
+                        FieldTypeAdd(3,  "None",            "Simple text to be displayed");
+                        FieldTypeAdd(4,  "CheckBox",        "Simple check box field");
+                        FieldTypeAdd(5,  "Picture",         "Simple picture field");
+                        FieldTypeAdd(6,  "Audio",           "Simple audio field");
+                        FieldTypeAdd(7,  "Movie",           "Simple movie field");
+                        FieldTypeAdd(8,  "SingleSelect",    "Single selection list");
+                        FieldTypeAdd(9,  "Comment",         "Simple comment field");
+                        FieldTypeAdd(10, "MultiSelect",     "Simple multi select list");
+                        FieldTypeAdd(11, "Date",            "Date selection");
+                        FieldTypeAdd(12, "Signature",       "Simple signature field");
+                        FieldTypeAdd(13, "Timer",           "Simple timer field");
+                        FieldTypeAdd(14, "EntitySearch",    "Autofilled searchable items field");
+                        FieldTypeAdd(15, "EntitySelect",    "Autofilled single selection list");
+                        FieldTypeAdd(16, "ShowPdf",         "Show PDF");
+                        FieldTypeAdd(17, "FieldGroup",      "Field group");
+                        FieldTypeAdd(18, "SaveButton",      "Save eForm");
                         #endregion
                     }
 
@@ -3631,9 +3607,7 @@ namespace eFormSqlController
                         {
                             string readSetting = SettingRead((Settings)setting);
                             if (readSetting == "")
-                            {
                                 result.Add(setting.ToString() + " has an empty value!");
-                            }
                         }
                         catch
                         {
