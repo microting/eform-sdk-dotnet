@@ -50,6 +50,9 @@ Several examples can be found in the Program.cs file:
 
 ## Changelog
 
+  - Version 1.6.2.0 *(September 6th 2017)*
+	- Better self healing for broken settings.
+
   - Version 1.6.1.9 *(September 5th 2017)*
 	- Adding the changes to make the AdminTool.DbSetup(token) work.
 
