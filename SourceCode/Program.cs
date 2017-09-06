@@ -64,7 +64,7 @@ namespace SourceCode
                 Console.WriteLine("Any other will close Console");
                 string input = Console.ReadLine();
                 #endregion
-
+                
                 if (input.ToUpper() == "A")
                 {
                     var program = new AdminTools(serverConnectionString);
