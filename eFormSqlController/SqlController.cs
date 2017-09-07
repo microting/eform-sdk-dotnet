@@ -85,7 +85,7 @@ namespace eFormSqlController
                 SettingCreateDefaults();
         }
 
-        public bool MigrateDb()
+        public bool                 MigrateDb()
         {
             var configuration = new Configuration();
             configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
@@ -3423,9 +3423,9 @@ namespace eFormSqlController
         {
             //key point
             SettingCreate(Settings.firstRunDone);
-            SettingCreate(Settings.knownSitesDone);
             SettingCreate(Settings.logLevel);
             SettingCreate(Settings.logLimit);
+            SettingCreate(Settings.knownSitesDone);
             SettingCreate(Settings.fileLocationPicture);
             SettingCreate(Settings.fileLocationPdf);
             SettingCreate(Settings.fileLocationJasper);
@@ -3452,22 +3452,22 @@ namespace eFormSqlController
                 string defaultValue = "default";
                 switch (name)
                 {
-                    case Settings.firstRunDone:             id =  1;    defaultValue = "false";                                break;
-                    case Settings.knownSitesDone:           id =  2;    defaultValue = "false";                                break;
-                    case Settings.logLevel:                 id =  3;    defaultValue = "4";                                    break;
-                    case Settings.logLimit:                 id =  4;    defaultValue = "250";                                  break;
-                    case Settings.fileLocationPicture:      id =  5;    defaultValue = "dataFolder/picture/";                  break;
-                    case Settings.fileLocationPdf:          id =  6;    defaultValue = "dataFolder/pdf/";                      break;
-                    case Settings.fileLocationJasper:       id =  7;    defaultValue = "dataFolder/reports/";                  break;
-                    case Settings.token:                    id =  8;    defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";     break;
-                    case Settings.comAddressBasic:          id =  9;    defaultValue = "https://basic.microting.com";          break;
-                    case Settings.comAddressPdfUpload:      id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";            break;
-                    case Settings.comAddressApi:            id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";            break;
-                    case Settings.comOrganizationId:        id = 12;    defaultValue = "0";                                    break;
-                    case Settings.awsAccessKeyId:           id = 13;    defaultValue = "XXX";                                  break;
-                    case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                                  break;
-                    case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                                  break;
-                    case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                    break;
+                    case Settings.firstRunDone:             id =  1;    defaultValue = "false";                             break;
+                    case Settings.logLevel:                 id =  2;    defaultValue = "4";                                 break;
+                    case Settings.logLimit:                 id =  3;    defaultValue = "250";                               break;
+                    case Settings.knownSitesDone:           id =  4;    defaultValue = "false";                             break;
+                    case Settings.fileLocationPicture:      id =  5;    defaultValue = "dataFolder/picture/";               break;
+                    case Settings.fileLocationPdf:          id =  6;    defaultValue = "dataFolder/pdf/";                   break;
+                    case Settings.fileLocationJasper:       id =  7;    defaultValue = "dataFolder/reports/";               break;
+                    case Settings.token:                    id =  8;    defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";  break;
+                    case Settings.comAddressBasic:          id =  9;    defaultValue = "https://basic.microting.com";       break;
+                    case Settings.comAddressPdfUpload:      id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
+                    case Settings.comAddressApi:            id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
+                    case Settings.comOrganizationId:        id = 12;    defaultValue = "0";                                 break;
+                    case Settings.awsAccessKeyId:           id = 13;    defaultValue = "XXX";                               break;
+                    case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                               break;
+                    case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                               break;
+                    case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                 break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -3596,7 +3596,8 @@ namespace eFormSqlController
                     int countVal = db.settings.Count(x => x.value == "");
                     int countSet = db.settings.Count();
 
-                    if (countSet == 0) {
+                    if (countSet == 0)
+                    {
                         result.Add("NO SETTINGS PRESENT, NEEDS PRIMING!");
                         return result;
                     }
@@ -3685,39 +3686,39 @@ namespace eFormSqlController
 
         private string              WriteLogExceptionEntry(LogEntry logEntry)
         {
-                try
+            try
+            {
+                using (var db = new MicrotingDb(connectionStr))
                 {
-                    using (var db = new MicrotingDb(connectionStr))
+                    log_exceptions newLog = new log_exceptions();
+                    newLog.created_at = logEntry.Time;
+                    newLog.level = logEntry.Level;
+                    newLog.message = logEntry.Message;
+                    newLog.type = logEntry.Type;
+
+                    db.log_exceptions.Add(newLog);
+                    db.SaveChanges();
+
+                    #region clean up of log exception table
+                    int limit = t.Int(SettingRead(Settings.logLimit));
+                    if (limit > 0)
                     {
-                        log_exceptions newLog = new log_exceptions();
-                        newLog.created_at = logEntry.Time;
-                        newLog.level = logEntry.Level;
-                        newLog.message = logEntry.Message;
-                        newLog.type = logEntry.Type;
+                        List<log_exceptions> killList = db.log_exceptions.Where(x => x.id <= newLog.id - limit).ToList();
 
-                        db.log_exceptions.Add(newLog);
-                        db.SaveChanges();
-
-                        #region clean up of log exception table
-                        int limit = t.Int(SettingRead(Settings.logLimit));
-                        if (limit > 0)
+                        if (killList.Count > 0)
                         {
-                            List<log_exceptions> killList = db.log_exceptions.Where(x => x.id <= newLog.id - limit).ToList();
-
-                            if (killList.Count > 0)
-                            {
-                                db.log_exceptions.RemoveRange(killList);
-                                db.SaveChanges();
-                            }
+                            db.log_exceptions.RemoveRange(killList);
+                            db.SaveChanges();
                         }
-                        #endregion
                     }
-                    return "";
+                    #endregion
                 }
-                catch (Exception ex)
-                {
-                    return t.PrintException(t.GetMethodName() + " failed", ex);
-                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return t.PrintException(t.GetMethodName() + " failed", ex);
+            }
         }
 
         public override void        WriteIfFailed(string logEntries)
@@ -4504,19 +4505,6 @@ namespace eFormSqlController
             }
 
             return null;
-        }
-
-        private int     SettingCheck(Settings setting)
-        {
-            try
-            {
-                SettingRead(setting);
-                return 0;
-            }
-            catch
-            {    
-                return 1;
-            }
         }
         #endregion
 

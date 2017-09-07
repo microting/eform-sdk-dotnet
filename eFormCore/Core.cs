@@ -107,9 +107,11 @@ namespace eFormCore
                     coreThread.Start();
                     log.LogStandard("Not Specified", "CoreThread started");
 
+                    log.LogStandard("Not Specified", "Core started");
                     coreStatChanging = false;
                 }
             }
+            #region catch
             catch (Exception ex)
             {
                 coreRunning = false;
@@ -118,6 +120,7 @@ namespace eFormCore
                 FatalExpection(t.GetMethodName() + " failed", ex);
                 return false;
             }
+            #endregion
 
             return true;
         }
