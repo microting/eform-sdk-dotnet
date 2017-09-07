@@ -896,6 +896,22 @@ namespace eFormCore
 
                     var cDto = sqlController.CaseReadByMUId(microtingUId);
                     string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
+                    Response resp = new Response();
+
+                    if (xmlResponse.Contains("Error"))
+                    {
+                        try
+                        {
+                            resp = resp.XmlToClass(xmlResponse);
+                            log.LogException("Not Specified", methodName + " failed", new Exception("Error from Microting server: " + resp.Value), true);
+                            return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.LogException("Not Specified", methodName + " failed", ex, true);
+                            return false;
+                        }
+                    }
 
                     if (xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
                         for (int i = 1; i < 7; i++)
@@ -909,7 +925,6 @@ namespace eFormCore
                     log.LogEverything("Not Specified", "XML response:");
                     log.LogEverything("Not Specified", xmlResponse);
 
-                    Response resp = new Response();
                     resp = resp.XmlToClass(xmlResponse);
                     if (resp.Type.ToString() == "Success")
                     {
