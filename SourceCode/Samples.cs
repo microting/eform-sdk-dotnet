@@ -399,7 +399,6 @@ namespace eFormCore
             Console.WriteLine("Trying to shutting down");
             Close();
         }
-        #endregion
 
         public void Template()
         {
@@ -455,6 +454,7 @@ namespace eFormCore
             Console.WriteLine("Trying to shutting down");
             Close();
         }
+        #endregion
 
         #region private
         private void         SetSetting()

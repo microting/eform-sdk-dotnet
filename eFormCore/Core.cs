@@ -3010,6 +3010,14 @@ namespace eFormCore
 
                                                             break;
                                                         }
+                                                    case "description":
+                                                        {
+                                                            Element elem = mainElement.ElementList[0];
+
+                                                            elem.Description.InderValue = content;
+
+                                                            break;
+                                                        }
                                                     case "info":
                                                         {
                                                             Element elem = mainElement.ElementList[0];
