@@ -65,8 +65,6 @@ namespace eFormCore
             core.HandleSiteActivated += EventSiteActivated;
             core.HandleEventException += EventException;
             #endregion
-
-            core.Start(serverConnectionString);
         }
         #endregion
 
@@ -81,17 +79,21 @@ namespace eFormCore
                 Console.WriteLine("'1' for sample 1");
                 Console.WriteLine("'2' for sample 2");
                 Console.WriteLine("'3' for sample 3");
+                Console.WriteLine("'T' for adding template to database");
 
                 string input = Console.ReadLine();
                 if (input.ToLower() == "e") break;
                 if (input.ToLower() == "1") Sample1();
                 if (input.ToLower() == "2") Sample2();
                 if (input.ToLower() == "3") Sample3();
+                if (input.ToLower() == "t") Template();
             }
         }
 
         public void Sample1()
         {
+            core.Start(serverConnectionString);
+
             List<int> siteIds = new List<int>();
             int templatId = -1;
 
@@ -158,6 +160,8 @@ namespace eFormCore
 
         public void Sample2()
         {
+            core.Start(serverConnectionString);
+
             List<int> siteIds = new List<int>();
             int templatId = -1;
 
@@ -231,6 +235,8 @@ namespace eFormCore
 
         public void Sample3()
         {
+            core.Start(serverConnectionString);
+
             bool keepRunning = true;
 
             while (keepRunning)
@@ -394,6 +400,61 @@ namespace eFormCore
             Close();
         }
         #endregion
+
+        public void Template()
+        {
+            Core full = (Core)core;
+            full.StartSqlOnly(serverConnectionString);
+
+            bool keepRunning = true;
+
+            while (keepRunning)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Type 'Q' to quit");
+                Console.WriteLine("Type 'C' to create eForm template from the xmlTemplate.txt");
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "q")
+                    keepRunning = false;
+
+                if (input.ToLower() == "c")
+                {
+                    string xmlStr = File.ReadAllText("sample\\xmlTemplate.txt");
+                    var main = TemplatFromXml(xmlStr);
+                    main = core.TemplateUploadData(main);
+
+                    // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
+                    List<string> validationErrors = core.TemplateValidation(main);
+                    if (validationErrors.Count < 1)
+                    {
+                        main.Repeated = 1;
+                        main.CaseType = "Test";
+                        main.StartDate = DateTime.Now;
+                        main.EndDate = DateTime.Now.AddDays(2);
+
+                        try
+                        {
+                            Console.WriteLine("- TemplatId = " + TemplatCreate(main));
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("PANIC !!!", ex);
+                        }
+                    }
+                    else
+                    {
+                        foreach (string error in validationErrors)
+                        {
+                            Console.WriteLine("The following error is stopping us from creating the template: " + error);
+                        }
+                        Console.WriteLine(@"Correct the errors in sample\xmlTemplate.txt and try again");
+                    }
+                }
+            }
+            Console.WriteLine("Trying to shutting down");
+            Close();
+        }
 
         #region private
         private void         SetSetting()
