@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.IO;
-using System.Data.Common;
-using MySql.Data.MySqlClient;
-using System.Data.SqlClient;
+using System.Data.Entity;
 
 namespace eFormSqlController
 {
@@ -19,6 +17,7 @@ namespace eFormSqlController
     {
         #region var
         string connectionStr;
+        bool msSql = true;
         Log log;
         Tools t = new Tools();
         List<Holder> converter;
@@ -30,43 +29,17 @@ namespace eFormSqlController
         #region con
         public                      SqlController(string connectionString)
         {
-            connectionStr = connectionString;
+            connectionStr = connectionString.ToLower();
 
-            #region use MS SQL or MySQL connector
-            //if (connectionStr.ToLower().Contains("server="))
-            //{
-            //    //dbConnection = new MySqlConnection(connectionString); //MySQL connection
-            //}
-            //else
-            //{
-
-            //}
-
-            //try
-            //{
-            //    try
-            //    {
-            //        //dbConnection.Open();
-            //    }
-            //    catch
-            //    {
-            //        using (var db = new MicrotingDbMy(dbConnection, false))
-            //        {
-            //            db.Database.CreateIfNotExists();
-            //        }
-            //        dbConnection.Open();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("Unable to start SqlController, due to unable to open connection to the database", ex);
-            //}
-            #endregion
+            if (!connectionStr.Contains("server="))
+                msSql = true;
+            else
+                msSql = false;
 
             #region migrate if needed
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     var match = db.settings.Count();
                 }
@@ -80,6 +53,14 @@ namespace eFormSqlController
             //region set default for settings if needed
             if (SettingCheckAll().Count > 0)
                 SettingCreateDefaults();
+        }
+
+        private DbContextInterface  GetContext()
+        {
+            if (msSql)
+                return new MicrotingDb(connectionStr);
+            else
+                return new MicrotingDb(connectionStr);
         }
 
         public bool                 MigrateDb()
@@ -112,11 +93,11 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     MainElement mainElement = null;
                     GetConverter();
-                    
+
                     check_lists mainCl = db.check_lists.SingleOrDefault(x => x.id == templateId && (x.parent_id == null || x.parent_id == 0));
 
                     if (mainCl == null)
@@ -146,7 +127,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
 
@@ -178,7 +159,7 @@ namespace eFormSqlController
             {
                 List<Template_Dto> templateList = new List<Template_Dto>();
 
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<check_lists> matches = null;
 
@@ -197,7 +178,7 @@ namespace eFormSqlController
                         }
                         bool hasCases = false;
                         if (checkList.cases.Count() > 0)
-                             hasCases = true;
+                            hasCases = true;
                         Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
                         templateList.Add(templateDto);
                     }
@@ -217,7 +198,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     MainElement mainElement = TemplateRead(templateId);
                     List<fields> fieldLst = new List<fields>();
@@ -239,7 +220,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
 
@@ -266,7 +247,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
 
@@ -303,7 +284,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
@@ -333,13 +314,13 @@ namespace eFormSqlController
             }
         }
         #endregion
-        
+
         #region public (pre)case
         public void                 CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
 
@@ -370,7 +351,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     sites site = db.sites.Single(x => x.microting_uid == siteUId);
                     return int.Parse(db.check_list_sites.Single(x => x.site_id == site.id && x.check_list_id == templateId && x.workflow_state != "removed").microting_uid);
@@ -386,7 +367,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     string caseType = db.check_lists.Single(x => x.id == checkListId).case_type;
                     int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
@@ -418,7 +399,8 @@ namespace eFormSqlController
 
                         db.version_cases.Add(MapCaseVersions(aCase));
                         db.SaveChanges();
-                    } else
+                    }
+                    else
                     {
                         aCase.status = 66;
                         aCase.type = caseType;
@@ -435,7 +417,7 @@ namespace eFormSqlController
 
                         db.version_cases.Add(MapCaseVersions(aCase));
                         db.SaveChanges();
-                    }                       
+                    }
 
                     return aCase.id;
                 }
@@ -450,7 +432,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.microting_uid == microtingUId);
                     if (match == null)
@@ -469,7 +451,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId);
 
@@ -494,7 +476,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases caseStd = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
 
@@ -541,14 +523,14 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases match = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
 
                     match.updated_at = DateTime.Now;
                     match.workflow_state = "retracted";
                     match.version = match.version + 1;
-        
+
                     db.version_cases.Add(MapCaseVersions(match));
                     db.SaveChanges();
                 }
@@ -558,12 +540,12 @@ namespace eFormSqlController
                 throw new Exception("CaseRetract failed", ex);
             }
         }
-        
+
         public void                 CaseDelete(string microtingUId)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != "removed" && x.workflow_state != "retracted");
 
@@ -585,7 +567,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_list_sites site = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
 
@@ -610,7 +592,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     int elementId;
                     int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
@@ -784,7 +766,8 @@ namespace eFormSqlController
                                             if (new_value != "")
                                             {
                                                 new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
-                                            } else
+                                            }
+                                            else
                                             {
                                                 new_value += t.Locate(fullKey, "<key>", "</key>");
                                             }
@@ -899,7 +882,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
                     var mainCheckList = db.check_lists.Single(x => x.id == aCase.check_list_id);
@@ -921,7 +904,7 @@ namespace eFormSqlController
                     replyElement.Repeated = (int)mainCheckList.repeated;
                     //replyElement.StartDate
                     replyElement.UnitId = (int)aCase.unit_id;
-                    
+
                     foreach (check_lists checkList in aCase.check_list.children)
                     {
                         replyElement.ElementList.Add(SubChecks(checkList.id, aCase.id));
@@ -939,7 +922,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     var checkList = db.check_lists.Single(x => x.id == parentId);
                     //Element element = new Element();
@@ -952,7 +935,8 @@ namespace eFormSqlController
                         }
                         GroupElement element = new GroupElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", elementList);
                         return element;
-                    } else
+                    }
+                    else
                     {
                         List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
                         List<DataItem> dataItemList = new List<DataItem>();
@@ -975,7 +959,8 @@ namespace eFormSqlController
                                 }
                                 FieldGroup fG = new FieldGroup(field.id.ToString(), field.label, field.description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
                                 dataItemGroupList.Add(fG);
-                            } else
+                            }
+                            else
                             {
                                 Field _field = FieldRead(field.id);
                                 _field.FieldValues = new List<FieldValue>();
@@ -1004,7 +989,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
                     int caseId = aCase.id;
@@ -1025,7 +1010,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     fields fieldDb = db.fields.SingleOrDefault(x => x.id == id);
 
@@ -1064,8 +1049,8 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
-                {                              
+                using (var db = GetContext())
+                {
                     FieldValue answer = new FieldValue();
                     answer.Accuracy = reply.accuracy;
                     answer.Altitude = reply.altitude;
@@ -1124,7 +1109,7 @@ namespace eFormSqlController
                                 answer.UploadedDataObj = uploadedDataObj;
                                 answer.UploadedData = "";
                             }
-                            
+
                         }
                     #endregion
                     answer.Value = reply.value;
@@ -1144,9 +1129,10 @@ namespace eFormSqlController
                                     answer.ValueReadable = match.name;
                                     answer.Value = match.entity_item_uid;
                                 }
-                                    
+
                             }
-                        } catch { }                                              
+                        }
+                        catch { }
                     }
 
                     if (answer.FieldType == "SingleSelect")
@@ -1190,7 +1176,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     field_values reply = db.field_values.Single(x => x.id == id);
                     fields question = db.fields.Single(x => x.id == reply.field_id);
@@ -1207,7 +1193,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<field_values> matches = db.field_values.Where(x => x.field_id == id).OrderByDescending(z => z.created_at).ToList();
 
@@ -1232,7 +1218,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     field_values fieldMatch = db.field_values.Single(x => x.case_id == caseId && x.field_id == fieldId);
 
@@ -1254,7 +1240,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     fields matchField = db.fields.Single(x => x.id == fieldId);
 
@@ -1300,7 +1286,8 @@ namespace eFormSqlController
                                                 replyLst1.Add(customPathForUploadedData + item.uploaded_data.file_name);
                                             else
                                                 replyLst1.Add(item.uploaded_data.file_location + item.uploaded_data.file_name);
-                                        } else
+                                        }
+                                        else
                                         {
                                             replyLst1.Add("UPLOADED DATA IS NOT READY FOR FIELD_VALUE ID : " + item.id.ToString());
                                         }
@@ -1367,14 +1354,16 @@ namespace eFormSqlController
                                             if (match != null)
                                             {
                                                 replyLst1.Add(match.name);
-                                            } else
+                                            }
+                                            else
                                             {
                                                 replyLst1.Add("");
                                             }
 
                                         }
                                     }
-                                    catch {
+                                    catch
+                                    {
                                         replyLst1.Add("");
                                     }
                                 }
@@ -1401,7 +1390,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_list_values clv = db.check_list_values.Single(x => x.case_id == caseId && x.check_list_id == checkListId);
                     return clv.status;
@@ -1417,7 +1406,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_list_values match = db.check_list_values.Single(x => x.case_id == caseId && x.check_list_id == checkListId);
 
@@ -1441,7 +1430,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     if (db.notifications.Count(x => x.notification_uid == notificationUId) == 0)
                     {
@@ -1471,7 +1460,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     notifications aNoti = db.notifications.FirstOrDefault(x => x.workflow_state == "created");
 
@@ -1494,7 +1483,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     notifications aNoti = db.notifications.Single(x => x.notification_uid == notificationUId);
                     aNoti.workflow_state = workflowState;
@@ -1515,7 +1504,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     uploaded_data dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
 
@@ -1531,7 +1520,7 @@ namespace eFormSqlController
                         ud.FileName = dU.file_name;
                         ud.Id = dU.id;
                         return ud;
-                    }                        
+                    }
                     else
                         return null;
                 }
@@ -1546,7 +1535,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     try
                     {
@@ -1572,7 +1561,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
 
@@ -1597,9 +1586,9 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
-                    return db.data_uploaded.SingleOrDefault(x => x.id == id); 
+                    return db.data_uploaded.SingleOrDefault(x => x.id == id);
                 }
             }
             catch (Exception ex)
@@ -1612,7 +1601,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
 
@@ -1635,7 +1624,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     try
                     {
@@ -1677,7 +1666,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases aCase = db.cases.Single(x => x.id == caseId);
                     check_lists cL = db.check_lists.Single(x => x.id == aCase.check_list_id);
@@ -1718,7 +1707,7 @@ namespace eFormSqlController
                 if (caseUId == "ReversedCase")
                     throw new Exception("CaseReadByCaseUId failed. Due invalid input:'ReversedCase'. This would return incorrect data");
 
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<cases> matches = db.cases.Where(x => x.case_uid == caseUId).ToList();
                     List<Case_Dto> lstDto = new List<Case_Dto>();
@@ -1739,7 +1728,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
                     match.site_id = db.sites.SingleOrDefault(x => x.id == match.site_id).microting_uid;
@@ -1762,7 +1751,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     if (start == null)
                         start = DateTime.MinValue;
@@ -1791,7 +1780,7 @@ namespace eFormSqlController
                             break;
                         default:
                             break;
-                    }               
+                    }
 
 
                     if (templatId != null)
@@ -1800,7 +1789,7 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query= sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
                     }
 
                     matches = sub_query.ToList();
@@ -1857,7 +1846,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
 
@@ -1874,12 +1863,12 @@ namespace eFormSqlController
                 throw new Exception("CaseFindCustomMatchs failed", ex);
             }
         }
-        
+
         public bool                 CaseUpdateFieldValues(int caseId)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     cases lstMatchs = db.cases.SingleOrDefault(x => x.id == caseId);
 
@@ -1915,7 +1904,7 @@ namespace eFormSqlController
 
                     List<field_values> field_values = db.field_values.Where(x => x.case_id == lstMatchs.id && case_fields.Contains(x.field_id)).ToList();
 
-                    foreach(field_values item in field_values)
+                    foreach (field_values item in field_values)
                     {
                         field_types field_type = item.field.field_type;
                         string new_value = item.value;
@@ -2023,7 +2012,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases newCase = new a_interaction_cases();
 
@@ -2077,7 +2066,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "created");
 
@@ -2106,7 +2095,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "delete");
 
@@ -2135,7 +2124,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
 
@@ -2163,7 +2152,7 @@ namespace eFormSqlController
 
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_case_lists matchSite = db.a_interaction_case_lists.SingleOrDefault(x => x.microting_uid == caseDto.MicrotingUId);
 
@@ -2199,7 +2188,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
                     matchCase.workflow_state = "processed";
@@ -2247,7 +2236,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
                     matchCase.workflow_state = "removed";
@@ -2271,7 +2260,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases newSite = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
 
@@ -2300,7 +2289,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
                     matchCase.workflow_state = "failed to sync";
@@ -2327,7 +2316,7 @@ namespace eFormSqlController
         public List<SiteName_Dto>   SiteGetAll()
         {
             List<SiteName_Dto> siteList = new List<SiteName_Dto>();
-            using (var db = new MicrotingDb(connectionStr))
+            using (var db = GetContext())
             {
                 foreach (sites aSite in db.sites.ToList())
                 {
@@ -2342,7 +2331,7 @@ namespace eFormSqlController
         public List<Site_Dto>       SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
             List<Site_Dto> siteList = new List<Site_Dto>();
-            using (var db = new MicrotingDb(connectionStr))
+            using (var db = GetContext())
             {
                 List<sites> matches = null;
                 switch (workflowState)
@@ -2385,17 +2374,19 @@ namespace eFormSqlController
                         workerMicrotingUid = worker.microting_uid;
                         workerFirstName = worker.first_name;
                         workerLastName = worker.last_name;
-                    } catch { }
+                    }
+                    catch { }
 
                     try
-                    {                       
-                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
-                        siteList.Add(siteDto);
-                    } catch
                     {
                         Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
                         siteList.Add(siteDto);
-                    }                                       
+                    }
+                    catch
+                    {
+                        Site_Dto siteDto = new Site_Dto((int)aSite.microting_uid, aSite.name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
+                        siteList.Add(siteDto);
+                    }
                 }
             }
             return siteList;
@@ -2407,7 +2398,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
@@ -2442,14 +2433,14 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
                     if (site != null)
                         return new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
                     else
-                        return null; 
+                        return null;
                 }
             }
             catch (Exception ex)
@@ -2463,7 +2454,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
                     if (site != null)
@@ -2490,7 +2481,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
@@ -2525,7 +2516,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
@@ -2564,7 +2555,7 @@ namespace eFormSqlController
             {
                 List<Worker_Dto> listWorkerDto = new List<Worker_Dto>();
 
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<workers> matches = null;
 
@@ -2604,7 +2595,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -2640,7 +2631,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     workers worker = db.workers.SingleOrDefault(x => x.id == workerId && x.workflow_state == "created");
 
@@ -2661,7 +2652,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
 
@@ -2682,7 +2673,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
@@ -2719,7 +2710,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -2755,7 +2746,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -2793,7 +2784,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     site_workers site_worker = null;
@@ -2802,11 +2793,12 @@ namespace eFormSqlController
                         sites site = db.sites.Single(x => x.microting_uid == siteId);
                         workers worker = db.workers.Single(x => x.microting_uid == workerId);
                         site_worker = db.site_workers.SingleOrDefault(x => x.site_id == site.id && x.worker_id == worker.id);
-                    } else
+                    }
+                    else
                     {
                         site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
                     }
-                    
+
 
                     if (site_worker != null)
                         return new Site_Worker_Dto((int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
@@ -2826,7 +2818,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -2861,7 +2853,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -2898,7 +2890,7 @@ namespace eFormSqlController
             try
             {
                 List<Unit_Dto> listWorkerDto = new List<Unit_Dto>();
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     foreach (units unit in db.units.ToList())
                     {
@@ -2920,7 +2912,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
                     int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
@@ -2957,7 +2949,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -2981,7 +2973,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -3016,7 +3008,7 @@ namespace eFormSqlController
             string methodName = t.GetMethodName();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
 
@@ -3062,7 +3054,7 @@ namespace eFormSqlController
             int numOfElements = 0;
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     var source = db.entity_groups.Where(x => x.type == entityType);
                     if (nameFilter != "")
@@ -3074,9 +3066,9 @@ namespace eFormSqlController
                             source = source.OrderBy(x => x.id);
                     else
                         if (desc)
-                            source = source.OrderByDescending(x => x.name);
-                        else
-                            source = source.OrderBy(x => x.id);
+                        source = source.OrderByDescending(x => x.name);
+                    else
+                        source = source.OrderBy(x => x.id);
 
                     switch (workflowState)
                     {
@@ -3114,7 +3106,7 @@ namespace eFormSqlController
                 if (entityType != "EntitySearch" && entityType != "EntitySelect")
                     throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
 
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     entity_groups eG = new entity_groups();
 
@@ -3133,7 +3125,7 @@ namespace eFormSqlController
                     db.version_entity_groups.Add(MapEntityGroupVersions(eG));
                     db.SaveChanges();
 
-                    return new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, new List<EntityItem>(),eG.workflow_state, eG.created_at, eG.updated_at);
+                    return new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, new List<EntityItem>(), eG.workflow_state, eG.created_at, eG.updated_at);
                 }
             }
             catch (Exception ex)
@@ -3146,7 +3138,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId);
 
@@ -3168,7 +3160,8 @@ namespace eFormSqlController
                         {
                             eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").OrderBy(x => x.name).ToList();
                         }
-                    } else
+                    }
+                    else
                     {
                         if (sort == "id")
                         {
@@ -3205,7 +3198,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     entity_groups eG = db.entity_groups.SingleOrDefault(x => x.id == entityGroupId);
 
@@ -3234,7 +3227,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId);
 
@@ -3263,7 +3256,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<EntityItemUpdateInfo> rtnLst = new List<EntityItemUpdateInfo>();
                     EntityGroup eGNew = entityGroup;
@@ -3306,7 +3299,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<string> killLst = new List<string>();
 
@@ -3354,7 +3347,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     return db.entity_items.Single(x => x.microting_uid == microtingUId);
                 }
@@ -3369,7 +3362,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     return db.entity_items.FirstOrDefault(x => x.synced == 0);
                 }
@@ -3384,7 +3377,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     entity_items eItem = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItemId && x.entity_group_id == entityGroupMUId);
 
@@ -3441,7 +3434,7 @@ namespace eFormSqlController
 
         public bool                 SettingCreate(Settings name)
         {
-            using (var db = new MicrotingDb(connectionStr))
+            using (var db = GetContext())
             {
                 //key point
                 #region id = settings.name
@@ -3449,29 +3442,29 @@ namespace eFormSqlController
                 string defaultValue = "default";
                 switch (name)
                 {
-                    case Settings.firstRunDone:             id =  1;    defaultValue = "false";                             break;
-                    case Settings.logLevel:                 id =  2;    defaultValue = "4";                                 break;
-                    case Settings.logLimit:                 id =  3;    defaultValue = "250";                               break;
-                    case Settings.knownSitesDone:           id =  4;    defaultValue = "false";                             break;
-                    case Settings.fileLocationPicture:      id =  5;    defaultValue = "dataFolder/picture/";               break;
-                    case Settings.fileLocationPdf:          id =  6;    defaultValue = "dataFolder/pdf/";                   break;
-                    case Settings.fileLocationJasper:       id =  7;    defaultValue = "dataFolder/reports/";               break;
-                    case Settings.token:                    id =  8;    defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";  break;
-                    case Settings.comAddressBasic:          id =  9;    defaultValue = "https://basic.microting.com";       break;
-                    case Settings.comAddressPdfUpload:      id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
-                    case Settings.comAddressApi:            id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
-                    case Settings.comOrganizationId:        id = 12;    defaultValue = "0";                                 break;
-                    case Settings.awsAccessKeyId:           id = 13;    defaultValue = "XXX";                               break;
-                    case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                               break;
-                    case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                               break;
-                    case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                 break;
+                    case Settings.firstRunDone: id = 1; defaultValue = "false"; break;
+                    case Settings.logLevel: id = 2; defaultValue = "4"; break;
+                    case Settings.logLimit: id = 3; defaultValue = "250"; break;
+                    case Settings.knownSitesDone: id = 4; defaultValue = "false"; break;
+                    case Settings.fileLocationPicture: id = 5; defaultValue = "dataFolder/picture/"; break;
+                    case Settings.fileLocationPdf: id = 6; defaultValue = "dataFolder/pdf/"; break;
+                    case Settings.fileLocationJasper: id = 7; defaultValue = "dataFolder/reports/"; break;
+                    case Settings.token: id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
+                    case Settings.comAddressBasic: id = 9; defaultValue = "https://basic.microting.com"; break;
+                    case Settings.comAddressPdfUpload: id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.comAddressApi: id = 11; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.comOrganizationId: id = 12; defaultValue = "0"; break;
+                    case Settings.awsAccessKeyId: id = 13; defaultValue = "XXX"; break;
+                    case Settings.awsSecretAccessKey: id = 14; defaultValue = "XXX"; break;
+                    case Settings.awsEndPoint: id = 15; defaultValue = "XXX"; break;
+                    case Settings.unitLicenseNumber: id = 16; defaultValue = "0"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
                 }
                 #endregion
 
-                settings matchId   = db.settings.SingleOrDefault(x => x.id   == id);
+                settings matchId = db.settings.SingleOrDefault(x => x.id == id);
                 settings matchName = db.settings.SingleOrDefault(x => x.name == name.ToString());
 
                 if (matchName == null)
@@ -3507,7 +3500,7 @@ namespace eFormSqlController
                 }
                 else
                     if (string.IsNullOrEmpty(matchName.value))
-                        matchName.value = defaultValue;
+                    matchName.value = defaultValue;
             }
 
             return true;
@@ -3517,7 +3510,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
 
@@ -3537,7 +3530,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
 
@@ -3562,31 +3555,31 @@ namespace eFormSqlController
             List<string> result = new List<string>();
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     if (db.field_types.Count() != 18)
                     {
                         #region prime FieldTypes
                         UnitTest_TruncateTable(typeof(field_types).Name);
 
-                        FieldTypeAdd(1,  "Text",            "Simple text field");
-                        FieldTypeAdd(2,  "Number",          "Simple number field");
-                        FieldTypeAdd(3,  "None",            "Simple text to be displayed");
-                        FieldTypeAdd(4,  "CheckBox",        "Simple check box field");
-                        FieldTypeAdd(5,  "Picture",         "Simple picture field");
-                        FieldTypeAdd(6,  "Audio",           "Simple audio field");
-                        FieldTypeAdd(7,  "Movie",           "Simple movie field");
-                        FieldTypeAdd(8,  "SingleSelect",    "Single selection list");
-                        FieldTypeAdd(9,  "Comment",         "Simple comment field");
-                        FieldTypeAdd(10, "MultiSelect",     "Simple multi select list");
-                        FieldTypeAdd(11, "Date",            "Date selection");
-                        FieldTypeAdd(12, "Signature",       "Simple signature field");
-                        FieldTypeAdd(13, "Timer",           "Simple timer field");
-                        FieldTypeAdd(14, "EntitySearch",    "Autofilled searchable items field");
-                        FieldTypeAdd(15, "EntitySelect",    "Autofilled single selection list");
-                        FieldTypeAdd(16, "ShowPdf",         "Show PDF");
-                        FieldTypeAdd(17, "FieldGroup",      "Field group");
-                        FieldTypeAdd(18, "SaveButton",      "Save eForm");
+                        FieldTypeAdd(1, "Text", "Simple text field");
+                        FieldTypeAdd(2, "Number", "Simple number field");
+                        FieldTypeAdd(3, "None", "Simple text to be displayed");
+                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
+                        FieldTypeAdd(5, "Picture", "Simple picture field");
+                        FieldTypeAdd(6, "Audio", "Simple audio field");
+                        FieldTypeAdd(7, "Movie", "Simple movie field");
+                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
+                        FieldTypeAdd(9, "Comment", "Simple comment field");
+                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
+                        FieldTypeAdd(11, "Date", "Date selection");
+                        FieldTypeAdd(12, "Signature", "Simple signature field");
+                        FieldTypeAdd(13, "Timer", "Simple timer field");
+                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
+                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
+                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
+                        FieldTypeAdd(17, "FieldGroup", "Field group");
+                        FieldTypeAdd(18, "SaveButton", "Save eForm");
                         #endregion
                     }
 
@@ -3644,7 +3637,7 @@ namespace eFormSqlController
             {
                 try
                 {
-                    using (var db = new MicrotingDb(connectionStr))
+                    using (var db = GetContext())
                     {
                         logs newLog = new logs();
                         newLog.created_at = logEntry.Time;
@@ -3685,7 +3678,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     log_exceptions newLog = new log_exceptions();
                     newLog.created_at = logEntry.Time;
@@ -3725,7 +3718,7 @@ namespace eFormSqlController
                 try
                 {
                     File.AppendAllText(@"expection.txt",
-                        DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine 
+                        DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
                         + logEntries + Environment.NewLine);
                 }
                 catch
@@ -3739,11 +3732,11 @@ namespace eFormSqlController
 
         #region private
         #region EformCreateDb
-        private int                 EformCreateDb           (MainElement mainElement)
+        private int                 EformCreateDb(MainElement mainElement)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     GetConverter();
 
@@ -3792,7 +3785,7 @@ namespace eFormSqlController
             }
         }
 
-        private void                CreateElementList      (int parentId, List<Element> lstElement)
+        private void                CreateElementList(int parentId, List<Element> lstElement)
         {
             foreach (Element element in lstElement)
             {
@@ -3812,11 +3805,11 @@ namespace eFormSqlController
             }
         }
 
-        private void                CreateGroupElement     (int parentId, GroupElement groupElement)
+        private void                CreateGroupElement(int parentId, GroupElement groupElement)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_lists cl = new check_lists();
                     cl.created_at = DateTime.Now;
@@ -3856,11 +3849,11 @@ namespace eFormSqlController
             }
         }
 
-        private void                CreateDataElement      (int parentId, DataElement dataElement)
+        private void                CreateDataElement(int parentId, DataElement dataElement)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     check_lists cl = new check_lists();
                     cl.created_at = DateTime.Now;
@@ -3914,11 +3907,11 @@ namespace eFormSqlController
             }
         }
 
-        private void                CreateDataItemGroup    (int elementId, FieldGroup fieldGroup)
+        private void                CreateDataItemGroup(int elementId, FieldGroup fieldGroup)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     string typeStr = fieldGroup.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
                     int fieldTypeId = Find(typeStr);
@@ -3960,11 +3953,11 @@ namespace eFormSqlController
             }
         }
 
-        private void                CreateDataItem         (int? parentFieldId, int elementId, DataItem dataItem)
+        private void                CreateDataItem(int? parentFieldId, int elementId, DataItem dataItem)
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     string typeStr = dataItem.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
                     int fieldTypeId = Find(typeStr);
@@ -4072,7 +4065,7 @@ namespace eFormSqlController
                             field.split_screen = t.Bool(timer.StopOnSave);
                             break;
 
-                    //-------
+                        //-------
 
                         case "EntitySearch":
                             EntitySearch entitySearch = (EntitySearch)dataItem;
@@ -4113,7 +4106,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     Element element;
 
@@ -4180,7 +4173,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     fields f = db.fields.Single(x => x.id == dataItemId);
                     string fieldTypeStr = Find(t.Int(f.field_type_id));
@@ -4247,7 +4240,7 @@ namespace eFormSqlController
                             break;
 
                         case "Text":
-                            lstDataItem.Add(new Text(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy), 
+                            lstDataItem.Add(new Text(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value, t.Int(f.max_length), t.Bool(f.geolocation_enabled), t.Bool(f.geolocation_forced), t.Bool(f.geolocation_hidden), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
@@ -4255,7 +4248,7 @@ namespace eFormSqlController
                             lstDataItem.Add(new Timer(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.stop_on_save)));
                             break;
-                            
+
                         case "EntitySearch":
                             lstDataItem.Add(new EntitySearch(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id), t.Bool(f.is_num), f.query_type, t.Int(f.min_value), t.Bool(f.barcode_enabled), f.barcode_type));
@@ -4292,7 +4285,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     converter = new List<Holder>();
 
@@ -4316,7 +4309,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     var match = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupMUId);
 
@@ -4339,7 +4332,7 @@ namespace eFormSqlController
                                 db.SaveChanges();
                             }
 
-                            return; 
+                            return;
                         }
                         else
                         {
@@ -4375,7 +4368,7 @@ namespace eFormSqlController
                         eI.name = entityItem.Name;
                         eI.description = entityItem.Description;
                         eI.synced = t.Bool(false);
-        
+
                         db.entity_items.Add(eI);
                         db.SaveChanges();
 
@@ -4397,7 +4390,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     entity_items match = db.entity_items.Single(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId);
 
@@ -4420,7 +4413,7 @@ namespace eFormSqlController
         #endregion
 
         #region help methods
-        private string  Find(int fieldTypeId)
+        private string              Find(int fieldTypeId)
         {
             foreach (var holder in converter)
             {
@@ -4430,7 +4423,7 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
         }
 
-        private int     Find(string typeStr)
+        private int                 Find(string typeStr)
         {
             foreach (var holder in converter)
             {
@@ -4440,7 +4433,7 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
-        private string  PairBuild(List<KeyValuePair> lst)
+        private string              PairBuild(List<KeyValuePair> lst)
         {
             string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><hash>";
             string inderStr;
@@ -4464,7 +4457,7 @@ namespace eFormSqlController
             return str;
         }
 
-        private List<KeyValuePair> PairRead(string str)
+        private List<KeyValuePair>  PairRead(string str)
         {
             List<KeyValuePair> list = new List<KeyValuePair>();
             str = t.Locate(str, "<hash>", "</hash>");
@@ -4493,7 +4486,7 @@ namespace eFormSqlController
             return list;
         }
 
-        private string  PairMatch(List<KeyValuePair> keyValuePairs, string match)
+        private string              PairMatch(List<KeyValuePair> keyValuePairs, string match)
         {
             foreach (var item in keyValuePairs)
             {
@@ -4545,7 +4538,7 @@ namespace eFormSqlController
             return ver;
         }
 
-        private case_versions               MapCaseVersions(cases aCase)
+        private case_versions MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
             caseVer.status = aCase.status;
@@ -4578,7 +4571,7 @@ namespace eFormSqlController
             return caseVer;
         }
 
-        private check_list_versions         MapCheckListVersions(check_lists checkList)
+        private check_list_versions MapCheckListVersions(check_lists checkList)
         {
             check_list_versions clv = new check_list_versions();
             clv.created_at = checkList.created_at;
@@ -4617,7 +4610,7 @@ namespace eFormSqlController
             return clv;
         }
 
-        private check_list_value_versions   MapCheckListValueVersions(check_list_values checkListValue)
+        private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
         {
             check_list_value_versions clvv = new check_list_value_versions();
             clvv.version = checkListValue.version;
@@ -4635,7 +4628,7 @@ namespace eFormSqlController
             return clvv;
         }
 
-        private field_versions              MapFieldVersions(fields field)
+        private field_versions MapFieldVersions(fields field)
         {
             field_versions fv = new field_versions();
 
@@ -4677,7 +4670,7 @@ namespace eFormSqlController
             return fv;
         }
 
-        private field_value_versions        MapFieldValueVersions(field_values fieldValue)
+        private field_value_versions MapFieldValueVersions(field_values fieldValue)
         {
             field_value_versions fvv = new field_value_versions();
 
@@ -4705,7 +4698,7 @@ namespace eFormSqlController
             return fvv;
         }
 
-        private uploaded_data_versions      MapUploadedDataVersions(uploaded_data uploadedData)
+        private uploaded_data_versions MapUploadedDataVersions(uploaded_data uploadedData)
         {
             uploaded_data_versions udv = new uploaded_data_versions();
 
@@ -4728,7 +4721,7 @@ namespace eFormSqlController
             return udv;
         }
 
-        private check_list_site_versions    MapCheckListSiteVersions(check_list_sites checkListSite)
+        private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
         {
             check_list_site_versions checkListSiteVer = new check_list_site_versions();
             checkListSiteVer.check_list_id = checkListSite.check_list_id;
@@ -4745,7 +4738,7 @@ namespace eFormSqlController
             return checkListSiteVer;
         }
 
-        private entity_group_versions       MapEntityGroupVersions(entity_groups entityGroup)
+        private entity_group_versions MapEntityGroupVersions(entity_groups entityGroup)
         {
             entity_group_versions entityGroupVer = new entity_group_versions();
             entityGroupVer.created_at = entityGroup.created_at;
@@ -4762,7 +4755,7 @@ namespace eFormSqlController
             return entityGroupVer;
         }
 
-        private entity_item_versions        MapEntityItemVersions(entity_items entityItem)
+        private entity_item_versions MapEntityItemVersions(entity_items entityItem)
         {
             entity_item_versions entityItemVer = new entity_item_versions();
             entityItemVer.workflow_state = entityItem.workflow_state;
@@ -4781,7 +4774,7 @@ namespace eFormSqlController
             return entityItemVer;
         }
 
-        private site_worker_versions        MapSiteWorkerVersions(site_workers site_workers)
+        private site_worker_versions MapSiteWorkerVersions(site_workers site_workers)
         {
             site_worker_versions siteWorkerVer = new site_worker_versions();
             siteWorkerVer.workflow_state = site_workers.workflow_state;
@@ -4797,7 +4790,7 @@ namespace eFormSqlController
             return siteWorkerVer;
         }
 
-        private site_versions               MapSiteVersions(sites site)
+        private site_versions MapSiteVersions(sites site)
         {
             site_versions siteVer = new site_versions();
             siteVer.workflow_state = site.workflow_state;
@@ -4812,7 +4805,7 @@ namespace eFormSqlController
             return siteVer;
         }
 
-        private unit_versions               MapUnitVersions(units units)
+        private unit_versions MapUnitVersions(units units)
         {
             unit_versions unitVer = new unit_versions();
             unitVer.workflow_state = units.workflow_state;
@@ -4829,7 +4822,7 @@ namespace eFormSqlController
             return unitVer;
         }
 
-        private worker_versions             MapWorkerVersions(workers workers)
+        private worker_versions MapWorkerVersions(workers workers)
         {
             worker_versions workerVer = new worker_versions();
             workerVer.workflow_state = workers.workflow_state;
@@ -4852,7 +4845,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<string> lstMUId = new List<string>();
 
@@ -4881,7 +4874,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<string> lstMUId = new List<string>();
 
@@ -4904,7 +4897,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<entity_items> lstEGs = db.entity_items.Where(x => x.workflow_state == "failed to sync" && x.entity_group_id == entityGroupId).ToList();
 
@@ -4924,7 +4917,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<string> lstMUId = new List<string>();
 
@@ -4947,7 +4940,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<notifications> lst = db.notifications.ToList();
                     return lst;
@@ -4963,7 +4956,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<string> lstMUId = new List<string>();
 
@@ -4986,7 +4979,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<a_interaction_case_lists> lst = db.a_interaction_case_lists.Where(x => x.a_interaction_case_id == interactionCaseId).ToList();
                     return lst;
@@ -5002,7 +4995,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
                     return match;
@@ -5018,7 +5011,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
                     db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
@@ -5037,7 +5030,7 @@ namespace eFormSqlController
         {
             try
             {
-                using (var db = new MicrotingDb(connectionStr))
+                using (var db = GetContext())
                 {
                     List<string> tableLst = new List<string>();
 
@@ -5084,7 +5077,7 @@ namespace eFormSqlController
 
         private void                FieldTypeAdd(int id, string fieldType, string description)
         {
-            using (var db = new MicrotingDb(connectionStr))
+            using (var db = GetContext())
             {
                 field_types fT = new field_types();
                 fT.id = id;
