@@ -44,7 +44,7 @@ namespace SourceCode
                 Console.WriteLine("Enter database to use:");
                 Console.WriteLine("> If left blank, it will use 'Microting'");
                 Console.WriteLine("  Enter name of database to be used");
-                string databaseName = Console.ReadLine();
+                string databaseName = Console.ReadLine().ToUpper();
 
                 if (databaseName != "")
                     serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
@@ -52,6 +52,8 @@ namespace SourceCode
                     serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
                 if (databaseName == "O")
                     serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+
+                Console.WriteLine(serverConnectionString);
                 #endregion
 
                 #region Console.WriteLine(...text...)
@@ -62,20 +64,20 @@ namespace SourceCode
                 Console.WriteLine("  'I', for purely run core");
                 Console.WriteLine("");
                 Console.WriteLine("Any other will close Console");
-                string input = Console.ReadLine();
+                string input = Console.ReadLine().ToUpper();
                 #endregion
                 
-                if (input.ToUpper() == "A")
+                if (input == "A")
                 {
                     var program = new AdminTools(serverConnectionString);
                     program.RunConsole();
                 }
-                if (input.ToUpper() == "S")
+                if (input == "S")
                 {
                     var program = new Samples   (serverConnectionString);
                     program.Run();
                 }
-                if (input.ToUpper() == "I")
+                if (input == "I")
                 {
                     var core = new Core();
                     core.Start                  (serverConnectionString);

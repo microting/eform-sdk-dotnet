@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Main>
+    <Id>9402</Id>
+    <Repeated>0</Repeated>
+    <Label>Besked til medarbejder</Label>
+    <StartDate>2017-09-07</StartDate>
+    <EndDate>2027-09-07</EndDate>
+    <Language>da</Language>
+    <MultiApproval>false</MultiApproval>
+    <FastNavigation>false</FastNavigation>
+    <Review>false</Review>
+    <Summary>false</Summary>
+    <DisplayOrder>0</DisplayOrder>
+    <ElementList>
+        <Element type="DataElement">
+            <Id>9402</Id>
+            <Label>Besked til medarbejder</Label>
+            <Description><![CDATA[Det er en ny besked til dig.&nbsp;<br>Tryk "Besked læst" når du har læst besked.<br><br><br>God arbejdslyst ;-)]]></Description>
+            <DisplayOrder>0</DisplayOrder>
+            <ReviewEnabled>false</ReviewEnabled>
+            <ManualSync>false</ManualSync>
+            <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+            <DoneButtonDisabled>true</DoneButtonDisabled>
+            <ApprovalEnabled>false</ApprovalEnabled>
+            <DataItemList>
+                <DataItem type="SaveButton">
+                    <Id>76512</Id>
+                    <Label></Label>
+                    <Description><![CDATA[]]></Description>
+                    <DisplayOrder>0</DisplayOrder>
+                    <Value>Besked læst</Value>
+                    <Color>f0f8db</Color>
+                </DataItem>
+            </DataItemList>
+        </Element>
+    </ElementList>
+</Main>

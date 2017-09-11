@@ -18,14 +18,13 @@ namespace eFormSqlController
     public class SqlController : LogWriter
     {
         #region var
-        //DbConnection dbConnection;
         string connectionStr;
         Log log;
         Tools t = new Tools();
         List<Holder> converter;
 
         object _lockQuery = new object();
-        object _writeLock = new object();
+        object _lockWrite = new object();
         #endregion
 
         #region con
@@ -36,34 +35,32 @@ namespace eFormSqlController
             #region use MS SQL or MySQL connector
             //if (connectionStr.ToLower().Contains("server="))
             //{
-            //    dbConnection = new MySqlConnection(connectionString); //MySQL connection
+            //    //dbConnection = new MySqlConnection(connectionString); //MySQL connection
             //}
             //else
             //{
-            //    dbConnection = new SqlConnection(connectionString + ";MultipleActiveResultSets=true"); // ;Connection Timeout=3000");  //MS SQL connection
-            //}
-            #endregion
 
-            #region connect to DB
-            try
-            {
-                try
-                {
-                    //dbConnection.Open();
-                }
-                catch
-                {
-                    using (var db = new MicrotingDb(connectionStr))
-                    {
-                        db.Database.CreateIfNotExists();
-                    }
-                    //dbConnection.Open();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to start SqlController, due to unable to open connection to the database", ex);
-            }
+            //}
+
+            //try
+            //{
+            //    try
+            //    {
+            //        //dbConnection.Open();
+            //    }
+            //    catch
+            //    {
+            //        using (var db = new MicrotingDbMy(dbConnection, false))
+            //        {
+            //            db.Database.CreateIfNotExists();
+            //        }
+            //        dbConnection.Open();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("Unable to start SqlController, due to unable to open connection to the database", ex);
+            //}
             #endregion
 
             #region migrate if needed
@@ -3643,7 +3640,7 @@ namespace eFormSqlController
 
         public override string      WriteLogEntry(LogEntry logEntry)
         {
-            lock (_writeLock)
+            lock (_lockWrite)
             {
                 try
                 {
@@ -3723,7 +3720,7 @@ namespace eFormSqlController
 
         public override void        WriteIfFailed(string logEntries)
         {
-            lock (_writeLock)
+            lock (_lockWrite)
             {
                 try
                 {
