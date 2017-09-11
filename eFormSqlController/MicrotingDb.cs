@@ -7,16 +7,12 @@ namespace eFormSqlController
     using System.Data.Common;
     using MySql.Data.Entity;
 
-    public partial class MicrotingDb : DbContext
+    public partial class MicrotingDb : DbContext, DbContextInterface
     {
         public MicrotingDb() { }
 
         public MicrotingDb(string connectionString)
           : base(connectionString)
-        {
-        }
-        public MicrotingDb(DbConnection existingConnection, bool contextOwnsConnection)
-          : base(existingConnection, contextOwnsConnection)
         {
         }
 

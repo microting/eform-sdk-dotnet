@@ -9,14 +9,18 @@ namespace eFormSqlController
 
     // Code-Based Configuration and Dependency resolution
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public partial class MicrotingDbMy : DbContext
+    public partial class MicrotingDbMy : DbContext//, DbContextInterface
     {
         public MicrotingDbMy() { }
 
-        public MicrotingDbMy(DbConnection existingConnection, bool contextOwnsConnection)
-          : base(existingConnection, contextOwnsConnection)
+        public MicrotingDbMy(string connectionString)
         {
         }
+
+        //public MicrotingDbMy(DbConnection existingConnection, bool contextOwnsConnection)
+        //  : base(existingConnection, contextOwnsConnection)
+        //{
+        //}
 
         //public virtual DbSet<a_interaction_cases> a_interaction_cases { get; set; }
         //public virtual DbSet<a_interaction_case_versions> a_interaction_case_versions { get; set; }
@@ -35,7 +39,7 @@ namespace eFormSqlController
         //public virtual DbSet<log_exceptions> log_exceptions { get; set; }
         //public virtual DbSet<logs> logs { get; set; }
         //public virtual DbSet<notifications> notifications { get; set; }
-        //public virtual DbSet<settings> settings { get; set; }
+        public virtual DbSet<settings> settings { get; set; }
         //public virtual DbSet<sites> sites { get; set; }
         //public virtual DbSet<units> units { get; set; }
         //public virtual DbSet<workers> workers { get; set; }

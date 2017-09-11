@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbContextInterface.cs" />
     <Compile Include="MicrotingDbMy.cs" />
     <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.cs" />
     <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.Designer.cs">
