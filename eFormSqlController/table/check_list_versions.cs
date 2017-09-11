@@ -16,16 +16,14 @@ namespace eFormSqlController
 
         public int? version { get; set; }
 
-        [Column(TypeName = "datetime2")]
+        [Column(TypeName = "date")]
         public DateTime? created_at { get; set; }
 
-        [Column(TypeName = "datetime2")]
+        [Column(TypeName = "date")]
         public DateTime? updated_at { get; set; }
 
-        [Column(TypeName = "varchar(MAX)")]
         public string label { get; set; }
 
-        [StringLength(int.MaxValue)]
         public string description { get; set; }
 
         public string custom { get; set; }

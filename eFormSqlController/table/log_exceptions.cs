@@ -11,7 +11,7 @@ namespace eFormSqlController
         [Key]
         public int id { get; set; }
 
-        [Column(TypeName = "datetime2")]
+        [Column(TypeName = "date")]
         public DateTime created_at { get; set; }
 
         public int level { get; set; }

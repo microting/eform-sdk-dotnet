@@ -5,7 +5,7 @@ namespace eFormSqlController.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MicrotingDb>
+    internal sealed class Configuration : DbMigrationsConfiguration<MicrotingDbMs>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace eFormSqlController.Migrations
             ContextKey = "eFormSqlController.MicrotingDb";
         }
 
-        protected override void Seed(MicrotingDb context)
+        protected override void Seed(MicrotingDbMs context)
         {
 
         }

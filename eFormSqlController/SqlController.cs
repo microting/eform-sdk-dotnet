@@ -41,6 +41,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
+                    db.Database.CreateIfNotExists();
                     var match = db.settings.Count();
                 }
             }
@@ -58,9 +59,9 @@ namespace eFormSqlController
         private DbContextInterface  GetContext()
         {
             if (msSql)
-                return new MicrotingDb(connectionStr);
+                return new MicrotingDbMs(connectionStr);
             else
-                return new MicrotingDb(connectionStr);
+                return new MicrotingDbMy(connectionStr);
         }
 
         public bool                 MigrateDb()
@@ -231,7 +232,7 @@ namespace eFormSqlController
                     checkList.version = checkList.version + 1;
                     checkList.display_index = newDisplayIndex;
 
-                    db.version_check_lists.Add(MapCheckListVersions(checkList));
+                    db.check_list_versions.Add(MapCheckListVersions(checkList));
                     db.SaveChanges();
 
                     return true;
@@ -267,7 +268,7 @@ namespace eFormSqlController
                     checkList.field_9 = fieldId9;
                     checkList.field_10 = fieldId10;
 
-                    db.version_check_lists.Add(MapCheckListVersions(checkList));
+                    db.check_list_versions.Add(MapCheckListVersions(checkList));
                     db.SaveChanges();
 
                     return true;
@@ -298,7 +299,7 @@ namespace eFormSqlController
 
                         check_list.workflow_state = "removed";
 
-                        db.version_check_lists.Add(MapCheckListVersions(check_list));
+                        db.check_list_versions.Add(MapCheckListVersions(check_list));
                         db.SaveChanges();
 
                         return true;
@@ -337,7 +338,7 @@ namespace eFormSqlController
                     db.check_list_sites.Add(cLS);
                     db.SaveChanges();
 
-                    db.version_check_list_sites.Add(MapCheckListSiteVersions(cLS));
+                    db.check_list_site_versions.Add(MapCheckListSiteVersions(cLS));
                     db.SaveChanges();
                 }
             }
@@ -397,7 +398,7 @@ namespace eFormSqlController
                         db.cases.Add(aCase);
                         db.SaveChanges();
 
-                        db.version_cases.Add(MapCaseVersions(aCase));
+                        db.case_versions.Add(MapCaseVersions(aCase));
                         db.SaveChanges();
                     }
                     else
@@ -415,7 +416,7 @@ namespace eFormSqlController
                         aCase.version = aCase.version + 1;
                         aCase.custom = custom;
 
-                        db.version_cases.Add(MapCaseVersions(aCase));
+                        db.case_versions.Add(MapCaseVersions(aCase));
                         db.SaveChanges();
                     }
 
@@ -461,7 +462,7 @@ namespace eFormSqlController
                         match.updated_at = DateTime.Now;
                         match.version = match.version + 1;
 
-                        db.version_cases.Add(MapCaseVersions(match));
+                        db.case_versions.Add(MapCaseVersions(match));
                         db.SaveChanges();
                     }
                 }
@@ -504,12 +505,12 @@ namespace eFormSqlController
 
                         db.SaveChanges();
 
-                        db.version_check_list_sites.Add(MapCheckListSiteVersions(match));
+                        db.check_list_site_versions.Add(MapCheckListSiteVersions(match));
                         db.SaveChanges();
                     }
                     #endregion
 
-                    db.version_cases.Add(MapCaseVersions(caseStd));
+                    db.case_versions.Add(MapCaseVersions(caseStd));
                     db.SaveChanges();
                 }
             }
@@ -531,7 +532,7 @@ namespace eFormSqlController
                     match.workflow_state = "retracted";
                     match.version = match.version + 1;
 
-                    db.version_cases.Add(MapCaseVersions(match));
+                    db.case_versions.Add(MapCaseVersions(match));
                     db.SaveChanges();
                 }
             }
@@ -553,7 +554,7 @@ namespace eFormSqlController
                     aCase.workflow_state = "removed";
                     aCase.version = aCase.version + 1;
 
-                    db.version_cases.Add(MapCaseVersions(aCase));
+                    db.case_versions.Add(MapCaseVersions(aCase));
                     db.SaveChanges();
                 }
             }
@@ -575,7 +576,7 @@ namespace eFormSqlController
                     site.workflow_state = "removed";
                     site.version = site.version + 1;
 
-                    db.version_check_list_sites.Add(MapCheckListSiteVersions(site));
+                    db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
                     db.SaveChanges();
                 }
             }
@@ -645,7 +646,7 @@ namespace eFormSqlController
                         db.check_list_values.Add(clv);
                         db.SaveChanges();
 
-                        db.version_check_list_values.Add(MapCheckListValueVersions(clv));
+                        db.check_list_value_versions.Add(MapCheckListValueVersions(clv));
                         db.SaveChanges();
 
                         #region foreach (string dataItemStr in dataItems)
@@ -674,10 +675,10 @@ namespace eFormSqlController
                                     dU.local = 0;
                                     dU.file_location = t.Locate(dataItemStr, "<URL>", "</");
 
-                                    db.data_uploaded.Add(dU);
+                                    db.uploaded_data.Add(dU);
                                     db.SaveChanges();
 
-                                    db.version_data_uploaded.Add(MapUploadedDataVersions(dU));
+                                    db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
                                     db.SaveChanges();
 
                                     fieldV.uploaded_data_id = dU.id;
@@ -719,7 +720,7 @@ namespace eFormSqlController
                                 db.field_values.Add(fieldV);
                                 db.SaveChanges();
 
-                                db.version_field_values.Add(MapFieldValueVersions(fieldV));
+                                db.field_value_versions.Add(MapFieldValueVersions(fieldV));
                                 db.SaveChanges();
 
                                 #region update case field_values
@@ -812,7 +813,7 @@ namespace eFormSqlController
                                     responseCase.version = responseCase.version + 1;
                                     db.cases.AddOrUpdate(responseCase);
                                     db.SaveChanges();
-                                    db.version_cases.Add(MapCaseVersions(responseCase));
+                                    db.case_versions.Add(MapCaseVersions(responseCase));
                                     db.SaveChanges();
                                 }
 
@@ -866,7 +867,7 @@ namespace eFormSqlController
                         db.field_values.Add(fieldV);
                         db.SaveChanges();
 
-                        db.version_field_values.Add(MapFieldValueVersions(fieldV));
+                        db.field_value_versions.Add(MapFieldValueVersions(fieldV));
                         db.SaveChanges();
                     }
                     #endregion
@@ -1084,7 +1085,7 @@ namespace eFormSqlController
                                 {
                                     uploadedDataId = (int)fV.uploaded_data_id;
 
-                                    uploadedData = db.data_uploaded.Single(x => x.id == uploadedDataId);
+                                    uploadedData = db.uploaded_data.Single(x => x.id == uploadedDataId);
 
                                     if (uploadedData.file_name != null)
                                         locations += uploadedData.file_location + uploadedData.file_name + Environment.NewLine;
@@ -1226,7 +1227,7 @@ namespace eFormSqlController
                     fieldMatch.updated_at = DateTime.Now;
                     fieldMatch.version = fieldMatch.version + 1;
 
-                    db.version_field_values.Add(MapFieldValueVersions(fieldMatch));
+                    db.field_value_versions.Add(MapFieldValueVersions(fieldMatch));
                     db.SaveChanges();
                 }
             }
@@ -1414,7 +1415,7 @@ namespace eFormSqlController
                     match.updated_at = DateTime.Now;
                     match.version = match.version + 1;
 
-                    db.version_check_list_values.Add(MapCheckListValueVersions(match));
+                    db.check_list_value_versions.Add(MapCheckListValueVersions(match));
                     db.SaveChanges();
                 }
             }
@@ -1506,7 +1507,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data dU = db.data_uploaded.FirstOrDefault(x => x.workflow_state == "pre_created");
+                    uploaded_data dU = db.uploaded_data.FirstOrDefault(x => x.workflow_state == "pre_created");
 
                     if (dU != null)
                     {
@@ -1539,7 +1540,7 @@ namespace eFormSqlController
                 {
                     try
                     {
-                        uploaded_data dU = db.data_uploaded.Where(x => x.file_location == urlString).First();
+                        uploaded_data dU = db.uploaded_data.Where(x => x.file_location == urlString).First();
                         field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.id);
                         cases aCase = db.cases.Single(x => x.id == fV.case_id);
 
@@ -1563,7 +1564,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
+                    uploaded_data uD = db.uploaded_data.Single(x => x.id == id);
 
                     uD.checksum = chechSum;
                     uD.file_location = fileLocation;
@@ -1588,7 +1589,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    return db.data_uploaded.SingleOrDefault(x => x.id == id);
+                    return db.uploaded_data.SingleOrDefault(x => x.id == id);
                 }
             }
             catch (Exception ex)
@@ -1603,7 +1604,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.data_uploaded.Single(x => x.id == id);
+                    uploaded_data uD = db.uploaded_data.Single(x => x.id == id);
 
                     uD.workflow_state = "removed";
                     uD.updated_at = DateTime.Now;
@@ -1994,7 +1995,7 @@ namespace eFormSqlController
 
                     db.cases.AddOrUpdate(lstMatchs);
                     db.SaveChanges();
-                    db.version_cases.Add(MapCaseVersions(lstMatchs));
+                    db.case_versions.Add(MapCaseVersions(lstMatchs));
                     db.SaveChanges();
 
                     return true;
@@ -2415,7 +2416,7 @@ namespace eFormSqlController
                     db.sites.Add(site);
                     db.SaveChanges();
 
-                    db.version_sites.Add(MapSiteVersions(site));
+                    db.site_versions.Add(MapSiteVersions(site));
                     db.SaveChanges();
 
                     return site.id;
@@ -2495,7 +2496,7 @@ namespace eFormSqlController
 
                         site.name = name;
 
-                        db.version_sites.Add(MapSiteVersions(site));
+                        db.site_versions.Add(MapSiteVersions(site));
                         db.SaveChanges();
 
                         return true;
@@ -2530,7 +2531,7 @@ namespace eFormSqlController
 
                         site.workflow_state = "removed";
 
-                        db.version_sites.Add(MapSiteVersions(site));
+                        db.site_versions.Add(MapSiteVersions(site));
                         db.SaveChanges();
 
                         return true;
@@ -2613,7 +2614,7 @@ namespace eFormSqlController
                     db.workers.Add(worker);
                     db.SaveChanges();
 
-                    db.version_workers.Add(MapWorkerVersions(worker));
+                    db.worker_versions.Add(MapWorkerVersions(worker));
                     db.SaveChanges();
 
                     return worker.id;
@@ -2689,7 +2690,7 @@ namespace eFormSqlController
                         worker.last_name = lastName;
                         worker.email = email;
 
-                        db.version_workers.Add(MapWorkerVersions(worker));
+                        db.worker_versions.Add(MapWorkerVersions(worker));
                         db.SaveChanges();
 
                         return true;
@@ -2723,7 +2724,7 @@ namespace eFormSqlController
 
                         worker.workflow_state = "removed";
 
-                        db.version_workers.Add(MapWorkerVersions(worker));
+                        db.worker_versions.Add(MapWorkerVersions(worker));
                         db.SaveChanges();
 
                         return true;
@@ -2766,7 +2767,7 @@ namespace eFormSqlController
                     db.site_workers.Add(site_worker);
                     db.SaveChanges();
 
-                    db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
+                    db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
                     db.SaveChanges();
 
                     return site_worker.id;
@@ -2832,7 +2833,7 @@ namespace eFormSqlController
                         site_worker.site_id = siteId;
                         site_worker.worker_id = workerId;
 
-                        db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
+                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
                         db.SaveChanges();
 
                         return true;
@@ -2866,7 +2867,7 @@ namespace eFormSqlController
 
                         site_worker.workflow_state = "removed";
 
-                        db.version_site_workers.Add(MapSiteWorkerVersions(site_worker));
+                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
                         db.SaveChanges();
 
                         return true;
@@ -2931,7 +2932,7 @@ namespace eFormSqlController
                     db.units.Add(unit);
                     db.SaveChanges();
 
-                    db.version_units.Add(MapUnitVersions(unit));
+                    db.unit_versions.Add(MapUnitVersions(unit));
                     db.SaveChanges();
 
                     return unit.id;
@@ -2987,7 +2988,7 @@ namespace eFormSqlController
                         unit.customer_no = customerNo;
                         unit.otp_code = otpCode;
 
-                        db.version_units.Add(MapUnitVersions(unit));
+                        db.unit_versions.Add(MapUnitVersions(unit));
                         db.SaveChanges();
 
                         return true;
@@ -3021,7 +3022,7 @@ namespace eFormSqlController
 
                         unit.workflow_state = "removed";
 
-                        db.version_units.Add(MapUnitVersions(unit));
+                        db.unit_versions.Add(MapUnitVersions(unit));
                         db.SaveChanges();
 
                         return true;
@@ -3122,7 +3123,7 @@ namespace eFormSqlController
                     db.entity_groups.Add(eG);
                     db.SaveChanges();
 
-                    db.version_entity_groups.Add(MapEntityGroupVersions(eG));
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
                     db.SaveChanges();
 
                     return new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, new List<EntityItem>(), eG.workflow_state, eG.created_at, eG.updated_at);
@@ -3211,7 +3212,7 @@ namespace eFormSqlController
 
                     db.SaveChanges();
 
-                    db.version_entity_groups.Add(MapEntityGroupVersions(eG));
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
                     db.SaveChanges();
 
                     return true;
@@ -3240,7 +3241,7 @@ namespace eFormSqlController
 
                     db.SaveChanges();
 
-                    db.version_entity_groups.Add(MapEntityGroupVersions(eG));
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
                     db.SaveChanges();
 
                     return true;
@@ -3313,7 +3314,7 @@ namespace eFormSqlController
                     eG.workflow_state = "removed";
                     eG.updated_at = DateTime.Now;
                     eG.version = eG.version + 1;
-                    db.version_entity_groups.Add(MapEntityGroupVersions(eG));
+                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
 
                     List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed").ToList();
                     if (lst != null)
@@ -3324,7 +3325,7 @@ namespace eFormSqlController
                             item.updated_at = DateTime.Now;
                             item.version = item.version + 1;
                             item.synced = t.Bool(false);
-                            db.version_entity_items.Add(MapEntityItemVersions(item));
+                            db.entity_item_versions.Add(MapEntityItemVersions(item));
 
                             killLst.Add(item.microting_uid);
                         }
@@ -3391,7 +3392,7 @@ namespace eFormSqlController
                         if (workflowState == "created")
                             eItem.microting_uid = microting_uid; //<<---
 
-                        db.version_entity_items.Add(MapEntityItemVersions(eItem));
+                        db.entity_item_versions.Add(MapEntityItemVersions(eItem));
                         db.SaveChanges();
                     }
                     else
@@ -3767,7 +3768,7 @@ namespace eFormSqlController
                     db.check_lists.Add(cl);
                     db.SaveChanges();
 
-                    db.version_check_lists.Add(MapCheckListVersions(cl));
+                    db.check_list_versions.Add(MapCheckListVersions(cl));
                     db.SaveChanges();
 
                     int mainId = cl.id;
@@ -3837,7 +3838,7 @@ namespace eFormSqlController
                     db.check_lists.Add(cl);
                     db.SaveChanges();
 
-                    db.version_check_lists.Add(MapCheckListVersions(cl));
+                    db.check_list_versions.Add(MapCheckListVersions(cl));
                     db.SaveChanges();
 
                     CreateElementList(cl.id, groupElement.ElementList);
@@ -3881,7 +3882,7 @@ namespace eFormSqlController
                     db.check_lists.Add(cl);
                     db.SaveChanges();
 
-                    db.version_check_lists.Add(MapCheckListVersions(cl));
+                    db.check_list_versions.Add(MapCheckListVersions(cl));
                     db.SaveChanges();
 
                     if (dataElement.DataItemGroupList != null)
@@ -3935,7 +3936,7 @@ namespace eFormSqlController
                     db.fields.Add(field);
                     db.SaveChanges();
 
-                    db.version_fields.Add(MapFieldVersions(field));
+                    db.field_versions.Add(MapFieldVersions(field));
                     db.SaveChanges();
 
                     if (fieldGroup.DataItemList != null)
@@ -4090,7 +4091,7 @@ namespace eFormSqlController
                     db.fields.Add(field);
                     db.SaveChanges();
 
-                    db.version_fields.Add(MapFieldVersions(field));
+                    db.field_versions.Add(MapFieldVersions(field));
                     db.SaveChanges();
                 }
             }
@@ -4328,7 +4329,7 @@ namespace eFormSqlController
 
                                 db.SaveChanges();
 
-                                db.version_entity_items.Add(MapEntityItemVersions(match));
+                                db.entity_item_versions.Add(MapEntityItemVersions(match));
                                 db.SaveChanges();
                             }
 
@@ -4346,7 +4347,7 @@ namespace eFormSqlController
 
                             db.SaveChanges();
 
-                            db.version_entity_items.Add(MapEntityItemVersions(match));
+                            db.entity_item_versions.Add(MapEntityItemVersions(match));
                             db.SaveChanges();
 
                             return;
@@ -4372,7 +4373,7 @@ namespace eFormSqlController
                         db.entity_items.Add(eI);
                         db.SaveChanges();
 
-                        db.version_entity_items.Add(MapEntityItemVersions(eI));
+                        db.entity_item_versions.Add(MapEntityItemVersions(eI));
                         db.SaveChanges();
 
                         return;
@@ -4401,7 +4402,7 @@ namespace eFormSqlController
 
                     db.SaveChanges();
 
-                    db.version_entity_items.Add(MapEntityItemVersions(match));
+                    db.entity_item_versions.Add(MapEntityItemVersions(match));
                     db.SaveChanges();
                 }
             }
@@ -5013,10 +5014,21 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
-                    db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
+                    if (msSql)
+                    {
+                        db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
+                        db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
 
-                    return true;
+                        return true;
+                    }
+                    else
+                    {
+                        db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0");
+                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE " + tableName + ";");
+                        db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1");
+
+                        return true;
+                    }
                 }
             }
             catch (Exception ex)

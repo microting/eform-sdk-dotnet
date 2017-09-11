@@ -17,7 +17,7 @@ namespace eFormSqlController
         DbSet<check_list_sites> check_list_sites { get; set; }
         DbSet<check_list_values> check_list_values { get; set; }
         DbSet<check_lists> check_lists { get; set; }
-        DbSet<uploaded_data> data_uploaded { get; set; }
+        DbSet<uploaded_data> uploaded_data { get; set; }
         DbSet<entity_groups> entity_groups { get; set; }
         DbSet<entity_items> entity_items { get; set; }
         DbSet<field_types> field_types { get; set; }
@@ -31,19 +31,19 @@ namespace eFormSqlController
         DbSet<units> units { get; set; }
         DbSet<workers> workers { get; set; }
         DbSet<site_workers> site_workers { get; set; }
-        DbSet<case_versions> version_cases { get; set; }
-        DbSet<check_list_site_versions> version_check_list_sites { get; set; }
-        DbSet<check_list_value_versions> version_check_list_values { get; set; }
-        DbSet<check_list_versions> version_check_lists { get; set; }
-        DbSet<uploaded_data_versions> version_data_uploaded { get; set; }
-        DbSet<entity_group_versions> version_entity_groups { get; set; }
-        DbSet<entity_item_versions> version_entity_items { get; set; }
-        DbSet<field_value_versions> version_field_values { get; set; }
-        DbSet<field_versions> version_fields { get; set; }
-        DbSet<site_versions> version_sites { get; set; }
-        DbSet<unit_versions> version_units { get; set; }
-        DbSet<worker_versions> version_workers { get; set; }
-        DbSet<site_worker_versions> version_site_workers { get; set; }
+        DbSet<case_versions> case_versions { get; set; }
+        DbSet<check_list_site_versions> check_list_site_versions { get; set; }
+        DbSet<check_list_value_versions> check_list_value_versions { get; set; }
+        DbSet<check_list_versions> check_list_versions { get; set; }
+        DbSet<uploaded_data_versions> uploaded_data_versions { get; set; }
+        DbSet<entity_group_versions> entity_group_versions { get; set; }
+        DbSet<entity_item_versions> entity_item_versions { get; set; }
+        DbSet<field_value_versions> field_value_versions { get; set; }
+        DbSet<field_versions> field_versions { get; set; }
+        DbSet<site_versions> site_versions { get; set; }
+        DbSet<unit_versions> unit_versions { get; set; }
+        DbSet<worker_versions> worker_versions { get; set; }
+        DbSet<site_worker_versions> site_worker_versions { get; set; }
 
         int SaveChanges();
 
