@@ -629,7 +629,7 @@ namespace eFormCore
                 log.LogException("Not Specified", methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
-        }
+        }        
         #endregion
 
         #region case
@@ -1660,6 +1660,28 @@ namespace eFormCore
             {
                 log.LogException("Not Specified", methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public List<fields>     Advanced_TemplateFieldReadAll(int templateId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", "templateId", templateId);
+
+                    return sqlController.TemplateFieldReadAll(templateId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                return null;
             }
         }
         #endregion
