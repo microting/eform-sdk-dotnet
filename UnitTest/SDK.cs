@@ -12,6 +12,7 @@ namespace UnitTest
         //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
         string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
 #else
+        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
 #endif   
 
         int siteId1     = 2001;
@@ -88,6 +89,9 @@ namespace UnitTest
             //Act
             try
             {
+                AdminTools at = new AdminTools(serverConnectionString);
+                at.DbSetup("unittest");
+
                 checkValueB = core.StartSqlOnly(serverConnectionString).ToString();
             }
             catch (Exception ex)
@@ -98,6 +102,6 @@ namespace UnitTest
             //Assert
             Assert.Equal(checkValueA, checkValueB);
         }
-#endregion
+        #endregion
     }
 }
