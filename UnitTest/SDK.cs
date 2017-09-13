@@ -57,8 +57,31 @@ namespace UnitTest
         public void Test0003a_Core_StartSqlOnly_WithBlankExpection()
         {
             //Arrange
-            string checkValueA = "true";
-            string checkValueB = "false";
+            string checkValueA = "serverConnectionString is not allowed to be null or empty";
+            string checkValueB = "some other text";
+            Core core = new Core();
+
+
+            //Act
+            try
+            {
+                checkValueB = core.StartSqlOnly("").ToString();
+            }
+            catch (Exception ex)
+            {
+                checkValueB = ex.InnerException.Message;
+            }
+
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
+        [Fact]
+        public void Test0003b_Core_StartSqlOnly()
+        {
+            //Arrange
+            string checkValueA = "True";
+            string checkValueB = "False";
             Core core = new Core();
 
 
@@ -71,30 +94,6 @@ namespace UnitTest
             {
                 checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
             }
-
-            //Assert
-            Assert.Equal(checkValueA, checkValueB);
-        }
-
-        [Fact]
-        public void Test0003b_Core_StartSqlOnly()
-        {
-            //Arrange
-            bool checkValueA = true;
-            bool checkValueB = false;
-            Core core = new Core();
-
-
-            //Act
-            try
-            {
-                AdminTools at = new AdminTools(serverConnectionString);
-                at.DbSetup("unittest");
-                checkValueB = core.StartSqlOnly(serverConnectionString);
-            }
-            catch (Exception ex)
-            { }
-
 
             //Assert
             Assert.Equal(checkValueA, checkValueB);
