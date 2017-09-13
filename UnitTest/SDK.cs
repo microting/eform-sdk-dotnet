@@ -1,5 +1,5 @@
 ﻿using eFormCore;
-
+using eFormShared;
 using System;
 using System.Linq;
 using Xunit;
@@ -9,14 +9,17 @@ namespace UnitTest
     public class SDK
     {
 #if DEBUG 
-        string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+        //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
 #else
-        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
 #endif   
-        int siteId1 = 1111;
-        int siteId2 = 2222;
-        int workerMUId = 555;
-        int unitMUId = 345678;
+
+        int siteId1     = 2001;
+        int siteId2     = 2002;
+        int workerMUId  = 2003;
+        int unitMUId    = 345678;
+
+        Tools t = new Tools();
 
         #region test 001x basic
         [Fact]
@@ -54,19 +57,19 @@ namespace UnitTest
         public void Test0003a_Core_StartSqlOnly_WithBlankExpection()
         {
             //Arrange
-            bool checkValueA = true;
-            bool checkValueB = false;
+            string checkValueA = "true";
+            string checkValueB = "false";
             Core core = new Core();
 
 
             //Act
             try
             {
-                core.StartSqlOnly("");
+                checkValueB = core.StartSqlOnly(serverConnectionString).ToString();
             }
-            catch
+            catch (Exception ex)
             {
-                checkValueB = true;
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
             }
 
             //Assert
