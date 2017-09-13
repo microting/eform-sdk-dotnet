@@ -10,7 +10,7 @@ namespace UnitTest
     {
 #if DEBUG 
         //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
-        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
 #else
         string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
 #endif   
