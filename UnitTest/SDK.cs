@@ -8,11 +8,13 @@ namespace UnitTest
 {
     public class SDK
     {
-#if DEBUG 
-        //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
-        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
-#else
+#if TRAVIS 
+        string place = "travis";
         string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+#else
+        //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+        string place = "local";
+        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
 #endif   
 
         int siteId1     = 2001;
@@ -30,11 +32,9 @@ namespace UnitTest
             bool checkValueA = true;
             bool checkValueB = false;
 
-
             //Act
             checkValueB = true;
-
-
+            
             //Assert
             Assert.Equal(checkValueA, checkValueB);
         }
@@ -45,10 +45,8 @@ namespace UnitTest
             //Arrange
             Core checkValue = null;
 
-
             //Act
             checkValue = new Core();
-
 
             //Assert
             Assert.NotNull(checkValue);
@@ -61,7 +59,6 @@ namespace UnitTest
             string checkValueA = "serverConnectionString is not allowed to be null or empty";
             string checkValueB = "some other text";
             Core core = new Core();
-
 
             //Act
             try
@@ -84,19 +81,18 @@ namespace UnitTest
             string checkValueA = "True";
             string checkValueB = "False";
             Core core = new Core();
-
-
+            
             //Act
             try
             {
                 AdminTools at = new AdminTools(serverConnectionString);
                 at.DbSetup("unittest");
-
                 checkValueB = core.StartSqlOnly(serverConnectionString).ToString();
             }
             catch (Exception ex)
             {
                 checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+                checkValueB = place;
             }
 
             //Assert
