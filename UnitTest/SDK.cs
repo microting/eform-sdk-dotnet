@@ -8,14 +8,7 @@ namespace UnitTest
 {
     public class SDK
     {
-#if TRAVIS 
-        string place = "travis";
-        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
-#else
-        //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
-        string place = "local";
-        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
-#endif   
+  
 
         int siteId1     = 2001;
         int siteId2     = 2002;
@@ -85,6 +78,18 @@ namespace UnitTest
             //Act
             try
             {
+                string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+
+                try
+                {
+                    if (Environment.MachineName == "DESKTOP-7V1APE5")
+                    {
+                        //serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+                        serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
+                    }
+                }
+                catch { }
+
                 AdminTools at = new AdminTools(serverConnectionString);
                 at.DbSetup("unittest");
                 checkValueB = core.StartSqlOnly(serverConnectionString).ToString();
@@ -92,7 +97,6 @@ namespace UnitTest
             catch (Exception ex)
             {
                 checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
-                checkValueB = place;
             }
 
             //Assert
