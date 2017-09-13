@@ -29,9 +29,9 @@ namespace eFormSqlController
         #region con
         public                      SqlController(string connectionString)
         {
-            connectionStr = connectionString.ToLower();
-
-            if (!connectionStr.Contains("server="))
+            connectionStr = connectionString;
+    
+            if (!connectionStr.ToLower().Contains("server="))
                 msSql = true;
             else
                 msSql = false;
@@ -56,7 +56,7 @@ namespace eFormSqlController
                 SettingCreateDefaults();
         }
 
-        private DbContextInterface  GetContext()
+        private MicrotingContextInterface  GetContext()
         {
             if (msSql)
                 return new MicrotingDbMs(connectionStr);
@@ -70,7 +70,7 @@ namespace eFormSqlController
             configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
             var migrator = new DbMigrator(configuration);
             migrator.Update();
-            //migrator.Update("201704071121081_RemoveOutlookTable");
+            //migrator.Update("201708311254324_ChangingFieldDefaultValueMaxLength");
             return true;
         }
         #endregion
@@ -3443,22 +3443,22 @@ namespace eFormSqlController
                 string defaultValue = "default";
                 switch (name)
                 {
-                    case Settings.firstRunDone: id = 1; defaultValue = "false"; break;
-                    case Settings.logLevel: id = 2; defaultValue = "4"; break;
-                    case Settings.logLimit: id = 3; defaultValue = "250"; break;
-                    case Settings.knownSitesDone: id = 4; defaultValue = "false"; break;
-                    case Settings.fileLocationPicture: id = 5; defaultValue = "dataFolder/picture/"; break;
-                    case Settings.fileLocationPdf: id = 6; defaultValue = "dataFolder/pdf/"; break;
-                    case Settings.fileLocationJasper: id = 7; defaultValue = "dataFolder/reports/"; break;
-                    case Settings.token: id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
-                    case Settings.comAddressBasic: id = 9; defaultValue = "https://basic.microting.com"; break;
-                    case Settings.comAddressPdfUpload: id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                    case Settings.comAddressApi: id = 11; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                    case Settings.comOrganizationId: id = 12; defaultValue = "0"; break;
-                    case Settings.awsAccessKeyId: id = 13; defaultValue = "XXX"; break;
-                    case Settings.awsSecretAccessKey: id = 14; defaultValue = "XXX"; break;
-                    case Settings.awsEndPoint: id = 15; defaultValue = "XXX"; break;
-                    case Settings.unitLicenseNumber: id = 16; defaultValue = "0"; break;
+                    case Settings.firstRunDone:             id =  1;    defaultValue = "false";                             break;
+                    case Settings.logLevel:                 id =  2;    defaultValue = "4";                                 break;
+                    case Settings.logLimit:                 id =  3;    defaultValue = "250";                               break;
+                    case Settings.knownSitesDone:           id =  4;    defaultValue = "false";                             break;
+                    case Settings.fileLocationPicture:      id =  5;    defaultValue = "dataFolder/picture/";               break;
+                    case Settings.fileLocationPdf:          id =  6;    defaultValue = "dataFolder/pdf/";                   break;
+                    case Settings.fileLocationJasper:       id =  7;    defaultValue = "dataFolder/reports/";               break;
+                    case Settings.token:                    id =  8;    defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";  break;
+                    case Settings.comAddressBasic:          id =  9;    defaultValue = "https://basic.microting.com";       break;
+                    case Settings.comAddressPdfUpload:      id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
+                    case Settings.comAddressApi:            id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
+                    case Settings.comOrganizationId:        id = 12;    defaultValue = "0";                                 break;
+                    case Settings.awsAccessKeyId:           id = 13;    defaultValue = "XXX";                               break;
+                    case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                               break;
+                    case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                               break;
+                    case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                 break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -3513,10 +3513,10 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    settings match = db.settings.SingleOrDefault(x => x.name == name.ToString());
+                    settings match = db.settings.Single(x => x.name == name.ToString());
 
-                    if (match == null)
-                        return null;
+                    if (match.value == null)
+                        return "";
 
                     return match.value;
                 }

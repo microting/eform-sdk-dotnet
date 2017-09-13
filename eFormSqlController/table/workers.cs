@@ -11,10 +11,10 @@ namespace eFormSqlController
         [Key]
         public int id { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
         public int microting_uid { get; set; }

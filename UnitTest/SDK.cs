@@ -8,11 +8,15 @@ namespace UnitTest
 {
     public class SDK
     {
-        //string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest;Integrated Security=True";
-        //int siteId1 = 3818;
-        //int siteId2 = 3823;
-        //int workerMUId = 1778;
-        //int unitMUId = 4938;
+#if DEBUG 
+        string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+#else
+        string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+#endif   
+        int siteId1 = 1111;
+        int siteId2 = 2222;
+        int workerMUId = 555;
+        int unitMUId = 345678;
 
         #region test 001x basic
         [Fact]
@@ -47,7 +51,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test0003a_Core_Start_WithBlankExpection()
+        public void Test0003a_Core_StartSqlOnly_WithBlankExpection()
         {
             //Arrange
             bool checkValueA = true;
@@ -58,7 +62,7 @@ namespace UnitTest
             //Act
             try
             {
-                core.Start("");
+                core.StartSqlOnly("");
             }
             catch
             {
@@ -69,27 +73,29 @@ namespace UnitTest
             Assert.Equal(checkValueA, checkValueB);
         }
 
-        //[Fact]
-        //public void Test0003b_Core_Start()
-        //{
-        //    //Arrange
-        //    bool checkValueA = true;
-        //    bool checkValueB = false;
-        //    Core core = new Core();
+        [Fact]
+        public void Test0003b_Core_StartSqlOnly()
+        {
+            //Arrange
+            bool checkValueA = true;
+            bool checkValueB = false;
+            Core core = new Core();
 
 
-        //    //Act
-        //    try
-        //    {
-        //        checkValueB = core.Start(serverConnectionString);
-        //    }
-        //    catch (Exception ex)
-        //    { }
+            //Act
+            try
+            {
+                AdminTools at = new AdminTools(serverConnectionString);
+                at.DbSetup("unittest");
+                checkValueB = core.StartSqlOnly(serverConnectionString);
+            }
+            catch (Exception ex)
+            { }
 
 
-        //    //Assert
-        //    Assert.Equal(checkValueA, checkValueB);
-        //}
-        #endregion
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
+#endregion
     }
 }

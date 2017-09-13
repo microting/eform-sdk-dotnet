@@ -288,6 +288,9 @@ namespace eFormCore
                 if (token == null)
                     token = sqlController.SettingRead(Settings.token);
 
+                if (token.ToLower() == "unittest")
+                    return DbSetupUnitTest();
+            
                 sqlController.SettingUpdate(Settings.token, token);
 
                 // configure db
@@ -412,7 +415,7 @@ namespace eFormCore
         #endregion
 
         #region private
-        private string  DbSetupClear()
+        private string DbSetupClear()
         {
             try
             {
@@ -434,6 +437,37 @@ namespace eFormCore
                 sqlController.UnitTest_TruncateTable(typeof(settings).Name);
                 //---
                 sqlController.UnitTest_TruncateTable(typeof(field_types).Name);
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+        }
+
+        private string DbSetupUnitTest()
+        {
+            try
+            {
+                int siteUId_1 = sqlController.SiteCreate(2001, "first");
+                int siteUId_2 = sqlController.SiteCreate(2002, "second");
+                int siteUId_3 = sqlController.SiteCreate(2003, "third");
+
+                int workerUId_1 = sqlController.WorkerCreate(444, "TesterA", "Alfa", "a@a.com");
+                int workerUId_2 = sqlController.WorkerCreate(555, "TesterB", "Beta", "b@b.com");
+                int workerUId_3 = sqlController.WorkerCreate(666, "TesterC", "Cent", "c@c.com");
+
+                sqlController.SiteWorkerCreate(77, 2001, 444);
+                sqlController.SiteWorkerCreate(88, 2002, 555);
+                sqlController.SiteWorkerCreate(99, 2003, 666);
+
+                sqlController.UnitCreate(123456, 11, 111111, 2001);
+                sqlController.UnitCreate(234567, 12, 222222, 2002);
+                sqlController.UnitCreate(345678, 13, 333333, 2003);
+
+                sqlController.SettingUpdate(Settings.firstRunDone, "true");
+                sqlController.SettingUpdate(Settings.token, "UNIT_TEST___________________L:32");
 
                 return "";
             }

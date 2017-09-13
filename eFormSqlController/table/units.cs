@@ -22,10 +22,10 @@ namespace eFormSqlController
         [StringLength(255)]
         public string workflow_state { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
         [ForeignKey("site")]

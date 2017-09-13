@@ -5,7 +5,7 @@ namespace eFormSqlController
 
     // Code-Based Configuration and Dependency resolution
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public partial class MicrotingDbMy : DbContext, DbContextInterface
+    public partial class MicrotingDbMy : DbContext, MicrotingContextInterface
     {
         public MicrotingDbMy() { }
 

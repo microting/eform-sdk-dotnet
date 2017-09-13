@@ -1,10 +1,11 @@
 namespace eFormSqlController
 {
     using System.Data.Entity;
+    //
  
     //
     //
-    public partial class MicrotingDbMs : DbContext, DbContextInterface
+    public partial class MicrotingDbMs : DbContext, MicrotingContextInterface
     {
         public MicrotingDbMs() { }
 

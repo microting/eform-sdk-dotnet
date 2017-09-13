@@ -18,10 +18,10 @@ namespace eFormSqlController
 
         public int? version { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime? created_at { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "datetime2")]
         public DateTime? updated_at { get; set; }
 
         public string entity_group_id { get; set; }
