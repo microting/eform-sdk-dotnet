@@ -18,11 +18,6 @@ namespace UnitTest
     {
         bool useLiveConnections = true;
 
-        int siteId1     = 2001;
-        int siteId2     = 2002;
-        int workerMUId  = 2003;
-        int unitMUId    = 345678;
-
         #region var
         Core core;
         UnitTestCore utCore;
@@ -32,11 +27,14 @@ namespace UnitTest
         AdminTools at;
         Tools t = new Tools();
 
-        object _testLock = new object();
-        object _filLock = new object();
-        object _setupLock = new object();
-        object _logFilLock = new object();
- 
+        object _lockTest = new object();
+        object _lockFil = new object();
+
+        int siteId1 = 2001;
+        int siteId2 = 2002;
+        int workerMUId = 2003;
+        int unitMUId = 345678;
+
         string token;
         string comAddressApi;
         string comAddressBasic;
@@ -61,69 +59,207 @@ namespace UnitTest
                 unitMUId = 4938;
             }
         }
-        
-        #region test 001x basic
-        [Fact]
-        public void Test0001a_MustAlwaysPass()
-        {
-            //Arrange
-            bool checkValueA = true;
-            bool checkValueB = false;
 
-            //Act
-            checkValueB = true;
-            
-            //Assert
-            Assert.Equal(checkValueA, checkValueB);
+        #region - prepare and teardown     
+        private void TestPrepare(string testName)
+        {
+            at = new AdminTools(serverConnectionString);
+            string temp = at.DbClear();
+            if (temp != "")
+                throw new Exception("CleanUp failed");
+
+            sqlController = new SqlController(serverConnectionString);
+            communicator = new Communicator(sqlController);
+
+            token = sqlController.SettingRead(Settings.token);
+            comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
+            comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
+            comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
+
+            core = new Core();
+            utCore = new UnitTestCore(core);
+
+            core.HandleEventException += EventException;
+            core.Start(serverConnectionString);
         }
 
-        [Fact]
-        public void Test0002a_Core_Initiate()
+        private void TestTeardown()
         {
-            //Arrange
-            Core checkValue = null;
-
-            //Act
-            checkValue = new Core();
-
-            //Assert
-            Assert.NotNull(checkValue);
+            if (core != null)
+                if (core.Running())
+                    utCore.Close();
         }
+        #endregion
 
+        #region test 000x virtal basics
         [Fact]
-        public void Test0003a_Core_StartSqlOnly_WithBlankExpection()
+        public void Test000_1a_MustAlwaysPass()
         {
-            //Arrange
-            string checkValueA = "serverConnectionString is not allowed to be null or empty";
-            string checkValueB = "some other text";
-            Core core = new Core();
-
-            //Act
-            try
+            lock (_lockTest)
             {
-                checkValueB = core.StartSqlOnly("").ToString();
-            }
-            catch (Exception ex)
-            {
-                checkValueB = ex.InnerException.Message;
-            }
+                //Arrange
+                bool checkValueA = true;
+                bool checkValueB = false;
 
-            //Assert
-            Assert.Equal(checkValueA, checkValueB);
+                //Act
+                checkValueB = true;
+
+                //Assert
+                Assert.Equal(checkValueA, checkValueB);
+            }
         }
 
         [Fact]
-        public void Test0003b_Core_StartSqlOnly()
+        public void Test000_2a_PrepareAndTeardownTestdata()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                bool checkValueA = true;
+                bool checkValueB = false;
+                TestPrepare(t.GetMethodName());
+
+                //Act
+                checkValueB = true;
+
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+        #endregion
+
+        #region test 001x core
+        [Fact]
+        public void Test001_1a_Core_Start_WithNullExpection()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                string checkValueA = "serverConnectionString is not allowed to be null or empty";
+                string checkValueB = "";
+                Core core = new Core();
+
+                //Act
+                try
+                {
+                    checkValueB = core.Start(null).ToString();
+                }
+                catch (Exception ex)
+                {
+                    checkValueB = ex.InnerException.InnerException.Message;
+                }
+
+                //Assert
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+
+        [Fact]
+        public void Test001_1b_Core_Start_WithBlankExpection()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                string checkValueA = "serverConnectionString is not allowed to be null or empty";
+                string checkValueB = "";
+                Core core = new Core();
+
+                //Act
+                try
+                {
+                    checkValueB = core.Start("").ToString();
+                }
+                catch (Exception ex)
+                {
+                    checkValueB = ex.InnerException.InnerException.Message;
+                }
+
+                //Assert
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+
+        [Fact]
+        public void Test001_2a_Core_StartSqlOnly()
         {
             //Arrange
             string checkValueA = "True";
-            string checkValueB = "False";
+            string checkValueB = "";
             Core core = new Core();
-            
+
             //Act
             try
             {
                 checkValueB = core.StartSqlOnly(serverConnectionString).ToString();
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
+        [Fact]
+        public void Test001_3a_Core_Start()
+        {
+            //Arrange
+            string checkValueA = "True";
+            string checkValueB = "";
+            Core core = new Core();
+
+            //Act
+            try
+            {
+                checkValueB = core.Start(serverConnectionString).ToString();
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
+        [Fact]
+        public void Test001_4a_Core_Running()
+        {
+            //Arrange
+            string checkValueA = "FalseTrue";
+            string checkValueB = "";
+            Core core = new Core();
+
+            //Act
+            try
+            {
+                checkValueB  = core.Running().ToString();
+                               core.Start(serverConnectionString);
+                checkValueB += core.Running().ToString();
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+
+            //Assert
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
+        [Fact]
+        public void Test001_5a_Core_Close()
+        {
+            //Arrange
+            string checkValueA = "True";
+            string checkValueB = "";
+            Core core = new Core();
+
+            //Act
+            try
+            {
+                checkValueB = core.Close().ToString();
             }
             catch (Exception ex)
             {
@@ -139,100 +275,15 @@ namespace UnitTest
 
 
 
-        #region - pre and post     
-        private void TestPrepare(string testName)
-        {
-            lock (_setupLock)
-            {
-                //clean database
-                at = new AdminTools(serverConnectionString);
-                string temp = at.DbClear();
-                if (temp != "")
-                    throw new Exception("CleanUp failed");
-
-                sqlController = new SqlController(serverConnectionString);
-                sqlController.WriteLogEntry(new LogEntry(1, "Not Specified", ""));
-                sqlController.WriteLogEntry(new LogEntry(1, "Not Specified", "### " + testName + " ###"));
-
-                communicator = new Communicator(sqlController);
-
-                token = sqlController.SettingRead(Settings.token);
-                comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
-                comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
-                comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
-
-                core = new Core();
-                utCore = new UnitTestCore(core);
-
-                core.HandleEventException += EventException;
-                core.Start(serverConnectionString);
-            }
-        }
-
-        private void TestTeardown()
-        {
-            if (core != null)
-                if (core.Running())
-                    utCore.Close();
-        }
-        #endregion
 
         #region tests - 00x - basic
-        [Fact]
-        public void T001_VIRTAL_Basic_SetupAndCleanUp()
-        {
-            if (!useLiveConnections)
-            {
-                Assert.Equal(true, true);
-                return;
-            }
-
-            lock (_testLock)
-            {
-                #region try to clear log before test
-                try
-                {
-                    if (File.Exists(@"log\\log.txt"))
-                    {
-                        for (int i = 1; i < 21; i++)
-                        {
-                            try
-                            {
-                                File.Delete(@"log\\log.txt");
-                            }
-                            catch (Exception ex)
-                            {
-                                if (i == 20)
-                                    EventException(ex, EventArgs.Empty);
-
-                                Thread.Sleep(250);
-                            }
-                        }
-                    }
-                }
-                catch { }
-                #endregion
-                
-                //Arrange
-                TestPrepare(t.GetMethodName());
-                
-                //...
-                //Act
-
-                //...
-                //Assert
-                TestTeardown();
-                Assert.Equal(true, true);
-            }
-        }
-
         [Fact]
         public void T002_Basic_XmlImporter()
         {
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 string checkValueA;
@@ -260,7 +311,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -291,7 +342,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -324,7 +375,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -367,7 +418,7 @@ namespace UnitTest
                 return;
             }
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -408,7 +459,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -455,7 +506,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -502,7 +553,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -550,7 +601,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -600,7 +651,7 @@ namespace UnitTest
                 return;
             }
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 string checkValueA = ClearXml(LoadFil("requestXmlFromClass.txt"));
@@ -672,7 +723,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 string checkValueA = ClearXml(LoadFil("requestXmlFromXml.txt"));
@@ -702,7 +753,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 string responseStr = LoadFil("responseXmlFromXml.txt");
@@ -734,7 +785,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 string responseStr = LoadFil("responseXmlFromXmlExt.txt");
@@ -789,7 +840,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -821,7 +872,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -864,7 +915,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -908,7 +959,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -955,7 +1006,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1001,7 +1052,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1032,7 +1083,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1068,7 +1119,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
 
@@ -1107,7 +1158,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1147,7 +1198,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1185,7 +1236,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1213,7 +1264,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1239,7 +1290,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1265,7 +1316,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1308,7 +1359,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1357,7 +1408,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1408,7 +1459,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1456,7 +1507,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1500,7 +1551,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1546,7 +1597,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1589,7 +1640,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1620,7 +1671,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1674,7 +1725,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1753,7 +1804,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1788,7 +1839,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1830,7 +1881,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1872,7 +1923,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 for (int i = 0; i < 20; i++)
                     Thread.Sleep(100);
@@ -1923,7 +1974,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 for (int i = 0; i < 20; i++)
                     Thread.Sleep(100);
@@ -1967,7 +2018,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 for (int i = 0; i < 20; i++)
                     Thread.Sleep(100);
@@ -2021,7 +2072,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 for (int i = 0; i < 50; i++)
                     Thread.Sleep(100);
@@ -2076,7 +2127,7 @@ namespace UnitTest
             if (!useLiveConnections)
                 {Assert.Equal(true, true); return;}
 
-            lock (_testLock)
+            lock (_lockTest)
             {
                 for (int i = 0; i < 20; i++)
                     Thread.Sleep(100);
@@ -2364,7 +2415,7 @@ namespace UnitTest
         {
             try
             {
-                lock (_filLock)
+                lock (_lockFil)
                 {
                     string str = "";
                     using (StreamReader sr = new StreamReader(path, true))
@@ -2446,7 +2497,7 @@ namespace UnitTest
 
         public void EventException(object sender, EventArgs args)
         {
-            lock (_filLock)
+            lock (_lockFil)
             {
                 File.AppendAllText(@"log\\exception.txt", sender + Environment.NewLine);
             }
@@ -2459,8 +2510,8 @@ namespace UnitTest
     public class TestContext : IDisposable
     {
         string serverConnectionStringForTravis = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
-        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
         string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
 
         #region var
         SqlController sqlController;
