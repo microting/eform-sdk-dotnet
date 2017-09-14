@@ -2485,7 +2485,7 @@ namespace UnitTest
             sqlController = new SqlController(serverConnectionString);
             AdminTools at = new AdminTools(serverConnectionString);
 
-            if (at.DbSetupCompleted().Count > 0)
+            if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                 at.DbSetup("unittest");
         }
         #endregion
