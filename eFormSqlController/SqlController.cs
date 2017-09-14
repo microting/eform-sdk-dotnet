@@ -5044,12 +5044,13 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    if (msSql)
+                    if (SettingRead(Settings.token) == "UNIT_TEST___________________L:32")
                     {
-                    }
-                    else
-                    {
-                        if (SettingRead(Settings.token) == "UNIT_TEST___________________L:32")
+                        if (msSql)
+                        {
+                           
+                        }
+                        else
                         {
                             db.Database.ExecuteSqlCommand("DROP DATABASE `microtingmysql`");
                             return true;

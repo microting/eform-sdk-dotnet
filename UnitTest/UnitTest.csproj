@@ -78,9 +78,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\eFormCommunicator\eFormCommunicator.csproj">
+      <Project>{BA524FAD-0323-4565-8ED2-2253E5460216}</Project>
+      <Name>eFormCommunicator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\eFormCore\eFormCore.csproj">
       <Project>{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}</Project>
       <Name>eFormCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormData\eFormData.csproj">
+      <Project>{8B4A71AC-C214-4AB9-859D-66559F790133}</Project>
+      <Name>eFormData</Name>
     </ProjectReference>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
       <Project>{4E7B9DD0-B7CD-4E17-88CB-123D242AD2AE}</Project>
@@ -89,6 +97,10 @@
     <ProjectReference Include="..\eFormSqlController\eFormSqlController.csproj">
       <Project>{BFB5A715-3348-4A1C-97C6-0EE35E5A8DA5}</Project>
       <Name>eFormSqlController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eFormSubscriber\eFormSubscriber.csproj">
+      <Project>{7008B919-F965-4081-88B6-7004BB31D2BA}</Project>
+      <Name>eFormSubscriber</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
