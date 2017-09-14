@@ -5038,6 +5038,33 @@ namespace eFormSqlController
             }
         }
 
+        public bool                 UnitTest_DeleteDb()
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    if (msSql)
+                    {
+                    }
+                    else
+                    {
+                        if (SettingRead(Settings.token) == "UNIT_TEST___________________L:32")
+                        {
+                            db.Database.ExecuteSqlCommand("DROP DATABASE `microtingmysql`");
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = ex.Message;
+                return false;
+            }
+        }
+
         public bool                 UnitTest_TruncateTablesIfEmpty()
         {
             try

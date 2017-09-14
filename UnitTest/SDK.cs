@@ -1,22 +1,32 @@
 ﻿using eFormCore;
 using eFormShared;
+using eFormSqlController;
 using System;
 using System.Linq;
 using Xunit;
 
 namespace UnitTest
 {
+    [Collection("Database collection")]
     public class SDK
     {
-  
-
         int siteId1     = 2001;
         int siteId2     = 2002;
         int workerMUId  = 2003;
         int unitMUId    = 345678;
 
-        Tools t = new Tools();
+        #region var
+        string serverConnectionString = "";
+        SqlController sqlController;
 
+        Tools t = new Tools();
+        #endregion
+
+        public SDK(TestContext testContext)
+        {
+            serverConnectionString = testContext.GetConnectionString();
+        }
+        
         #region test 001x basic
         [Fact]
         public void Test0001a_MustAlwaysPass()
@@ -78,20 +88,6 @@ namespace UnitTest
             //Act
             try
             {
-                string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
-
-                try
-                {
-                    if (Environment.MachineName == "DESKTOP-7V1APE5")
-                    {
-                        //serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
-                        serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
-                    }
-                }
-                catch { }
-
-                AdminTools at = new AdminTools(serverConnectionString);
-                at.DbSetup("unittest");
                 checkValueB = core.StartSqlOnly(serverConnectionString).ToString();
             }
             catch (Exception ex)
@@ -104,4 +100,55 @@ namespace UnitTest
         }
         #endregion
     }
+
+    public class TestContext : IDisposable
+    {
+        string serverConnectionStringForTravis = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
+        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";;
+
+        #region var
+        SqlController sqlController;
+        string serverConnectionString = "";
+        #endregion
+
+        #region build once for all tests
+        public TestContext()
+        {
+            try
+            {
+                serverConnectionString = serverConnectionStringForTravis;
+                if (Environment.MachineName == "DESKTOP-7V1APE5")
+                    serverConnectionString = serverConnectionStringForLocals;
+            }
+            catch { }
+
+            sqlController = new SqlController(serverConnectionString);
+            AdminTools at = new AdminTools(serverConnectionString);
+            at.DbSetup("unittest");
+        }
+        #endregion
+
+        #region teardown once for all tests
+        public void Dispose()
+        {
+            sqlController.UnitTest_DeleteDb();
+        }
+        #endregion
+
+        public string GetConnectionString()
+        {
+            return serverConnectionString;
+        }
+    }
+
+    #region dummy class
+    [CollectionDefinition("Database collection")]
+    public class DatabaseCollection : ICollectionFixture<TestContext>
+    {
+        // This class has no code, and is never created. Its purpose is simply
+        // to be the place to apply [CollectionDefinition] and all the
+        // ICollectionFixture<> interfaces.
+    }
+    #endregion
 }
