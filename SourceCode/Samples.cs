@@ -117,7 +117,7 @@ namespace eFormCore
                     siteIds.Add(inputT);
 
                     string xmlStr = File.ReadAllText("sample\\sample1xml.txt");
-                    var main = TemplatFromXml(xmlStr);
+                    var main = TemplateFromXml(xmlStr);
                     main = core.TemplateUploadData(main);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
@@ -129,7 +129,7 @@ namespace eFormCore
                         main.StartDate = DateTime.Now;
                         main.EndDate = DateTime.Now.AddDays(2);
 
-                        templatId = TemplatCreate(main);
+                        templatId = TemplateCreate(main);
                     }
                     else
                     {
@@ -193,7 +193,7 @@ namespace eFormCore
 
 
                     string xmlStr = File.ReadAllText("sample\\sample2xml.txt");
-                    var main = TemplatFromXml(xmlStr);
+                    var main = TemplateFromXml(xmlStr);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     List<string> validationErrors = core.TemplateValidation(main);
@@ -204,7 +204,7 @@ namespace eFormCore
                         main.StartDate = DateTime.Now;
                         main.EndDate = DateTime.Now.AddDays(2);
 
-                        templatId = TemplatCreate(main);
+                        templatId = TemplateCreate(main);
                     }
                     else
                     {
@@ -277,7 +277,7 @@ namespace eFormCore
 
                     #region step 2
                     string xmlStr2 = File.ReadAllText("sample\\sample3step2xml.txt");
-                    mainElement = TemplatFromXml(xmlStr2);
+                    mainElement = TemplateFromXml(xmlStr2);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     List<string> validationErrors = core.TemplateValidation(mainElement);
@@ -285,7 +285,7 @@ namespace eFormCore
                     {
                         mainElement.CaseType = "Step two";
                         mainElement.CheckListFolderName = "Orders";
-                        int tId2 = TemplatCreate(mainElement);
+                        int tId2 = TemplateCreate(mainElement);
                         filStr += tId2 + Environment.NewLine;
                     }
                     else
@@ -300,7 +300,7 @@ namespace eFormCore
 
                     #region step 3
                     string xmlStr3W = File.ReadAllText("sample\\sample3step3Wxml.txt");
-                    mainElement = TemplatFromXml(xmlStr3W);
+                    mainElement = TemplateFromXml(xmlStr3W);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     validationErrors = core.TemplateValidation(mainElement);
@@ -308,7 +308,7 @@ namespace eFormCore
                     {
                         mainElement.CaseType = "Step three";
                         mainElement.CheckListFolderName = "Orders";
-                        int tId3W = TemplatCreate(mainElement);
+                        int tId3W = TemplateCreate(mainElement);
                         filStr += tId3W + Environment.NewLine;
                     }
                     else
@@ -321,7 +321,7 @@ namespace eFormCore
                     }
 
                     string xmlStr3L = File.ReadAllText("sample\\sample3step3Lxml.txt");
-                    mainElement = TemplatFromXml(xmlStr3L);
+                    mainElement = TemplateFromXml(xmlStr3L);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     validationErrors = core.TemplateValidation(mainElement);
@@ -329,7 +329,7 @@ namespace eFormCore
                     {
                         mainElement.CaseType = "Step three";
                         mainElement.CheckListFolderName = "Orders";
-                        int tId3L = TemplatCreate(mainElement);
+                        int tId3L = TemplateCreate(mainElement);
                         filStr += tId3L + Environment.NewLine;
                     }
                     else
@@ -345,7 +345,7 @@ namespace eFormCore
 
                     #region step 4
                     string xmlStr4 = File.ReadAllText("sample\\sample3step4xml.txt");
-                    mainElement = TemplatFromXml(xmlStr4);
+                    mainElement = TemplateFromXml(xmlStr4);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     validationErrors = core.TemplateValidation(mainElement);
@@ -353,7 +353,7 @@ namespace eFormCore
                     {
                         mainElement.CaseType = "Step four";
                         mainElement.CheckListFolderName = "Containers";
-                        int tId4 = TemplatCreate(mainElement);
+                        int tId4 = TemplateCreate(mainElement);
                         filStr += tId4;
                     }
                     else
@@ -372,7 +372,7 @@ namespace eFormCore
 
                     #region step 1
                     string xmlStr1 = File.ReadAllText("sample\\sample3step1xml.txt");
-                    mainElement = TemplatFromXml(xmlStr1);
+                    mainElement = TemplateFromXml(xmlStr1);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
                     validationErrors = core.TemplateValidation(mainElement);
@@ -420,7 +420,7 @@ namespace eFormCore
                 if (input.ToLower() == "c")
                 {
                     string xmlStr = File.ReadAllText("sample\\xmlTemplate.txt");
-                    var main = TemplatFromXml(xmlStr);
+                    var main = TemplateFromXml(xmlStr);
                     main = core.TemplateUploadData(main);
 
                     // Best practice is to validate the parsed xml before trying to save and handle the error(s) gracefully.
@@ -434,7 +434,7 @@ namespace eFormCore
 
                         try
                         {
-                            Console.WriteLine("- TemplatId = " + TemplatCreate(main));
+                            Console.WriteLine("- TemplateId = " + TemplateCreate(main));
                         }
                         catch (Exception ex)
                         {
@@ -444,10 +444,9 @@ namespace eFormCore
                     else
                     {
                         foreach (string error in validationErrors)
-                        {
                             Console.WriteLine("The following error is stopping us from creating the template: " + error);
-                        }
-                        Console.WriteLine(@"Correct the errors in sample\xmlTemplate.txt and try again");
+
+                        Console.WriteLine("Correct the errors in sample\\xmlTemplate.txt and try again");
                     }
                 }
             }
@@ -482,7 +481,7 @@ namespace eFormCore
             }
         }
 
-        private MainElement  TemplatFromXml(string xmlString)
+        private MainElement  TemplateFromXml(string xmlString)
         {
             MainElement temp = core.TemplateFromXml(xmlString);
             if (temp == null)
@@ -490,7 +489,7 @@ namespace eFormCore
             return temp;
         }
 
-        private int          TemplatCreate(MainElement mainElement)
+        private int          TemplateCreate(MainElement mainElement)
         {
             try
             {
@@ -512,7 +511,7 @@ namespace eFormCore
 
             try
             {
-                int templatId = TemplatCreate(mainElement);
+                int templatId = TemplateCreate(mainElement);
                 mainElement = core.TemplateRead(templatId);
 
                 foreach (int siteId in siteIds)

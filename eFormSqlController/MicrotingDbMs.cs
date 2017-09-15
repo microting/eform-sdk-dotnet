@@ -1,61 +1,55 @@
 namespace eFormSqlController
 {
-    using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-    using System.Data.Common;
-    using MySql.Data.Entity;
-
-    public partial class MicrotingDb : DbContext
+    //
+ 
+    //
+    //
+    public partial class MicrotingDbMs : DbContext, MicrotingContextInterface
     {
-        public MicrotingDb() { }
+        public MicrotingDbMs() { }
 
-        public MicrotingDb(string connectionString)
+        public MicrotingDbMs(string connectionString)
           : base(connectionString)
         {
         }
-        public MicrotingDb(DbConnection existingConnection, bool contextOwnsConnection)
-          : base(existingConnection, contextOwnsConnection)
-        {
-        }
 
-        public virtual DbSet<a_interaction_cases> a_interaction_cases { get; set; }
-        public virtual DbSet<a_interaction_case_versions> a_interaction_case_versions { get; set; }
-        public virtual DbSet<a_interaction_case_lists> a_interaction_case_lists { get; set; }
-        public virtual DbSet<a_interaction_case_list_versions> a_interaction_case_list_versions { get; set; }
-        public virtual DbSet<cases> cases { get; set; }
-        public virtual DbSet<check_list_sites> check_list_sites { get; set; }
-        public virtual DbSet<check_list_values> check_list_values { get; set; }
-        public virtual DbSet<check_lists> check_lists { get; set; }
-        public virtual DbSet<uploaded_data> data_uploaded { get; set; }
-        public virtual DbSet<entity_groups> entity_groups { get; set; }
-        public virtual DbSet<entity_items> entity_items { get; set; }
-        public virtual DbSet<field_types> field_types { get; set; }
-        public virtual DbSet<field_values> field_values { get; set; }
-        public virtual DbSet<fields> fields { get; set; }
-        public virtual DbSet<log_exceptions> log_exceptions { get; set; }
-        public virtual DbSet<logs> logs { get; set; }
-        public virtual DbSet<notifications> notifications { get; set; }
-        public virtual DbSet<settings> settings { get; set; }
-        public virtual DbSet<sites> sites { get; set; }
-        public virtual DbSet<units> units { get; set; }
-        public virtual DbSet<workers> workers { get; set; }
-        public virtual DbSet<site_workers> site_workers { get; set; }
-        public virtual DbSet<case_versions> version_cases { get; set; }
-        public virtual DbSet<check_list_site_versions> version_check_list_sites { get; set; }
-        public virtual DbSet<check_list_value_versions> version_check_list_values { get; set; }
-        public virtual DbSet<check_list_versions> version_check_lists { get; set; }
-        public virtual DbSet<uploaded_data_versions> version_data_uploaded { get; set; }
-        public virtual DbSet<entity_group_versions> version_entity_groups { get; set; }
-        public virtual DbSet<entity_item_versions> version_entity_items { get; set; }
-        public virtual DbSet<field_value_versions> version_field_values { get; set; }
-        public virtual DbSet<field_versions> version_fields { get; set; }
-        public virtual DbSet<site_versions> version_sites { get; set; }
-        public virtual DbSet<unit_versions> version_units { get; set; }
-        public virtual DbSet<worker_versions> version_workers { get; set; }
-        public virtual DbSet<site_worker_versions> version_site_workers { get; set; }
-
+        public virtual DbSet<a_interaction_case_list_versions>  a_interaction_case_list_versions { get; set; }
+        public virtual DbSet<a_interaction_case_lists>          a_interaction_case_lists { get; set; }
+        public virtual DbSet<a_interaction_case_versions>       a_interaction_case_versions { get; set; }
+        public virtual DbSet<a_interaction_cases>               a_interaction_cases { get; set; }
+        public virtual DbSet<case_versions>                     case_versions { get; set; }
+        public virtual DbSet<cases>                             cases { get; set; }
+        public virtual DbSet<check_list_site_versions>          check_list_site_versions { get; set; }
+        public virtual DbSet<check_list_sites>                  check_list_sites { get; set; }
+        public virtual DbSet<check_list_value_versions>         check_list_value_versions { get; set; }
+        public virtual DbSet<check_list_values>                 check_list_values { get; set; }
+        public virtual DbSet<check_list_versions>               check_list_versions { get; set; }
+        public virtual DbSet<check_lists>                       check_lists { get; set; }
+        public virtual DbSet<entity_group_versions>             entity_group_versions { get; set; }
+        public virtual DbSet<entity_groups>                     entity_groups { get; set; }
+        public virtual DbSet<entity_item_versions>              entity_item_versions { get; set; }
+        public virtual DbSet<entity_items>                      entity_items { get; set; }
+        public virtual DbSet<field_types>                       field_types { get; set; }
+        public virtual DbSet<field_value_versions>              field_value_versions { get; set; }
+        public virtual DbSet<field_values>                      field_values { get; set; }
+        public virtual DbSet<field_versions>                    field_versions { get; set; }
+        public virtual DbSet<fields>                            fields { get; set; }
+        public virtual DbSet<log_exceptions>                    log_exceptions { get; set; }
+        public virtual DbSet<logs>                              logs { get; set; }
+        public virtual DbSet<notifications>                     notifications { get; set; }
+        public virtual DbSet<settings>                          settings { get; set; }
+        public virtual DbSet<site_versions>                     site_versions { get; set; }
+        public virtual DbSet<site_worker_versions>              site_worker_versions { get; set; }
+        public virtual DbSet<site_workers>                      site_workers { get; set; }
+        public virtual DbSet<sites>                             sites { get; set; }
+        public virtual DbSet<unit_versions>                     unit_versions { get; set; }
+        public virtual DbSet<units>                             units { get; set; }
+        public virtual DbSet<uploaded_data>                     uploaded_data { get; set; }
+        public virtual DbSet<uploaded_data_versions>            uploaded_data_versions { get; set; }
+        public virtual DbSet<worker_versions>                   worker_versions { get; set; }
+        public virtual DbSet<workers>                           workers { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<cases>()

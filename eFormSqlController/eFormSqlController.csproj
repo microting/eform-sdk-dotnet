@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MicrotingContextInterface.cs" />
     <Compile Include="MicrotingDbMy.cs" />
     <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.cs" />
     <Compile Include="Migrations\201702131234257_RenamingTablesToEnableInterpolation.Designer.cs">
@@ -118,7 +119,7 @@
     <Compile Include="table\fields.cs" />
     <Compile Include="table\field_types.cs" />
     <Compile Include="table\field_values.cs" />
-    <Compile Include="MicrotingDb.cs" />
+    <Compile Include="MicrotingDbMs.cs" />
     <Compile Include="table\notifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="table\settings.cs" />

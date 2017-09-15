@@ -24,10 +24,10 @@ namespace eFormSqlController
         [StringLength(255)]
         public string workflow_state { get; set; }
 
-        [Column(TypeName = "datetime2")]
+        
         public DateTime? created_at { get; set; }
 
-        [Column(TypeName = "datetime2")]
+        
         public DateTime? updated_at { get; set; }
 
         public virtual sites site { get; set; }

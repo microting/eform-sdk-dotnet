@@ -38,7 +38,7 @@ namespace SourceCode
             try
             {
                 #region pick database
-                //string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingNew;uid=root;password=1234";
+                //string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
                 string serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingWorkingCopy;Integrated Security=True";
 
                 Console.WriteLine("Enter database to use:");
