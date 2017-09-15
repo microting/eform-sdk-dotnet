@@ -3466,13 +3466,13 @@ namespace eFormSqlController
             SettingCreate(Settings.token);
             SettingCreate(Settings.comAddressBasic);
             SettingCreate(Settings.comAddressApi);
+            SettingCreate(Settings.comAddressPdfUpload);
             SettingCreate(Settings.comOrganizationId);
             SettingCreate(Settings.awsAccessKeyId);
             SettingCreate(Settings.awsSecretAccessKey);
             SettingCreate(Settings.awsEndPoint);
             SettingCreate(Settings.unitLicenseNumber);
-            SettingCreate(Settings.comAddressPdfUpload);
-
+      
             return true;
         }
 
@@ -3495,8 +3495,8 @@ namespace eFormSqlController
                     case Settings.fileLocationJasper:       id =  7;    defaultValue = "dataFolder/reports/";               break;
                     case Settings.token:                    id =  8;    defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";  break;
                     case Settings.comAddressBasic:          id =  9;    defaultValue = "https://basic.microting.com";       break;
-                    case Settings.comAddressPdfUpload:      id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
-                    case Settings.comAddressApi:            id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
+                    case Settings.comAddressApi:            id = 10;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
+                    case Settings.comAddressPdfUpload:      id = 11;    defaultValue = "https://xxxxxx.xxxxxx.com";         break;
                     case Settings.comOrganizationId:        id = 12;    defaultValue = "0";                                 break;
                     case Settings.awsAccessKeyId:           id = 13;    defaultValue = "XXX";                               break;
                     case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                               break;

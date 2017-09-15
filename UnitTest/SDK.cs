@@ -16,7 +16,7 @@ namespace UnitTest
     [Collection("Database collection")]
     public class SDK
     {
-        bool useLiveConnections = true;
+        bool useLiveConnections = false;
 
         #region var
         Core core;
@@ -2524,8 +2524,9 @@ namespace UnitTest
     public class TestContext : IDisposable
     {
         string serverConnectionStringForTravis = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
-        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
-        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
+
+        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
+        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
 
         #region var
         SqlController sqlController;
