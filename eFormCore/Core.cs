@@ -149,6 +149,9 @@ namespace eFormCore
                     if (sqlController.SettingRead(Settings.firstRunDone) != "true")
                         throw new ArgumentException("Use AdminTool to setup database correctly. FirstRunDone has not completed");
 
+                    if (sqlController.SettingRead(Settings.knownSitesDone) != "true")
+                        throw new ArgumentException("Use AdminTool to setup database correctly. KnownSitesDone has not completed");
+
                     //log
                     log = sqlController.StartLog(this);
                     log.LogCritical("Not Specified", "###########################################################################");

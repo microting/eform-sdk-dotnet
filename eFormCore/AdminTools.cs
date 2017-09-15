@@ -467,7 +467,12 @@ namespace eFormCore
                 sqlController.UnitCreate(345678, 13, 333333, 2003);
 
                 sqlController.SettingUpdate(Settings.firstRunDone, "true");
+                sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 sqlController.SettingUpdate(Settings.token, "UNIT_TEST___________________L:32");
+                sqlController.SettingUpdate(Settings.comAddressApi, "https://unittest.com");
+                sqlController.SettingUpdate(Settings.comAddressPdfUpload, "https://unittest.com");
+                sqlController.SettingUpdate(Settings.comOrganizationId, "-1");
+                sqlController.SettingUpdate(Settings.unitLicenseNumber, "999");
 
                 return "";
             }

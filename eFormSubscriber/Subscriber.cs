@@ -120,62 +120,76 @@ namespace eFormSubscriber
         #region private
         private void SubriberThread()
         {
-            #region setup
-            isActive = true;
-            keepSubscribed = true;
-
-            string awsAccessKeyId = sqlController.SettingRead(Settings.awsAccessKeyId);
-            string awsSecretAccessKey = sqlController.SettingRead(Settings.awsSecretAccessKey);
-            string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token);
-            
-            var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
-            DateTime lastExpection = DateTime.MinValue;
-            DateTime lastCheckAdd15s;
-            #endregion
-
-            while (keepSubscribed)
+            if (sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
             {
-                try
+                #region setup
+                isActive = true;
+                keepSubscribed = true;
+
+                string awsAccessKeyId = sqlController.SettingRead(Settings.awsAccessKeyId);
+                string awsSecretAccessKey = sqlController.SettingRead(Settings.awsSecretAccessKey);
+                string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token);
+
+                var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
+                DateTime lastExpection = DateTime.MinValue;
+                DateTime lastCheckAdd15s;
+                #endregion
+
+                while (keepSubscribed)
                 {
-                    lastCheckAdd15s = DateTime.Now.AddSeconds(15);
-                    var res = sqsClient.ReceiveMessage(awsQueueUrl);
-
-                    if (res.Messages.Count > 0)
-                        foreach (var message in res.Messages)
-                        {
-                            #region JSON -> var
-                            var parsedData = JRaw.Parse(message.Body);
-                            string notificationUId = parsedData["id"].ToString();
-                            string microtingUId = parsedData["microting_uuid"].ToString();
-                            string action = parsedData["text"].ToString();
-                            #endregion
-                            sqlController.NotificationCreate(notificationUId, microtingUId, action);
-
-                            sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
-                        }
-                    else
-                        while (lastCheckAdd15s > DateTime.Now)
-                            Thread.Sleep(500);
-                }
-                catch (Exception ex)
-                {
-                    //Log expection
-                    log.LogWarning("Not Specified", t.PrintException(t.GetMethodName() + " failed", ex));
-
-                    if (DateTime.Compare(lastExpection.AddMinutes(5), DateTime.Now) > 0)
+                    try
                     {
-                        keepSubscribed = false;
-                        log.LogException("Not Specified", t.GetMethodName() + " failed, twice in the last 5 minuts", ex, true);
+                        lastCheckAdd15s = DateTime.Now.AddSeconds(15);
+                        var res = sqsClient.ReceiveMessage(awsQueueUrl);
+
+                        if (res.Messages.Count > 0)
+                            foreach (var message in res.Messages)
+                            {
+                                #region JSON -> var
+                                var parsedData = JRaw.Parse(message.Body);
+                                string notificationUId = parsedData["id"].ToString();
+                                string microtingUId = parsedData["microting_uuid"].ToString();
+                                string action = parsedData["text"].ToString();
+                                #endregion
+                                sqlController.NotificationCreate(notificationUId, microtingUId, action);
+
+                                sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
+                            }
+                        else
+                            while (lastCheckAdd15s > DateTime.Now)
+                                Thread.Sleep(500);
                     }
+                    catch (Exception ex)
+                    {
+                        //Log expection
+                        log.LogWarning("Not Specified", t.PrintException(t.GetMethodName() + " failed", ex));
 
-                    lastExpection = DateTime.Now;
+                        if (DateTime.Compare(lastExpection.AddMinutes(5), DateTime.Now) > 0)
+                        {
+                            keepSubscribed = false;
+                            log.LogException("Not Specified", t.GetMethodName() + " failed, twice in the last 5 minuts", ex, true);
+                        }
+
+                        lastExpection = DateTime.Now;
+                    }
                 }
-            }
 
-            #region clean up
-            //EventMsgClient("Subscriber closed", null);
-            keepSubscribed = false;
-            isActive = false;
+                //EventMsgClient("Subscriber closed", null);
+                keepSubscribed = false;
+                isActive = false;
+            }
+            #region unit test
+            else
+            {
+                isActive = true;
+                keepSubscribed = true;
+
+                while (keepSubscribed)
+                    Thread.Sleep(500);
+     
+                keepSubscribed = false;
+                isActive = false;
+            }
             #endregion
         }
         #endregion
