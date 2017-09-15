@@ -42,6 +42,7 @@ namespace UnitTest
         string serverConnectionString = "";
         #endregion
 
+        #region con
         public SDK(TestContext testContext)
         {
             serverConnectionString  = testContext.GetConnectionString();
@@ -59,6 +60,7 @@ namespace UnitTest
                 unitMUId = 4938;
             }
         }
+        #endregion
 
         #region - prepare and teardown     
         private void TestPrepare(string testName)
@@ -115,10 +117,10 @@ namespace UnitTest
             lock (_lockTest)
             {
                 //Arrange
+                TestPrepare(t.GetMethodName());
                 bool checkValueA = true;
                 bool checkValueB = false;
-                TestPrepare(t.GetMethodName());
-
+     
                 //Act
                 checkValueB = true;
 
@@ -136,6 +138,7 @@ namespace UnitTest
             lock (_lockTest)
             {
                 //Arrange
+                TestPrepare(t.GetMethodName());
                 string checkValueA = "serverConnectionString is not allowed to be null or empty";
                 string checkValueB = "";
                 Core core = new Core();
@@ -151,6 +154,7 @@ namespace UnitTest
                 }
 
                 //Assert
+                TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
             }
         }
@@ -161,6 +165,7 @@ namespace UnitTest
             lock (_lockTest)
             {
                 //Arrange
+                TestPrepare(t.GetMethodName());
                 string checkValueA = "serverConnectionString is not allowed to be null or empty";
                 string checkValueB = "";
                 Core core = new Core();
@@ -176,6 +181,7 @@ namespace UnitTest
                 }
 
                 //Assert
+                TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
             }
         }
@@ -184,6 +190,7 @@ namespace UnitTest
         public void Test001_2a_Core_StartSqlOnly()
         {
             //Arrange
+            TestPrepare(t.GetMethodName());
             string checkValueA = "True";
             string checkValueB = "";
             Core core = new Core();
@@ -199,6 +206,7 @@ namespace UnitTest
             }
 
             //Assert
+            TestTeardown();
             Assert.Equal(checkValueA, checkValueB);
         }
 
@@ -206,6 +214,7 @@ namespace UnitTest
         public void Test001_3a_Core_Start()
         {
             //Arrange
+            TestPrepare(t.GetMethodName());
             string checkValueA = "True";
             string checkValueB = "";
             Core core = new Core();
@@ -221,6 +230,7 @@ namespace UnitTest
             }
 
             //Assert
+            TestTeardown();
             Assert.Equal(checkValueA, checkValueB);
         }
 
@@ -228,6 +238,7 @@ namespace UnitTest
         public void Test001_4a_Core_Running()
         {
             //Arrange
+            TestPrepare(t.GetMethodName());
             string checkValueA = "FalseTrue";
             string checkValueB = "";
             Core core = new Core();
@@ -245,6 +256,7 @@ namespace UnitTest
             }
 
             //Assert
+            TestTeardown();
             Assert.Equal(checkValueA, checkValueB);
         }
 
@@ -252,6 +264,7 @@ namespace UnitTest
         public void Test001_5a_Core_Close()
         {
             //Arrange
+            TestPrepare(t.GetMethodName());
             string checkValueA = "True";
             string checkValueB = "";
             Core core = new Core();
@@ -267,6 +280,7 @@ namespace UnitTest
             }
 
             //Assert
+            TestTeardown();
             Assert.Equal(checkValueA, checkValueB);
         }
         #endregion
