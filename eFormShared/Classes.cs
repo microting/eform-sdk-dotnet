@@ -34,7 +34,7 @@ namespace eFormShared
 
 
 
-        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex, int? field_1, int? field_2, int? field_3, int? field_4, int? field_5, int? field_6, int? field_7, int? field_8, int? field_9, int? field_10)
+        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex, Field_Dto field_1, Field_Dto field_2, Field_Dto field_3, Field_Dto field_4, Field_Dto field_5, Field_Dto field_6, Field_Dto field_7, Field_Dto field_8, Field_Dto field_9, Field_Dto field_10)
         {
             Id = id;
             Label = label;
@@ -119,52 +119,52 @@ namespace eFormShared
         /// <summary>
         /// Field1
         /// </summary>
-        public int? Field1 { get; }
+        public Field_Dto Field1 { get; }
 
         /// <summary>
         /// Field2
         /// </summary>
-        public int? Field2 { get; }
+        public Field_Dto Field2 { get; }
 
         /// <summary>
         /// Field3
         /// </summary>
-        public int? Field3 { get; }
+        public Field_Dto Field3 { get; }
 
         /// <summary>
         /// Field4
         /// </summary>
-        public int? Field4 { get; }
+        public Field_Dto Field4 { get; }
 
         /// <summary>
         /// Field5
         /// </summary>
-        public int? Field5 { get; }
+        public Field_Dto Field5 { get; }
 
         /// <summary>
         /// Field6
         /// </summary>
-        public int? Field6 { get; }
+        public Field_Dto Field6 { get; }
 
         /// <summary>
         /// Field7
         /// </summary>
-        public int? Field7 { get; }
+        public Field_Dto Field7 { get; }
 
         /// <summary>
         /// Field8
         /// </summary>
-        public int? Field8 { get; }
+        public Field_Dto Field8 { get; }
 
         /// <summary>
         /// Field9
         /// </summary>
-        public int? Field9 { get; }
+        public Field_Dto Field9 { get; }
 
         /// <summary>
         /// Field10
         /// </summary>
-        public int? Field10 { get; }
+        public Field_Dto Field10 { get; }
         #endregion
     }
     #endregion

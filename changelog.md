@@ -1,5 +1,11 @@
 ## Changelog
 
+  - Version 1.6.2.3 *(September 15th 2017)*
+	- Improved settings loading and defaulting. 
+	- Initial support for MySQL - Beta.
+	- Fixing the missing CDATA for name and description for EntitySearch and EntitySearchGroup.
+	- Including the fields when doing a TemplateItemRad.
+
   - Version 1.6.2.2 *(September 11th 2017)*
 	- Adding the missing Advanced_TemplateFieldReadAll on the core.
 

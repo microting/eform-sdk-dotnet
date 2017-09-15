@@ -144,7 +144,50 @@ namespace eFormSqlController
                     bool hasCases = false;
                     if (checkList.cases.Count() > 0)
                         hasCases = true;
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, checkList.field_1, checkList.field_2, checkList.field_3, checkList.field_4, checkList.field_5, checkList.field_6, checkList.field_7, checkList.field_8, checkList.field_9, checkList.field_10);
+                    #region load fields
+                    Field_Dto fd1 = null;
+                    Field_Dto fd2 = null;
+                    Field_Dto fd3 = null;
+                    Field_Dto fd4 = null;
+                    Field_Dto fd5 = null;
+                    Field_Dto fd6 = null;
+                    Field_Dto fd7 = null;
+                    Field_Dto fd8 = null;
+                    Field_Dto fd9 = null;
+                    Field_Dto fd10 = null;
+                    fields f1 = db.fields.SingleOrDefault(x => x.id == checkList.field_1);
+                    if (f1 != null)
+                        fd1 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f2 = db.fields.SingleOrDefault(x => x.id == checkList.field_2);
+                    if (f2 != null)
+                        fd2 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f3 = db.fields.SingleOrDefault(x => x.id == checkList.field_3);
+                    if (f3 != null)
+                        fd4 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f4 = db.fields.SingleOrDefault(x => x.id == checkList.field_4);
+                    if (f4 != null)
+                        fd4 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f5 = db.fields.SingleOrDefault(x => x.id == checkList.field_5);
+                    if (f5 != null)
+                        fd5 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f6 = db.fields.SingleOrDefault(x => x.id == checkList.field_6);
+                    if (f6 != null)
+                        fd6 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f7 = db.fields.SingleOrDefault(x => x.id == checkList.field_7);
+                    if (f7 != null)
+                        fd7 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f8 = db.fields.SingleOrDefault(x => x.id == checkList.field_8);
+                    if (f8 != null)
+                        fd8 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f9 = db.fields.SingleOrDefault(x => x.id == checkList.field_9);
+                    if (f9 != null)
+                        fd9 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    fields f10 = db.fields.SingleOrDefault(x => x.id == checkList.field_10);
+                    if (f10 != null)
+                        fd10 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type);
+                    #endregion
+
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index,fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10);
                     return templateDto;
                 }
             }
