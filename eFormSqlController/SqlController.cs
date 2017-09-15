@@ -3604,7 +3604,7 @@ namespace eFormSqlController
                         try
                         {
                             string readSetting = SettingRead((Settings)setting);
-                            if (readSetting == "")
+                            if (readSetting == "" || readSetting == null)
                                 result.Add(setting.ToString() + " has an empty value!");
                         }
                         catch

@@ -159,7 +159,7 @@ namespace eFormCommunicator
         {
             try
             {
-                string xmlData = "<EntityTypes><EntityType><Name>" + name + "</Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+                string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
 
                 WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types?token=" + token + "&protocol=" + protocolEntitySearch +
                     "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
@@ -183,7 +183,7 @@ namespace eFormCommunicator
 
         internal bool       EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
         {
-            string xmlData = "<EntityTypes><EntityType><Name>" + name + "</Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+            string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
 
             WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types/"+ entityGroupMUId + "?token=" + token + "&protocol=" + protocolEntitySearch +
                 "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
@@ -225,7 +225,7 @@ namespace eFormCommunicator
         internal string     EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
             string xmlData = "<Entities><Entity>" + 
-                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier>" + name + "</Identifier><Description>" + description + "</Description>" +
+                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
                 "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
                 "<Id>" + id + "</Id>" + 
                 "</Entity></Entities>";
@@ -248,7 +248,7 @@ namespace eFormCommunicator
         internal bool       EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
             string xmlData = "<Entities><Entity>" +
-                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier>" + name + "</Identifier><Description>" + description + "</Description>" +
+                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
                 "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
                 "<Id>" + id + "</Id>" +
                 "</Entity></Entities>";
