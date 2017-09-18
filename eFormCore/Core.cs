@@ -622,7 +622,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", "includeRemoved", includeRemoved);
 
-                    return sqlController.TemplateItemReadAll(includeRemoved);
+                    return sqlController.TemplateItemReadAll(includeRemoved, "created");
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1666,7 +1666,7 @@ namespace eFormCore
             }
         }
 
-        public List<fields>     Advanced_TemplateFieldReadAll(int templateId)
+        public List<Field_Dto>     Advanced_TemplateFieldReadAll(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1685,6 +1685,33 @@ namespace eFormCore
             {
                 log.LogException("Not Specified", methodName + " failed", ex, true);
                 return null;
+            }
+        }
+
+        public void         Advanced_ConsistencyCheckTemplates()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+
+                    List<Template_Dto> allTemplates = sqlController.TemplateItemReadAll(true, "removed");
+                    foreach (Template_Dto item in allTemplates)
+                    {
+                        foreach (SiteName_Dto site in item.DeployedSites)
+                        {
+                            CaseDelete(item.Id, site.SiteUId);
+                        }
+                    }
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
             }
         }
         #endregion

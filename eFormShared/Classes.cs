@@ -178,13 +178,14 @@ namespace eFormShared
 
         }
 
-        public Field_Dto(int id, string label, string description, int fieldTypeId, string fieldType)
+        public Field_Dto(int id, string label, string description, int fieldTypeId, string fieldType, int checkListId)
         {
             Id = id;
             Label = label;
             Description = description;
             FieldTypeId = fieldTypeId;
             FieldType = fieldType;
+            CheckListId = checkListId;
         }
         #endregion
 
@@ -213,6 +214,11 @@ namespace eFormShared
         /// Descrition
         /// </summary>
         public string FieldType { get; }
+
+        /// <summary>
+        /// checkListId
+        /// </summary>
+        public int CheckListId { get; }
 
         #endregion
     }
