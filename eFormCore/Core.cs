@@ -878,8 +878,43 @@ namespace eFormCore
                     log.LogVariable("Not Specified", "templateId", templateId);
                     log.LogVariable("Not Specified", "siteUId", siteUId);
 
-                    int microtingUId = sqlController.CheckListSitesRead(templateId, siteUId);
-                    return CaseDelete(microtingUId.ToString());
+                    return CaseDelete(templateId, siteUId, "not_removed");
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                return false;
+            }
+        }
+
+        public bool             CaseDelete(int templateId, int siteUId, string workflowState)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (coreRunning)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", "templateId", templateId);
+                    log.LogVariable("Not Specified", "siteUId", siteUId);
+                    log.LogVariable("Not Specified", "workflowState", workflowState);
+
+                    List<string> errors = new List<string>();
+                    foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
+                    {
+                        if (CaseDelete(microtingUId)) {
+                            string error = "Failed to delete case with microtingUId: " + microtingUId;
+                            errors.Add(error);
+                        }
+                    }
+                    if (errors.Count() > 0)
+                    {
+                        throw new Exception(String.Join("\n", errors));
+                    } else
+                        return true;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1600,7 +1635,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteId, int newDisplayIndex)
+        public bool             Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteUId, int newDisplayIndex)
         {
             string methodName = t.GetMethodName();
             try
@@ -1609,21 +1644,27 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "siteId", siteId);
+                    log.LogVariable("Not Specified", "siteUId", siteUId);
                     log.LogVariable("Not Specified", "newDisplayIndex", newDisplayIndex);
 
-                    int microtingUId = sqlController.CheckListSitesRead(templateId, siteId);
-
-                    string respXml = communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteId, newDisplayIndex);
-
-                    Response resp = new Response();
-                    resp = resp.XmlToClassUsingXmlDocument(respXml);
-                    if (resp.Type == Response.ResponseTypes.Success)
+                    string respXml = null;
+                    List<string> errors = new List<string>();
+                    foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, "not_removed"))
                     {
-                        return true;
+                        respXml = communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteUId, newDisplayIndex);
+                        Response resp = new Response();
+                        resp = resp.XmlToClassUsingXmlDocument(respXml);
+                        if (resp.Type != Response.ResponseTypes.Success)
+                        {                           
+                            string error = "Failed to set display index for eForm " + microtingUId + " to " + newDisplayIndex;
+                            errors.Add(error);
+                        }                            
                     }
-                    else
-                        throw new Exception("Failed to set display index for eForm " + microtingUId + " to " + newDisplayIndex);
+                    if (errors.Count() > 0)
+                    {
+                        throw new Exception(String.Join("\n", errors));
+                    }
+                    return true;
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1703,7 +1744,7 @@ namespace eFormCore
                     {
                         foreach (SiteName_Dto site in item.DeployedSites)
                         {
-                            CaseDelete(item.Id, site.SiteUId);
+                            CaseDelete(item.Id, site.SiteUId, "");
                         }
                     }
                 }
