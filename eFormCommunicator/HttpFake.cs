@@ -38,118 +38,45 @@ using System.Reflection;
 
 namespace eFormCommunicator
 {
-    public class Http : IHttp
+    public class HttpFake : IHttp
     {
         #region var
         private string protocolXml = "6";
         private string protocolEntitySearch = "1";
         private string protocolEntitySelect = "4";
 
-        private string token;
-        private string addressApi;
-        private string addressBasic;
-        private string addressPdfUpload;
-        private string organizationId;
+        private string token = "";
+        private string addressApi = "";
+        private string addressBasic = "";
+        private string addressPdfUpload = "";
+        private string organizationId = "";
 
-        private string dllVersion;
+        private string dllVersion = "";
 
         Tools t = new Tools();
         object _lock = new object();
         #endregion
 
-        #region con
-        public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload)
-        {
-            this.token = token;
-            addressBasic = comAddressBasic;
-            addressApi = comAddressApi;
-            addressPdfUpload = comAddressPdfUpload;
-            organizationId = comOrganizationId;
-
-            dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-        #endregion
-
         #region public
         #region public API
-        /// <summary>
-        /// Posts the element to Microting and returns the XML encoded restponse.
-        /// </summary>
-        /// <param name="xmlData">Element converted to a xml encoded string.</param>
         public string Post(string xmlData, string siteId)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&sdk_ver=" + dllVersion);
-                request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(xmlData);
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = content.Length;
-
-                return PostToServer(request, content);
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
-            }
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "M" + t.GetRandomInt(5) + "</Value></Response>";
         }
 
-        /// <summary>
-        /// Retrieve the XML encoded status from Microting.
-        /// </summary>
-        /// <param name="elementId">Identifier of the element to retrieve status of.</param>
         public string Status(string elementId, string siteId)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=false" + "&sdk_ver=" + dllVersion);
-                request.Method = "GET";
-
-                return PostToServer(request);
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " + ex.Message + "</Value>\n\t</Response>";
-            }
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
 
-        /// <summary>
-        /// Retrieve the XML encoded results from Microting.
-        /// </summary>
-        /// <param name="microtingUuid">Identifier of the element to retrieve results from.</param>
-        /// <param name="microtingCheckUuid">Identifier of the check to begin from.</param>
         public string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + microtingUuid + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=true&delete=false&last_check_id=" + microtingCheckUuid + "&sdk_ver=" + dllVersion);
-                request.Method = "GET";
-
-                return PostToServer(request);
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
-            }
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
 
-        /// <summary>
-        /// Deletes a element and retrieve the XML encoded response from Microting.
-        /// </summary>
-        /// <param name="elementId">Identifier of the element to delete.</param>
         public string Delete(string elementId, string siteId)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=true" + "&sdk_ver=" + dllVersion);
-                request.Method = "GET";
-
-                return PostToServer(request);
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " + ex.Message + "</Value>\n\t</Response>";
-            }
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
         #endregion
 

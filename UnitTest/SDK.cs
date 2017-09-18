@@ -15,9 +15,10 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
-        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
+        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
 
+        #region content
         #region var
         SqlController sqlController;
         string serverConnectionString = "";
@@ -54,13 +55,12 @@ namespace UnitTest
         {
             return serverConnectionString;
         }
+        #endregion
     }
 
     [Collection("Database collection")]
     public class SDK
     {
-        bool useLiveData = true;
-
         #region var
         Core core;
         UnitTestCore utCore;
@@ -77,6 +77,8 @@ namespace UnitTest
         int workerMUId = 2003;
         int unitMUId = 345678;
 
+        bool useLiveData = false;
+
         string token;
         string comAddressApi;
         string comAddressBasic;
@@ -88,6 +90,9 @@ namespace UnitTest
         public SDK(TestContext testContext)
         {
             serverConnectionString  = testContext.GetConnectionString();
+
+            if (serverConnectionString == "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True")
+                useLiveData = true;
 
             if (useLiveData)
             {
@@ -323,7 +328,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test001_Core_6a_RunningForWhile()
+        public void Test001_Core_6a_RunningForWhileThenClose()
         {
             //Arrange
             TestPrepare(t.GetMethodName());
@@ -464,15 +469,13 @@ namespace UnitTest
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
-                bool checkValueA;
+                bool checkValueA = true;
                 bool checkValueB;
                 string xmlStr;
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
                 //Act
-                checkValueA = true;
-
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 string responseStr = com.PostXml(xmlStr, siteId1);
@@ -481,7 +484,6 @@ namespace UnitTest
                 if (checkValueB)
                 {
                     string mUId = t.Locate(responseStr, "<Value type=\"success\">", "</");
-
                     WaitForAvailableMicroting(mUId);
                 }
 
@@ -498,16 +500,13 @@ namespace UnitTest
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
-                bool checkValueA;
-                bool checkValueB;
+                bool checkValueA = true;
+                bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
                 //Act
-                checkValueA = true;
-                checkValueB = true;
-
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 string responseStr = com.PostXml(xmlStr, siteId1);
@@ -517,12 +516,9 @@ namespace UnitTest
                     string mUId = t.Locate(responseStr, "<Value type=\"success\">", "</");
                     responseStr = com.CheckStatus(mUId, siteId1);
 
-                    if (responseStr.Contains("<Response><Value type=\"success\">"))
-                    {
-                        checkValueB = true;
-
-                        WaitForAvailableMicroting(mUId);
-                    }
+                    if (responseStr.Contains("<Response><Value type=\"success\">") || 
+                        responseStr.Contains("<Response><Value type=\"received\">"))
+                        checkValueB = WaitForAvailableMicroting(mUId);
                 }
 
                 //Assert
@@ -538,16 +534,13 @@ namespace UnitTest
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
-                bool checkValueA;
-                bool checkValueB;
+                bool checkValueA = true;
+                bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
                 //Act
-                checkValueA = true;
-                checkValueB = false;
-
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 string responseStr = com.PostXml(xmlStr, siteId1);
@@ -555,14 +548,7 @@ namespace UnitTest
                 if (responseStr.Contains("<Response><Value type=\"success\">"))
                 {
                     string mUId = t.Locate(responseStr, "<Value type=\"success\">", "</");
-                    responseStr = com.Retrieve(mUId, siteId1);
-
-                    if (responseStr.Contains("<Response><Value type="))
-                    {
-                        checkValueB = true;
-
-                        WaitForAvailableMicroting(mUId);
-                    }
+                    checkValueB = WaitForAvailableMicroting(mUId);
                 }
 
                 //Assert
@@ -578,16 +564,13 @@ namespace UnitTest
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
-                bool checkValueA;
-                bool checkValueB;
+                bool checkValueA = true;
+                bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
                 //Act
-                checkValueA = true;
-                checkValueB = false;
-
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 string responseStr = com.PostXml(xmlStr, siteId1);
@@ -618,16 +601,13 @@ namespace UnitTest
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
-                bool checkValueA;
-                bool checkValueB;
+                bool checkValueA = true;
+                bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
                 //Act
-                checkValueA = true;
-                checkValueB = false;
-
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 string responseStr = com.PostXml(xmlStr, siteId1);
@@ -2307,31 +2287,35 @@ namespace UnitTest
 
         private bool WaitForAvailableMicroting(string microtingUId)
         {
-            try
-            {
-                for (int i = 0; i < 100; i++)
+            if (useLiveData)
+            { 
+                try
                 {
-                    string responseStr = communicator.CheckStatus(microtingUId, siteId1);
+                    for (int i = 0; i < 100; i++)
+                    {
+                        string responseStr = communicator.CheckStatus(microtingUId, siteId1);
 
-                    if (responseStr.Contains("<Response><Value type=\"success\">"))
-                    {
-                        responseStr = communicator.Delete(microtingUId, siteId1);
                         if (responseStr.Contains("<Response><Value type=\"success\">"))
-                            return true;
+                        {
+                            responseStr = communicator.Delete(microtingUId, siteId1);
+                            if (responseStr.Contains("<Response><Value type=\"success\">"))
+                                return true;
+                            else
+                                return false;
+                        }
                         else
-                            return false;
+                        {
+                            Thread.Sleep(300);
+                        }
                     }
-                    else
-                    {
-                        Thread.Sleep(300);
-                    }
+                    throw new Exception("WaitForAvailableMicroting failed. Due to failed 25 attempts");
                 }
-                throw new Exception("WaitForAvailableMicroting failed. Due to failed 25 attempts");
+                catch (Exception ex)
+                {
+                    throw new Exception("WaitForAvailableMicroting failed", ex);
+                }
             }
-            catch (Exception ex)
-            {
-                throw new Exception("WaitForAvailableMicroting failed", ex);
-            }
+            return true;
         }
 
         private bool WaitForAvailableMicroting(int interactionCaseId)

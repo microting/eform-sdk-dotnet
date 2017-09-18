@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communicator.cs" />
+    <Compile Include="HttpFake.cs" />
     <Compile Include="Http.cs" />
+    <Compile Include="IHttp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

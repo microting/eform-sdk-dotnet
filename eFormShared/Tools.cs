@@ -385,7 +385,8 @@ namespace eFormShared
                 throw new ArgumentOutOfRangeException("lenght needs to between 1-16");
 
             string str = GetRandomString(lenght);
-            return str.GetHashCode();
+                   str = str.GetHashCode().ToString().Replace("-", "") + "413165131968413";
+            return int.Parse(str.Substring(0, lenght));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

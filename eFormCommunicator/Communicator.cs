@@ -37,8 +37,7 @@ namespace eFormCommunicator
     {
         #region var
         SqlController sqlController;
-        Http http;
-        bool isUnitTest = false;
+        IHttp http;
         public object _lockSending = new object();
         Tools t = new Tools();
         #endregion
@@ -58,18 +57,12 @@ namespace eFormCommunicator
             string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
             string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
             string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
-            string ComAddressPdfUpload = "";
-            try {
-                ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
-            } catch
-            {               
-                // This is okay in a upgrade case.
-            }
+            string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
 
             #region is unit test
             if (token == "UNIT_TEST___________________L:32")
             {
-                isUnitTest = true;
+                http = new HttpFake();
                 return;
             }
             #endregion
@@ -112,7 +105,7 @@ namespace eFormCommunicator
             {
                 //TODO - ALL xml hacks
 
-            //XML HACK
+                //XML HACK
                 xmlString = xmlString.Replace("<color></color>", "");
                 //Missing serverside. Will not accept blank/empty field
                 xmlString = xmlString.Replace("<Color />", "");
