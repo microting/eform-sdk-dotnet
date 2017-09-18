@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.2.5 *(September 18th 2017)*
+	- Improving the consistency check code.
+
   - Version 1.6.2.4 *(September 18th 2017)*
 	- Fixing the field list to be a FieldDto instead of a fields object.
 	- Adding method to try to consistency check db, first step.

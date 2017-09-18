@@ -403,14 +403,18 @@ namespace eFormSqlController
             }
         }
 
-        public int                  CheckListSitesRead(int templateId, int siteUId)
+        public List<string>         CheckListSitesRead(int templateId, int siteUId, string workflowState)
         {
             try
             {
                 using (var db = GetContext())
                 {
                     sites site = db.sites.Single(x => x.microting_uid == siteUId);
-                    return int.Parse(db.check_list_sites.Single(x => x.site_id == site.id && x.check_list_id == templateId && x.workflow_state != "removed").microting_uid);
+                    IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.id && x.check_list_id == templateId);
+                    if (workflowState == "not_removed")
+                        sub_query = sub_query.Where(x => x.workflow_state != "removed");
+
+                    return sub_query.Select(x => x.microting_uid).ToList();
                 }
             }
             catch (Exception ex)
