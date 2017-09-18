@@ -36,9 +36,10 @@ namespace eFormCommunicator
     public class Communicator
     {
         #region var
-        public object _lockSending = new object();
-        Http http;
         SqlController sqlController;
+        Http http;
+        bool isUnitTest = false;
+        public object _lockSending = new object();
         Tools t = new Tools();
         #endregion
 
@@ -64,7 +65,14 @@ namespace eFormCommunicator
             {               
                 // This is okay in a upgrade case.
             }
-            
+
+            #region is unit test
+            if (token == "UNIT_TEST___________________L:32")
+            {
+                isUnitTest = true;
+                return;
+            }
+            #endregion
 
             #region CheckInput token & serverAddress
             string errorsFound = "";

@@ -13,18 +13,60 @@ using Xunit;
 
 namespace UnitTest
 {
+    public class TestContext : IDisposable
+    {
+        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
+        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
+
+        #region var
+        SqlController sqlController;
+        string serverConnectionString = "";
+        #endregion
+
+        #region once for all tests - build order
+        public TestContext()
+        {
+            try
+            {
+                if (Environment.MachineName == "DESKTOP-7V1APE5")
+                    serverConnectionString = serverConnectionStringForLocals;
+                else
+                    serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+            }
+            catch { }
+
+            sqlController = new SqlController(serverConnectionString);
+            AdminTools at = new AdminTools(serverConnectionString);
+
+            if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                at.DbSetup("unittest");
+        }
+        #endregion
+
+        #region once for all tests - teardown
+        public void Dispose()
+        {
+            //sqlController.UnitTest_DeleteDb();
+        }
+        #endregion
+
+        public string GetConnectionString()
+        {
+            return serverConnectionString;
+        }
+    }
+
     [Collection("Database collection")]
     public class SDK
     {
-        bool useLiveConnections = false;
+        bool useLiveData = true;
 
         #region var
         Core core;
         UnitTestCore utCore;
-
         SqlController sqlController;
         Communicator communicator;
-        AdminTools at;
+        AdminTools adminTool;
         Tools t = new Tools();
 
         object _lockTest = new object();
@@ -47,12 +89,7 @@ namespace UnitTest
         {
             serverConnectionString  = testContext.GetConnectionString();
 
-            if (testContext.GetTestContextTravis())
-            {
-                useLiveConnections = false;
-            }
-
-            if (useLiveConnections)
+            if (useLiveData)
             {
                 siteId1 = 3818;
                 siteId2 = 3823;
@@ -62,11 +99,11 @@ namespace UnitTest
         }
         #endregion
 
-        #region - prepare and teardown     
+        #region prepare and teardown     
         private void TestPrepare(string testName)
         {
-            at = new AdminTools(serverConnectionString);
-            string temp = at.DbClear();
+            adminTool = new AdminTools(serverConnectionString);
+            string temp = adminTool.DbClear();
             if (temp != "")
                 throw new Exception("CleanUp failed");
 
@@ -81,6 +118,7 @@ namespace UnitTest
             core = new Core();
             utCore = new UnitTestCore(core);
 
+            core.HandleNotificationNotFound += EventNotificationNotFound;
             core.HandleEventException += EventException;
             core.Start(serverConnectionString);
         }
@@ -93,9 +131,9 @@ namespace UnitTest
         }
         #endregion
 
-        #region test 000x virtal basics
+        #region - test 000x virtal basics
         [Fact]
-        public void Test000_1a_MustAlwaysPass()
+        public void Test000_Basics_1a_MustAlwaysPass()
         {
             lock (_lockTest)
             {
@@ -112,7 +150,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test000_2a_PrepareAndTeardownTestdata()
+        public void Test000_Basics_2a_PrepareAndTeardownTestdata()
         {
             lock (_lockTest)
             {
@@ -131,9 +169,9 @@ namespace UnitTest
         }
         #endregion
 
-        #region test 001x core
+        #region - test 001x core
         [Fact]
-        public void Test001_1a_Core_Start_WithNullExpection()
+        public void Test001_Core_1a_Start_WithNullExpection()
         {
             lock (_lockTest)
             {
@@ -160,7 +198,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test001_1b_Core_Start_WithBlankExpection()
+        public void Test001_Core_1b_Start_WithBlankExpection()
         {
             lock (_lockTest)
             {
@@ -187,7 +225,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test001_2a_Core_StartSqlOnly()
+        public void Test001_Core_2a_StartSqlOnly()
         {
             //Arrange
             TestPrepare(t.GetMethodName());
@@ -211,7 +249,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test001_3a_Core_Start()
+        public void Test001_Core_3a_Start()
         {
             //Arrange
             TestPrepare(t.GetMethodName());
@@ -235,7 +273,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test001_4a_Core_Running()
+        public void Test001_Core_4a_IsRunning()
         {
             //Arrange
             TestPrepare(t.GetMethodName());
@@ -261,7 +299,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test001_5a_Core_Close()
+        public void Test001_Core_5a_Close()
         {
             //Arrange
             TestPrepare(t.GetMethodName());
@@ -283,36 +321,54 @@ namespace UnitTest
             TestTeardown();
             Assert.Equal(checkValueA, checkValueB);
         }
+
+        [Fact]
+        public void Test001_Core_6a_RunningForWhile()
+        {
+            //Arrange
+            TestPrepare(t.GetMethodName());
+            string checkValueA = "FalseTrueTrue";
+            string checkValueB = "";
+            Core core = new Core();
+
+            //Act
+            try
+            {
+                checkValueB = core.Running().ToString();
+                core.Start(serverConnectionString);
+                Thread.Sleep(30000);
+                checkValueB += core.Running().ToString();
+                Thread.Sleep(05000);
+                checkValueB += core.Close().ToString();
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+
+            //Assert
+            TestTeardown();
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
         #endregion
 
-
-
-
-
-
-        #region tests - 00x - basic
+        #region - test 002x xml
         [Fact]
-        public void T002_Basic_XmlImporter()
+        public void Test002_Xml_1a_XmlImporter()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
                 string checkValueA;
                 string checkValueB;
 
-
-                //...
                 //Act
                 checkValueA = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">  <Id>1</Id>  <Label>A container check list</Label>  <DisplayOrder>1</DisplayOrder>  <CheckListFolderName>Main element</CheckListFolderName>  <Repeated>1</Repeated>  <StartDate>11-10-2016</StartDate>  <EndDate>11-10-2017</EndDate>  <Language>en</Language>  <MultiApproval>true</MultiApproval>  <FastNavigation>false</FastNavigation>  <DownloadEntities>false</DownloadEntities>  <ManualSync>true</ManualSync>  <ElementList>    <Element xsi:type=\"DataElement\">      <Id>1</Id>      <Label>Basic list</Label>      <DisplayOrder>1</DisplayOrder>      <Description>Data element</Description>      <ApprovalEnabled>true</ApprovalEnabled>      <ReviewEnabled>true</ReviewEnabled>      <DoneButtonEnabled>true</DoneButtonEnabled>      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>      <PinkBarText />      <DataItemList>        <DataItem xsi:type=\"Number\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Number field</Label>          <Description>this is a description</Description>          <Color>e2f4fb</Color>          <DisplayOrder>1</DisplayOrder>          <MinValue>0</MinValue>          <MaxValue>1000</MaxValue>          <DefaultValue>0</DefaultValue>          <DecimalCount>0</DecimalCount>          <UnitName />        </DataItem>        <DataItem xsi:type=\"Text\">          <Id>2</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Text field</Label>          <Description>this is a description bla</Description>          <Color>e2f4fb</Color>          <DisplayOrder>8</DisplayOrder>          <Value>true</Value>          <MaxLength>100</MaxLength>          <GeolocationEnabled>false</GeolocationEnabled>          <GeolocationForced>false</GeolocationForced>          <GeolocationHidden>true</GeolocationHidden>          <BarcodeEnabled>false</BarcodeEnabled>          <BarcodeType />        </DataItem>        <DataItem xsi:type=\"Comment\">          <Id>3</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Comment field</Label>          <Description>this is a description</Description>          <Color>e2f4fb</Color>          <DisplayOrder>3</DisplayOrder>          <Value>value</Value>          <Maxlength>10000</Maxlength>          <SplitScreen>false</SplitScreen>        </DataItem>        <DataItem xsi:type=\"Picture\">          <Id>4</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Picture field</Label>          <Description>this is a description</Description>          <Color>e2f4fb</Color>          <DisplayOrder>4</DisplayOrder>          <Multi>1</Multi>          <GeolocationEnabled>true</GeolocationEnabled>        </DataItem>        <DataItem xsi:type=\"Check_Box\">          <Id>5</Id>          <Mandatory>false</Mandatory>          <ReadOnly>true</ReadOnly>          <Label>Check box</Label>          <Description>this is a description</Description>          <Color>e2f4fb</Color>          <DisplayOrder>15</DisplayOrder>          <DefaultValue>true</DefaultValue>          <Selected>true</Selected>        </DataItem>        <DataItem xsi:type=\"Date\">          <Id>6</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Date field</Label>          <Description>this is a description</Description>          <Color>e2f4fb</Color>          <DisplayOrder>16</DisplayOrder>          <DefaultValue>11-10-2016 15:20:51</DefaultValue>          <MaxValue>2016-10-11T15:20:51.5733094+02:00</MaxValue>          <MinValue>2016-10-11T15:20:51.5733094+02:00</MinValue>        </DataItem>        <DataItem xsi:type=\"None\">          <Id>7</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>None field, only shows text</Label>          <Description>this is a description</Description>          <Color>e2f4fb</Color>          <DisplayOrder>7</DisplayOrder>        </DataItem>      </DataItemList>    </Element>  </ElementList>  <PushMessageTitle />  <PushMessageBody /></Main>";
 
                 checkValueB = LoadFil("xml.txt");
                 checkValueB = checkValueA.Replace("\n", String.Empty).Replace("\r", String.Empty).Replace("\t", String.Empty);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -320,11 +376,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T003_Basic_XmlConverter()
+        public void Test002_Xml_2a_XmlConverter()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -332,8 +385,6 @@ namespace UnitTest
                 string checkValueA;
                 string checkValueB;
 
-
-                //...
                 //Act
                 checkValueA = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">  <Id>1</Id>  <Label>A container check list</Label>  <DisplayOrder>1</DisplayOrder>  <CheckListFolderName>Main element</CheckListFolderName>  <Repeated>1</Repeated>  <StartDate>2016-10-11 00:00:00</StartDate>  <EndDate>2017-10-11 00:00:00</EndDate>  <Language>en</Language>  <MultiApproval>true</MultiApproval>  <FastNavigation>false</FastNavigation>  <DownloadEntities>false</DownloadEntities>  <ManualSync>true</ManualSync>  <ElementList>    <Element xsi:type=\"DataElement\">      <Id>1</Id>      <Label>Basic list</Label>      <DisplayOrder>1</DisplayOrder>      <Description><![CDATA[Data element]]></Description>      <ApprovalEnabled>true</ApprovalEnabled>      <ReviewEnabled>true</ReviewEnabled>      <DoneButtonEnabled>true</DoneButtonEnabled>      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>      <PinkBarText />      <DataItemGroupList />      <DataItemList>        <DataItem xsi:type=\"Number\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Number field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>1</DisplayOrder>          <MinValue>0</MinValue>          <MaxValue>1000</MaxValue>          <DefaultValue>0</DefaultValue>          <DecimalCount>0</DecimalCount>          <UnitName />        </DataItem>        <DataItem xsi:type=\"Text\">          <Id>2</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Text field</Label>          <Description><![CDATA[this is a description bla]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>8</DisplayOrder>          <Value>true</Value>          <MaxLength>100</MaxLength>          <GeolocationEnabled>false</GeolocationEnabled>          <GeolocationForced>false</GeolocationForced>          <GeolocationHidden>true</GeolocationHidden>          <BarcodeEnabled>false</BarcodeEnabled>          <BarcodeType />        </DataItem>        <DataItem xsi:type=\"Comment\">          <Id>3</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Comment field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>3</DisplayOrder>          <Value>value</Value>          <Maxlength>10000</Maxlength>          <SplitScreen>false</SplitScreen>        </DataItem>        <DataItem xsi:type=\"Picture\">          <Id>4</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Picture field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>4</DisplayOrder>          <Multi>1</Multi>          <GeolocationEnabled>true</GeolocationEnabled>        </DataItem>        <DataItem xsi:type=\"CheckBox\">          <Id>5</Id>          <Mandatory>false</Mandatory>          <ReadOnly>true</ReadOnly>          <Label>Check box</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>15</DisplayOrder>          <DefaultValue>true</DefaultValue>          <Selected>true</Selected>        </DataItem>        <DataItem xsi:type=\"Date\">          <Id>6</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Date field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>16</DisplayOrder>          <DefaultValue>11-10-2016 15:20:51</DefaultValue>          <MaxValue>2016-10-11</MaxValue>          <MinValue>2016-10-11</MinValue>        </DataItem>        <DataItem xsi:type=\"None\">          <Id>7</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>None field, only shows text</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>7</DisplayOrder>        </DataItem>      </DataItemList>    </Element>  </ElementList>  <PushMessageTitle />  <PushMessageBody /></Main>";
 
@@ -342,8 +393,6 @@ namespace UnitTest
                 checkValueB = main.ClassToXml();
                 checkValueB = checkValueB.Replace("\n", String.Empty).Replace("\r", String.Empty).Replace("\t", String.Empty);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -351,12 +400,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T004_Basic_TemplateCreate()
+        public void Test002_Xml_3a_TemplateCreate()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
-            lock (_lockTest)
+             lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -365,8 +411,6 @@ namespace UnitTest
                 MainElement main;
                 string xmlStr;
 
-
-                //...
                 //Act
                 checkValueA = -1;
 
@@ -375,8 +419,6 @@ namespace UnitTest
                 main = core.TemplateFromXml(xmlStr);
                 checkValueB = core.TemplateCreate(main);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.NotEqual(checkValueA, checkValueB);
@@ -384,11 +426,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T005_Basic_TemplateRead()
+        public void Test002_Xml_4a_TemplateRead()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -399,22 +438,17 @@ namespace UnitTest
                 int templatId;
                 string xmlStr;
 
-
-                //...
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 checkValueA = main.ClassToXml();
                 checkValueA = ClearXml(checkValueA);
 
-
                 templatId = core.TemplateCreate(main);
                 main = core.TemplateRead(templatId);
                 checkValueB = main.ClassToXml();
                 checkValueB = ClearXml(checkValueB);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -422,16 +456,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 01x - communicator
+        #region - test 003x - communicator
         [Fact]
-        public void T011_Communicator_PostXml()
+        public void Test003_Communicator_1a_PostXml()
         {
-            if (!useLiveConnections)
-            {
-                Assert.Equal(true, true);
-                return;
-            }
-
             lock (_lockTest)
             {
                 //Arrange
@@ -442,8 +470,6 @@ namespace UnitTest
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
-
-                //...
                 //Act
                 checkValueA = true;
 
@@ -459,8 +485,6 @@ namespace UnitTest
                     WaitForAvailableMicroting(mUId);
                 }
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -468,11 +492,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T012_Communicator_CheckStatus()
+        public void Test003_Communicator_2a_CheckStatus()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -483,8 +504,6 @@ namespace UnitTest
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
-
-                //...
                 //Act
                 checkValueA = true;
                 checkValueB = true;
@@ -506,8 +525,6 @@ namespace UnitTest
                     }
                 }
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -515,11 +532,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T013_Communicator_Retrieve()
+        public void Test003_Communicator_3a_Retrieve()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -530,8 +544,6 @@ namespace UnitTest
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
-
-                //...
                 //Act
                 checkValueA = true;
                 checkValueB = false;
@@ -553,8 +565,6 @@ namespace UnitTest
                     }
                 }
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -562,11 +572,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T014_Communicator_RetrieveFromId()
+        public void Test003_Communicator_3b_RetrieveFromId()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -577,8 +584,6 @@ namespace UnitTest
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
-
-                //...
                 //Act
                 checkValueA = true;
                 checkValueB = false;
@@ -596,13 +601,10 @@ namespace UnitTest
                     if (responseStr.Contains("<Response><Value type="))
                     {
                         checkValueB = true;
-
                         WaitForAvailableMicroting(mUId);
                     }
                 }
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -610,11 +612,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T015_Communicator_Delete()
+        public void Test003_Communicator_4a_Delete()
         {
-            if (!useLiveConnections)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -625,8 +624,6 @@ namespace UnitTest
                 MainElement main = new MainElement();
                 Communicator com = new Communicator(sqlController);
 
-
-                //...
                 //Act
                 checkValueA = true;
                 checkValueB = false;
@@ -646,8 +643,6 @@ namespace UnitTest
                     }
                 }
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -655,11 +650,13 @@ namespace UnitTest
         }
         #endregion
 
+
+
         #region tests - 02x - request
         [Fact]
-        public void T021_Request_ClassToXml()
+        public void Old_T021_Request_ClassToXml()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
             {
                 Assert.Equal(true, true);
                 return;
@@ -732,9 +729,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T022_Request_XmlToClass()
+        public void Old_T022_Request_XmlToClass()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -762,9 +759,9 @@ namespace UnitTest
 
         #region tests - 03x - response
         [Fact]
-        public void T031_Response_XmlToClassSimple()
+        public void Old_T031_Response_XmlToClassSimple()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -794,9 +791,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T032_Response_XmlToClassExt()
+        public void Old_T032_Response_XmlToClassExt()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -849,9 +846,9 @@ namespace UnitTest
 
         #region tests - 04x - sqlController Templat and Case
         [Fact]
-        public void T041_SqlController_TemplateCreateAndRead()
+        public void Old_T041_SqlController_TemplateCreateAndRead()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -881,9 +878,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T042_SqlController_CaseCreateAndRead()
+        public void Old_T042_SqlController_CaseCreateAndRead()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -924,9 +921,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T043_SqlController_CaseDelete()
+        public void Old_T043_SqlController_CaseDelete()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -968,9 +965,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T044_SqlController_CaseUpdate()
+        public void Old_T044_SqlController_CaseUpdate()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1015,9 +1012,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T045_SqlController_CaseRetract()
+        public void Old_T045_SqlController_CaseRetract()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1061,9 +1058,9 @@ namespace UnitTest
 
         #region tests - 05x - subscriber
         [Fact]
-        public void T051_Subscriber_StartAndClose()
+        public void Old_T051_Subscriber_StartAndClose()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1074,15 +1071,44 @@ namespace UnitTest
                 string checkValueB = "";
                 Subscriber subS = new Subscriber(sqlController, null);
 
-
-                //...
                 //Act
                 subS.Start();
                 checkValueB = subS.IsActive().ToString();
                 subS.Close();
                 checkValueB += subS.IsActive().ToString();
 
-                //...
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+
+        [Fact]
+        public void Old_T052_Subscriber_LacksName()
+        {
+            if (!useLiveData)
+            { Assert.Equal(true, true); return; }
+
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName());
+                string checkValueA = "not_found = True";
+                string checkValueB = "";
+
+                //Act
+                sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), "not in db", "check_status");
+                for (int i = 0; i < 100; i++)
+                {
+                    Thread.Sleep(100);
+                    var lst = sqlController.UnitTest_FindAllNotifications();
+                    if (lst[0].workflow_state == "not_found")
+                    {
+                        checkValueB = "not_found = True";
+                        break;
+                    }
+                }
+
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1092,9 +1118,9 @@ namespace UnitTest
 
         #region tests - 06x - microting
         [Fact]
-        public void T061_Core_CaseCreate()
+        public void Old_T061_Core_CaseCreate()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1128,9 +1154,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T062_Core_CaseDelete()
+        public void Old_T062_Core_CaseDelete()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1167,9 +1193,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T063_Core_CaseCreateReversed()
+        public void Old_T063_Core_CaseCreateReversed()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1207,9 +1233,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T064_Core_CaseLookup()
+        public void Old_T064_Core_CaseLookup()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1245,9 +1271,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T065_Core_Close()
+        public void Old_T065_Core_Close()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1273,9 +1299,9 @@ namespace UnitTest
 
         #region tests - 07x - entity
         [Fact]
-        public void T071a_Core_EntityGroupCreate_EntitySearch()
+        public void Old_T071a_Core_EntityGroupCreate_EntitySearch()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1299,9 +1325,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T071b_Core_EntityGroupCreate_EntitySelect()
+        public void Old_T071b_Core_EntityGroupCreate_EntitySelect()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1325,9 +1351,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T072_Core_EntityGroupUpdate_NotUnique()
+        public void Old_T072_Core_EntityGroupUpdate_NotUnique()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1368,9 +1394,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T073a_Core_EntityGroupUpdateAndRead_EntitySearch()
+        public void Old_T073a_Core_EntityGroupUpdateAndRead_EntitySearch()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1417,9 +1443,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T073b_Core_EntityGroupUpdateAndRead_EntitySelect()
+        public void Old_T073b_Core_EntityGroupUpdateAndRead_EntitySelect()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1468,9 +1494,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T074a_Core_EntityGroupItemRemoveAndAddAgain_EntitySearch()
+        public void Old_T074a_Core_EntityGroupItemRemoveAndAddAgain_EntitySearch()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1516,9 +1542,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T075_Core_EntityGroupDelete_EntitySearch()
+        public void Old_T075_Core_EntityGroupDelete_EntitySearch()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1560,9 +1586,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T076_Core_EntityGroupDelete_EntitySelect()
+        public void Old_T076_Core_EntityGroupDelete_EntitySelect()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1606,9 +1632,9 @@ namespace UnitTest
 
         #region tests - 08x - case
         [Fact]
-        public void T081_Case_Retrived()
+        public void Old_T081_Case_Retrived()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1649,9 +1675,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T082_Case_Completed()
+        public void Old_T082_Case_Completed()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1680,9 +1706,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T083_CaseMany_Completed()
+        public void Old_T083_CaseMany_Completed()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1734,9 +1760,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T084_CaseReversed_Completed()
+        public void Old_T084_CaseReversed_Completed()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1813,9 +1839,9 @@ namespace UnitTest
 
         #region tests - 09x - interaction cases
         [Fact]
-        public void T091_Interaction_Case_CreatedInTable()
+        public void Old_T091_Interaction_Case_CreatedInTable()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1848,9 +1874,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T092a_Interaction_Case_Completed_Connected()
+        public void Old_T092a_Interaction_Case_Completed_Connected()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1890,9 +1916,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T092b_Interaction_Case_Completed_NotConnected()
+        public void Old_T092b_Interaction_Case_Completed_NotConnected()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1932,9 +1958,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T092c_Interaction_Case_CompletedWithReplacements()
+        public void Old_T092c_Interaction_Case_CompletedWithReplacements()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -1983,9 +2009,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T092d_Interaction_Case_ReplacementsFailedDateTime()
+        public void Old_T092d_Interaction_Case_ReplacementsFailedDateTime()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -2027,9 +2053,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T093a_Interaction_Case_DeletedSDK()
+        public void Old_T093a_Interaction_Case_DeletedSDK()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -2081,9 +2107,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T093b_Interaction_Case_DeletedInteraction()
+        public void Old_T093b_Interaction_Case_DeletedInteraction()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -2136,9 +2162,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void T094_Interaction_Case_Multi_Completed()
+        public void Old_T094_Interaction_Case_Multi_Completed()
         {
-            if (!useLiveConnections)
+            if (!useLiveData)
                 {Assert.Equal(true, true); return;}
 
             lock (_lockTest)
@@ -2251,7 +2277,9 @@ namespace UnitTest
         //}
         #endregion
 
-        #region - private
+
+
+        #region private
         private List<string> WaitForAvailableDB()
         {
             try
@@ -2446,7 +2474,7 @@ namespace UnitTest
         }
         #endregion
 
-        #region - events
+        #region events
         public void EventCaseCreated(object sender, EventArgs args)
         {
             ////DOSOMETHING: changed to fit your wishes and needs 
@@ -2509,6 +2537,11 @@ namespace UnitTest
             //int siteId = int.Parse(sender.ToString());
         }
 
+        public void EventNotificationNotFound(object sender, EventArgs args)
+        {
+
+        }
+
         public void EventException(object sender, EventArgs args)
         {
             lock (_lockFil)
@@ -2519,59 +2552,6 @@ namespace UnitTest
             throw (Exception)sender;
         }
         #endregion
-    }
-
-    public class TestContext : IDisposable
-    {
-        string serverConnectionStringForTravis = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
-
-        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
-        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True";
-
-        #region var
-        SqlController sqlController;
-        string serverConnectionString = "";
-        bool testContextTravis = true;
-        #endregion
-
-        #region once for all tests - build order
-        public TestContext()
-        {
-            try
-            {
-                serverConnectionString = serverConnectionStringForTravis;
-                if (Environment.MachineName == "DESKTOP-7V1APE5")
-                {
-                    testContextTravis = false;
-                    serverConnectionString = serverConnectionStringForLocals;
-                }
-            }
-            catch { }
-
-            sqlController = new SqlController(serverConnectionString);
-            AdminTools at = new AdminTools(serverConnectionString);
-
-            if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-                at.DbSetup("unittest");
-        }
-        #endregion
-
-        #region once for all tests - teardown
-        public void Dispose()
-        {
-            sqlController.UnitTest_DeleteDb();
-        }
-        #endregion
-
-        public string GetConnectionString()
-        {
-            return serverConnectionString;
-        }
-
-        public bool GetTestContextTravis()
-        {
-            return testContextTravis;
-        }
     }
 
     #region dummy class
