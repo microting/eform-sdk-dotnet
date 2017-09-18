@@ -1,5 +1,10 @@
 ## Changelog
 
+  - Version 1.6.2.4 *(September 18th 2017)*
+	- Fixing the field list to be a FieldDto instead of a fields object.
+	- Adding method to try to consistency check db, first step.
+	- Not_found event added
+
   - Version 1.6.2.3 *(September 15th 2017)*
 	- Improved settings loading and defaulting. 
 	- Initial support for MySQL - Beta.
