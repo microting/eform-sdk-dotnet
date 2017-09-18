@@ -38,6 +38,7 @@ namespace eFormCore
         event EventHandler  HandleCaseDeleted;
         event EventHandler  HandleFileDownloaded;
         event EventHandler  HandleSiteActivated;
+        event EventHandler  HandleNotificationNotFound;
         event EventHandler  HandleEventException;
 
         //---------------------------------------------------------------------------------------

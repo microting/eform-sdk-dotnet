@@ -50,6 +50,7 @@ namespace eFormCore
         public event EventHandler HandleCaseDeleted;
         public event EventHandler HandleFileDownloaded;
         public event EventHandler HandleSiteActivated;
+        public event EventHandler HandleNotificationNotFound;
         public event EventHandler HandleEventException;
         #endregion
 
@@ -2912,8 +2913,10 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + noteUId + "' marked as 'not_found'.", ex));
+                            log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + notification + "' marked as 'not_found'.", ex));
                             sqlController.NotificationProcessed(notification.Id, "not_found");
+                            try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
+                            catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
                         }
                     }
                     #endregion
