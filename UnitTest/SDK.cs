@@ -15,7 +15,7 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        bool useLiveData = true;
+        bool useLiveData = false;
 
         string connectionStringLocal_UnitTest = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
         string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data

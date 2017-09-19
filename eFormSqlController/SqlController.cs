@@ -31,10 +31,10 @@ namespace eFormSqlController
         {
             connectionStr = connectionString;
     
-            if (!connectionStr.ToLower().Contains("server="))
-                msSql = true;
-            else
+            if (connectionStr.ToLower().Contains("uid=") || connectionStr.ToLower().Contains("pwd="))
                 msSql = false;
+            else
+                msSql = true;
 
             #region migrate if needed
             try
