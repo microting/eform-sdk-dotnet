@@ -155,33 +155,43 @@ namespace eFormSqlController
                     Field_Dto fd8 = null;
                     Field_Dto fd9 = null;
                     Field_Dto fd10 = null;
+
                     fields f1 = db.fields.SingleOrDefault(x => x.id == checkList.field_1);
                     if (f1 != null)
                         fd1 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type, (int)f1.check_list_id);
+
                     fields f2 = db.fields.SingleOrDefault(x => x.id == checkList.field_2);
                     if (f2 != null)
                         fd2 = new Field_Dto(f2.id, f2.label, f2.description, (int)f2.field_type_id, f2.field_type.field_type, (int)f2.check_list_id);
+
                     fields f3 = db.fields.SingleOrDefault(x => x.id == checkList.field_3);
                     if (f3 != null)
                         fd4 = new Field_Dto(f3.id, f3.label, f3.description, (int)f3.field_type_id, f3.field_type.field_type, (int)f3.check_list_id);
+
                     fields f4 = db.fields.SingleOrDefault(x => x.id == checkList.field_4);
                     if (f4 != null)
                         fd4 = new Field_Dto(f4.id, f4.label, f4.description, (int)f4.field_type_id, f4.field_type.field_type, (int)f4.check_list_id);
+
                     fields f5 = db.fields.SingleOrDefault(x => x.id == checkList.field_5);
                     if (f5 != null)
                         fd5 = new Field_Dto(f5.id, f5.label, f5.description, (int)f5.field_type_id, f5.field_type.field_type, (int)f5.check_list_id);
+
                     fields f6 = db.fields.SingleOrDefault(x => x.id == checkList.field_6);
                     if (f6 != null)
                         fd6 = new Field_Dto(f6.id, f6.label, f6.description, (int)f6.field_type_id, f6.field_type.field_type, (int)f6.check_list_id);
+
                     fields f7 = db.fields.SingleOrDefault(x => x.id == checkList.field_7);
                     if (f7 != null)
                         fd7 = new Field_Dto(f7.id, f7.label, f7.description, (int)f7.field_type_id, f7.field_type.field_type, (int)f7.check_list_id);
+
                     fields f8 = db.fields.SingleOrDefault(x => x.id == checkList.field_8);
                     if (f8 != null)
                         fd8 = new Field_Dto(f8.id, f8.label, f8.description, (int)f8.field_type_id, f8.field_type.field_type, (int)f8.check_list_id);
+
                     fields f9 = db.fields.SingleOrDefault(x => x.id == checkList.field_9);
                     if (f9 != null)
                         fd9 = new Field_Dto(f9.id, f9.label, f9.description, (int)f9.field_type_id, f9.field_type.field_type, (int)f9.check_list_id);
+
                     fields f10 = db.fields.SingleOrDefault(x => x.id == checkList.field_10);
                     if (f10 != null)
                         fd10 = new Field_Dto(f10.id, f10.label, f10.description, (int)f10.field_type_id, f10.field_type.field_type, (int)f10.check_list_id);
@@ -218,9 +228,9 @@ namespace eFormSqlController
                         List<check_list_sites> check_list_sites = null;
 
                         if (siteWorkflowState == "removed")
-                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
+                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state == "removed").ToList();
                         else
-                            check_list_sites = checkList.check_list_sites.ToList();
+                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
 
                         foreach (check_list_sites check_list_site in check_list_sites)
                         {

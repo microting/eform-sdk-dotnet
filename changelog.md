@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.2.6 *(September 19th 2017)*
+	- Fixing the workflow_state setting for loading deployed sites.
+
   - Version 1.6.2.5 *(September 18th 2017)*
 	- Improving the consistency check code.
 
