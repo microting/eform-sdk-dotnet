@@ -15,8 +15,8 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
+        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var
@@ -1183,9 +1183,6 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_1b_EntityGroupCreate_EntitySelect()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1193,13 +1190,9 @@ namespace UnitTest
                 string checkValueA = "";
                 EntityGroup checkValueB;
 
-
-                //...
                 //Act
                 checkValueB = core.EntityGroupCreate("EntitySelect", "MyTest");
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.NotEqual(checkValueA, checkValueB.ToString());
@@ -1209,10 +1202,7 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_2a_EntityGroupUpdate_NotUnique()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
-            lock (_lockTest)
+             lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1220,7 +1210,6 @@ namespace UnitTest
                 string checkValueB;
 
 
-                //...
                 //Act
                 EntityGroup peG = core.EntityGroupCreate("EntitySearch", "MyTest");
 
@@ -1241,8 +1230,6 @@ namespace UnitTest
                     checkValueB = "Failed";
                 }
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1252,9 +1239,6 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_3a_EntityGroupUpdateAndRead_EntitySearch()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1263,11 +1247,8 @@ namespace UnitTest
                 string checkValueB;
                 EntityGroup oEG;
 
-
-                //...
                 //Act
                 oEG = core.EntityGroupCreate("EntitySearch", "MyTest");
-
                 List<EntityItem> lst = new List<EntityItem>();
                 EntityGroup eG = new EntityGroup(oEG.Id, "Group", "EntitySearch", oEG.EntityGroupMUId, lst, "created", DateTime.Now, DateTime.Now);
                 lst.Add(new EntityItem("Item1", "description", "1", "created"));
@@ -1290,8 +1271,6 @@ namespace UnitTest
                 checkValueB += tempi.EntityGroupItemLst.Count;
                 checkValueB += tempi.EntityGroupItemLst[4].Name;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1301,9 +1280,6 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_3b_EntityGroupUpdateAndRead_EntitySelect()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1312,11 +1288,8 @@ namespace UnitTest
                 string checkValueB;
                 EntityGroup oEG;
 
-
-                //...
                 //Act
                 oEG = core.EntityGroupCreate("EntitySelect", "MyTest");
-
                 List<EntityItem> lst = new List<EntityItem>();
                 EntityGroup eG = new EntityGroup(oEG.Id, "Group", "EntitySelect", oEG.EntityGroupMUId, lst, "created", DateTime.Now, DateTime.Now);
                 lst.Add(new EntityItem("Item1", "description & more", "1", "created"));
@@ -1341,8 +1314,6 @@ namespace UnitTest
                 checkValueB += tempi.EntityGroupItemLst[4].Name;
                 checkValueB += sqlController.UnitTest_EntitiesAllSynced(oEG.EntityGroupMUId);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1352,9 +1323,6 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_4a_EntityGroupItemRemoveAndAddAgain_EntitySearch()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1363,11 +1331,8 @@ namespace UnitTest
                 string checkValueB;
                 EntityGroup oEG;
 
-
-                //...
                 //Act
                 oEG = core.EntityGroupCreate("EntitySearch", "MyTest");
-
                 List<EntityItem> lst = new List<EntityItem>();
                 EntityGroup eG = new EntityGroup(oEG.Id, "Group", "EntitySearch", oEG.EntityGroupMUId, lst, "created", DateTime.Now, DateTime.Now);
                 lst.Add(new EntityItem("Item1", "1st insert", "3", "created"));
@@ -1390,7 +1355,6 @@ namespace UnitTest
                 var tempiii = core.EntityGroupRead(oEG.EntityGroupMUId);
                 checkValueB += sqlController.UnitTest_EntitiesAllSynced(oEG.EntityGroupMUId);
 
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1400,9 +1364,6 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_5a_EntityGroupDelete_EntitySearch()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1411,11 +1372,8 @@ namespace UnitTest
                 string checkValueB;
                 EntityGroup oEG;
 
-
-                //...
                 //Act
                 oEG = core.EntityGroupCreate("EntitySearch", "MyTest");
-
                 List<EntityItem> lst = new List<EntityItem>();
                 EntityGroup eG = new EntityGroup(oEG.Id, "Group", "EntitySearch", oEG.EntityGroupMUId, lst, "created", DateTime.Now, DateTime.Now);
                 lst.Add(new EntityItem("Item1", "description", "1", "created"));
@@ -1433,8 +1391,6 @@ namespace UnitTest
                 if (tempii.EntityGroupItemLst.Count == 0)
                     checkValueB += "isZero";
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1444,9 +1400,6 @@ namespace UnitTest
         [Fact]
         public void Test009_Entity_5b_EntityGroupDelete_EntitySelect()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1455,11 +1408,8 @@ namespace UnitTest
                 string checkValueB;
                 EntityGroup oEG;
 
-
-                //...
                 //Act
                 oEG = core.EntityGroupCreate("EntitySelect", "MyTest");
-
                 List<EntityItem> lst = new List<EntityItem>();
                 EntityGroup eG = new EntityGroup(oEG.Id, "Group", "EntitySelect", oEG.EntityGroupMUId, lst, "created", DateTime.Now, DateTime.Now);
                 lst.Add(new EntityItem("Item1", "description", "1", "created"));
@@ -1477,8 +1427,6 @@ namespace UnitTest
                 if (tempii.EntityGroupItemLst.Count == 0)
                     checkValueB += "isZero";
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);

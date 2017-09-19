@@ -42,14 +42,11 @@ namespace eFormCommunicator
     {
         #region var
         private string protocolXml = "6";
-        private string protocolEntitySearch = "1";
-        private string protocolEntitySelect = "4";
 
         private string token = "";
         private string addressApi = "";
         private string addressBasic = "";
         private string addressPdfUpload = "";
-        private string organizationId = "";
 
         private string dllVersion = "";
 
@@ -83,293 +80,64 @@ namespace eFormCommunicator
         #region public EntitySearch
         public string     EntitySearchGroupCreate(string name, string id)
         {
-            try
-            {
-                string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
-
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types?token=" + token + "&protocol=" + protocolEntitySearch +
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(xmlData);
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = content.Length;
-
-                string responseXml = PostToServer(request, content);
-
-                if (responseXml.Contains("workflowState=\"created"))
-                    return t.Locate(responseXml, "<MicrotingUUId>", "</");
-                else
-                    return null;
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
-            }
+            return t.GetRandomInt(6).ToString();
         }
 
         public bool       EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
         {
-            string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
-
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types/"+ entityGroupMUId + "?token=" + token + "&protocol=" + protocolEntitySearch +
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = content.Length;
-
-            string responseXml = PostToServer(request, content);
-
-            if (responseXml.Contains("workflowState=\"created"))
-                return true;
-            else
-                return false;
-        }       
+            return true;
+        }
 
         public bool       EntitySearchGroupDelete(string entityGroupId)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entity_types/" + entityGroupId + "?token=" + token + "&protocol=" + protocolEntitySearch + 
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-
-                string responseXml = PostToServer(request);
-
-                if (responseXml.Contains("Value type=\"success"))
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntitySearchGroupDelete failed", ex);
-            }
+            return true;
         }
 
         public string     EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
-            string xmlData = "<Entities><Entity>" + 
-                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
-                "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
-                "<Id>" + id + "</Id>" + 
-                "</Entity></Entities>";
-
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities?token=" + token + "&protocol=" + protocolEntitySearch + 
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = content.Length;
-
-            string responseXml = PostToServer(request, content);
-
-            if (responseXml.Contains("workflowState=\"created"))
-                return t.Locate(responseXml, "<MicrotingUUId>", "</");
-            else
-                return null;
+            return t.GetRandomInt(6).ToString();
         }
 
         public bool       EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
-            string xmlData = "<Entities><Entity>" +
-                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
-                "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
-                "<Id>" + id + "</Id>" +
-                "</Entity></Entities>";
-
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch +
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = content.Length;
-
-            string responseXml = PostToServer(request, content);
-
-            if (responseXml.Contains("workflowState=\"created"))
-                return true;
-            else
-                return false;
+            return true;
         }
 
         public bool       EntitySearchItemDelete(string entitySearchItemId)
         {
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch + 
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "DELETE";
-            request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-
-            string responseXml = PostToServer(request);
-
-            if (responseXml.Contains("Value type=\"success"))
-                return true;
-            else
-                return false;
+            return true;
         }
         #endregion
 
         #region public EntitySelect
         public string     EntitySelectGroupCreate(string name, string id)
         {
-            try
-            {
-                //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
-                JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id} });
-
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups.json?token=" + token + "&protocol=" + protocolEntitySelect + 
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-                request.ContentType = "application/json; charset=utf-8";
-                request.ContentLength = content.Length;
-
-                string responseXml = PostToServer(request, content);
-
-                if (responseXml.Contains("workflow_state\": \"created"))
-                    return t.Locate(responseXml, "\"id\": \"", "\"");
-                else
-                    return null;
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
-            }
+            return t.GetRandomInt(6).ToString();
         }
 
         public bool       EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
-
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/"+ entityGroupMUId + "?token=" + token + "&protocol=" + protocolEntitySelect + 
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string responseXml = PostToServerNoRedirect(request, content);
-
-            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            {
-                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupMUId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + 
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request2.Method = "GET";
-                string responseXml2 = PostToServer(request2);
-
-                if (responseXml2.Contains("workflow_state\": \"created"))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
+            return true;
         }
 
         public bool       EntitySelectGroupDelete(string entityGroupId)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request.Method = "DELETE";
-                request.ContentType = "application/json; charset=utf-8";
-
-                string responseXml = PostToServerNoRedirect(request);
-
-                if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-                {
-                    WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-                        "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                    request2.Method = "GET";
-                    string responseXml2 = PostToServer(request2);
-
-                    if (responseXml2.Contains("workflow_state\": \"removed"))
-                        return true;
-                    else
-                        return false;
-                }
-                else
-                    return false;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntitySearchGroupDelete failed", ex);
-            }
+            return true;
         }
 
         public string     EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
-
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect + 
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string responseXml = PostToServer(request, content);
-
-            if (responseXml.Contains("workflow_state\": \"created"))
-                return t.Locate(responseXml, "\"id\": \"", "\"");
-            else
-                return null;
+            return t.GetRandomInt(6).ToString();
         }
 
         public bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
-
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect +
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string responseXml = PostToServerNoRedirect(request, content);
-
-            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            {
-                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect 
-                    + "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request2.Method = "GET";
-                string responseXml2 = PostToServer(request2);
-
-                if (responseXml2.Contains("workflow_state\": \"created"))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
+            return true;
         }
 
         public bool       EntitySelectItemDelete(string entitySelectItemId)
         {
-            WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + 
-                "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-            request.Method = "DELETE";
-            request.ContentType = "application/json; charset=utf-8";
-
-            string responseXml = PostToServerNoRedirect(request);
-
-            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            {
-                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request2.Method = "GET";
-                string responseXml2 = PostToServer(request2);
-
-                if (responseXml2.Contains("workflow_state\": \"removed"))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
+            return true;
         }
         #endregion
 
