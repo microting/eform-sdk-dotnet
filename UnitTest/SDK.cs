@@ -396,7 +396,7 @@ namespace UnitTest
                 checkValueB = LoadFil("xml.txt");
                 MainElement main = core.TemplateFromXml(checkValueB);
                 checkValueB = main.ClassToXml();
-                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:xsi=", ">", "");
+          //      checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:xsi=", ">", "");
                 checkValueB = checkValueB.Replace("\n", String.Empty).Replace("\r", String.Empty).Replace("\t", String.Empty);
 
                 //Assert
