@@ -15,8 +15,8 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
+        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var
@@ -74,7 +74,7 @@ namespace UnitTest
 
         int siteId1 = 2001;
         int siteId2 = 2002;
-        int workerMUId = 2003;
+        int workerMUId = 666;
         int unitMUId = 345678;
 
         bool useLiveData = false;
@@ -631,24 +631,15 @@ namespace UnitTest
         }
         #endregion
 
-
-
-        #region tests - 02x - request
+        #region - test 004x - request (XML)
         [Fact]
-        public void Old_T021_Request_ClassToXml()
+        public void Test004_Request_1a_ClassToXml()
         {
-            if (!useLiveData)
-            {
-                Assert.Equal(true, true);
-                return;
-            }
-
             lock (_lockTest)
             {
                 //Arrange
                 string checkValueA = ClearXml(LoadFil("requestXmlFromClass.txt"));
                 string checkValueB = "";
-
                 DateTime startDate = DateTime.Now;
                 DateTime endDate = DateTime.Now.AddYears(1);
                 MainElement main = new MainElement(1, "Sample 3", 1, "Main element", 1, startDate, endDate, "en", true, false, false, true, "", "", "", new List<Element>());
@@ -695,14 +686,10 @@ namespace UnitTest
                 e3.DataItemList.Add(new CheckBox(1, true, false, "You are sure?", "Verify please", "e2f4fb", 1, false, false, false));
                 #endregion
 
-
-                //...
                 //Act
                 string xml = main.ClassToXml();
                 checkValueB = ClearXml(xml);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -710,27 +697,19 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T022_Request_XmlToClass()
+        public void Test004_Request_2a_XmlToClass()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
                 string checkValueA = ClearXml(LoadFil("requestXmlFromXml.txt"));
                 string checkValueB = LoadFil("requestXmlFromClass.txt");
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(checkValueB);
                 checkValueB = ClearXml(main.ClassToXml());
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -738,13 +717,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 03x - response
+        #region - test 005x - response (XML)
         [Fact]
-        public void Old_T031_Response_XmlToClassSimple()
+        public void Test005_Response_1a_XmlToClassSimple()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -753,17 +729,14 @@ namespace UnitTest
                 string checkValueB1 = "";
                 Response.ResponseTypes checkValueA2 = Response.ResponseTypes.Success;
                 Response.ResponseTypes checkValueB2;
-
                 Response resp = new Response();
 
-                //...
                 //Act
                 resp = resp.XmlToClass(responseStr);
                 checkValueB1 = resp.Value;
                 checkValueB2 = resp.Type;
 
 
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA1, checkValueB1);
@@ -772,11 +745,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T032_Response_XmlToClassExt()
+        public void Test005_Response_2a_XmlToClassExt()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -802,7 +772,6 @@ namespace UnitTest
 
                 Response resp = new Response();
 
-                //...
                 //Act
                 resp = resp.XmlToClass(responseStr);
                 checkValueB1 = resp.Value;
@@ -812,7 +781,6 @@ namespace UnitTest
                 checkValueB5 = resp.Checks[0].ElementList[0].DataItemList[0].Value.InderValue;
                 checkValueB6 = resp.Checks[0].ElementList[0].DataItemList[5].Value.InderValue;
 
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA1, checkValueB1);
@@ -825,13 +793,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 04x - sqlController Templat and Case
+        #region - test 006x - sqlController (Templat and Case)
         [Fact]
-        public void Old_T041_SqlController_TemplateCreateAndRead()
+        public void Test006_SqlController_1a_TemplateCreateAndRead()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -839,19 +804,14 @@ namespace UnitTest
                 string checkValueA = ClearXml(LoadFil("requestXmlFromXml.txt"));
                 string checkValueB = LoadFil("requestXmlFromClass.txt");
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(checkValueB);
                 templatId = sqlController.TemplateCreate(main);
                 main = sqlController.TemplateRead(templatId);
                 checkValueB = ClearXml(main.ClassToXml());
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -859,11 +819,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T042_SqlController_CaseCreateAndRead()
+        public void Test006_SqlController_2a_CaseCreateAndRead()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -873,11 +830,8 @@ namespace UnitTest
                 int checkValue2A = 66;
                 int checkValue2B = 0;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
                 templatId = sqlController.TemplateCreate(main);
@@ -892,8 +846,6 @@ namespace UnitTest
                 checkValue1B = aCase.workflow_state;
                 checkValue2B = (int)aCase.status;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValue1A, checkValue1B);
@@ -902,11 +854,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T043_SqlController_CaseDelete()
+        public void Test006_SqlController_3a_CaseDelete()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -916,11 +865,8 @@ namespace UnitTest
                 int checkValue2A = 66;
                 int checkValue2B = 0;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
                 templatId = sqlController.TemplateCreate(main);
@@ -936,8 +882,6 @@ namespace UnitTest
                 checkValue1B = aCase.workflow_state;
                 checkValue2B = (int)aCase.status;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValue1A, checkValue1B);
@@ -946,11 +890,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T044_SqlController_CaseUpdate()
+        public void Test006_SqlController_4a_CaseUpdate()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -960,11 +901,8 @@ namespace UnitTest
                 int checkValue2A = 100;
                 int checkValue2B = 0;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
                 templatId = sqlController.TemplateCreate(main);
@@ -974,17 +912,13 @@ namespace UnitTest
                 siteIds.Add(siteId1);
 
                 sqlController.CaseCreate(templatId, siteId1, "696969", null, "testCase", "", DateTime.Now);
-
                 sqlController.CaseUpdateRetrived("696969");
-
                 sqlController.CaseUpdateCompleted("696969", "2", DateTime.Now, workerMUId, unitMUId);
 
                 cases aCase = sqlController.CaseReadFull("696969", "2");
                 checkValue1B = aCase.workflow_state;
                 checkValue2B = (int)aCase.status;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValue1A, checkValue1B);
@@ -993,11 +927,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T045_SqlController_CaseRetract()
+        public void Test006_SqlController_5a_CaseRetract()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1007,11 +938,8 @@ namespace UnitTest
                 int checkValue2A = 66;
                 int checkValue2B = 0;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
                 templatId = sqlController.TemplateCreate(main);
@@ -1021,14 +949,11 @@ namespace UnitTest
                 siteIds.Add(siteId1);
 
                 sqlController.CaseCreate(templatId, siteId1, "696969", "3", "testCase", "", DateTime.Now);
-
                 sqlController.CaseRetract("696969", "3");
                 cases aCase = sqlController.CaseReadFull("696969", "3");
                 checkValue1B = aCase.workflow_state;
                 checkValue2B = (int)aCase.status;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValue1A, checkValue1B);
@@ -1037,13 +962,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 05x - subscriber
+        #region - test 007x - subscriber
         [Fact]
-        public void Old_T051_Subscriber_StartAndClose()
+        public void Test007_Subscriber_1a_StartAndClose()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1065,11 +987,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T052_Subscriber_LacksName()
+        public void Test007_Subscriber_2a_LacksName()
         {
-            if (!useLiveData)
-            { Assert.Equal(true, true); return; }
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1097,13 +1016,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 06x - microting
+        #region - test 008x - core (Case)
         [Fact]
-        public void Old_T061_Core_CaseCreate()
+        public void Test008_Core_1a_CaseCreate()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1111,14 +1027,10 @@ namespace UnitTest
                 int checkValueA = 1;
                 int checkValueB;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
-
                 templatId = core.TemplateCreate(main);
                 main = core.TemplateRead(templatId);
 
@@ -1126,8 +1038,6 @@ namespace UnitTest
                 List<string> mUIds = WaitForAvailableDB();
                 checkValueB = mUIds.Count;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1135,27 +1045,19 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T062_Core_CaseDelete()
+        public void Test008_Core_2a_CaseDelete()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
-
                 TestPrepare(t.GetMethodName());
                 bool checkValueA = true;
                 bool checkValueB;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
-
                 templatId = core.TemplateCreate(main);
                 main = core.TemplateRead(templatId);
 
@@ -1165,8 +1067,6 @@ namespace UnitTest
                 WaitForAvailableMicroting(mUIds[0]);
                 checkValueB = core.CaseDelete(mUIds[0]);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1174,11 +1074,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T063_Core_CaseCreateReversed()
+        public void Test008_Core_3a_CaseCreateReversed()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1186,14 +1083,10 @@ namespace UnitTest
                 string checkValueA = "1True";
                 string checkValueB;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
-
                 templatId = core.TemplateCreate(main);
                 main = core.TemplateRead(templatId);
 
@@ -1206,7 +1099,6 @@ namespace UnitTest
                 checkValueB = mUIds.Count.ToString();
                 checkValueB += WaitForAvailableMicroting(mUIds[0]).ToString();
 
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1214,11 +1106,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T064_Core_CaseLookup()
+        public void Test008_Core_4a_CaseLookup()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1226,14 +1115,10 @@ namespace UnitTest
                 Case_Dto checkValueA = new Case_Dto();
                 Case_Dto checkValueB;
                 int templatId = -1;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
-
                 templatId = core.TemplateCreate(main);
                 main = core.TemplateRead(templatId);
 
@@ -1243,8 +1128,6 @@ namespace UnitTest
                 WaitForAvailableMicroting(mUIds[0]);
                 checkValueB = core.CaseLookupMUId(mUIds[0]);
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA.GetType(), checkValueB.GetType());
@@ -1252,11 +1135,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T065_Core_Close()
+        public void Test008_Core_5a_Close()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1264,13 +1144,9 @@ namespace UnitTest
                 bool checkValueA = true;
                 bool checkValueB = false;
 
-
-                //...
                 //Act
                 checkValueB = core.Close();
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
