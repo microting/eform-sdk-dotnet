@@ -15,8 +15,10 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+        bool useLiveData = false;
+
+        string connectionStringLocal_UnitTest = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest_UnitTest;Integrated Security=True"; //Uses unit test data
+        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest_LiveData;Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var
@@ -29,10 +31,18 @@ namespace UnitTest
         {
             try
             {
-                if (Environment.MachineName == "DESKTOP-7V1APE5")
-                    serverConnectionString = serverConnectionStringForLocals;
+                if (Environment.MachineName.ToLower().Contains("testing"))
+                {
+                    serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password="; //Uses travis database
+                    useLiveData = false;
+                }
                 else
-                    serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+                {
+                    if (useLiveData)
+                        serverConnectionString = connectionStringLocal_LiveData;
+                    else
+                        serverConnectionString = connectionStringLocal_UnitTest;
+                }
             }
             catch { }
 
@@ -54,6 +64,11 @@ namespace UnitTest
         public string GetConnectionString()
         {
             return serverConnectionString;
+        }
+
+        public bool GetUseLiveData()
+        {
+            return useLiveData;
         }
         #endregion
     }
@@ -90,9 +105,7 @@ namespace UnitTest
         public SDK(TestContext testContext)
         {
             serverConnectionString  = testContext.GetConnectionString();
-
-            if (serverConnectionString == "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True")
-                useLiveData = true;
+            useLiveData             = testContext.GetUseLiveData();
 
             if (useLiveData)
             {
@@ -1632,7 +1645,7 @@ namespace UnitTest
 
                 //Act
                 checkValueB = "" + core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, null);
-                if (checkValueB == "1" || checkValueB == "2")
+                if (checkValueB == "1" || checkValueB == "2" || checkValueB == "3")
                     checkValueB = "Passed";
 
                 //Assert
@@ -1714,9 +1727,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "CompletedCompleted";
@@ -1756,9 +1766,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "failed to sync";
@@ -1793,9 +1800,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "DeletedDeleted";
@@ -1838,9 +1842,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 50; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "DeletedDeleted";
@@ -1882,9 +1883,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "CompletedCompletedCompletedCompletedCompletedCompleted";
