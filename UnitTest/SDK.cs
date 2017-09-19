@@ -32,12 +32,17 @@ namespace UnitTest
             try
             {
                 if (Environment.MachineName.ToLower().Contains("testing"))
+                {
                     serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password="; //Uses travis database
+                    useLiveData = false;
+                }
                 else
+                {
                     if (useLiveData)
                         serverConnectionString = connectionStringLocal_LiveData;
                     else
                         serverConnectionString = connectionStringLocal_UnitTest;
+                }
             }
             catch { }
 
@@ -159,16 +164,6 @@ namespace UnitTest
 
                 //Assert
                 Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test000_Basics_Travis()
-        {
-            lock (_lockTest)
-            {
-                //Assert
-                Assert.Equal("", Environment.MachineName);
             }
         }
 
@@ -1732,9 +1727,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "CompletedCompleted";
@@ -1774,9 +1766,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "failed to sync";
@@ -1811,9 +1800,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "DeletedDeleted";
@@ -1856,9 +1842,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 50; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "DeletedDeleted";
@@ -1900,9 +1883,6 @@ namespace UnitTest
         {
             lock (_lockTest)
             {
-                //for (int i = 0; i < 20; i++)
-                //    Thread.Sleep(100);
-
                 //Arrange
                 TestPrepare(t.GetMethodName());
                 string checkValueA = "CompletedCompletedCompletedCompletedCompletedCompleted";
