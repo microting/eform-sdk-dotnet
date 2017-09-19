@@ -15,8 +15,7 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+        bool useLiveData = true;
 
         #region content
         #region var
@@ -30,9 +29,12 @@ namespace UnitTest
             try
             {
                 if (Environment.MachineName == "DESKTOP-7V1APE5")
-                    serverConnectionString = serverConnectionStringForLocals;
+                    if (useLiveData)
+                        serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+                    else
+                        serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
                 else
-                    serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=";
+                    serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password="; //Uses travis database
             }
             catch { }
 
@@ -54,6 +56,11 @@ namespace UnitTest
         public string GetConnectionString()
         {
             return serverConnectionString;
+        }
+
+        public bool GetUseLiveData()
+        {
+            return useLiveData;
         }
         #endregion
     }
@@ -90,9 +97,7 @@ namespace UnitTest
         public SDK(TestContext testContext)
         {
             serverConnectionString  = testContext.GetConnectionString();
-
-            if (serverConnectionString == "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True")
-                useLiveData = true;
+            useLiveData             = testContext.GetUseLiveData();
 
             if (useLiveData)
             {
@@ -151,6 +156,16 @@ namespace UnitTest
 
                 //Assert
                 Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+
+        [Fact]
+        public void Test000_Basics_Travis()
+        {
+            lock (_lockTest)
+            {
+                //Assert
+                Assert.Equal("", Environment.MachineName);
             }
         }
 
