@@ -1434,13 +1434,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 08x - case
+        #region - test 010x - case
         [Fact]
-        public void Old_T081_Case_Retrived()
+        public void Test010_Case_1a_Retrived()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1449,11 +1446,8 @@ namespace UnitTest
                 string checkValueB;
                 int templatId = -1;
                 string mUId;
-
                 MainElement main = new MainElement();
 
-
-                //...
                 //Act
                 main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
                 templatId = core.TemplateCreate(main);
@@ -1462,7 +1456,6 @@ namespace UnitTest
                 List<string> mUIds = WaitForAvailableDB();
 
                 mUId = mUIds[0];
-
                 sqlController.NotificationCreate("42", mUId, "unit_fetch");
 
                 while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
@@ -1471,7 +1464,6 @@ namespace UnitTest
                 Case_Dto caseDto = core.CaseLookupMUId(mUId);
                 checkValueB = caseDto.Stat;
 
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1479,11 +1471,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T082_Case_Completed()
+        public void Test010_Case_2a_Completed()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1492,8 +1481,6 @@ namespace UnitTest
                 string checkValueB;
                 string mUId;
 
-
-                //...
                 //Act
                 mUId = CaseCreate();
                 CaseComplet(mUId, null);
@@ -1501,8 +1488,6 @@ namespace UnitTest
                 Case_Dto caseDto = core.CaseLookupMUId(mUId);
                 checkValueB = caseDto.Stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1510,11 +1495,32 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T083_CaseMany_Completed()
+        public void Test010_Case_2b_Reversed_Completed()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName());
+                string checkValueA = "Completed";
+                string checkValueB;
+                string mUId;
 
+                //Act
+                mUId = CaseCreateReversed();
+                CaseComplet(mUId, "");
+
+                Case_Dto caseDto = core.CaseLookupMUId(mUId);
+                checkValueB = caseDto.Stat;
+
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+
+        [Fact]
+        public void Test010_Case_3a_Many_Completed()
+        {
             lock (_lockTest)
             {
                 //Arrange
@@ -1525,8 +1531,6 @@ namespace UnitTest
                 string mUId1; string mUId2; string mUId3; string mUId4;
                 int count = 0;
 
-
-                //...
                 //Act
                 mUId1 = CaseCreate();
                 mUId2 = CaseCreate();
@@ -1555,39 +1559,6 @@ namespace UnitTest
 
                 checkValueB = count;
 
-
-                //...
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Old_T084_CaseReversed_Completed()
-        {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName());
-                string checkValueA = "Completed";
-                string checkValueB;
-                string mUId;
-
-
-                //...
-                //Act
-                mUId = CaseCreateReversed();
-                CaseComplet(mUId, "");
-
-                Case_Dto caseDto = core.CaseLookupMUId(mUId);
-                checkValueB = caseDto.Stat;
-
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1641,13 +1612,10 @@ namespace UnitTest
         //}
         #endregion
 
-        #region tests - 09x - interaction cases
+        #region - test 011x - interaction cases
         [Fact]
-        public void Old_T091_Interaction_Case_CreatedInTable()
+        public void Test011_Interaction_Case_1a_CreatedInTable()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1662,15 +1630,11 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 checkValueB = "" + core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, null);
                 if (checkValueB == "1" || checkValueB == "2")
                     checkValueB = "Passed";
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1678,11 +1642,8 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T092a_Interaction_Case_Completed_Connected()
+        public void Test011_Interaction_Case_2a_Completed_Connected()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1697,8 +1658,6 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", true, null);
 
@@ -1711,8 +1670,6 @@ namespace UnitTest
                 foreach (var item in lst)
                     checkValueB += item.stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1720,12 +1677,9 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T092b_Interaction_Case_Completed_NotConnected()
+        public void Test011_Interaction_Case_2b_Completed_NotConnected()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
-            lock (_lockTest)
+             lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1739,22 +1693,16 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
 
                 WaitForAvailableMicroting(iCaseId);
-
                 InteractionCaseComplet(iCaseId);
 
                 var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
                 foreach (var item in lst)
                     checkValueB += item.stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1762,15 +1710,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T092c_Interaction_Case_CompletedWithReplacements()
+        public void Test011_Interaction_Case_2c_CompletedWithReplacements()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
-                for (int i = 0; i < 20; i++)
-                    Thread.Sleep(100);
+                //for (int i = 0; i < 20; i++)
+                //    Thread.Sleep(100);
 
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1784,8 +1729,6 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 List<string> temp = new List<string>();
                 temp.Add("pre_text1==post_text1");
@@ -1796,16 +1739,12 @@ namespace UnitTest
                 int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
 
                 WaitForAvailableMicroting(iCaseId);
-
                 InteractionCaseComplet(iCaseId);
 
                 var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
                 foreach (var item in lst)
                     checkValueB += item.stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1813,15 +1752,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T092d_Interaction_Case_ReplacementsFailedDateTime()
+        public void Test011_Interaction_Case_2d_ReplacementsFailedDateTime()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
-                for (int i = 0; i < 20; i++)
-                    Thread.Sleep(100);
+                //for (int i = 0; i < 20; i++)
+                //    Thread.Sleep(100);
 
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1835,21 +1771,17 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 List<string> temp = new List<string>();
                 temp.Add("Expire::" + "TEXT THAT IS NOT A DATETIME");
                 int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, temp);
 
                 WaitForAvailableMicroting(iCaseId);
-
                 var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
 
                 var cas = sqlController.UnitTest_FindInteractionCase(iCaseId);
                 checkValueB = cas.workflow_state;
 
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1857,15 +1789,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T093a_Interaction_Case_DeletedSDK()
+        public void Test011_Interaction_Case_3a_DeletedSDK()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
-                for (int i = 0; i < 20; i++)
-                    Thread.Sleep(100);
+                //for (int i = 0; i < 20; i++)
+                //    Thread.Sleep(100);
 
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1880,30 +1809,24 @@ namespace UnitTest
                 siteUIds.Add(siteId2);
 
 
-                //...
                 //Act
                 int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
 
                 WaitForAvailableMicroting(iCaseId);
-
                 var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
 
                 utCore.CaseDelete(lst[1].microting_uid);
-
                 sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
 
                 while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
                     Thread.Sleep(100);
 
                 utCore.CaseDelete(lst[0].microting_uid);
-
                 var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
 
                 foreach (var item in lst2)
                     checkValueB += item.stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1911,15 +1834,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T093b_Interaction_Case_DeletedInteraction()
+        public void Test011_Interaction_Case_3b_DeletedInteraction()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
-                for (int i = 0; i < 50; i++)
-                    Thread.Sleep(100);
+                //for (int i = 0; i < 50; i++)
+                //    Thread.Sleep(100);
 
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1933,32 +1853,24 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
 
                 WaitForAvailableMicroting(iCaseId);
-
                 var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
 
                 sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
-
                 while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
                     Thread.Sleep(100);
 
                 core.Advanced_InteractionCaseDelete(iCaseId);
-
                 while (sqlController.UnitTest_FindAllActiveInteraction().Count > 0)
                     Thread.Sleep(100);
 
                 var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
                 foreach (var item in lst2)
                     checkValueB += item.stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
@@ -1966,15 +1878,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T094_Interaction_Case_Multi_Completed()
+        public void Test011_Interaction_Case_4a__Multi_Completed()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
-                for (int i = 0; i < 20; i++)
-                    Thread.Sleep(100);
+                //for (int i = 0; i < 20; i++)
+                //    Thread.Sleep(100);
 
                 //Arrange
                 TestPrepare(t.GetMethodName());
@@ -1988,8 +1897,6 @@ namespace UnitTest
                 siteUIds.Add(siteId1);
                 siteUIds.Add(siteId2);
 
-
-                //...
                 //Act
                 int iCaseId1 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case1", siteUIds, "", false, null);
                 int iCaseId2 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case2", siteUIds, "", false, null);
@@ -2010,8 +1917,6 @@ namespace UnitTest
                 foreach (var item in lst)
                     checkValueB += item.stat;
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);

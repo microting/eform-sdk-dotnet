@@ -58,7 +58,7 @@ namespace eFormCommunicator
         #endregion
 
         #region con
-        public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload)
+        public              Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload)
         {
             this.token = token;
             addressBasic = comAddressBasic;
@@ -76,7 +76,7 @@ namespace eFormCommunicator
         /// Posts the element to Microting and returns the XML encoded restponse.
         /// </summary>
         /// <param name="xmlData">Element converted to a xml encoded string.</param>
-        public string Post(string xmlData, string siteId)
+        public string       Post(string xmlData, string siteId)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace eFormCommunicator
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to retrieve status of.</param>
-        public string Status(string elementId, string siteId)
+        public string       Status(string elementId, string siteId)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace eFormCommunicator
         /// </summary>
         /// <param name="microtingUuid">Identifier of the element to retrieve results from.</param>
         /// <param name="microtingCheckUuid">Identifier of the check to begin from.</param>
-        public string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
+        public string       Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace eFormCommunicator
         /// Deletes a element and retrieve the XML encoded response from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to delete.</param>
-        public string Delete(string elementId, string siteId)
+        public string       Delete(string elementId, string siteId)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public EntitySearch
-        public string     EntitySearchGroupCreate(string name, string id)
+        public string       EntitySearchGroupCreate(string name, string id)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace eFormCommunicator
             }
         }
 
-        public bool       EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
+        public bool         EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
         {
             string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
 
@@ -199,7 +199,7 @@ namespace eFormCommunicator
                 return false;
         }       
 
-        public bool       EntitySearchGroupDelete(string entityGroupId)
+        public bool         EntitySearchGroupDelete(string entityGroupId)
         {
             try
             {
@@ -221,7 +221,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string     EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
+        public string       EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
             string xmlData = "<Entities><Entity>" + 
                 "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
@@ -244,7 +244,7 @@ namespace eFormCommunicator
                 return null;
         }
 
-        public bool       EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public bool         EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
             string xmlData = "<Entities><Entity>" +
                 "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
@@ -267,7 +267,7 @@ namespace eFormCommunicator
                 return false;
         }
 
-        public bool       EntitySearchItemDelete(string entitySearchItemId)
+        public bool         EntitySearchItemDelete(string entitySearchItemId)
         {
             WebRequest request = WebRequest.Create(addressApi + "/gwt/entity_app/entities/" + entitySearchItemId + "?token=" + token + "&protocol=" + protocolEntitySearch + 
                 "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
@@ -284,7 +284,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public EntitySelect
-        public string     EntitySelectGroupCreate(string name, string id)
+        public string       EntitySelectGroupCreate(string name, string id)
         {
             try
             {
@@ -311,7 +311,7 @@ namespace eFormCommunicator
             }
         }
 
-        public bool       EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
+        public bool         EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
 
@@ -340,7 +340,7 @@ namespace eFormCommunicator
                 return false;
         }
 
-        public bool       EntitySelectGroupDelete(string entityGroupId)
+        public bool         EntitySelectGroupDelete(string entityGroupId)
         {
             try
             {
@@ -372,7 +372,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string     EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
+        public string       EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
 
@@ -391,7 +391,7 @@ namespace eFormCommunicator
                 return null;
         }
 
-        public bool       EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
+        public bool         EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
 
@@ -420,7 +420,7 @@ namespace eFormCommunicator
                 return false;
         }
 
-        public bool       EntitySelectItemDelete(string entitySelectItemId)
+        public bool         EntitySelectItemDelete(string entitySelectItemId)
         {
             WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect + 
                 "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
@@ -447,7 +447,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public PdfUpload
-        public bool PdfUpload(string name, string hash)
+        public bool         PdfUpload(string name, string hash)
         {
             try
             {
@@ -467,7 +467,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public TemplateDisplayIndexChange
-        public string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
+        public string       TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             try
             {
@@ -486,7 +486,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public site
-        public string     SiteCreate(string name)
+        public string       SiteCreate(string name)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -505,7 +505,7 @@ namespace eFormCommunicator
             return response;
         }
 
-        public bool       SiteUpdate(int id, string name)
+        public bool         SiteUpdate(int id, string name)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/sites/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -519,7 +519,7 @@ namespace eFormCommunicator
             return true;
         }
 
-        public string     SiteDelete(int id)
+        public string       SiteDelete(int id)
         {
             try
             {
@@ -541,7 +541,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string     SiteLoadAllFromRemote()
+        public string       SiteLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(addressBasic + "/v1/sites?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
@@ -551,7 +551,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public Worker
-        public string     WorkerCreate(string firstName, string lastName, string email)
+        public string       WorkerCreate(string firstName, string lastName, string email)
         {
             JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -570,7 +570,7 @@ namespace eFormCommunicator
             return response;
         }
 
-        public bool       WorkerUpdate(int id, string firstName, string lastName, string email)
+        public bool         WorkerUpdate(int id, string firstName, string lastName, string email)
         {
             JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/users/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -584,7 +584,7 @@ namespace eFormCommunicator
             return true;
         }
 
-        public string     WorkerDelete(int id)
+        public string       WorkerDelete(int id)
         {
             try
             {
@@ -606,7 +606,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string     WorkerLoadAllFromRemote()
+        public string       WorkerLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(addressBasic + "/v1/users?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
@@ -616,7 +616,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public SiteWorker
-        public string     SiteWorkerCreate(int siteId, int workerId)
+        public string       SiteWorkerCreate(int siteId, int workerId)
         {
             JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -657,7 +657,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string     SiteWorkerLoadAllFromRemote()
+        public string       SiteWorkerLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
@@ -667,7 +667,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public Unit
-        public int        UnitRequestOtp(int id)
+        public int          UnitRequestOtp(int id)
         {
             JObject content_to_microting = JObject.FromObject(new { model = new { unit_id = id } });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/units/"+id+"?token=" + token + "&new_otp=true" + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -686,7 +686,7 @@ namespace eFormCommunicator
             return response;
         }
 
-        public string     UnitLoadAllFromRemote()
+        public string       UnitLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(addressBasic + "/v1/units?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
@@ -696,7 +696,7 @@ namespace eFormCommunicator
         #endregion
 
         #region public Organization
-        public string OrganizationLoadAllFromRemote()
+        public string       OrganizationLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(addressBasic + "/v1/organizations?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
@@ -707,7 +707,7 @@ namespace eFormCommunicator
         #endregion
 
         #region private
-        private string PostToServer(WebRequest request, byte[] content)
+        private string      PostToServer(WebRequest request, byte[] content)
         {
             lock (_lock)
             {
@@ -739,7 +739,7 @@ namespace eFormCommunicator
             }
         }
 
-        private string PostToServerGetRedirect(WebRequest request, byte[] content)
+        private string      PostToServerGetRedirect(WebRequest request, byte[] content)
         {
             lock (_lock)
             {
@@ -776,7 +776,7 @@ namespace eFormCommunicator
             }
         }
 
-        private string PostToServerGetRedirect(WebRequest request)
+        private string      PostToServerGetRedirect(WebRequest request)
         {
             lock (_lock)
             {
@@ -809,7 +809,7 @@ namespace eFormCommunicator
             }
         }
 
-        private string PostToServerNoRedirect(WebRequest request, byte[] content)
+        private string      PostToServerNoRedirect(WebRequest request, byte[] content)
         {
             lock (_lock)
             {
@@ -845,7 +845,7 @@ namespace eFormCommunicator
             }
         }
 
-        private string PostToServer(WebRequest request)
+        private string      PostToServer(WebRequest request)
         {
             lock (_lock)
             {
@@ -873,7 +873,7 @@ namespace eFormCommunicator
             }
         }
 
-        private string PostToServerNoRedirect(WebRequest request)
+        private string      PostToServerNoRedirect(WebRequest request)
         {
             lock (_lock)
             { 
@@ -920,7 +920,7 @@ namespace eFormCommunicator
         /// <param name='sslpolicyErrors'>
         /// SslPolicy Enum
         /// </param>
-        private bool Validator(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyErrors)
+        private bool        Validator(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyErrors)
         {
             return true;
         }
