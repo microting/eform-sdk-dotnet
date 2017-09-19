@@ -17,6 +17,9 @@ namespace UnitTest
     {
         bool useLiveData = true;
 
+        string connectionStringLocal_UnitTest = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
+        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+
         #region content
         #region var
         SqlController sqlController;
@@ -28,13 +31,13 @@ namespace UnitTest
         {
             try
             {
-                if (Environment.MachineName == "DESKTOP-7V1APE5")
-                    if (useLiveData)
-                        serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
-                    else
-                        serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-                else
+                if (Environment.MachineName.ToLower().Contains("testing"))
                     serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password="; //Uses travis database
+                else
+                    if (useLiveData)
+                        serverConnectionString = connectionStringLocal_LiveData;
+                    else
+                        serverConnectionString = connectionStringLocal_UnitTest;
             }
             catch { }
 
