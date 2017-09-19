@@ -15,8 +15,8 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-        //string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+        //string serverConnectionStringForLocals = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
+        string serverConnectionStringForLocals = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var
@@ -689,6 +689,8 @@ namespace UnitTest
                 //Act
                 string xml = main.ClassToXml();
                 checkValueB = ClearXml(xml);
+                checkValueA = t.LocateReplace(checkValueA, "<Main xmlns:", ">", "");
+                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
 
                 //Assert
                 TestTeardown();
@@ -709,6 +711,8 @@ namespace UnitTest
                 //Act
                 main = main.XmlToClass(checkValueB);
                 checkValueB = ClearXml(main.ClassToXml());
+                checkValueA = t.LocateReplace(checkValueA, "<Main xmlns:", ">", "");
+                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
 
                 //Assert
                 TestTeardown();
@@ -811,6 +815,8 @@ namespace UnitTest
                 templatId = sqlController.TemplateCreate(main);
                 main = sqlController.TemplateRead(templatId);
                 checkValueB = ClearXml(main.ClassToXml());
+                checkValueA = t.LocateReplace(checkValueA, "<Main xmlns:", ">", "");
+                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
 
                 //Assert
                 TestTeardown();
@@ -1154,13 +1160,10 @@ namespace UnitTest
         }
         #endregion
 
-        #region tests - 07x - entity
+        #region - test 009x - entity
         [Fact]
-        public void Old_T071a_Core_EntityGroupCreate_EntitySearch()
+        public void Test009_Entity_1a_EntityGroupCreate_EntitySearch()
         {
-            if (!useLiveData)
-                {Assert.Equal(true, true); return;}
-
             lock (_lockTest)
             {
                 //Arrange
@@ -1168,13 +1171,9 @@ namespace UnitTest
                 string checkValueA = "";
                 EntityGroup checkValueB;
 
-
-                //...
                 //Act
                 checkValueB = core.EntityGroupCreate("EntitySearch", "MyTest");
 
-
-                //...
                 //Assert
                 TestTeardown();
                 Assert.NotEqual(checkValueA, checkValueB.ToString());
@@ -1182,7 +1181,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T071b_Core_EntityGroupCreate_EntitySelect()
+        public void Test009_Entity_1b_EntityGroupCreate_EntitySelect()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
@@ -1208,7 +1207,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T072_Core_EntityGroupUpdate_NotUnique()
+        public void Test009_Entity_2a_EntityGroupUpdate_NotUnique()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
@@ -1251,7 +1250,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T073a_Core_EntityGroupUpdateAndRead_EntitySearch()
+        public void Test009_Entity_3a_EntityGroupUpdateAndRead_EntitySearch()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
@@ -1300,7 +1299,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T073b_Core_EntityGroupUpdateAndRead_EntitySelect()
+        public void Test009_Entity_3b_EntityGroupUpdateAndRead_EntitySelect()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
@@ -1351,7 +1350,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T074a_Core_EntityGroupItemRemoveAndAddAgain_EntitySearch()
+        public void Test009_Entity_4a_EntityGroupItemRemoveAndAddAgain_EntitySearch()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
@@ -1399,7 +1398,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T075_Core_EntityGroupDelete_EntitySearch()
+        public void Test009_Entity_5a_EntityGroupDelete_EntitySearch()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
@@ -1443,7 +1442,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Old_T076_Core_EntityGroupDelete_EntitySelect()
+        public void Test009_Entity_5b_EntityGroupDelete_EntitySelect()
         {
             if (!useLiveData)
                 {Assert.Equal(true, true); return;}
