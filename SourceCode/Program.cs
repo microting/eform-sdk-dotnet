@@ -44,13 +44,13 @@ namespace SourceCode
                 Console.WriteLine("Enter database to use:");
                 Console.WriteLine("> If left blank, it will use 'Microting'");
                 Console.WriteLine("  Enter name of database to be used");
-                string databaseName = Console.ReadLine().ToUpper();
+                string databaseName = Console.ReadLine();
 
-                if (databaseName != "")
+                if (databaseName.ToUpper() != "")
                     serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
-                if (databaseName == "T")
+                if (databaseName.ToUpper() == "T")
                     serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
-                if (databaseName == "O")
+                if (databaseName.ToUpper() == "O")
                     serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
 
                 Console.WriteLine(serverConnectionString);

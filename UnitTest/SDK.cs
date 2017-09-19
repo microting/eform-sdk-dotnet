@@ -15,10 +15,10 @@ namespace UnitTest
 {
     public class TestContext : IDisposable
     {
-        bool useLiveData = true;
+        bool useLiveData = false;
 
-        string connectionStringLocal_UnitTest = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234"; //Uses unit test data
-        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTestNew;Integrated Security=True"; //Uses LIVE data
+        string connectionStringLocal_UnitTest = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest_UnitTest;Integrated Security=True"; //Uses unit test data
+        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest_LiveData;Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var
@@ -1645,7 +1645,7 @@ namespace UnitTest
 
                 //Act
                 checkValueB = "" + core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, null);
-                if (checkValueB == "1" || checkValueB == "2")
+                if (checkValueB == "1" || checkValueB == "2" || checkValueB == "3")
                     checkValueB = "Passed";
 
                 //Assert
