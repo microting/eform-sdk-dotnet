@@ -2527,14 +2527,14 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
-                    if (site != null)
+                    if (site == null)
                         return null;
 
                     site_workers site_worker = db.site_workers.Where(x => x.site_id == site.id).ToList().First();
                     workers worker = db.workers.Single(x => x.id == site_worker.worker_id);
                     units unit = db.units.Where(x => x.site_id == site.id).ToList().First();
 
-                    if (site != null)
+                    if (unit != null && worker != null)
                         return new Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, worker.microting_uid);
                     else
                         return null;

@@ -1419,6 +1419,10 @@ namespace eFormCore
                 {
                     Site_Dto siteDto = SiteRead(siteId);
                     Advanced_SiteItemUpdate(siteId, name);
+                    if (String.IsNullOrEmpty(userEmail))
+                    {
+                        //if (String.IsNullOrEmpty)
+                    }
                     Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail);
                     return true;
                 }
@@ -1833,7 +1837,8 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", "siteId", siteId);
-    
+                    log.LogVariable("Not Specified", "name", name);
+
                     if (sqlController.SiteRead(siteId) == null)
                         return false;
 
