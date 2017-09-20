@@ -218,7 +218,7 @@ namespace eFormSqlController
                     List<check_lists> matches = null;
 
                     if (includeRemoved)
-                        matches = db.check_lists.Where(x => x.parent_id != null).ToList();
+                        matches = db.check_lists.Where(x => x.parent_id == null).ToList();
                     else
                         matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "created").ToList();
 

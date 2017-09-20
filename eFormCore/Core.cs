@@ -905,7 +905,7 @@ namespace eFormCore
                     List<string> errors = new List<string>();
                     foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
                     {
-                        if (CaseDelete(microtingUId)) {
+                        if (!CaseDelete(microtingUId)) {
                             string error = "Failed to delete case with microtingUId: " + microtingUId;
                             errors.Add(error);
                         }

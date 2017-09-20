@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.2.8 *(September 19th 2017)*
+	- Fixing the broken code inside TemplateItemReadAll and CaseDelete.
+
   - Version 1.6.2.6 *(September 19th 2017)*
 	- Fixing the workflow_state setting for loading deployed sites.
 
