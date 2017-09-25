@@ -393,6 +393,10 @@ namespace eFormCore
                 sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                 sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
+                if (sqlController.SettingRead(Settings.logLevel) == "true")
+                {
+                    sqlController.SettingUpdate(Settings.logLevel, "2");
+                }
 
                 return "";
             }
