@@ -1984,8 +1984,6 @@ namespace UnitTest
         //}
         #endregion
 
-
-
         #region private
         private List<string> WaitForAvailableDB()
         {
