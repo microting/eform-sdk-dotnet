@@ -1163,7 +1163,14 @@ namespace eFormCore
                                 }
                                 catch
                                 {
-                                    temp.Add("\"" + lst[rowN] + "\"");
+                                    try
+                                    {
+                                        temp.Add("\"" + lst[rowN] + "\"");
+                                    }
+                                    catch (Exception ex2)
+                                    {
+                                        temp.Add(ex2.Message);
+                                    }
                                 }
                             }
                         }
@@ -2544,23 +2551,50 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<string>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData);
+                        List<List<KeyValuePair>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData);
 
                         if (result.Count == 1)
                         {
-                            newRow = result[0];
+                            newRow = new List<string>();
                             newRow.Insert(0, label);
+                            List<KeyValuePair> tempList = result[0];
+                            foreach (int i in caseIds)
+                            {
+                                string value = "";
+                                foreach (KeyValuePair KvP in tempList)
+                                {
+                                    if (KvP.Key == i.ToString())
+                                    {
+                                        value = KvP.Value;
+                                    }
+                                }
+                                newRow.Add(value);
+                            }
                             dataSet.Add(newRow);
                         }
                         else
                         {
                             int option = 0;
+                            Field field = sqlController.FieldRead(fieldId);
                             foreach (var lst in result)
                             {
-                                option++;
-                                newRow = lst;
-                                newRow.Insert(0, label + " | Option " + option);
+                                newRow = new List<string>();
+                                List<KeyValuePair> fieldKvP = field.KeyValuePairList;
+                                newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
+                                foreach (int i in caseIds)
+                                {
+                                    string value = "";
+                                    foreach (KeyValuePair KvP in lst)
+                                    {
+                                        if (KvP.Key == i.ToString())
+                                        {
+                                            value = KvP.Value;
+                                        }
+                                    }
+                                    newRow.Add(value);
+                                }
                                 dataSet.Add(newRow);
+                                option++;
                             }
                         }
                     }

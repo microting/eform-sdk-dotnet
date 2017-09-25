@@ -1306,7 +1306,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<List<string>>   FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData)
+        public List<List<KeyValuePair>>   FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData)
         {
             try
             {
@@ -1316,8 +1316,8 @@ namespace eFormSqlController
 
                     List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && caseIds.Contains((int)x.case_id)).ToList();
 
-                    List<List<string>> rtrnLst = new List<List<string>>();
-                    List<string> replyLst1 = new List<string>();
+                    List<List<KeyValuePair>> rtrnLst = new List<List<KeyValuePair>>();
+                    List<KeyValuePair> replyLst1 = new List<KeyValuePair>();
                     rtrnLst.Add(replyLst1);
 
                     switch (matchField.field_type.field_type)
@@ -1327,9 +1327,9 @@ namespace eFormSqlController
                             foreach (field_values item in matches)
                             {
                                 if (item.value == "checked")
-                                    replyLst1.Add("1");
+                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "1",false, ""));
                                 else
-                                    replyLst1.Add("0");
+                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "0", false, ""));
                             }
                             break;
                         case "Signature":
@@ -1342,10 +1342,17 @@ namespace eFormSqlController
                                 {
                                     if (lastCaseId == (int)item.case_id)
                                     {
-                                        if (customPathForUploadedData != null)
-                                            replyLst1[lastIndex] = replyLst1[lastIndex] + "|" + customPathForUploadedData + item.uploaded_data.file_name;
-                                        else
-                                            replyLst1[lastIndex] = replyLst1[lastIndex] + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
+
+                                        foreach (KeyValuePair kvp in replyLst1)
+                                        {
+                                            if (kvp.Key == item.case_id.ToString())
+                                            {
+                                                if (customPathForUploadedData != null)
+                                                    kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.file_name;
+                                                else
+                                                    kvp.Value = kvp.Value + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
+                                            }
+                                        }
                                     }
                                     else
                                     {
@@ -1353,20 +1360,21 @@ namespace eFormSqlController
                                         if (item.uploaded_data_id != null)
                                         {
                                             if (customPathForUploadedData != null)
-                                                replyLst1.Add(customPathForUploadedData + item.uploaded_data.file_name);
+
+                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), customPathForUploadedData + item.uploaded_data.file_name, false, ""));
                                             else
-                                                replyLst1.Add(item.uploaded_data.file_location + item.uploaded_data.file_name);
+                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), item.uploaded_data.file_location + item.uploaded_data.file_name, false, ""));
                                         }
                                         else
                                         {
-                                            replyLst1.Add("UPLOADED DATA IS NOT READY FOR FIELD_VALUE ID : " + item.id.ToString());
+                                            replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "" + item.id.ToString(), false, ""));
                                         }
                                     }
                                 }
                                 else
                                 {
                                     lastIndex++;
-                                    replyLst1.Add("");
+                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
                                 }
                                 lastCaseId = (int)item.case_id;
                             }
@@ -1377,31 +1385,30 @@ namespace eFormSqlController
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
                                 foreach (field_values item in matches)
-                                    replyLst1.Add(PairMatch(kVP, item.value));
+                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), PairMatch(kVP, item.value), false, ""));
                             }
                             break;
 
                         case "MultiSelect":
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
-
-                                rtrnLst = new List<List<string>>();
-                                List<string> replyLst = null;
+                                rtrnLst = new List<List<KeyValuePair>>();
+                                List<KeyValuePair> replyLst = null;
                                 int index = 0;
                                 string valueExt = "";
 
                                 foreach (var key in kVP)
                                 {
-                                    replyLst = new List<string>();
+                                    replyLst = new List<KeyValuePair>();
                                     index++;
 
                                     foreach (field_values item in matches)
                                     {
                                         valueExt = "|" + item.value + "|";
                                         if (valueExt.Contains("|" + index.ToString() + "|"))
-                                            replyLst.Add("1");
+                                            replyLst.Add(new KeyValuePair(item.case_id.ToString(), "1", false, ""));
                                         else
-                                            replyLst.Add("0");
+                                            replyLst.Add(new KeyValuePair(item.case_id.ToString(), "0", false, ""));
                                     }
 
                                     rtrnLst.Add(replyLst);
@@ -1423,18 +1430,18 @@ namespace eFormSqlController
 
                                             if (match != null)
                                             {
-                                                replyLst1.Add(match.name);
+                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), match.name, false, ""));
                                             }
                                             else
                                             {
-                                                replyLst1.Add("");
+                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
                                             }
 
                                         }
                                     }
                                     catch
                                     {
-                                        replyLst1.Add("");
+                                        replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
                                     }
                                 }
                             }
@@ -1443,7 +1450,7 @@ namespace eFormSqlController
 
                         default:
                             foreach (field_values item in matches)
-                                replyLst1.Add(item.value);
+                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), item.value, false, ""));
                             break;
                     }
 
