@@ -10,7 +10,6 @@ namespace eFormSqlController
     {
         [Key]
         public int id { get; set; }
-
         
         public DateTime created_at { get; set; }
 
