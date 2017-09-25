@@ -4,11 +4,13 @@ using eFormData;
 using eFormShared;
 using eFormSqlController;
 using eFormSubscriber;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+
 using Xunit;
 
 namespace UnitTest
@@ -78,7 +80,7 @@ namespace UnitTest
     {
         #region var
         Core core;
-        UnitTestCore utCore;
+        CoreUnitTest core_UT;
         SqlController sqlController;
         Communicator communicator;
         AdminTools adminTool;
@@ -134,7 +136,7 @@ namespace UnitTest
             comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
 
             core = new Core();
-            utCore = new UnitTestCore(core);
+            core_UT = new CoreUnitTest(core);
 
             core.HandleNotificationNotFound += EventNotificationNotFound;
             core.HandleEventException += EventException;
@@ -145,7 +147,7 @@ namespace UnitTest
         {
             if (core != null)
                 if (core.Running())
-                    utCore.Close();
+                    core_UT.Close();
         }
         #endregion
 
@@ -1819,13 +1821,13 @@ namespace UnitTest
                 WaitForAvailableMicroting(iCaseId);
                 var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
 
-                utCore.CaseDelete(lst[1].microting_uid);
+                core_UT.CaseDelete(lst[1].microting_uid);
                 sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
 
                 while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
                     Thread.Sleep(100);
 
-                utCore.CaseDelete(lst[0].microting_uid);
+                core_UT.CaseDelete(lst[0].microting_uid);
                 var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
 
                 foreach (var item in lst2)
@@ -1983,8 +1985,6 @@ namespace UnitTest
         //    }
         //}
         #endregion
-
-
 
         #region private
         private List<string> WaitForAvailableDB()
@@ -2148,7 +2148,7 @@ namespace UnitTest
             if (checkUId != null)
                 sqlController.CaseCreate(2, siteId1, microtingUId, checkUId, "", "", DateTime.Now);
 
-            utCore.CaseComplet(microtingUId, checkUId);
+            core_UT.CaseComplet(microtingUId, checkUId);
 
             if (checkUId != null)
                 communicator.Delete(microtingUId, siteId1);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eFormCore
 {
-    public class UnitTestCore
+    public class CoreUnitTest
     {
         #region var
         Core core;
@@ -16,7 +16,7 @@ namespace eFormCore
         #endregion
 
         #region con
-        public UnitTestCore(Core core)
+        public CoreUnitTest(Core core)
         {
             this.core = core;
         }
