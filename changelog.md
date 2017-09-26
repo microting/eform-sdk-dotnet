@@ -1,5 +1,9 @@
 ## Changelog
 
+  - Version 1.6.2.9 *(September 26th 2017)*
+	- Adding changes to fix the dataset for CSV dump.
+	- Adding changes to fix the broken loglevel.
+
   - Version 1.6.2.8 *(September 19th 2017)*
 	- Fixing the broken code inside TemplateItemReadAll and CaseDelete.
 
