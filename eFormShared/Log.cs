@@ -87,7 +87,7 @@ namespace eFormShared
                 string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
 
                 LogLogic(new LogEntry(-1, type, fullExceptionDescription));
-                LogVariable(type, "restartCore", restartCore);
+                LogVariable(type, nameof(restartCore), restartCore);
 
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);

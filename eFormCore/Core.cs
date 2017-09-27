@@ -555,7 +555,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
 
                     return sqlController.TemplateRead(templateId);
                 }
@@ -577,7 +577,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
 
                     return sqlController.TemplateDelete(templateId);
                 }
@@ -599,7 +599,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
 
                     return sqlController.TemplateItemRead(templateId);
                 }
@@ -621,7 +621,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "includeRemoved", includeRemoved);
+                    log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
 
                     return sqlController.TemplateItemReadAll(includeRemoved, "created");
                 }
@@ -654,9 +654,9 @@ namespace eFormCore
                     {
                         log.LogStandard("Not Specified", methodName + " called");
                         string siteIdsStr = string.Join(",", siteIds);
-                        log.LogVariable("Not Specified", "caseUId", caseUId);
-                        log.LogVariable("Not Specified", "siteIdsStr", siteIdsStr);
-                        log.LogVariable("Not Specified", "custom", custom);
+                        log.LogVariable("Not Specified", nameof(caseUId), caseUId);
+                        log.LogVariable("Not Specified", nameof(siteIdsStr), siteIdsStr);
+                        log.LogVariable("Not Specified", nameof(custom), custom);
 
                         #region check input
                         DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
@@ -713,7 +713,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "microtingUId", microtingUId);
+                    log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
 
                     Case_Dto cDto = CaseLookupMUId(microtingUId);
                     return communicator.CheckStatus(cDto.MicrotingUId, cDto.SiteUId);
@@ -736,8 +736,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "microtingUId", microtingUId);
-                    log.LogVariable("Not Specified", "checkUId", checkUId);
+                    log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
+                    log.LogVariable("Not Specified", nameof(checkUId), checkUId);
 
                     if (checkUId == null)
                         checkUId = "";
@@ -778,7 +778,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "id", id);
+                    log.LogVariable("Not Specified", nameof(id), id);
 
                     return sqlController.CaseReadByCaseId(id);
                 }
@@ -805,10 +805,10 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templatId", templatId);
-                    log.LogVariable("Not Specified", "start", start);
-                    log.LogVariable("Not Specified", "end", end);
-                    log.LogVariable("Not Specified", "workflowState", workflowState);
+                    log.LogVariable("Not Specified", nameof(templatId), templatId);
+                    log.LogVariable("Not Specified", nameof(start), start);
+                    log.LogVariable("Not Specified", nameof(end), end);
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
                     return sqlController.CaseReadAll(templatId, start, end, workflowState, searchKey);
                 }
@@ -830,7 +830,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "caseId", caseId);
+                    log.LogVariable("Not Specified", nameof(caseId), caseId);
               
                     if (newFieldValuePairLst == null)
                         newFieldValuePairLst = new List<string>();
@@ -875,8 +875,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "siteUId", siteUId);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(siteUId), siteUId);
 
                     return CaseDelete(templateId, siteUId, "not_removed");
                 }
@@ -898,9 +898,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "siteUId", siteUId);
-                    log.LogVariable("Not Specified", "workflowState", workflowState);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(siteUId), siteUId);
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
                     List<string> errors = new List<string>();
                     foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
@@ -934,7 +934,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "microtingUId", microtingUId);
+                    log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
 
                     var cDto = sqlController.CaseReadByMUId(microtingUId);
                     string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
@@ -1018,7 +1018,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "microtingUId", microtingUId);
+                    log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
 
                     return sqlController.CaseReadByMUId(microtingUId);
                 }
@@ -1040,7 +1040,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "caseId", caseId);
+                    log.LogVariable("Not Specified", nameof(caseId), caseId);
 
                     return sqlController.CaseReadByCaseId(caseId);
                 }
@@ -1062,7 +1062,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "caseUId", caseUId);
+                    log.LogVariable("Not Specified", nameof(caseUId), caseUId);
 
                     return sqlController.CaseReadByCaseUId(caseUId);
                 }
@@ -1084,8 +1084,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "microtingUId", microtingUId);
-                    log.LogVariable("Not Specified", "checkUId", checkUId);
+                    log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
+                    log.LogVariable("Not Specified", nameof(checkUId), checkUId);
 
                     if (checkUId == null)
                         checkUId = "";
@@ -1129,11 +1129,11 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templatId", templatId.ToString());
-                    log.LogVariable("Not Specified", "start", start.ToString());
-                    log.LogVariable("Not Specified", "end", end.ToString());
-                    log.LogVariable("Not Specified", "pathAndName", pathAndName);
-                    log.LogVariable("Not Specified", "customPathForUploadedData", customPathForUploadedData);
+                    log.LogVariable("Not Specified", nameof(templatId), templatId.ToString());
+                    log.LogVariable("Not Specified", nameof(start), start.ToString());
+                    log.LogVariable("Not Specified", nameof(end), end.ToString());
+                    log.LogVariable("Not Specified", nameof(pathAndName), pathAndName);
+                    log.LogVariable("Not Specified", nameof(customPathForUploadedData), customPathForUploadedData);
 
                     List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end, customPathForUploadedData);
 
@@ -1203,8 +1203,8 @@ namespace eFormCore
                 if (true)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "caseId", caseId.ToString());
-                    log.LogVariable("Not Specified", "jasperTemplate", jasperTemplate);
+                    log.LogVariable("Not Specified", nameof(caseId), caseId.ToString());
+                    log.LogVariable("Not Specified", nameof(jasperTemplate), jasperTemplate);
 
                     //get needed data
                     Case_Dto cDto = CaseLookupCaseId(caseId);
@@ -1212,8 +1212,8 @@ namespace eFormCore
                     string clsLst = "";
                     string fldLst = "";
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);
-                    log.LogVariable("Not Specified", "clsLst", clsLst);
-                    log.LogVariable("Not Specified", "fldLst", fldLst);
+                    log.LogVariable("Not Specified", nameof(clsLst), clsLst);
+                    log.LogVariable("Not Specified", nameof(fldLst), fldLst);
            
                     #region convert to jasperXml
                     string jasperXml =          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -1234,7 +1234,7 @@ namespace eFormCore
                         + Environment.NewLine + "</fields>"
                         + Environment.NewLine + "</C" + reply.Id + ">"
                         + Environment.NewLine + "</root>";
-                    log.LogVariable("Not Specified", "jasperXml", jasperXml);
+                    log.LogVariable("Not Specified", nameof(jasperXml), jasperXml);
                     #endregion
 
                     //place in settings allocated placement
@@ -1259,7 +1259,7 @@ namespace eFormCore
                         " -uri=\"" + locaC + "\"" +
                         " -outputFile=\"" + locaR + "\"";
 
-                    log.LogVariable("Not Specified", "command", command);
+                    log.LogVariable("Not Specified", nameof(command), command);
                     p.StartInfo.FileName = "java.exe";
                     p.StartInfo.Arguments = command;
                     p.Start();
@@ -1269,7 +1269,7 @@ namespace eFormCore
                     // p.WaitForExit();
                     // Read the output stream first and then wait.
                     string output = p.StandardOutput.ReadToEnd();
-                    log.LogVariable("Not Specified", "output", output);
+                    log.LogVariable("Not Specified", nameof(output), output);
                     p.WaitForExit();
 
                     if (output != "")
@@ -1278,7 +1278,7 @@ namespace eFormCore
 
                     //return path
                     string path = Path.GetFullPath(locaR);
-                    log.LogVariable("Not Specified", "path", path);
+                    log.LogVariable("Not Specified", nameof(path), path);
                     return path;
                 }
                 else
@@ -1301,10 +1301,10 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteName", name);
-                    log.LogVariable("Not Specified", "userFirstName", userFirstName);
-                    log.LogVariable("Not Specified", "userLastName", userLastName);
-                    log.LogVariable("Not Specified", "userEmail", userEmail);
+                    log.LogVariable("Not Specified", nameof(name), name);
+                    log.LogVariable("Not Specified", nameof(userFirstName), userFirstName);
+                    log.LogVariable("Not Specified", nameof(userLastName), userLastName);
+                    log.LogVariable("Not Specified", nameof(userEmail), userEmail);
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
 
@@ -1356,7 +1356,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteId", siteId);
+                    log.LogVariable("Not Specified", nameof(siteId), siteId);
 
                     return sqlController.SiteReadSimple(siteId);
                 }
@@ -1400,7 +1400,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteId", siteId);
+                    log.LogVariable("Not Specified", nameof(siteId), siteId);
        
                     Site_Dto site = SiteRead(siteId);
                     Advanced_UnitRequestOtp((int)site.UnitId);
@@ -1631,8 +1631,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "newDisplayIndex", newDisplayIndex);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(newDisplayIndex), newDisplayIndex);
 
                     return sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex);
                 }
@@ -1654,9 +1654,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "siteUId", siteUId);
-                    log.LogVariable("Not Specified", "newDisplayIndex", newDisplayIndex);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(siteUId), siteUId);
+                    log.LogVariable("Not Specified", nameof(newDisplayIndex), newDisplayIndex);
 
                     string respXml = null;
                     List<string> errors = new List<string>();
@@ -1695,17 +1695,17 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "fieldId1", fieldId1);
-                    log.LogVariable("Not Specified", "fieldId2", fieldId2);
-                    log.LogVariable("Not Specified", "fieldId3", fieldId3);
-                    log.LogVariable("Not Specified", "fieldId4", fieldId4);
-                    log.LogVariable("Not Specified", "fieldId5", fieldId5);
-                    log.LogVariable("Not Specified", "fieldId6", fieldId6);
-                    log.LogVariable("Not Specified", "fieldId7", fieldId7);
-                    log.LogVariable("Not Specified", "fieldId8", fieldId8);
-                    log.LogVariable("Not Specified", "fieldId9", fieldId9);
-                    log.LogVariable("Not Specified", "fieldId10", fieldId10);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(fieldId1), fieldId1);
+                    log.LogVariable("Not Specified", nameof(fieldId2), fieldId2);
+                    log.LogVariable("Not Specified", nameof(fieldId3), fieldId3);
+                    log.LogVariable("Not Specified", nameof(fieldId4), fieldId4);
+                    log.LogVariable("Not Specified", nameof(fieldId5), fieldId5);
+                    log.LogVariable("Not Specified", nameof(fieldId6), fieldId6);
+                    log.LogVariable("Not Specified", nameof(fieldId7), fieldId7);
+                    log.LogVariable("Not Specified", nameof(fieldId8), fieldId8);
+                    log.LogVariable("Not Specified", nameof(fieldId9), fieldId9);
+                    log.LogVariable("Not Specified", nameof(fieldId10), fieldId10);
 
                     return sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2, fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10);                    
                 }
@@ -1727,7 +1727,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
 
                     return sqlController.TemplateFieldReadAll(templateId);
                 }
@@ -1778,9 +1778,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workflowState", workflowState);
-                    log.LogVariable("Not Specified", "offSet", offSet.ToString());
-                    log.LogVariable("Not Specified", "limit", limit.ToString());
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
+                    log.LogVariable("Not Specified", nameof(offSet), offSet.ToString());
+                    log.LogVariable("Not Specified", nameof(limit), limit.ToString());
 
                     return sqlController.SimpleSiteGetAll(workflowState, offSet, limit);
                 }
@@ -1802,7 +1802,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteId", siteId);
+                    log.LogVariable("Not Specified", nameof(siteId), siteId);
     
                     return sqlController.SiteRead(siteId);
                 }
@@ -1843,8 +1843,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteId", siteId);
-                    log.LogVariable("Not Specified", "name", name);
+                    log.LogVariable("Not Specified", nameof(siteId), siteId);
+                    log.LogVariable("Not Specified", nameof(name), name);
 
                     if (sqlController.SiteRead(siteId) == null)
                         return false;
@@ -1873,7 +1873,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteId", siteId);
+                    log.LogVariable("Not Specified", nameof(siteId), siteId);
     
                     bool success = communicator.SiteDelete(siteId);
                     if (!success)
@@ -1902,9 +1902,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "firstName", firstName);
-                    log.LogVariable("Not Specified", "lastName", lastName);
-                    log.LogVariable("Not Specified", "email", email);
+                    log.LogVariable("Not Specified", nameof(firstName), firstName);
+                    log.LogVariable("Not Specified", nameof(lastName), lastName);
+                    log.LogVariable("Not Specified", nameof(email), email);
 
                     Worker_Dto workerDto = communicator.WorkerCreate(firstName, lastName, email);
                     int workerUId = workerDto.WorkerUId;
@@ -1935,7 +1935,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workerId", workerId);
+                    log.LogVariable("Not Specified", nameof(workerId), workerId);
 
                     return sqlController.WorkerNameRead(workerId);
                 }
@@ -1957,7 +1957,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workerId", workerId);
+                    log.LogVariable("Not Specified", nameof(workerId), workerId);
 
                     return sqlController.WorkerRead(workerId);
                 }
@@ -1979,9 +1979,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workflowState", workflowState);
-                    log.LogVariable("Not Specified", "offSet", offSet.ToString());
-                    log.LogVariable("Not Specified", "limit", limit.ToString());
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
+                    log.LogVariable("Not Specified", nameof(offSet), offSet.ToString());
+                    log.LogVariable("Not Specified", nameof(limit), limit.ToString());
 
                     return sqlController.WorkerGetAll(workflowState, offSet, limit);
                 }
@@ -2003,10 +2003,10 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workerId", workerId);
-                    log.LogVariable("Not Specified", "firstName", firstName);
-                    log.LogVariable("Not Specified", "lastName", lastName);
-                    log.LogVariable("Not Specified", "email", email);
+                    log.LogVariable("Not Specified", nameof(workerId), workerId);
+                    log.LogVariable("Not Specified", nameof(firstName), firstName);
+                    log.LogVariable("Not Specified", nameof(lastName), lastName);
+                    log.LogVariable("Not Specified", nameof(email), email);
 
                     if (sqlController.WorkerRead(workerId) == null)
                         return false;
@@ -2035,7 +2035,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workerId", workerId);
+                    log.LogVariable("Not Specified", nameof(workerId), workerId);
            
                     bool success = communicator.WorkerDelete(workerId);
                     if (!success)
@@ -2098,9 +2098,9 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "siteWorkerId", siteWorkerId.ToString());
-                    log.LogVariable("Not Specified", "siteId", siteId.ToString());
-                    log.LogVariable("Not Specified", "workerId", workerId.ToString());
+                    log.LogVariable("Not Specified", nameof(siteWorkerId), siteWorkerId.ToString());
+                    log.LogVariable("Not Specified", nameof(siteId), siteId.ToString());
+                    log.LogVariable("Not Specified", nameof(workerId), workerId.ToString());
 
                     return sqlController.SiteWorkerRead(siteWorkerId, siteId, workerId);
                 }
@@ -2122,7 +2122,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "workerId", workerId);
+                    log.LogVariable("Not Specified", nameof(workerId), workerId);
               
                     bool success = communicator.SiteWorkerDelete(workerId);
                     if (!success)
@@ -2150,7 +2150,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "unitId", unitId);
+                    log.LogVariable("Not Specified", nameof(unitId), unitId);
 
                     return sqlController.UnitRead(unitId);
                 }
@@ -2193,7 +2193,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "unitId", unitId);
+                    log.LogVariable("Not Specified", nameof(unitId), unitId);
        
                     int otp_code = communicator.UnitRequestOtp(unitId);
 
@@ -2223,16 +2223,16 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "templateId", templateId);
-                    log.LogVariable("Not Specified", "caseUId", caseUId);
-                    log.LogVariable("Not Specified", "siteUIds", string.Join(",", siteUIds));
-                    log.LogVariable("Not Specified", "custom", custom);
-                    log.LogVariable("Not Specified", "connected", connected);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(caseUId), caseUId);
+                    log.LogVariable("Not Specified", nameof(siteUIds), string.Join(",", siteUIds));
+                    log.LogVariable("Not Specified", nameof(custom), custom);
+                    log.LogVariable("Not Specified", nameof(connected), connected);
 
                     if (replacements == null)
-                        log.LogVariable("Not Specified", "replacements", "null");
+                        log.LogVariable("Not Specified", nameof(replacements), "null");
                     else
-                        log.LogVariable("Not Specified", "replacements", string.Join(",", replacements));
+                        log.LogVariable("Not Specified", nameof(replacements), string.Join(",", replacements));
 
                     return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
                 }
@@ -2254,7 +2254,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "interactionCaseId", interactionCaseId);
+                    log.LogVariable("Not Specified", nameof(interactionCaseId), interactionCaseId);
 
                     return sqlController.InteractionCaseDelete(interactionCaseId);
                 }
@@ -2278,7 +2278,7 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "id", id);
+                    log.LogVariable("Not Specified", nameof(id), id);
 
                     return sqlController.FieldRead(id);
                 }
@@ -2300,8 +2300,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "id", id);
-                    log.LogVariable("Not Specified", "instances", instances);
+                    log.LogVariable("Not Specified", nameof(id), id);
+                    log.LogVariable("Not Specified", nameof(instances), instances);
 
                     return sqlController.FieldValueReadList(id, instances);
                 }
@@ -2330,13 +2330,13 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "sort", sort);
-                    log.LogVariable("Not Specified", "nameFilter", nameFilter);
-                    log.LogVariable("Not Specified", "pageIndex", pageIndex);
-                    log.LogVariable("Not Specified", "pageSize", pageSize);
-                    log.LogVariable("Not Specified", "entityType", entityType);
-                    log.LogVariable("Not Specified", "desc", desc);
-                    log.LogVariable("Not Specified", "workflowState", workflowState);
+                    log.LogVariable("Not Specified", nameof(sort), sort);
+                    log.LogVariable("Not Specified", nameof(nameFilter), nameFilter);
+                    log.LogVariable("Not Specified", nameof(pageIndex), pageIndex);
+                    log.LogVariable("Not Specified", nameof(pageSize), pageSize);
+                    log.LogVariable("Not Specified", nameof(entityType), entityType);
+                    log.LogVariable("Not Specified", nameof(desc), desc);
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
                     return sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState);
                 }
@@ -2358,8 +2358,8 @@ namespace eFormCore
                 if (coreRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", "fieldId", fieldId);
-                    log.LogVariable("Not Specified", "uploadedDataId", uploadedDataId);
+                    log.LogVariable("Not Specified", nameof(fieldId), fieldId);
+                    log.LogVariable("Not Specified", nameof(uploadedDataId), uploadedDataId);
 
                     uploaded_data uD = sqlController.GetUploadedData(uploadedDataId);
 
