@@ -70,7 +70,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="SDK.cs" />
+    <Compile Include="UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

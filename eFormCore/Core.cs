@@ -241,12 +241,10 @@ namespace eFormCore
                                 FatalExpection("Failed to close Core correct after 60 secs", new Exception());
                         }
 
+                        log.LogStandard("Not Specified", "Core closed");
                         subscriber = null;
                         communicator = null;
                         sqlController = null;
-
-                        log.LogStandard("Not Specified", "Controller closed");
-                        log.LogEverything("Not Specified", "");
 
                         coreStatChanging = false;
                     }

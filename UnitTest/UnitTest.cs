@@ -76,7 +76,7 @@ namespace UnitTest
     }
 
     [Collection("Database collection")]
-    public class SDK
+    public class UnitTest
     {
         #region var
         Core core;
@@ -104,7 +104,7 @@ namespace UnitTest
         #endregion
 
         #region con
-        public SDK(TestContext testContext)
+        public UnitTest(TestContext testContext)
         {
             serverConnectionString  = testContext.GetConnectionString();
             useLiveData             = testContext.GetUseLiveData();
@@ -204,7 +204,7 @@ namespace UnitTest
                 //Act
                 try
                 {
-                    checkValueB = core.Start(null).ToString();
+                    checkValueB = core.Start(null) + "";
                 }
                 catch (Exception ex)
                 {
