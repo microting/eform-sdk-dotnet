@@ -163,15 +163,22 @@ namespace eFormShared
 
         private void    LogLogic(LogEntry logEntry)
         {
-            string reply = "";
-   
-            LogCache(logEntry);
-            if (logLevel >= logEntry.Level)
-                reply = logWriter.WriteLogEntry(logEntry);
+            try
+            {
+                string reply = "";
 
-            //if prime log writer failed
-            if (reply != "")
-                logWriter.WriteIfFailed(PrintCache(-2, reply));
+                LogCache(logEntry);
+                if (logLevel >= logEntry.Level)
+                    reply = logWriter.WriteLogEntry(logEntry);
+
+                //if prime log writer failed
+                if (reply != "")
+                    logWriter.WriteIfFailed(PrintCache(-2, reply));
+            }
+            catch
+            {
+
+            }
         }
 
         private string  PrintCache(int level, string initialMessage)

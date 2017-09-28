@@ -2852,6 +2852,10 @@ namespace eFormCore
                     updateIsRunningFiles = false;
                 }
             }
+            catch (ThreadAbortException)
+            {
+                log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
+            }
             catch (Exception ex)
             {
                 updateIsRunningFiles = false;
@@ -3028,6 +3032,10 @@ namespace eFormCore
 
                     updateIsRunningNotifications = false;
                 }
+            }
+            catch (ThreadAbortException)
+            {
+                log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
             }
             catch (Exception ex)
             {
@@ -3247,6 +3255,10 @@ namespace eFormCore
                     updateIsRunningTables = false;
                 }
             }
+            catch (ThreadAbortException)
+            {
+                log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
+            }
             catch (Exception ex)
             {
                 updateIsRunningTables = false;
@@ -3364,6 +3376,10 @@ namespace eFormCore
 
                     updateIsRunningEntities = false;
                 }
+            }
+            catch (ThreadAbortException)
+            {
+                log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
             }
             catch (Exception ex)
             {
