@@ -116,7 +116,7 @@ namespace eFormCore
         /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system, with extended parameters
         /// </summary>
         /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
-        /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s)</param>
+        /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
         List<string>    CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom);

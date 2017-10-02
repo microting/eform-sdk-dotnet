@@ -58,7 +58,6 @@ namespace eFormCore
         Subscriber subscriber;
         Communicator communicator;
         SqlController sqlController;
-        //ExcelController excelController;
         Tools t = new Tools();
 
         public Log log;
@@ -76,9 +75,13 @@ namespace eFormCore
         bool coreStatChanging = false;
         bool coreThreadAlive = false;
 
+        bool skipRestartDelay = false;
+
         string connectionString;
         string fileLocationPicture;
         string fileLocationPdf;
+
+        int sameExceptionCountTried = 0;
         #endregion
 
         //con
@@ -154,7 +157,9 @@ namespace eFormCore
                         throw new ArgumentException("Use AdminTool to setup database correctly. KnownSitesDone has not completed");
 
                     //log
-                    log = sqlController.StartLog(this);
+                    if (log == null)
+                        log = sqlController.StartLog(this);
+
                     log.LogCritical("Not Specified", "###########################################################################");
                     log.LogCritical("Not Specified", t.GetMethodName() + " called");
                     log.LogStandard("Not Specified", "SqlController and Logger started");
@@ -187,20 +192,47 @@ namespace eFormCore
             return true;
         }
 
-        public override void    Restart(int secondsDelay)
+        public override void    Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
             try
             {
                 if (coreRestarting == false)
                 {
                     coreRestarting = true;
-
                     log.LogCritical("Not Specified", t.GetMethodName() + " called");
-                    Close();
-                    log.LogStandard("Not Specified", "Trying to restart the Core in " + secondsDelay + " seconds");
-                    Thread.Sleep(secondsDelay * 1000);
-                    Start(connectionString);
+                    log.LogVariable("Not Specified", nameof(sameExceptionCount), sameExceptionCount);
+                    log.LogVariable("Not Specified", nameof(sameExceptionCountMax), sameExceptionCountMax);
 
+                    sameExceptionCountTried++;
+
+                    if (sameExceptionCountTried > sameExceptionCountMax)
+                        sameExceptionCountTried = sameExceptionCountMax;
+
+                    if (sameExceptionCountTried > 4)
+                        throw new Exception("The same Exception repeated to many times (5+) within one hour");
+
+                    int secondsDelay = 0;
+                    switch (sameExceptionCountTried)
+                    {
+                        case 1: secondsDelay = 001; break;
+                        case 2: secondsDelay = 008; break;
+                        case 3: secondsDelay = 064; break;
+                        case 4: secondsDelay = 512; break;
+                        default: throw new ArgumentOutOfRangeException("sameExceptionCount should be above 0");
+                    }
+                    log.LogVariable("Not Specified", nameof(sameExceptionCountTried), sameExceptionCountTried);
+                    log.LogVariable("Not Specified", nameof(secondsDelay), secondsDelay);
+
+                    Close();
+
+                    log.LogStandard("Not Specified", "Trying to restart the Core in " + secondsDelay + " seconds");
+
+                    if (!skipRestartDelay)
+                        Thread.Sleep(secondsDelay * 1000);
+                    else
+                        log.LogStandard("Not Specified", "Delay skipped");
+
+                    Start(connectionString);
                     coreRestarting = false;
                 }
             }
@@ -264,21 +296,17 @@ namespace eFormCore
 
         public bool             Running()
         {
-            return coreRunning;
+            if (coreRunning && !coreStatChanging)
+                return true;
+            else
+                return false;
         }
 
-        public override void    FatalExpection(string reason, Exception exception)
+        public void             FatalExpection(string reason, Exception exception)
         {
             try
             {
                 log.LogFatalException(t.GetMethodName() + " called for reason:'" + reason + "'", exception);
-            }
-            catch { }
-
-            try
-            {
-                Thread coreRestartThread = new Thread(() => Close());
-                coreRestartThread.Start();
             }
             catch { }
 
@@ -638,7 +666,15 @@ namespace eFormCore
         public string           CaseCreate(MainElement mainElement, string caseUId, int siteId)
         {
             List<string> lst = CaseCreate(mainElement, caseUId, new List<int> { siteId }, "");
-            return lst[0];
+
+            try
+            {
+                return lst[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom)
@@ -3409,6 +3445,11 @@ namespace eFormCore
             try { HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty); }
             catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
             log.LogStandard("Not Specified", cDto.ToString() + " has been deleted");
+        }
+
+        internal void           UnitTest_SetUnittest()
+        {
+            skipRestartDelay = true;
         }
         #endregion
     }

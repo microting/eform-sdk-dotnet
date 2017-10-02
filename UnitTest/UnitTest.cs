@@ -120,7 +120,7 @@ namespace UnitTest
         #endregion
 
         #region prepare and teardown     
-        private void TestPrepare(string testName)
+        private void TestPrepare(string testName, bool startSDK)
         {
             adminTool = new AdminTools(serverConnectionString);
             string temp = adminTool.DbClear();
@@ -128,6 +128,9 @@ namespace UnitTest
                 throw new Exception("CleanUp failed");
 
             sqlController = new SqlController(serverConnectionString);
+            sqlController.UnitTest_TruncateTable(nameof(logs));
+            sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+
             communicator = new Communicator(sqlController);
 
             token = sqlController.SettingRead(Settings.token);
@@ -140,7 +143,9 @@ namespace UnitTest
 
             core.HandleNotificationNotFound += EventNotificationNotFound;
             core.HandleEventException += EventException;
-            core.Start(serverConnectionString);
+
+            if (startSDK)
+                core.Start(serverConnectionString);
         }
 
         private void TestTeardown()
@@ -175,7 +180,7 @@ namespace UnitTest
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), false);
                 bool checkValueA = true;
                 bool checkValueB = false;
      
@@ -196,11 +201,10 @@ namespace UnitTest
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), false);
                 string checkValueA = "serverConnectionString is not allowed to be null or empty";
                 string checkValueB = "";
-                Core core = new Core();
-
+   
                 //Act
                 try
                 {
@@ -223,11 +227,10 @@ namespace UnitTest
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), false);
                 string checkValueA = "serverConnectionString is not allowed to be null or empty";
                 string checkValueB = "";
-                Core core = new Core();
-
+    
                 //Act
                 try
                 {
@@ -248,11 +251,10 @@ namespace UnitTest
         public void Test001_Core_2a_StartSqlOnly()
         {
             //Arrange
-            TestPrepare(t.GetMethodName());
+            TestPrepare(t.GetMethodName(), false);
             string checkValueA = "True";
             string checkValueB = "";
-            Core core = new Core();
-
+      
             //Act
             try
             {
@@ -272,11 +274,10 @@ namespace UnitTest
         public void Test001_Core_3a_Start()
         {
             //Arrange
-            TestPrepare(t.GetMethodName());
+            TestPrepare(t.GetMethodName(), false);
             string checkValueA = "True";
             string checkValueB = "";
-            Core core = new Core();
-
+   
             //Act
             try
             {
@@ -296,11 +297,10 @@ namespace UnitTest
         public void Test001_Core_4a_IsRunning()
         {
             //Arrange
-            TestPrepare(t.GetMethodName());
+            TestPrepare(t.GetMethodName(), false);
             string checkValueA = "FalseTrue";
             string checkValueB = "";
-            Core core = new Core();
-
+     
             //Act
             try
             {
@@ -322,11 +322,10 @@ namespace UnitTest
         public void Test001_Core_5a_Close()
         {
             //Arrange
-            TestPrepare(t.GetMethodName());
+            TestPrepare(t.GetMethodName(), true);
             string checkValueA = "True";
             string checkValueB = "";
-            Core core = new Core();
-
+    
             //Act
             try
             {
@@ -346,11 +345,10 @@ namespace UnitTest
         public void Test001_Core_6a_RunningForWhileThenClose()
         {
             //Arrange
-            TestPrepare(t.GetMethodName());
+            TestPrepare(t.GetMethodName(), false);
             string checkValueA = "FalseTrueTrue";
             string checkValueB = "";
-            Core core = new Core();
-
+ 
             //Act
             try
             {
@@ -370,12 +368,169 @@ namespace UnitTest
             TestTeardown();
             Assert.Equal(checkValueA, checkValueB);
         }
-
         #endregion
 
-        #region - test 002x xml
+        #region - test 002x core (Exception handling)
         [Fact]
-        public void Test002_Xml_1a_XmlImporter()
+        public void Test002_Core_1a_ExceptionHandling()
+        {
+            //Arrange
+            TestPrepare(t.GetMethodName(), true);
+            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n";
+            string checkValueB = "";
+            MainElement main;
+            string xmlStr;
+      
+            //Act
+            try
+            {
+                xmlStr = LoadFil("xml.txt");
+                main = core.TemplateFromXml(xmlStr);
+                main.Label = "throw new Exception";
+
+                for (int i = 0; i < 4; i++)
+                {
+                    core.CaseCreate(main, "throw new Exception", siteId1);
+
+                    if (core.Running())
+                    {
+                        checkValueB += PrintLogLine();
+
+                        sqlController.UnitTest_TruncateTable(nameof(logs));
+                        sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+   
+            //Assert
+            TestTeardown();
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
+        [Fact]
+        public void Test002_Core_2a_DoubleExceptionHandling()
+        {
+            //Arrange
+            TestPrepare(t.GetMethodName(), true);
+            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n01:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n01:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n01:000100/000100/00010/0\r\n";
+            string checkValueB = "";
+            MainElement main1;
+            MainElement main2;
+            string xmlStr;
+            
+            //Act
+            try
+            {
+                xmlStr = LoadFil("xml.txt");
+
+                main1 = core.TemplateFromXml(xmlStr);
+                main1.Label = "throw new Exception";
+
+                main2 = core.TemplateFromXml(xmlStr);
+                main2.Label = "throw other Exception";
+
+                core.CaseCreate(main1, null, siteId1);
+
+                checkValueB += PrintLogLine();
+
+                sqlController.UnitTest_TruncateTable(nameof(logs));
+                sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+
+                for (int i = 0; i < 3; i++)
+                {
+                    core.CaseCreate(main1, null, siteId1);
+
+                    checkValueB += PrintLogLine();
+                    sqlController.UnitTest_TruncateTable(nameof(logs));
+                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+                 
+                    core.CaseCreate(main2, null, siteId1);
+                    
+                    checkValueB += PrintLogLine();
+                    sqlController.UnitTest_TruncateTable(nameof(logs));
+                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+                }
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+    
+            //Assert
+            TestTeardown();
+            Assert.Equal(checkValueA, checkValueB);
+        }
+
+        [Fact]
+        public void Test002_Core_3a_FatalExceptionHandling()
+        {
+            //Arrange
+            TestPrepare(t.GetMethodName(), true);
+            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n01:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n01:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n01:000100/000100/00010/0\r\n20:000000/000020/00001/1\r\n";
+            string checkValueB = "";
+            MainElement main1;
+            MainElement main2;
+            string xmlStr;
+     
+            //Act
+            try
+            {
+                xmlStr = LoadFil("xml.txt");
+
+                main1 = core.TemplateFromXml(xmlStr);
+                main1.Label = "throw new Exception";
+
+                main2 = core.TemplateFromXml(xmlStr);
+                main2.Label = "throw other Exception";
+
+                #region core.CaseCreate(main1, null, siteId1);
+                for (int i = 0; i < 2; i++)
+                {
+                    core.CaseCreate(main1, null, siteId1);
+
+                    checkValueB += PrintLogLine();
+                    sqlController.UnitTest_TruncateTable(nameof(logs));
+                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+                }
+                #endregion
+
+                #region core.CaseCreate(main2, null, siteId1);
+                #endregion
+                #region core.CaseCreate(main1, null, siteId1);
+                for (int i = 0; i < 3; i++)
+                {
+                    core.CaseCreate(main2, null, siteId1);
+
+                    checkValueB += PrintLogLine();
+                    sqlController.UnitTest_TruncateTable(nameof(logs));
+                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+
+                    core.CaseCreate(main1, null, siteId1);
+
+                    checkValueB += PrintLogLine();
+                    sqlController.UnitTest_TruncateTable(nameof(logs));
+                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+            }
+      
+            //Assert
+            TestTeardown();
+            Assert.Equal(checkValueA, checkValueB);
+        }
+        #endregion
+
+        #region - test 003x xml
+        [Fact]
+        public void Test003_Xml_1a_XmlImporter()
         {
             lock (_lockTest)
             {
@@ -396,12 +551,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test002_Xml_2a_XmlConverter()
+        public void Test003_Xml_2a_XmlConverter()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA;
                 string checkValueB;
 
@@ -421,12 +576,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test002_Xml_3a_TemplateCreate()
+        public void Test003_Xml_3a_TemplateCreate()
         {
              lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 int checkValueA;
                 int checkValueB;
                 MainElement main;
@@ -447,12 +602,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test002_Xml_4a_TemplateRead()
+        public void Test003_Xml_4a_TemplateRead()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA;
                 string checkValueB;
                 MainElement main;
@@ -477,14 +632,14 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 003x - communicator
+        #region - test 004x - communicator
         [Fact]
-        public void Test003_Communicator_1a_PostXml()
+        public void Test004_Communicator_1a_PostXml()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB;
                 string xmlStr;
@@ -510,12 +665,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test003_Communicator_2a_CheckStatus()
+        public void Test004_Communicator_2a_CheckStatus()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB = false;
                 string xmlStr;
@@ -544,12 +699,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test003_Communicator_3a_Retrieve()
+        public void Test004_Communicator_3a_Retrieve()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB = false;
                 string xmlStr;
@@ -574,12 +729,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test003_Communicator_3b_RetrieveFromId()
+        public void Test004_Communicator_3b_RetrieveFromId()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB = false;
                 string xmlStr;
@@ -611,12 +766,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test003_Communicator_4a_Delete()
+        public void Test004_Communicator_4a_Delete()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB = false;
                 string xmlStr;
@@ -646,9 +801,9 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 004x - request (XML)
+        #region - test 005x - request (XML)
         [Fact]
-        public void Test004_Request_1a_ClassToXml()
+        public void Test005_Request_1a_ClassToXml()
         {
             lock (_lockTest)
             {
@@ -714,7 +869,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test004_Request_2a_XmlToClass()
+        public void Test005_Request_2a_XmlToClass()
         {
             lock (_lockTest)
             {
@@ -736,9 +891,9 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 005x - response (XML)
+        #region - test 006x - response (XML)
         [Fact]
-        public void Test005_Response_1a_XmlToClassSimple()
+        public void Test006_Response_1a_XmlToClassSimple()
         {
             lock (_lockTest)
             {
@@ -764,7 +919,7 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test005_Response_2a_XmlToClassExt()
+        public void Test006_Response_2a_XmlToClassExt()
         {
             lock (_lockTest)
             {
@@ -812,14 +967,14 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 006x - sqlController (Templat and Case)
+        #region - test 007x - sqlController (Templat and Case)
         [Fact]
-        public void Test006_SqlController_1a_TemplateCreateAndRead()
+        public void Test007_SqlController_1a_TemplateCreateAndRead()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = ClearXml(LoadFil("requestXmlFromXml.txt"));
                 string checkValueB = LoadFil("requestXmlFromClass.txt");
                 int templatId = -1;
@@ -840,12 +995,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test006_SqlController_2a_CaseCreateAndRead()
+        public void Test007_SqlController_2a_CaseCreateAndRead()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValue1A = "created";
                 string checkValue1B = "";
                 int checkValue2A = 66;
@@ -875,12 +1030,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test006_SqlController_3a_CaseDelete()
+        public void Test007_SqlController_3a_CaseDelete()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValue1A = "removed";
                 string checkValue1B = "";
                 int checkValue2A = 66;
@@ -911,12 +1066,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test006_SqlController_4a_CaseUpdate()
+        public void Test007_SqlController_4a_CaseUpdate()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValue1A = "created";
                 string checkValue1B = "";
                 int checkValue2A = 100;
@@ -948,12 +1103,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test006_SqlController_5a_CaseRetract()
+        public void Test007_SqlController_5a_CaseRetract()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValue1A = "retracted";
                 string checkValue1B = "";
                 int checkValue2A = 66;
@@ -983,14 +1138,14 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 007x - subscriber
+        #region - test 008x - subscriber
         [Fact]
-        public void Test007_Subscriber_1a_StartAndClose()
+        public void Test008_Subscriber_1a_StartAndClose()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "TrueFalse";
                 string checkValueB = "";
                 Subscriber subS = new Subscriber(sqlController, null);
@@ -1008,12 +1163,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test007_Subscriber_2a_LacksName()
+        public void Test008_Subscriber_2a_LacksName()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "not_found = True";
                 string checkValueB = "";
 
@@ -1037,14 +1192,14 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 008x - core (Case)
+        #region - test 009x - core (Case)
         [Fact]
-        public void Test008_Core_1a_CaseCreate()
+        public void Test009_Core_1a_CaseCreate()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 int checkValueA = 1;
                 int checkValueB;
                 int templatId = -1;
@@ -1066,12 +1221,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test008_Core_2a_CaseDelete()
+        public void Test009_Core_2a_CaseDelete()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB;
                 int templatId = -1;
@@ -1095,12 +1250,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test008_Core_3a_CaseCreateReversed()
+        public void Test009_Core_3a_CaseCreateReversed()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "1True";
                 string checkValueB;
                 int templatId = -1;
@@ -1127,12 +1282,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test008_Core_4a_CaseLookup()
+        public void Test009_Core_4a_CaseLookup()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 Case_Dto checkValueA = new Case_Dto();
                 Case_Dto checkValueB;
                 int templatId = -1;
@@ -1156,12 +1311,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test008_Core_5a_Close()
+        public void Test009_Core_5a_Close()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 bool checkValueA = true;
                 bool checkValueB = false;
 
@@ -1175,14 +1330,14 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 009x - entity
+        #region - test 010x - entity
         [Fact]
-        public void Test009_Entity_1a_EntityGroupCreate_EntitySearch()
+        public void Test010_Entity_1a_EntityGroupCreate_EntitySearch()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "";
                 EntityGroup checkValueB;
 
@@ -1196,12 +1351,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_1b_EntityGroupCreate_EntitySelect()
+        public void Test010_Entity_1b_EntityGroupCreate_EntitySelect()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "";
                 EntityGroup checkValueB;
 
@@ -1215,12 +1370,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_2a_EntityGroupUpdate_NotUnique()
+        public void Test010_Entity_2a_EntityGroupUpdate_NotUnique()
         {
              lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Failed";
                 string checkValueB;
 
@@ -1252,12 +1407,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_3a_EntityGroupUpdateAndRead_EntitySearch()
+        public void Test010_Entity_3a_EntityGroupUpdateAndRead_EntitySearch()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Item2New5Item6";
                 string checkValueB;
                 EntityGroup oEG;
@@ -1293,12 +1448,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_3b_EntityGroupUpdateAndRead_EntitySelect()
+        public void Test010_Entity_3b_EntityGroupUpdateAndRead_EntitySelect()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Item2New5Item6True";
                 string checkValueB;
                 EntityGroup oEG;
@@ -1336,12 +1491,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_4a_EntityGroupItemRemoveAndAddAgain_EntitySearch()
+        public void Test010_Entity_4a_EntityGroupItemRemoveAndAddAgain_EntitySearch()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "1st insert2nd insertTrue";
                 string checkValueB;
                 EntityGroup oEG;
@@ -1377,12 +1532,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_5a_EntityGroupDelete_EntitySearch()
+        public void Test010_Entity_5a_EntityGroupDelete_EntitySearch()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "4isZero";
                 string checkValueB;
                 EntityGroup oEG;
@@ -1413,12 +1568,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test009_Entity_5b_EntityGroupDelete_EntitySelect()
+        public void Test010_Entity_5b_EntityGroupDelete_EntitySelect()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "4isZero";
                 string checkValueB;
                 EntityGroup oEG;
@@ -1449,14 +1604,14 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 010x - case
+        #region - test 011x - case
         [Fact]
-        public void Test010_Case_1a_Retrived()
+        public void Test011_Case_1a_Retrived()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Retrived";
                 string checkValueB;
                 int templatId = -1;
@@ -1486,12 +1641,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test010_Case_2a_Completed()
+        public void Test011_Case_2a_Completed()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Completed";
                 string checkValueB;
                 string mUId;
@@ -1510,12 +1665,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test010_Case_2b_Reversed_Completed()
+        public void Test011_Case_2b_Reversed_Completed()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Completed";
                 string checkValueB;
                 string mUId;
@@ -1534,12 +1689,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test010_Case_3a_Many_Completed()
+        public void Test011_Case_3a_Many_Completed()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 int checkValueA = 0;
                 int checkValueB;
                 Case_Dto caseDto;
@@ -1627,14 +1782,14 @@ namespace UnitTest
         //}
         #endregion
 
-        #region - test 011x - interaction cases
+        #region - test 012x - interaction cases
         [Fact]
-        public void Test011_Interaction_Case_1a_CreatedInTable()
+        public void Test012_Interaction_Case_1a_CreatedInTable()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Passed";
                 string checkValueB;
 
@@ -1657,12 +1812,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_2a_Completed_Connected()
+        public void Test012_Interaction_Case_2a_Completed_Connected()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "CompletedCompleted";
                 string checkValueB = "";
 
@@ -1692,12 +1847,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_2b_Completed_NotConnected()
+        public void Test012_Interaction_Case_2b_Completed_NotConnected()
         {
              lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "CompletedCompleted";
                 string checkValueB = "";
 
@@ -1725,12 +1880,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_2c_CompletedWithReplacements()
+        public void Test012_Interaction_Case_2c_CompletedWithReplacements()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "CompletedCompleted";
                 string checkValueB = "";
 
@@ -1764,12 +1919,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_2d_ReplacementsFailedDateTime()
+        public void Test012_Interaction_Case_2d_ReplacementsFailedDateTime()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "failed to sync";
                 string checkValueB = "";
 
@@ -1798,12 +1953,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_3a_DeletedSDK()
+        public void Test012_Interaction_Case_3a_DeletedSDK()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "DeletedDeleted";
                 string checkValueB = "";
 
@@ -1840,12 +1995,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_3b_DeletedInteraction()
+        public void Test012_Interaction_Case_3b_DeletedInteraction()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "DeletedDeleted";
                 string checkValueB = "";
 
@@ -1881,12 +2036,12 @@ namespace UnitTest
         }
 
         [Fact]
-        public void Test011_Interaction_Case_4a__Multi_Completed()
+        public void Test012_Interaction_Case_4a__Multi_Completed()
         {
             lock (_lockTest)
             {
                 //Arrange
-                TestPrepare(t.GetMethodName());
+                TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "CompletedCompletedCompletedCompletedCompletedCompleted";
                 string checkValueB = "";
 
@@ -2183,6 +2338,37 @@ namespace UnitTest
                 throw new Exception("Failed to load fil", ex);
             }
         }
+
+        private string PrintLogLine()
+        {
+            string str = "";
+            str += sqlController.UnitTest_FindLog(1000, "Post created 'new' Exception as per request");
+            str += sqlController.UnitTest_FindLog(1000, "Post created 'other' Exception as per request");
+            str += ":";
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:1");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:2");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:3");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:4");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:5");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:6");
+            str += "/";
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountMax / Content:1");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountMax / Content:2");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountMax / Content:3");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountMax / Content:4");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountMax / Content:5");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountMax / Content:6");
+            str += "/";
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:secondsDelay / Content:1");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:secondsDelay / Content:8");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:secondsDelay / Content:64");
+            str += sqlController.UnitTest_FindLog(1000, "Variable Name:secondsDelay / Content:512");
+            str += sqlController.UnitTest_FindLog(1000, "FatalExpection called for reason:'Restartfailed. Core failed to restart'");
+            str += "/";
+            str += sqlController.UnitTest_FindLog(1000, "Core triggered Exception event");
+            str += Environment.NewLine;
+            return str;
+        }
         #endregion
 
         #region events
@@ -2257,10 +2443,10 @@ namespace UnitTest
         {
             lock (_lockFil)
             {
-                File.AppendAllText(@"log\\exception.txt", sender + Environment.NewLine);
+                sqlController.WriteLogEntry(new LogEntry(-4, "FATAL ERROR", "Core triggered Exception event"));
             }
 
-            throw (Exception)sender;
+            throw (Exception)sender; //Core need to be able that the external code crashed
         }
         #endregion
     }

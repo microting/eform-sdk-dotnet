@@ -58,6 +58,12 @@ namespace eFormCommunicator
         #region public API
         public string Post(string xmlData, string siteId)
         {
+            if (xmlData.Contains("throw new Exception"))
+                throw new Exception("Post created 'new' Exception as per request");
+
+            if (xmlData.Contains("throw other Exception"))
+                throw new Exception("Post created 'other' Exception as per request");
+
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "M" + t.GetRandomInt(5) + "</Value></Response>";
         }
 
