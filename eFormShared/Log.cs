@@ -111,6 +111,22 @@ namespace eFormShared
             }
             catch { }
         }
+
+        public string   PrintCache(int level, string initialMessage)
+        {
+            string text = "";
+
+            foreach (LogEntry item in logQue)
+                text = item.Time + " // " + "L:" + item.Level + " // " + item.Message + Environment.NewLine + text;
+
+            text = DateTime.Now + " // L:" + level + " // ###########################################################################" + Environment.NewLine +
+                    initialMessage + Environment.NewLine +
+                    Environment.NewLine +
+                    text + Environment.NewLine +
+                    DateTime.Now + " // L:" + level + " // ###########################################################################";
+
+            return text;
+        }
         #endregion
 
         #region private
@@ -166,22 +182,6 @@ namespace eFormShared
                     logWriter.WriteIfFailed(PrintCache(-2, reply));
             }
             catch { }
-        }
-
-        public string  PrintCache(int level, string initialMessage)
-        {
-            string text = "";
-
-            foreach (LogEntry item in logQue)
-                text = item.Time + " // " + "L:" + item.Level + " // " + item.Message + Environment.NewLine + text;
-
-            text =  DateTime.Now + " // L:" + level + " // ###########################################################################" + Environment.NewLine +
-                    initialMessage + Environment.NewLine +
-                    Environment.NewLine +
-                    text + Environment.NewLine + 
-                    DateTime.Now + " // L:" + level + " // ###########################################################################";
-
-            return text;
         }
 
         private void    LogCache(LogEntry logEntry)

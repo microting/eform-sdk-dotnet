@@ -261,7 +261,10 @@ namespace eFormCore
                             subscriber.Close();
                             log.LogEverything("Not Specified", "Subscriber closed");
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
+                            log.LogException("Not Specified", "Subscriber failed to close", ex, false);
+                        }
 
                         int tries = 0;
                         while (coreRunning)
