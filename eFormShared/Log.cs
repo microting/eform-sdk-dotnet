@@ -168,7 +168,7 @@ namespace eFormShared
             catch { }
         }
 
-        private string  PrintCache(int level, string initialMessage)
+        public string  PrintCache(int level, string initialMessage)
         {
             string text = "";
 

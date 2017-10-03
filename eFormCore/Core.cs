@@ -269,7 +269,7 @@ namespace eFormCore
                             Thread.Sleep(100);
                             tries++;
 
-                            if (tries > 600)
+                            if (tries > 600)                        
                                 FatalExpection("Failed to close Core correct after 60 secs", new Exception());
                         }
 
@@ -314,7 +314,11 @@ namespace eFormCore
             coreStatChanging = false;
 
             try { HandleEventException?.Invoke(exception, EventArgs.Empty); } catch { }
-            throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'", exception);
+
+            string temp = log.PrintCache(-10, "Failed to close Core correct after 60 secs");
+            throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'. " + temp, exception);
+
+            //throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'", exception);
         }
         #endregion
 
