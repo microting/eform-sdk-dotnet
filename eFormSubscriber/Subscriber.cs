@@ -188,7 +188,7 @@ namespace eFormSubscriber
                 keepSubscribed = true;
 
                 while (keepSubscribed)
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
      
                 keepSubscribed = false;
                 isActive = false;

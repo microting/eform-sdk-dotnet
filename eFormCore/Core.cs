@@ -70,10 +70,10 @@ namespace eFormCore
         bool updateIsRunningTables = false;
         bool updateIsRunningEntities = false;
 
-        bool coreRunning = false;
+        bool coreThreadRunning = false;
         bool coreRestarting = false;
         bool coreStatChanging = false;
-        bool coreThreadAlive = false;
+        bool coreAvailable = false;
 
         bool skipRestartDelay = false;
 
@@ -91,7 +91,7 @@ namespace eFormCore
         {
             try
             {
-                if (!coreRunning && !coreStatChanging)
+                if (!coreAvailable && !coreStatChanging)
                 {
                     if (!StartSqlOnly(connectionString))
                         return false;
@@ -112,15 +112,13 @@ namespace eFormCore
                     log.LogStandard("Not Specified", "CoreThread started");
 
                     log.LogStandard("Not Specified", "Core started");
+                    coreAvailable = true;
                     coreStatChanging = false;
                 }
             }
             #region catch
             catch (Exception ex)
             {
-                coreRunning = false;
-                coreStatChanging = false;
-
                 FatalExpection(t.GetMethodName() + " failed", ex);
                 return false;
             }
@@ -133,7 +131,7 @@ namespace eFormCore
         {
             try
             {
-                if (!coreRunning && !coreStatChanging)
+                if (!coreAvailable && !coreStatChanging)
                 {
                     coreStatChanging = true;
 
@@ -174,14 +172,14 @@ namespace eFormCore
                     communicator = new Communicator(sqlController);
                     log.LogStandard("Not Specified", "Communicator started");
 
-                    coreRunning = true;
+                    coreAvailable = true;
                     coreStatChanging = false;
                 }
             }
             #region catch
             catch (Exception ex)
             {
-                coreRunning = false;
+                coreThreadRunning = false;
                 coreStatChanging = false;
 
                 FatalExpection(t.GetMethodName() + " failed", ex);
@@ -246,20 +244,23 @@ namespace eFormCore
         {
             try
             {
-                if (coreRunning && !coreStatChanging)
+                if (coreAvailable && !coreStatChanging)
                 {
                     lock (_lockMain) //Will let sending Cases sending finish, before closing
                     {
                         coreStatChanging = true;
 
-                        coreThreadAlive = false;
+                        coreAvailable = false;
                         log.LogCritical("Not Specified", t.GetMethodName() + " called");
 
                         try
                         {
-                            log.LogEverything("Not Specified", "Subscriber requested to close connection");
-                            subscriber.Close();
-                            log.LogEverything("Not Specified", "Subscriber closed");
+                            if (subscriber != null)
+                            {
+                                log.LogEverything("Not Specified", "Subscriber requested to close connection");
+                                subscriber.Close();
+                                log.LogEverything("Not Specified", "Subscriber closed");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -267,7 +268,7 @@ namespace eFormCore
                         }
 
                         int tries = 0;
-                        while (coreRunning)
+                        while (coreThreadRunning)
                         {
                             Thread.Sleep(100);
                             tries++;
@@ -299,26 +300,24 @@ namespace eFormCore
 
         public bool             Running()
         {
-            if (coreRunning && !coreStatChanging)
-                return true;
-            else
-                return false;
+            return coreAvailable;
         }
 
         public void             FatalExpection(string reason, Exception exception)
         {
+            coreAvailable = false;
+            coreThreadRunning = false;
+            coreStatChanging = false;
+
             try
             {
                 log.LogFatalException(t.GetMethodName() + " called for reason:'" + reason + "'", exception);
             }
             catch { }
 
-            coreRunning = false;
-            coreStatChanging = false;
-
             try { HandleEventException?.Invoke(exception, EventArgs.Empty); } catch { }
 
-            string temp = log.PrintCache(-10, "Failed to close Core correct after 60 secs");
+            string temp = log.PrintCache(-10, "Print log cache");
             throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'. " + temp, exception);
 
             //throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'", exception);
@@ -421,7 +420,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
 
@@ -477,7 +476,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
 
@@ -556,7 +555,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
 
@@ -585,7 +584,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -607,7 +606,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -629,7 +628,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -651,7 +650,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
@@ -689,7 +688,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     lock (_lockMain) //Will let sending Cases sending finish, before closing
                     {
@@ -751,7 +750,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
@@ -774,7 +773,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
@@ -816,7 +815,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(id), id);
@@ -843,7 +842,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templatId), templatId);
@@ -868,7 +867,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(caseId), caseId);
@@ -913,7 +912,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -936,7 +935,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -972,7 +971,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
@@ -1064,7 +1063,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
@@ -1086,7 +1085,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(caseId), caseId);
@@ -1108,7 +1107,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(caseUId), caseUId);
@@ -1130,7 +1129,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
@@ -1175,7 +1174,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templatId), templatId.ToString());
@@ -1347,7 +1346,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(name), name);
@@ -1402,7 +1401,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
@@ -1424,7 +1423,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     if (includeRemoved)
                         return Advanced_SiteReadAll(null, null, null);
@@ -1446,7 +1445,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
@@ -1471,7 +1470,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     Site_Dto siteDto = SiteRead(siteId);
                     Advanced_SiteItemUpdate(siteId, name);
@@ -1498,7 +1497,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     Site_Dto siteDto = SiteRead(siteId);
                     Advanced_SiteItemDelete(siteId);
@@ -1524,7 +1523,7 @@ namespace eFormCore
         {
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     EntityGroup entityGroup = sqlController.EntityGroupCreate(name, entityType);
 
@@ -1554,7 +1553,7 @@ namespace eFormCore
         {
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     while (updateIsRunningEntities)
                         Thread.Sleep(200);
@@ -1575,7 +1574,7 @@ namespace eFormCore
         {
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     List<string> ids = new List<string>();
                     foreach (var item in entityGroup.EntityGroupItemLst)
@@ -1611,7 +1610,7 @@ namespace eFormCore
         {
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     while (updateIsRunningEntities)
                         Thread.Sleep(200);
@@ -1638,7 +1637,7 @@ namespace eFormCore
         {
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     string chechSum = "";
                     using (var md5 = MD5.Create())
@@ -1677,7 +1676,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -1700,7 +1699,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -1741,7 +1740,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -1773,7 +1772,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -1795,7 +1794,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
 
@@ -1824,7 +1823,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workflowState), workflowState);
@@ -1848,7 +1847,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
@@ -1870,7 +1869,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     return sqlController.SiteGetAll();
                 }
@@ -1889,7 +1888,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
@@ -1919,7 +1918,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
@@ -1948,7 +1947,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(firstName), firstName);
@@ -1981,7 +1980,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
@@ -2003,7 +2002,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
@@ -2025,7 +2024,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workflowState), workflowState);
@@ -2049,7 +2048,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
@@ -2081,7 +2080,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
@@ -2109,7 +2108,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", "siteId", siteDto.SiteUId);
@@ -2144,7 +2143,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteWorkerId), siteWorkerId.ToString());
@@ -2168,7 +2167,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
@@ -2196,7 +2195,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(unitId), unitId);
@@ -2218,7 +2217,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
 
@@ -2239,7 +2238,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(unitId), unitId);
@@ -2269,7 +2268,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
@@ -2300,7 +2299,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(interactionCaseId), interactionCaseId);
@@ -2324,7 +2323,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(id), id);
@@ -2346,7 +2345,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(id), id);
@@ -2376,7 +2375,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(sort), sort);
@@ -2404,7 +2403,7 @@ namespace eFormCore
             string methodName = t.GetMethodName();
             try
             {
-                if (coreRunning)
+                if (coreThreadRunning)
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(fieldId), fieldId);
@@ -2787,15 +2786,14 @@ namespace eFormCore
         #region intrepidation threads
         private void            CoreThread()
         {
-            coreRunning = true;
-            coreThreadAlive = true;
+            coreThreadRunning = true;
 
             log.LogEverything("Not Specified", t.GetMethodName() + " initiated");
-            while (coreThreadAlive)
+            while (coreAvailable)
             {
                 try
                 {
-                    if (coreRunning)
+                    if (coreThreadRunning)
                     {
                         Thread updateFilesThread
                             = new Thread(() => CoreHandleUpdateFiles());
@@ -2825,8 +2823,7 @@ namespace eFormCore
             }
             log.LogEverything("Not Specified", t.GetMethodName() + " completed");
 
-            coreRunning = false;
-            coreStatChanging = false;
+            coreThreadRunning = false;
         }
 
         private void            CoreHandleUpdateFiles()
