@@ -68,7 +68,7 @@ namespace eFormSubscriber
         {
             if (!isActive)
             {
-                subscriberThread = new Thread(() => SubriberThread());
+                subscriberThread = new Thread(() => SubscriberThread());
                 subscriberThread.Start();
 
                 int tries = 0;
@@ -118,7 +118,7 @@ namespace eFormSubscriber
         #endregion
 
         #region private
-        private void SubriberThread()
+        private void SubscriberThread()
         {
             if (sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
             #region amazon
@@ -183,6 +183,7 @@ namespace eFormSubscriber
             else
             #region unit test
             {
+                log.LogStandard("Not Specified", "Sub");
                 isActive = true;
                 keepSubscribed = true;
 
