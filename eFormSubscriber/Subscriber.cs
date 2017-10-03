@@ -120,10 +120,7 @@ namespace eFormSubscriber
         #region private
         private void SubscriberThread()
         {
-            string temp = sqlController.SettingRead(Settings.token);
-            log.LogStandard("Not Specified", temp);
-
-            if (temp != "UNIT_TEST___________________L:32")
+            if (sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
             #region amazon
             {
                 #region setup

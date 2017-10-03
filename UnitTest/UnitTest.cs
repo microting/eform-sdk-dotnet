@@ -1162,7 +1162,8 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "TrueFalse";
                 string checkValueB = "";
-                Subscriber subS = new Subscriber(sqlController, null);
+                Subscriber subS = new Subscriber(sqlController, core.log);
+                core.Close();
 
                 //Act
                 subS.Start();
