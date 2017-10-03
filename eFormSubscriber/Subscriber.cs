@@ -183,7 +183,7 @@ namespace eFormSubscriber
             else
             #region unit test
             {
-                log.LogStandard("Not Specified", "Sub");
+                log.LogStandard("Not Specified", "Subscriber faked");
                 isActive = true;
                 keepSubscribed = true;
 
