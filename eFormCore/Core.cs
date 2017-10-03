@@ -289,7 +289,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                FatalExpection(t.GetMethodName() + "failed. Core failed to close", ex);
+                FatalExpection(t.GetMethodName() + " failed. Core failed to close", ex);
             }
             return true;
         }

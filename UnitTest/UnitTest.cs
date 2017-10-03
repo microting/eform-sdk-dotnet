@@ -371,108 +371,108 @@ namespace UnitTest
         #endregion
 
         #region - test 002x core (Exception handling)
-        [Fact]
-        public void Test002_Core_1a_ExceptionHandling()
-        {
-            //Arrange
-            TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n";
-            string checkValueB = "";
-            MainElement main;
-            string xmlStr;
+        //[Fact]
+        //public void Test002_Core_1a_ExceptionHandling()
+        //{
+        //    //Arrange
+        //    TestPrepare(t.GetMethodName(), true);
+        //    string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n";
+        //    string checkValueB = "";
+        //    MainElement main;
+        //    string xmlStr;
       
-            //Act
-            try
-            {
-                xmlStr = LoadFil("xml.txt");
-                main = core.TemplateFromXml(xmlStr);
-                main.Label = "throw new Exception";
-                core.TemplateCreate(main);
+        //    //Act
+        //    try
+        //    {
+        //        xmlStr = LoadFil("xml.txt");
+        //        main = core.TemplateFromXml(xmlStr);
+        //        main.Label = "throw new Exception";
+        //        core.TemplateCreate(main);
 
-                for (int i = 0; i < 4; i++)
-                {
-                    core.CaseCreate(main, "throw new Exception", siteId1);
+        //        for (int i = 0; i < 4; i++)
+        //        {
+        //            core.CaseCreate(main, "throw new Exception", siteId1);
 
-                    if (core.Running())
-                    {
-                        checkValueB += PrintLogLine();
+        //            if (core.Running())
+        //            {
+        //                checkValueB += PrintLogLine();
 
-                        sqlController.UnitTest_TruncateTable(nameof(logs));
-                        sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
-            }
+        //                sqlController.UnitTest_TruncateTable(nameof(logs));
+        //                sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+        //    }
    
-            //Assert
-            TestTeardown();
-            if (useLiveData)
-                Assert.Equal("Faked due to live data", "Faked due to live data");
-            else
-                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
-        }
+        //    //Assert
+        //    TestTeardown();
+        //    if (useLiveData)
+        //        Assert.Equal("Faked due to live data", "Faked due to live data");
+        //    else
+        //        Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+        //}
 
-        [Fact]
-        public void Test002_Core_2a_DoubleExceptionHandling()
-        {
-            //Arrange
-            TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n01:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n01:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n01:000100/000100/00010/0\r\n";
-            string checkValueB = "";
-            MainElement main1;
-            MainElement main2;
-            string xmlStr;
+        //[Fact]
+        //public void Test002_Core_2a_DoubleExceptionHandling()
+        //{
+        //    //Arrange
+        //    TestPrepare(t.GetMethodName(), true);
+        //    string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n01:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n01:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n01:000100/000100/00010/0\r\n";
+        //    string checkValueB = "";
+        //    MainElement main1;
+        //    MainElement main2;
+        //    string xmlStr;
             
-            //Act
-            try
-            {
-                xmlStr = LoadFil("xml.txt");
+        //    //Act
+        //    try
+        //    {
+        //        xmlStr = LoadFil("xml.txt");
 
-                main1 = core.TemplateFromXml(xmlStr);
-                main1.Label = "throw new Exception";
-                core.TemplateCreate(main1);
+        //        main1 = core.TemplateFromXml(xmlStr);
+        //        main1.Label = "throw new Exception";
+        //        core.TemplateCreate(main1);
 
-                main2 = core.TemplateFromXml(xmlStr);
-                main2.Label = "throw other Exception";
-                core.TemplateCreate(main2);
+        //        main2 = core.TemplateFromXml(xmlStr);
+        //        main2.Label = "throw other Exception";
+        //        core.TemplateCreate(main2);
 
-                core.CaseCreate(main1, null, siteId1);
+        //        core.CaseCreate(main1, null, siteId1);
 
-                checkValueB += PrintLogLine();
+        //        checkValueB += PrintLogLine();
 
-                sqlController.UnitTest_TruncateTable(nameof(logs));
-                sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+        //        sqlController.UnitTest_TruncateTable(nameof(logs));
+        //        sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
 
-                for (int i = 0; i < 3; i++)
-                {
-                    core.CaseCreate(main1, null, siteId1);
+        //        for (int i = 0; i < 3; i++)
+        //        {
+        //            core.CaseCreate(main1, null, siteId1);
 
-                    checkValueB += PrintLogLine();
-                    sqlController.UnitTest_TruncateTable(nameof(logs));
-                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+        //            checkValueB += PrintLogLine();
+        //            sqlController.UnitTest_TruncateTable(nameof(logs));
+        //            sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
                  
-                    core.CaseCreate(main2, null, siteId1);
+        //            core.CaseCreate(main2, null, siteId1);
                     
-                    checkValueB += PrintLogLine();
-                    sqlController.UnitTest_TruncateTable(nameof(logs));
-                    sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
-                }
-            }
-            catch (Exception ex)
-            {
-                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
-            }
+        //            checkValueB += PrintLogLine();
+        //            sqlController.UnitTest_TruncateTable(nameof(logs));
+        //            sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+        //    }
     
-            //Assert
-            TestTeardown();
-            if (useLiveData)
-                Assert.Equal("Faked due to live data", "Faked due to live data");
-            else
-                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
-        }
+        //    //Assert
+        //    TestTeardown();
+        //    if (useLiveData)
+        //        Assert.Equal("Faked due to live data", "Faked due to live data");
+        //    else
+        //        Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+        //}
 
         //[Fact]
         //public void Test002_Core_3a_FatalExceptionHandling()
@@ -484,7 +484,7 @@ namespace UnitTest
         //    MainElement main1;
         //    MainElement main2;
         //    string xmlStr;
-     
+
         //    //Act
         //    try
         //    {
@@ -532,7 +532,7 @@ namespace UnitTest
         //    {
         //        checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
         //    }
-      
+
         //    //Assert
         //    TestTeardown();
         //    if (useLiveData)
