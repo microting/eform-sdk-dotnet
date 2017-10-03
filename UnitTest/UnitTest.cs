@@ -195,7 +195,7 @@ namespace UnitTest
         #endregion
 
         #region - test 001x core
-        [Fact]
+        //[Fact]
         public void Test001_Core_1a_Start_WithNullExpection()
         {
             lock (_lockTest)
@@ -221,7 +221,7 @@ namespace UnitTest
             }
         }
 
-        [Fact]
+        //[Fact]
         public void Test001_Core_1b_Start_WithBlankExpection()
         {
             lock (_lockTest)
