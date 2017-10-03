@@ -35,9 +35,11 @@ namespace eFormCore
 
         public void Close()
         {
-            Thread closeCore
-                = new Thread(() => core.Close());
-                closeCore.Start();
+            //Thread closeCore
+            //    = new Thread(() => core.Close());
+            //    closeCore.Start();
+
+            core.Close();
         }
     }
 }
