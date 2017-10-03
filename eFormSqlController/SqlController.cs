@@ -3699,7 +3699,8 @@ namespace eFormSqlController
             {
                 string logLevel = SettingRead(Settings.logLevel);
                 int logLevelInt = int.Parse(logLevel);
-                log = new Log(core, this, logLevelInt);
+                if (log == null)
+                    log = new Log(core, this, logLevelInt);
                 return log;
             }
             catch (Exception ex)
@@ -5044,6 +5045,28 @@ namespace eFormSqlController
                     }
 
                     return lstMUId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+            }
+        }
+
+        public int                  UnitTest_FindLog(int checkCount, string checkValue)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    List<logs> lst = db.logs.OrderByDescending(x => x.id).Take(checkCount).ToList();
+                    int count = 0;
+
+                    foreach (logs item in lst)
+                        if (item.message.Contains(checkValue))
+                            count++;
+
+                    return count;
                 }
             }
             catch (Exception ex)

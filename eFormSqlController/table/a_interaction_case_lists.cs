@@ -34,6 +34,5 @@ namespace eFormSqlController
         public int? case_id { get; set; }
 
         public virtual a_interaction_cases a_interaction_case { get; set; }
-
     }
 }

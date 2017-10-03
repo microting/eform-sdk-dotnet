@@ -23,17 +23,10 @@ namespace eFormShared
         // con
         public          Log(CoreBase core, LogWriter logWriter, int logLevel)
         {
-            try
-            {
-                this.core = core;
-                this.logWriter = logWriter;
-                this.logLevel = logLevel;
-                logQue = new Queue();
-            }
-            catch (Exception ex)
-            {
-                core.FatalExpection(t.GetMethodName() + "failed", ex);
-            }
+            this.core = core;
+            this.logWriter = logWriter;
+            this.logLevel = logLevel;
+            logQue = new Queue();
         }
 
         #region public
@@ -42,6 +35,7 @@ namespace eFormShared
             LogLogic(new LogEntry(4, type, message));
         }
 
+        #region public void     LogVariable (string type, ... variableName, string variableContent)
         public void     LogVariable (string type, string variableName, string variableContent)
         {
             if (variableContent == null)
@@ -64,6 +58,7 @@ namespace eFormShared
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
+        #endregion
 
         public void     LogStandard (string type, string message)
         {
@@ -85,24 +80,26 @@ namespace eFormShared
             try
             {
                 string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
+                if (fullExceptionDescription.Contains("Message    :Core is not running"))
+                    return;
 
                 LogLogic(new LogEntry(-1, type, fullExceptionDescription));
-                LogVariable(type, "restartCore", restartCore);
+                LogVariable(type, nameof(restartCore), restartCore);
 
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
 
-                int secondsDelay = CheckExceptionLst(exCls);
+                int sameExceptionCount = CheckExceptionLst(exCls);
+                int sameExceptionCountMax = 0;
+
+                foreach (var item in exceptionLst)
+                    if (sameExceptionCountMax < item.Occurrence)
+                        sameExceptionCountMax = item.Occurrence;
+   
                 if (restartCore)
-                {
-                    Thread coreRestartThread = new Thread(() => core.Restart(secondsDelay));
-                    coreRestartThread.Start();
-                }
+                    core.Restart(sameExceptionCount, sameExceptionCountMax);
             }
-            catch (Exception ex)
-            {
-                core.FatalExpection(t.GetMethodName() + "failed", ex);
-            }
+            catch { }
         }
 
         public void     LogFatalException(string exceptionDescription, Exception exception)
@@ -119,59 +116,56 @@ namespace eFormShared
         #region private
         private int     CheckExceptionLst(ExceptionClass exceptionClass)
         {
-            int secondsDelay = 1;
-
             int count = 0;
             #region find count
             try
             {
                 //remove Exceptions older than an hour
                 for (int i = exceptionLst.Count; i < 0; i--)
-                {
                     if (exceptionLst[i].Time < DateTime.Now.AddHours(-1))
                         exceptionLst.RemoveAt(i);
-                }
-
-                //keep only the last 10 Exceptions
-                if (exceptionLst.Count > 10)
-                {
+            
+                //keep only the last 12 Exceptions
+                while (exceptionLst.Count > 12)
                     exceptionLst.RemoveAt(0);
-                }
 
-                //find highest court of the same Exception
-                if (exceptionLst.Count > 1)
+                //find court of the same Exception
+                if (exceptionLst.Count > 0)
                 {
+                    string thisOne = t.Locate(exceptionClass.Description, "######## EXCEPTION FOUND; BEGIN ########", "######## EXCEPTION FOUND; ENDED ########");
+
                     foreach (ExceptionClass exCls in exceptionLst)
                     {
-                        if (exceptionClass.Description == exCls.Description)
-                        {
+                        string fromLst = t.Locate(exCls.Description, "######## EXCEPTION FOUND; BEGIN ########", "######## EXCEPTION FOUND; ENDED ########");
+
+                        if (thisOne == fromLst)
                             count++;
-                        }
                     }
                 }
             }
             catch { }
             #endregion
 
+            exceptionClass.Occurrence = count;
             LogStandard("Not Specified", count + ". time the same Exception, within the last hour");
-            if (count == 2) secondsDelay = 6;
-            if (count == 3) secondsDelay = 60;
-            if (count == 4) secondsDelay = 600;
-            if (count > 4) throw new Exception("The same Exception repeated to many times (5+) within one hour");
-            return secondsDelay;
+            return count;
         }
 
         private void    LogLogic(LogEntry logEntry)
         {
-            string reply = "";
-   
-            LogCache(logEntry);
-            if (logLevel >= logEntry.Level)
-                reply = logWriter.WriteLogEntry(logEntry);
+            try
+            {
+                string reply = "";
 
-            //if prime log writer failed
-            if (reply != "")
-                logWriter.WriteIfFailed(PrintCache(-2, reply));
+                LogCache(logEntry);
+                if (logLevel >= logEntry.Level)
+                    reply = logWriter.WriteLogEntry(logEntry);
+
+                //if prime log writer failed
+                if (reply != "")
+                    logWriter.WriteIfFailed(PrintCache(-2, reply));
+            }
+            catch { }
         }
 
         private string  PrintCache(int level, string initialMessage)
@@ -206,12 +200,7 @@ namespace eFormShared
 
     public class CoreBase
     {
-        public virtual void FatalExpection(string reason, Exception exception)
-        {
-            throw new Exception("CoreBase." + "FatalExpection" + " method should never actually be called. Core should override");
-        }
-
-        public virtual void Restart(int secondsDelay)
+        public virtual void Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
             throw new Exception("CoreBase." + "Restart" + " method should never actually be called. Core should override");
         }

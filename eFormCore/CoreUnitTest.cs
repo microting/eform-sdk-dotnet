@@ -19,6 +19,7 @@ namespace eFormCore
         public CoreUnitTest(Core core)
         {
             this.core = core;
+            core.UnitTest_SetUnittest();
         }
         #endregion
 
