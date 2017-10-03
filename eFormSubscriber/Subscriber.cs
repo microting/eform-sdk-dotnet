@@ -95,7 +95,7 @@ namespace eFormSubscriber
 
                 while (isActive)
                 {
-                    if (tries > 200) //50 secs
+                    if (tries > 100) //25 secs
                         subscriberThread.Abort();
 
                     Thread.Sleep(250);
@@ -121,6 +121,7 @@ namespace eFormSubscriber
         private void SubriberThread()
         {
             if (sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
+            #region amazon
             {
                 #region setup
                 isActive = true;
@@ -178,8 +179,9 @@ namespace eFormSubscriber
                 keepSubscribed = false;
                 isActive = false;
             }
-            #region unit test
+            #endregion
             else
+            #region unit test
             {
                 isActive = true;
                 keepSubscribed = true;
