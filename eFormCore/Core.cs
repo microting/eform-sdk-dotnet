@@ -940,6 +940,14 @@ namespace eFormCore
                     string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
                     Response resp = new Response();
 
+                    //if (xmlResponse.Contains("Error occured: Contact Microting"))
+                    //{
+                    //    log.LogEverything("Not Specified", "XML response:");
+                    //    log.LogEverything("Not Specified", xmlResponse);
+                    //    log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
+                    //    return true;
+                    //}
+
                     if (xmlResponse.Contains("Error"))
                     {
                         try
