@@ -23,9 +23,9 @@ namespace eFormCore
         }
         #endregion
 
-        public void CaseComplet(string microtingUId, string checkUId)
+        public void CaseComplet(string microtingUId, string checkUId, int workerUId, int unitUId)
         {
-            core.UnitTest_CaseComplet(microtingUId, checkUId);
+            core.UnitTest_CaseComplet(microtingUId, checkUId, workerUId, unitUId);
         }
 
         public void CaseDelete(string microtingUId)
@@ -38,8 +38,6 @@ namespace eFormCore
             Thread closeCore
                 = new Thread(() => core.Close());
             closeCore.Start();
-
-            //core.Close();
         }
     }
 }
