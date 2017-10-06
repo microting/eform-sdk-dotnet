@@ -158,10 +158,10 @@ namespace eFormShared
             try
             {
                 if (!textStr.Contains(startStr))
-                    return null;
+                    return new List<string>();
 
                 if (!textStr.Contains(endStr))
-                    return null;
+                    return new List<string>();
 
                 List<string> lst = new List<string>();
 
@@ -180,9 +180,7 @@ namespace eFormShared
                         textStr = textStr.Remove(0, marker);
                     }
                     else
-                    {
                         flag = false;
-                    }
                 }
                 return lst;
             }
@@ -192,62 +190,106 @@ namespace eFormShared
             }
         }
 
-        public string           LocateReplace(string textStr, string startStr, string endStr, string newStr)
+        public string           ReplaceInsensitive(string textStr, string oldStr, string newStr)
         {
             try
             {
-                if (!textStr.Contains(startStr))
-                    return "";
+                string textStrLower = textStr.ToLower();
+                string oldStrLower = oldStr.ToLower();
 
-                if (!textStr.Contains(endStr))
-                    return "";
+                if (!textStrLower.Contains(oldStrLower))
+                    return textStr;
 
-                int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-                int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                int startIndex;
+                int marker = 0;
+                int newMarker = 0;
+                bool flag = true;
+
+                while (flag)
+                {
+                    string temp = textStrLower.Remove(0, marker);
+                    if (!temp.Contains(oldStrLower))
+                        break;
+
+                    startIndex = textStrLower.IndexOf(oldStrLower, marker);
+                    textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + oldStrLower.Length);
+
+                    newMarker = startIndex + newStr.Length;
+
+                    if (newMarker == marker)
+                        flag = false;
+                    else
+                        marker = newMarker;
+                }
                 return textStr;
             }
             catch
             {
-                return "";
+                return null;
             }
         }
 
-        public string           LocateReplaceAll(string textStr, string startStr, string endStr, string newStr)
+        public string           ReplaceAtLocation(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
         {
             try
             {
-                if (!textStr.Contains(startStr))
-                    return null;
-
-                if (!textStr.Contains(endStr))
-                    return null;
-
-                string returnStr = "";
-
-                int marker = 0;
-                bool flag = true;
-                string temp;
-
-                while (flag)
+                if (caseSensitive)
                 {
-                    temp = LocateReplace(textStr, startStr, endStr, newStr);
+                    if (!textStr.Contains(startStr))
+                        return textStr;
 
-                    if (temp != textStr && temp != "")
-                    {
-                        marker = temp.IndexOf(startStr);
-                        marker = temp.IndexOf(endStr, marker) + endStr.Length;
+                    if (!textStr.Contains(endStr))
+                        return textStr;
 
-                        returnStr += temp.Substring(0, marker);
-
-                        textStr = temp.Remove(0, marker);
-                    }
-                    else
-                    {
-                        returnStr += textStr;
-                        flag = false;
-                    }
+                    int startIndex = textStr.IndexOf(startStr) + startStr.Length;
+                    int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
+                    textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                    return textStr;
                 }
+                else
+                {
+                    string textStrLower = textStr.ToLower();
+                    string startStrLower = startStr.ToLower();
+                    string endStrLower = endStr.ToLower();
+
+                    if (!textStrLower.Contains(startStrLower))
+                        return textStr;
+
+                    if (!textStrLower.Contains(endStrLower))
+                        return textStr;
+
+                    int startIndex = textStrLower.IndexOf(startStrLower) + startStrLower.Length;
+                    int lenght = textStrLower.IndexOf(endStrLower, startIndex) - startIndex;
+                    textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                    return textStr;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string           ReplaceAtLocationAll(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
+        {
+            try
+            {
+                string returnStr = "";
+                string txtToBeProcessed = textStr;
+                string startStrLow = startStr.ToLower();
+                string endStrLow = endStr.ToLower();
+                int marker = 0;
+
+                while (txtToBeProcessed.ToLower().Contains(startStrLow) && txtToBeProcessed.ToLower().Contains(endStrLow))
+                {
+                    marker = txtToBeProcessed.ToLower().IndexOf(endStrLow) + endStrLow.Length;
+                    string txtBit = txtToBeProcessed.Substring(0, marker);
+
+                    returnStr += ReplaceAtLocation(txtBit, startStr, endStr, newStr, caseSensitive);
+                    txtToBeProcessed = txtToBeProcessed.Remove(0, marker);
+                }
+
+                returnStr += txtToBeProcessed;
                 return returnStr;
             }
             catch

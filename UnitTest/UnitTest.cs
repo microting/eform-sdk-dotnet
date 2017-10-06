@@ -131,8 +131,6 @@ namespace UnitTest
             sqlController.UnitTest_TruncateTable(nameof(logs));
             sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
 
-            communicator = new Communicator(sqlController);
-
             token = sqlController.SettingRead(Settings.token);
             comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
             comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
@@ -145,7 +143,11 @@ namespace UnitTest
             core.HandleEventException += EventException;
 
             if (startSDK)
+            {
                 core.Start(serverConnectionString);
+
+                communicator = new Communicator(sqlController, core.log);
+            }
         }
 
         private void TestTeardown()
@@ -380,13 +382,14 @@ namespace UnitTest
             string checkValueB = "";
             MainElement main;
             string xmlStr;
-      
+
             //Act
             try
             {
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
                 main.Label = "throw new Exception";
+                core.TemplateCreate(main);
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -405,10 +408,13 @@ namespace UnitTest
             {
                 checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
             }
-   
+
             //Assert
             TestTeardown();
-            Assert.Equal(checkValueA.Replace("\r" ,"").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+            if (useLiveData)
+                Assert.Equal("Faked due to live data", "Faked due to live data");
+            else
+                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
         }
 
         [Fact]
@@ -421,7 +427,7 @@ namespace UnitTest
             MainElement main1;
             MainElement main2;
             string xmlStr;
-            
+
             //Act
             try
             {
@@ -429,9 +435,11 @@ namespace UnitTest
 
                 main1 = core.TemplateFromXml(xmlStr);
                 main1.Label = "throw new Exception";
+                core.TemplateCreate(main1);
 
                 main2 = core.TemplateFromXml(xmlStr);
                 main2.Label = "throw other Exception";
+                core.TemplateCreate(main2);
 
                 core.CaseCreate(main1, null, siteId1);
 
@@ -447,9 +455,9 @@ namespace UnitTest
                     checkValueB += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
-                 
+
                     core.CaseCreate(main2, null, siteId1);
-                    
+
                     checkValueB += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
@@ -459,10 +467,13 @@ namespace UnitTest
             {
                 checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
             }
-    
+
             //Assert
             TestTeardown();
-            Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+            if (useLiveData)
+                Assert.Equal("Faked due to live data", "Faked due to live data");
+            else
+                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
         }
 
         [Fact]
@@ -475,7 +486,7 @@ namespace UnitTest
             MainElement main1;
             MainElement main2;
             string xmlStr;
-     
+
             //Act
             try
             {
@@ -483,9 +494,11 @@ namespace UnitTest
 
                 main1 = core.TemplateFromXml(xmlStr);
                 main1.Label = "throw new Exception";
+                core.TemplateCreate(main1);
 
                 main2 = core.TemplateFromXml(xmlStr);
                 main2.Label = "throw other Exception";
+                core.TemplateCreate(main2);
 
                 #region core.CaseCreate(main1, null, siteId1);
                 for (int i = 0; i < 2; i++)
@@ -521,10 +534,13 @@ namespace UnitTest
             {
                 checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
             }
-      
+
             //Assert
             TestTeardown();
-            Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+            if (useLiveData)
+                Assert.Equal("Faked due to live data", "Faked due to live data");
+            else
+                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
         }
         #endregion
 
@@ -561,12 +577,12 @@ namespace UnitTest
                 string checkValueB;
 
                 //Act
-                checkValueA = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Main xmlns:>  <Id>1</Id>  <Label>A container check list</Label>  <DisplayOrder>1</DisplayOrder>  <CheckListFolderName>Main element</CheckListFolderName>  <Repeated>1</Repeated>  <StartDate>2016-10-11 00:00:00</StartDate>  <EndDate>2017-10-11 00:00:00</EndDate>  <Language>en</Language>  <MultiApproval>true</MultiApproval>  <FastNavigation>false</FastNavigation>  <DownloadEntities>false</DownloadEntities>  <ManualSync>true</ManualSync>  <ElementList>    <Element xsi:type=\"DataElement\">      <Id>1</Id>      <Label>Basic list</Label>      <DisplayOrder>1</DisplayOrder>      <Description><![CDATA[Data element]]></Description>      <ApprovalEnabled>true</ApprovalEnabled>      <ReviewEnabled>true</ReviewEnabled>      <DoneButtonEnabled>true</DoneButtonEnabled>      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>      <PinkBarText />      <DataItemGroupList />      <DataItemList>        <DataItem xsi:type=\"Number\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Number field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>1</DisplayOrder>          <MinValue>0</MinValue>          <MaxValue>1000</MaxValue>          <DefaultValue>0</DefaultValue>          <DecimalCount>0</DecimalCount>          <UnitName />        </DataItem>        <DataItem xsi:type=\"Text\">          <Id>2</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Text field</Label>          <Description><![CDATA[this is a description bla]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>8</DisplayOrder>          <Value>true</Value>          <MaxLength>100</MaxLength>          <GeolocationEnabled>false</GeolocationEnabled>          <GeolocationForced>false</GeolocationForced>          <GeolocationHidden>true</GeolocationHidden>          <BarcodeEnabled>false</BarcodeEnabled>          <BarcodeType />        </DataItem>        <DataItem xsi:type=\"Comment\">          <Id>3</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Comment field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>3</DisplayOrder>          <Value>value</Value>          <Maxlength>10000</Maxlength>          <SplitScreen>false</SplitScreen>        </DataItem>        <DataItem xsi:type=\"Picture\">          <Id>4</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Picture field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>4</DisplayOrder>          <Multi>1</Multi>          <GeolocationEnabled>true</GeolocationEnabled>        </DataItem>        <DataItem xsi:type=\"CheckBox\">          <Id>5</Id>          <Mandatory>false</Mandatory>          <ReadOnly>true</ReadOnly>          <Label>Check box</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>15</DisplayOrder>          <DefaultValue>true</DefaultValue>          <Selected>true</Selected>        </DataItem>        <DataItem xsi:type=\"Date\">          <Id>6</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Date field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>16</DisplayOrder>          <DefaultValue>11-10-2016 15:20:51</DefaultValue>          <MaxValue>2016-10-11</MaxValue>          <MinValue>2016-10-11</MinValue>        </DataItem>        <DataItem xsi:type=\"None\">          <Id>7</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>None field, only shows text</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>7</DisplayOrder>        </DataItem>      </DataItemList>    </Element>  </ElementList>  <PushMessageTitle />  <PushMessageBody /></Main>";
+                checkValueA = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Main xmlns:>  <Id>1</Id>  <Label>A container check list</Label>  <DisplayOrder>1</DisplayOrder>  <CheckListFolderName>Main element</CheckListFolderName>  <Repeated>1</Repeated>  <StartDate>2016-10-11 00:00:00</StartDate>  <EndDate>2017-10-11 00:00:00</EndDate>  <Language>en</Language>  <MultiApproval>true</MultiApproval>  <FastNavigation>false</FastNavigation>  <DownloadEntities>false</DownloadEntities>  <ManualSync>true</ManualSync>  <ElementList>    <Element xsi:type=\"DataElement\">      <Id>1</Id>      <Label>Basic list</Label>      <DisplayOrder>1</DisplayOrder>      <Description><![CDATA[Data element]]></Description>      <ApprovalEnabled>true</ApprovalEnabled>      <ReviewEnabled>true</ReviewEnabled>      <DoneButtonEnabled>true</DoneButtonEnabled>      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>      <PinkBarText />      <DataItemGroupList />      <DataItemList>        <DataItem xsi:type=\"Number\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Number field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>1</DisplayOrder>          <MinValue>0</MinValue>          <MaxValue>1000</MaxValue>          <DefaultValue>0</DefaultValue>          <DecimalCount>0</DecimalCount>          <UnitName />        </DataItem>        <DataItem xsi:type=\"Text\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Text field</Label>          <Description><![CDATA[this is a description bla]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>8</DisplayOrder>          <Value>true</Value>          <MaxLength>100</MaxLength>          <GeolocationEnabled>false</GeolocationEnabled>          <GeolocationForced>false</GeolocationForced>          <GeolocationHidden>true</GeolocationHidden>          <BarcodeEnabled>false</BarcodeEnabled>          <BarcodeType />        </DataItem>        <DataItem xsi:type=\"Comment\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Comment field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>3</DisplayOrder>          <Value>value</Value>          <Maxlength>10000</Maxlength>          <SplitScreen>false</SplitScreen>        </DataItem>        <DataItem xsi:type=\"Picture\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Picture field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>4</DisplayOrder>          <Multi>1</Multi>          <GeolocationEnabled>true</GeolocationEnabled>        </DataItem>        <DataItem xsi:type=\"CheckBox\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>true</ReadOnly>          <Label>Check box</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>15</DisplayOrder>          <DefaultValue>true</DefaultValue>          <Selected>true</Selected>        </DataItem>        <DataItem xsi:type=\"Date\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>Date field</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>16</DisplayOrder>          <DefaultValue>11-10-2016 15:20:51</DefaultValue>          <MaxValue>2016-10-11</MaxValue>          <MinValue>2016-10-11</MinValue>        </DataItem>        <DataItem xsi:type=\"None\">          <Id>1</Id>          <Mandatory>false</Mandatory>          <ReadOnly>false</ReadOnly>          <Label>None field, only shows text</Label>          <Description><![CDATA[this is a description]]></Description>          <Color>e2f4fb</Color>          <DisplayOrder>7</DisplayOrder>        </DataItem>      </DataItemList>    </Element>  </ElementList>  <PushMessageTitle />  <PushMessageBody /></Main>";
 
                 checkValueB = LoadFil("xml.txt");
                 MainElement main = core.TemplateFromXml(checkValueB);
                 checkValueB = main.ClassToXml();
-                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
+                checkValueB = t.ReplaceAtLocation(checkValueB, "<Main xmlns:", ">", "", true);
                 checkValueB = checkValueB.Replace("\n", String.Empty).Replace("\r", String.Empty).Replace("\t", String.Empty);
 
                 //Assert
@@ -644,12 +660,11 @@ namespace UnitTest
                 bool checkValueB;
                 string xmlStr;
                 MainElement main = new MainElement();
-                Communicator com = new Communicator(sqlController);
 
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
-                string responseStr = com.PostXml(xmlStr, siteId1);
+                string responseStr = communicator.PostXml(xmlStr, siteId1);
                 checkValueB = responseStr.Contains("<Response><Value type=\"success\">");
 
                 if (checkValueB)
@@ -675,17 +690,16 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-                Communicator com = new Communicator(sqlController);
-
+        
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
-                string responseStr = com.PostXml(xmlStr, siteId1);
+                string responseStr = communicator.PostXml(xmlStr, siteId1);
 
                 if (responseStr.Contains("<Response><Value type=\"success\">"))
                 {
                     string mUId = t.Locate(responseStr, "<Value type=\"success\">", "</");
-                    responseStr = com.CheckStatus(mUId, siteId1);
+                    responseStr = communicator.CheckStatus(mUId, siteId1);
 
                     if (responseStr.Contains("<Response><Value type=\"success\">") || 
                         responseStr.Contains("<Response><Value type=\"received\">"))
@@ -709,12 +723,11 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-                Communicator com = new Communicator(sqlController);
-
+          
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
-                string responseStr = com.PostXml(xmlStr, siteId1);
+                string responseStr = communicator.PostXml(xmlStr, siteId1);
 
                 if (responseStr.Contains("<Response><Value type=\"success\">"))
                 {
@@ -739,18 +752,17 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-                Communicator com = new Communicator(sqlController);
-
+   
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
-                string responseStr = com.PostXml(xmlStr, siteId1);
+                string responseStr = communicator.PostXml(xmlStr, siteId1);
                 string mUId = "";
 
                 if (responseStr.Contains("<Response><Value type=\"success\">"))
                 {
                     mUId = t.Locate(responseStr, "<Value type=\"success\">", "</");
-                    responseStr = com.RetrieveFromId(mUId, siteId1, "");
+                    responseStr = communicator.RetrieveFromId(mUId, siteId1, "");
 
                     if (responseStr.Contains("<Response><Value type="))
                     {
@@ -776,12 +788,11 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-                Communicator com = new Communicator(sqlController);
-
+      
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
-                string responseStr = com.PostXml(xmlStr, siteId1);
+                string responseStr = communicator.PostXml(xmlStr, siteId1);
 
                 if (responseStr.Contains("<Response><Value type=\"success\">"))
                 {
@@ -859,8 +870,8 @@ namespace UnitTest
                 //Act
                 string xml = main.ClassToXml();
                 checkValueB = ClearXml(xml);
-                checkValueA = t.LocateReplace(checkValueA, "<Main xmlns:", ">", "");
-                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
+                checkValueA = t.ReplaceAtLocation(checkValueA, "<Main xmlns:", ">", "", true);
+                checkValueB = t.ReplaceAtLocation(checkValueB, "<Main xmlns:", ">", "", true);
 
                 //Assert
                 TestTeardown();
@@ -881,8 +892,8 @@ namespace UnitTest
                 //Act
                 main = main.XmlToClass(checkValueB);
                 checkValueB = ClearXml(main.ClassToXml());
-                checkValueA = t.LocateReplace(checkValueA, "<Main xmlns:", ">", "");
-                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
+                checkValueA = t.ReplaceAtLocation(checkValueA, "<Main xmlns:", ">", "", true);
+                checkValueB = t.ReplaceAtLocation(checkValueB, "<Main xmlns:", ">", "", true);
 
                 //Assert
                 TestTeardown();
@@ -985,8 +996,8 @@ namespace UnitTest
                 templatId = sqlController.TemplateCreate(main);
                 main = sqlController.TemplateRead(templatId);
                 checkValueB = ClearXml(main.ClassToXml());
-                checkValueA = t.LocateReplace(checkValueA, "<Main xmlns:", ">", "");
-                checkValueB = t.LocateReplace(checkValueB, "<Main xmlns:", ">", "");
+                checkValueA = t.ReplaceAtLocation(checkValueA, "<Main xmlns:", ">", "", true);
+                checkValueB = t.ReplaceAtLocation(checkValueB, "<Main xmlns:", ">", "", true);
 
                 //Assert
                 TestTeardown();
@@ -1148,7 +1159,8 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "TrueFalse";
                 string checkValueB = "";
-                Subscriber subS = new Subscriber(sqlController, null);
+                Subscriber subS = new Subscriber(sqlController, core.log);
+                core.Close();
 
                 //Act
                 subS.Start();
@@ -1653,7 +1665,7 @@ namespace UnitTest
 
                 //Act
                 mUId = CaseCreate();
-                CaseComplet(mUId, null);
+                CaseComplet(mUId, "1", false);
 
                 Case_Dto caseDto = core.CaseLookupMUId(mUId);
                 checkValueB = caseDto.Stat;
@@ -1677,7 +1689,7 @@ namespace UnitTest
 
                 //Act
                 mUId = CaseCreateReversed();
-                CaseComplet(mUId, "");
+                CaseComplet(mUId, "1", true);
 
                 Case_Dto caseDto = core.CaseLookupMUId(mUId);
                 checkValueB = caseDto.Stat;
@@ -1695,8 +1707,8 @@ namespace UnitTest
             {
                 //Arrange
                 TestPrepare(t.GetMethodName(), true);
-                int checkValueA = 0;
-                int checkValueB;
+                string checkValueA = "Completed4";
+                string checkValueB = "Completed";
                 Case_Dto caseDto;
                 string mUId1; string mUId2; string mUId3; string mUId4;
                 int count = 0;
@@ -1705,29 +1717,29 @@ namespace UnitTest
                 mUId1 = CaseCreate();
                 mUId2 = CaseCreate();
                 mUId3 = CaseCreate();
-                CaseComplet(mUId3, null);
+                CaseComplet(mUId3, "1003", false);
                 mUId4 = CaseCreate();
-                CaseComplet(mUId4, null);
-                CaseComplet(mUId2, null);
-                CaseComplet(mUId1, null);
+                CaseComplet(mUId4, "1004", false); 
+                CaseComplet(mUId2, "1002", false);
+                CaseComplet(mUId1, "1001", false);
 
                 caseDto = core.CaseLookupMUId(mUId1);
-                if (caseDto.Stat != "Completed")
+                if (caseDto.Stat == "Completed")
                     count++;
 
                 caseDto = core.CaseLookupMUId(mUId2);
-                if (caseDto.Stat != "Completed")
+                if (caseDto.Stat == "Completed")
                     count++;
 
                 caseDto = core.CaseLookupMUId(mUId3);
-                if (caseDto.Stat != "Completed")
+                if (caseDto.Stat == "Completed")
                     count++;
 
                 caseDto = core.CaseLookupMUId(mUId4);
-                if (caseDto.Stat != "Completed")
+                if (caseDto.Stat == "Completed")
                     count++;
 
-                checkValueB = count;
+                checkValueB += count;
 
                 //Assert
                 TestTeardown();
@@ -1735,51 +1747,45 @@ namespace UnitTest
             }
         }
 
-        //[Fact]
-        //public void T085_CaseReversedMany_Completed()
-        //{
-        //    if (testContextTravis)
-        //        {Assert.Equal(true, true); return;}
-        //
-        //    lock (_testLock)
-        //    {
-        //        //Arrange
-        //        PrepareForTest();
-        //        int checkValueA = 0;
-        //        int checkValueB;
-        //        Case_Dto caseDto;
-        //        string mUId1;
-        //        string mUId2;
-        //        int count = 0;
+        [Fact]
+        public void Test011_Case_4a_ReversedMany_Completed()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName(), true);
+                string checkValueA = "Completed7";
+                string checkValueB = "Completed";
+                string mUId1;
+                string mUId2;
+                int count = 0;
 
+                //Act
+                mUId1 = CaseCreateReversed();
+                mUId2 = CaseCreateReversed();
+                CaseComplet(mUId2, "201", true);
+                CaseComplet(mUId1, "101", true);
+                CaseComplet(mUId1, "102", true);
+                CaseComplet(mUId1, "103", true);
+                CaseComplet(mUId2, "202", true);
+                CaseComplet(mUId2, "203", true);
+                CaseComplet(mUId1, "104", true);
 
-        //        //...
-        //        //Act
-        //        mUId1 = CaseCreate();
-        //        mUId2 = CaseCreate();
-        //        CaseComplet(mUId2, "");
-        //        CaseComplet(mUId1, "");
-        //        CaseComplet(mUId1, "1");
-        //        CaseComplet(mUId1, "2");
-        //        CaseComplet(mUId1, "3");
-        //        CaseComplet(mUId2, "1");
+                if (core.CaseIdLookup(mUId1, "101") != null) count++;
+                if (core.CaseIdLookup(mUId1, "102") != null) count++;
+                if (core.CaseIdLookup(mUId1, "103") != null) count++;
+                if (core.CaseIdLookup(mUId1, "104") != null) count++;
+                if (core.CaseIdLookup(mUId2, "201") != null) count++;
+                if (core.CaseIdLookup(mUId2, "202") != null) count++;
+                if (core.CaseIdLookup(mUId2, "203") != null) count++;
 
-        //        caseDto = core.CaseLookupMUId(mUId1);
-        //        if (caseDto.Stat != "Completed")
-        //            count++;
+                checkValueB += count;
 
-        //        caseDto = core.CaseLookupMUId(mUId2);
-        //        if (caseDto.Stat != "Completed")
-        //            count++;
-
-        //        checkValueB = count;
-
-
-        //        //...
-        //        //Assert
-        //        Assert.Equal(checkValueA, checkValueB);
-        //    }
-        //}
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
         #endregion
 
         #region - test 012x - interaction cases
@@ -2078,71 +2084,204 @@ namespace UnitTest
             }
         }
 
+        [Fact]
+        public void Test012_Interaction_Case_5a_Multi_Completed_StressTest()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName(), true);
+                string checkValueA = "Passed, if no expection";
+                string checkValueB = "Passed, if no expection";
+
+                string xmlStr = LoadFil("xml.txt");
+                MainElement main = core.TemplateFromXml(xmlStr);
+                int templatId = core.TemplateCreate(main);
+                List<int> siteUIds = new List<int>();
+                siteUIds.Add(siteId1);
+                siteUIds.Add(siteId2);
+
+                List<string> temp = new List<string>();
+                temp.Add("pre_text1==post_text1");
+                temp.Add("pre_text2==post_text2");
+                temp.Add("Title::Test");
+                temp.Add("Info::info TEXT added to eForm");
+                temp.Add("Expire::" + DateTime.Now.AddDays(10).ToString());
+
+                //Act
+                int iCaseId1 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+                int iCaseId2 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+                int iCaseId3 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", true, temp);
+                int iCaseId4 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+                int iCaseId5 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+
+                WaitForAvailableMicroting(iCaseId1);
+                WaitForAvailableMicroting(iCaseId2);
+                WaitForAvailableMicroting(iCaseId3);
+                WaitForAvailableMicroting(iCaseId4);
+                WaitForAvailableMicroting(iCaseId5);
+
+                //InteractionCaseComplet(iCaseId2); on purpose missing
+                InteractionCaseComplet(iCaseId4);
+                InteractionCaseComplet(iCaseId3);
+                InteractionCaseComplet(iCaseId5);
+                InteractionCaseComplet(iCaseId1);
+
+                var lstCompleted = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId1);
+                lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId3));
+                lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId4));
+                lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId5));
+
+                var lstNot = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId2);
+
+                foreach (var item in lstCompleted)
+                {
+                    if (item.stat != "Completed")
+                        throw new Exception("InteractionCase not 'Completed'");
+                }
+
+                foreach (var item in lstNot)
+                {
+                    if (item.stat != "Sent")
+                        throw new Exception("InteractionCase not 'Completed'");
+                }
+
+                //Assert
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+        #endregion
+
+        #region - test 013x - sqlController (Settings)
+        //Not active, as would fuck up the stat of settings
         //[Fact]
-        //public void T095_Interaction_Case_Multi_Completed_StressTest()
+        //public void Test013_SqlController_1a_SettingCreateDefaults()
         //{
-        //    if (testContextTravis)
-        //      {Assert.Equal(true, true); return;}
-        //
-        //    lock (_testLock)
+        //    lock (_lockTest)
         //    {
         //        //Arrange
-        //        PrepareForTest(t.GetMethodName());
-        //        string checkValueA = "Passed, if no expection";
-        //        string checkValueB = "Passed, if no expection";
+        //        TestPrepare(t.GetMethodName(), false);
+        //        bool checkValueA = true;
+        //        bool checkValueB = false;
 
-        //        string xmlStr = LoadFil("xml.txt");
-        //        MainElement main = core.TemplateFromXml(xmlStr);
-        //        int templatId = core.TemplateCreate(main);
-        //        List<int> siteUIds = new List<int>();
-        //        siteUIds.Add(siteId);
-        //        siteUIds.Add(siteId2);
-        //        siteUIds.Add(3888);
-        //        siteUIds.Add(3883);
-        //        //siteUIds.Add(3878);
-        //        //siteUIds.Add(3873);
-        //        //siteUIds.Add(3863);
-        //        //siteUIds.Add(3858);
-
-
-        //        //...
         //        //Act
-        //        int iCaseId1 = core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, "");
-        //        int iCaseId2 = core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, "");
-        //        int iCaseId3 = core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, "");
-        //        int iCaseId4 = core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, "");
+        //        checkValueB =  sqlController.SettingCreateDefaults();
 
-        //        WaitForAvailableMicroting(iCaseId1);
-        //        WaitForAvailableMicroting(iCaseId2);
-        //        WaitForAvailableMicroting(iCaseId3);
-        //        WaitForAvailableMicroting(iCaseId4);
-
-        //        InteractionCaseComplet(iCaseId2);
-        //        InteractionCaseComplet(iCaseId4);
-        //        InteractionCaseComplet(iCaseId3);
-        //        InteractionCaseComplet(iCaseId1);
-
-        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId1);
-        //        lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId2));
-        //        lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId3));
-        //        lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId4));
-
-        //        foreach (var item in lst)
-        //        {
-        //            if (item.stat != "Completed")
-        //                throw new Exception("InteractionCase not 'Completed'");
-        //        }
-
-
-        //        //...
         //        //Assert
+        //        TestTeardown();
         //        Assert.Equal(checkValueA, checkValueB);
         //    }
         //}
+
+        //Not active, as would fuck up the stat of settings
+        //[Fact]
+        //public void Test013_SqlController_2a_SettingCreate()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), false);
+        //        bool checkValueA1 = true;
+        //        bool checkValueA2 = true;
+        //        bool checkValueB1 = false;
+        //        bool checkValueB2 = false;
+
+        //        //Act
+        //        checkValueB1 = sqlController.SettingCreate(Settings.firstRunDone);
+        //        checkValueB2 = sqlController.SettingCreate(Settings.logLevel);
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA1, checkValueB1);
+        //        Assert.Equal(checkValueA2, checkValueB2);
+        //    }
+        //}
+
+        [Fact]
+        public void Test013_SqlController_3a_SettingRead()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName(), false);
+                string checkValueA1 = "true";
+                string checkValueA2 = "4";
+                string checkValueB1 = "";
+                string checkValueB2 = "";
+
+                //Act
+                sqlController.SettingCreate(Settings.firstRunDone);
+                sqlController.SettingCreate(Settings.logLevel);
+
+                checkValueB1 = sqlController.SettingRead(Settings.firstRunDone);
+                checkValueB2 = sqlController.SettingRead(Settings.logLevel);
+
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA1, checkValueB1);
+                Assert.Equal(checkValueA2, checkValueB2);
+            }
+        }
+
+        //Not active, as would fuck up the stat of settings
+        //[Fact]
+        //public void Test013_SqlController_4a_SettingUpdate()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), false);
+        //        string checkValueA = "tempValuefinalValue";
+        //        string checkValueB1 = "";
+        //        string checkValueB2 = "";
+
+        //        //Act
+        //        sqlController.SettingCreate(Settings.firstRunDone);
+        //        sqlController.SettingCreate(Settings.logLevel);
+
+        //        sqlController.SettingUpdate(Settings.firstRunDone, "tempValue");
+        //        sqlController.SettingUpdate(Settings.logLevel, "tempValue");
+
+        //        checkValueB1 = sqlController.SettingRead(Settings.firstRunDone);
+        //        checkValueB2 = sqlController.SettingRead(Settings.logLevel);
+
+        //        sqlController.SettingUpdate(Settings.firstRunDone, "finalValue");
+        //        sqlController.SettingUpdate(Settings.logLevel, "finalValue");
+
+        //        checkValueB1 += sqlController.SettingRead(Settings.firstRunDone);
+        //        checkValueB2 += sqlController.SettingRead(Settings.logLevel);
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB1);
+        //        Assert.Equal(checkValueA, checkValueB2);
+        //    }
+        //}
+
+        [Fact]
+        public void Test013_SqlController_5a_SettingCheckAll()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName(), false);
+                int checkValueA = 0;
+                int checkValueB = -1;
+
+                //Act
+                sqlController.SettingCreateDefaults();
+                var temp = sqlController.SettingCheckAll();
+                checkValueB = temp.Count();
+
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
         #endregion
 
         #region private
-        private List<string> WaitForAvailableDB()
+        private List<string>    WaitForAvailableDB()
         {
             try
             {
@@ -2167,7 +2306,7 @@ namespace UnitTest
             }
         }
 
-        private bool WaitForAvailableMicroting(string microtingUId)
+        private bool            WaitForAvailableMicroting(string microtingUId)
         {
             if (useLiveData)
             { 
@@ -2200,7 +2339,7 @@ namespace UnitTest
             return true;
         }
 
-        private bool WaitForAvailableMicroting(int interactionCaseId)
+        private bool            WaitForAvailableMicroting(int interactionCaseId)
         {
             try
             {
@@ -2251,20 +2390,20 @@ namespace UnitTest
             }
         }
 
-        private string ClearXml(string inputXmlString)
+        private string          ClearXml(string inputXmlString)
         {
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<StartDate>", "</StartDate>", "xxx");
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<EndDate>", "</EndDate>", "xxx");
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<Language>", "</Language>", "xxx");
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<Id>", "</Id>", "xxx");
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<DefaultValue>", "</DefaultValue>", "xxx");
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<MaxValue>", "</MaxValue>", "xxx");
-            inputXmlString = t.LocateReplaceAll(inputXmlString, "<MinValue>", "</MinValue>", "xxx");
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<StartDate>", "</StartDate>", "xxx", true);
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<EndDate>", "</EndDate>", "xxx", true);
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<Language>", "</Language>", "xxx", true);
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<Id>", "</Id>", "xxx", true);
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<DefaultValue>", "</DefaultValue>", "xxx", true);
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<MaxValue>", "</MaxValue>", "xxx", true);
+            inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<MinValue>", "</MinValue>", "xxx", true);
 
             return inputXmlString;
         }
 
-        private string CaseCreate()
+        private string          CaseCreate()
         {
             MainElement main = new MainElement();
             main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
@@ -2274,7 +2413,7 @@ namespace UnitTest
             return core.CaseCreate(main, "", siteId1);
         }
 
-        private string CaseCreateReversed()
+        private string          CaseCreateReversed()
         {
             List<int> siteLst = new List<int> { siteId1 };
             MainElement main = new MainElement();
@@ -2286,40 +2425,50 @@ namespace UnitTest
             return core.CaseCreate(main, "", siteLst, "")[0];
         }
 
-        private void CaseComplet(string microtingUId, string checkUId)
+        private void            CaseComplet(string microtingUId, string checkUId, bool reversed)
         {
             WaitForAvailableMicroting(microtingUId);
+            var dto = core.CaseLookupMUId(microtingUId);
 
-            sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), microtingUId, "unit_fetch");
+            if (dto.Stat == "created")
+            {
+                sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), microtingUId, "unit_fetch");
+                while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
+                    Thread.Sleep(100);
+            }
 
-            while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
-                Thread.Sleep(100);
+            if (reversed)
+                sqlController.CaseCreate(2, dto.SiteUId, microtingUId, checkUId, "ReversedCase", "", DateTime.Now);
 
             sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), microtingUId, "check_status");
-
             while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
                 Thread.Sleep(100);
 
-            if (checkUId != null)
-                sqlController.CaseCreate(2, siteId1, microtingUId, checkUId, "", "", DateTime.Now);
+            //As there is no data to these notifications, the case completion, retraction and events are triggered fake
+            core_UT.CaseComplet(microtingUId, checkUId, workerMUId, unitMUId);
 
-            core_UT.CaseComplet(microtingUId, checkUId);
+            //Clean up, in the instance of a case that has been created for real, but has been faked to be completed/retracted
+            try
+            {
+                communicator.Delete(dto.MicrotingUId, dto.SiteUId);
+            }
+            catch
+            {
 
-            if (checkUId != null)
-                communicator.Delete(microtingUId, siteId1);
+            }
         }
 
-        private void InteractionCaseComplet(int interactionCaseId)
+        private void            InteractionCaseComplet(int interactionCaseId)
         {
             var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(interactionCaseId);
 
             foreach (var item in lst)
             {
-                CaseComplet(item.microting_uid, null);
+                CaseComplet(item.microting_uid, "1", false);
             }
         }
 
-        private string LoadFil(string path)
+        private string          LoadFil(string path)
         {
             try
             {
@@ -2339,7 +2488,7 @@ namespace UnitTest
             }
         }
 
-        private string PrintLogLine()
+        private string          PrintLogLine()
         {
             string str = "";
             str += sqlController.UnitTest_FindLog(1000, "Post created 'new' Exception as per request");

@@ -12,19 +12,21 @@ namespace eFormCore
         #region var
         string connectionString;
         SqlController sqlController;
+        Log log;
         Tools t = new Tools();
         #endregion
 
         #region con
-        public          AdminTools(string serverConnectionString)
+        public              AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
             sqlController = new SqlController(serverConnectionString);
+            log = new Log(new CoreBase(), sqlController, 4);
         }
         #endregion
 
         #region public
-        public void     RunConsole()
+        public void         RunConsole()
         {
             #region warning
             Console.WriteLine("");
@@ -135,11 +137,11 @@ namespace eFormCore
             }
         }
 
-        public string   RetractEforms()
+        public string       RetractEforms()
         {
             string reply = "";
 
-            Communicator communicator = new Communicator(sqlController);
+            Communicator communicator = new Communicator(sqlController, log);
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
@@ -172,11 +174,11 @@ namespace eFormCore
             return reply.Trim();
         }
 
-        public string   RetractEntities()
+        public string       RetractEntities()
         {
             string reply = "";
 
-            Communicator communicator = new Communicator(sqlController);
+            Communicator communicator = new Communicator(sqlController, log);
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
@@ -198,7 +200,7 @@ namespace eFormCore
             return reply.Trim();
         }
 
-        public string   DbClearData()
+        public string       DbClearData()
         {
             try
             {
@@ -237,7 +239,7 @@ namespace eFormCore
             }
         }
 
-        public string   DbClearTemplat()
+        public string       DbClearTemplat()
         {
             try
             {
@@ -263,11 +265,11 @@ namespace eFormCore
             }
         }
 
-        public string   DbClear()
+        public string       DbClear()
         {
             string reply = "";
 
-            Communicator communicator = new Communicator(sqlController);
+            Communicator communicator = new Communicator(sqlController, log);
             if (communicator == null)
                 return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
 
@@ -279,7 +281,7 @@ namespace eFormCore
             return reply.TrimEnd();
         }
 
-        public string   DbSetup(string token)
+        public string       DbSetup(string token)
         {
             try
             {
@@ -298,7 +300,7 @@ namespace eFormCore
 
                 sqlController.UnitTest_TruncateTablesIfEmpty();
 
-                Communicator communicator = new Communicator(sqlController);
+                Communicator communicator = new Communicator(sqlController, log);
 
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
@@ -374,13 +376,13 @@ namespace eFormCore
             }
         }
 
-        public string   DbSettingsReloadRemote()
+        public string       DbSettingsReloadRemote()
         {
             try
             {
                 sqlController = new SqlController(connectionString);
 
-                Communicator communicator = new Communicator(sqlController);
+                Communicator communicator = new Communicator(sqlController, log);
                 string token = sqlController.SettingRead(Settings.token);
 
                 Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
@@ -412,14 +414,14 @@ namespace eFormCore
 
         }
 
-        public bool     MigrateDb()
+        public bool         MigrateDb()
         {
             return sqlController.MigrateDb();
         }
         #endregion
 
         #region private
-        private string DbSetupClear()
+        private string      DbSetupClear()
         {
             try
             {
@@ -450,7 +452,7 @@ namespace eFormCore
             }
         }
 
-        private string DbSetupUnitTest()
+        private string      DbSetupUnitTest()
         {
             try
             {

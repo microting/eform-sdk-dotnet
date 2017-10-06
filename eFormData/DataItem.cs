@@ -10,18 +10,18 @@ namespace eFormData
     [Serializable()]
     [XmlInclude(typeof(Audio))]
     [XmlInclude(typeof(CheckBox))]
-    [XmlInclude(typeof(EntitySelect))]
     [XmlInclude(typeof(Comment))]
     [XmlInclude(typeof(Date))]
+    [XmlInclude(typeof(EntitySearch))]
+    [XmlInclude(typeof(EntitySelect))]
     [XmlInclude(typeof(None))]
     [XmlInclude(typeof(Number))]
     [XmlInclude(typeof(MultiSelect))]
-    [XmlInclude(typeof(ShowPdf))]
     [XmlInclude(typeof(Picture))]
+    [XmlInclude(typeof(ShowPdf))]
     [XmlInclude(typeof(SaveButton))]
     [XmlInclude(typeof(Signature))]
     [XmlInclude(typeof(SingleSelect))]
-    [XmlInclude(typeof(EntitySearch))]
     [XmlInclude(typeof(Text))]
     [XmlInclude(typeof(Timer))]
     #endregion
@@ -293,34 +293,6 @@ namespace eFormData
     }
     #endregion
 
-    #region ShowPdf
-    public class ShowPdf : DataItem
-    {
-        internal ShowPdf()
-        {
-
-        }
-
-        public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            string value)
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Value = value;
-        }
-
-        public string Value { get; set; }
-    }
-    #endregion
-
     #region Picture
     public class Picture : DataItem
     {
@@ -350,6 +322,34 @@ namespace eFormData
         public int Multi { get; set; }
         public bool GeolocationEnabled { get; set; }
         #endregion
+    }
+    #endregion
+
+    #region ShowPdf
+    public class ShowPdf : DataItem
+    {
+        internal ShowPdf()
+        {
+
+        }
+
+        public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+            string value)
+        {
+            Id = id;
+            Mandatory = mandatory;
+            ReadOnly = readOnly;
+            Label = label;
+            Description = new CDataValue();
+            Description.InderValue = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+            Dummy = dummy;
+
+            Value = value;
+        }
+
+        public string Value { get; set; }
     }
     #endregion
 
