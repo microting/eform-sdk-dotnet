@@ -1756,7 +1756,6 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "Completed7";
                 string checkValueB = "Completed";
-                int caseId;
                 string mUId1;
                 string mUId2;
                 int count = 0;
@@ -2148,6 +2147,134 @@ namespace UnitTest
                 }
 
                 //Assert
+                Assert.Equal(checkValueA, checkValueB);
+            }
+        }
+        #endregion
+
+        #region - test 013x - sqlController (Settings)
+        //Not active, as would fuck up the stat of settings
+        //[Fact]
+        //public void Test013_SqlController_1a_SettingCreateDefaults()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), false);
+        //        bool checkValueA = true;
+        //        bool checkValueB = false;
+
+        //        //Act
+        //        checkValueB =  sqlController.SettingCreateDefaults();
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //Not active, as would fuck up the stat of settings
+        //[Fact]
+        //public void Test013_SqlController_2a_SettingCreate()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), false);
+        //        bool checkValueA1 = true;
+        //        bool checkValueA2 = true;
+        //        bool checkValueB1 = false;
+        //        bool checkValueB2 = false;
+
+        //        //Act
+        //        checkValueB1 = sqlController.SettingCreate(Settings.firstRunDone);
+        //        checkValueB2 = sqlController.SettingCreate(Settings.logLevel);
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA1, checkValueB1);
+        //        Assert.Equal(checkValueA2, checkValueB2);
+        //    }
+        //}
+
+        [Fact]
+        public void Test013_SqlController_3a_SettingRead()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName(), false);
+                string checkValueA1 = "true";
+                string checkValueA2 = "4";
+                string checkValueB1 = "";
+                string checkValueB2 = "";
+
+                //Act
+                sqlController.SettingCreate(Settings.firstRunDone);
+                sqlController.SettingCreate(Settings.logLevel);
+
+                checkValueB1 = sqlController.SettingRead(Settings.firstRunDone);
+                checkValueB2 = sqlController.SettingRead(Settings.logLevel);
+
+                //Assert
+                TestTeardown();
+                Assert.Equal(checkValueA1, checkValueB1);
+                Assert.Equal(checkValueA2, checkValueB2);
+            }
+        }
+
+        //Not active, as would fuck up the stat of settings
+        //[Fact]
+        //public void Test013_SqlController_4a_SettingUpdate()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), false);
+        //        string checkValueA = "tempValuefinalValue";
+        //        string checkValueB1 = "";
+        //        string checkValueB2 = "";
+
+        //        //Act
+        //        sqlController.SettingCreate(Settings.firstRunDone);
+        //        sqlController.SettingCreate(Settings.logLevel);
+
+        //        sqlController.SettingUpdate(Settings.firstRunDone, "tempValue");
+        //        sqlController.SettingUpdate(Settings.logLevel, "tempValue");
+
+        //        checkValueB1 = sqlController.SettingRead(Settings.firstRunDone);
+        //        checkValueB2 = sqlController.SettingRead(Settings.logLevel);
+
+        //        sqlController.SettingUpdate(Settings.firstRunDone, "finalValue");
+        //        sqlController.SettingUpdate(Settings.logLevel, "finalValue");
+
+        //        checkValueB1 += sqlController.SettingRead(Settings.firstRunDone);
+        //        checkValueB2 += sqlController.SettingRead(Settings.logLevel);
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB1);
+        //        Assert.Equal(checkValueA, checkValueB2);
+        //    }
+        //}
+
+        [Fact]
+        public void Test013_SqlController_5a_SettingCheckAll()
+        {
+            lock (_lockTest)
+            {
+                //Arrange
+                TestPrepare(t.GetMethodName(), false);
+                int checkValueA = 0;
+                int checkValueB = -1;
+
+                //Act
+                sqlController.SettingCreateDefaults();
+                var temp = sqlController.SettingCheckAll();
+                checkValueB = temp.Count();
+
+                //Assert
+                TestTeardown();
                 Assert.Equal(checkValueA, checkValueB);
             }
         }
