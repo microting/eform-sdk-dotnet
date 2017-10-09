@@ -158,7 +158,7 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 000x virtal basics
+        #region - test 000x - virtal basics
         [Fact]
         public void Test000_Basics_1a_MustAlwaysPass()
         {
@@ -196,7 +196,7 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 001x core
+        #region - test 001x - core
         [Fact]
         public void Test001_Core_1a_Start_WithNullExpection()
         {
@@ -372,13 +372,13 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 002x core (Exception handling)
+        #region - test 002x - core (Exception handling)
         [Fact]
         public void Test002_Core_1a_ExceptionHandling()
         {
             //Arrange
             TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n";
+            string checkValueA = "1:100000/100000/10000/0\r\n1:010000/010000/01000/0\r\n1:001000/001000/00100/0\r\n1:000100/000100/00010/0\r\n";
             string checkValueB = "";
             MainElement main;
             string xmlStr;
@@ -422,7 +422,7 @@ namespace UnitTest
         {
             //Arrange
             TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n01:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n01:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n01:000100/000100/00010/0\r\n";
+            string checkValueA = "1:100000/100000/10000/0\r\n1:010000/010000/01000/0\r\n1:010000/010000/01000/0\r\n1:001000/001000/00100/0\r\n1:001000/001000/00100/0\r\n1:000100/000100/00010/0\r\n1:000100/000100/00010/0\r\n";
             string checkValueB = "";
             MainElement main1;
             MainElement main2;
@@ -481,7 +481,7 @@ namespace UnitTest
         {
             //Arrange
             TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "10:100000/100000/10000/0\r\n10:010000/010000/01000/0\r\n01:010000/010000/01000/0\r\n10:001000/001000/00100/0\r\n01:001000/001000/00100/0\r\n10:000100/000100/00010/0\r\n01:000100/000100/00010/0\r\n20:000000/000020/00001/1\r\n";
+            string checkValueA = "1:100000/100000/10000/0\r\n1:010000/010000/01000/0\r\n1:010000/010000/01000/0\r\n1:001000/001000/00100/0\r\n1:001000/001000/00100/0\r\n1:000100/000100/00010/0\r\n1:000100/000100/00010/0\r\n2:000000/000020/00001/1\r\n";
             string checkValueB = "";
             MainElement main1;
             MainElement main2;
@@ -544,7 +544,7 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 003x xml
+        #region - test 003x - xml
         [Fact]
         public void Test003_Xml_1a_XmlImporter()
         {
@@ -2153,7 +2153,7 @@ namespace UnitTest
         #endregion
 
         #region - test 013x - sqlController (Settings)
-        //Not active, as would fuck up the stat of settings
+        //Not active, as would fuck up the stat of settings. Don't run unless settings stat is not improtant
         //[Fact]
         //public void Test013_SqlController_1a_SettingCreateDefaults()
         //{
@@ -2223,7 +2223,7 @@ namespace UnitTest
             }
         }
 
-        //Not active, as would fuck up the stat of settings
+        //Not active, as would fuck up the stat of settings. Don't run unless settings stat is not improtant
         //[Fact]
         //public void Test013_SqlController_4a_SettingUpdate()
         //{
@@ -2491,8 +2491,7 @@ namespace UnitTest
         private string          PrintLogLine()
         {
             string str = "";
-            str += sqlController.UnitTest_FindLog(1000, "Post created 'new' Exception as per request");
-            str += sqlController.UnitTest_FindLog(1000, "Post created 'other' Exception as per request");
+            str += sqlController.UnitTest_FindLog(1000, "Exception as per request");
             str += ":";
             str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:1");
             str += sqlController.UnitTest_FindLog(1000, "Variable Name:sameExceptionCountTried / Content:2");
