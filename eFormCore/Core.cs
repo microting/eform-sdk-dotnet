@@ -1019,13 +1019,13 @@ namespace eFormCore
                     string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
                     Response resp = new Response();
 
-                    //if (xmlResponse.Contains("Error occured: Contact Microting"))
-                    //{
-                    //    log.LogEverything("Not Specified", "XML response:");
-                    //    log.LogEverything("Not Specified", xmlResponse);
-                    //    log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
-                    //    return true;
-                    //}
+                    if (xmlResponse.Contains("Error occured: Contact Microting"))
+                    {
+                        log.LogEverything("Not Specified", "XML response:");
+                        log.LogEverything("Not Specified", xmlResponse);
+                        log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
+                        return true;
+                    }
 
                     if (xmlResponse.Contains("Error"))
                     {
@@ -3025,12 +3025,13 @@ namespace eFormCore
                                                         int i = 0;
                                                         foreach (Check check in resp.Checks)
                                                         {
-                                                            sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
                                                             int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).UnitUId;
                                                             log.LogVariable("Not Specified", nameof(unitUId), unitUId);
                                                             int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
                                                             log.LogVariable("Not Specified", nameof(workerUId), workerUId);
+
+                                                            sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
                                                             sqlController.CaseUpdateCompleted(noteUId, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
                                                             log.LogEverything("Not Specified", "sqlController.CaseUpdateCompleted(...)");
