@@ -278,6 +278,11 @@ namespace eFormCore
                                 FatalExpection("Failed to close Core correct after 60 secs", new Exception());
                         }
 
+                        updateIsRunningFiles = false;
+                        updateIsRunningNotifications = false;
+                        updateIsRunningTables = false;
+                        updateIsRunningEntities = false;
+
                         log.LogStandard("Not Specified", "Core closed");
                         subscriber = null;
                         communicator = null;
@@ -2983,7 +2988,6 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                updateIsRunningFiles = false;
                 log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
             }
         }
@@ -3178,7 +3182,6 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                updateIsRunningNotifications = false;
                 log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
             }
         }
@@ -3400,7 +3403,6 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                updateIsRunningTables = false;
                 log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
             }
         }
@@ -3522,7 +3524,6 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                updateIsRunningEntities = false;
                 log.LogException("Not Specified", "CoreHandleUpdateEntityItems failed", ex, true);
             }
         }
