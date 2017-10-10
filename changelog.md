@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.3.1 *(October 10th 2017)*
+	- Minor update, moving some dedications.
+
   - Version 1.6.3.0 *(October 9th 2017)*
 	- Extracting the jasper xml generator method, so it can be called directly. 
 	- Adding logging if the case can not be deleted because of an error on server side. 
