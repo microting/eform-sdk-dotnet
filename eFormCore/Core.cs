@@ -314,6 +314,7 @@ namespace eFormCore
             coreAvailable = false;
             coreThreadRunning = false;
             coreStatChanging = false;
+            coreRestarting = false;
 
             try
             {
