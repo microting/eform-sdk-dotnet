@@ -1287,7 +1287,7 @@ namespace eFormCore
             }
         }
 
-        public string           CaseToPdf(int caseId, string jasperTemplate)
+        public string           CaseToJasperXml(int caseId, string timeStamp)
         {
             string methodName = t.GetMethodName();
             try
@@ -1297,7 +1297,10 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(caseId), caseId.ToString());
-                    log.LogVariable("Not Specified", nameof(jasperTemplate), jasperTemplate);
+                    log.LogVariable("Not Specified", nameof(timeStamp), timeStamp);
+
+                    if (timeStamp == null)
+                        timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
 
                     //get needed data
                     Case_Dto cDto = CaseLookupCaseId(caseId);
@@ -1307,15 +1310,15 @@ namespace eFormCore
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);
                     log.LogVariable("Not Specified", nameof(clsLst), clsLst);
                     log.LogVariable("Not Specified", nameof(fldLst), fldLst);
-           
+
                     #region convert to jasperXml
-                    string jasperXml =          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                    string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + Environment.NewLine + "<root>"
                         + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
-                        + Environment.NewLine + "<worker>"      + Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
-                        + Environment.NewLine + "<date>"        + reply.DoneAt + "</date>"
-                        + Environment.NewLine + "<check_date>"  + reply.DoneAt + "</check_date>"
-                        + Environment.NewLine + "<check_lists>" 
+                        + Environment.NewLine + "<worker>" + Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
+                        + Environment.NewLine + "<date>" + reply.DoneAt + "</date>"
+                        + Environment.NewLine + "<check_date>" + reply.DoneAt + "</check_date>"
+                        + Environment.NewLine + "<check_lists>"
 
                         + clsLst
 
@@ -1331,7 +1334,42 @@ namespace eFormCore
                     #endregion
 
                     //place in settings allocated placement
-                    File.WriteAllText(sqlController.SettingRead(Settings.fileLocationJasper) + "utils/temp_tobeconverted.xml", jasperXml.Trim(), Encoding.UTF8);
+                    string path = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".xml";
+                    //string path = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss") + "_" + caseId + ".xml";
+
+                    File.WriteAllText(path, jasperXml.Trim(), Encoding.UTF8);
+
+                    
+                    //string path = Path.GetFullPath(locaR);
+                    log.LogVariable("Not Specified", nameof(path), path);
+                    return path;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return null;
+            }
+        }
+
+        public string           CaseToPdf(int caseId, string jasperTemplate, string timeStamp)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                //if (coreRunning)
+                if (true)
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(caseId), caseId.ToString());
+                    log.LogVariable("Not Specified", nameof(jasperTemplate), jasperTemplate);
+
+                    if (timeStamp == null)
+                        timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
+
+                    CaseToJasperXml(caseId, timeStamp);
 
                     #region run jar
                     // Start the child process.
@@ -1342,8 +1380,8 @@ namespace eFormCore
 
                     string locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/JasperExporter.jar";
                     string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates/" + jasperTemplate + "/compact/" + jasperTemplate + ".jrxml";
-                    string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/temp_tobeconverted.xml";
-                    string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss") + "_" + caseId + ".pdf";
+                    string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".xml";
+                    string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".pdf";
 
                     string command = 
                         "-Dfile.encoding=UTF-8 -jar " + locaJ +
