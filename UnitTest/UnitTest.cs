@@ -420,10 +420,11 @@ namespace UnitTest
             #region //Assert
             TestTeardown();
 
-            checkValueB1 = tempValue.Substring(tempValue.IndexOf(":", 0) - 1, 23);
-            checkValueB2 = tempValue.Substring(tempValue.IndexOf(":", 25) - 1, 23);
-            checkValueB3 = tempValue.Substring(tempValue.IndexOf(":", 50) - 1, 23);
-            checkValueB4 = tempValue.Substring(tempValue.IndexOf(":", 75) - 1, 23);
+            tempValue = tempValue.Replace("\r", "").Replace("\n", "");
+            checkValueB1 = tempValue.Substring(0, 23);
+            checkValueB2 = tempValue.Substring(23, 23);
+            checkValueB3 = tempValue.Substring(46, 23);
+            checkValueB4 = tempValue.Substring(69, 23);
      
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
@@ -499,13 +500,16 @@ namespace UnitTest
             }
 
             #region //Assert
-            checkValueB1 = tempValue.Substring(tempValue.IndexOf(":", 0) - 1, 23);
-            checkValueB2 = tempValue.Substring(tempValue.IndexOf(":", 25) - 1, 23);
-            checkValueB3 = tempValue.Substring(tempValue.IndexOf(":", 50) - 1, 23);
-            checkValueB4 = tempValue.Substring(tempValue.IndexOf(":", 75) - 1, 23);
-            checkValueB5 = tempValue.Substring(tempValue.IndexOf(":", 100) - 1, 23);
-            checkValueB6 = tempValue.Substring(tempValue.IndexOf(":", 125) - 1, 23);
-            checkValueB7 = tempValue.Substring(tempValue.IndexOf(":", 150) - 1, 23);
+            TestTeardown();
+
+            tempValue = tempValue.Replace("\r", "").Replace("\n", "");
+            checkValueB1 = tempValue.Substring(0, 23);
+            checkValueB2 = tempValue.Substring(23, 23);
+            checkValueB3 = tempValue.Substring(46, 23);
+            checkValueB4 = tempValue.Substring(69, 23);
+            checkValueB5 = tempValue.Substring(92, 23);
+            checkValueB6 = tempValue.Substring(115, 23);
+            checkValueB7 = tempValue.Substring(138, 23);
 
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
@@ -598,14 +602,17 @@ namespace UnitTest
             }
 
             #region //Assert
-            checkValueB1 = tempValue.Substring(tempValue.IndexOf(":", 0) - 1, 23);
-            checkValueB2 = tempValue.Substring(tempValue.IndexOf(":", 25) - 1, 23);
-            checkValueB3 = tempValue.Substring(tempValue.IndexOf(":", 50) - 1, 23);
-            checkValueB4 = tempValue.Substring(tempValue.IndexOf(":", 75) - 1, 23);
-            checkValueB5 = tempValue.Substring(tempValue.IndexOf(":", 100) - 1, 23);
-            checkValueB6 = tempValue.Substring(tempValue.IndexOf(":", 125) - 1, 23);
-            checkValueB7 = tempValue.Substring(tempValue.IndexOf(":", 150) - 1, 23);
-            checkValueB8 = tempValue.Substring(tempValue.IndexOf(":", 175) - 1, 23);
+            TestTeardown();
+
+            tempValue = tempValue.Replace("\r", "").Replace("\n", "");
+            checkValueB1 = tempValue.Substring(0, 23);
+            checkValueB2 = tempValue.Substring(23, 23);
+            checkValueB3 = tempValue.Substring(46, 23);
+            checkValueB4 = tempValue.Substring(69, 23);
+            checkValueB5 = tempValue.Substring(92, 23);
+            checkValueB6 = tempValue.Substring(115, 23);
+            checkValueB7 = tempValue.Substring(138, 23);
+            checkValueB8 = tempValue.Substring(161, 23);
 
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
