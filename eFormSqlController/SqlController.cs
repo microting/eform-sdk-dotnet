@@ -3535,6 +3535,7 @@ namespace eFormSqlController
                     case Settings.awsSecretAccessKey:       id = 14;    defaultValue = "XXX";                               break;
                     case Settings.awsEndPoint:              id = 15;    defaultValue = "XXX";                               break;
                     case Settings.unitLicenseNumber:        id = 16;    defaultValue = "0";                                 break;
+                    case Settings.httpServerAddress:        id = 17;    defaultValue = "http://localhost:3000";             break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -5247,6 +5248,7 @@ namespace eFormSqlController
         awsAccessKeyId,
         awsSecretAccessKey,
         awsEndPoint,
-        unitLicenseNumber
+        unitLicenseNumber,
+        httpServerAddress
     }
 }

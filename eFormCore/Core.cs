@@ -1353,6 +1353,59 @@ namespace eFormCore
             }
         }
 
+        public string GetJasperPath()
+        {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationJasper);
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public string GetHttpServerAddress()
+        {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            try
+            {
+                return sqlController.SettingRead(Settings.httpServerAddress);
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetHttpServerAddress(string serverAddress)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(serverAddress), serverAddress);
+
+                    sqlController.SettingUpdate(Settings.httpServerAddress, serverAddress);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         public string           CaseToPdf(int caseId, string jasperTemplate, string timeStamp)
         {
             string methodName = t.GetMethodName();

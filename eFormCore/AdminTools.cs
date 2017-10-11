@@ -479,6 +479,7 @@ namespace eFormCore
                 sqlController.SettingUpdate(Settings.comAddressPdfUpload, "https://unittest.com");
                 sqlController.SettingUpdate(Settings.comOrganizationId, "-1");
                 sqlController.SettingUpdate(Settings.unitLicenseNumber, "999");
+                sqlController.SettingUpdate(Settings.httpServerAddress, "http://localhost:3000");
 
                 return "";
             }
