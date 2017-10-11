@@ -376,28 +376,36 @@ namespace UnitTest
         [Fact]
         public void Test002_Core_1a_ExceptionHandling()
         {
-            //Arrange
+            #region //Arrange
             TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "1:100000/100000/10000/0\r\n1:010000/010000/01000/0\r\n1:001000/001000/00100/0\r\n1:000100/000100/00010/0\r\n";
-            string checkValueB = "";
+            string checkValueA1 = "1:100000/100000/10000/0";
+            string checkValueA2 = "1:010000/010000/01000/0";
+            string checkValueA3 = "1:001000/001000/00100/0";
+            string checkValueA4 = "1:000100/000100/00010/0";
+            string checkValueB1 = "";
+            string checkValueB2 = "";
+            string checkValueB3 = "";
+            string checkValueB4 = "";
+            string tempValue = "";
             MainElement main;
-            string xmlStr;
+            string xmlStr = LoadFil("xml.txt");
+
+            main = core.TemplateFromXml(xmlStr);
+            main.Label = "throw new Exception";
+            main.EndDate = DateTime.Now.AddDays(2);
+            core.TemplateCreate(main);
+            #endregion
 
             //Act
             try
             {
-                xmlStr = LoadFil("xml.txt");
-                main = core.TemplateFromXml(xmlStr);
-                main.Label = "throw new Exception";
-                core.TemplateCreate(main);
-
                 for (int i = 0; i < 4; i++)
                 {
                     core.CaseCreate(main, "throw new Exception", siteId1);
 
                     if (core.Running())
                     {
-                        checkValueB += PrintLogLine();
+                        tempValue += PrintLogLine();
 
                         sqlController.UnitTest_TruncateTable(nameof(logs));
                         sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
@@ -406,106 +414,160 @@ namespace UnitTest
             }
             catch (Exception ex)
             {
-                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+                tempValue = t.PrintException(t.GetMethodName() + " failed", ex);
             }
 
-            //Assert
+            #region //Assert
             TestTeardown();
+
+            checkValueB1 = tempValue.Substring(tempValue.IndexOf(":", 0) - 1, 23);
+            checkValueB2 = tempValue.Substring(tempValue.IndexOf(":", 25) - 1, 23);
+            checkValueB3 = tempValue.Substring(tempValue.IndexOf(":", 50) - 1, 23);
+            checkValueB4 = tempValue.Substring(tempValue.IndexOf(":", 75) - 1, 23);
+     
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
             else
-                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+            {
+                Assert.Equal(checkValueA1, checkValueB1);
+                Assert.Equal(checkValueA2, checkValueB2);
+                Assert.Equal(checkValueA3, checkValueB3);
+                Assert.Equal(checkValueA4, checkValueB4);
+            }
+            #endregion
         }
 
         [Fact]
         public void Test002_Core_2a_DoubleExceptionHandling()
         {
-            //Arrange
+            #region //Arrange
             TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "1:100000/100000/10000/0\r\n1:010000/010000/01000/0\r\n1:010000/010000/01000/0\r\n1:001000/001000/00100/0\r\n1:001000/001000/00100/0\r\n1:000100/000100/00010/0\r\n1:000100/000100/00010/0\r\n";
-            string checkValueB = "";
+            string checkValueA1 = "1:100000/100000/10000/0";
+            string checkValueA2 = "1:010000/010000/01000/0";
+            string checkValueA3 = "1:010000/010000/01000/0";
+            string checkValueA4 = "1:001000/001000/00100/0";
+            string checkValueA5 = "1:001000/001000/00100/0";
+            string checkValueA6 = "1:000100/000100/00010/0";
+            string checkValueA7 = "1:000100/000100/00010/0";
+            string checkValueB1 = "";
+            string checkValueB2 = "";
+            string checkValueB3 = "";
+            string checkValueB4 = "";
+            string checkValueB5 = "";
+            string checkValueB6 = "";
+            string checkValueB7 = "";
+            string tempValue = "";
             MainElement main1;
             MainElement main2;
-            string xmlStr;
+            string xmlStr = LoadFil("xml.txt");
+
+            main1 = core.TemplateFromXml(xmlStr);
+            main1.Label = "throw new Exception";
+            main1.EndDate = DateTime.Now.AddDays(2);
+            core.TemplateCreate(main1);
+
+            main2 = core.TemplateFromXml(xmlStr);
+            main2.Label = "throw other Exception";
+            main2.EndDate = DateTime.Now.AddDays(2);
+            core.TemplateCreate(main2);
+            #endregion
 
             //Act
             try
             {
-                xmlStr = LoadFil("xml.txt");
-
-                main1 = core.TemplateFromXml(xmlStr);
-                main1.Label = "throw new Exception";
-                core.TemplateCreate(main1);
-
-                main2 = core.TemplateFromXml(xmlStr);
-                main2.Label = "throw other Exception";
-                core.TemplateCreate(main2);
-
                 core.CaseCreate(main1, null, siteId1);
-
-                checkValueB += PrintLogLine();
-
+                tempValue += PrintLogLine();
                 sqlController.UnitTest_TruncateTable(nameof(logs));
                 sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
 
                 for (int i = 0; i < 3; i++)
                 {
                     core.CaseCreate(main1, null, siteId1);
-
-                    checkValueB += PrintLogLine();
+                    tempValue += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
 
                     core.CaseCreate(main2, null, siteId1);
-
-                    checkValueB += PrintLogLine();
+                    tempValue += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
                 }
             }
             catch (Exception ex)
             {
-                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+                tempValue = t.PrintException(t.GetMethodName() + " failed", ex);
             }
 
-            //Assert
-            TestTeardown();
+            #region //Assert
+            checkValueB1 = tempValue.Substring(tempValue.IndexOf(":", 0) - 1, 23);
+            checkValueB2 = tempValue.Substring(tempValue.IndexOf(":", 25) - 1, 23);
+            checkValueB3 = tempValue.Substring(tempValue.IndexOf(":", 50) - 1, 23);
+            checkValueB4 = tempValue.Substring(tempValue.IndexOf(":", 75) - 1, 23);
+            checkValueB5 = tempValue.Substring(tempValue.IndexOf(":", 100) - 1, 23);
+            checkValueB6 = tempValue.Substring(tempValue.IndexOf(":", 125) - 1, 23);
+            checkValueB7 = tempValue.Substring(tempValue.IndexOf(":", 150) - 1, 23);
+
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
             else
-                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+            {
+                Assert.Equal(checkValueA1, checkValueB1);
+                Assert.Equal(checkValueA2, checkValueB2);
+                Assert.Equal(checkValueA3, checkValueB3);
+                Assert.Equal(checkValueA4, checkValueB4);
+                Assert.Equal(checkValueA5, checkValueB5);
+                Assert.Equal(checkValueA6, checkValueB6);
+                Assert.Equal(checkValueA7, checkValueB7);
+            }
+            #endregion
         }
 
         [Fact]
         public void Test002_Core_3a_FatalExceptionHandling()
         {
-            //Arrange
+            #region //Arrange
             TestPrepare(t.GetMethodName(), true);
-            string checkValueA = "1:100000/100000/10000/0\r\n1:010000/010000/01000/0\r\n1:010000/010000/01000/0\r\n1:001000/001000/00100/0\r\n1:001000/001000/00100/0\r\n1:000100/000100/00010/0\r\n1:000100/000100/00010/0\r\n2:000000/000020/00001/1\r\n";
-            string checkValueB = "";
+            string checkValueA1 = "1:100000/100000/10000/0";
+            string checkValueA2 = "1:010000/010000/01000/0";
+            string checkValueA3 = "1:010000/010000/01000/0";
+            string checkValueA4 = "1:001000/001000/00100/0";
+            string checkValueA5 = "1:001000/001000/00100/0";
+            string checkValueA6 = "1:000100/000100/00010/0";
+            string checkValueA7 = "1:000100/000100/00010/0";
+            string checkValueA8 = "2:000000/000020/00001/1";
+            string checkValueB1 = "";
+            string checkValueB2 = "";
+            string checkValueB3 = "";
+            string checkValueB4 = "";
+            string checkValueB5 = "";
+            string checkValueB6 = "";
+            string checkValueB7 = "";
+            string checkValueB8 = "";
+            string tempValue = "";
             MainElement main1;
             MainElement main2;
-            string xmlStr;
+            string xmlStr = LoadFil("xml.txt");
+
+            main1 = core.TemplateFromXml(xmlStr);
+            main1.Label = "throw new Exception";
+            main1.EndDate = DateTime.Now.AddDays(2);
+            core.TemplateCreate(main1);
+
+            main2 = core.TemplateFromXml(xmlStr);
+            main2.Label = "throw other Exception";
+            main2.EndDate = DateTime.Now.AddDays(2);
+            core.TemplateCreate(main2);
+            #endregion
 
             //Act
             try
             {
-                xmlStr = LoadFil("xml.txt");
-
-                main1 = core.TemplateFromXml(xmlStr);
-                main1.Label = "throw new Exception";
-                core.TemplateCreate(main1);
-
-                main2 = core.TemplateFromXml(xmlStr);
-                main2.Label = "throw other Exception";
-                core.TemplateCreate(main2);
-
                 #region core.CaseCreate(main1, null, siteId1);
                 for (int i = 0; i < 2; i++)
                 {
                     core.CaseCreate(main1, null, siteId1);
 
-                    checkValueB += PrintLogLine();
+                    tempValue += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
                 }
@@ -518,13 +580,13 @@ namespace UnitTest
                 {
                     core.CaseCreate(main2, null, siteId1);
 
-                    checkValueB += PrintLogLine();
+                    tempValue += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
 
                     core.CaseCreate(main1, null, siteId1);
 
-                    checkValueB += PrintLogLine();
+                    tempValue += PrintLogLine();
                     sqlController.UnitTest_TruncateTable(nameof(logs));
                     sqlController.UnitTest_TruncateTable(nameof(log_exceptions));
                 }
@@ -532,15 +594,33 @@ namespace UnitTest
             }
             catch (Exception ex)
             {
-                checkValueB = t.PrintException(t.GetMethodName() + " failed", ex);
+                tempValue = t.PrintException(t.GetMethodName() + " failed", ex);
             }
 
-            //Assert
-            TestTeardown();
+            #region //Assert
+            checkValueB1 = tempValue.Substring(tempValue.IndexOf(":", 0) - 1, 23);
+            checkValueB2 = tempValue.Substring(tempValue.IndexOf(":", 25) - 1, 23);
+            checkValueB3 = tempValue.Substring(tempValue.IndexOf(":", 50) - 1, 23);
+            checkValueB4 = tempValue.Substring(tempValue.IndexOf(":", 75) - 1, 23);
+            checkValueB5 = tempValue.Substring(tempValue.IndexOf(":", 100) - 1, 23);
+            checkValueB6 = tempValue.Substring(tempValue.IndexOf(":", 125) - 1, 23);
+            checkValueB7 = tempValue.Substring(tempValue.IndexOf(":", 150) - 1, 23);
+            checkValueB8 = tempValue.Substring(tempValue.IndexOf(":", 175) - 1, 23);
+
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
             else
-                Assert.Equal(checkValueA.Replace("\r", "").Replace("\n", ""), checkValueB.Replace("\r", "").Replace("\n", ""));
+            {
+                Assert.Equal(checkValueA1, checkValueB1);
+                Assert.Equal(checkValueA2, checkValueB2);
+                Assert.Equal(checkValueA3, checkValueB3);
+                Assert.Equal(checkValueA4, checkValueB4);
+                Assert.Equal(checkValueA5, checkValueB5);
+                Assert.Equal(checkValueA6, checkValueB6);
+                Assert.Equal(checkValueA7, checkValueB7);
+                Assert.Equal(checkValueA8, checkValueB8);
+            }
+            #endregion
         }
         #endregion
 
