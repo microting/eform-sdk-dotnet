@@ -33,26 +33,29 @@ namespace UnitTest
         {
             try
             {
-                if (Environment.MachineName.ToLower().Contains("testing"))
-                {
-                    serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
-                    useLiveData = false;
-                }
-                else
-                {
-                    if (Environment.MachineName.ToLower().Contains("testing"))
-                    {
-                        serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
-                        useLiveData = false;
-                    }
-                    else
-                    {
-                        if (useLiveData)
-                            serverConnectionString = connectionStringLocal_LiveData;
-                        else
-                            serverConnectionString = connectionStringLocal_UnitTest;
-                    }
-                }
+                serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
+                useLiveData = false;
+
+                //if (Environment.MachineName.ToLower().Contains("testing"))
+                //{
+                //    serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
+                //    useLiveData = false;
+                //}
+                //else
+                //{
+                //    if (Environment.MachineName.ToLower().Contains("testing"))
+                //    {
+                //        serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
+                //        useLiveData = false;
+                //    }
+                //    else
+                //    {
+                //        if (useLiveData)
+                //            serverConnectionString = connectionStringLocal_LiveData;
+                //        else
+                //            serverConnectionString = connectionStringLocal_UnitTest;
+                //    }
+                //}
             }
             catch { }
 
