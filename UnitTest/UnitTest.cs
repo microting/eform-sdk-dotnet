@@ -171,22 +171,6 @@ namespace UnitTest
 
         #region - test 000x - virtal basics
         [Fact]
-        public void Test000_Basics_0a_EnvironmentMachineName()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                string checkValueA = "";
-                string checkValueB = Environment.MachineName;
-
-                //Act
-
-                //Assert
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
         public void Test000_Basics_1a_MustAlwaysPass()
         {
             lock (_lockTest)
