@@ -1903,7 +1903,7 @@ namespace eFormCore
             }
         }
 
-        public List<Field_Dto>     Advanced_TemplateFieldReadAll(int templateId)
+        public List<Field_Dto>  Advanced_TemplateFieldReadAll(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1925,7 +1925,7 @@ namespace eFormCore
             }
         }
 
-        public void         Advanced_ConsistencyCheckTemplates()
+        public void             Advanced_ConsistencyCheckTemplates()
         {
             string methodName = t.GetMethodName();
             try
@@ -2569,7 +2569,6 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
         #endregion
 
         #region private
