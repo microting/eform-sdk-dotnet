@@ -28,7 +28,7 @@ namespace UnitTest
         string serverConnectionString = "";
         #endregion
 
-        #region once for all tests - build order
+        //once for all tests - build order
         public TestContext()
         {
             try
@@ -65,14 +65,12 @@ namespace UnitTest
             if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                 at.DbSetup("unittest");
         }
-        #endregion
-
-        #region once for all tests - teardown
+  
+        //once for all tests - teardown
         public void Dispose()
         {
             //sqlController.UnitTest_DeleteDb();
         }
-        #endregion
 
         public string GetConnectionString()
         {
