@@ -1367,7 +1367,7 @@ namespace eFormSqlController
                                         }
                                         else
                                         {
-                                            replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "" + item.id.ToString(), false, ""));
+                                            //replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "" + item.id.ToString(), false, ""));
                                         }
                                     }
                                 }

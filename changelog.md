@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.3.4 *(October 19th 2017)*
+	- Fixing the FieldValueReadAllValues method. 
+
   - Version 1.6.3.3 *(October 19th 2017)*
 	- Fixing the SettingCreateDefaults method. 
 
