@@ -3505,6 +3505,7 @@ namespace eFormSqlController
             SettingCreate(Settings.awsSecretAccessKey);
             SettingCreate(Settings.awsEndPoint);
             SettingCreate(Settings.unitLicenseNumber);
+            SettingCreate(Settings.httpServerAddress);
       
             return true;
         }

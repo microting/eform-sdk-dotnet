@@ -1,5 +1,12 @@
 ## Changelog
 
+  - Version 1.6.3.3 *(October 19th 2017)*
+	- Fixing the SettingCreateDefaults method. 
+
+  - Version 1.6.3.2 *(October 11th 2017)*
+	- Adding new methods to get the path for jasper reports. 
+	- Adding new methods to handle the server address.
+
   - Version 1.6.3.1 *(October 10th 2017)*
 	- Minor update, moving some dedications.
 
