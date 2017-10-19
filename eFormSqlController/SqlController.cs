@@ -1348,9 +1348,15 @@ namespace eFormSqlController
                                             if (kvp.Key == item.case_id.ToString())
                                             {
                                                 if (customPathForUploadedData != null)
-                                                    kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.file_name;
+                                                    if (kvp.Value.Contains("http"))
+                                                        kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.file_name;
+                                                    else
+                                                        kvp.Value = customPathForUploadedData + item.uploaded_data.file_name;
                                                 else
-                                                    kvp.Value = kvp.Value + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
+                                                    if (kvp.Value.Contains("http"))
+                                                        kvp.Value = kvp.Value + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
+                                                    else
+                                                        kvp.Value = item.uploaded_data.file_location + item.uploaded_data.file_name;
                                             }
                                         }
                                     }
@@ -1367,7 +1373,7 @@ namespace eFormSqlController
                                         }
                                         else
                                         {
-                                            //replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "" + item.id.ToString(), false, ""));
+                                            replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
                                         }
                                     }
                                 }
