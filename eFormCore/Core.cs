@@ -38,6 +38,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml;
 
 namespace eFormCore
 {
@@ -877,12 +878,12 @@ namespace eFormCore
             }
         }
 
-        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end)
+        public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end)
         {
-            return CaseReadAll(templatId, start, end, "not_removed", null);
+            return CaseReadAll(templateId, start, end, "not_removed", null);
         }
 
-        public List<Case>       CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
+        public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
             string methodName = t.GetMethodName();
             try
@@ -890,12 +891,12 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", nameof(templatId), templatId);
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
                     log.LogVariable("Not Specified", nameof(start), start);
                     log.LogVariable("Not Specified", nameof(end), end);
                     log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
-                    return sqlController.CaseReadAll(templatId, start, end, workflowState, searchKey);
+                    return sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1209,12 +1210,7 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToExcel(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string           CasesToCsv(int? templatId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        public string           CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             string methodName = t.GetMethodName();
             try
@@ -1222,13 +1218,67 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", nameof(templatId), templatId.ToString());
+                    log.LogVariable("Not Specified", nameof(templateId), templateId.ToString());
                     log.LogVariable("Not Specified", nameof(start), start.ToString());
                     log.LogVariable("Not Specified", nameof(end), end.ToString());
                     log.LogVariable("Not Specified", nameof(pathAndName), pathAndName);
                     log.LogVariable("Not Specified", nameof(customPathForUploadedData), customPathForUploadedData);
 
-                    List<List<string>> dataSet = GenerateDataSetFromCases(templatId, start, end, customPathForUploadedData);
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData);
+
+                    if (dataSet == null)
+                        return "";
+                    
+                    using (var p = new ExcelPackage())
+                    {
+                        var ws = p.Workbook.Worksheets.Add("DataSet");
+
+                        int colI = 0;
+                        int rowI = 0;
+                        foreach (var col in dataSet)
+                        {
+                            colI++;
+                            rowI = 0;
+                            foreach (var cell in col)
+                            {
+                                rowI++;
+                                ws.Cells[rowI, colI].Value = cell;
+                            }
+                        }
+
+                        if (!pathAndName.Contains(".xlsx"))
+                            pathAndName = pathAndName + ".xlsx";
+
+                        p.SaveAs(new FileInfo(pathAndName));
+                    }
+
+                    return Path.GetFullPath(pathAndName);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return null;
+            }
+        }
+
+        public string           CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(templateId), templateId.ToString());
+                    log.LogVariable("Not Specified", nameof(start), start.ToString());
+                    log.LogVariable("Not Specified", nameof(end), end.ToString());
+                    log.LogVariable("Not Specified", nameof(pathAndName), pathAndName);
+                    log.LogVariable("Not Specified", nameof(customPathForUploadedData), customPathForUploadedData);
+
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData);
 
                     if (dataSet == null)
                         return "";
@@ -1354,7 +1404,7 @@ namespace eFormCore
             }
         }
 
-        public string GetJasperPath()
+        public string           GetJasperPath()
         {
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
@@ -1369,7 +1419,7 @@ namespace eFormCore
             }
         }
 
-        public string GetHttpServerAddress()
+        public string           GetHttpServerAddress()
         {
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
@@ -1384,7 +1434,7 @@ namespace eFormCore
             }
         }
 
-        public bool SetHttpServerAddress(string serverAddress)
+        public bool             SetHttpServerAddress(string serverAddress)
         {
             string methodName = t.GetMethodName();
             try
@@ -1903,7 +1953,7 @@ namespace eFormCore
             }
         }
 
-        public List<Field_Dto>     Advanced_TemplateFieldReadAll(int templateId)
+        public List<Field_Dto>  Advanced_TemplateFieldReadAll(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1925,7 +1975,7 @@ namespace eFormCore
             }
         }
 
-        public void         Advanced_ConsistencyCheckTemplates()
+        public void             Advanced_ConsistencyCheckTemplates()
         {
             string methodName = t.GetMethodName();
             try
@@ -2569,7 +2619,6 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
         #endregion
 
         #region private

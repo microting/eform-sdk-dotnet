@@ -19,8 +19,8 @@ namespace UnitTest
     {
         bool useLiveData = false;
 
-        string connectionStringLocal_UnitTest = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest_UnitTest;Integrated Security=True"; //Uses unit test data
-        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=MicrotingTest_LiveData;Integrated Security=True"; //Uses LIVE data
+        string connectionStringLocal_UnitTest = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "Microting"     + ";Integrated Security=True"; //Uses unit test data
+        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "MicrotingLive" + ";Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var
@@ -28,22 +28,33 @@ namespace UnitTest
         string serverConnectionString = "";
         #endregion
 
-        #region once for all tests - build order
+        //once for all tests - build order
         public TestContext()
         {
             try
             {
-                if (Environment.MachineName.ToLower().Contains("testing"))
+                serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
+                useLiveData = false;
+
+                if (Environment.MachineName.ToLower().Contains("testing") || Environment.MachineName.ToLower().Contains("travis"))
                 {
-                    serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password="; //Uses travis database
+                    serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
                     useLiveData = false;
                 }
                 else
                 {
-                    if (useLiveData)
-                        serverConnectionString = connectionStringLocal_LiveData;
+                    if (Environment.MachineName.ToLower().Contains("testing") || Environment.MachineName.ToLower().Contains("travis"))
+                    {
+                        serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
+                        useLiveData = false;
+                    }
                     else
-                        serverConnectionString = connectionStringLocal_UnitTest;
+                    {
+                        if (useLiveData)
+                            serverConnectionString = connectionStringLocal_LiveData;
+                        else
+                            serverConnectionString = connectionStringLocal_UnitTest;
+                    }
                 }
             }
             catch { }
@@ -54,14 +65,12 @@ namespace UnitTest
             if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                 at.DbSetup("unittest");
         }
-        #endregion
-
-        #region once for all tests - teardown
+  
+        //once for all tests - teardown
         public void Dispose()
         {
             //sqlController.UnitTest_DeleteDb();
         }
-        #endregion
 
         public string GetConnectionString()
         {
@@ -206,7 +215,7 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), false);
                 string checkValueA = "serverConnectionString is not allowed to be null or empty";
                 string checkValueB = "";
-   
+
                 //Act
                 try
                 {
@@ -232,7 +241,7 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), false);
                 string checkValueA = "serverConnectionString is not allowed to be null or empty";
                 string checkValueB = "";
-    
+
                 //Act
                 try
                 {
@@ -256,7 +265,7 @@ namespace UnitTest
             TestPrepare(t.GetMethodName(), false);
             string checkValueA = "True";
             string checkValueB = "";
-      
+
             //Act
             try
             {
@@ -279,7 +288,7 @@ namespace UnitTest
             TestPrepare(t.GetMethodName(), false);
             string checkValueA = "True";
             string checkValueB = "";
-   
+
             //Act
             try
             {
@@ -302,12 +311,12 @@ namespace UnitTest
             TestPrepare(t.GetMethodName(), false);
             string checkValueA = "FalseTrue";
             string checkValueB = "";
-     
+
             //Act
             try
             {
-                checkValueB  = core.Running().ToString();
-                               core.Start(serverConnectionString);
+                checkValueB = core.Running().ToString();
+                core.Start(serverConnectionString);
                 checkValueB += core.Running().ToString();
             }
             catch (Exception ex)
@@ -327,7 +336,7 @@ namespace UnitTest
             TestPrepare(t.GetMethodName(), true);
             string checkValueA = "True";
             string checkValueB = "";
-    
+
             //Act
             try
             {
@@ -350,7 +359,7 @@ namespace UnitTest
             TestPrepare(t.GetMethodName(), false);
             string checkValueA = "FalseTrueTrue";
             string checkValueB = "";
- 
+
             //Act
             try
             {
@@ -425,7 +434,7 @@ namespace UnitTest
             checkValueB2 = tempValue.Substring(23, 23);
             checkValueB3 = tempValue.Substring(46, 23);
             checkValueB4 = tempValue.Substring(69, 23);
-     
+
             if (useLiveData)
                 Assert.Equal("Faked due to live data", "Faked due to live data");
             else
@@ -681,7 +690,7 @@ namespace UnitTest
         [Fact]
         public void Test003_Xml_3a_TemplateCreate()
         {
-             lock (_lockTest)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName(), true);
@@ -777,7 +786,7 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-        
+
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
@@ -788,7 +797,7 @@ namespace UnitTest
                     string mUId = t.Locate(responseStr, "<Value type=\"success\">", "</");
                     responseStr = communicator.CheckStatus(mUId, siteId1);
 
-                    if (responseStr.Contains("<Response><Value type=\"success\">") || 
+                    if (responseStr.Contains("<Response><Value type=\"success\">") ||
                         responseStr.Contains("<Response><Value type=\"received\">"))
                         checkValueB = WaitForAvailableMicroting(mUId);
                 }
@@ -810,7 +819,7 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-          
+
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
@@ -839,7 +848,7 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-   
+
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
@@ -875,7 +884,7 @@ namespace UnitTest
                 bool checkValueB = false;
                 string xmlStr;
                 MainElement main = new MainElement();
-      
+
                 //Act
                 xmlStr = LoadFil("xml.txt");
                 main = core.TemplateFromXml(xmlStr);
@@ -1471,7 +1480,7 @@ namespace UnitTest
         [Fact]
         public void Test010_Entity_2a_EntityGroupUpdate_NotUnique()
         {
-             lock (_lockTest)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName(), true);
@@ -1806,7 +1815,7 @@ namespace UnitTest
                 mUId3 = CaseCreate();
                 CaseComplet(mUId3, "1003", false);
                 mUId4 = CaseCreate();
-                CaseComplet(mUId4, "1004", false); 
+                CaseComplet(mUId4, "1004", false);
                 CaseComplet(mUId2, "1002", false);
                 CaseComplet(mUId1, "1001", false);
 
@@ -1942,7 +1951,7 @@ namespace UnitTest
         [Fact]
         public void Test012_Interaction_Case_2b_Completed_NotConnected()
         {
-             lock (_lockTest)
+            lock (_lockTest)
             {
                 //Arrange
                 TestPrepare(t.GetMethodName(), true);
