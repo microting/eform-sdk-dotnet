@@ -771,7 +771,7 @@ namespace eFormCore
                 try
                 {
                     //DOSOMETHING: changed to fit your wishes and needs 
-                    File.AppendAllText(@"log\\log.txt", sender.ToString() + Environment.NewLine);
+                    File.AppendAllText(@"log.txt", sender.ToString() + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {

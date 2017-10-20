@@ -104,7 +104,7 @@ namespace SourceCode
 
                 try
                 {
-                    File.AppendAllText("log\\FatalException_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Fatal Exception", ex));
+                    File.AppendAllText("FatalException_" + DateTime.Now.ToString("MM.dd_HH.mm.ss") + ".txt", t.PrintException("Fatal Exception", ex));
                 }
                 catch { }
 
