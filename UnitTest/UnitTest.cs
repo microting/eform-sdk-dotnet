@@ -33,28 +33,17 @@ namespace UnitTest
         {
             try
             {
-                serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
-                useLiveData = false;
-
                 if (Environment.MachineName.ToLower().Contains("testing") || Environment.MachineName.ToLower().Contains("travis"))
                 {
                     serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
-                    useLiveData = false;
+                    useLiveData = false; //travis can't use live data
                 }
                 else
                 {
-                    if (Environment.MachineName.ToLower().Contains("testing") || Environment.MachineName.ToLower().Contains("travis"))
-                    {
-                        serverConnectionString = "Persist Security Info=True;server=localhost;database=" + "UnitTest_SDK_" + "Microting" + ";uid=root;password="; //Uses travis database
-                        useLiveData = false;
-                    }
+                    if (useLiveData)
+                        serverConnectionString = connectionStringLocal_LiveData;
                     else
-                    {
-                        if (useLiveData)
-                            serverConnectionString = connectionStringLocal_LiveData;
-                        else
-                            serverConnectionString = connectionStringLocal_UnitTest;
-                    }
+                        serverConnectionString = connectionStringLocal_UnitTest;
                 }
             }
             catch { }
@@ -315,8 +304,8 @@ namespace UnitTest
             //Act
             try
             {
-                checkValueB = core.Running().ToString();
-                core.Start(serverConnectionString);
+                checkValueB  = core.Running().ToString();
+                               core.Start(serverConnectionString);
                 checkValueB += core.Running().ToString();
             }
             catch (Exception ex)
