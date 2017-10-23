@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.3.6 *(October 23th 2017)*
+	- Fixing the release build to be 64bit only. 
+
   - Version 1.6.3.5 *(October 19th 2017)*
 	- Fixing the FieldValueReadAllValues method. 
 
