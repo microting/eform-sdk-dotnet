@@ -1,6 +1,7 @@
 ## Changelog
 
-  - Version 1.6.3.6 *(October 23th 2017)*
+  - Version 1.6.4.0 *(October 24th 2017)*
+	- **Breaking changes to supported platforms! ONLY 64bit is supported now**
 	- Fixing the release build to be 64bit only. 
 
   - Version 1.6.3.5 *(October 19th 2017)*
