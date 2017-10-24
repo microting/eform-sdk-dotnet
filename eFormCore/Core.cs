@@ -3472,13 +3472,13 @@ namespace eFormCore
                                 {
                                     oneFound = true;
                                     int found = 0;
-
                                     List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
+
                                     foreach (var item in caseList)
-                                    {
                                         if (item.stat != "Completed")
-                                            found += 1 - t.Bool(CaseDelete(item.microting_uid));
-                                    }
+                                            if (item.stat != "Created")
+                                                if (item.microting_uid != null)
+                                                    found += 1 - t.Bool(CaseDelete(item.microting_uid));
 
                                     if (found == 0)
                                         sqlController.InteractionCaseProcessedDelete(iC.id);
