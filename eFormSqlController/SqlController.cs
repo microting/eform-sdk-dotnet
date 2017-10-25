@@ -2228,16 +2228,16 @@ namespace eFormSqlController
             }
         }
 
-        public bool                 InteractionCaseUpdate(Case_Dto caseDto)
+        public bool                 InteractionCaseUpdate(string microtingUId, int? caseId, string checkUId, string stat)
         {
-            if (caseDto.Stat == "Created")
+            if (stat == "Created")
                 return true;
 
             try
             {
                 using (var db = GetContext())
                 {
-                    a_interaction_case_lists matchSite = db.a_interaction_case_lists.SingleOrDefault(x => x.microting_uid == caseDto.MicrotingUId);
+                    a_interaction_case_lists matchSite = db.a_interaction_case_lists.SingleOrDefault(x => x.microting_uid == microtingUId);
 
                     if (matchSite == null)
                         return false;
@@ -2248,9 +2248,9 @@ namespace eFormSqlController
                     matchCase.version = matchCase.version + 1;
                     matchCase.synced = 0;
 
-                    matchSite.case_id = caseDto.CaseId;
-                    matchSite.check_uid = caseDto.CheckUId;
-                    matchSite.stat = caseDto.Stat;
+                    matchSite.case_id = caseId;
+                    matchSite.check_uid = checkUId;
+                    matchSite.stat = stat;
                     matchSite.updated_at = DateTime.Now;
                     matchSite.version = matchSite.version + 1;
 

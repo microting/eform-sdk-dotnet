@@ -2920,10 +2920,8 @@ namespace eFormCore
         {
             try
             {
-                if (!sqlController.InteractionCaseUpdate(caseDto))
-                {
-                    //logger.LogWarning(t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
-                }
+                if (!sqlController.InteractionCaseUpdate(caseDto.MicrotingUId, caseDto.CaseId, caseDto.CheckUId, caseDto.Stat))
+                    log.LogWarning("Not Specified", t.GetMethodName() + " failed, for:'" + caseDto.ToString() + "', reason due to no matching case");
             }
             catch (Exception ex)
             {
@@ -3480,7 +3478,7 @@ namespace eFormCore
                                             found += 1 - t.Bool(CaseDelete(item.microting_uid));
 
                                         if (item.stat == "Created")
-                                            found += 1 - t.Bool(CaseDelete(item.microting_uid));
+                                            found += 1 - t.Bool(sqlController.InteractionCaseUpdate(item.microting_uid, item.case_id, item.check_uid, "Removed"));
                                     }
 
                                     if (found == 0)
