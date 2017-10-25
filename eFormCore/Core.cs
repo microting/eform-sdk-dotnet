@@ -3475,8 +3475,13 @@ namespace eFormCore
                                     List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
 
                                     foreach (var item in caseList)
+                                    {
                                         if (item.stat == "Sent" || item.stat == "Retrived")
                                             found += 1 - t.Bool(CaseDelete(item.microting_uid));
+
+                                        if (item.stat == "Created")
+                                            found += 1 - t.Bool(CaseDelete(item.microting_uid));
+                                    }
 
                                     if (found == 0)
                                         sqlController.InteractionCaseProcessedDelete(iC.id);
