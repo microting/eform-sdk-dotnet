@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.4.2 *(October 27th 2017)*
+	- Cleaning up.
+
   - Version 1.6.4.1 *(October 24th 2017)*
 	- Fixed minor issue with InteractionCases.
 
