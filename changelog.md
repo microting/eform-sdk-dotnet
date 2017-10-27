@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.4.1 *(October 24th 2017)*
+	- Fixed minor issue with InteractionCases.
+
   - Version 1.6.4.0 *(October 24th 2017)*
 	- **Breaking changes to supported platforms! ONLY 64bit is supported now**
 	- Fixing the release build to be 64bit only. 
