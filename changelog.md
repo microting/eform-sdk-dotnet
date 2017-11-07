@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.4.3 *(October 27th 2017)*
+	- Adding function to return the id of the first case for a given template.
+
   - Version 1.6.4.2 *(October 27th 2017)*
 	- Cleaning up.
 

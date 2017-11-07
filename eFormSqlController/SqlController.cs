@@ -1830,6 +1830,22 @@ namespace eFormSqlController
             }
         }
 
+        public int?           CaseReadFirstId(int? templateId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    //cases dbCase = null;
+                    return db.cases.Where(x => x.check_list_id == templateId).First().id;                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseReadFull failed", ex);
+            }
+        }
+
         public List<Case>           CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
             try

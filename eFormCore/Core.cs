@@ -878,6 +878,29 @@ namespace eFormCore
             }
         }
 
+        public int?             CaseReadFirstId(int? templateId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+
+                    return sqlController.CaseReadFirstId(templateId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                return null;
+            }
+        }
+
+
         public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end)
         {
             return CaseReadAll(templateId, start, end, "not_removed", null);
