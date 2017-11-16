@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.4.4 *(November 16th 2017)*
+	- Fixing the broken column assigner.
+
   - Version 1.6.4.3 *(October 27th 2017)*
 	- Adding function to return the id of the first case for a given template.
 

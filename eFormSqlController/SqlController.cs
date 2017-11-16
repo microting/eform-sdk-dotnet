@@ -166,7 +166,7 @@ namespace eFormSqlController
 
                     fields f3 = db.fields.SingleOrDefault(x => x.id == checkList.field_3);
                     if (f3 != null)
-                        fd4 = new Field_Dto(f3.id, f3.label, f3.description, (int)f3.field_type_id, f3.field_type.field_type, (int)f3.check_list_id);
+                        fd3 = new Field_Dto(f3.id, f3.label, f3.description, (int)f3.field_type_id, f3.field_type.field_type, (int)f3.check_list_id);
 
                     fields f4 = db.fields.SingleOrDefault(x => x.id == checkList.field_4);
                     if (f4 != null)
