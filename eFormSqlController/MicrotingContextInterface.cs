@@ -30,6 +30,8 @@ namespace eFormSqlController
         DbSet<sites>                                sites { get; set; }
         DbSet<units>                                units { get; set; }
         DbSet<workers>                              workers { get; set; }
+        DbSet<tags>                                 tags { get; set; }
+        DbSet<taggings>                             taggings { get; set; }
         DbSet<site_workers>                         site_workers { get; set; }
         DbSet<case_versions>                        case_versions { get; set; }
         DbSet<check_list_site_versions>             check_list_site_versions { get; set; }
@@ -44,6 +46,8 @@ namespace eFormSqlController
         DbSet<unit_versions>                        unit_versions { get; set; }
         DbSet<worker_versions>                      worker_versions { get; set; }
         DbSet<site_worker_versions>                 site_worker_versions { get; set; }
+        DbSet<tag_versions>                         tag_versions { get; set; }
+        DbSet<tagging_versions>                     tagging_versions { get; set; }
 
         int SaveChanges();
 

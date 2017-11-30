@@ -701,7 +701,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
 
-                    return sqlController.TemplateItemReadAll(includeRemoved, "created");
+                    return TemplateItemReadAll(includeRemoved, null, false, null, null);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -712,6 +712,32 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }        
+
+        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string searchKey, bool descendingSort, string sortParameter, List<string> tagIds)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
+                    log.LogVariable("Not Specified", nameof(searchKey), searchKey);
+                    log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
+                    log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
+                    log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
+
+                    return sqlController.TemplateItemReadAll(includeRemoved, "created");
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region case
@@ -919,6 +945,33 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(end), end);
                     log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
+                    return CaseReadAll(templateId, start, end, workflowState, searchKey, false, null);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                return null;
+            }
+        }
+
+        public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(start), start);
+                    log.LogVariable("Not Specified", nameof(end), end);
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
+                    log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
+                    log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
+
                     return sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey);
                 }
                 else
@@ -1123,6 +1176,39 @@ namespace eFormCore
             catch (Exception ex)
             {
                 log.LogException("Not Specified", methodName + " failed", ex, true);
+                return false;
+            }
+        }
+
+        public bool             CaseDeleteResult(int id)
+        {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            log.LogVariable("Not Specified", nameof(id), id);
+            try
+            {
+                //return sqlController.CaseDeleteResult(id);
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return false;
+            }
+        }
+
+        public bool             CaseUpdateFieldValues(int id)
+        {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            log.LogVariable("Not Specified", nameof(id), id);
+            try
+            {
+                return sqlController.CaseUpdateFieldValues(id);
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return false;
             }
         }

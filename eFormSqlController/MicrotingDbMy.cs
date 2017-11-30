@@ -49,6 +49,10 @@ namespace eFormSqlController
         public virtual DbSet<uploaded_data_versions>            uploaded_data_versions { get; set; }
         public virtual DbSet<worker_versions>                   worker_versions { get; set; }
         public virtual DbSet<workers>                           workers { get; set; }
+        public virtual DbSet<tags>                              tags { get; set; }
+        public virtual DbSet<tag_versions>                      tag_versions { get; set; }
+        public virtual DbSet<taggings>                          taggings { get; set; }
+        public virtual DbSet<tagging_versions>                  tagging_versions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -434,6 +438,30 @@ namespace eFormSqlController
                 .Property(e => e.email)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<tags>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<tags>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tags>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<taggings>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<taggings>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<taggings>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
             modelBuilder.Entity<case_versions>()
                 .Property(e => e.workflow_state)
                 .IsUnicode(false);
@@ -767,6 +795,30 @@ namespace eFormSqlController
             modelBuilder.Entity<worker_versions>()
                 .Property(e => e.email)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<tag_versions>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<tag_versions>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tag_versions>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tagging_versions>()
+                .Property(e => e.workflow_state)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<tagging_versions>()
+                .Property(e => e.created_at)
+                .HasPrecision(0);
+
+            modelBuilder.Entity<tagging_versions>()
+                .Property(e => e.updated_at)
+                .HasPrecision(0);
         }
     }
 }

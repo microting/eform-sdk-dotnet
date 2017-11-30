@@ -31,6 +31,16 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -114,6 +124,10 @@
     <Compile Include="table\check_lists.cs" />
     <Compile Include="table\check_list_sites.cs" />
     <Compile Include="table\check_list_values.cs" />
+    <Compile Include="table\taggings.cs" />
+    <Compile Include="table\tagging_versions.cs" />
+    <Compile Include="table\tags.cs" />
+    <Compile Include="table\tag_versions.cs" />
     <Compile Include="table\uploaded_data.cs" />
     <Compile Include="table\entity_groups.cs" />
     <Compile Include="table\entity_items.cs" />
