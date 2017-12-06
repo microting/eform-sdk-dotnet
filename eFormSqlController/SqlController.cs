@@ -3917,7 +3917,10 @@ namespace eFormSqlController
                     cl.created_at = DateTime.Now;
                     cl.updated_at = DateTime.Now;
                     cl.label = groupElement.Label;
-                    cl.description = groupElement.Description.InderValue;
+                    if (groupElement.Description != null)
+                        cl.description = groupElement.Description.InderValue;
+                    else
+                        cl.description = "";
                     //serialized_default_values - Ruby colume
                     cl.workflow_state = "created";
                     cl.parent_id = parentId;
@@ -3947,7 +3950,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("CreateDataElement failed", ex);
+                throw new Exception("CreateGroupElement failed", ex);
             }
         }
 

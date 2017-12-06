@@ -701,7 +701,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
 
-                    return TemplateItemReadAll(includeRemoved, null, false, null, null);
+                    return TemplateItemReadAll(includeRemoved, null, false, null, new List<string>());
                 }
                 else
                     throw new Exception("Core is not running");
