@@ -1010,7 +1010,7 @@ namespace eFormSqlController
                     {
                         List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
                         List<DataItem> dataItemList = new List<DataItem>();
-                        foreach (fields field in checkList.fields.Where(x => x.parent_field_id == null).ToList())
+                        foreach (fields field in checkList.fields.Where(x => x.parent_field_id == null).OrderBy(x => x.display_index).ToList())
                         {
                             if (field.field_type.field_type == "FieldGroup")
                             {
@@ -1027,8 +1027,11 @@ namespace eFormSqlController
                                     }
                                     dataItemSubList.Add(_field);
                                 }
-                                FieldGroup fG = new FieldGroup(field.id.ToString(), field.label, field.description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
-                                dataItemGroupList.Add(fG);
+
+                                CDataValue description = new CDataValue();
+                                description.InderValue = field.description;
+                                FieldGroup fG = new FieldGroup(field.id, field.label, description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
+                                dataItemList.Add(fG);
                             }
                             else
                             {
@@ -3993,6 +3996,10 @@ namespace eFormSqlController
                     {
                         foreach (DataItemGroup dataItemGroup in dataElement.DataItemGroupList)
                         {
+                            //CDataValue description = new CDataValue();
+                            //description.InderValue = dataItemGroup.Description;
+                            //FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
+                            //CreateDataItemGroup(cl.id, fg);
                             CreateDataItemGroup(cl.id, (FieldGroup)dataItemGroup);
                         }
                     }
@@ -4024,7 +4031,9 @@ namespace eFormSqlController
                     fields field = new fields();
                     field.parent_field_id = null;
                     field.color = fieldGroup.Color;
-                    field.description = fieldGroup.Description;
+                    //CDataValue description = new CDataValue();
+                    //description.InderValue = fieldGroup.Description;
+                    field.description = fieldGroup.Description.InderValue;
                     field.display_index = fieldGroup.DisplayOrder;
                     field.label = fieldGroup.Label;
 
@@ -4366,8 +4375,9 @@ namespace eFormSqlController
 
                         case "FieldGroup":
                             List<DataItem> lst = new List<DataItem>();
-
-                            lstDataItemGroup.Add(new FieldGroup(f.id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
+                            CDataValue description = new CDataValue();
+                            description.InderValue = f.description;
+                            lstDataItem.Add(new FieldGroup(f.id, f.label, description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                             //the actual DataItems
                             List<fields> lstFields = db.fields.Where(x => x.parent_field_id == f.id).ToList();

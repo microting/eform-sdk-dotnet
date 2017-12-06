@@ -1,7 +1,11 @@
 ## Changelog
 
+  - Version 1.6.4.6 *(December 6th 2017)*
+  	- **Breaking changes to the structure of the replyElement returned by core.CaseRead**
+	- FieldGroups are now returned in the DataItemList instead of a seperate list named DataItemGroupList. 
+
   - Version 1.6.4.5 *(December 6th 2017)*
-	- Fixing the TemplateItemReadAll to have the correct List string instead of null value
+	- Fixing the TemplateItemReadAll to have the correct List string instead of null value.
 
   - Version 1.6.4.4 *(November 16th 2017)*
 	- Fixing the broken column assigner.

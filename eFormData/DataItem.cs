@@ -613,6 +613,39 @@ namespace eFormData
         public List<KeyValuePair> KeyValuePairList { get; set; }
     }
 
+    public class FieldGroup : DataItem
+    {
+        internal FieldGroup()
+        {
+
+        }
+
+        public FieldGroup(int id, string label, CDataValue description, string color, int displayOrder, string value, List<DataItem> dataItemList)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+
+            Value = value;
+            DataItemList = dataItemList;
+        }
+
+        public string Value { get; set; }
+
+        [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
+        public List<DataItem> DataItemList { get; set; }
+
+        public static explicit operator FieldGroup(DataItemGroup dataItemGroup)
+        {
+            CDataValue description = new CDataValue();
+            description.InderValue = dataItemGroup.Description;
+            FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
+            return fg;
+        }
+    }
+
     public class UploadedData
     {
         public int Id { get; set; }
