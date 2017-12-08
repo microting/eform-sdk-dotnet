@@ -1,5 +1,8 @@
 ## Changelog
 
+  - Version 1.6.4.7 *(December 8th 2017)*
+	- Fixing parsing of XML with FieldGroup elements. 
+
   - Version 1.6.4.6 *(December 6th 2017)*
   	- **Breaking changes to the structure of the replyElement returned by core.CaseRead**
 	- FieldGroups are now returned in the DataItemList instead of a seperate list named DataItemGroupList. 
