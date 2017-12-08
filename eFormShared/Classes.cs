@@ -832,6 +832,37 @@ namespace eFormShared
     }
     #endregion
 
+    #region Tag
+    public class Tag
+    {
+        #region con
+        public Tag(int id, string name, int taggingCount)
+        {
+            Id = id;
+            Name = name;
+            TaggingCount = taggingCount;
+        }
+        #endregion
+
+        #region var
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; }
+
+        /// <summary>
+        /// Name
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// TaggingCount
+        /// </summary>
+        public int TaggingCount { get; }
+        #endregion
+    }
+    #endregion
+
     #region EntityItemUpdateInfo
     public class EntityItemUpdateInfo
     {

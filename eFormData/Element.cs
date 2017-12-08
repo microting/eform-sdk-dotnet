@@ -75,7 +75,7 @@ namespace eFormData
         }
 
         public DataElement(int id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
-            bool extraDataElementsEnabled, string pinkBarText, List<DataItemGroup> dateItemGroupList, List<DataItem> dataItemList)
+            bool extraDataElementsEnabled, string pinkBarText, List<DataItemGroup> dataItemGroupList, List<DataItem> dataItemList)
         {
             //DataItemGroupList = new List<DataItemGroup>();
             //DataItemList = new List<DataItem>();
@@ -91,7 +91,7 @@ namespace eFormData
             ExtraFieldsEnabled = extraDataElementsEnabled;
             PinkBarText = pinkBarText;
 
-            DataItemGroupList = dateItemGroupList;
+            DataItemGroupList = dataItemGroupList;
             DataItemList = dataItemList;
         }
 

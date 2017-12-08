@@ -382,7 +382,11 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<Main>", "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
                 xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
                 xmlString = xmlString.Replace("<DataItem type=", "<DataItem xsi:type=");
-                xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItemGroup xsi:type=");
+                //xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItemGroup xsi:type=");
+                xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItem xsi:type=");
+                xmlString = xmlString.Replace("</DataItemGroup>", "</DataItem>");
+                xmlString = xmlString.Replace("<DataItemGroupList>", "<DataItemList>");
+                xmlString = xmlString.Replace("</DataItemGroupList>", "</DataItemList>");
 
                 xmlString = xmlString.Replace("<FolderName>", "<CheckListFolderName>");
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
@@ -701,7 +705,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
 
-                    return TemplateItemReadAll(includeRemoved, null, false, null, new List<string>());
+                    return TemplateItemReadAll(includeRemoved, null, false, null, new List<int>());
                 }
                 else
                     throw new Exception("Core is not running");
@@ -713,7 +717,7 @@ namespace eFormCore
             }
         }        
 
-        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string searchKey, bool descendingSort, string sortParameter, List<string> tagIds)
+        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
             string methodName = t.GetMethodName();
             try
@@ -728,6 +732,29 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
 
                     return sqlController.TemplateItemReadAll(includeRemoved, "created");
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool TemplateSetTags(int templateId, List<int> tagIds)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
+
+                    return sqlController.TemplateSetTags(templateId, tagIds);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1963,6 +1990,47 @@ namespace eFormCore
         }
         #endregion
         #endregion
+
+        #region tags
+        public List<Tag> getAllTags()
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    return sqlController.getAllTags();
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public bool CrateTag(string name)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    return sqlController.CrateTag(name);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+        #endregion
+
 
         #region public advanced actions
         #region templat

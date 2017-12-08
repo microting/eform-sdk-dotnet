@@ -379,6 +379,66 @@ namespace eFormSqlController
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public bool TemplateSetTags(int templateId, List<int> tagIds)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                using (var db = GetContext())
+                {
+                    //logger.LogEverything(methodName + " called");
+                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
+
+                    check_lists check_list = db.check_lists.Single(x => x.id == templateId);
+
+                    if (check_list != null)
+                    {
+                        // Delete all not wanted taggings first
+                        List<taggings> cl_taggings = check_list.taggings.Where(x => !tagIds.Contains(x.id)).ToList();
+                        foreach (taggings tagging in cl_taggings)
+                        {
+                            taggings current_tagging = db.taggings.Single(x => x.id == tagging.id);
+                            if (current_tagging != null)
+                            {
+                                current_tagging.version = check_list.version + 1;
+                                current_tagging.updated_at = DateTime.Now;
+
+                                current_tagging.workflow_state = "removed";
+
+                                db.tagging_versions.Add(MapTaggingVersions(current_tagging));
+                                db.SaveChanges();
+                            }
+                        }
+
+                        foreach (int id in tagIds)
+                        {
+                            tags tag = db.tags.Single(x => x.id == id);
+                            if (tag != null)
+                            {
+
+                            }
+                        }
+                        //check_list.version = check_list.version + 1;
+                        //check_list.updated_at = DateTime.Now;
+
+                        //check_list.workflow_state = "removed";
+
+                        //db.check_list_versions.Add(MapCheckListVersions(check_list));
+                        //db.SaveChanges();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //logger.LogException(methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region public (pre)case
@@ -4196,6 +4256,10 @@ namespace eFormSqlController
                             field.default_value = entitySelect.DefaultValue.ToString();
                             break;
 
+                        case "FieldGroup":
+                            CreateDataItemGroup(elementId, (FieldGroup)dataItem);
+                            break;
+
                         default:
                             throw new IndexOutOfRangeException(dataItem.GetType().ToString() + " is not a known/mapped DataItem type");
                     }
@@ -4524,6 +4588,18 @@ namespace eFormSqlController
             {
                 throw new Exception("EntityItemUpdate failed", ex);
             }
+        }
+        #endregion
+
+        #region tags
+        public List<Tag> getAllTags()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CrateTag(string name)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -4951,6 +5027,32 @@ namespace eFormSqlController
             workerVer.worker_id = workers.id; //<<--
 
             return workerVer;
+        }
+
+        private tag_versions MapTagVersions(tags tags)
+        {
+            tag_versions tagVer = new tag_versions();
+            tagVer.workflow_state = tags.workflow_state;
+            tagVer.version = tags.version;
+            tagVer.created_at = tags.created_at;
+            tagVer.updated_at = tags.updated_at;
+            tagVer.name = tags.name;
+
+            return tagVer;
+        }
+
+        private tagging_versions MapTaggingVersions(taggings taggings)
+        {
+            tagging_versions taggingVer = new tagging_versions();
+            taggingVer.workflow_state = taggings.workflow_state;
+            taggingVer.version = taggings.version;
+            taggingVer.created_at = taggings.created_at;
+            taggingVer.updated_at = taggings.updated_at;
+            taggingVer.check_list_id = taggings.check_list_id;
+            taggingVer.tag_id = taggings.tag_id;
+            taggingVer.tagger_id = taggings.tagger_id;
+
+            return taggingVer;
         }
         #endregion
         #endregion
