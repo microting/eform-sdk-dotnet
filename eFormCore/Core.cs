@@ -383,6 +383,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
                 xmlString = xmlString.Replace("<DataItem type=", "<DataItem xsi:type=");
                 //xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItemGroup xsi:type=");
+                xmlString = xmlString.Replace("FieldGroup", "FieldContainer");
                 xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItem xsi:type=");
                 xmlString = xmlString.Replace("</DataItemGroup>", "</DataItem>");
                 xmlString = xmlString.Replace("<DataItemGroupList>", "<DataItemList>");
@@ -2813,7 +2814,7 @@ namespace eFormCore
                     #region replace DataItemGroups
                     foreach (var dataItemGroup in dataE.DataItemGroupList)
                     {
-                        FieldGroup fG = (FieldGroup)dataItemGroup;
+                        FieldContainer fG = (FieldContainer)dataItemGroup;
 
                         List<DataItem> dataItemListTemp = new List<DataItem>();
                         foreach (var dataItem in fG.DataItemList)
@@ -3029,7 +3030,7 @@ namespace eFormCore
                     if (preLabel != "")
                         preLabel = preLabel + sep + dataE.Label;
 
-                    foreach (FieldGroup dataItemGroup in dataE.DataItemGroupList)
+                    foreach (FieldContainer dataItemGroup in dataE.DataItemGroupList)
                     {
                         foreach (DataItem dataItem in dataItemGroup.DataItemList)
                         {

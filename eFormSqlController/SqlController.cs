@@ -1090,7 +1090,7 @@ namespace eFormSqlController
 
                                 CDataValue description = new CDataValue();
                                 description.InderValue = field.description;
-                                FieldGroup fG = new FieldGroup(field.id, field.label, description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
+                                FieldContainer fG = new FieldContainer(field.id, field.label, description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
                                 dataItemList.Add(fG);
                             }
                             else
@@ -4052,17 +4052,17 @@ namespace eFormSqlController
                     db.check_list_versions.Add(MapCheckListVersions(cl));
                     db.SaveChanges();
 
-                    if (dataElement.DataItemGroupList != null)
-                    {
-                        foreach (DataItemGroup dataItemGroup in dataElement.DataItemGroupList)
-                        {
-                            //CDataValue description = new CDataValue();
-                            //description.InderValue = dataItemGroup.Description;
-                            //FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
-                            //CreateDataItemGroup(cl.id, fg);
-                            CreateDataItemGroup(cl.id, (FieldGroup)dataItemGroup);
-                        }
-                    }
+                    //if (dataElement.DataItemGroupList != null)
+                    //{
+                    //    foreach (DataItemGroup dataItemGroup in dataElement.DataItemGroupList)
+                    //    {
+                    //        //CDataValue description = new CDataValue();
+                    //        //description.InderValue = dataItemGroup.Description;
+                    //        //FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
+                    //        //CreateDataItemGroup(cl.id, fg);
+                    //        CreateDataItemGroup(cl.id, (FieldGroup)dataItemGroup);
+                    //    }
+                    //}
 
                     if (dataElement.DataItemList != null)
                     {
@@ -4079,7 +4079,7 @@ namespace eFormSqlController
             }
         }
 
-        private void                CreateDataItemGroup(int elementId, FieldGroup fieldGroup)
+        private void                CreateDataItemGroup(int elementId, FieldContainer fieldGroup)
         {
             try
             {
@@ -4134,6 +4134,13 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     string typeStr = dataItem.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
+
+                    /*
+                     * Hack for making the FieldContainer work, since it's actually a FieldGroup 
+                     */
+                    if (typeStr.Equals("FieldContainer"))
+                        typeStr = "FieldGroup";
+
                     int fieldTypeId = Find(typeStr);
 
                     fields field = new fields();
@@ -4152,6 +4159,8 @@ namespace eFormSqlController
                     field.check_list_id = elementId;
                     field.field_type_id = fieldTypeId;
                     field.version = 1;
+
+                    bool isSaved = false; // This is done, because we need to have the current field id, for giving it onto the child fields in a FieldGroup
 
                     #region dataItem type
                     //KEY POINT - mapping
@@ -4257,19 +4266,37 @@ namespace eFormSqlController
                             break;
 
                         case "FieldGroup":
-                            CreateDataItemGroup(elementId, (FieldGroup)dataItem);
+                            FieldContainer fg = (FieldContainer)dataItem;
+                            field.default_value = fg.Value;
+                            db.fields.Add(field);
+                            db.SaveChanges();
+
+                            db.field_versions.Add(MapFieldVersions(field));
+                            db.SaveChanges();
+                            isSaved = true;
+                            if (fg.DataItemList != null)
+                            {
+                                foreach (DataItem data_item in fg.DataItemList)
+                                {
+                                    CreateDataItem(field.id, elementId, data_item);
+                                }
+                            }
+                            //CreateDataItemGroup(elementId, (FieldGroup)dataItem);
                             break;
 
                         default:
                             throw new IndexOutOfRangeException(dataItem.GetType().ToString() + " is not a known/mapped DataItem type");
                     }
                     #endregion
+                    if (!isSaved)
+                    {
+                        db.fields.Add(field);
+                        db.SaveChanges();
 
-                    db.fields.Add(field);
-                    db.SaveChanges();
-
-                    db.field_versions.Add(MapFieldVersions(field));
-                    db.SaveChanges();
+                        db.field_versions.Add(MapFieldVersions(field));
+                        db.SaveChanges();
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -4439,9 +4466,10 @@ namespace eFormSqlController
 
                         case "FieldGroup":
                             List<DataItem> lst = new List<DataItem>();
-                            CDataValue description = new CDataValue();
-                            description.InderValue = f.description;
-                            lstDataItem.Add(new FieldGroup(f.id, f.label, description, f.color, t.Int(f.display_index), f.default_value, lst));
+                            //CDataValue description = new CDataValue();
+                            //description.InderValue = f.description;
+                            lstDataItemGroup.Add(new FieldGroup(f.id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
+                            //lstDataItemGroup.Add(new DataItemGroup(f.id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                             //the actual DataItems
                             List<fields> lstFields = db.fields.Where(x => x.parent_field_id == f.id).ToList();

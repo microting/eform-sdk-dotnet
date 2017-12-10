@@ -19,8 +19,8 @@ namespace UnitTest
     {
         bool useLiveData = false;
 
-        string connectionStringLocal_UnitTest = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "Microting"     + ";Integrated Security=True"; //Uses unit test data
-        string connectionStringLocal_LiveData = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "MicrotingLive" + ";Integrated Security=True"; //Uses LIVE data
+        string connectionStringLocal_UnitTest = "Data Source=.\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "Microting"     + ";Integrated Security=True"; //Uses unit test data
+        string connectionStringLocal_LiveData = "Data Source=.\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "MicrotingLive" + ";Integrated Security=True"; //Uses LIVE data
 
         #region content
         #region var

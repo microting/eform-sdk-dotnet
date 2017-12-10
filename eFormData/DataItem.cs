@@ -24,6 +24,7 @@ namespace eFormData
     [XmlInclude(typeof(SingleSelect))]
     [XmlInclude(typeof(Text))]
     [XmlInclude(typeof(Timer))]
+    [XmlInclude(typeof(FieldContainer))]
     #endregion
     public class DataItem
     {
@@ -613,14 +614,14 @@ namespace eFormData
         public List<KeyValuePair> KeyValuePairList { get; set; }
     }
 
-    public class FieldGroup : DataItem
+    public class FieldContainer : DataItem
     {
-        internal FieldGroup()
+        internal FieldContainer()
         {
 
         }
 
-        public FieldGroup(int id, string label, CDataValue description, string color, int displayOrder, string value, List<DataItem> dataItemList)
+        public FieldContainer(int id, string label, CDataValue description, string color, int displayOrder, string value, List<DataItem> dataItemList)
         {
             Id = id;
             Label = label;
@@ -637,11 +638,11 @@ namespace eFormData
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }
 
-        public static explicit operator FieldGroup(DataItemGroup dataItemGroup)
+        public static explicit operator FieldContainer(DataItemGroup dataItemGroup)
         {
             CDataValue description = new CDataValue();
             description.InderValue = dataItemGroup.Description;
-            FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
+            FieldContainer fg = new FieldContainer(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
             return fg;
         }
     }

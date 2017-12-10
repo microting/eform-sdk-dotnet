@@ -13,6 +13,18 @@ namespace eFormData
         {
 
         }
+
+        //public DataItemGroup(string id, string label, string description, string color, int displayOrder, string value, List<DataItem> dataItemList)
+        //{
+        //    id = id;
+        //    label = label;
+        //    description = description;
+        //    color = color;
+        //    DisplayOrder = displayOrder;
+
+        //    value = value;
+        //    DataItemList = dataItemList;
+        //}
         #endregion
 
         #region var
@@ -29,29 +41,29 @@ namespace eFormData
     }
 
     #region FieldGroup : DataItemGroup
-    //public class FieldGroup : DataItemGroup
-    //{
-    //    internal FieldGroup()
-    //    {
+    public class FieldGroup : DataItemGroup
+    {
+        internal FieldGroup()
+        {
 
-    //    }
+        }
 
-    //    public FieldGroup(string id, string label, string description, string color, int displayOrder, string value, List<DataItem> dataItemList)
-    //    {
-    //        Id = id;
-    //        Label = label;
-    //        Description = description;
-    //        Color = color;
-    //        DisplayOrder = displayOrder;
+        public FieldGroup(string id, string label, string description, string color, int displayOrder, string value, List<DataItem> dataItemList)
+        {
+            Id = id;
+            Label = label;
+            Description = description;
+            Color = color;
+            DisplayOrder = displayOrder;
 
-    //        Value = value;
-    //        DataItemList = dataItemList;
-    //    }
+            Value = value;
+            DataItemList = dataItemList;
+        }
 
-    //    public string Value { get; set; }
+        public string Value { get; set; }
 
-    //    [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
-    //    public List<DataItem> DataItemList { get; set; }
-    //}
+        [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
+        public List<DataItem> DataItemList { get; set; }
+    }
     #endregion
 }
