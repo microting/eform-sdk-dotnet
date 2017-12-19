@@ -769,9 +769,11 @@ namespace eFormCore
         #endregion
 
         #region case
-        public string           CaseCreate(MainElement mainElement, string caseUId, int siteId)
+        public string           CaseCreate(MainElement mainElement, string caseUId, int siteUid)
         {
-            List<string> lst = CaseCreate(mainElement, caseUId, new List<int> { siteId }, "");
+            List<int> siteUids = new List<int>();
+            siteUids.Add(siteUid);
+            List<string> lst = CaseCreate(mainElement, caseUId, siteUids, "");
 
             try
             {
@@ -783,7 +785,7 @@ namespace eFormCore
             }
         }
 
-        public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteIds, string custom)
+        public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
         {
             string methodName = t.GetMethodName();
             try
@@ -793,7 +795,7 @@ namespace eFormCore
                     lock (_lockMain) //Will let sending Cases sending finish, before closing
                     {
                         log.LogStandard("Not Specified", methodName + " called");
-                        string siteIdsStr = string.Join(",", siteIds);
+                        string siteIdsStr = string.Join(",", siteUids);
                         log.LogVariable("Not Specified", nameof(caseUId), caseUId);
                         log.LogVariable("Not Specified", nameof(siteIdsStr), siteIdsStr);
                         log.LogVariable("Not Specified", nameof(custom), custom);
@@ -815,14 +817,14 @@ namespace eFormCore
                         //sending and getting a reply
                         List<string> lstMUId = new List<string>();
 
-                        foreach (int siteId in siteIds)
+                        foreach (int siteUid in siteUids)
                         {
-                            string mUId = SendXml(mainElement, siteId);
+                            string mUId = SendXml(mainElement, siteUid);
 
                             if (mainElement.Repeated == 1)
-                                sqlController.CaseCreate          (mainElement.Id, siteId, mUId, null, caseUId, custom, DateTime.Now);
+                                sqlController.CaseCreate          (mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
                             else
-                                sqlController.CheckListSitesCreate(mainElement.Id, siteId, mUId);
+                                sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
 
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
                             InteractionCaseUpdate(cDto);

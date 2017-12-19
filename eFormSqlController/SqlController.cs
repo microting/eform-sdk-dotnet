@@ -489,7 +489,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("CheckListSitesCreate failed", ex);
+                throw new Exception("CheckListSitesRead failed", ex);
             }
         }
 

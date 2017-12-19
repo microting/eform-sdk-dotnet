@@ -631,8 +631,10 @@ namespace eFormData
 
             Value = value;
             DataItemList = dataItemList;
+            FieldType = "FieldContainer";
         }
 
+        public string FieldType { get; set; }
         public string Value { get; set; }
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
