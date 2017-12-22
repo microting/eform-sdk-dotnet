@@ -805,10 +805,16 @@ namespace eFormCore
                         DateTime end   = DateTime.Parse(mainElement.EndDate  .ToShortDateString());
 
                         if (end < DateTime.Now)
+                        {
+                            log.LogStandard("Not Specified", "mainElement.EndDate is set to " + end);
                             throw new ArgumentException("mainElement.EndDate needs to be a future date");
+                        }                            
 
                         if (end <= start)
+                        {
+                            log.LogStandard("Not Specified", "mainElement.StartDat is set to " + start);
                             throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+                        }
 
                         if (caseUId != "" && mainElement.Repeated != 1)
                             throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
@@ -827,7 +833,7 @@ namespace eFormCore
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
 
                             Case_Dto cDto = sqlController.CaseReadByMUId(mUId);
-                            InteractionCaseUpdate(cDto);
+                            //InteractionCaseUpdate(cDto);
                             try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleCaseCreated event's external logic suffered an Expection"); }
                             log.LogStandard("Not Specified", cDto.ToString() + " has been created");
@@ -1175,7 +1181,7 @@ namespace eFormCore
                             sqlController.CaseDelete(microtingUId);
 
                             cDto = sqlController.CaseReadByMUId(microtingUId);
-                            InteractionCaseUpdate(cDto);
+                            //InteractionCaseUpdate(cDto);
                             try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); } 
                             catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
                             log.LogStandard("Not Specified", cDto.ToString() + " has been removed");
@@ -1189,7 +1195,7 @@ namespace eFormCore
                             sqlController.CaseDeleteReversed(microtingUId);
 
                             cDto = sqlController.CaseReadByMUId(microtingUId);
-                            InteractionCaseUpdate(cDto);
+                            //InteractionCaseUpdate(cDto);
                             try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); } 
                             catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
                             log.LogStandard("Not Specified", cDto.ToString() + " has been removed");
@@ -2628,60 +2634,60 @@ namespace eFormCore
         }
         #endregion
 
-        #region interaction case
-        public int?             Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, List<string> replacements)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (Running())
-                {
-                    log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", nameof(templateId), templateId);
-                    log.LogVariable("Not Specified", nameof(caseUId), caseUId);
-                    log.LogVariable("Not Specified", nameof(siteUIds), string.Join(",", siteUIds));
-                    log.LogVariable("Not Specified", nameof(custom), custom);
-                    log.LogVariable("Not Specified", nameof(connected), connected);
+        //#region interaction case
+        //public int?             Advanced_InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, List<string> replacements)
+        //{
+        //    string methodName = t.GetMethodName();
+        //    try
+        //    {
+        //        if (Running())
+        //        {
+        //            log.LogStandard("Not Specified", methodName + " called");
+        //            log.LogVariable("Not Specified", nameof(templateId), templateId);
+        //            log.LogVariable("Not Specified", nameof(caseUId), caseUId);
+        //            log.LogVariable("Not Specified", nameof(siteUIds), string.Join(",", siteUIds));
+        //            log.LogVariable("Not Specified", nameof(custom), custom);
+        //            log.LogVariable("Not Specified", nameof(connected), connected);
 
-                    if (replacements == null)
-                        log.LogVariable("Not Specified", nameof(replacements), "null");
-                    else
-                        log.LogVariable("Not Specified", nameof(replacements), string.Join(",", replacements));
+        //            if (replacements == null)
+        //                log.LogVariable("Not Specified", nameof(replacements), "null");
+        //            else
+        //                log.LogVariable("Not Specified", nameof(replacements), string.Join(",", replacements));
 
-                    return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
-                return null;
-            }
-        }
+        //            return sqlController.InteractionCaseCreate(templateId, caseUId, siteUIds, custom, connected, replacements);
+        //        }
+        //        else
+        //            throw new Exception("Core is not running");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.LogException("Not Specified", methodName + " failed", ex, true);
+        //        return null;
+        //    }
+        //}
 
-        public bool             Advanced_InteractionCaseDelete(int interactionCaseId)
-        {
-            string methodName = t.GetMethodName();
-            try
-            {
-                if (Running())
-                {
-                    log.LogStandard("Not Specified", methodName + " called");
-                    log.LogVariable("Not Specified", nameof(interactionCaseId), interactionCaseId);
+        //public bool             Advanced_InteractionCaseDelete(int interactionCaseId)
+        //{
+        //    string methodName = t.GetMethodName();
+        //    try
+        //    {
+        //        if (Running())
+        //        {
+        //            log.LogStandard("Not Specified", methodName + " called");
+        //            log.LogVariable("Not Specified", nameof(interactionCaseId), interactionCaseId);
 
-                    return sqlController.InteractionCaseDelete(interactionCaseId);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
-                return false;
-            }
-        }
-        #endregion
+        //            return sqlController.InteractionCaseDelete(interactionCaseId);
+        //        }
+        //        else
+        //            throw new Exception("Core is not running");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.LogException("Not Specified", methodName + " failed", ex, true);
+        //        return false;
+        //    }
+        //}
+        //#endregion
 
         #region fields
         public Field            Advanced_FieldRead(int id)
@@ -3166,9 +3172,9 @@ namespace eFormCore
                             = new Thread(() => CoreHandleUpdateNotifications());
                         updateNotificationsThread.Start();
 
-                        Thread updateTablesThread
-                            = new Thread(() => CoreHandleUpdateTables());
-                        updateTablesThread.Start();
+                        //Thread updateTablesThread
+                        //    = new Thread(() => CoreHandleUpdateTables());
+                        //updateTablesThread.Start();
 
                         Thread.Sleep(2000);
                     }
@@ -3379,7 +3385,7 @@ namespace eFormCore
                                                             log.LogEverything("Not Specified", "sqlController.CaseRetract(...)");
 
                                                             Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                                            InteractionCaseUpdate(cDto);
+                                                            //InteractionCaseUpdate(cDto);
                                                             try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
                                                             catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
                                                             log.LogStandard("Not Specified", cDto.ToString() + " has been completed");
@@ -3411,7 +3417,7 @@ namespace eFormCore
                                     {
                                         sqlController.CaseUpdateRetrived(noteUId);
                                         Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                        InteractionCaseUpdate(cDto);
+                                        //InteractionCaseUpdate(cDto);
                                         try { HandleCaseRetrived?.Invoke(cDto, EventArgs.Empty); }
                                         catch { log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection"); }
                                         log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
@@ -3467,229 +3473,229 @@ namespace eFormCore
             }
         }
 
-        private void            CoreHandleUpdateTables()
-        {
-            try
-            {
-                if (!updateIsRunningTables)
-                {
-                    updateIsRunningTables = true;
+        //private void            CoreHandleUpdateTables()
+        //{
+        //    try
+        //    {
+        //        if (!updateIsRunningTables)
+        //        {
+        //            updateIsRunningTables = true;
 
-                    #region update tables
-                    bool oneFound = true;
+        //            #region update tables
+        //            bool oneFound = true;
 
-                    while (oneFound)
-                    {
-                        oneFound = false;
-                        #region check if out of sync
+        //            while (oneFound)
+        //            {
+        //                oneFound = false;
+        //                #region check if out of sync
 
-                        #region TemplateCreate
-                        //if (!oneFound)
-                        //{
-                        //    if (null != null)
-                        //    {
-                        //        oneFound = true;
-                        //    }
-                        //}
-                        #endregion
+        //                #region TemplateCreate
+        //                //if (!oneFound)
+        //                //{
+        //                //    if (null != null)
+        //                //    {
+        //                //        oneFound = true;
+        //                //    }
+        //                //}
+        //                #endregion
 
-                        #region CaseCreate
-                        if (!oneFound)
-                        {
-                            a_interaction_cases iC = sqlController.InteractionCaseReadFirstCreate();
+        //                #region CaseCreate
+        //                if (!oneFound)
+        //                {
+        //                    a_interaction_cases iC = sqlController.InteractionCaseReadFirstCreate();
 
-                            try
-                            {
-                                if (iC != null)
-                                {
-                                    #region var
-                                    oneFound = true;
-                                    List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
-                                    List<int> siteIds = new List<int>();
-                                    foreach (var item in caseList)
-                                        siteIds.Add((int)item.siteId);
-                                    List<string> lstMUIds = new List<string>();
-                                    List<string> replacements = t.TextLst(iC.replacements);
-                                    if (replacements == null)
-                                        replacements = new List<string>();
-                                    MainElement mainElement = sqlController.TemplateRead(iC.template_id);
-                                    #endregion
-                                    if (mainElement == null)
-                                    {
-                                        sqlController.InteractionCaseFailed(iC.id, "No matching template found");
-                                    }
-                                    else
-                                    {
-                                        #region replacement magic
-                                        #region ==
-                                        string xmlString = mainElement.ClassToXml();
-                                        string xmlStrNew = xmlString;
+        //                    try
+        //                    {
+        //                        if (iC != null)
+        //                        {
+        //                            #region var
+        //                            oneFound = true;
+        //                            List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
+        //                            List<int> siteIds = new List<int>();
+        //                            foreach (var item in caseList)
+        //                                siteIds.Add((int)item.siteId);
+        //                            List<string> lstMUIds = new List<string>();
+        //                            List<string> replacements = t.TextLst(iC.replacements);
+        //                            if (replacements == null)
+        //                                replacements = new List<string>();
+        //                            MainElement mainElement = sqlController.TemplateRead(iC.template_id);
+        //                            #endregion
+        //                            if (mainElement == null)
+        //                            {
+        //                                sqlController.InteractionCaseFailed(iC.id, "No matching template found");
+        //                            }
+        //                            else
+        //                            {
+        //                                #region replacement magic
+        //                                #region ==
+        //                                string xmlString = mainElement.ClassToXml();
+        //                                string xmlStrNew = xmlString;
 
-                                        foreach (var item in replacements)
-                                        {
-                                            if (item.Contains("=="))
-                                            {
-                                                int mark = item.IndexOf("==");
-                                                string pre = item.Substring(0, mark);
-                                                string post = item.Substring(mark + 2);
+        //                                foreach (var item in replacements)
+        //                                {
+        //                                    if (item.Contains("=="))
+        //                                    {
+        //                                        int mark = item.IndexOf("==");
+        //                                        string pre = item.Substring(0, mark);
+        //                                        string post = item.Substring(mark + 2);
 
-                                                xmlStrNew = xmlString.Replace(pre, post);
+        //                                        xmlStrNew = xmlString.Replace(pre, post);
 
-                                                if (xmlStrNew == xmlString)
-                                                    log.LogStandard("Not Specified", "Replacement line:'" + item + "' coursed no change");
-                                                else
-                                                    xmlString = xmlStrNew;
-                                            }
-                                        }
+        //                                        if (xmlStrNew == xmlString)
+        //                                            log.LogStandard("Not Specified", "Replacement line:'" + item + "' coursed no change");
+        //                                        else
+        //                                            xmlString = xmlStrNew;
+        //                                    }
+        //                                }
 
-                                        try
-                                        {
-                                            mainElement = mainElement.XmlToClass(xmlString);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            log.LogException("Not Specified", "Replacement magic failed. Replacements coursed xml to become unreadable", ex, false);
-                                        }
-                                        #endregion
+        //                                try
+        //                                {
+        //                                    mainElement = mainElement.XmlToClass(xmlString);
+        //                                }
+        //                                catch (Exception ex)
+        //                                {
+        //                                    log.LogException("Not Specified", "Replacement magic failed. Replacements coursed xml to become unreadable", ex, false);
+        //                                }
+        //                                #endregion
 
-                                        #region ::
-                                        foreach (var item in replacements)
-                                        {
-                                            if (item.Contains("::"))
-                                            {
-                                                int mark = item.IndexOf("::");
-                                                string tag = item.Substring(0, mark);
-                                                string content = item.Substring(mark + 2);
+        //                                #region ::
+        //                                foreach (var item in replacements)
+        //                                {
+        //                                    if (item.Contains("::"))
+        //                                    {
+        //                                        int mark = item.IndexOf("::");
+        //                                        string tag = item.Substring(0, mark);
+        //                                        string content = item.Substring(mark + 2);
 
-                                                switch (tag.ToLower())
-                                                {
-                                                    case "title":
-                                                        {
-                                                            Element elem = mainElement.ElementList[0];
+        //                                        switch (tag.ToLower())
+        //                                        {
+        //                                            case "title":
+        //                                                {
+        //                                                    Element elem = mainElement.ElementList[0];
 
-                                                            if (elem.Label == mainElement.Label)
-                                                                elem.Label = content;
+        //                                                    if (elem.Label == mainElement.Label)
+        //                                                        elem.Label = content;
 
-                                                            mainElement.Label = content;
+        //                                                    mainElement.Label = content;
 
-                                                            break;
-                                                        }
-                                                    case "description":
-                                                        {
-                                                            Element elem = mainElement.ElementList[0];
+        //                                                    break;
+        //                                                }
+        //                                            case "description":
+        //                                                {
+        //                                                    Element elem = mainElement.ElementList[0];
 
-                                                            elem.Description.InderValue = content;
+        //                                                    elem.Description.InderValue = content;
 
-                                                            break;
-                                                        }
-                                                    case "info":
-                                                        {
-                                                            Element elem = mainElement.ElementList[0];
+        //                                                    break;
+        //                                                }
+        //                                            case "info":
+        //                                                {
+        //                                                    Element elem = mainElement.ElementList[0];
 
-                                                            if (elem.GetType() == typeof(DataElement))
-                                                            {
-                                                                DataElement dElem = (DataElement)elem;
-                                                                None info = new None(0, false, false, "Info:", content, "", int.MinValue, false);
-                                                                dElem.DataItemList.Add(info);
-                                                            }
+        //                                                    if (elem.GetType() == typeof(DataElement))
+        //                                                    {
+        //                                                        DataElement dElem = (DataElement)elem;
+        //                                                        None info = new None(0, false, false, "Info:", content, "", int.MinValue, false);
+        //                                                        dElem.DataItemList.Add(info);
+        //                                                    }
 
-                                                            break;
-                                                        }
-                                                    case "expire":
-                                                        {
-                                                            mainElement.EndDate = DateTime.Parse(content);
-                                                            break;
-                                                        }
-                                                    default:
-                                                        {
-                                                            Console.WriteLine("Replacement magic failed. Tag:'" + tag + "' not known");
-                                                            break;
-                                                        }
-                                                }
-                                            }
-                                        }
-                                        #endregion
-                                        #endregion
+        //                                                    break;
+        //                                                }
+        //                                            case "expire":
+        //                                                {
+        //                                                    mainElement.EndDate = DateTime.Parse(content);
+        //                                                    break;
+        //                                                }
+        //                                            default:
+        //                                                {
+        //                                                    Console.WriteLine("Replacement magic failed. Tag:'" + tag + "' not known");
+        //                                                    break;
+        //                                                }
+        //                                        }
+        //                                    }
+        //                                }
+        //                                #endregion
+        //                                #endregion
 
-                                        #region send connected or not
-                                        if (t.Bool(iC.connected))
-                                        {
-                                            if (string.IsNullOrEmpty(iC.case_uid))
-                                                lstMUIds = CaseCreate(mainElement, DateTime.Now.ToString(), siteIds, iC.custom);
-                                            else
-                                                lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom);
-                                        }
-                                        else
-                                            if (string.IsNullOrEmpty(iC.case_uid))
-                                                foreach (var site in siteIds)
-                                                    lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
-                                            else
-                                                foreach (var site in siteIds)
-                                                    lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid + " site:" + site, new List<int> { site }, iC.custom));
-                                        #endregion
+        //                                #region send connected or not
+        //                                if (t.Bool(iC.connected))
+        //                                {
+        //                                    if (string.IsNullOrEmpty(iC.case_uid))
+        //                                        lstMUIds = CaseCreate(mainElement, DateTime.Now.ToString(), siteIds, iC.custom);
+        //                                    else
+        //                                        lstMUIds = CaseCreate(mainElement, iC.case_uid, siteIds, iC.custom);
+        //                                }
+        //                                else
+        //                                    if (string.IsNullOrEmpty(iC.case_uid))
+        //                                        foreach (var site in siteIds)
+        //                                            lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid, new List<int> { site }, iC.custom));
+        //                                    else
+        //                                        foreach (var site in siteIds)
+        //                                            lstMUIds.AddRange(CaseCreate(mainElement, iC.case_uid + " site:" + site, new List<int> { site }, iC.custom));
+        //                                #endregion
 
-                                        sqlController.InteractionCaseProcessedCreate(iC.id, siteIds, lstMUIds);
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseCreate logic failed", ex));
-                            }
-                        }
-                        #endregion
+        //                                sqlController.InteractionCaseProcessedCreate(iC.id, siteIds, lstMUIds);
+        //                            }
+        //                        }
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseCreate logic failed", ex));
+        //                    }
+        //                }
+        //                #endregion
 
-                        #region CaseDelete
-                        if (!oneFound)
-                        {
-                            a_interaction_cases iC = sqlController.InteractionCaseReadFirstDelete();
+        //                #region CaseDelete
+        //                if (!oneFound)
+        //                {
+        //                    a_interaction_cases iC = sqlController.InteractionCaseReadFirstDelete();
 
-                            try
-                            {
-                                if (iC != null)
-                                {
-                                    oneFound = true;
-                                    int found = 0;
-                                    List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
+        //                    try
+        //                    {
+        //                        if (iC != null)
+        //                        {
+        //                            oneFound = true;
+        //                            int found = 0;
+        //                            List<a_interaction_case_lists> caseList = sqlController.InteractionCaseListRead(iC.id);
 
-                                    foreach (var item in caseList)
-                                    {
-                                        if (item.stat == "Sent" || item.stat == "Retrived")
-                                            found += 1 - t.Bool(CaseDelete(item.microting_uid));
+        //                            foreach (var item in caseList)
+        //                            {
+        //                                if (item.stat == "Sent" || item.stat == "Retrived")
+        //                                    found += 1 - t.Bool(CaseDelete(item.microting_uid));
 
-                                        if (item.stat == "Created")
-                                            found += 1 - t.Bool(sqlController.InteractionCaseUpdate(item.microting_uid, item.case_id, item.check_uid, "Removed"));
-                                    }
+        //                                if (item.stat == "Created")
+        //                                    found += 1 - t.Bool(sqlController.InteractionCaseUpdate(item.microting_uid, item.case_id, item.check_uid, "Removed"));
+        //                            }
 
-                                    if (found == 0)
-                                        sqlController.InteractionCaseProcessedDelete(iC.id);
-                                    else
-                                        sqlController.InteractionCaseFailed(iC.id, t.GetMethodName() + " failed. CaseDelete failed. " + found + " eForms not deleted");
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseDelete logic failed", ex));
-                            }
-                        }
-                        #endregion
+        //                            if (found == 0)
+        //                                sqlController.InteractionCaseProcessedDelete(iC.id);
+        //                            else
+        //                                sqlController.InteractionCaseFailed(iC.id, t.GetMethodName() + " failed. CaseDelete failed. " + found + " eForms not deleted");
+        //                        }
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        sqlController.InteractionCaseFailed(iC.id, t.PrintException(t.GetMethodName() + " failed. CaseDelete logic failed", ex));
+        //                    }
+        //                }
+        //                #endregion
 
-                        #endregion
-                    }
-                    #endregion
+        //                #endregion
+        //            }
+        //            #endregion
 
-                    updateIsRunningTables = false;
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
-            }
-            catch (Exception ex)
-            {
-                log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
-            }
-        }
+        //            updateIsRunningTables = false;
+        //        }
+        //    }
+        //    catch (ThreadAbortException)
+        //    {
+        //        log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
+        //    }
+        //}
 
         private void            CoreHandleUpdateEntityItems()
         {
@@ -3819,7 +3825,7 @@ namespace eFormCore
             sqlController.CaseUpdateCompleted(microtingUId, checkUId, DateTime.Now, workerUId, unitUId);
             sqlController.CaseRetract(microtingUId, checkUId);
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
-            InteractionCaseUpdate(cDto);
+            //InteractionCaseUpdate(cDto);
             try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
             catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
             log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
@@ -3830,7 +3836,7 @@ namespace eFormCore
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
             Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
 
-            InteractionCaseUpdate(cDtoDel);
+            //InteractionCaseUpdate(cDtoDel);
             try { HandleCaseDeleted?.Invoke(cDtoDel, EventArgs.Empty); }
             catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
             log.LogStandard("Not Specified", cDto.ToString() + " has been deleted");

@@ -1839,7 +1839,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByCaseUId failed", ex);
+                throw new Exception("CaseReadByCaseId failed", ex);
             }
         }
 

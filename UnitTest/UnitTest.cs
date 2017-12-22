@@ -1873,369 +1873,369 @@ namespace UnitTest
         }
         #endregion
 
-        #region - test 012x - interaction cases
-        [Fact]
-        public void Test012_Interaction_Case_1a_CreatedInTable()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "Passed";
-                string checkValueB;
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                checkValueB = "" + core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, null);
-                if (checkValueB == "1" || checkValueB == "2" || checkValueB == "3")
-                    checkValueB = "Passed";
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_2a_Completed_Connected()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "CompletedCompleted";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", true, null);
-
-                WaitForAvailableMicroting(iCaseId);
-
-                InteractionCaseComplet(iCaseId);
-
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
-                foreach (var item in lst)
-                    checkValueB += item.stat;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_2b_Completed_NotConnected()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "CompletedCompleted";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
-
-                WaitForAvailableMicroting(iCaseId);
-                InteractionCaseComplet(iCaseId);
-
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-                foreach (var item in lst)
-                    checkValueB += item.stat;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_2c_CompletedWithReplacements()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "CompletedCompleted";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                List<string> temp = new List<string>();
-                temp.Add("pre_text1==post_text1");
-                temp.Add("pre_text2==post_text2");
-                temp.Add("Title::Test");
-                temp.Add("Info::info TEXT added to eForm");
-                temp.Add("Expire::" + DateTime.Now.AddDays(10).ToString());
-                int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
-
-                WaitForAvailableMicroting(iCaseId);
-                InteractionCaseComplet(iCaseId);
-
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-                foreach (var item in lst)
-                    checkValueB += item.stat;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_2d_ReplacementsFailedDateTime()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "failed to sync";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                List<string> temp = new List<string>();
-                temp.Add("Expire::" + "TEXT THAT IS NOT A DATETIME");
-                int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, temp);
-
-                WaitForAvailableMicroting(iCaseId);
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
-                var cas = sqlController.UnitTest_FindInteractionCase(iCaseId);
-                checkValueB = cas.workflow_state;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_3a_DeletedSDK()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "DeletedDeleted";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-
-                //Act
-                int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
-
-                WaitForAvailableMicroting(iCaseId);
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
-                core_UT.CaseDelete(lst[1].microting_uid);
-                sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
-
-                while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
-                    Thread.Sleep(100);
-
-                core_UT.CaseDelete(lst[0].microting_uid);
-                var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
-                foreach (var item in lst2)
-                    checkValueB += item.stat;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_3b_DeletedInteraction()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "DeletedDeleted";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
-
-                WaitForAvailableMicroting(iCaseId);
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-
-                sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
-                while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
-                    Thread.Sleep(100);
-
-                core.Advanced_InteractionCaseDelete(iCaseId);
-                while (sqlController.UnitTest_FindAllActiveInteraction().Count > 0)
-                    Thread.Sleep(100);
-
-                var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
-                foreach (var item in lst2)
-                    checkValueB += item.stat;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_4a__Multi_Completed()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "CompletedCompletedCompletedCompletedCompletedCompleted";
-                string checkValueB = "";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                //Act
-                int iCaseId1 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case1", siteUIds, "", false, null);
-                int iCaseId2 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case2", siteUIds, "", false, null);
-                int iCaseId3 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case3", siteUIds, "", false, null);
-
-                WaitForAvailableMicroting(iCaseId1);
-                WaitForAvailableMicroting(iCaseId2);
-                WaitForAvailableMicroting(iCaseId3);
-
-                InteractionCaseComplet(iCaseId2);
-                InteractionCaseComplet(iCaseId3);
-                InteractionCaseComplet(iCaseId1);
-
-                var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId1);
-                lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId2));
-                lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId3));
-
-                foreach (var item in lst)
-                    checkValueB += item.stat;
-
-                //Assert
-                TestTeardown();
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-
-        [Fact]
-        public void Test012_Interaction_Case_5a_Multi_Completed_StressTest()
-        {
-            lock (_lockTest)
-            {
-                //Arrange
-                TestPrepare(t.GetMethodName(), true);
-                string checkValueA = "Passed, if no expection";
-                string checkValueB = "Passed, if no expection";
-
-                string xmlStr = LoadFil("xml.txt");
-                MainElement main = core.TemplateFromXml(xmlStr);
-                int templatId = core.TemplateCreate(main);
-                List<int> siteUIds = new List<int>();
-                siteUIds.Add(siteId1);
-                siteUIds.Add(siteId2);
-
-                List<string> temp = new List<string>();
-                temp.Add("pre_text1==post_text1");
-                temp.Add("pre_text2==post_text2");
-                temp.Add("Title::Test");
-                temp.Add("Info::info TEXT added to eForm");
-                temp.Add("Expire::" + DateTime.Now.AddDays(10).ToString());
-
-                //Act
-                int iCaseId1 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
-                int iCaseId2 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
-                int iCaseId3 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", true, temp);
-                int iCaseId4 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
-                int iCaseId5 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
-
-                WaitForAvailableMicroting(iCaseId1);
-                WaitForAvailableMicroting(iCaseId2);
-                WaitForAvailableMicroting(iCaseId3);
-                WaitForAvailableMicroting(iCaseId4);
-                WaitForAvailableMicroting(iCaseId5);
-
-                //InteractionCaseComplet(iCaseId2); on purpose missing
-                InteractionCaseComplet(iCaseId4);
-                InteractionCaseComplet(iCaseId3);
-                InteractionCaseComplet(iCaseId5);
-                InteractionCaseComplet(iCaseId1);
-
-                var lstCompleted = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId1);
-                lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId3));
-                lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId4));
-                lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId5));
-
-                var lstNot = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId2);
-
-                foreach (var item in lstCompleted)
-                {
-                    if (item.stat != "Completed")
-                        throw new Exception("InteractionCase not 'Completed'");
-                }
-
-                foreach (var item in lstNot)
-                {
-                    if (item.stat != "Sent")
-                        throw new Exception("InteractionCase not 'Completed'");
-                }
-
-                //Assert
-                Assert.Equal(checkValueA, checkValueB);
-            }
-        }
-        #endregion
+        //#region - test 012x - interaction cases
+        //[Fact]
+        //public void Test012_Interaction_Case_1a_CreatedInTable()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "Passed";
+        //        string checkValueB;
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        checkValueB = "" + core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, null);
+        //        if (checkValueB == "1" || checkValueB == "2" || checkValueB == "3")
+        //            checkValueB = "Passed";
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_2a_Completed_Connected()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "CompletedCompleted";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", true, null);
+
+        //        WaitForAvailableMicroting(iCaseId);
+
+        //        InteractionCaseComplet(iCaseId);
+
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+
+        //        foreach (var item in lst)
+        //            checkValueB += item.stat;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_2b_Completed_NotConnected()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "CompletedCompleted";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
+
+        //        WaitForAvailableMicroting(iCaseId);
+        //        InteractionCaseComplet(iCaseId);
+
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+        //        foreach (var item in lst)
+        //            checkValueB += item.stat;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_2c_CompletedWithReplacements()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "CompletedCompleted";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        List<string> temp = new List<string>();
+        //        temp.Add("pre_text1==post_text1");
+        //        temp.Add("pre_text2==post_text2");
+        //        temp.Add("Title::Test");
+        //        temp.Add("Info::info TEXT added to eForm");
+        //        temp.Add("Expire::" + DateTime.Now.AddDays(10).ToString());
+        //        int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+
+        //        WaitForAvailableMicroting(iCaseId);
+        //        InteractionCaseComplet(iCaseId);
+
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+        //        foreach (var item in lst)
+        //            checkValueB += item.stat;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_2d_ReplacementsFailedDateTime()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "failed to sync";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        List<string> temp = new List<string>();
+        //        temp.Add("Expire::" + "TEXT THAT IS NOT A DATETIME");
+        //        int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, temp);
+
+        //        WaitForAvailableMicroting(iCaseId);
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+
+        //        var cas = sqlController.UnitTest_FindInteractionCase(iCaseId);
+        //        checkValueB = cas.workflow_state;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_3a_DeletedSDK()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "DeletedDeleted";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+
+        //        //Act
+        //        int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
+
+        //        WaitForAvailableMicroting(iCaseId);
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+
+        //        core_UT.CaseDelete(lst[1].microting_uid);
+        //        sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
+
+        //        while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
+        //            Thread.Sleep(100);
+
+        //        core_UT.CaseDelete(lst[0].microting_uid);
+        //        var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+
+        //        foreach (var item in lst2)
+        //            checkValueB += item.stat;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_3b_DeletedInteraction()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "DeletedDeleted";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        int iCaseId = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName(), siteUIds, "", false, null);
+
+        //        WaitForAvailableMicroting(iCaseId);
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+
+        //        sqlController.NotificationCreate(DateTime.Now.ToLongTimeString(), lst[0].microting_uid, "unit_fetch");
+        //        while (sqlController.UnitTest_FindAllActiveNotifications().Count > 0)
+        //            Thread.Sleep(100);
+
+        //        core.Advanced_InteractionCaseDelete(iCaseId);
+        //        while (sqlController.UnitTest_FindAllActiveInteraction().Count > 0)
+        //            Thread.Sleep(100);
+
+        //        var lst2 = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId);
+        //        foreach (var item in lst2)
+        //            checkValueB += item.stat;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_4a__Multi_Completed()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "CompletedCompletedCompletedCompletedCompletedCompleted";
+        //        string checkValueB = "";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        //Act
+        //        int iCaseId1 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case1", siteUIds, "", false, null);
+        //        int iCaseId2 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case2", siteUIds, "", false, null);
+        //        int iCaseId3 = (int)core.Advanced_InteractionCaseCreate(templatId, t.GetMethodName() + " case3", siteUIds, "", false, null);
+
+        //        WaitForAvailableMicroting(iCaseId1);
+        //        WaitForAvailableMicroting(iCaseId2);
+        //        WaitForAvailableMicroting(iCaseId3);
+
+        //        InteractionCaseComplet(iCaseId2);
+        //        InteractionCaseComplet(iCaseId3);
+        //        InteractionCaseComplet(iCaseId1);
+
+        //        var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId1);
+        //        lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId2));
+        //        lst.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId3));
+
+        //        foreach (var item in lst)
+        //            checkValueB += item.stat;
+
+        //        //Assert
+        //        TestTeardown();
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test012_Interaction_Case_5a_Multi_Completed_StressTest()
+        //{
+        //    lock (_lockTest)
+        //    {
+        //        //Arrange
+        //        TestPrepare(t.GetMethodName(), true);
+        //        string checkValueA = "Passed, if no expection";
+        //        string checkValueB = "Passed, if no expection";
+
+        //        string xmlStr = LoadFil("xml.txt");
+        //        MainElement main = core.TemplateFromXml(xmlStr);
+        //        int templatId = core.TemplateCreate(main);
+        //        List<int> siteUIds = new List<int>();
+        //        siteUIds.Add(siteId1);
+        //        siteUIds.Add(siteId2);
+
+        //        List<string> temp = new List<string>();
+        //        temp.Add("pre_text1==post_text1");
+        //        temp.Add("pre_text2==post_text2");
+        //        temp.Add("Title::Test");
+        //        temp.Add("Info::info TEXT added to eForm");
+        //        temp.Add("Expire::" + DateTime.Now.AddDays(10).ToString());
+
+        //        //Act
+        //        int iCaseId1 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+        //        int iCaseId2 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+        //        int iCaseId3 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", true, temp);
+        //        int iCaseId4 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+        //        int iCaseId5 = (int)core.Advanced_InteractionCaseCreate(templatId, "", siteUIds, "", false, temp);
+
+        //        WaitForAvailableMicroting(iCaseId1);
+        //        WaitForAvailableMicroting(iCaseId2);
+        //        WaitForAvailableMicroting(iCaseId3);
+        //        WaitForAvailableMicroting(iCaseId4);
+        //        WaitForAvailableMicroting(iCaseId5);
+
+        //        //InteractionCaseComplet(iCaseId2); on purpose missing
+        //        InteractionCaseComplet(iCaseId4);
+        //        InteractionCaseComplet(iCaseId3);
+        //        InteractionCaseComplet(iCaseId5);
+        //        InteractionCaseComplet(iCaseId1);
+
+        //        var lstCompleted = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId1);
+        //        lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId3));
+        //        lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId4));
+        //        lstCompleted.AddRange(sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId5));
+
+        //        var lstNot = sqlController.UnitTest_FindAllActiveInteractionCaseLists(iCaseId2);
+
+        //        foreach (var item in lstCompleted)
+        //        {
+        //            if (item.stat != "Completed")
+        //                throw new Exception("InteractionCase not 'Completed'");
+        //        }
+
+        //        foreach (var item in lstNot)
+        //        {
+        //            if (item.stat != "Sent")
+        //                throw new Exception("InteractionCase not 'Completed'");
+        //        }
+
+        //        //Assert
+        //        Assert.Equal(checkValueA, checkValueB);
+        //    }
+        //}
+        //#endregion
 
         #region - test 013x - sqlController (Settings)
         //Not active, as would fuck up the stat of settings. Don't run unless settings stat is not improtant
