@@ -152,6 +152,7 @@ namespace eFormSubscriber
                                 string microtingUId = parsedData["microting_uuid"].ToString();
                                 string action = parsedData["text"].ToString();
                                 #endregion
+                                log.LogStandard("Not Specified", "Notification notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + action);
                                 sqlController.NotificationCreate(notificationUId, microtingUId, action);
 
                                 sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
