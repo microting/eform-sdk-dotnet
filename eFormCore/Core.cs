@@ -39,6 +39,8 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml;
+using Castle.Windsor;
+using eFormCore.Installers;
 
 namespace eFormCore
 {
@@ -60,6 +62,8 @@ namespace eFormCore
         Communicator communicator;
         SqlController sqlController;
         Tools t = new Tools();
+
+        IWindsorContainer container;
 
         public Log log;
 
@@ -94,6 +98,12 @@ namespace eFormCore
             {
                 if (!coreAvailable && !coreStatChanging)
                 {
+                    container = new WindsorContainer();
+                    container.Install(
+                        new RebusHandlerInstaller()
+                        , new RebusInstaller()
+                    );
+
                     if (!StartSqlOnly(connectionString))
                         return false;
                     log.LogCritical("Not Specified", t.GetMethodName() + " called");
