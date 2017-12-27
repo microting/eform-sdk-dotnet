@@ -22,9 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using eForm.Messages;
 using eFormCore;
 using eFormShared;
-
+using Rebus.Activation;
+using Rebus.Config;
+using Rebus.Routing.TypeBased;
 using System;
 using System.IO;
 using System.Threading;
@@ -37,6 +40,8 @@ namespace SourceCode
         {
             try
             {
+
+
                 #region pick database
                 //string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
                 string serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=v166;User Id=sa;Password=aiT1sueh;";
@@ -46,12 +51,12 @@ namespace SourceCode
                 Console.WriteLine("  Enter name of database to be used");
                 string databaseName = Console.ReadLine();
 
-                if (databaseName.ToUpper() != "")
-                    serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
-                if (databaseName.ToUpper() == "T")
-                    serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
-                if (databaseName.ToUpper() == "O")
-                    serverConnectionString = "Data Source=DESKTOP-7V1APE5\\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+                //if (databaseName.ToUpper() != "")
+                //    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
+                //if (databaseName.ToUpper() == "T")
+                //    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
+                //if (databaseName.ToUpper() == "O")
+                //    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
 
                 Console.WriteLine(serverConnectionString);
                 #endregion
@@ -66,7 +71,17 @@ namespace SourceCode
                 Console.WriteLine("Any other will close Console");
                 string input = Console.ReadLine().ToUpper();
                 #endregion
-                
+
+
+                var bus = Configure.With(new BuiltinHandlerActivator())
+                    .Logging(l => l.ColoredConsole())
+                    .Transport(t => t.UseSqlServerAsOneWayClient(connectionStringOrConnectionStringName: serverConnectionString, tableName: "Rebus"))
+                    .Options(o => {
+
+                    })
+                    .Routing(r => r.TypeBased().Map<EformRetrieved>("eformsdk-input"))
+                    .Start();
+
                 if (input == "A")
                 {
                     var program = new AdminTools(serverConnectionString);
@@ -90,6 +105,18 @@ namespace SourceCode
                         break;
                     }
                     #endregion
+                }
+
+                if (input == "E")
+                {
+                    var core = new Core();
+                    core.Start(serverConnectionString);
+
+                    Console.WriteLine("Sending EformRetrieved message");
+                    bus.Send(new EformRetrieved("123", "123")).Wait();
+
+                    Console.WriteLine("Hit a key to exit");
+                    Console.ReadLine();
                 }
 
                 Console.WriteLine("");
