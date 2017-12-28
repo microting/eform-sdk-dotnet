@@ -11,7 +11,7 @@ namespace eFormSDK.Integration.Tests
         [SetUp]
         public void Setup()
         {
-            const string connnectionString = @"data source=(LocalDb)\MSSQLLocalDB;Initial catalog=test123";
+            const string connnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests";
 
             DbContext = new MicrotingDbMs(connnectionString);
             DbContext.Database.CreateIfNotExists();
