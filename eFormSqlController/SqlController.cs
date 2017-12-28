@@ -3779,7 +3779,7 @@ namespace eFormSqlController
         #endregion
 
         #region public write log
-        public Log                  StartLog(CoreBase core)
+        public Log StartLog(CoreBase core)
         {
             try
             {

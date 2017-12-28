@@ -7,13 +7,12 @@ namespace eFormSDK.Integration.Tests
     public abstract class DbTestFixture
     {
         protected MicrotingDbMs DbContext;
+        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests";
 
         [SetUp]
         public void Setup()
         {
-            const string connnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests";
-
-            DbContext = new MicrotingDbMs(connnectionString);
+            DbContext = new MicrotingDbMs(ConnectionString);
             DbContext.Database.CreateIfNotExists();
 
             DbContext.Database.Initialize(false);
