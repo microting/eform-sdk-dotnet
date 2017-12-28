@@ -41,6 +41,8 @@ using System.Xml;
 using OfficeOpenXml;
 using Castle.Windsor;
 using eFormCore.Installers;
+using Castle.MicroKernel.Registration;
+using Rebus.Bus;
 
 namespace eFormCore
 {
@@ -98,11 +100,7 @@ namespace eFormCore
             {
                 if (!coreAvailable && !coreStatChanging)
                 {
-                    container = new WindsorContainer();
-                    container.Install(
-                        new RebusHandlerInstaller()
-                        , new RebusInstaller()
-                    );
+                   
 
                     if (!StartSqlOnly(connectionString))
                         return false;
@@ -110,10 +108,18 @@ namespace eFormCore
 
                     //---
 
+                    container = new WindsorContainer();
+                    container.Register(Component.For<SqlController>().Instance(sqlController));
+                    container.Install(
+                        new RebusHandlerInstaller()
+                        , new RebusInstaller(connectionString)
+                    );
+
                     coreStatChanging = true;
 
                     //subscriber
-                    subscriber = new Subscriber(sqlController, log);
+                    var bus = container.Resolve<IBus>();
+                    subscriber = new Subscriber(sqlController, log, bus);
                     subscriber.Start();
                     log.LogStandard("Not Specified", "Subscriber started");
 

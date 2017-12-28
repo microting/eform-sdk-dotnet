@@ -27,7 +27,7 @@ namespace eFormSqlController
         #endregion
 
         #region con
-        public                      SqlController(string connectionString)
+        public SqlController(string connectionString)
         {
             connectionStr = connectionString;
     
@@ -1572,33 +1572,32 @@ namespace eFormSqlController
         #endregion
 
         #region notification
-        public void                 NotificationCreate(string notificationUId, string microtingUId, string activity)
+        public void NotificationCreate(string notificationUId, string microtingUId, string activity)
         {
-            try
+            using (var db = GetContext())
             {
-                using (var db = GetContext())
+                if (db.notifications.Count(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId) == 0)
                 {
-                    if (db.notifications.Count(x => x.notification_uid == notificationUId) == 0)
-                    {
-                        notifications aNote = new notifications();
+                    log.LogStandard("Not Specified", "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
-                        aNote.workflow_state = "created";
-                        aNote.created_at = DateTime.Now;
-                        aNote.updated_at = DateTime.Now;
-                        aNote.notification_uid = notificationUId;
-                        aNote.microting_uid = microtingUId;
-                        aNote.activity = activity;
+                    notifications aNote = new notifications();
 
-                        db.notifications.Add(aNote);
-                        db.SaveChanges();
-                    }
+                    aNote.workflow_state = "created";
+                    aNote.created_at = DateTime.Now;
+                    aNote.updated_at = DateTime.Now;
+                    aNote.notification_uid = notificationUId;
+                    aNote.microting_uid = microtingUId;
+                    aNote.activity = activity;
 
-                    //TODO else log warning
+                    db.notifications.Add(aNote);
+                    db.SaveChanges();
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                else
+                {
+                    throw new InvalidOperationException($"Duplicate notification found for notificationid = '{notificationUId}' and MicrotingUid = '{microtingUId}'");
+                }
+
+                //TODO else log warning
             }
         }
 

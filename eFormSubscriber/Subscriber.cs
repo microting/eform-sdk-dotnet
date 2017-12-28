@@ -35,6 +35,8 @@ using Amazon.Runtime;
 using Amazon;
 using System.Threading;
 using Newtonsoft.Json.Linq;
+using eForm.Messages;
+using Rebus.Bus;
 
 namespace eFormSubscriber
 {
@@ -43,6 +45,7 @@ namespace eFormSubscriber
         #region var
         SqlController sqlController;
         Log log;
+        private readonly IBus bus;
         bool keepSubscribed;
         bool isActive;
         Thread subscriberThread;
@@ -53,10 +56,11 @@ namespace eFormSubscriber
         /// <summary>
         /// Microting notification server subscriber C# DLL.
         /// </summary>
-        public Subscriber(SqlController sqlController, Log log)
+        public Subscriber(SqlController sqlController, Log log, IBus bus)
         {
             this.sqlController = sqlController;
             this.log = log;
+            this.bus = bus;
         }
         #endregion
 
@@ -153,7 +157,19 @@ namespace eFormSubscriber
                                 string action = parsedData["text"].ToString();
                                 #endregion
                                 log.LogStandard("Not Specified", "Notification notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + action);
-                                sqlController.NotificationCreate(notificationUId, microtingUId, action);
+                                switch (action)
+                                {
+                                    case Constants.Notifications.RetrievedForm:
+                                        bus.SendLocal(new EformRetrieved(notificationUId, microtingUId)).Wait();
+                                        break;
+                                    case Constants.Notifications.Completed:
+                                        bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
+                                        break;
+                                }
+
+                                
+
+                                //sqlController.NotificationCreate(notificationUId, microtingUId, action);
 
                                 sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
                             }

@@ -76,6 +76,10 @@
     <Compile Include="Subscriber.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\eForm.Messages\eForm.Messages.csproj">
+      <Project>{06dadc7b-8c33-4be8-afab-c783305e3aa2}</Project>
+      <Name>eForm.Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\eFormShared\eFormShared.csproj">
       <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
       <Name>eFormShared</Name>

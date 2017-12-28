@@ -4,7 +4,7 @@ using eFormData;
 using eFormShared;
 using eFormSqlController;
 using eFormSubscriber;
-
+using Rebus.Testing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1244,7 +1244,7 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), true);
                 string checkValueA = "TrueFalse";
                 string checkValueB = "";
-                Subscriber subS = new Subscriber(sqlController, core.log);
+                Subscriber subS = new Subscriber(sqlController, core.log, new FakeBus());
                 core.Close();
 
                 //Act

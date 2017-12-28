@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="AdminTools.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="Handlers\EformCompletedHandler.cs" />
     <Compile Include="Handlers\EformRetrievedHandler.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="Installers\RebusHandlerInstaller.cs" />
