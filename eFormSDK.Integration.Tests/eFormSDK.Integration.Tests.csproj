@@ -93,17 +93,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
-      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
-      <Name>eFormShared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormSqlController\eFormSqlController.csproj">
-      <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>
-      <Name>eFormSqlController</Name>
-    </ProjectReference>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\eFormCore\Microting.eForm.csproj">
+      <Project>{c4e2af2f-10a6-40ff-80e5-e3262ed76599}</Project>
+      <Name>Microting.eForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

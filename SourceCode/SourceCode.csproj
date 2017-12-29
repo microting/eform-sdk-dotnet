@@ -84,21 +84,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eForm.Messages\eForm.Messages.csproj">
-      <Project>{06dadc7b-8c33-4be8-afab-c783305e3aa2}</Project>
-      <Name>eForm.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormCore\eFormCore.csproj">
+    <ProjectReference Include="..\eFormCore\Microting.eForm.csproj">
       <Project>{c4e2af2f-10a6-40ff-80e5-e3262ed76599}</Project>
-      <Name>eFormCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormData\eFormData.csproj">
-      <Project>{8B4A71AC-C214-4AB9-859D-66559F790133}</Project>
-      <Name>eFormData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
-      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
-      <Name>eFormShared</Name>
+      <Name>Microting.eForm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

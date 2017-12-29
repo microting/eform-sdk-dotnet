@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microting.eForm</RootNamespace>
+    <AssemblyName>Microting.eForm</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.3.18.1\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.SQS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SQS.3.3.3\lib\net45\AWSSDK.SQS.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.4.0.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.10\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.10\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rebus, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rebus.4.2.1\lib\net45\Rebus.dll</HintPath>
+    </Reference>
+    <Reference Include="Rebus.CastleWindsor, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rebus.Castle.Windsor.4.0.0\lib\net45\Rebus.CastleWindsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Rebus.SqlServer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rebus.SqlServer.4.0.0\lib\net45\Rebus.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminTools.cs" />
+    <Compile Include="Communication\Communicator.cs" />
+    <Compile Include="Communication\Http.cs" />
+    <Compile Include="Communication\HttpFake.cs" />
+    <Compile Include="Communication\IHttp.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="Dto\Classes.cs" />
+    <Compile Include="Handlers\EformCompletedHandler.cs" />
+    <Compile Include="Handlers\EformRetrievedHandler.cs" />
+    <Compile Include="ICore.cs" />
+    <Compile Include="Installers\RebusHandlerInstaller.cs" />
+    <Compile Include="Installers\RebusInstaller.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Messages\EformCompleted.cs" />
+    <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Model\DataItem.cs" />
+    <Compile Include="Model\DataItemGroup.cs" />
+    <Compile Include="Model\Element.cs" />
+    <Compile Include="Model\Entities.cs" />
+    <Compile Include="Model\MainElement.cs" />
+    <Compile Include="Model\reply\Check.cs" />
+    <Compile Include="Model\reply\DataItemReply.cs" />
+    <Compile Include="Model\reply\ElementList.cs" />
+    <Compile Include="Model\reply\Geolocation.cs" />
+    <Compile Include="Model\reply\Response.cs" />
+    <Compile Include="Persistance\MicrotingContextInterface.cs" />
+    <Compile Include="Persistance\MicrotingDbMs.cs" />
+    <Compile Include="Persistance\MicrotingDbMy.cs" />
+    <Compile Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.cs" />
+    <Compile Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.Designer.cs">
+      <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201702131247518_RenamingDataUploaded.cs" />
+    <Compile Include="Persistance\Migrations\201702131247518_RenamingDataUploaded.Designer.cs">
+      <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201704071121081_RemoveOutlookTable.cs" />
+    <Compile Include="Persistance\Migrations\201704071121081_RemoveOutlookTable.Designer.cs">
+      <DependentUpon>201704071121081_RemoveOutlookTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201704180753399_AddInputAndOutputTables.cs" />
+    <Compile Include="Persistance\Migrations\201704180753399_AddInputAndOutputTables.Designer.cs">
+      <DependentUpon>201704180753399_AddInputAndOutputTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201704200702458_AddingMissingColumnsNotifications.cs" />
+    <Compile Include="Persistance\Migrations\201704200702458_AddingMissingColumnsNotifications.Designer.cs">
+      <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201704270817388_ChangingDescriptionToMax.cs" />
+    <Compile Include="Persistance\Migrations\201704270817388_ChangingDescriptionToMax.Designer.cs">
+      <DependentUpon>201704270817388_ChangingDescriptionToMax.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201704280759188_AddingInteractionsTable.cs" />
+    <Compile Include="Persistance\Migrations\201704280759188_AddingInteractionsTable.Designer.cs">
+      <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.cs" />
+    <Compile Include="Persistance\Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.Designer.cs">
+      <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs" />
+    <Compile Include="Persistance\Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.Designer.cs">
+      <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.cs" />
+    <Compile Include="Persistance\Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.Designer.cs">
+      <DependentUpon>201708311254324_ChangingFieldDefaultValueMaxLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.cs" />
+    <Compile Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.Designer.cs">
+      <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\Configuration.cs" />
+    <Compile Include="Persistance\SqlController.cs" />
+    <Compile Include="Persistance\table\a_interaction_cases.cs" />
+    <Compile Include="Persistance\table\a_interaction_case_lists.cs" />
+    <Compile Include="Persistance\table\a_interaction_case_list_versions.cs" />
+    <Compile Include="Persistance\table\a_interaction_case_versions.cs" />
+    <Compile Include="Persistance\table\cases.cs" />
+    <Compile Include="Persistance\table\case_versions.cs" />
+    <Compile Include="Persistance\table\check_lists.cs" />
+    <Compile Include="Persistance\table\check_list_sites.cs" />
+    <Compile Include="Persistance\table\check_list_site_versions.cs" />
+    <Compile Include="Persistance\table\check_list_values.cs" />
+    <Compile Include="Persistance\table\check_list_value_versions.cs" />
+    <Compile Include="Persistance\table\check_list_versions.cs" />
+    <Compile Include="Persistance\table\entity_groups.cs" />
+    <Compile Include="Persistance\table\entity_group_versions.cs" />
+    <Compile Include="Persistance\table\entity_items.cs" />
+    <Compile Include="Persistance\table\entity_item_versions.cs" />
+    <Compile Include="Persistance\table\fields.cs" />
+    <Compile Include="Persistance\table\field_types.cs" />
+    <Compile Include="Persistance\table\field_values.cs" />
+    <Compile Include="Persistance\table\field_value_versions.cs" />
+    <Compile Include="Persistance\table\field_versions.cs" />
+    <Compile Include="Persistance\table\logs.cs" />
+    <Compile Include="Persistance\table\log_exceptions.cs" />
+    <Compile Include="Persistance\table\notifications.cs" />
+    <Compile Include="Persistance\table\settings.cs" />
+    <Compile Include="Persistance\table\sites.cs" />
+    <Compile Include="Persistance\table\site_versions.cs" />
+    <Compile Include="Persistance\table\site_workers.cs" />
+    <Compile Include="Persistance\table\site_worker_versions.cs" />
+    <Compile Include="Persistance\table\taggings.cs" />
+    <Compile Include="Persistance\table\tagging_versions.cs" />
+    <Compile Include="Persistance\table\tags.cs" />
+    <Compile Include="Persistance\table\tag_versions.cs" />
+    <Compile Include="Persistance\table\units.cs" />
+    <Compile Include="Persistance\table\unit_versions.cs" />
+    <Compile Include="Persistance\table\uploaded_data.cs" />
+    <Compile Include="Persistance\table\uploaded_data_versions.cs" />
+    <Compile Include="Persistance\table\workers.cs" />
+    <Compile Include="Persistance\table\worker_versions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CoreUnitTest.cs" />
+    <Compile Include="Services\Subscriber.cs" />
+    <Compile Include="Tools.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.SQS.3.3.3\analyzers\dotnet\cs\AWSSDK.SQS.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
+      <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201702131247518_RenamingDataUploaded.resx">
+      <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201704071121081_RemoveOutlookTable.resx">
+      <DependentUpon>201704071121081_RemoveOutlookTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201704180753399_AddInputAndOutputTables.resx">
+      <DependentUpon>201704180753399_AddInputAndOutputTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201704200702458_AddingMissingColumnsNotifications.resx">
+      <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201704270817388_ChangingDescriptionToMax.resx">
+      <DependentUpon>201704270817388_ChangingDescriptionToMax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201704280759188_AddingInteractionsTable.resx">
+      <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.resx">
+      <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.resx">
+      <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.resx">
+      <DependentUpon>201708311254324_ChangingFieldDefaultValueMaxLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.resx">
+      <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -97,29 +97,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eFormCommunicator\eFormCommunicator.csproj">
-      <Project>{ba524fad-0323-4565-8ed2-2253e5460216}</Project>
-      <Name>eFormCommunicator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormCore\eFormCore.csproj">
+    <ProjectReference Include="..\eFormCore\Microting.eForm.csproj">
       <Project>{c4e2af2f-10a6-40ff-80e5-e3262ed76599}</Project>
-      <Name>eFormCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormData\eFormData.csproj">
-      <Project>{8b4a71ac-c214-4ab9-859d-66559f790133}</Project>
-      <Name>eFormData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormShared\eFormShared.csproj">
-      <Project>{4e7b9dd0-b7cd-4e17-88cb-123d242ad2ae}</Project>
-      <Name>eFormShared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormSqlController\eFormSqlController.csproj">
-      <Project>{bfb5a715-3348-4a1c-97c6-0ee35e5a8da5}</Project>
-      <Name>eFormSqlController</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\eFormSubscriber\eFormSubscriber.csproj">
-      <Project>{7008b919-f965-4081-88b6-7004bb31d2ba}</Project>
-      <Name>eFormSubscriber</Name>
+      <Name>Microting.eForm</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
