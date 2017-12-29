@@ -1624,13 +1624,13 @@ namespace eFormSqlController
             }
         }
 
-        public void                 NotificationProcessed(string notificationUId, string workflowState)
+        public void                 NotificationProcessed(string notificationUId, string microtingUId, string workflowState)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    notifications aNoti = db.notifications.Single(x => x.notification_uid == notificationUId);
+                    notifications aNoti = db.notifications.Single(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId);
                     aNoti.workflow_state = workflowState;
                     aNoti.updated_at = DateTime.Now;
 
