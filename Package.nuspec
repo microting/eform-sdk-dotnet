@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Microting.eForm</id>
-    <version>1.6.4.18</version>
+    <version>1.6.4.19</version>
     <authors>Microting A/S</authors>
     <owners>Microting A/S</owners>
     <licenseUrl>https://github.com/microting/eform-sdk-dotnet/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
 	<iconUrl>https://www.microting.com/wp-content/uploads/2016/02/Microting-O-Logo-1.jpg</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A .NET SDK for integrating with the Microting eForm API</description>
-    <releaseNotes>Adding more log messages</releaseNotes>
+    <releaseNotes>Changing some infrastructure to use rebus.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <dependencies>
 	  <dependency id="Newtonsoft.Json" version="10.0.3"/>
@@ -21,17 +21,17 @@
       <dependency id="Rebus.Castle.Windsor" version="4.0.0" />
       <dependency id="Castle.Core" version="4.0.0"  />
       <dependency id="Castle.Windsor" version="4.0.0"  />
+      <dependency id="AWSSDK.Core" version="3.3.18.1"/>
+      <dependency id="AWSSDK.SQS" version="3.3.3" />
     </dependencies>
   </metadata>
   <files>
-	<file src="Compiled\eFormCommunicator.dll" target="lib"/>
-	<file src="Compiled\eFormCore.dll" target="lib"/>
-	<file src="Compiled\eFormData.dll" target="lib"/>
-	<file src="Compiled\eFormShared.dll" target="lib"/>
-	<file src="Compiled\eFormSqlController.dll" target="lib"/>
-	<file src="Compiled\eFormSubscriber.dll" target="lib"/>
-	<file src="Compiled\eForm.Messages.dll" target="lib"/>
-	<file src="Compiled\AWSSDK.Core.dll" target="lib"/>
-	<file src="Compiled\AWSSDK.SQS.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\eFormCommunicator.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\Microting.eForm.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\eFormData.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\eFormShared.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\eFormSqlController.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\eFormSubscriber.dll" target="lib"/>
+	<file src="eFormCore\bin\Release\eForm.Messages.dll" target="lib"/>
   </files>
 </package>
