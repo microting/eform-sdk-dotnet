@@ -29,5 +29,4 @@ namespace eFormSDK.Integration.Tests
 
         public virtual void DoSetup() { }
     }
-
 }
