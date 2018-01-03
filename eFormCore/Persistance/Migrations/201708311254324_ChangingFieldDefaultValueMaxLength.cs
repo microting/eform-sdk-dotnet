@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class ChangingFieldDefaultValueMaxLength : DbMigration
     {
         public override void Up()

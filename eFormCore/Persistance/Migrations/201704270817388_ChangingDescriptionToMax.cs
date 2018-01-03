@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class ChangingDescriptionToMax : DbMigration
     {
         public override void Up()
@@ -12,7 +12,7 @@ namespace eFormSqlController.Migrations
             AlterColumn("dbo.check_list_versions", "description", c => c.String(maxLength: int.MaxValue));
             AlterColumn("dbo.field_versions", "description", c => c.String(maxLength: int.MaxValue));
         }
-        
+
         public override void Down()
         {
             AlterColumn("dbo.check_lists", "description", c => c.String(maxLength: 255));

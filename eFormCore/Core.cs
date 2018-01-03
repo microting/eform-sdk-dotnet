@@ -94,13 +94,13 @@ namespace eFormCore
         //con
 
         #region public state
-        public bool             Start(string connectionString)
+        public bool Start(string connectionString)
         {
             try
             {
                 if (!coreAvailable && !coreStatChanging)
                 {
-                   
+
 
                     if (!StartSqlOnly(connectionString))
                         return false;
@@ -144,7 +144,7 @@ namespace eFormCore
             return true;
         }
 
-        public bool             StartSqlOnly(string connectionString)
+        public bool StartSqlOnly(string connectionString)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace eFormCore
             return true;
         }
 
-        public override void    Restart(int sameExceptionCount, int sameExceptionCountMax)
+        public override void Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Close()
+        public bool Close()
         {
             try
             {
@@ -291,7 +291,7 @@ namespace eFormCore
                             Thread.Sleep(100);
                             tries++;
 
-                            if (tries > 600)                        
+                            if (tries > 600)
                                 FatalExpection("Failed to close Core correct after 60 secs", new Exception());
                         }
 
@@ -321,12 +321,12 @@ namespace eFormCore
             return true;
         }
 
-        public bool             Running()
+        public bool Running()
         {
             return coreAvailable;
         }
 
-        public void             FatalExpection(string reason, Exception exception)
+        public void FatalExpection(string reason, Exception exception)
         {
             coreAvailable = false;
             coreThreadRunning = false;
@@ -346,7 +346,7 @@ namespace eFormCore
 
         #region public actions
         #region template
-        public MainElement      TemplateFromXml(string xmlString)
+        public MainElement TemplateFromXml(string xmlString)
         {
             string methodName = t.GetMethodName();
             try
@@ -394,7 +394,7 @@ namespace eFormCore
 
                 foreach (var item in keyWords)
                     xmlString = t.ReplaceInsensitive(xmlString, "=\"" + item + "\">", "=\"" + item + "\">");
-    
+
                 xmlString = xmlString.Replace("<Main>", "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
                 xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
                 xmlString = xmlString.Replace("<DataItem type=", "<DataItem xsi:type=");
@@ -410,7 +410,7 @@ namespace eFormCore
 
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
-       
+
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
                 {
@@ -479,7 +479,7 @@ namespace eFormCore
             }
         }
 
-        public List<string>     TemplateValidation(MainElement mainElement)
+        public List<string> TemplateValidation(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -535,7 +535,7 @@ namespace eFormCore
             }
         }
 
-        public MainElement      TemplateUploadData(MainElement mainElement)
+        public MainElement TemplateUploadData(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -614,7 +614,7 @@ namespace eFormCore
             }
         }
 
-        public int              TemplateCreate(MainElement mainElement)
+        public int TemplateCreate(MainElement mainElement)
         {
             if (mainElement == null)
                 throw new ArgumentNullException("mainElement not allowed to be null");
@@ -646,7 +646,7 @@ namespace eFormCore
             }
         }
 
-        public MainElement      TemplateRead(int templateId)
+        public MainElement TemplateRead(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -668,7 +668,7 @@ namespace eFormCore
             }
         }
 
-        public bool             TemplateDelete(int templateId)
+        public bool TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -690,7 +690,7 @@ namespace eFormCore
             }
         }
 
-        public Template_Dto     TemplateItemRead(int templateId)
+        public Template_Dto TemplateItemRead(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -732,7 +732,7 @@ namespace eFormCore
                 log.LogException("Not Specified", methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
-        }        
+        }
 
         public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
@@ -785,7 +785,7 @@ namespace eFormCore
         #endregion
 
         #region case
-        public string           CaseCreate(MainElement mainElement, string caseUId, int siteUid)
+        public string CaseCreate(MainElement mainElement, string caseUId, int siteUid)
         {
             List<int> siteUids = new List<int>();
             siteUids.Add(siteUid);
@@ -801,7 +801,7 @@ namespace eFormCore
             }
         }
 
-        public List<string>     CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
+        public List<string> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
         {
             string methodName = t.GetMethodName();
             try
@@ -818,13 +818,13 @@ namespace eFormCore
 
                         #region check input
                         DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
-                        DateTime end   = DateTime.Parse(mainElement.EndDate  .ToShortDateString());
+                        DateTime end = DateTime.Parse(mainElement.EndDate.ToShortDateString());
 
                         if (end < DateTime.Now)
                         {
                             log.LogStandard("Not Specified", "mainElement.EndDate is set to " + end);
                             throw new ArgumentException("mainElement.EndDate needs to be a future date");
-                        }                            
+                        }
 
                         if (end <= start)
                         {
@@ -844,7 +844,7 @@ namespace eFormCore
                             string mUId = SendXml(mainElement, siteUid);
 
                             if (mainElement.Repeated == 1)
-                                sqlController.CaseCreate          (mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
+                                sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
                             else
                                 sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
 
@@ -869,7 +869,7 @@ namespace eFormCore
             }
         }
 
-        public string           CaseCheck(string microtingUId)
+        public string CaseCheck(string microtingUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -892,7 +892,7 @@ namespace eFormCore
             }
         }
 
-        public ReplyElement     CaseRead(string microtingUId, string checkUId)
+        public ReplyElement CaseRead(string microtingUId, string checkUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -934,7 +934,7 @@ namespace eFormCore
             }
         }
 
-        public Case_Dto         CaseReadByCaseId(int id)
+        public Case_Dto CaseReadByCaseId(int id)
         {
             string methodName = t.GetMethodName();
             try
@@ -956,7 +956,7 @@ namespace eFormCore
             }
         }
 
-        public int?             CaseReadFirstId(int? templateId)
+        public int? CaseReadFirstId(int? templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -979,12 +979,12 @@ namespace eFormCore
         }
 
 
-        public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end)
+        public List<Case> CaseReadAll(int? templateId, DateTime? start, DateTime? end)
         {
             return CaseReadAll(templateId, start, end, "not_removed", null);
         }
 
-        public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey)
+        public List<Case> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
             string methodName = t.GetMethodName();
             try
@@ -1009,7 +1009,7 @@ namespace eFormCore
             }
         }
 
-        public List<Case>       CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
+        public List<Case> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
         {
             string methodName = t.GetMethodName();
             try
@@ -1036,7 +1036,7 @@ namespace eFormCore
             }
         }
 
-        public bool             CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst)
+        public bool CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst)
         {
             string methodName = t.GetMethodName();
             try
@@ -1045,7 +1045,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(caseId), caseId);
-              
+
                     if (newFieldValuePairLst == null)
                         newFieldValuePairLst = new List<string>();
 
@@ -1081,7 +1081,7 @@ namespace eFormCore
             }
         }
 
-        public bool             CaseDelete(int templateId, int siteUId)
+        public bool CaseDelete(int templateId, int siteUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1104,7 +1104,7 @@ namespace eFormCore
             }
         }
 
-        public bool             CaseDelete(int templateId, int siteUId, string workflowState)
+        public bool CaseDelete(int templateId, int siteUId, string workflowState)
         {
             string methodName = t.GetMethodName();
             try
@@ -1119,7 +1119,8 @@ namespace eFormCore
                     List<string> errors = new List<string>();
                     foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
                     {
-                        if (!CaseDelete(microtingUId)) {
+                        if (!CaseDelete(microtingUId))
+                        {
                             string error = "Failed to delete case with microtingUId: " + microtingUId;
                             errors.Add(error);
                         }
@@ -1127,7 +1128,8 @@ namespace eFormCore
                     if (errors.Count() > 0)
                     {
                         throw new Exception(String.Join("\n", errors));
-                    } else
+                    }
+                    else
                         return true;
                 }
                 else
@@ -1140,7 +1142,7 @@ namespace eFormCore
             }
         }
 
-        public bool             CaseDelete(string microtingUId)
+        public bool CaseDelete(string microtingUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1198,7 +1200,7 @@ namespace eFormCore
 
                             cDto = sqlController.CaseReadByMUId(microtingUId);
                             //InteractionCaseUpdate(cDto);
-                            try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); } 
+                            try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
                             log.LogStandard("Not Specified", cDto.ToString() + " has been removed");
 
@@ -1212,7 +1214,7 @@ namespace eFormCore
 
                             cDto = sqlController.CaseReadByMUId(microtingUId);
                             //InteractionCaseUpdate(cDto);
-                            try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); } 
+                            try { HandleCaseDeleted?.Invoke(cDto, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleCaseDeleted event's external logic suffered an Expection"); }
                             log.LogStandard("Not Specified", cDto.ToString() + " has been removed");
 
@@ -1232,7 +1234,7 @@ namespace eFormCore
             }
         }
 
-        public bool             CaseDeleteResult(int id)
+        public bool CaseDeleteResult(int id)
         {
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
@@ -1249,7 +1251,7 @@ namespace eFormCore
             }
         }
 
-        public bool             CaseUpdateFieldValues(int id)
+        public bool CaseUpdateFieldValues(int id)
         {
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
@@ -1265,7 +1267,7 @@ namespace eFormCore
             }
         }
 
-        public Case_Dto         CaseLookupMUId(string microtingUId)
+        public Case_Dto CaseLookupMUId(string microtingUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1287,7 +1289,7 @@ namespace eFormCore
             }
         }
 
-        public Case_Dto         CaseLookupCaseId(int caseId)
+        public Case_Dto CaseLookupCaseId(int caseId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1309,7 +1311,7 @@ namespace eFormCore
             }
         }
 
-        public List<Case_Dto>   CaseLookupCaseUId(string caseUId)
+        public List<Case_Dto> CaseLookupCaseUId(string caseUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1331,7 +1333,7 @@ namespace eFormCore
             }
         }
 
-        public int?             CaseIdLookup(string microtingUId, string checkUId)
+        public int? CaseIdLookup(string microtingUId, string checkUId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1371,7 +1373,7 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        public string CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             string methodName = t.GetMethodName();
             try
@@ -1389,7 +1391,7 @@ namespace eFormCore
 
                     if (dataSet == null)
                         return "";
-                    
+
                     using (var p = new ExcelPackage())
                     {
                         var ws = p.Workbook.Worksheets.Add("DataSet");
@@ -1425,7 +1427,7 @@ namespace eFormCore
             }
         }
 
-        public string           CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        public string CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             string methodName = t.GetMethodName();
             try
@@ -1498,7 +1500,7 @@ namespace eFormCore
             }
         }
 
-        public string           CaseToJasperXml(int caseId, string timeStamp)
+        public string CaseToJasperXml(int caseId, string timeStamp)
         {
             string methodName = t.GetMethodName();
             try
@@ -1550,7 +1552,7 @@ namespace eFormCore
 
                     File.WriteAllText(path, jasperXml.Trim(), Encoding.UTF8);
 
-                    
+
                     //string path = Path.GetFullPath(locaR);
                     log.LogVariable("Not Specified", nameof(path), path);
                     return path;
@@ -1565,7 +1567,7 @@ namespace eFormCore
             }
         }
 
-        public string           GetJasperPath()
+        public string GetJasperPath()
         {
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
@@ -1580,7 +1582,7 @@ namespace eFormCore
             }
         }
 
-        public string           GetHttpServerAddress()
+        public string GetHttpServerAddress()
         {
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
@@ -1595,7 +1597,7 @@ namespace eFormCore
             }
         }
 
-        public bool             SetHttpServerAddress(string serverAddress)
+        public bool SetHttpServerAddress(string serverAddress)
         {
             string methodName = t.GetMethodName();
             try
@@ -1618,7 +1620,7 @@ namespace eFormCore
             }
         }
 
-        public string           CaseToPdf(int caseId, string jasperTemplate, string timeStamp)
+        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp)
         {
             string methodName = t.GetMethodName();
             try
@@ -1647,10 +1649,10 @@ namespace eFormCore
                     string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".xml";
                     string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".pdf";
 
-                    string command = 
+                    string command =
                         "-Dfile.encoding=UTF-8 -jar " + locaJ +
                         " -template=\"" + locaT + "\"" +
-                        " type=\"pdf\"" + 
+                        " type=\"pdf\"" +
                         " -uri=\"" + locaC + "\"" +
                         " -outputFile=\"" + locaR + "\"";
 
@@ -1688,7 +1690,7 @@ namespace eFormCore
         #endregion
 
         #region site
-        public Site_Dto         SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
+        public Site_Dto SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -1743,7 +1745,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto         SiteRead(int siteId)
+        public Site_Dto SiteRead(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1765,7 +1767,7 @@ namespace eFormCore
             }
         }
 
-        public List<Site_Dto>   SiteReadAll(bool includeRemoved)
+        public List<Site_Dto> SiteReadAll(bool includeRemoved)
         {
             string methodName = t.GetMethodName();
             try
@@ -1787,7 +1789,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto         SiteReset(int siteId)
+        public Site_Dto SiteReset(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1796,7 +1798,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
-       
+
                     Site_Dto site = SiteRead(siteId);
                     Advanced_UnitRequestOtp((int)site.UnitId);
 
@@ -1812,7 +1814,7 @@ namespace eFormCore
             }
         }
 
-        public bool             SiteUpdate(int siteId, string name, string userFirstName, string userLastName, string userEmail)
+        public bool SiteUpdate(int siteId, string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName();
             try
@@ -1839,7 +1841,7 @@ namespace eFormCore
             }
         }
 
-        public bool             SiteDelete(int siteId)
+        public bool SiteDelete(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -1866,7 +1868,7 @@ namespace eFormCore
         #endregion
 
         #region entity
-        public EntityGroup      EntityGroupCreate(string entityType, string name)
+        public EntityGroup EntityGroupCreate(string entityType, string name)
         {
             try
             {
@@ -1895,8 +1897,8 @@ namespace eFormCore
                 throw new Exception("EntityListCreate failed", ex);
             }
         }
-   
-        public EntityGroup      EntityGroupRead(string entityGroupMUId)
+
+        public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
             try
             {
@@ -1917,7 +1919,7 @@ namespace eFormCore
             }
         }
 
-        public bool             EntityGroupUpdate(EntityGroup entityGroup)
+        public bool EntityGroupUpdate(EntityGroup entityGroup)
         {
             try
             {
@@ -1951,9 +1953,9 @@ namespace eFormCore
                 throw new Exception("EntityGroupRead failed", ex);
             }
             return true;
-        }        
+        }
 
-        public bool             EntityGroupDelete(string entityGroupMUId)
+        public bool EntityGroupDelete(string entityGroupMUId)
         {
             try
             {
@@ -1980,7 +1982,7 @@ namespace eFormCore
             return true;
         }
 
-        public string           PdfUpload(string localPath)
+        public string PdfUpload(string localPath)
         {
             try
             {
@@ -2059,7 +2061,7 @@ namespace eFormCore
 
         #region public advanced actions
         #region templat
-        public bool             Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
+        public bool Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
         {
             string methodName = t.GetMethodName();
             try
@@ -2082,7 +2084,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteUId, int newDisplayIndex)
+        public bool Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteUId, int newDisplayIndex)
         {
             string methodName = t.GetMethodName();
             try
@@ -2102,10 +2104,10 @@ namespace eFormCore
                         Response resp = new Response();
                         resp = resp.XmlToClassUsingXmlDocument(respXml);
                         if (resp.Type != Response.ResponseTypes.Success)
-                        {                           
+                        {
                             string error = "Failed to set display index for eForm " + microtingUId + " to " + newDisplayIndex;
                             errors.Add(error);
-                        }                            
+                        }
                     }
                     if (errors.Count() > 0)
                     {
@@ -2123,7 +2125,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
+        public bool Advanced_TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
         {
             string methodName = t.GetMethodName();
             try
@@ -2143,7 +2145,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(fieldId9), fieldId9);
                     log.LogVariable("Not Specified", nameof(fieldId10), fieldId10);
 
-                    return sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2, fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10);                    
+                    return sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2, fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2155,7 +2157,7 @@ namespace eFormCore
             }
         }
 
-        public List<Field_Dto>  Advanced_TemplateFieldReadAll(int templateId)
+        public List<Field_Dto> Advanced_TemplateFieldReadAll(int templateId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2177,7 +2179,7 @@ namespace eFormCore
             }
         }
 
-        public void             Advanced_ConsistencyCheckTemplates()
+        public void Advanced_ConsistencyCheckTemplates()
         {
             string methodName = t.GetMethodName();
             try
@@ -2206,7 +2208,7 @@ namespace eFormCore
         #endregion
 
         #region sites
-        public List<Site_Dto>   Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
+        public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName();
             try
@@ -2230,7 +2232,7 @@ namespace eFormCore
             }
         }
 
-        public SiteName_Dto     Advanced_SiteItemRead(int siteId)
+        public SiteName_Dto Advanced_SiteItemRead(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2239,7 +2241,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
-    
+
                     return sqlController.SiteRead(siteId);
                 }
                 else
@@ -2271,7 +2273,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_SiteItemUpdate(int siteId, string name)
+        public bool Advanced_SiteItemUpdate(int siteId, string name)
         {
             string methodName = t.GetMethodName();
             try
@@ -2301,7 +2303,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_SiteItemDelete(int siteId)
+        public bool Advanced_SiteItemDelete(int siteId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2310,7 +2312,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(siteId), siteId);
-    
+
                     bool success = communicator.SiteDelete(siteId);
                     if (!success)
                         return false;
@@ -2330,7 +2332,7 @@ namespace eFormCore
         #endregion
 
         #region workers
-        public Worker_Dto       Advanced_WorkerCreate(string firstName, string lastName, string email)
+        public Worker_Dto Advanced_WorkerCreate(string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -2363,7 +2365,7 @@ namespace eFormCore
             }
         }
 
-        public string           Advanced_WorkerNameRead(int workerId)
+        public string Advanced_WorkerNameRead(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2385,7 +2387,7 @@ namespace eFormCore
             }
         }
 
-        public Worker_Dto       Advanced_WorkerRead(int workerId)
+        public Worker_Dto Advanced_WorkerRead(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2431,7 +2433,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        public bool Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName();
             try
@@ -2463,7 +2465,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_WorkerDelete(int workerId)
+        public bool Advanced_WorkerDelete(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2472,7 +2474,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
-           
+
                     bool success = communicator.WorkerDelete(workerId);
                     if (!success)
                         return false;
@@ -2491,7 +2493,7 @@ namespace eFormCore
         #endregion
 
         #region site_workers
-        public Site_Worker_Dto  Advanced_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
+        public Site_Worker_Dto Advanced_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
         {
             string methodName = t.GetMethodName();
             try
@@ -2526,7 +2528,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Worker_Dto  Advanced_SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
+        public Site_Worker_Dto Advanced_SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2550,7 +2552,7 @@ namespace eFormCore
             }
         }
 
-        public bool             Advanced_SiteWorkerDelete(int workerId)
+        public bool Advanced_SiteWorkerDelete(int workerId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2559,7 +2561,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(workerId), workerId);
-              
+
                     bool success = communicator.SiteWorkerDelete(workerId);
                     if (!success)
                         return false;
@@ -2578,7 +2580,7 @@ namespace eFormCore
         #endregion
 
         #region units
-        public Unit_Dto         Advanced_UnitRead(int unitId)
+        public Unit_Dto Advanced_UnitRead(int unitId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2600,7 +2602,7 @@ namespace eFormCore
             }
         }
 
-        public List<Unit_Dto>   Advanced_UnitReadAll()
+        public List<Unit_Dto> Advanced_UnitReadAll()
         {
             string methodName = t.GetMethodName();
             try
@@ -2621,7 +2623,7 @@ namespace eFormCore
             }
         }
 
-        public Unit_Dto         Advanced_UnitRequestOtp(int unitId)
+        public Unit_Dto Advanced_UnitRequestOtp(int unitId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2630,7 +2632,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(unitId), unitId);
-       
+
                     int otp_code = communicator.UnitRequestOtp(unitId);
 
                     Unit_Dto my_dto = Advanced_UnitRead(unitId);
@@ -2706,7 +2708,7 @@ namespace eFormCore
         //#endregion
 
         #region fields
-        public Field            Advanced_FieldRead(int id)
+        public Field Advanced_FieldRead(int id)
         {
             string methodName = t.GetMethodName();
             try
@@ -2786,7 +2788,7 @@ namespace eFormCore
             }
         }
 
-        public bool            Advanced_DeleteUploadedData(int fieldId, int uploadedDataId)
+        public bool Advanced_DeleteUploadedData(int fieldId, int uploadedDataId)
         {
             string methodName = t.GetMethodName();
             try
@@ -2802,7 +2804,7 @@ namespace eFormCore
                     try
                     {
                         Directory.CreateDirectory(uD.file_location + "Deleted");
-                        File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted\"+ uD.file_name);
+                        File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted\" + uD.file_name);
                     }
                     catch (Exception exd)
                     {
@@ -2824,7 +2826,7 @@ namespace eFormCore
         #endregion
 
         #region private
-        private List<Element>   ReplaceDataElementsAndDataItems(int caseId, List<Element> elementList, List<FieldValue> lstAnswers)
+        private List<Element> ReplaceDataElementsAndDataItems(int caseId, List<Element> elementList, List<FieldValue> lstAnswers)
         {
             List<Element> elementListReplaced = new List<Element>();
 
@@ -2891,7 +2893,7 @@ namespace eFormCore
             return elementListReplaced;
         }
 
-        private string          SendXml(MainElement mainElement, int siteId)
+        private string SendXml(MainElement mainElement, int siteId)
         {
             log.LogEverything("Not Specified", "siteId:" + siteId + ", requested sent eForm");
 
@@ -2910,14 +2912,14 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private List<List<string>> GenerateDataSetFromCases (int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData)
+        private List<List<string>> GenerateDataSetFromCases(int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData)
         {
-            List<List<string>>  dataSet         = new List<List<string>>();
-            List<string>        colume1CaseIds  = new List<string> { "Id" };
-            List<int>           caseIds         = new List<int>();
+            List<List<string>> dataSet = new List<List<string>>();
+            List<string> colume1CaseIds = new List<string> { "Id" };
+            List<int> caseIds = new List<int>();
 
-            List<Case>         caseList        = sqlController.CaseReadAll(templateId, start, end, "not_removed", null);
-            var                template        = sqlController.TemplateItemRead((int)templateId);
+            List<Case> caseList = sqlController.CaseReadAll(templateId, start, end, "not_removed", null);
+            var template = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)
                 return null;
@@ -3040,7 +3042,7 @@ namespace eFormCore
             return dataSet;
         }
 
-        private List<string>    GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList, string preLabel)
+        private List<string> GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList, string preLabel)
         {
             foreach (Element element in elementList)
             {
@@ -3101,7 +3103,7 @@ namespace eFormCore
             return lstReturn;
         }
 
-        private List<string>    PdfValidate(string pdfString, int pdfId)
+        private List<string> PdfValidate(string pdfString, int pdfId)
         {
             List<string> errorLst = new List<string>();
 
@@ -3118,7 +3120,7 @@ namespace eFormCore
             return errorLst;
         }
 
-        private void            InteractionCaseUpdate(Case_Dto caseDto)
+        private void InteractionCaseUpdate(Case_Dto caseDto)
         {
             try
             {
@@ -3131,7 +3133,7 @@ namespace eFormCore
             }
         }
 
-        private void            GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst)
+        private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst)
         {
             string jasperFieldXml = "";
             string jasperCheckXml = "";
@@ -3162,14 +3164,14 @@ namespace eFormCore
                     GetChecksAndFields(ref clsLst, ref fldLst, groupE.ElementList);
                 }
             }
-            
+
             clsLst = clsLst + jasperCheckXml;
             fldLst = fldLst + jasperFieldXml;
         }
         #endregion
 
         #region intrepidation threads
-        private void            CoreThread()
+        private void CoreThread()
         {
             coreThreadRunning = true;
 
@@ -3211,7 +3213,7 @@ namespace eFormCore
             coreThreadRunning = false;
         }
 
-        private void            CoreHandleUpdateFiles()
+        private void CoreHandleUpdateFiles()
         {
             try
             {
@@ -3268,7 +3270,7 @@ namespace eFormCore
                         #endregion
 
                         #region checks checkSum
-                        if (chechSum != fileName.Substring(fileName.LastIndexOf(".")-32, 32))
+                        if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
                             log.LogWarning("Not Specified", "Download of '" + urlStr + "' failed. Check sum did not match");
                         #endregion
 
@@ -3295,7 +3297,7 @@ namespace eFormCore
             }
         }
 
-        private void            CoreHandleUpdateNotifications()
+        private void CoreHandleUpdateNotifications()
         {
             try
             {
@@ -3336,9 +3338,9 @@ namespace eFormCore
 
                                         if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                                             lstCase.Add(concreteCase);
-                                        else    
+                                        else
                                             lstCase = sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
-               
+
                                         foreach (Case_Dto aCase in lstCase)
                                         {
                                             if (aCase.SiteUId == concreteCase.SiteUId)
@@ -3357,7 +3359,7 @@ namespace eFormCore
                                                 Response resp = new Response();
                                                 resp = resp.XmlToClassUsingXmlDocument(respXml);
                                                 //resp = resp.XmlToClass(respXml);
-               
+
                                                 if (resp.Type == Response.ResponseTypes.Success)
                                                 {
                                                     log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (true)");
@@ -3446,7 +3448,7 @@ namespace eFormCore
                                 #region unit_activate / tablet added
                                 case "unit_activate":
                                     {
-                                        try { HandleSiteActivated?.Invoke(noteUId, EventArgs.Empty); } 
+                                        try { HandleSiteActivated?.Invoke(noteUId, EventArgs.Empty); }
                                         catch { log.LogWarning("Not Specified", "HandleSiteActivated event's external logic suffered an Expection"); }
                                         log.LogStandard("Not Specified", noteUId + " has been added");
                                         try
@@ -3454,7 +3456,8 @@ namespace eFormCore
                                             Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
                                             sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
                                             sqlController.NotificationProcessed(notification.Id, notification.MicrotingUId, "processed");
-                                        } catch
+                                        }
+                                        catch
                                         {
                                             sqlController.NotificationProcessed(notification.Id, notification.MicrotingUId, "processed");
                                         }
@@ -3713,7 +3716,7 @@ namespace eFormCore
         //    }
         //}
 
-        private void            CoreHandleUpdateEntityItems()
+        private void CoreHandleUpdateEntityItems()
         {
             try
             {
@@ -3836,7 +3839,7 @@ namespace eFormCore
         #endregion
 
         #region internal UnitTest
-        internal void           UnitTest_CaseComplet(string microtingUId, string checkUId, int workerUId, int unitUId)
+        internal void UnitTest_CaseComplet(string microtingUId, string checkUId, int workerUId, int unitUId)
         {
             sqlController.CaseUpdateCompleted(microtingUId, checkUId, DateTime.Now, workerUId, unitUId);
             sqlController.CaseRetract(microtingUId, checkUId);
@@ -3847,7 +3850,7 @@ namespace eFormCore
             log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
         }
 
-        internal void           UnitTest_CaseDelete(string microtingUId)
+        internal void UnitTest_CaseDelete(string microtingUId)
         {
             Case_Dto cDto = sqlController.CaseReadByMUId(microtingUId);
             Case_Dto cDtoDel = new Case_Dto(cDto.CaseId, "Deleted", cDto.SiteUId, cDto.CaseType, cDto.CaseUId, cDto.MicrotingUId, cDto.CheckUId, cDto.Custom, cDto.CheckListId);
@@ -3858,7 +3861,7 @@ namespace eFormCore
             log.LogStandard("Not Specified", cDto.ToString() + " has been deleted");
         }
 
-        internal void           UnitTest_SetUnittest()
+        internal void UnitTest_SetUnittest()
         {
             skipRestartDelay = true;
         }

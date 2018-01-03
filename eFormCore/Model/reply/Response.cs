@@ -30,7 +30,7 @@ namespace eFormData
         public string Value { get; set; }
         public string UnitFetchedAt { get; set; }
         public string UnitId { get; set; }
-        public List<Check> Checks{ get; set; }
+        public List<Check> Checks { get; set; }
         Tools t = new Tools();
         #endregion
 
@@ -180,10 +180,10 @@ namespace eFormData
                 {
                     Check check = new Check();
 
-                    check.UnitId = t.Locate(checkXmlStr, " unit_id=\"",   "\"");
-                    check.Date = t.Locate(checkXmlStr, " date=\"",      "\"");
-                    check.Worker = t.Locate(checkXmlStr, " worker=\"",    "\"");
-                    check.Id = t.Locate(checkXmlStr, " id=\"",        "\"");
+                    check.UnitId = t.Locate(checkXmlStr, " unit_id=\"", "\"");
+                    check.Date = t.Locate(checkXmlStr, " date=\"", "\"");
+                    check.Worker = t.Locate(checkXmlStr, " worker=\"", "\"");
+                    check.Id = t.Locate(checkXmlStr, " id=\"", "\"");
                     check.WorkerId = t.Locate(checkXmlStr, " worker_id=\"", "\"");
 
                     while (checkXmlStr.Contains("<ElementList>"))
@@ -212,24 +212,26 @@ namespace eFormData
         {
             try
             {
-                string      xmlStr  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine +
+                string xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine +
                                       "<Response>" + Environment.NewLine +
-                                      "<Value type=\"" + Type + "\">" + Value + "</Value>" + Environment.NewLine; 
+                                      "<Value type=\"" + Type + "\">" + Value + "</Value>" + Environment.NewLine;
                 if (UnitId != null)
-                            xmlStr +=     "<Unit fetched_at=\"" + UnitFetchedAt + "\" id=\"" + UnitId + "\"/>" + Environment.NewLine;
+                    xmlStr += "<Unit fetched_at=\"" + UnitFetchedAt + "\" id=\"" + UnitId + "\"/>" + Environment.NewLine;
                 if (Checks.Count > 0)
                 {
-                            xmlStr +=     "<Checks>" + Environment.NewLine;
-                    foreach (Check chk in Checks) {
-                            xmlStr +=         "<Check unit_id=\""+chk.UnitId+"\" date=\""+chk.Date+"\" worker=\""+chk.Worker+"\" id=\""+chk.Id+"\" worker_id=\""+chk.WorkerId+"\">";
-                        foreach (ElementList elemLst in chk.ElementList) { 
-                            xmlStr +=             PureXml(ClassToXmlCheck(elemLst)) + Environment.NewLine;
+                    xmlStr += "<Checks>" + Environment.NewLine;
+                    foreach (Check chk in Checks)
+                    {
+                        xmlStr += "<Check unit_id=\"" + chk.UnitId + "\" date=\"" + chk.Date + "\" worker=\"" + chk.Worker + "\" id=\"" + chk.Id + "\" worker_id=\"" + chk.WorkerId + "\">";
+                        foreach (ElementList elemLst in chk.ElementList)
+                        {
+                            xmlStr += PureXml(ClassToXmlCheck(elemLst)) + Environment.NewLine;
                         }
-                            xmlStr +=         "</Check>" + Environment.NewLine;
+                        xmlStr += "</Check>" + Environment.NewLine;
                     }
-                            xmlStr +=     "</Checks>" + Environment.NewLine;
+                    xmlStr += "</Checks>" + Environment.NewLine;
                 }
-                            xmlStr += "</Response>";
+                xmlStr += "</Response>";
 
                 return xmlStr;
             }

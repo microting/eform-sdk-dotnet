@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class RenamingTablesToEnableInterpolation : DbMigration
     {
         public override void Up()
@@ -20,7 +20,7 @@ namespace eFormSqlController.Migrations
             RenameTable(name: "dbo.version_workers", newName: "worker_versions");
             RenameTable(name: "dbo.version_sites", newName: "site_versions");
         }
-        
+
         public override void Down()
         {
             RenameTable(name: "dbo.site_versions", newName: "version_sites");

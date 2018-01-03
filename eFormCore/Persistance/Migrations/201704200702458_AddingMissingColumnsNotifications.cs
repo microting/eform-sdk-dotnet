@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddingMissingColumnsNotifications : DbMigration
     {
         public override void Up()
@@ -10,13 +10,15 @@ namespace eFormSqlController.Migrations
             try
             {
                 AddColumn("dbo.notifications", "notification_uid", c => c.String());
-            } catch { }
+            }
+            catch { }
             try
             {
                 AddColumn("dbo.notifications", "activity", c => c.String());
-            } catch { }
+            }
+            catch { }
         }
-        
+
         public override void Down()
         {
             DropColumn("dbo.notifications", "notification_uid");

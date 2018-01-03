@@ -17,7 +17,7 @@ namespace eFormCore
         #endregion
 
         #region con
-        public              AdminTools(string serverConnectionString)
+        public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
             sqlController = new SqlController(serverConnectionString);
@@ -26,7 +26,7 @@ namespace eFormCore
         #endregion
 
         #region public
-        public void         RunConsole()
+        public void RunConsole()
         {
             #region warning
             Console.WriteLine("");
@@ -137,7 +137,7 @@ namespace eFormCore
             }
         }
 
-        public string       RetractEforms()
+        public string RetractEforms()
         {
             string reply = "";
 
@@ -174,7 +174,7 @@ namespace eFormCore
             return reply.Trim();
         }
 
-        public string       RetractEntities()
+        public string RetractEntities()
         {
             string reply = "";
 
@@ -200,7 +200,7 @@ namespace eFormCore
             return reply.Trim();
         }
 
-        public string       DbClearData()
+        public string DbClearData()
         {
             try
             {
@@ -239,7 +239,7 @@ namespace eFormCore
             }
         }
 
-        public string       DbClearTemplat()
+        public string DbClearTemplat()
         {
             try
             {
@@ -256,7 +256,7 @@ namespace eFormCore
                 //---
                 sqlController.UnitTest_TruncateTable(typeof(check_lists).Name);
                 sqlController.UnitTest_TruncateTable(typeof(check_list_versions).Name);
-   
+
                 return "";
             }
             catch (Exception ex)
@@ -265,7 +265,7 @@ namespace eFormCore
             }
         }
 
-        public string       DbClear()
+        public string DbClear()
         {
             string reply = "";
 
@@ -281,7 +281,7 @@ namespace eFormCore
             return reply.TrimEnd();
         }
 
-        public string       DbSetup(string token)
+        public string DbSetup(string token)
         {
             try
             {
@@ -292,7 +292,7 @@ namespace eFormCore
 
                 if (token.ToLower() == "unittest")
                     return DbSetupUnitTest();
-            
+
                 sqlController.SettingUpdate(Settings.token, token);
 
                 // configure db
@@ -376,7 +376,7 @@ namespace eFormCore
             }
         }
 
-        public string       DbSettingsReloadRemote()
+        public string DbSettingsReloadRemote()
         {
             try
             {
@@ -414,14 +414,14 @@ namespace eFormCore
 
         }
 
-        public bool         MigrateDb()
+        public bool MigrateDb()
         {
             return sqlController.MigrateDb();
         }
         #endregion
 
         #region private
-        private string      DbSetupClear()
+        private string DbSetupClear()
         {
             try
             {
@@ -452,7 +452,7 @@ namespace eFormCore
             }
         }
 
-        private string      DbSetupUnitTest()
+        private string DbSetupUnitTest()
         {
             try
             {

@@ -44,7 +44,7 @@ namespace eFormData
 
         [XmlIgnore]
         public string CaseType { get; set; }
-        
+
         #region public string/DateTime StartDate { get; set; }
         [XmlIgnore]
         public DateTime StartDate { get; set; }
@@ -82,7 +82,7 @@ namespace eFormData
         public List<DataItem> DataItemGetAll()
         {
             try
-            { 
+            {
                 return DataItemGetAllFromList(ElementList, new List<DataItem>());
             }
             catch (Exception ex)

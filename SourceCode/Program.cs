@@ -76,7 +76,8 @@ namespace SourceCode
                 var bus = Configure.With(new BuiltinHandlerActivator())
                     .Logging(l => l.ColoredConsole())
                     .Transport(t => t.UseSqlServerAsOneWayClient(connectionStringOrConnectionStringName: serverConnectionString, tableName: "Rebus"))
-                    .Options(o => {
+                    .Options(o =>
+                    {
 
                     })
                     .Routing(r => r.TypeBased().Map<EformRetrieved>("eformsdk-input"))
@@ -89,13 +90,13 @@ namespace SourceCode
                 }
                 if (input == "S")
                 {
-                    var program = new Samples   (serverConnectionString);
+                    var program = new Samples(serverConnectionString);
                     program.Run();
                 }
                 if (input == "I")
                 {
                     var core = new Core();
-                    core.Start                  (serverConnectionString);
+                    core.Start(serverConnectionString);
                     #region keep core running
                     while (true)
                     {

@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddingTaggingAbilityToCheckLists : DbMigration
     {
         public override void Up()
@@ -10,67 +10,67 @@ namespace eFormSqlController.Migrations
             CreateTable(
                 "dbo.taggings",
                 c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        tag_id = c.Int(),
-                        check_list_id = c.Int(),
-                        tagger_id = c.Int(),
-                        version = c.Int(),
-                        workflow_state = c.String(maxLength: 255, unicode: false),
-                        created_at = c.DateTime(),
-                        updated_at = c.DateTime(),
-                    })
+                {
+                    id = c.Int(nullable: false, identity: true),
+                    tag_id = c.Int(),
+                    check_list_id = c.Int(),
+                    tagger_id = c.Int(),
+                    version = c.Int(),
+                    workflow_state = c.String(maxLength: 255, unicode: false),
+                    created_at = c.DateTime(),
+                    updated_at = c.DateTime(),
+                })
                 .PrimaryKey(t => t.id)
                 .ForeignKey("dbo.check_lists", t => t.check_list_id)
                 .ForeignKey("dbo.tags", t => t.tag_id)
                 .Index(t => t.tag_id)
                 .Index(t => t.check_list_id);
-            
+
             CreateTable(
                 "dbo.tags",
                 c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        created_at = c.DateTime(),
-                        updated_at = c.DateTime(),
-                        name = c.String(maxLength: 255),
-                        taggings_count = c.Int(),
-                        version = c.Int(),
-                        workflow_state = c.String(maxLength: 255, unicode: false),
-                    })
+                {
+                    id = c.Int(nullable: false, identity: true),
+                    created_at = c.DateTime(),
+                    updated_at = c.DateTime(),
+                    name = c.String(maxLength: 255),
+                    taggings_count = c.Int(),
+                    version = c.Int(),
+                    workflow_state = c.String(maxLength: 255, unicode: false),
+                })
                 .PrimaryKey(t => t.id);
-            
+
             CreateTable(
                 "dbo.tag_versions",
                 c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        created_at = c.DateTime(),
-                        updated_at = c.DateTime(),
-                        name = c.String(maxLength: 255),
-                        taggings_count = c.Int(),
-                        version = c.Int(),
-                        workflow_state = c.String(maxLength: 255, unicode: false),
-                        tag_id = c.Int(),
-                    })
+                {
+                    id = c.Int(nullable: false, identity: true),
+                    created_at = c.DateTime(),
+                    updated_at = c.DateTime(),
+                    name = c.String(maxLength: 255),
+                    taggings_count = c.Int(),
+                    version = c.Int(),
+                    workflow_state = c.String(maxLength: 255, unicode: false),
+                    tag_id = c.Int(),
+                })
                 .PrimaryKey(t => t.id);
-            
+
             CreateTable(
                 "dbo.tagging_versions",
                 c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        tag_id = c.Int(),
-                        check_list_id = c.Int(),
-                        tagger_id = c.Int(),
-                        version = c.Int(),
-                        workflow_state = c.String(maxLength: 255, unicode: false),
-                        created_at = c.DateTime(),
-                        updated_at = c.DateTime(),
-                        tagging_id = c.Int(),
-                    })
+                {
+                    id = c.Int(nullable: false, identity: true),
+                    tag_id = c.Int(),
+                    check_list_id = c.Int(),
+                    tagger_id = c.Int(),
+                    version = c.Int(),
+                    workflow_state = c.String(maxLength: 255, unicode: false),
+                    created_at = c.DateTime(),
+                    updated_at = c.DateTime(),
+                    tagging_id = c.Int(),
+                })
                 .PrimaryKey(t => t.id);
-            
+
             AddColumn("dbo.check_lists", "tags_id", c => c.Int());
             AlterColumn("dbo.a_interaction_case_list_versions", "created_at", c => c.DateTime());
             AlterColumn("dbo.a_interaction_case_list_versions", "updated_at", c => c.DateTime());
@@ -147,7 +147,7 @@ namespace eFormSqlController.Migrations
             CreateIndex("dbo.check_lists", "tags_id");
             AddForeignKey("dbo.check_lists", "tags_id", "dbo.tags", "id");
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.taggings", "tag_id", "dbo.tags");

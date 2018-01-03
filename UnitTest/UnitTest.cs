@@ -19,7 +19,7 @@ namespace UnitTest
     {
         bool useLiveData = false;
 
-        string connectionStringLocal_UnitTest = "Data Source=.\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "Microting"     + ";Integrated Security=True"; //Uses unit test data
+        string connectionStringLocal_UnitTest = "Data Source=.\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "Microting" + ";Integrated Security=True"; //Uses unit test data
         string connectionStringLocal_LiveData = "Data Source=.\\SQLEXPRESS;Initial Catalog=" + "UnitTest_SDK_" + "MicrotingLive" + ";Integrated Security=True"; //Uses LIVE data
 
         #region content
@@ -54,7 +54,7 @@ namespace UnitTest
             if (sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                 at.DbSetup("unittest");
         }
-  
+
         //once for all tests - teardown
         public void Dispose()
         {
@@ -104,8 +104,8 @@ namespace UnitTest
         #region con
         public UnitTest(TestContext testContext)
         {
-            serverConnectionString  = testContext.GetConnectionString();
-            useLiveData             = testContext.GetUseLiveData();
+            serverConnectionString = testContext.GetConnectionString();
+            useLiveData = testContext.GetUseLiveData();
 
             if (useLiveData)
             {
@@ -183,7 +183,7 @@ namespace UnitTest
                 TestPrepare(t.GetMethodName(), false);
                 bool checkValueA = true;
                 bool checkValueB = false;
-     
+
                 //Act
                 checkValueB = true;
 
@@ -304,8 +304,8 @@ namespace UnitTest
             //Act
             try
             {
-                checkValueB  = core.Running().ToString();
-                               core.Start(serverConnectionString);
+                checkValueB = core.Running().ToString();
+                core.Start(serverConnectionString);
                 checkValueB += core.Running().ToString();
             }
             catch (Exception ex)
@@ -2366,7 +2366,7 @@ namespace UnitTest
         #endregion
 
         #region private
-        private List<string>    WaitForAvailableDB()
+        private List<string> WaitForAvailableDB()
         {
             try
             {
@@ -2391,10 +2391,10 @@ namespace UnitTest
             }
         }
 
-        private bool            WaitForAvailableMicroting(string microtingUId)
+        private bool WaitForAvailableMicroting(string microtingUId)
         {
             if (useLiveData)
-            { 
+            {
                 try
                 {
                     for (int i = 0; i < 100; i++)
@@ -2424,7 +2424,7 @@ namespace UnitTest
             return true;
         }
 
-        private bool            WaitForAvailableMicroting(int interactionCaseId)
+        private bool WaitForAvailableMicroting(int interactionCaseId)
         {
             try
             {
@@ -2475,7 +2475,7 @@ namespace UnitTest
             }
         }
 
-        private string          ClearXml(string inputXmlString)
+        private string ClearXml(string inputXmlString)
         {
             inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<StartDate>", "</StartDate>", "xxx", true);
             inputXmlString = t.ReplaceAtLocationAll(inputXmlString, "<EndDate>", "</EndDate>", "xxx", true);
@@ -2488,7 +2488,7 @@ namespace UnitTest
             return inputXmlString;
         }
 
-        private string          CaseCreate()
+        private string CaseCreate()
         {
             MainElement main = new MainElement();
             main = main.XmlToClass(LoadFil("requestXmlFromClass.txt"));
@@ -2498,7 +2498,7 @@ namespace UnitTest
             return core.CaseCreate(main, "", siteId1);
         }
 
-        private string          CaseCreateReversed()
+        private string CaseCreateReversed()
         {
             List<int> siteLst = new List<int> { siteId1 };
             MainElement main = new MainElement();
@@ -2510,7 +2510,7 @@ namespace UnitTest
             return core.CaseCreate(main, "", siteLst, "")[0];
         }
 
-        private void            CaseComplet(string microtingUId, string checkUId, bool reversed)
+        private void CaseComplet(string microtingUId, string checkUId, bool reversed)
         {
             WaitForAvailableMicroting(microtingUId);
             var dto = core.CaseLookupMUId(microtingUId);
@@ -2543,7 +2543,7 @@ namespace UnitTest
             }
         }
 
-        private void            InteractionCaseComplet(int interactionCaseId)
+        private void InteractionCaseComplet(int interactionCaseId)
         {
             var lst = sqlController.UnitTest_FindAllActiveInteractionCaseLists(interactionCaseId);
 
@@ -2553,7 +2553,7 @@ namespace UnitTest
             }
         }
 
-        private string          LoadFil(string path)
+        private string LoadFil(string path)
         {
             try
             {
@@ -2573,7 +2573,7 @@ namespace UnitTest
             }
         }
 
-        private string          PrintLogLine()
+        private string PrintLogLine()
         {
             string str = "";
             str += sqlController.UnitTest_FindLog(1000, "Exception as per request");

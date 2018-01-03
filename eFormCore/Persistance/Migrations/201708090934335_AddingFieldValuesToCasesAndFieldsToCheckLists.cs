@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddingFieldValuesToCasesAndFieldsToCheckLists : DbMigration
     {
         public override void Up()
@@ -48,7 +48,7 @@ namespace eFormSqlController.Migrations
             AddColumn("dbo.check_list_versions", "field_9", c => c.Int());
             AddColumn("dbo.check_list_versions", "field_10", c => c.Int());
         }
-        
+
         public override void Down()
         {
             DropColumn("dbo.check_list_versions", "field_10");

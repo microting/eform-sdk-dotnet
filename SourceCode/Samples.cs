@@ -138,7 +138,7 @@ namespace eFormCore
                             Console.WriteLine("The following error is stopping us from creating the template: " + error);
                         }
                         Console.WriteLine(@"Correct the errors in sample\sample1xml.txt and try again");
-                    }                    
+                    }
                 }
 
                 if (input.ToLower() == "c")
@@ -340,7 +340,7 @@ namespace eFormCore
                         }
                         Console.WriteLine(@"Correct the errors in sample\sample3step3Lxml.txt and try again");
                     }
-                    
+
                     #endregion
 
                     #region step 4
@@ -364,7 +364,7 @@ namespace eFormCore
                         }
                         Console.WriteLine(@"Correct the errors in sample\sample3step4xml.txt and try again");
                     }
-                    
+
                     #endregion
 
                     File.WriteAllText("sample\\sample3settings.txt", filStr);
@@ -456,7 +456,7 @@ namespace eFormCore
         #endregion
 
         #region private
-        private void         SetSetting()
+        private void SetSetting()
         {
             try
             {
@@ -481,7 +481,7 @@ namespace eFormCore
             }
         }
 
-        private MainElement  TemplateFromXml(string xmlString)
+        private MainElement TemplateFromXml(string xmlString)
         {
             MainElement temp = core.TemplateFromXml(xmlString);
             if (temp == null)
@@ -489,7 +489,7 @@ namespace eFormCore
             return temp;
         }
 
-        private int          TemplateCreate(MainElement mainElement)
+        private int TemplateCreate(MainElement mainElement)
         {
             try
             {
@@ -504,7 +504,7 @@ namespace eFormCore
             }
         }
 
-        private void         TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
+        private void TemplatCreateInfinityCase(MainElement mainElement, List<int> siteIds, int instances)
         {
             if (mainElement.Repeated != 0)
                 throw new Exception("InfinityCase are always Repeated = 0");
@@ -534,7 +534,7 @@ namespace eFormCore
             }
         }
 
-        private void         CaseCreate(int templatId, List<int> siteIds)
+        private void CaseCreate(int templatId, List<int> siteIds)
         {
             try
             {
@@ -556,14 +556,14 @@ namespace eFormCore
             }
         }
 
-        private void         Close()
+        private void Close()
         {
             core.Close();
         }
         #endregion
 
         #region events
-        public void     EventCaseCreated(object sender, EventArgs args)
+        public void EventCaseCreated(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
@@ -574,7 +574,7 @@ namespace eFormCore
             string checkUId = temp.CheckUId;
         }
 
-        public void     EventCaseRetrived(object sender, EventArgs args)
+        public void EventCaseRetrived(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Case_Dto temp = (Case_Dto)sender;
@@ -585,7 +585,7 @@ namespace eFormCore
             string checkUId = temp.CheckUId;
         }
 
-        public void     EventCaseCompleted(object sender, EventArgs args)
+        public void EventCaseCompleted(object sender, EventArgs args)
         {
             lock (_lockLogic)
             {
@@ -735,7 +735,7 @@ namespace eFormCore
             }
         }
 
-        public void     EventCaseDeleted(object sender, EventArgs args)
+        public void EventCaseDeleted(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs
             Case_Dto temp = (Case_Dto)sender;
@@ -746,7 +746,7 @@ namespace eFormCore
             string checkUId = temp.CheckUId;
         }
 
-        public void     EventFileDownloaded(object sender, EventArgs args)
+        public void EventFileDownloaded(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             File_Dto temp = (File_Dto)sender;
@@ -758,13 +758,13 @@ namespace eFormCore
             string fileLocation = temp.FileLocation;
         }
 
-        public void     EventSiteActivated(object sender, EventArgs args)
+        public void EventSiteActivated(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             int siteId = int.Parse(sender.ToString());
         }
 
-        public void     EventLog(object sender, EventArgs args)
+        public void EventLog(object sender, EventArgs args)
         {
             lock (_logFilLock)
             {
@@ -780,19 +780,19 @@ namespace eFormCore
             }
         }
 
-        public void     EventMessage(object sender, EventArgs args)
+        public void EventMessage(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Console.WriteLine(sender.ToString());
         }
 
-        public void     EventWarning(object sender, EventArgs args)
+        public void EventWarning(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Console.WriteLine("## WARNING ## " + sender.ToString() + " ## WARNING ##");
         }
 
-        public void     EventException(object sender, EventArgs args)
+        public void EventException(object sender, EventArgs args)
         {
             //DOSOMETHING: changed to fit your wishes and needs 
             Exception ex = (Exception)sender;

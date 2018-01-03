@@ -21,7 +21,7 @@ namespace eFormShared
         #endregion
 
         // con
-        public          Log(CoreBase core, LogWriter logWriter, int logLevel)
+        public Log(CoreBase core, LogWriter logWriter, int logLevel)
         {
             this.core = core;
             this.logWriter = logWriter;
@@ -30,13 +30,13 @@ namespace eFormShared
         }
 
         #region public
-        public void     LogEverything(string type, string message)
+        public void LogEverything(string type, string message)
         {
             LogLogic(new LogEntry(4, type, message));
         }
 
         #region public void     LogVariable (string type, ... variableName, string variableContent)
-        public void     LogVariable (string type, string variableName, string variableContent)
+        public void LogVariable(string type, string variableName, string variableContent)
         {
             if (variableContent == null)
                 variableContent = "[null]";
@@ -44,38 +44,38 @@ namespace eFormShared
             LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
-        public void     LogVariable (string type, string variableName, int? variableContent)
+        public void LogVariable(string type, string variableName, int? variableContent)
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void     LogVariable (string type, string variableName, bool? variableContent)
+        public void LogVariable(string type, string variableName, bool? variableContent)
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void     LogVariable (string type, string variableName, DateTime? variableContent)
+        public void LogVariable(string type, string variableName, DateTime? variableContent)
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
         #endregion
 
-        public void     LogStandard (string type, string message)
+        public void LogStandard(string type, string message)
         {
             LogLogic(new LogEntry(2, type, message));
         }
 
-        public void     LogCritical (string type, string message)
+        public void LogCritical(string type, string message)
         {
             LogLogic(new LogEntry(1, type, message));
         }
 
-        public void     LogWarning  (string type, string message)
+        public void LogWarning(string type, string message)
         {
             LogLogic(new LogEntry(0, type, message));
         }
 
-        public void     LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
+        public void LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
         {
             try
             {
@@ -95,14 +95,14 @@ namespace eFormShared
                 foreach (var item in exceptionLst)
                     if (sameExceptionCountMax < item.Occurrence)
                         sameExceptionCountMax = item.Occurrence;
-   
+
                 if (restartCore)
                     core.Restart(sameExceptionCount, sameExceptionCountMax);
             }
             catch { }
         }
 
-        public void     LogFatalException(string exceptionDescription, Exception exception)
+        public void LogFatalException(string exceptionDescription, Exception exception)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace eFormShared
             catch { }
         }
 
-        public string   PrintCache(int level, string initialMessage)
+        public string PrintCache(int level, string initialMessage)
         {
             string text = "";
 
@@ -130,7 +130,7 @@ namespace eFormShared
         #endregion
 
         #region private
-        private int     CheckExceptionLst(ExceptionClass exceptionClass)
+        private int CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int count = 0;
             #region find count
@@ -140,7 +140,7 @@ namespace eFormShared
                 for (int i = exceptionLst.Count; i < 0; i--)
                     if (exceptionLst[i].Time < DateTime.Now.AddHours(-1))
                         exceptionLst.RemoveAt(i);
-            
+
                 //keep only the last 12 Exceptions
                 while (exceptionLst.Count > 12)
                     exceptionLst.RemoveAt(0);
@@ -167,7 +167,7 @@ namespace eFormShared
             return count;
         }
 
-        private void    LogLogic(LogEntry logEntry)
+        private void LogLogic(LogEntry logEntry)
         {
             try
             {
@@ -184,7 +184,7 @@ namespace eFormShared
             catch { }
         }
 
-        private void    LogCache(LogEntry logEntry)
+        private void LogCache(LogEntry logEntry)
         {
             try
             {
@@ -213,7 +213,7 @@ namespace eFormShared
             throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }
 
-        public virtual void   WriteIfFailed(string str)
+        public virtual void WriteIfFailed(string str)
         {
             throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }

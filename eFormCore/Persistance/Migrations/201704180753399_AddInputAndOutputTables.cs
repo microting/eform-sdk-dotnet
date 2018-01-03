@@ -2,7 +2,7 @@ namespace eFormSqlController.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddInputAndOutputTables : DbMigration
     {
         public override void Up()
@@ -45,7 +45,7 @@ namespace eFormSqlController.Migrations
                 })
                 .PrimaryKey(t => t.id);
         }
-        
+
         public override void Down()
         {
             DropTable("dbo.a_input_cases");

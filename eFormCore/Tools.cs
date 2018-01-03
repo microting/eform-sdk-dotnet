@@ -133,7 +133,7 @@ namespace eFormShared
         #endregion
 
         #region Text Manipulation
-        public string           Locate(string textStr, string startStr, string endStr)
+        public string Locate(string textStr, string startStr, string endStr)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace eFormShared
             }
         }
 
-        public List<string>     LocateList(string textStr, string startStr, string endStr)
+        public List<string> LocateList(string textStr, string startStr, string endStr)
         {
             try
             {
@@ -190,7 +190,7 @@ namespace eFormShared
             }
         }
 
-        public string           ReplaceInsensitive(string textStr, string oldStr, string newStr)
+        public string ReplaceInsensitive(string textStr, string oldStr, string newStr)
         {
             try
             {
@@ -229,7 +229,7 @@ namespace eFormShared
             }
         }
 
-        public string           ReplaceAtLocation(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
+        public string ReplaceAtLocation(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace eFormShared
             }
         }
 
-        public string           ReplaceAtLocationAll(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
+        public string ReplaceAtLocationAll(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
         {
             try
             {
@@ -298,7 +298,7 @@ namespace eFormShared
             }
         }
 
-        public string           ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
+        public string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
         {
             try
             {
@@ -315,7 +315,7 @@ namespace eFormShared
             }
         }
 
-        public string           SplitToList(string textToBeSplit, byte index)
+        public string SplitToList(string textToBeSplit, byte index)
         {
             try
             {
@@ -341,7 +341,7 @@ namespace eFormShared
             }
         }
 
-        public string           SplitToList(string textToBeSplit, byte index, bool lastInstedOfFirst)
+        public string SplitToList(string textToBeSplit, byte index, bool lastInstedOfFirst)
         {
             try
             {
@@ -412,7 +412,7 @@ namespace eFormShared
         }
         #endregion
 
-        public string   GetRandomString(int lenght)
+        public string GetRandomString(int lenght)
         {
             if (1 > lenght || lenght > 16)
                 throw new ArgumentOutOfRangeException("lenght needs to between 1-16");
@@ -421,18 +421,18 @@ namespace eFormShared
             return str.Substring(0, lenght);
         }
 
-        public int      GetRandomInt(int lenght)
+        public int GetRandomInt(int lenght)
         {
             if (1 > lenght || lenght > 16)
                 throw new ArgumentOutOfRangeException("lenght needs to between 1-16");
 
             string str = GetRandomString(lenght);
-                   str = str.GetHashCode().ToString().Replace("-", "") + "413165131968413";
+            str = str.GetHashCode().ToString().Replace("-", "") + "413165131968413";
             return int.Parse(str.Substring(0, lenght));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public string   GetMethodName()
+        public string GetMethodName()
         {
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);

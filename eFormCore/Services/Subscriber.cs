@@ -167,7 +167,7 @@ namespace eFormSubscriber
                                         break;
                                 }
 
-                                
+
 
                                 //sqlController.NotificationCreate(notificationUId, microtingUId, action);
 
@@ -206,7 +206,7 @@ namespace eFormSubscriber
 
                 while (keepSubscribed)
                     Thread.Sleep(100);
-     
+
                 keepSubscribed = false;
                 isActive = false;
             }

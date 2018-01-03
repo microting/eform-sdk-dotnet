@@ -11,10 +11,10 @@ namespace eFormSqlController
         [Key]
         public int id { get; set; }
 
-        
+
         public DateTime? created_at { get; set; }
 
-        
+
         public DateTime? updated_at { get; set; }
 
         public int microting_uid { get; set; }

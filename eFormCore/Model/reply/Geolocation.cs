@@ -7,7 +7,7 @@ namespace eFormData
     {
         internal GeolocationData()
         {
-            
+
         }
 
         #region var
