@@ -357,6 +357,7 @@ namespace eFormCore
 
                 //XML HACK TODO
                 #region xmlString = corrected xml if needed
+                xmlString = xmlString.Trim();
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"single_select\">", "=\"SingleSelect\">");
                 xmlString = xmlString.Replace("=\"multi_select\">", "=\"MultiSelect\">");
@@ -432,6 +433,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<DecimalCount></DecimalCount>", "<DecimalCount>0</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount />", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
+                xmlString = xmlString.Replace("<DisplayOrder></DisplayOrder>", "<DisplayOrder>" + "0" + "</DisplayOrder>");
 
                 List<string> dILst = t.LocateList(xmlString, "type=\"Date\">", "</DataItem>");
                 if (dILst != null)

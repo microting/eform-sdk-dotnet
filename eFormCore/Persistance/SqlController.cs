@@ -4026,7 +4026,11 @@ namespace eFormSqlController
                     cl.created_at = DateTime.Now;
                     cl.updated_at = DateTime.Now;
                     cl.label = dataElement.Label;
-                    cl.description = dataElement.Description.InderValue;
+                    if (dataElement.Description != null)
+                        cl.description = dataElement.Description.InderValue;
+                    else
+                        cl.description = "";
+
                     //serialized_default_values - Ruby colume
                     cl.workflow_state = "created";
                     cl.parent_id = parentId;
@@ -4145,7 +4149,10 @@ namespace eFormSqlController
                     fields field = new fields();
                     field.color = dataItem.Color;
                     field.parent_field_id = parentFieldId;
-                    field.description = dataItem.Description.InderValue;
+                    if (dataItem.Description != null)
+                        field.description = dataItem.Description.InderValue;
+                    else
+                        field.description = "";
                     field.display_index = dataItem.DisplayOrder;
                     field.label = dataItem.Label;
                     field.mandatory = t.Bool(dataItem.Mandatory);
