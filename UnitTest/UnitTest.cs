@@ -939,7 +939,7 @@ namespace UnitTest
                 e1.DataItemList.Add(new Audio(3, false, false, "Audio field", "this is a description", "e2f4fb", 3, false, 1));
                 e1.DataItemList.Add(new Comment(5, false, false, "Comment field", "this is a description", "e2f4fb", 5, false, "value", 10000, false));
 
-                e2.DataItemList.Add(new Number(1, false, false, "Number field", "this is a description", "e2f4fb", 1, false, 0, 1000, 2, 0, ""));
+                e2.DataItemList.Add(new Number(1, false, false, "Number field", "this is a description", "e2f4fb", 1, false, "0", "1000", 2, 0, ""));
                 e2.DataItemList.Add(new Text(2, false, false, "Text field", "this is a description bla", "e2f4fb", 2, false, "true", 100, false, false, true, false, ""));
                 e2.DataItemList.Add(new Comment(3, false, false, "Comment field", "this is a description", "e2f4fb", 3, false, "value", 10000, false));
                 e2.DataItemList.Add(new Picture(4, false, false, "Picture field", "this is a description", "e2f4fb", 4, false, 1, true));
