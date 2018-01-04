@@ -4418,7 +4418,7 @@ namespace eFormSqlController
 
                         case "Number":
                             lstDataItem.Add(new Number(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
-                                long.Parse(f.min_value), long.Parse(f.max_value), int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
+                                f.min_value, f.max_value, int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
                             break;
 
                         case "MultiSelect":

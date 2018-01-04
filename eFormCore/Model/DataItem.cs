@@ -234,7 +234,7 @@ namespace eFormData
         }
 
         public Number(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            double minValue, double maxValue, int defaultValue, int decimalCount, string unitName)
+            string minValue, string maxValue, int defaultValue, int decimalCount, string unitName)
         {
             Id = id;
             Mandatory = mandatory;
@@ -254,8 +254,8 @@ namespace eFormData
         }
 
         #region var
-        public double MinValue { get; set; }
-        public double MaxValue { get; set; }
+        public string MinValue { get; set; }
+        public string MaxValue { get; set; }
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
         public string UnitName { get; set; }
