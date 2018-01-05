@@ -1899,7 +1899,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     //cases dbCase = null;
-                    return db.cases.Where(x => x.check_list_id == templateId).First().id;
+                    return db.cases.Where(x => x.check_list_id == templateId && x.status == 100).First().id;
                 }
             }
             catch (Exception ex)
