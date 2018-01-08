@@ -1644,8 +1644,16 @@ namespace eFormCore
                     // Redirect the output stream of the child process.
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
+                    string locaJ;
+                    string exepath = AppDomain.CurrentDomain.BaseDirectory;
+                    if (File.Exists(exepath + "\\bin\\JasperExporter.jar"))
+                    {
+                        locaJ = exepath + "\\bin\\JasperExporter.jar";
+                    } else
+                    {
+                        locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/JasperExporter.jar";
+                    }
 
-                    string locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/JasperExporter.jar";
                     string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates/" + jasperTemplate + "/compact/" + jasperTemplate + ".jrxml";
                     string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".xml";
                     string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".pdf";
