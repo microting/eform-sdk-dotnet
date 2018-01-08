@@ -225,7 +225,11 @@
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.SQS.3.3.3\analyzers\dotnet\cs\AWSSDK.SQS.CodeAnalysis.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="JasperExporter.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
