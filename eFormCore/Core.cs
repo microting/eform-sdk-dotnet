@@ -1651,12 +1651,21 @@ namespace eFormCore
                         locaJ = exepath + "\\bin\\JasperExporter.jar";
                     } else
                     {
-                        locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils/JasperExporter.jar";
+                        locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils\\JasperExporter.jar";
                     }
 
-                    string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates/" + jasperTemplate + "/compact/" + jasperTemplate + ".jrxml";
-                    string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".xml";
-                    string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".pdf";
+                    string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates\\" + jasperTemplate + "\\compact\\" + jasperTemplate + ".jrxml";
+                    if (!File.Exists(locaT))
+                    {
+                        throw new FileNotFoundException("jrxml template was not found at " + locaT);
+                    }
+                    string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".xml";
+
+                    if (!File.Exists(locaC))
+                    {
+                        throw new FileNotFoundException("Case result xml was not found at " + locaC);
+                    }
+                    string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".pdf";
 
                     string command =
                         "-Dfile.encoding=UTF-8 -jar " + locaJ +
