@@ -798,8 +798,8 @@ namespace eFormSqlController
                                     dU.updated_at = DateTime.Now;
                                     dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
                                     dU.uploader_id = userId;
-                                    dU.uploader_type = "system";
-                                    dU.workflow_state = "pre_created";
+                                    dU.uploader_type = Constants.UploaderTypes.System;
+                                    dU.workflow_state = Constants.WorkflowStates.PreCreated;
                                     dU.version = 1;
                                     dU.local = 0;
                                     dU.file_location = t.Locate(dataItemStr, "<URL>", "</");
@@ -838,7 +838,7 @@ namespace eFormSqlController
                                 fieldV.accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
                                 fieldV.date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
                                 //
-                                fieldV.workflow_state = "created";
+                                fieldV.workflow_state = Constants.WorkflowStates.Created;
                                 fieldV.version = 1;
                                 fieldV.case_id = responseCase.id;
                                 fieldV.field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
@@ -985,7 +985,7 @@ namespace eFormSqlController
                         fieldV.accuracy = null;
                         fieldV.date = null;
                         //
-                        fieldV.workflow_state = "created";
+                        fieldV.workflow_state = Constants.WorkflowStates.Created;
                         fieldV.version = 1;
                         fieldV.case_id = responseCase.id;
                         fieldV.field_id = field.Id;
@@ -1582,7 +1582,7 @@ namespace eFormSqlController
 
                     notifications aNote = new notifications();
 
-                    aNote.workflow_state = "created";
+                    aNote.workflow_state = Constants.WorkflowStates.Created;
                     aNote.created_at = DateTime.Now;
                     aNote.updated_at = DateTime.Now;
                     aNote.notification_uid = notificationUId;
@@ -1607,7 +1607,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    notifications aNoti = db.notifications.FirstOrDefault(x => x.workflow_state == "created");
+                    notifications aNoti = db.notifications.FirstOrDefault(x => x.workflow_state == Constants.WorkflowStates.Created);
 
                     if (aNoti != null)
                     {
@@ -1624,7 +1624,7 @@ namespace eFormSqlController
             }
         }
 
-        public void NotificationProcessed(string notificationUId, string microtingUId, string workflowState)
+        public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState)
         {
             try
             {
@@ -1651,7 +1651,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data dU = db.uploaded_data.FirstOrDefault(x => x.workflow_state == "pre_created");
+                    uploaded_data dU = db.uploaded_data.FirstOrDefault(x => x.workflow_state == Constants.WorkflowStates.PreCreated);
 
                     if (dU != null)
                     {
@@ -1714,7 +1714,7 @@ namespace eFormSqlController
                     uD.file_location = fileLocation;
                     uD.file_name = fileName;
                     uD.local = 1;
-                    uD.workflow_state = "created";
+                    uD.workflow_state = Constants.WorkflowStates.Created;
                     uD.updated_at = DateTime.Now;
                     uD.version = uD.version + 1;
 
@@ -1785,10 +1785,10 @@ namespace eFormSqlController
 
                         #region string stat = aCase.workflow_state ...
                         string stat = "";
-                        if (cls.workflow_state == "created")
+                        if (cls.workflow_state == Constants.WorkflowStates.Created)
                             stat = "Created";
 
-                        if (cls.workflow_state == "removed")
+                        if (cls.workflow_state == Constants.WorkflowStates.Removed)
                             stat = "Deleted";
                         #endregion
 
@@ -1818,16 +1818,16 @@ namespace eFormSqlController
 
                     #region string stat = aCase.workflow_state ...
                     string stat = "";
-                    if (aCase.workflow_state == "created" && aCase.status != 77)
+                    if (aCase.workflow_state == Constants.WorkflowStates.Created && aCase.status != 77)
                         stat = "Created";
 
-                    if (aCase.workflow_state == "created" && aCase.status == 77)
+                    if (aCase.workflow_state == Constants.WorkflowStates.Created && aCase.status == 77)
                         stat = "Retrived";
 
-                    if (aCase.workflow_state == "retracted")
+                    if (aCase.workflow_state == Constants.WorkflowStates.Retracted)
                         stat = "Completed";
 
-                    if (aCase.workflow_state == "removed")
+                    if (aCase.workflow_state == Constants.WorkflowStates.Removed)
                         stat = "Deleted";
                     #endregion
 
@@ -1925,19 +1925,19 @@ namespace eFormSqlController
                     switch (workflowState)
                     {
                         case "not_retracted":
-                            sub_query = sub_query.Where(x => x.workflow_state != "retracted");
+                            sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Retracted);
                             break;
                         case "not_removed":
-                            sub_query = sub_query.Where(x => x.workflow_state != "not_removed");
+                            sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
                         case "created":
-                            sub_query = sub_query.Where(x => x.workflow_state == "created");
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
                             break;
                         case "retracted":
-                            sub_query = sub_query.Where(x => x.workflow_state == "retracted");
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Retracted);
                             break;
                         case "removed":
-                            sub_query = sub_query.Where(x => x.workflow_state == "removed");
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Removed);
                             break;
                         default:
                             break;
@@ -2011,7 +2011,7 @@ namespace eFormSqlController
                 {
                     List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
 
-                    List<cases> lstMatchs = db.cases.Where(x => x.custom == customString && x.workflow_state == "created").ToList();
+                    List<cases> lstMatchs = db.cases.Where(x => x.custom == customString && x.workflow_state == Constants.WorkflowStates.Created).ToList();
 
                     foreach (cases match in lstMatchs)
                         foundCasesThatMatch.Add(CaseReadByCaseId(match.id));
@@ -2177,7 +2177,7 @@ namespace eFormSqlController
                 {
                     a_interaction_cases newCase = new a_interaction_cases();
 
-                    newCase.workflow_state = "created";
+                    newCase.workflow_state = Constants.WorkflowStates.Created;
                     newCase.version = 1;
                     newCase.created_at = DateTime.Now;
                     newCase.updated_at = DateTime.Now;
@@ -2199,7 +2199,7 @@ namespace eFormSqlController
                     {
                         newSite = new a_interaction_case_lists();
 
-                        newSite.workflow_state = "created";
+                        newSite.workflow_state = Constants.WorkflowStates.Created;
                         newSite.version = 1;
                         newSite.created_at = DateTime.Now;
                         newSite.updated_at = DateTime.Now;
@@ -2498,13 +2498,13 @@ namespace eFormSqlController
                 switch (workflowState)
                 {
                     case "not_removed":
-                        matches = db.sites.Where(x => x.workflow_state != "removed").ToList();
+                        matches = db.sites.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                         break;
                     case "removed":
-                        matches = db.sites.Where(x => x.workflow_state == "removed").ToList();
+                        matches = db.sites.Where(x => x.workflow_state == Constants.WorkflowStates.Removed).ToList();
                         break;
                     case "created":
-                        matches = db.sites.Where(x => x.workflow_state == "created").ToList();
+                        matches = db.sites.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
                         break;
                     default:
                         matches = db.sites.ToList();
@@ -2565,7 +2565,7 @@ namespace eFormSqlController
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = new sites();
-                    site.workflow_state = "created";
+                    site.workflow_state = Constants.WorkflowStates.Created;
                     site.version = 1;
                     site.created_at = DateTime.Now;
                     site.updated_at = DateTime.Now;
@@ -2596,7 +2596,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == Constants.WorkflowStates.Created);
 
                     if (site != null)
                         return new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
@@ -2617,7 +2617,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    sites site = db.sites.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == Constants.WorkflowStates.Created);
                     if (site == null)
                         return null;
 
@@ -2723,13 +2723,13 @@ namespace eFormSqlController
                     switch (workflowState)
                     {
                         case "not_removed":
-                            matches = db.workers.Where(x => x.workflow_state != "removed").ToList();
+                            matches = db.workers.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                             break;
                         case "removed":
-                            matches = db.workers.Where(x => x.workflow_state == "removed").ToList();
+                            matches = db.workers.Where(x => x.workflow_state == Constants.WorkflowStates.Removed).ToList();
                             break;
                         case "created":
-                            matches = db.workers.Where(x => x.workflow_state == "created").ToList();
+                            matches = db.workers.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
                             break;
                         default:
                             matches = db.workers.ToList();
@@ -2761,7 +2761,7 @@ namespace eFormSqlController
                     //logger.LogEverything(methodName + " called");
 
                     workers worker = new workers();
-                    worker.workflow_state = "created";
+                    worker.workflow_state = Constants.WorkflowStates.Created;
                     worker.version = 1;
                     worker.created_at = DateTime.Now;
                     worker.updated_at = DateTime.Now;
@@ -2815,7 +2815,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == "created");
+                    workers worker = db.workers.SingleOrDefault(x => x.microting_uid == microting_uid && x.workflow_state == Constants.WorkflowStates.Created);
 
                     if (worker != null)
                         return new Worker_Dto((int)worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
@@ -2915,7 +2915,7 @@ namespace eFormSqlController
                     int localWorkerId = db.workers.Single(x => x.microting_uid == workerUId).id;
 
                     site_workers site_worker = new site_workers();
-                    site_worker.workflow_state = "created";
+                    site_worker.workflow_state = Constants.WorkflowStates.Created;
                     site_worker.version = 1;
                     site_worker.created_at = DateTime.Now;
                     site_worker.updated_at = DateTime.Now;
@@ -2957,7 +2957,7 @@ namespace eFormSqlController
                     }
                     else
                     {
-                        site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
+                        site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == Constants.WorkflowStates.Created);
                     }
 
 
@@ -3079,7 +3079,7 @@ namespace eFormSqlController
                     int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
 
                     units unit = new units();
-                    unit.workflow_state = "created";
+                    unit.workflow_state = Constants.WorkflowStates.Created;
                     unit.version = 1;
                     unit.created_at = DateTime.Now;
                     unit.updated_at = DateTime.Now;
@@ -3114,7 +3114,7 @@ namespace eFormSqlController
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == "created");
+                    units unit = db.units.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == Constants.WorkflowStates.Created);
 
                     if (unit != null)
                         return new Unit_Dto((int)unit.microting_uid, (int)unit.customer_no, (int)unit.otp_code, (int)unit.site_id, unit.created_at, unit.updated_at);
@@ -3207,7 +3207,7 @@ namespace eFormSqlController
 
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
-            if (workflowState != "not_removed" && workflowState != "created" && workflowState != "removed")
+            if (workflowState != "not_removed" && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             List<entity_groups> eG = null;
@@ -3234,13 +3234,13 @@ namespace eFormSqlController
                     switch (workflowState)
                     {
                         case "not_removed":
-                            source = source.Where(x => x.workflow_state != "removed");
+                            source = source.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
                         case "removed":
-                            source = source.Where(x => x.workflow_state == "removed");
+                            source = source.Where(x => x.workflow_state == Constants.WorkflowStates.Removed);
                             break;
                         case "created":
-                            source = source.Where(x => x.workflow_state == "created");
+                            source = source.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
                             break;
                     }
 
@@ -3278,7 +3278,7 @@ namespace eFormSqlController
                     eG.type = entityType;
                     eG.updated_at = DateTime.Now;
                     eG.version = 1;
-                    eG.workflow_state = "created";
+                    eG.workflow_state = Constants.WorkflowStates.Created;
 
                     db.entity_groups.Add(eG);
                     db.SaveChanges();
@@ -3315,22 +3315,22 @@ namespace eFormSqlController
                     {
                         if (sort == "id")
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").OrderBy(x => x.id).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync").OrderBy(x => x.name).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.name).ToList();
                         }
                     }
                     else
                     {
                         if (sort == "id")
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync" && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed" && x.workflow_state != "failed_to_sync" && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
                         }
                     }
 
@@ -3549,7 +3549,7 @@ namespace eFormSqlController
                         eItem.version = eItem.version + 1;
                         eItem.synced = 1;
 
-                        if (workflowState == "created")
+                        if (workflowState == Constants.WorkflowStates.Created)
                             eItem.microting_uid = microting_uid; //<<---
 
                         db.entity_item_versions.Add(MapEntityItemVersions(eItem));
@@ -3723,7 +3723,7 @@ namespace eFormSqlController
                     if (db.field_types.Count() != 18)
                     {
                         #region prime FieldTypes
-                        UnitTest_TruncateTable(typeof(field_types).Name);
+                        //UnitTest_TruncateTable(typeof(field_types).Name);
 
                         FieldTypeAdd(1, "Text", "Simple text field");
                         FieldTypeAdd(2, "Number", "Simple number field");
@@ -3911,7 +3911,7 @@ namespace eFormSqlController
                     cl.label = mainElement.Label;
                     //description - used for non-MainElements
                     //serialized_default_values - Ruby colume
-                    cl.workflow_state = "created";
+                    cl.workflow_state = Constants.WorkflowStates.Created;
                     cl.parent_id = null; //MainElements never have parents ;)
                     cl.repeated = mainElement.Repeated;
                     cl.version = 1;
@@ -3984,7 +3984,7 @@ namespace eFormSqlController
                     else
                         cl.description = "";
                     //serialized_default_values - Ruby colume
-                    cl.workflow_state = "created";
+                    cl.workflow_state = Constants.WorkflowStates.Created;
                     cl.parent_id = parentId;
                     //repeated - used for mainElements
                     cl.version = 1;
@@ -4032,7 +4032,7 @@ namespace eFormSqlController
                         cl.description = "";
 
                     //serialized_default_values - Ruby colume
-                    cl.workflow_state = "created";
+                    cl.workflow_state = Constants.WorkflowStates.Created;
                     cl.parent_id = parentId;
                     //repeated - used for mainElements
                     cl.version = 1;
@@ -4102,7 +4102,7 @@ namespace eFormSqlController
 
                     field.created_at = DateTime.Now;
                     field.updated_at = DateTime.Now;
-                    field.workflow_state = "created";
+                    field.workflow_state = Constants.WorkflowStates.Created;
                     field.check_list_id = elementId;
                     field.field_type_id = fieldTypeId;
                     field.version = 1;
@@ -4161,7 +4161,7 @@ namespace eFormSqlController
 
                     field.created_at = DateTime.Now;
                     field.updated_at = DateTime.Now;
-                    field.workflow_state = "created";
+                    field.workflow_state = Constants.WorkflowStates.Created;
                     field.check_list_id = elementId;
                     field.field_type_id = fieldTypeId;
                     field.version = 1;
@@ -4571,7 +4571,7 @@ namespace eFormSqlController
                         #region new
                         entity_items eI = new entity_items();
 
-                        eI.workflow_state = "created";
+                        eI.workflow_state = Constants.WorkflowStates.Created;
                         eI.version = 1;
                         eI.created_at = DateTime.Now;
                         eI.updated_at = DateTime.Now;
@@ -5092,300 +5092,300 @@ namespace eFormSqlController
         #endregion
 
         #region unit test
-        public List<string> UnitTest_FindAllActiveCases()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<string> lstMUId = new List<string>();
+        //public List<string> UnitTest_FindAllActiveCases()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<string> lstMUId = new List<string>();
 
-                    List<cases> lstCases = db.cases.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
-                    foreach (cases aCase in lstCases)
-                    {
-                        lstMUId.Add(aCase.microting_uid);
-                    }
+        //            List<cases> lstCases = db.cases.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
+        //            foreach (cases aCase in lstCases)
+        //            {
+        //                lstMUId.Add(aCase.microting_uid);
+        //            }
 
-                    List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
-                    foreach (check_list_sites cLS in lstCLS)
-                    {
-                        lstMUId.Add(cLS.microting_uid);
-                    }
+        //            List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
+        //            foreach (check_list_sites cLS in lstCLS)
+        //            {
+        //                lstMUId.Add(cLS.microting_uid);
+        //            }
 
-                    return lstMUId;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveCases failed", ex);
-            }
-        }
+        //            return lstMUId;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveCases failed", ex);
+        //    }
+        //}
 
-        public List<string> UnitTest_EntitiesFindAllActive()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<string> lstMUId = new List<string>();
+        //public List<string> UnitTest_EntitiesFindAllActive()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<string> lstMUId = new List<string>();
 
-                    List<entity_groups> lstEGs = db.entity_groups.Where(x => x.workflow_state != "removed").ToList();
-                    foreach (entity_groups eG in lstEGs)
-                    {
-                        lstMUId.Add(eG.microting_uid);
-                    }
+        //            List<entity_groups> lstEGs = db.entity_groups.Where(x => x.workflow_state != "removed").ToList();
+        //            foreach (entity_groups eG in lstEGs)
+        //            {
+        //                lstMUId.Add(eG.microting_uid);
+        //            }
 
-                    return lstMUId;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //            return lstMUId;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public bool UnitTest_EntitiesAllSynced(string entityGroupId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<entity_items> lstEGs = db.entity_items.Where(x => x.workflow_state == "failed to sync" && x.entity_group_id == entityGroupId).ToList();
+        //public bool UnitTest_EntitiesAllSynced(string entityGroupId)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<entity_items> lstEGs = db.entity_items.Where(x => x.workflow_state == "failed to sync" && x.entity_group_id == entityGroupId).ToList();
 
-                    if (lstEGs.Count > 0)
-                        return false;
+        //            if (lstEGs.Count > 0)
+        //                return false;
 
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //            return true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public List<string> UnitTest_FindAllActiveInteraction()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<string> lstMUId = new List<string>();
+        //public List<string> UnitTest_FindAllActiveInteraction()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<string> lstMUId = new List<string>();
 
-                    List<a_interaction_cases> lst = db.a_interaction_cases.Where(x => x.workflow_state == "created" || x.workflow_state == "creating" || x.workflow_state == "delete" || x.workflow_state == "deleting").ToList();
-                    foreach (a_interaction_cases item in lst)
-                    {
-                        lstMUId.Add(item.id.ToString());
-                    }
+        //            List<a_interaction_cases> lst = db.a_interaction_cases.Where(x => x.workflow_state == "created" || x.workflow_state == "creating" || x.workflow_state == "delete" || x.workflow_state == "deleting").ToList();
+        //            foreach (a_interaction_cases item in lst)
+        //            {
+        //                lstMUId.Add(item.id.ToString());
+        //            }
 
-                    return lstMUId;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //            return lstMUId;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public List<notifications> UnitTest_FindAllNotifications()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<notifications> lst = db.notifications.ToList();
-                    return lst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
+        //public List<notifications> UnitTest_FindAllNotifications()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<notifications> lst = db.notifications.ToList();
+        //            return lst;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(t.GetMethodName() + " failed", ex);
+        //    }
+        //}
 
-        public List<string> UnitTest_FindAllActiveNotifications()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<string> lstMUId = new List<string>();
+        //public List<string> UnitTest_FindAllActiveNotifications()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<string> lstMUId = new List<string>();
 
-                    List<notifications> lst = db.notifications.Where(x => x.workflow_state == "created").ToList();
-                    foreach (notifications note in lst)
-                    {
-                        lstMUId.Add(note.microting_uid);
-                    }
+        //            List<notifications> lst = db.notifications.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
+        //            foreach (notifications note in lst)
+        //            {
+        //                lstMUId.Add(note.microting_uid);
+        //            }
 
-                    return lstMUId;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //            return lstMUId;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public int UnitTest_FindLog(int checkCount, string checkValue)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<logs> lst = db.logs.OrderByDescending(x => x.id).Take(checkCount).ToList();
-                    int count = 0;
+        //public int UnitTest_FindLog(int checkCount, string checkValue)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<logs> lst = db.logs.OrderByDescending(x => x.id).Take(checkCount).ToList();
+        //            int count = 0;
 
-                    foreach (logs item in lst)
-                        if (item.message.Contains(checkValue))
-                            count++;
+        //            foreach (logs item in lst)
+        //                if (item.message.Contains(checkValue))
+        //                    count++;
 
-                    return count;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //            return count;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public List<a_interaction_case_lists> UnitTest_FindAllActiveInteractionCaseLists(int interactionCaseId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<a_interaction_case_lists> lst = db.a_interaction_case_lists.Where(x => x.a_interaction_case_id == interactionCaseId).ToList();
-                    return lst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //public List<a_interaction_case_lists> UnitTest_FindAllActiveInteractionCaseLists(int interactionCaseId)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<a_interaction_case_lists> lst = db.a_interaction_case_lists.Where(x => x.a_interaction_case_id == interactionCaseId).ToList();
+        //            return lst;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public a_interaction_cases UnitTest_FindInteractionCase(int interactionCaseId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
-                    return match;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-            }
-        }
+        //public a_interaction_cases UnitTest_FindInteractionCase(int interactionCaseId)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
+        //            return match;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
+        //    }
+        //}
 
-        public bool UnitTest_TruncateTable(string tableName)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    if (msSql)
-                    {
-                        db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
-                        db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
+        //public bool UnitTest_TruncateTable(string tableName)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            if (msSql)
+        //            {
+        //                db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
+        //                db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
 
-                        return true;
-                    }
-                    else
-                    {
-                        db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0");
-                        db.Database.ExecuteSqlCommand("TRUNCATE TABLE " + tableName + ";");
-                        db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1");
+        //                return true;
+        //            }
+        //            else
+        //            {
+        //                db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0");
+        //                db.Database.ExecuteSqlCommand("TRUNCATE TABLE " + tableName + ";");
+        //                db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1");
 
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string str = ex.Message;
-                return false;
-            }
-        }
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string str = ex.Message;
+        //        return false;
+        //    }
+        //}
 
-        public bool UnitTest_DeleteDb()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    if (SettingRead(Settings.token) == "UNIT_TEST___________________L:32")
-                    {
-                        if (msSql)
-                        {
+        //public bool UnitTest_DeleteDb()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            if (SettingRead(Settings.token) == "UNIT_TEST___________________L:32")
+        //            {
+        //                if (msSql)
+        //                {
 
-                        }
-                        else
-                        {
-                            db.Database.ExecuteSqlCommand("DROP DATABASE `microtingmysql`");
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                string str = ex.Message;
-                return false;
-            }
-        }
+        //                }
+        //                else
+        //                {
+        //                    db.Database.ExecuteSqlCommand("DROP DATABASE `microtingmysql`");
+        //                    return true;
+        //                }
+        //            }
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string str = ex.Message;
+        //        return false;
+        //    }
+        //}
 
-        public bool UnitTest_TruncateTablesIfEmpty()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<string> tableLst = new List<string>();
+        //public bool UnitTest_TruncateTablesIfEmpty()
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<string> tableLst = new List<string>();
 
-                    var metadata = ((IObjectContextAdapter)db).ObjectContext.MetadataWorkspace;
+        //            var metadata = ((IObjectContextAdapter)db).ObjectContext.MetadataWorkspace;
 
-                    var tables = metadata.GetItemCollection(DataSpace.SSpace)
-                      .GetItems<EntityContainer>()
-                      .Single()
-                      .BaseEntitySets
-                      .OfType<EntitySet>()
-                      .Where(s => !s.MetadataProperties.Contains("Type")
-                        || s.MetadataProperties["Type"].ToString() == "Tables");
+        //            var tables = metadata.GetItemCollection(DataSpace.SSpace)
+        //              .GetItems<EntityContainer>()
+        //              .Single()
+        //              .BaseEntitySets
+        //              .OfType<EntitySet>()
+        //              .Where(s => !s.MetadataProperties.Contains("Type")
+        //                || s.MetadataProperties["Type"].ToString() == "Tables");
 
-                    foreach (var table in tables)
-                    {
-                        var tableName = table.MetadataProperties.Contains("Table")
-                            && table.MetadataProperties["Table"].Value != null
-                          ? table.MetadataProperties["Table"].Value.ToString()
-                          : table.Name;
+        //            foreach (var table in tables)
+        //            {
+        //                var tableName = table.MetadataProperties.Contains("Table")
+        //                    && table.MetadataProperties["Table"].Value != null
+        //                  ? table.MetadataProperties["Table"].Value.ToString()
+        //                  : table.Name;
 
-                        var tableSchema = table.MetadataProperties["Schema"].Value.ToString();
+        //                var tableSchema = table.MetadataProperties["Schema"].Value.ToString();
 
-                        tableLst.Add(tableName);
-                    }
+        //                tableLst.Add(tableName);
+        //            }
 
-                    int count;
-                    foreach (var tableName in tableLst)
-                    {
-                        count = db.Database.SqlQuery<int>("SELECT COUNT(*) FROM " + tableName).Single();
+        //            int count;
+        //            foreach (var tableName in tableLst)
+        //            {
+        //                count = db.Database.SqlQuery<int>("SELECT COUNT(*) FROM " + tableName).Single();
 
-                        if (count == 0)
-                            UnitTest_TruncateTable(tableName);
-                    }
+        //                if (count == 0)
+        //                    UnitTest_TruncateTable(tableName);
+        //            }
 
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                string str = ex.Message;
-                return false;
-            }
-        }
+        //            return true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string str = ex.Message;
+        //        return false;
+        //    }
+        //}
 
         private void FieldTypeAdd(int id, string fieldType, string description)
         {
