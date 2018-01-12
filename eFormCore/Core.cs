@@ -724,7 +724,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
 
-                    return TemplateItemReadAll(includeRemoved, null, true, "", new List<int>());
+                    return TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>());
                 }
                 else
                     throw new Exception("Core is not running");
@@ -736,7 +736,7 @@ namespace eFormCore
             }
         }
 
-        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
+        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
             string methodName = t.GetMethodName();
             try
@@ -750,7 +750,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
                     log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
 
-                    return sqlController.TemplateItemReadAll(includeRemoved, "created", searchKey, descendingSort, sortParameter, tagIds);
+                    return sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds);
                 }
                 else
                     throw new Exception("Core is not running");
