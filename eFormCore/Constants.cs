@@ -24,5 +24,12 @@
         {
             public const string System = "system";
         }
+
+        public static class TamplateSortParameters
+        {
+            public const string Label = "label";
+            public const string Description = "description";
+            public const string CreatedAt = "created_at";
+        }
     }
 }

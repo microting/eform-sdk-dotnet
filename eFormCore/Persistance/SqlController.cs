@@ -207,8 +207,15 @@ namespace eFormSqlController
             }
         }
 
-        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState)
+        public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
+            log.LogVariable("Not Specified", nameof(searchKey), searchKey);
+            log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
+            log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
+            log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
             try
             {
                 List<Template_Dto> templateList = new List<Template_Dto>();
@@ -216,21 +223,55 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     List<check_lists> matches = null;
+                    IQueryable<check_lists> sub_query = db.check_lists.Where(x => x.parent_id == null);
 
-                    if (includeRemoved)
-                        matches = db.check_lists.Where(x => x.parent_id == null).ToList();
-                    else
-                        matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == "created").ToList();
+                    if (!includeRemoved)
+                        sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
+
+                    switch (sortParameter)
+                    {
+                        case Constants.TamplateSortParameters.Label:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.label);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.label);
+                            break;
+                        case Constants.TamplateSortParameters.Description:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.description);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.description);
+                            break;
+                        case Constants.TamplateSortParameters.CreatedAt:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.created_at);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.created_at);
+                            break;
+                        default:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.id);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.id);
+                            break;
+                    }
+
+                    matches = sub_query.ToList();
+
+                    //if (includeRemoved)
+                    //    matches = db.check_lists.Where(x => x.parent_id == null).ToList();
+                    //else
+                    //    matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == Constants.WorkflowStates.Created).ToList();
 
                     foreach (check_lists checkList in matches)
                     {
                         List<SiteName_Dto> sites = new List<SiteName_Dto>();
                         List<check_list_sites> check_list_sites = null;
 
-                        if (siteWorkflowState == "removed")
-                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state == "removed").ToList();
+                        if (siteWorkflowState == Constants.WorkflowStates.Removed)
+                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state == Constants.WorkflowStates.Removed).ToList();
                         else
-                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList();
+                            check_list_sites = checkList.check_list_sites.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
 
                         foreach (check_list_sites check_list_site in check_list_sites)
                         {

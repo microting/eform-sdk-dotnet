@@ -724,7 +724,7 @@ namespace eFormCore
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
 
-                    return TemplateItemReadAll(includeRemoved, null, false, null, new List<int>());
+                    return TemplateItemReadAll(includeRemoved, null, true, "", new List<int>());
                 }
                 else
                     throw new Exception("Core is not running");
@@ -750,7 +750,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
                     log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
 
-                    return sqlController.TemplateItemReadAll(includeRemoved, "created");
+                    return sqlController.TemplateItemReadAll(includeRemoved, "created", searchKey, descendingSort, sortParameter, tagIds);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2205,8 +2205,8 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard("Not Specified", methodName + " called");
-
-                    List<Template_Dto> allTemplates = sqlController.TemplateItemReadAll(true, "removed");
+                    List<int> dummyList = new List<int>();
+                    List<Template_Dto> allTemplates = sqlController.TemplateItemReadAll(true, "removed", "", false, "", dummyList);
                     foreach (Template_Dto item in allTemplates)
                     {
                         foreach (SiteName_Dto site in item.DeployedSites)
