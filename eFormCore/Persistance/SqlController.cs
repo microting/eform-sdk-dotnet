@@ -721,11 +721,42 @@ namespace eFormSqlController
                     cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != "removed" && x.workflow_state != "retracted");
 
                     aCase.updated_at = DateTime.Now;
-                    aCase.workflow_state = "removed";
+                    aCase.workflow_state = Constants.WorkflowStates.Removed;
                     aCase.version = aCase.version + 1;
 
                     db.case_versions.Add(MapCaseVersions(aCase));
                     db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CaseDelete failed", ex);
+            }
+        }
+
+        public bool CaseDeleteResult(int caseId)
+        {
+
+            try
+            {
+                using (var db = GetContext())
+                {
+                    cases aCase = db.cases.SingleOrDefault(x => x.id == caseId);
+
+                    if (aCase != null)
+                    {
+                        aCase.workflow_state = Constants.WorkflowStates.Removed;
+                        aCase.updated_at = DateTime.Now;
+                        aCase.version = aCase.version + 1;
+
+                        db.case_versions.Add(MapCaseVersions(aCase));
+                        db.SaveChanges();
+
+                        return true;
+                    } else
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -2208,311 +2239,7 @@ namespace eFormSqlController
             }
         }
         #endregion
-
-        #region public interaction tables
-        public int InteractionCaseCreate(int templateId, string caseUId, List<int> siteUIds, string custom, bool connected, List<string> replacements)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases newCase = new a_interaction_cases();
-
-                    newCase.workflow_state = Constants.WorkflowStates.Created;
-                    newCase.version = 1;
-                    newCase.created_at = DateTime.Now;
-                    newCase.updated_at = DateTime.Now;
-                    newCase.case_uid = caseUId;
-                    newCase.custom = custom;
-                    newCase.connected = t.Bool(connected);
-                    newCase.template_id = templateId;
-                    newCase.replacements = t.TextLst(replacements);
-                    newCase.synced = 1;
-
-                    db.a_interaction_cases.Add(newCase);
-                    db.SaveChanges();
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(newCase));
-                    db.SaveChanges();
-
-                    a_interaction_case_lists newSite;
-                    foreach (int siteId in siteUIds)
-                    {
-                        newSite = new a_interaction_case_lists();
-
-                        newSite.workflow_state = Constants.WorkflowStates.Created;
-                        newSite.version = 1;
-                        newSite.created_at = DateTime.Now;
-                        newSite.updated_at = DateTime.Now;
-                        newSite.a_interaction_case_id = newCase.id;
-                        newSite.siteId = siteId;
-                        newSite.stat = "Created";
-
-                        db.a_interaction_case_lists.Add(newSite);
-                        db.SaveChanges();
-
-                        db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(newSite));
-                        db.SaveChanges();
-                    }
-
-                    return newCase.id;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public a_interaction_cases InteractionCaseReadFirstCreate()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "created");
-
-                    if (match == null)
-                        return null;
-
-                    match.workflow_state = "creating";
-                    match.updated_at = DateTime.Now;
-                    match.version = match.version + 1;
-
-                    db.SaveChanges();
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(match));
-                    db.SaveChanges();
-
-                    return match;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public a_interaction_cases InteractionCaseReadFirstDelete()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases match = db.a_interaction_cases.FirstOrDefault(x => x.workflow_state == "delete");
-
-                    if (match == null)
-                        return null;
-
-                    match.workflow_state = "deleting";
-                    match.updated_at = DateTime.Now;
-                    match.version = match.version + 1;
-
-                    db.SaveChanges();
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(match));
-                    db.SaveChanges();
-
-                    return match;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public List<a_interaction_case_lists> InteractionCaseListRead(int interactionCaseId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
-
-                    if (match == null)
-                        return null;
-
-                    List<a_interaction_case_lists> rtnLst = new List<a_interaction_case_lists>();
-
-                    foreach (var item in match.a_interaction_case_lists)
-                        rtnLst.Add(item);
-
-                    return rtnLst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public bool InteractionCaseUpdate(string microtingUId, int? caseId, string checkUId, string stat)
-        {
-            if (stat == "Created")
-                return true;
-
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_case_lists matchSite = db.a_interaction_case_lists.SingleOrDefault(x => x.microting_uid == microtingUId);
-
-                    if (matchSite == null)
-                        return false;
-
-                    a_interaction_cases matchCase = matchSite.a_interaction_case;
-
-                    matchCase.updated_at = DateTime.Now;
-                    matchCase.version = matchCase.version + 1;
-                    matchCase.synced = 0;
-
-                    matchSite.case_id = caseId;
-                    matchSite.check_uid = checkUId;
-                    matchSite.stat = stat;
-                    matchSite.updated_at = DateTime.Now;
-                    matchSite.version = matchSite.version + 1;
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
-                    db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(matchSite));
-                    db.SaveChanges();
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public void InteractionCaseProcessedCreate(int interactionCaseId, List<int> siteUIds, List<string> microtingUIds)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
-                    matchCase.workflow_state = "processed";
-                    matchCase.updated_at = DateTime.Now;
-                    matchCase.version = matchCase.version + 1;
-                    matchCase.synced = 0;
-
-                    int index = 0;
-                    int count = siteUIds.Count();
-
-                    while (index < count)
-                    {
-                        int siteId = siteUIds[index];
-                        int iCaseId = matchCase.id;
-                        a_interaction_case_lists matchSite = db.a_interaction_case_lists.Single(x => x.a_interaction_case_id == iCaseId && x.siteId == siteId);
-                        matchSite.updated_at = DateTime.Now;
-                        matchSite.version = matchSite.version + 1;
-                        matchSite.microting_uid = microtingUIds[index];
-                        matchSite.stat = "Sent";
-
-                        try
-                        {
-                            matchSite.case_id = CaseReadFull(microtingUIds[index], null).id;
-                        }
-                        catch
-                        {
-
-                        }
-
-                        db.a_interaction_case_list_versions.Add(MapInteractionCaseListVersions(matchSite));
-                        index++;
-                    }
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public void InteractionCaseProcessedDelete(int interactionCaseId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
-                    matchCase.workflow_state = "removed";
-                    matchCase.updated_at = DateTime.Now;
-                    matchCase.version = matchCase.version + 1;
-                    matchCase.synced = 0;
-
-                    db.SaveChanges();
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public bool InteractionCaseDelete(int interactionCaseId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases newSite = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
-
-                    if (newSite == null)
-                        return false;
-
-                    newSite.workflow_state = "delete";
-                    newSite.version = newSite.version + 1;
-                    newSite.updated_at = DateTime.Now;
-
-                    db.SaveChanges();
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(newSite));
-                    db.SaveChanges();
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-
-        public void InteractionCaseFailed(int interactionCaseId, string expectionString)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    a_interaction_cases matchCase = db.a_interaction_cases.Single(x => x.id == interactionCaseId);
-                    matchCase.workflow_state = "failed to sync";
-                    matchCase.updated_at = DateTime.Now;
-                    matchCase.version = matchCase.version + 1;
-                    matchCase.synced = 0;
-                    matchCase.expectionString = expectionString;
-
-                    db.SaveChanges();
-
-                    db.a_interaction_case_versions.Add(MapInteractionCaseVersions(matchCase));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(t.GetMethodName() + " failed", ex);
-            }
-        }
-        #endregion
-
+        
         #region public site
         #region site
         public List<SiteName_Dto> SiteGetAll()
@@ -4845,45 +4572,7 @@ namespace eFormSqlController
         #endregion
 
         #region mappers
-        private a_interaction_case_list_versions MapInteractionCaseListVersions(a_interaction_case_lists interactionCaseList)
-        {
-            a_interaction_case_list_versions ver = new a_interaction_case_list_versions();
-            ver.case_id = interactionCaseList.case_id;
-            ver.check_uid = interactionCaseList.check_uid;
-            ver.created_at = interactionCaseList.created_at;
-            ver.microting_uid = interactionCaseList.microting_uid;
-            ver.siteId = interactionCaseList.siteId;
-            ver.stat = interactionCaseList.stat;
-            ver.version = interactionCaseList.version;
-            ver.updated_at = interactionCaseList.updated_at;
-            ver.version = interactionCaseList.version;
-            ver.workflow_state = interactionCaseList.workflow_state;
-
-            ver.a_interaction_case_list_version_id = interactionCaseList.id; //<<--
-
-            return ver;
-        }
-
-        private a_interaction_case_versions MapInteractionCaseVersions(a_interaction_cases interactionCase)
-        {
-            a_interaction_case_versions ver = new a_interaction_case_versions();
-            ver.case_uid = interactionCase.case_uid;
-            ver.connected = interactionCase.connected;
-            ver.created_at = interactionCase.created_at;
-            ver.custom = interactionCase.custom;
-            ver.expectionString = interactionCase.expectionString;
-            ver.replacements = interactionCase.replacements;
-            ver.synced = interactionCase.synced;
-            ver.template_id = interactionCase.template_id;
-            ver.updated_at = interactionCase.updated_at;
-            ver.version = interactionCase.version;
-            ver.workflow_state = interactionCase.workflow_state;
-
-            ver.a_interaction_case_id = interactionCase.id; //<<--
-
-            return ver;
-        }
-
+       
         private case_versions MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
@@ -5210,303 +4899,7 @@ namespace eFormSqlController
             return taggingVer;
         }
         #endregion
-        #endregion
-
-        #region unit test
-        //public List<string> UnitTest_FindAllActiveCases()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<string> lstMUId = new List<string>();
-
-        //            List<cases> lstCases = db.cases.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
-        //            foreach (cases aCase in lstCases)
-        //            {
-        //                lstMUId.Add(aCase.microting_uid);
-        //            }
-
-        //            List<check_list_sites> lstCLS = db.check_list_sites.Where(x => x.workflow_state != "removed" && x.workflow_state != "retracted").ToList();
-        //            foreach (check_list_sites cLS in lstCLS)
-        //            {
-        //                lstMUId.Add(cLS.microting_uid);
-        //            }
-
-        //            return lstMUId;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveCases failed", ex);
-        //    }
-        //}
-
-        //public List<string> UnitTest_EntitiesFindAllActive()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<string> lstMUId = new List<string>();
-
-        //            List<entity_groups> lstEGs = db.entity_groups.Where(x => x.workflow_state != "removed").ToList();
-        //            foreach (entity_groups eG in lstEGs)
-        //            {
-        //                lstMUId.Add(eG.microting_uid);
-        //            }
-
-        //            return lstMUId;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public bool UnitTest_EntitiesAllSynced(string entityGroupId)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<entity_items> lstEGs = db.entity_items.Where(x => x.workflow_state == "failed to sync" && x.entity_group_id == entityGroupId).ToList();
-
-        //            if (lstEGs.Count > 0)
-        //                return false;
-
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public List<string> UnitTest_FindAllActiveInteraction()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<string> lstMUId = new List<string>();
-
-        //            List<a_interaction_cases> lst = db.a_interaction_cases.Where(x => x.workflow_state == "created" || x.workflow_state == "creating" || x.workflow_state == "delete" || x.workflow_state == "deleting").ToList();
-        //            foreach (a_interaction_cases item in lst)
-        //            {
-        //                lstMUId.Add(item.id.ToString());
-        //            }
-
-        //            return lstMUId;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public List<notifications> UnitTest_FindAllNotifications()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<notifications> lst = db.notifications.ToList();
-        //            return lst;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(t.GetMethodName() + " failed", ex);
-        //    }
-        //}
-
-        //public List<string> UnitTest_FindAllActiveNotifications()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<string> lstMUId = new List<string>();
-
-        //            List<notifications> lst = db.notifications.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
-        //            foreach (notifications note in lst)
-        //            {
-        //                lstMUId.Add(note.microting_uid);
-        //            }
-
-        //            return lstMUId;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public int UnitTest_FindLog(int checkCount, string checkValue)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<logs> lst = db.logs.OrderByDescending(x => x.id).Take(checkCount).ToList();
-        //            int count = 0;
-
-        //            foreach (logs item in lst)
-        //                if (item.message.Contains(checkValue))
-        //                    count++;
-
-        //            return count;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public List<a_interaction_case_lists> UnitTest_FindAllActiveInteractionCaseLists(int interactionCaseId)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<a_interaction_case_lists> lst = db.a_interaction_case_lists.Where(x => x.a_interaction_case_id == interactionCaseId).ToList();
-        //            return lst;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public a_interaction_cases UnitTest_FindInteractionCase(int interactionCaseId)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            a_interaction_cases match = db.a_interaction_cases.SingleOrDefault(x => x.id == interactionCaseId);
-        //            return match;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("UnitTest_FindAllActiveEntities failed", ex);
-        //    }
-        //}
-
-        //public bool UnitTest_TruncateTable(string tableName)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            if (msSql)
-        //            {
-        //                db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[" + tableName + "];");
-        //                db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('" + tableName + "', RESEED, 1);");
-
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=0");
-        //                db.Database.ExecuteSqlCommand("TRUNCATE TABLE " + tableName + ";");
-        //                db.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS=1");
-
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string str = ex.Message;
-        //        return false;
-        //    }
-        //}
-
-        //public bool UnitTest_DeleteDb()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            if (SettingRead(Settings.token) == "UNIT_TEST___________________L:32")
-        //            {
-        //                if (msSql)
-        //                {
-
-        //                }
-        //                else
-        //                {
-        //                    db.Database.ExecuteSqlCommand("DROP DATABASE `microtingmysql`");
-        //                    return true;
-        //                }
-        //            }
-        //            return false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string str = ex.Message;
-        //        return false;
-        //    }
-        //}
-
-        //public bool UnitTest_TruncateTablesIfEmpty()
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<string> tableLst = new List<string>();
-
-        //            var metadata = ((IObjectContextAdapter)db).ObjectContext.MetadataWorkspace;
-
-        //            var tables = metadata.GetItemCollection(DataSpace.SSpace)
-        //              .GetItems<EntityContainer>()
-        //              .Single()
-        //              .BaseEntitySets
-        //              .OfType<EntitySet>()
-        //              .Where(s => !s.MetadataProperties.Contains("Type")
-        //                || s.MetadataProperties["Type"].ToString() == "Tables");
-
-        //            foreach (var table in tables)
-        //            {
-        //                var tableName = table.MetadataProperties.Contains("Table")
-        //                    && table.MetadataProperties["Table"].Value != null
-        //                  ? table.MetadataProperties["Table"].Value.ToString()
-        //                  : table.Name;
-
-        //                var tableSchema = table.MetadataProperties["Schema"].Value.ToString();
-
-        //                tableLst.Add(tableName);
-        //            }
-
-        //            int count;
-        //            foreach (var tableName in tableLst)
-        //            {
-        //                count = db.Database.SqlQuery<int>("SELECT COUNT(*) FROM " + tableName).Single();
-
-        //                if (count == 0)
-        //                    UnitTest_TruncateTable(tableName);
-        //            }
-
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string str = ex.Message;
-        //        return false;
-        //    }
-        //}
+        #endregion       
 
         private void FieldTypeAdd(int id, string fieldType, string description)
         {
@@ -5521,7 +4914,6 @@ namespace eFormSqlController
                 db.SaveChanges();
             }
         }
-        #endregion
     }
 
     public enum Settings

@@ -214,7 +214,6 @@
     <Compile Include="Persistance\table\workers.cs" />
     <Compile Include="Persistance\table\worker_versions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CoreUnitTest.cs" />
     <Compile Include="Services\Subscriber.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>

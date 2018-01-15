@@ -345,6 +345,5 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.True(true);
         }
-
     }
 }
