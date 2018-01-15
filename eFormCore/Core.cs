@@ -2037,14 +2037,14 @@ namespace eFormCore
         #endregion
 
         #region tags
-        public List<Tag> getAllTags()
+        public List<Tag> GetAllTags(bool includeRemoved)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (Running())
                 {
-                    return sqlController.getAllTags();
+                    return sqlController.GetAllTags(includeRemoved);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2056,14 +2056,35 @@ namespace eFormCore
             }
         }
 
-        public bool CrateTag(string name)
+        public int TagCreate(string name)
         {
             string methodName = t.GetMethodName();
             try
             {
                 if (Running())
                 {
-                    return sqlController.CrateTag(name);
+                    return sqlController.TagCreate(name);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+
+
+        public bool TagDelete(int tagId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    return sqlController.TagDelete(tagId);
                 }
                 else
                     throw new Exception("Core is not running");

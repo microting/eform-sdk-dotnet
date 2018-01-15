@@ -4667,14 +4667,94 @@ namespace eFormSqlController
         #endregion
 
         #region tags
-        public List<Tag> getAllTags()
+        public List<Tag> GetAllTags(bool includeRemoved)
         {
-            throw new NotImplementedException();
+            List<Tag> tags = new List<Tag>();
+            try
+            {
+                using (var db = GetContext())
+                {
+                    List<tags> matches = null;
+                    if (!includeRemoved)
+                        matches = db.tags.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
+                    else
+                        matches = db.tags.ToList();
+
+                    foreach (tags tag in matches)
+                    {
+                        Tag t = new Tag(tag.id, tag.name, (int)tag.taggings_count);
+                        tags.Add(t);
+                    }
+                }
+                return tags;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemUpdate failed", ex);
+            }
         }
 
-        public bool CrateTag(string name)
+        public int TagCreate(string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var db = GetContext())
+                {
+                    tags tag = db.tags.SingleOrDefault(x => x.name == name);
+                    if (tag == null)
+                    {
+                        tag = new tags();
+                        tag.name = name;
+                        tag.workflow_state = Constants.WorkflowStates.Created;
+                        tag.version = 1;
+                        db.tags.Add(tag);
+                        db.SaveChanges();
+
+                        db.tag_versions.Add(MapTagVersions(tag));
+                        db.SaveChanges();
+                        return tag.id;
+                    } else
+                    {
+                        tag.workflow_state = Constants.WorkflowStates.Created;
+                        tag.version += 1;
+                        db.SaveChanges();
+
+                        db.tag_versions.Add(MapTagVersions(tag));
+                        db.SaveChanges();
+                        return tag.id;
+                    }                    
+                }
+                //return ;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemUpdate failed", ex);
+            }
+        }
+
+        public bool TagDelete(int tagId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    tags tag = db.tags.SingleOrDefault(x => x.id == tagId);
+                    if (tag != null)                    
+                    {
+                        tag.workflow_state = Constants.WorkflowStates.Removed;
+                        tag.version += 1;
+                        db.SaveChanges();
+
+                        db.tag_versions.Add(MapTagVersions(tag));
+                        db.SaveChanges();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemUpdate failed", ex);
+            }
         }
         #endregion
 

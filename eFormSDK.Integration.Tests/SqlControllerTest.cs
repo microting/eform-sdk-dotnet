@@ -146,7 +146,6 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-
         public void SQL_Template_TemplateItemReadAll_DoesSortAccordingly()
         {
 
@@ -388,6 +387,81 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
+        }
+
+        [Test]
+        public void SQL_Tags_CreateTag_DoesCreateNewTag()
+        {
+            // Arrance
+            string tagName = "Tag1";
+
+            // Act
+            sut.TagCreate(tagName);
+
+            // Assert
+            var tag = DbContext.tags.ToList();
+
+            Assert.AreEqual(tag[0].name, tagName);
+            Assert.AreEqual(1, tag.Count());
+        }
+
+        [Test]
+        public void SQL_Tags_DeleteTag_DoesMarkTagAsRemoved()
+        {
+            // Arrance
+            string tagName = "Tag1";
+            int tagId = sut.TagCreate(tagName);
+
+            // Act
+            sut.TagDelete(tagId);
+
+            // Assert
+            var tag = DbContext.tags.ToList();
+
+            Assert.AreEqual(tag[0].name, tagName);
+            Assert.AreEqual(1, tag.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Removed, tag[0].workflow_state);
+        }
+
+        [Test]
+        public void SQL_Tags_CreateTag_DoesRecreateRemovedTag()
+        {
+            // Arrance
+            string tagName = "Tag1";
+            int tagId = sut.TagCreate(tagName);
+            sut.TagDelete(tagId);
+
+            // Act
+            sut.TagCreate(tagName);
+
+            // Assert
+            var tag = DbContext.tags.ToList();
+
+            Assert.AreEqual(tag[0].name, tagName);
+            Assert.AreEqual(1, tag.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, tag[0].workflow_state);
+        }
+
+        [Test]
+        public void SQL_Tags_GetAllTags_DoesReturnAllTags()
+        {
+            // Arrance
+
+            // Act
+
+            // Assert
+            Assert.True(true);
+        }
+
+        [Test]
+        public void SQL_Tags_TemplateSetTags_DoesAssignTagToTemplate()
+        {
+            // Arrance
+
+            // Act
+
+            // Assert
+            Assert.True(true);
         }
 
         // Arrance
