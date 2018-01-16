@@ -291,7 +291,7 @@ namespace eFormShared
         {
         }
 
-        public Case_Dto(int? caseId, string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom, int checkListId)
+        public Case_Dto(int? caseId, string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom, int checkListId, string workflowState)
         {
             if (caseType == null)
                 caseType = "";
@@ -311,6 +311,7 @@ namespace eFormShared
             CheckUId = checkUId;
             Custom = custom;
             CheckListId = checkListId;
+            WorkflowState = workflowState;
         }
 
         #endregion
@@ -360,6 +361,11 @@ namespace eFormShared
         /// Unique identifier of device
         /// </summary>
         public int CheckListId { get; }
+
+        /// <summary>
+        /// WorkflowState
+        /// </summary>
+        public string WorkflowState { get; }
 
         #endregion
 

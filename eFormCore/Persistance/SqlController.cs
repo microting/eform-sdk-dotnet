@@ -1865,7 +1865,7 @@ namespace eFormSqlController
                         #endregion
 
                         int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
-                        Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.id);
+                        Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.id, null);
                         return rtrnCase;
                     }
                     catch { }
@@ -1904,7 +1904,7 @@ namespace eFormSqlController
                     #endregion
 
                     int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
-                    Case_Dto cDto = new Case_Dto(aCase.id, stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, aCase.custom, cL.id);
+                    Case_Dto cDto = new Case_Dto(aCase.id, stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, aCase.custom, cL.id, aCase.workflow_state);
                     return cDto;
                 }
             }

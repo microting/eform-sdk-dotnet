@@ -345,5 +345,43 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.True(true);
         }
+
+        #region Case
+        [Test]
+        public void Core_Case_CaseDeleteResult_DoesMarkCaseRemoved()
+        {
+
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            site.microting_uid = 1234;
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseDeleteResult(aCase.id);
+            Case_Dto theCase = sut.CaseLookupCaseId(aCase.id);
+
+            // Assert
+            Assert.NotNull(theCase);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.WorkflowState);
+        }
+        #endregion
     }
 }
