@@ -19,6 +19,7 @@ namespace eFormSDK.Integration.Tests
             sut.StartLog(new CoreBase());
         }
 
+        #region Notifications
         [Test]
         public void SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
         {
@@ -98,7 +99,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.Notifications.Completed, notification.activity);
             Assert.AreEqual(Constants.WorkflowStates.Processed, notification.workflow_state);
         }
+        #endregion
 
+        #region UploadedData
         [Test]
         public void SQL_UploadedData_FileRead_DoesReturnOneUploadedData()
         {
@@ -144,7 +147,9 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(dU.local, ud.);
 
         }
+        #endregion
 
+        #region Templates
         [Test]
         public void SQL_Template_TemplateItemReadAll_DoesSortAccordingly()
         {
@@ -388,7 +393,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
+        #endregion 
 
+        #region Tags
         [Test]
         public void SQL_Tags_CreateTag_DoesCreateNewTag()
         {
@@ -463,6 +470,7 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.True(true);
         }
+        #endregion
 
         #region Case
         [Test]

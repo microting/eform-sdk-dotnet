@@ -1980,8 +1980,17 @@ namespace eFormSqlController
             }
         }
 
-        public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey)
+        public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
         {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            log.LogVariable("Not Specified", nameof(templatId), templatId);
+            log.LogVariable("Not Specified", nameof(start), start);
+            log.LogVariable("Not Specified", nameof(end), end);
+            log.LogVariable("Not Specified", nameof(workflowState), workflowState);
+            log.LogVariable("Not Specified", nameof(searchKey), searchKey);
+            log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
+            log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
             try
             {
                 using (var db = GetContext())
@@ -2023,6 +2032,112 @@ namespace eFormSqlController
                     if (searchKey != null && searchKey != "")
                     {
                         sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
+                    }
+
+                    switch (sortParameter)
+                    {
+                        case Constants.CaseSortParameters.CreatedAt:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.id);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.id);
+                            break;
+                        case Constants.CaseSortParameters.DoneAt:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.done_at);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.done_at);
+                            break;
+                        case Constants.CaseSortParameters.WorkerName:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.id);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.id);
+                            break;
+                        case Constants.CaseSortParameters.SiteName:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.id);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.id);
+                            break;
+                        case Constants.CaseSortParameters.UnitId:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.unit_id);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.unit_id);
+                            break;
+                        case Constants.CaseSortParameters.Status:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.status);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.status);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue1:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_1);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_1);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue2:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_2);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_2);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue3:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_3);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_3);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue4:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_4);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_4);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue5:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_5);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_5);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue6:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_6);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_6);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue7:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_7);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_7);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue8:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_8);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_8);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue9:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_9);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_9);
+                            break;
+                        case Constants.CaseSortParameters.FieldValue10:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.field_value_10);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.field_value_10);
+                            break;
+                        default:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.id);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.id);
+                            break;
                     }
 
                     matches = sub_query.ToList();

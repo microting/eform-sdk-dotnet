@@ -31,5 +31,25 @@
             public const string Description = "description";
             public const string CreatedAt = "created_at";
         }
+
+        public static class CaseSortParameters
+        {
+            public const string CreatedAt = "created_at";
+            public const string DoneAt = "done_at";
+            public const string WorkerName = "worker_name";
+            public const string SiteName = "site_name";
+            public const string UnitId = "unit_id";
+            public const string Status = "status";
+            public const string FieldValue1 = "field_value_1";
+            public const string FieldValue2 = "field_value_2";
+            public const string FieldValue3 = "field_value_3";
+            public const string FieldValue4 = "field_value_4";
+            public const string FieldValue5 = "field_value_5";
+            public const string FieldValue6 = "field_value_6";
+            public const string FieldValue7 = "field_value_7";
+            public const string FieldValue8 = "field_value_8";
+            public const string FieldValue9 = "field_value_9";
+            public const string FieldValue10 = "field_value_10";
+        }
     }
 }

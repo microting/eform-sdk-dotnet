@@ -1026,7 +1026,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
                     log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
 
-                    return sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey);
+                    return sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2902,7 +2902,7 @@ namespace eFormCore
             List<string> colume1CaseIds = new List<string> { "Id" };
             List<int> caseIds = new List<int>();
 
-            List<Case> caseList = sqlController.CaseReadAll(templateId, start, end, "not_removed", null);
+            List<Case> caseList = sqlController.CaseReadAll(templateId, start, end, "not_removed", null, false, "");
             var template = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)
