@@ -108,11 +108,13 @@
     <Compile Include="Core.cs" />
     <Compile Include="Dto\Classes.cs" />
     <Compile Include="Handlers\EformCompletedHandler.cs" />
+    <Compile Include="Handlers\UnitActivatedHandler.cs" />
     <Compile Include="Handlers\EformRetrievedHandler.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="Installers\RebusHandlerInstaller.cs" />
     <Compile Include="Installers\RebusInstaller.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
     <Compile Include="Model\DataItem.cs" />

@@ -6,6 +6,7 @@
         {
             public const string RetrievedForm = "unit_fetch";
             public const string Completed = "check_status";
+            public const string UnitActivate = "unit_activate";
         }
 
         public static class WorkflowStates

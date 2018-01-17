@@ -165,6 +165,9 @@ namespace eFormSubscriber
                                     case Constants.Notifications.Completed:
                                         bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
                                         break;
+                                    case Constants.Notifications.UnitActivate:
+                                        bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
+                                        break;
                                 }
 
 
