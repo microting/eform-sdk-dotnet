@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -47,6 +48,7 @@ namespace eFormSDK.Integration.Tests
 
             DbContext.check_lists.Add(cl1);
             DbContext.SaveChanges();
+            Thread.Sleep(1000);
             #endregion
 
             #region Template2
@@ -63,6 +65,7 @@ namespace eFormSDK.Integration.Tests
 
             DbContext.check_lists.Add(cl2);
             DbContext.SaveChanges();
+            Thread.Sleep(1000);
             #endregion
 
             #region Template3
@@ -79,6 +82,7 @@ namespace eFormSDK.Integration.Tests
 
             DbContext.check_lists.Add(cl3);
             DbContext.SaveChanges();
+            Thread.Sleep(1000);
             #endregion
 
             #region Template4
