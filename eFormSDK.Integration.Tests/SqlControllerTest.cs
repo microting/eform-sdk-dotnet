@@ -397,6 +397,43 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
+        
+        [Test]
+        public void SQL_Template_TemplateDelete_DoesMarkTemplateAsRemoved()
+        {
+            // Arrance
+            #region Template1
+
+            check_lists cl1 = new check_lists();
+            cl1.created_at = DateTime.Now;
+            cl1.updated_at = DateTime.Now;
+            cl1.label = "A";
+            cl1.description = "D";
+            cl1.workflow_state = Constants.WorkflowStates.Created;
+            cl1.case_type = "CheckList";
+            cl1.folder_name = "Template1FolderName";
+            cl1.display_index = 1;
+            cl1.repeated = 1;
+
+            DbContext.check_lists.Add(cl1);
+            DbContext.SaveChanges();
+            #endregion
+            // Act
+
+            sut.TemplateDelete(cl1.id);
+
+            Template_Dto clResult = sut.TemplateItemRead(cl1.id);
+
+            // Assert
+
+            var checkLists = DbContext.check_lists.AsNoTracking().ToList();
+
+            Assert.NotNull(clResult);
+            Assert.AreEqual(1, checkLists.Count());
+            //Assert.AreEqual(1, cl_results.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].workflow_state);
+            
+        }
         #endregion 
 
         #region Tags
@@ -511,7 +548,95 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(theCase);
             Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.workflow_state);
         }
+
+        [Test]
+        public void SQL_Case_CaseDelete_DoesCaseRemoved()
+        {
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseDeleteResult(aCase.id);
+            cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+
+            var cases = DbContext.check_lists.AsNoTracking().ToList();
+
+
+
+            // Assert
+            Assert.AreEqual(1, cases.Count());
+            Assert.NotNull(theCase);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.workflow_state);
+        }
+
+        [Test]
+        public void SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
+        {
+
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+            aCase.status = 66;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseUpdateRetrived(aCase.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
+
+
+            // Assert
+
+            
+            Assert.NotNull(caseResults);
+            Assert.AreEqual(1, caseResults.Count);
+            Assert.AreNotEqual(1, caseResults[0]);
+            
+
+        
+
+        }
+
+
         #endregion
+
+
 
         // Arrance
 
