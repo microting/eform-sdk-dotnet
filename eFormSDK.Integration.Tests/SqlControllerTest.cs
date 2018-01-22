@@ -650,6 +650,18 @@ namespace eFormSDK.Integration.Tests
         #region public site
         #region site
         //         public List<SiteName_Dto> SiteGetAll(bool includeRemoved)
+
+        [Test]
+
+        public void SQL_Site_SiteGetAll_DoesReturnAllSites()
+        {
+            // Arrance
+
+            // Act
+
+            // Assert
+            Assert.True(true);
+        }
         #endregion
         #endregion
 
