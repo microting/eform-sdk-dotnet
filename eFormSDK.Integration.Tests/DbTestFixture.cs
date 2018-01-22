@@ -27,7 +27,7 @@ namespace eFormSDK.Integration.Tests
 
             if (!userName.Contains("USER_NAME"))
             {
-                var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGermanCloud);
+                var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGlobalCloud);
                 var azure = Azure
                     .Configure()
                     .Authenticate(credentials)
