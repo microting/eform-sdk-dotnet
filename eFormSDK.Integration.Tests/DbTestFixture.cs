@@ -27,8 +27,11 @@ namespace eFormSDK.Integration.Tests
 
             if (!userName.Contains("USER_NAME"))
             {
-                AzureCredentials azureCredentials = new AzureCredentials(new UserLoginInformation { ClientId = applicationId, UserName = userName, Password = password }, directoryId, AzureEnvironment.AzureGermanCloud);
-                IAzure azure = Azure.Authenticate(azureCredentials).WithDefaultSubscription();
+                var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGermanCloud);
+                var azure = Azure
+                    .Configure()
+                    .Authenticate(credentials)
+                    .WithDefaultSubscription();
 
                 var sqlServer = azure.SqlServers.GetById(databaseServerId);
                 sqlServer.Databases.Define(databaseName: databaseName).Create();
