@@ -15,7 +15,7 @@ namespace eFormSDK.Integration.Tests
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
         private static string databaseName = "__DBNAME__";
-        private static string databaseServerId = "__DBNAME__";
+        private static string databaseServerId = "__DB_SERVER_ID__";
         private static string directoryId = "__DIRECTORY_ID__";
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace eFormSDK.Integration.Tests
         {
             DbContext = new MicrotingDbMs(ConnectionString);
 
-            if (userName != "__USER_NAME__")
+            if (!userName.Contains("USER_NAME"))
             {
                 AzureCredentials azureCredentials = new AzureCredentials(new UserLoginInformation { ClientId = "Azure client Id", UserName = userName, Password = password }, directoryId, AzureEnvironment.AzureGermanCloud);
                 IAzure azure = Azure.Authenticate(azureCredentials).WithDefaultSubscription();
