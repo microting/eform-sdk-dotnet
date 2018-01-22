@@ -21,8 +21,9 @@ namespace eFormSDK.Integration.Tests
 
         [SetUp]
         public void Setup()
-        {
+        {            
             DbContext = new MicrotingDbMs(ConnectionString);
+            DbContext.Database.CommandTimeout = 300;
 
 
             if (!userName.Contains("USER_NAME"))
@@ -38,7 +39,7 @@ namespace eFormSDK.Integration.Tests
             }
             DbContext.Database.CreateIfNotExists();
 
-            DbContext.Database.Initialize(false);
+            DbContext.Database.Initialize(true);
 
             DoSetup();
         }
