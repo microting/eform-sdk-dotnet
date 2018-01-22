@@ -494,11 +494,21 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Tags_GetAllTags_DoesReturnAllTags()
         {
             // Arrance
-
+            string tagName1 = "Tag1";
+            int tagId1 = sut.TagCreate(tagName1);
+            string tagName2 = "Tag2";
+            int tagId2 = sut.TagCreate(tagName2);
+            string tagName3 = "Tag3";
+            int tagId3 = sut.TagCreate(tagName3);
             // Act
+            var tags = sut.GetAllTags(true);            
 
             // Assert
             Assert.True(true);
+            Assert.AreEqual(3, tags.Count());
+            Assert.AreEqual(tagName1, tags[0].Name);
+            Assert.AreEqual(tagName2, tags[1].Name);
+            Assert.AreEqual(tagName3, tags[2].Name);
         }
 
         [Test]
@@ -637,6 +647,11 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
 
+        #region public site
+        #region site
+        //         public List<SiteName_Dto> SiteGetAll(bool includeRemoved)
+        #endregion
+        #endregion
 
         // Arrance
 

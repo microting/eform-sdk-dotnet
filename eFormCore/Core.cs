@@ -2295,12 +2295,17 @@ namespace eFormCore
 
         public List<SiteName_Dto> Advanced_SiteItemReadAll()
         {
+            return Advanced_SiteItemReadAll(true);
+        }
+
+        public List<SiteName_Dto> Advanced_SiteItemReadAll(bool includeRemoved)
+        {
             string methodName = t.GetMethodName();
             try
             {
                 if (Running())
                 {
-                    return sqlController.SiteGetAll();
+                    return sqlController.SiteGetAll(includeRemoved);
                 }
                 else
                     throw new Exception("Core is not running");

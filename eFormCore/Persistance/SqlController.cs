@@ -2357,12 +2357,18 @@ namespace eFormSqlController
         
         #region public site
         #region site
-        public List<SiteName_Dto> SiteGetAll()
+        public List<SiteName_Dto> SiteGetAll(bool includeRemoved)
         {
             List<SiteName_Dto> siteList = new List<SiteName_Dto>();
             using (var db = GetContext())
             {
-                foreach (sites aSite in db.sites.ToList())
+                List<sites> matches = null;
+                if(includeRemoved)
+                    matches = db.sites.ToList();
+                else
+                    matches = db.sites.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
+
+                foreach (sites aSite in matches)
                 {
                     SiteName_Dto siteNameDto = new SiteName_Dto((int)aSite.microting_uid, aSite.name, aSite.created_at, aSite.updated_at);
                     siteList.Add(siteNameDto);
@@ -4524,7 +4530,7 @@ namespace eFormSqlController
 
                     foreach (tags tag in matches)
                     {
-                        Tag t = new Tag(tag.id, tag.name, (int)tag.taggings_count);
+                        Tag t = new Tag(tag.id, tag.name, tag.taggings_count);
                         tags.Add(t);
                     }
                 }
@@ -4532,7 +4538,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityItemUpdate failed", ex);
+                throw new Exception("GetAllTags failed", ex);
             }
         }
 
@@ -4570,7 +4576,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityItemUpdate failed", ex);
+                throw new Exception("TagCreate failed", ex);
             }
         }
 
@@ -4595,7 +4601,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityItemUpdate failed", ex);
+                throw new Exception("TagDelete failed", ex);
             }
         }
         #endregion

@@ -842,11 +842,14 @@ namespace eFormShared
     public class Tag
     {
         #region con
-        public Tag(int id, string name, int taggingCount)
+        public Tag(int id, string name, int? taggingCount)
         {
             Id = id;
             Name = name;
-            TaggingCount = taggingCount;
+            if (taggingCount == null)
+                TaggingCount = 0;
+            else
+                TaggingCount = taggingCount;
         }
         #endregion
 
@@ -864,7 +867,7 @@ namespace eFormShared
         /// <summary>
         /// TaggingCount
         /// </summary>
-        public int TaggingCount { get; }
+        public int? TaggingCount { get; }
         #endregion
     }
     #endregion
