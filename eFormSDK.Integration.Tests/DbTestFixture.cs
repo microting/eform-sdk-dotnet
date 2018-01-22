@@ -17,15 +17,17 @@ namespace eFormSDK.Integration.Tests
         private static string databaseName = "__DBNAME__";
         private static string databaseServerId = "__DB_SERVER_ID__";
         private static string directoryId = "__DIRECTORY_ID__";
+        private static string applicationId = "__APPLICATION_ID__";
 
         [SetUp]
         public void Setup()
         {
             DbContext = new MicrotingDbMs(ConnectionString);
 
+
             if (!userName.Contains("USER_NAME"))
             {
-                AzureCredentials azureCredentials = new AzureCredentials(new UserLoginInformation { ClientId = "Azure client Id", UserName = userName, Password = password }, directoryId, AzureEnvironment.AzureGermanCloud);
+                AzureCredentials azureCredentials = new AzureCredentials(new UserLoginInformation { ClientId = applicationId, UserName = userName, Password = password }, directoryId, AzureEnvironment.AzureGermanCloud);
                 IAzure azure = Azure.Authenticate(azureCredentials).WithDefaultSubscription();
 
                 var sqlServer = azure.SqlServers.GetById(databaseServerId);
