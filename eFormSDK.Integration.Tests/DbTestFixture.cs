@@ -1,12 +1,10 @@
 ﻿using eFormSqlController;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 
 namespace eFormSDK.Integration.Tests
