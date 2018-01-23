@@ -29,6 +29,9 @@ namespace eFormSDK.Integration.Tests
             DbContext.Database.CommandTimeout = 300;
 
 
+            ClearDb();
+
+
             if (!userName.Contains("USER_NAME"))
             {
                 var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGlobalCloud);
@@ -50,6 +53,15 @@ namespace eFormSDK.Integration.Tests
         [TearDown]
         public void TearDown()
         {
+
+            ClearDb();
+
+            DbContext.Dispose();
+
+        }
+
+        public void ClearDb()
+        {
             var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
 
             List<string> tables = new List<string>();
@@ -61,21 +73,16 @@ namespace eFormSDK.Integration.Tests
                 }
             }
 
-
             foreach (string tableName in tables)
             {
                 try
                 {
                     DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + tableName + "]");
                 }
-                catch (Exception e)
-                {
-                }
-                
+                catch 
+                { }
+
             }
-
-            DbContext.Dispose();
-
         }
 
         public virtual void DoSetup() { }
