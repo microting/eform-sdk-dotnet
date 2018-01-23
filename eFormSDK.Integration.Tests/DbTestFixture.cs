@@ -61,6 +61,7 @@ namespace eFormSDK.Integration.Tests
                 }
             }
 
+
             foreach (string tableName in tables)
             {
                 try
@@ -69,10 +70,10 @@ namespace eFormSDK.Integration.Tests
                 }
                 catch (Exception e)
                 {
-
                 }
                 
             }
+
             DbContext.Dispose();
 
         }

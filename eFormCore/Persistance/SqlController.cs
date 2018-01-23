@@ -466,28 +466,33 @@ namespace eFormSqlController
                                 current_tagging.version = check_list.version + 1;
                                 current_tagging.updated_at = DateTime.Now;
 
-                                current_tagging.workflow_state = "removed";
+                                current_tagging.workflow_state = Constants.WorkflowStates.Removed;
 
                                 db.tagging_versions.Add(MapTaggingVersions(current_tagging));
                                 db.SaveChanges();
                             }
                         }
 
+                        // set all new taggings
                         foreach (int id in tagIds)
                         {
                             tags tag = db.tags.Single(x => x.id == id);
                             if (tag != null)
                             {
+                                taggings tagging = new taggings();
+                                tagging.check_list_id = templateId;
+                                tagging.tag_id = tag.id;
+                                tagging.created_at = DateTime.Now;
+                                tagging.workflow_state = Constants.WorkflowStates.Created;
+                                tagging.version = 1;
 
+                                db.taggings.Add(tagging);
+                                db.SaveChanges();
+
+                                db.tagging_versions.Add(MapTaggingVersions(tagging));
+                                db.SaveChanges();
                             }
                         }
-                        //check_list.version = check_list.version + 1;
-                        //check_list.updated_at = DateTime.Now;
-
-                        //check_list.workflow_state = "removed";
-
-                        //db.check_list_versions.Add(MapCheckListVersions(check_list));
-                        //db.SaveChanges();
 
                         return true;
                     }

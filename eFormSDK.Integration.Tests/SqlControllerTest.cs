@@ -514,17 +514,22 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName = "Tag1";
-            int tagId = sut.TagCreate(tagName);
+            tags tag = new tags();
+            tag.name = tagName;
+            tag.workflow_state = Constants.WorkflowStates.Created;
+
+            DbContext.tags.Add(tag);
+            DbContext.SaveChanges();
 
             // Act
-            sut.TagDelete(tagId);
+            sut.TagDelete(tag.id);
 
             // Assert
-            var tag = DbContext.tags.ToList();
+            var result = DbContext.tags.AsNoTracking().ToList();
 
-            Assert.AreEqual(tag[0].name, tagName);
-            Assert.AreEqual(1, tag.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, tag[0].workflow_state);
+            Assert.AreEqual(result[0].name, tagName);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].workflow_state);
         }
 
         [Test]
@@ -598,10 +603,40 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Tags_TemplateSetTags_DoesAssignTagToTemplate()
         {
             // Arrance
+            check_lists cl1 = new check_lists();
+            cl1.created_at = DateTime.Now;
+            cl1.updated_at = DateTime.Now;
+            cl1.label = "A";
+            cl1.description = "D";
+            cl1.workflow_state = Constants.WorkflowStates.Created;
+            cl1.case_type = "CheckList";
+            cl1.folder_name = "Template1FolderName";
+            cl1.display_index = 1;
+            cl1.repeated = 1;
+
+            DbContext.check_lists.Add(cl1);
+            DbContext.SaveChanges();
+
+            string tagName1 = "Tag1";
+            tags tag = new tags();
+            tag.name = tagName1;
+            tag.workflow_state = Constants.WorkflowStates.Created;
+
+            DbContext.tags.Add(tag);
+            DbContext.SaveChanges();
 
             // Act
+            List<int> tags = new List<int>();
+            tags.Add(tag.id);
+            sut.TemplateSetTags(cl1.id, tags);
+
 
             // Assert
+            List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
+
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(tag.id, result[0].tag_id);
+            Assert.AreEqual(cl1.id, result[0].check_list_id);
             Assert.True(true);
         }
         #endregion
