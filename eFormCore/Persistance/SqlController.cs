@@ -291,7 +291,18 @@ namespace eFormSqlController
                         bool hasCases = false;
                         if (checkList.cases.Count() > 0)
                             hasCases = true;
-                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
+
+                        #region loadtags
+                        List<taggings> tagging_matches = checkList.taggings.ToList();
+                        List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
+                        foreach (taggings tagging in tagging_matches)
+                        {
+                            KeyValuePair<int, string> kvp = new KeyValuePair<int, string>((int)tagging.tag_id, tagging.tag.name);
+                            check_list_tags.Add(kvp);
+                        }
+                        #endregion
+
+                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, check_list_tags);
                         templateList.Add(templateDto);
                     }
                     return templateList;
