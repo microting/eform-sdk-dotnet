@@ -197,7 +197,17 @@ namespace eFormSqlController
                         fd10 = new Field_Dto(f10.id, f10.label, f10.description, (int)f10.field_type_id, f10.field_type.field_type, (int)f10.check_list_id);
                     #endregion
 
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10);
+                    #region loadtags
+                    List<taggings> matches = checkList.taggings.ToList();
+                    List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
+                    foreach (taggings tagging in matches)
+                    {
+                        KeyValuePair<int, string> kvp = new KeyValuePair<int, string>((int)tagging.tag_id, tagging.tag.name);
+                        check_list_tags.Add(kvp);
+                    }
+                    #endregion
+
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10, check_list_tags);
                     return templateDto;
                 }
             }

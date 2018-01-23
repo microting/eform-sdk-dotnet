@@ -34,7 +34,7 @@ namespace eFormShared
 
 
 
-        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex, Field_Dto field_1, Field_Dto field_2, Field_Dto field_3, Field_Dto field_4, Field_Dto field_5, Field_Dto field_6, Field_Dto field_7, Field_Dto field_8, Field_Dto field_9, Field_Dto field_10)
+        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex, Field_Dto field_1, Field_Dto field_2, Field_Dto field_3, Field_Dto field_4, Field_Dto field_5, Field_Dto field_6, Field_Dto field_7, Field_Dto field_8, Field_Dto field_9, Field_Dto field_10, List<KeyValuePair<int, string>> tags)
         {
             Id = id;
             Label = label;
@@ -57,6 +57,7 @@ namespace eFormShared
             Field8 = field_8;
             Field9 = field_9;
             Field10 = field_10;
+            Tags = tags;
         }
         #endregion
 
@@ -165,6 +166,11 @@ namespace eFormShared
         /// Field10
         /// </summary>
         public Field_Dto Field10 { get; }
+
+        /// <summary>
+        /// Tags
+        /// </summary>
+        public List<KeyValuePair<int, string>> Tags { get; } 
         #endregion
     }
     #endregion
