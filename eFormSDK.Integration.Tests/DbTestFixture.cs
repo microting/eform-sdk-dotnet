@@ -3,6 +3,11 @@ using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -47,7 +52,29 @@ namespace eFormSDK.Integration.Tests
         [TearDown]
         public void TearDown()
         {
-            DbContext.Database.Delete();
+            var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
+
+            List<string> tables = new List<string>();
+            foreach (var item in metadata)
+            {
+                if (item.ToString().Contains("CodeFirstDatabaseSchema"))
+                {
+                    tables.Add(item.ToString().Replace("CodeFirstDatabaseSchema.", ""));
+                }
+            }
+
+            foreach (string tableName in tables)
+            {
+                try
+                {
+                    DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + tableName + "]");
+                }
+                catch (Exception e)
+                {
+
+                }
+                
+            }
             DbContext.Dispose();
 
         }
