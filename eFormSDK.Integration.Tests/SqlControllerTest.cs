@@ -490,6 +490,18 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].workflow_state);
             
         }
+        
+        
+        [Test]
+        public void SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
+        {
+            // Arrance
+
+            // Act
+
+            // Assert
+            Assert.True(true);
+        }
         #endregion 
 
         #region Tags

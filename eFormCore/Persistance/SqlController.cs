@@ -1111,6 +1111,93 @@ namespace eFormSqlController
             }
         }
 
+        public bool UpdateCaseFieldValue(int caseId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    cases match = db.cases.SingleOrDefault(x => x.id == caseId);
+
+
+                    if (match != null)
+                    {
+                        List<int?> case_fields = new List<int?>();
+
+                        check_lists cl = match.check_list;
+                        field_values fv = null;
+                        #region field_value and field matching
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_1);
+                        if (fv != null)
+                        {
+                            match.field_value_1 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_2);
+                        if (fv != null)
+                        {
+                            match.field_value_2 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_3);
+                        if (fv != null)
+                        {
+                            match.field_value_3 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_4);
+                        if (fv != null)
+                        {
+                            match.field_value_4 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_5);
+                        if (fv != null)
+                        {
+                            match.field_value_5 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_6);
+                        if (fv != null)
+                        {
+                            match.field_value_6 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_7);
+                        if (fv != null)
+                        {
+                            match.field_value_7 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_8);
+                        if (fv != null)
+                        {
+                            match.field_value_8 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_9);
+                        if (fv != null)
+                        {
+                            match.field_value_9 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_10);
+                        if (fv != null)
+                        {
+                            match.field_value_10 = fv.value;
+                        }
+
+                        match.version += 1;
+                        match.updated_at = DateTime.Now;
+                        db.cases.AddOrUpdate(match);
+                        db.SaveChanges();
+                        db.case_versions.Add(MapCaseVersions(match));
+                        db.SaveChanges();
+
+
+                        #endregion
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UpdateCaseFieldValue failed", ex);
+            }
+        }
+
         public ReplyElement CheckRead(string microtingUId, string checkUId)
         {
             try

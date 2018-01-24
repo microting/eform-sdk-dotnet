@@ -2812,6 +2812,28 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public bool Advanced_UpdateCaseFieldValue(int caseId)
+        {
+            string methodName = t.GetMethodName();
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard("Not Specified", methodName + " called");
+                    log.LogVariable("Not Specified", nameof(caseId), caseId);
+                    return sqlController.CaseUpdateFieldValues(caseId);
+                } else
+                {
+                    return false;
+                }                
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
         #endregion
 
         #region private
@@ -3467,7 +3489,6 @@ namespace eFormCore
                 log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
             }
         }
-
 
         private void CoreHandleUpdateEntityItems()
         {
