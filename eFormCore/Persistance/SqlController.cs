@@ -238,6 +238,11 @@ namespace eFormSqlController
                     if (!includeRemoved)
                         sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
 
+                    if (searchKey != null && searchKey != "")
+                    {
+                        sub_query = sub_query.Where(x => x.label.Contains(searchKey) || x.description.Contains(searchKey));
+                    }
+
                     switch (sortParameter)
                     {
                         case Constants.TamplateSortParameters.Label:
