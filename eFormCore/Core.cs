@@ -74,7 +74,6 @@ namespace eFormCore
 
         bool updateIsRunningFiles = false;
         bool updateIsRunningNotifications = false;
-        bool updateIsRunningTables = false;
         bool updateIsRunningEntities = false;
 
         bool coreThreadRunning = false;
@@ -297,7 +296,6 @@ namespace eFormCore
 
                         updateIsRunningFiles = false;
                         updateIsRunningNotifications = false;
-                        updateIsRunningTables = false;
                         updateIsRunningEntities = false;
 
                         log.LogStandard("Not Specified", "Core closed");
