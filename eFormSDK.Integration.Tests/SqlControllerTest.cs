@@ -552,16 +552,22 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             sut.CaseDeleteResult(aCase.id);
-            cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
-            Assert.NotNull(theCase);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.workflow_state);
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
         }
 
         [Test]
         public void SQL_Case_CaseDelete_DoesCaseRemoved()
         {
+            // Arrance
             // Arrance
             sites site = new sites();
             site.name = "SiteName";
@@ -585,17 +591,17 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDeleteResult(aCase.id);
-            cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-
-            var cases = DbContext.check_lists.AsNoTracking().ToList();
-
-
+            sut.CaseDelete(aCase.microting_uid);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
-            Assert.AreEqual(1, cases.Count());
-            Assert.NotNull(theCase);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.workflow_state);
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
         }
 
         [Test]
@@ -643,6 +649,7 @@ namespace eFormSDK.Integration.Tests
 
         }
 
+       
 
         #endregion
 
