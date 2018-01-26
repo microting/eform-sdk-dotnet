@@ -197,7 +197,17 @@ namespace eFormSqlController
                         fd10 = new Field_Dto(f10.id, f10.label, f10.description, (int)f10.field_type_id, f10.field_type.field_type, (int)f10.check_list_id);
                     #endregion
 
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10);
+                    #region loadtags
+                    List<taggings> matches = checkList.taggings.ToList();
+                    List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
+                    foreach (taggings tagging in matches)
+                    {
+                        KeyValuePair<int, string> kvp = new KeyValuePair<int, string>((int)tagging.tag_id, tagging.tag.name);
+                        check_list_tags.Add(kvp);
+                    }
+                    #endregion
+
+                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10, check_list_tags);
                     return templateDto;
                 }
             }
@@ -227,6 +237,11 @@ namespace eFormSqlController
 
                     if (!includeRemoved)
                         sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
+
+                    if (searchKey != null && searchKey != "")
+                    {
+                        sub_query = sub_query.Where(x => x.label.Contains(searchKey) || x.description.Contains(searchKey));
+                    }
 
                     switch (sortParameter)
                     {
@@ -281,7 +296,18 @@ namespace eFormSqlController
                         bool hasCases = false;
                         if (checkList.cases.Count() > 0)
                             hasCases = true;
-                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index);
+
+                        #region loadtags
+                        List<taggings> tagging_matches = checkList.taggings.ToList();
+                        List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
+                        foreach (taggings tagging in tagging_matches)
+                        {
+                            KeyValuePair<int, string> kvp = new KeyValuePair<int, string>((int)tagging.tag_id, tagging.tag.name);
+                            check_list_tags.Add(kvp);
+                        }
+                        #endregion
+
+                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, check_list_tags);
                         templateList.Add(templateDto);
                     }
                     return templateList;
@@ -445,28 +471,33 @@ namespace eFormSqlController
                                 current_tagging.version = check_list.version + 1;
                                 current_tagging.updated_at = DateTime.Now;
 
-                                current_tagging.workflow_state = "removed";
+                                current_tagging.workflow_state = Constants.WorkflowStates.Removed;
 
                                 db.tagging_versions.Add(MapTaggingVersions(current_tagging));
                                 db.SaveChanges();
                             }
                         }
 
+                        // set all new taggings
                         foreach (int id in tagIds)
                         {
                             tags tag = db.tags.Single(x => x.id == id);
                             if (tag != null)
                             {
+                                taggings tagging = new taggings();
+                                tagging.check_list_id = templateId;
+                                tagging.tag_id = tag.id;
+                                tagging.created_at = DateTime.Now;
+                                tagging.workflow_state = Constants.WorkflowStates.Created;
+                                tagging.version = 1;
 
+                                db.taggings.Add(tagging);
+                                db.SaveChanges();
+
+                                db.tagging_versions.Add(MapTaggingVersions(tagging));
+                                db.SaveChanges();
                             }
                         }
-                        //check_list.version = check_list.version + 1;
-                        //check_list.updated_at = DateTime.Now;
-
-                        //check_list.workflow_state = "removed";
-
-                        //db.check_list_versions.Add(MapCheckListVersions(check_list));
-                        //db.SaveChanges();
 
                         return true;
                     }
@@ -1077,6 +1108,93 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 throw new Exception("EformCheckCreateDb failed", ex);
+            }
+        }
+
+        public bool UpdateCaseFieldValue(int caseId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    cases match = db.cases.SingleOrDefault(x => x.id == caseId);
+
+
+                    if (match != null)
+                    {
+                        List<int?> case_fields = new List<int?>();
+
+                        check_lists cl = match.check_list;
+                        field_values fv = null;
+                        #region field_value and field matching
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_1);
+                        if (fv != null)
+                        {
+                            match.field_value_1 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_2);
+                        if (fv != null)
+                        {
+                            match.field_value_2 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_3);
+                        if (fv != null)
+                        {
+                            match.field_value_3 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_4);
+                        if (fv != null)
+                        {
+                            match.field_value_4 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_5);
+                        if (fv != null)
+                        {
+                            match.field_value_5 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_6);
+                        if (fv != null)
+                        {
+                            match.field_value_6 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_7);
+                        if (fv != null)
+                        {
+                            match.field_value_7 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_8);
+                        if (fv != null)
+                        {
+                            match.field_value_8 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_9);
+                        if (fv != null)
+                        {
+                            match.field_value_9 = fv.value;
+                        }
+                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.field_10);
+                        if (fv != null)
+                        {
+                            match.field_value_10 = fv.value;
+                        }
+
+                        match.version += 1;
+                        match.updated_at = DateTime.Now;
+                        db.cases.AddOrUpdate(match);
+                        db.SaveChanges();
+                        db.case_versions.Add(MapCaseVersions(match));
+                        db.SaveChanges();
+
+
+                        #endregion
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UpdateCaseFieldValue failed", ex);
             }
         }
 

@@ -16,6 +16,7 @@ namespace eFormCore.Handlers
             this.sqlController = sqlController;
         }
 
+        #pragma warning disable 1998
         public async Task Handle(EformRetrieved message)
         {
             sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.RetrievedForm);
