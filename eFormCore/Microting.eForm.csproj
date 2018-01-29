@@ -117,6 +117,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201801291231102_ModelUpdate.cs" />
+    <Compile Include="Persistance\Migrations\201801291231102_ModelUpdate.Designer.cs">
+      <DependentUpon>201801291231102_ModelUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataItemGroup.cs" />
     <Compile Include="Model\Element.cs" />
@@ -232,6 +236,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201801291231102_ModelUpdate.resx">
+      <DependentUpon>201801291231102_ModelUpdate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
     </EmbeddedResource>

@@ -68,9 +68,9 @@ namespace eFormSqlController
         {
             var configuration = new Configuration();
             configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
-            var migrator = new DbMigrator(configuration);
+            var migrator = new DbMigrator(configuration);           
+            
             migrator.Update();
-            //migrator.Update("201708311254324_ChangingFieldDefaultValueMaxLength");
             return true;
         }
         #endregion
