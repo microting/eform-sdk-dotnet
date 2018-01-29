@@ -10,7 +10,7 @@ namespace eFormSqlController.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            //AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "eFormSqlController.MicrotingDb";
         }
 
