@@ -20,7 +20,7 @@ namespace eFormSDK.Integration.Tests
             sut.StartLog(new CoreBase());
         }
 
-        #region Notifications
+        #region notification
         [Test]
         public void SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
         {
@@ -102,7 +102,7 @@ namespace eFormSDK.Integration.Tests
         }
         #endregion
 
-        #region UploadedData
+        #region uploaded_data
         [Test]
         public void SQL_UploadedData_FileRead_DoesReturnOneUploadedData()
         {
@@ -148,9 +148,57 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(dU.local, ud.);
 
         }
+
+        [Test]
+        public void SQL_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
+        {
+            // Arrance
+            string checksum = "";
+            string extension = "jpg";
+            string currentFile = "Hello.jpg";
+            int uploaderId = 1;
+            string fileLocation = @"c:\here";
+            string fileName = "Hello.jpg";
+
+            // Act
+            uploaded_data dU = new uploaded_data();
+
+            dU.created_at = DateTime.Now;
+            dU.updated_at = DateTime.Now;
+            dU.extension = extension;
+            dU.uploader_id = uploaderId;
+            dU.uploader_type = Constants.UploaderTypes.System;
+            dU.workflow_state = Constants.WorkflowStates.PreCreated;
+            dU.version = 1;
+            dU.local = 0;
+            dU.file_location = fileLocation;
+            dU.file_name = fileName;
+            dU.current_file = currentFile;
+            dU.checksum = checksum;
+
+            DbContext.uploaded_data.Add(dU);
+            DbContext.SaveChanges();
+
+            uploaded_data ud = sut.GetUploadedData(dU.id);
+
+            // Assert
+            Assert.NotNull(ud);
+            Assert.AreEqual(ud.id, dU.id);
+            Assert.AreEqual(ud.extension, dU.extension);
+            Assert.AreEqual(ud.uploader_id, dU.uploader_id);
+            Assert.AreEqual(ud.uploader_type, dU.uploader_type);
+            Assert.AreEqual(ud.workflow_state, dU.workflow_state);
+            Assert.AreEqual(ud.version, 1);
+            Assert.AreEqual(ud.local, 0);
+            Assert.AreEqual(ud.file_location, dU.file_location);
+            Assert.AreEqual(ud.file_name, dU.file_name);
+            Assert.AreEqual(ud.current_file, dU.current_file);
+            Assert.AreEqual(ud.checksum, dU.checksum);
+
+        }
         #endregion
 
-        #region Templates
+        #region template
         [Test]
         public void SQL_Template_TemplateItemReadAll_DoesSortAccordingly()
         {
@@ -504,7 +552,7 @@ namespace eFormSDK.Integration.Tests
         }
         #endregion 
 
-        #region Tags
+        #region tag
         [Test]
         public void SQL_Tags_CreateTag_DoesCreateNewTag()
         {
@@ -653,7 +701,7 @@ namespace eFormSDK.Integration.Tests
         }
         #endregion
 
-        #region Case
+        #region case
         [Test]
         public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
         {
@@ -782,7 +830,6 @@ namespace eFormSDK.Integration.Tests
        
 
         #endregion
-
 
         #region public site
         #region site

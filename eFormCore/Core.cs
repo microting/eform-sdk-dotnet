@@ -2717,6 +2717,32 @@ namespace eFormCore
             }
         }
 
+        public UploadedData Advanced_UploadedDataRead(int id)
+        {
+            string methodName = t.GetMethodName();
+            try {
+                log.LogStandard("Not Specified", methodName + " called");
+                log.LogVariable("Not Specified", nameof(id), id);
+
+                var ud = sqlController.GetUploadedData(id);
+                UploadedData uD = new UploadedData();
+                uD.Checksum = ud.checksum;
+                uD.CurrentFile = ud.current_file;
+                uD.Extension = ud.extension;
+                uD.FileLocation = ud.file_location;
+                uD.FileName = ud.file_name;
+                uD.Id = ud.id;
+                uD.UploaderId = ud.uploader_id;
+                uD.UploaderType = ud.uploader_type;
+                return uD;
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, true);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         public List<FieldValue> Advanced_FieldValueReadList(int id, int instances)
         {
             string methodName = t.GetMethodName();
