@@ -52,5 +52,20 @@
             public const string FieldValue9 = "field_value_9";
             public const string FieldValue10 = "field_value_10";
         }
+
+        public static class FieldColors
+        {
+            public const string Blue = "e2f4fb";
+            public const string Purple = "e2f4fb";
+            public const string Green = "f0f8db";
+            public const string Yellow = "fff6df";
+            public const string Red = "ffe4e4";
+            public const string Default = "None";
+        }
+
+        public static class BarcodeTypes
+        {
+            // TODO Add types
+        }
     }
 }
