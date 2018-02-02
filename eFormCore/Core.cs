@@ -359,6 +359,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"single_select\">", "=\"SingleSelect\">");
                 xmlString = xmlString.Replace("=\"multi_select\">", "=\"MultiSelect\">");
+                xmlString = xmlString.Replace("xsi:type", "type");
 
 
                 xmlString = t.ReplaceInsensitive(xmlString, "<main", "<Main");
