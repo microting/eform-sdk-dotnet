@@ -1530,8 +1530,8 @@ namespace eFormCore
                         + Environment.NewLine + "<root>"
                         + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
                         + Environment.NewLine + "<worker>" + Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
-                        + Environment.NewLine + "<date>" + reply.DoneAt + "</date>"
-                        + Environment.NewLine + "<check_date>" + reply.DoneAt + "</check_date>"
+                        + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
+                        + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
                         + Environment.NewLine + "<check_lists>"
 
                         + clsLst
@@ -3424,7 +3424,7 @@ namespace eFormCore
 
                                                             sqlController.CaseRetract(noteUId, check.Id);
                                                             log.LogEverything("Not Specified", "sqlController.CaseRetract(...)");
-
+                                                            // TODO add case.id
                                                             Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
                                                             //InteractionCaseUpdate(cDto);
                                                             try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
