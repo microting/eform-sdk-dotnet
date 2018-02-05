@@ -107,6 +107,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Dto\Classes.cs" />
+    <Compile Include="Handlers\EformParsingErrorHandler.cs" />
+    <Compile Include="Handlers\EformParsedByServerHandler.cs" />
     <Compile Include="Handlers\EformCompletedHandler.cs" />
     <Compile Include="Handlers\UnitActivatedHandler.cs" />
     <Compile Include="Handlers\EformRetrievedHandler.cs" />
@@ -114,6 +116,8 @@
     <Compile Include="Installers\RebusHandlerInstaller.cs" />
     <Compile Include="Installers\RebusInstaller.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Messages\EformParsingError.cs" />
+    <Compile Include="Messages\EformParsedByServer.cs" />
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
@@ -227,7 +231,7 @@
     <Analyzer Include="..\packages\AWSSDK.SQS.3.3.3\analyzers\dotnet\cs\AWSSDK.SQS.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="content\JasperExporter.jar">
+    <Content Include="JasperExporter.jar">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

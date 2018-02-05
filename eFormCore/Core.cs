@@ -2226,7 +2226,7 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     List<int> dummyList = new List<int>();
-                    List<Template_Dto> allTemplates = sqlController.TemplateItemReadAll(true, "removed", "", false, "", dummyList);
+                    List<Template_Dto> allTemplates = sqlController.TemplateItemReadAll(true, Constants.WorkflowStates.Removed, "", false, "", dummyList);
                     foreach (Template_Dto item in allTemplates)
                     {
                         foreach (SiteName_Dto site in item.DeployedSites)
@@ -2773,7 +2773,7 @@ namespace eFormCore
         {
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
-            if (workflowState != "not_removed" && workflowState != "created" && workflowState != "removed")
+            if (workflowState != "not_removed" && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             string methodName = t.GetMethodName();
@@ -3543,13 +3543,13 @@ namespace eFormCore
                                     #region EntitySearch
                                     if (type.Type == "EntitySearch")
                                     {
-                                        if (eI.workflow_state == "created")
+                                        if (eI.workflow_state == Constants.WorkflowStates.Created)
                                         {
                                             string microtingUId = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
 
                                             if (microtingUId != null)
                                             {
-                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, "created");
+                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
                                                 continue;
                                             }
                                         }
@@ -3563,11 +3563,11 @@ namespace eFormCore
                                             }
                                         }
 
-                                        if (eI.workflow_state == "removed")
+                                        if (eI.workflow_state == Constants.WorkflowStates.Removed)
                                         {
                                             communicator.EntitySearchItemDelete(eI.microting_uid);
 
-                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "removed");
+                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
                                             continue;
                                         }
                                     }
@@ -3576,14 +3576,14 @@ namespace eFormCore
                                     #region EntitySelect
                                     if (type.Type == "EntitySelect")
                                     {
-                                        if (eI.workflow_state == "created")
+                                        if (eI.workflow_state == Constants.WorkflowStates.Created)
                                         {
                                             // TODO! el.displayOrder missing and remove int.Parse(eI.description)
                                             string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.display_index, eI.entity_item_uid);
 
                                             if (microtingUId != null)
                                             {
-                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, "created");
+                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
                                                 continue;
                                             }
                                         }
@@ -3598,11 +3598,11 @@ namespace eFormCore
                                             }
                                         }
 
-                                        if (eI.workflow_state == "removed")
+                                        if (eI.workflow_state == Constants.WorkflowStates.Removed)
                                         {
                                             communicator.EntitySelectItemDelete(eI.microting_uid);
 
-                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "removed");
+                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
                                             continue;
                                         }
                                     }

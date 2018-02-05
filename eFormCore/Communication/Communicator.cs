@@ -281,7 +281,7 @@ namespace eFormCommunicator
             string response = http.SiteDelete(siteId);
             var parsedData = JRaw.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == "removed")
+            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
             {
                 return true;
             }
@@ -346,7 +346,7 @@ namespace eFormCommunicator
             string response = http.WorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == "removed")
+            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
                 return true;
             else
                 return false;
@@ -395,7 +395,7 @@ namespace eFormCommunicator
             string response = http.SiteWorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == "removed")
+            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
                 return true;
             else
                 return false;

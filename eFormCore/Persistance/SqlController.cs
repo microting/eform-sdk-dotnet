@@ -136,7 +136,7 @@ namespace eFormSqlController
                         return null;
 
                     List<SiteName_Dto> sites = new List<SiteName_Dto>();
-                    foreach (check_list_sites check_list_site in checkList.check_list_sites.Where(x => x.workflow_state != "removed").ToList())
+                    foreach (check_list_sites check_list_site in checkList.check_list_sites.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList())
                     {
                         SiteName_Dto site = new SiteName_Dto((int)check_list_site.site.microting_uid, check_list_site.site.name, check_list_site.site.created_at, check_list_site.site.updated_at);
                         sites.Add(site);
@@ -429,7 +429,7 @@ namespace eFormSqlController
                         check_list.version = check_list.version + 1;
                         check_list.updated_at = DateTime.Now;
 
-                        check_list.workflow_state = "removed";
+                        check_list.workflow_state = Constants.WorkflowStates.Removed;
 
                         db.check_list_versions.Add(MapCheckListVersions(check_list));
                         db.SaveChanges();
@@ -530,7 +530,7 @@ namespace eFormSqlController
                     cLS.microting_uid = microtingUId;
                     cLS.site_id = siteId;
                     cLS.version = 1;
-                    cLS.workflow_state = "created";
+                    cLS.workflow_state = Constants.WorkflowStates.Created;
 
                     db.check_list_sites.Add(cLS);
                     db.SaveChanges();
@@ -554,7 +554,7 @@ namespace eFormSqlController
                     sites site = db.sites.Single(x => x.microting_uid == siteUId);
                     IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.id && x.check_list_id == templateId);
                     if (workflowState == "not_removed")
-                        sub_query = sub_query.Where(x => x.workflow_state != "removed");
+                        sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
 
                     return sub_query.Select(x => x.microting_uid).ToList();
                 }
@@ -590,7 +590,7 @@ namespace eFormSqlController
                         aCase.microting_uid = microtingUId;
                         aCase.microting_check_uid = microtingCheckId;
                         aCase.case_uid = caseUId;
-                        aCase.workflow_state = "created";
+                        aCase.workflow_state = Constants.WorkflowStates.Created;
                         aCase.version = 1;
                         aCase.site_id = siteId;
 
@@ -610,7 +610,7 @@ namespace eFormSqlController
                         aCase.microting_uid = microtingUId;
                         aCase.microting_check_uid = microtingCheckId;
                         aCase.case_uid = caseUId;
-                        aCase.workflow_state = "created";
+                        aCase.workflow_state = Constants.WorkflowStates.Created;
                         aCase.version = 1;
                         aCase.site_id = siteId;
                         aCase.updated_at = DateTime.Now;
@@ -692,7 +692,7 @@ namespace eFormSqlController
                     caseStd.done_at = doneAt;
                     caseStd.updated_at = DateTime.Now;
                     caseStd.done_by_user_id = userId;
-                    caseStd.workflow_state = "created";
+                    caseStd.workflow_state = Constants.WorkflowStates.Created;
                     caseStd.version = caseStd.version + 1;
                     caseStd.unit_id = unitId;
                     caseStd.microting_check_uid = microtingCheckId;
@@ -730,7 +730,7 @@ namespace eFormSqlController
                     cases match = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == microtingCheckId);
 
                     match.updated_at = DateTime.Now;
-                    match.workflow_state = "retracted";
+                    match.workflow_state = Constants.WorkflowStates.Retracted;
                     match.version = match.version + 1;
 
                     db.case_versions.Add(MapCaseVersions(match));
@@ -749,7 +749,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != "removed" && x.workflow_state != "retracted");
+                    cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
 
                     aCase.updated_at = DateTime.Now;
                     aCase.workflow_state = Constants.WorkflowStates.Removed;
@@ -805,7 +805,7 @@ namespace eFormSqlController
                     check_list_sites site = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
 
                     site.updated_at = DateTime.Now;
-                    site.workflow_state = "removed";
+                    site.workflow_state = Constants.WorkflowStates.Removed;
                     site.version = site.version + 1;
 
                     db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
@@ -873,7 +873,7 @@ namespace eFormSqlController
                         clv.status = t.Locate(elementStr, "<Status>", "</");
                         clv.version = 1;
                         clv.user_id = userId;
-                        clv.workflow_state = "created";
+                        clv.workflow_state = Constants.WorkflowStates.Created;
 
                         db.check_list_values.Add(clv);
                         db.SaveChanges();
@@ -1940,7 +1940,7 @@ namespace eFormSqlController
                 {
                     uploaded_data uD = db.uploaded_data.Single(x => x.id == id);
 
-                    uD.workflow_state = "removed";
+                    uD.workflow_state = Constants.WorkflowStates.Removed;
                     uD.updated_at = DateTime.Now;
                     uD.version = uD.version + 1;
                     return true;
@@ -1976,7 +1976,7 @@ namespace eFormSqlController
                         #region string stat = aCase.workflow_state ...
                         string stat = "";
                         if (cls.workflow_state == Constants.WorkflowStates.Created)
-                            stat = "Created";
+                            stat = Constants.WorkflowStates.Created;
 
                         if (cls.workflow_state == Constants.WorkflowStates.Removed)
                             stat = "Deleted";
@@ -2129,13 +2129,13 @@ namespace eFormSqlController
                         case "not_removed":
                             sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
-                        case "created":
+                        case Constants.WorkflowStates.Created:
                             sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
                             break;
-                        case "retracted":
+                        case Constants.WorkflowStates.Retracted:
                             sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Retracted);
                             break;
-                        case "removed":
+                        case Constants.WorkflowStates.Removed:
                             sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Removed);
                             break;
                         default:
@@ -2507,10 +2507,10 @@ namespace eFormSqlController
                     case "not_removed":
                         matches = db.sites.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                         break;
-                    case "removed":
+                    case Constants.WorkflowStates.Removed:
                         matches = db.sites.Where(x => x.workflow_state == Constants.WorkflowStates.Removed).ToList();
                         break;
-                    case "created":
+                    case Constants.WorkflowStates.Created:
                         matches = db.sites.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
                         break;
                     default:
@@ -2696,7 +2696,7 @@ namespace eFormSqlController
                         site.version = site.version + 1;
                         site.updated_at = DateTime.Now;
 
-                        site.workflow_state = "removed";
+                        site.workflow_state = Constants.WorkflowStates.Removed;
 
                         db.site_versions.Add(MapSiteVersions(site));
                         db.SaveChanges();
@@ -2732,10 +2732,10 @@ namespace eFormSqlController
                         case "not_removed":
                             matches = db.workers.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                             break;
-                        case "removed":
+                        case Constants.WorkflowStates.Removed:
                             matches = db.workers.Where(x => x.workflow_state == Constants.WorkflowStates.Removed).ToList();
                             break;
-                        case "created":
+                        case Constants.WorkflowStates.Created:
                             matches = db.workers.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
                             break;
                         default:
@@ -2801,7 +2801,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.id == workerId && x.workflow_state == "created");
+                    workers worker = db.workers.SingleOrDefault(x => x.id == workerId && x.workflow_state == Constants.WorkflowStates.Created);
 
                     if (worker == null)
                         return null;
@@ -2889,7 +2889,7 @@ namespace eFormSqlController
                         worker.version = worker.version + 1;
                         worker.updated_at = DateTime.Now;
 
-                        worker.workflow_state = "removed";
+                        worker.workflow_state = Constants.WorkflowStates.Removed;
 
                         db.worker_versions.Add(MapWorkerVersions(worker));
                         db.SaveChanges();
@@ -3032,7 +3032,7 @@ namespace eFormSqlController
                         site_worker.version = site_worker.version + 1;
                         site_worker.updated_at = DateTime.Now;
 
-                        site_worker.workflow_state = "removed";
+                        site_worker.workflow_state = Constants.WorkflowStates.Removed;
 
                         db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
                         db.SaveChanges();
@@ -3187,7 +3187,7 @@ namespace eFormSqlController
                         unit.version = unit.version + 1;
                         unit.updated_at = DateTime.Now;
 
-                        unit.workflow_state = "removed";
+                        unit.workflow_state = Constants.WorkflowStates.Removed;
 
                         db.unit_versions.Add(MapUnitVersions(unit));
                         db.SaveChanges();
@@ -3243,10 +3243,10 @@ namespace eFormSqlController
                         case "not_removed":
                             source = source.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
-                        case "removed":
+                        case Constants.WorkflowStates.Removed:
                             source = source.Where(x => x.workflow_state == Constants.WorkflowStates.Removed);
                             break;
-                        case "created":
+                        case Constants.WorkflowStates.Created:
                             source = source.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
                             break;
                     }
@@ -3471,24 +3471,24 @@ namespace eFormSqlController
                 {
                     List<string> killLst = new List<string>();
 
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId && x.workflow_state != "removed");
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.microting_uid == entityGroupMUId && x.workflow_state != Constants.WorkflowStates.Removed);
 
                     if (eG == null)
                         return null;
 
                     killLst.Add(eG.microting_uid);
 
-                    eG.workflow_state = "removed";
+                    eG.workflow_state = Constants.WorkflowStates.Removed;
                     eG.updated_at = DateTime.Now;
                     eG.version = eG.version + 1;
                     db.entity_group_versions.Add(MapEntityGroupVersions(eG));
 
-                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != "removed").ToList();
+                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                     if (lst != null)
                     {
                         foreach (entity_items item in lst)
                         {
-                            item.workflow_state = "removed";
+                            item.workflow_state = Constants.WorkflowStates.Removed;
                             item.updated_at = DateTime.Now;
                             item.version = item.version + 1;
                             item.synced = t.Bool(false);
@@ -4539,7 +4539,7 @@ namespace eFormSqlController
                         if (match.name == entityItem.Name && match.description == entityItem.Description)
                         {
                             //same
-                            if (match.workflow_state == "removed")
+                            if (match.workflow_state == Constants.WorkflowStates.Removed)
                             {
                                 match.synced = t.Bool(false);
                                 match.updated_at = DateTime.Now;
@@ -4617,7 +4617,7 @@ namespace eFormSqlController
                     match.synced = t.Bool(false);
                     match.updated_at = DateTime.Now;
                     match.version = match.version + 1;
-                    match.workflow_state = "removed";
+                    match.workflow_state = Constants.WorkflowStates.Removed;
 
                     db.SaveChanges();
 

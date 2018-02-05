@@ -7,6 +7,8 @@
             public const string RetrievedForm = "unit_fetch";
             public const string Completed = "check_status";
             public const string UnitActivate = "unit_activate";
+            public const string EformParsedByServer = "eform_parsed_by_server";
+            public const string EformParsingError = "eform_parsing_error";
         }
 
         public static class WorkflowStates
@@ -65,7 +67,20 @@
 
         public static class BarcodeTypes
         {
-            // TODO Add types
+            public const string AndroidOnlyCodabar = "CODABAR"; // Android only
+            public const string AndroidOnlyCode93 = "CODE_93"; // Android only
+            public const string AndroidOnlyPdf417 = "PDF417"; // Android only 
+            public const string AndroidOnlyRss14 = "RSS14"; // Android only
+            public const string AndroidOnlyRssExpandend = "RSS_EXPANDED"; // Android only
+            public const string Code128 = "CODE_128";
+            public const string Code39 = "CODE_39";
+            public const string DataMatrix = "DATA_MATRIX";
+            public const string Ean13 = "EAN_13";
+            public const string Ean8 = "EAN_8";
+            public const string Itf = "ITF";
+            public const string QrCode = "QR_CODE";
+            public const string UpcA = "UPC_A";
+            public const string UpcB = "UPC_E";
         }
     }
 }
