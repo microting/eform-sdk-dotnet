@@ -1224,6 +1224,7 @@ namespace eFormSqlController
                     replyElement.Repeated = (int)mainCheckList.repeated;
                     //replyElement.StartDate
                     replyElement.UnitId = (int)aCase.unit_id;
+                    replyElement.MicrotingUId = aCase.microting_check_uid;
 
                     foreach (check_lists checkList in aCase.check_list.children)
                     {

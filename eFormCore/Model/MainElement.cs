@@ -41,6 +41,7 @@ namespace eFormData
         public int DisplayOrder { get; set; }
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
+        public string MicrotingUId { get; set; }
 
         [XmlIgnore]
         public string CaseType { get; set; }
@@ -263,6 +264,7 @@ namespace eFormData
             ManualSync = coreElement.ManualSync;
             CaseType = coreElement.CaseType;
             ElementList = coreElement.ElementList;
+            MicrotingUId = coreElement.MicrotingUId;
         }
         #endregion
 
