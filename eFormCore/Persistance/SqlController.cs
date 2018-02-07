@@ -1345,6 +1345,7 @@ namespace eFormSqlController
                         field.Description.InderValue = fieldDb.description;
                         field.FieldType = fieldDb.field_type.field_type;
                         field.FieldValue = fieldDb.default_value;
+                        field.Id = fieldDb.id;
 
                         if (field.FieldType == "SingleSelect")
                         {
@@ -1368,6 +1369,7 @@ namespace eFormSqlController
             }
         }
 
+        // Rename method to something more intuitive!
         public FieldValue FieldValueRead(fields question, field_values reply, bool joinUploadedData)
         {
             try
