@@ -1668,7 +1668,7 @@ namespace eFormCore
                     string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".pdf";
 
                     string command =
-                        "-Dfile.encoding=UTF-8 -jar " + locaJ +
+                        "-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar " + locaJ +
                         " -template=\"" + locaT + "\"" +
                         " type=\"pdf\"" +
                         " -uri=\"" + locaC + "\"" +
@@ -1677,9 +1677,6 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(command), command);
                     p.StartInfo.FileName = "java.exe";
                     p.StartInfo.Arguments = command;
-                    //p.StartInfo.UseShellExecute = false;
-                    //p.StartInfo.RedirectStandardOutput = true;
-                    //p.StartInfo.CreateNoWindow = true;
                     p.StartInfo.Verb = "runas";
                     p.Start();
                     // IF needed:
