@@ -1677,6 +1677,10 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(command), command);
                     p.StartInfo.FileName = "java.exe";
                     p.StartInfo.Arguments = command;
+                    //p.StartInfo.UseShellExecute = false;
+                    //p.StartInfo.RedirectStandardOutput = true;
+                    //p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.Verb = "runas";
                     p.Start();
                     // IF needed:
                     // Do not wait for the child process to exit before
@@ -3496,7 +3500,7 @@ namespace eFormCore
                         catch (Exception ex)
                         {
                             log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + notification + "' marked as 'not_found'.", ex));
-                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found");
+                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found"); // Add exception to the notification, so it's possible to figure why it was not found!
                             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
                         }
