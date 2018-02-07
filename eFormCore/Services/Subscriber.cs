@@ -159,11 +159,17 @@ namespace eFormSubscriber
                                 log.LogStandard("Not Specified", "Notification notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + action);
                                 switch (action)
                                 {
-                                    case Constants.Notifications.RetrievedForm:
-                                        bus.SendLocal(new EformRetrieved(notificationUId, microtingUId)).Wait();
-                                        break;
                                     case Constants.Notifications.Completed:
                                         bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
+                                        break;
+                                    case Constants.Notifications.EformParsedByServer:
+                                        bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId)).Wait();
+                                        break;
+                                    case Constants.Notifications.EformParsingError:
+                                        bus.SendLocal(new EformParsingError(notificationUId, microtingUId)).Wait();
+                                        break;
+                                    case Constants.Notifications.RetrievedForm:
+                                        bus.SendLocal(new EformRetrieved(notificationUId, microtingUId)).Wait();
                                         break;
                                     case Constants.Notifications.UnitActivate:
                                         bus.SendLocal(new UnitActivated(notificationUId, microtingUId)).Wait();
