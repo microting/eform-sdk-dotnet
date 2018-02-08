@@ -62,8 +62,8 @@ namespace eFormData
 
         //public string Value { get; set; }
 
-        [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
-        public List<DataItem> DataItemList { get; set; }
+        //[XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
+        //public List<DataItem> DataItemList { get; set; }
     }
     #endregion
 }
