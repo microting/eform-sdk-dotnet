@@ -563,7 +563,7 @@ namespace eFormSqlController
                 {
                     sites site = db.sites.Single(x => x.microting_uid == siteUId);
                     IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.id && x.check_list_id == templateId);
-                    if (workflowState == "not_removed")
+                    if (workflowState == Constants.WorkflowStates.NotRemoved)
                         sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
 
                     return sub_query.Select(x => x.microting_uid).ToList();
@@ -2137,10 +2137,10 @@ namespace eFormSqlController
                     IQueryable<cases> sub_query = db.cases.Where(x => x.done_at > start && x.done_at < end);
                     switch (workflowState)
                     {
-                        case "not_retracted":
+                        case Constants.WorkflowStates.NotRetracted:
                             sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Retracted);
                             break;
-                        case "not_removed":
+                        case Constants.WorkflowStates.NotRemoved:
                             sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
                         case Constants.WorkflowStates.Created:
@@ -2518,7 +2518,7 @@ namespace eFormSqlController
                 List<sites> matches = null;
                 switch (workflowState)
                 {
-                    case "not_removed":
+                    case Constants.WorkflowStates.NotRemoved:
                         matches = db.sites.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                         break;
                     case Constants.WorkflowStates.Removed:
@@ -2743,7 +2743,7 @@ namespace eFormSqlController
 
                     switch (workflowState)
                     {
-                        case "not_removed":
+                        case Constants.WorkflowStates.NotRemoved:
                             matches = db.workers.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                             break;
                         case Constants.WorkflowStates.Removed:
@@ -3228,7 +3228,7 @@ namespace eFormSqlController
 
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
-            if (workflowState != "not_removed" && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
+            if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             List<entity_groups> eG = null;
@@ -3254,7 +3254,7 @@ namespace eFormSqlController
 
                     switch (workflowState)
                     {
-                        case "not_removed":
+                        case Constants.WorkflowStates.NotRemoved:
                             source = source.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
                         case Constants.WorkflowStates.Removed:

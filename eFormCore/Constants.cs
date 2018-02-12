@@ -20,6 +20,8 @@
             public const string Removed = "removed";
             public const string Retracted = "retracted";
             public const string FailedToSync = "failed_to_sync";
+            public const string NotRemoved = "not_removed";
+            public const string NotRetracted = "not_retracted";
 
         }
 
