@@ -1919,6 +1919,11 @@ namespace eFormCore
 
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
+            return EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.Name, "");
+        }
+
+        public EntityGroup EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
+        {
             try
             {
                 if (Running())
@@ -1926,7 +1931,7 @@ namespace eFormCore
                     while (updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    return sqlController.EntityGroupRead(entityGroupMUId);
+                    return sqlController.EntityGroupReadSorted(entityGroupMUId, sort, nameFilter);
                 }
                 else
                     throw new Exception("Core is not running");

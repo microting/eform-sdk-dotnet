@@ -55,6 +55,12 @@
             public const string FieldValue10 = "field_value_10";
         }
 
+        public static class EntityItemSortParameters
+        {
+            public const string Id = "id";
+            public const string Name = "name";
+        }
+
         public static class FieldColors
         {
             public const string Blue = "e2f4fb";
