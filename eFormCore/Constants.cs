@@ -20,6 +20,8 @@
             public const string Removed = "removed";
             public const string Retracted = "retracted";
             public const string FailedToSync = "failed_to_sync";
+            public const string NotRemoved = "not_removed";
+            public const string NotRetracted = "not_retracted";
 
         }
 
@@ -53,6 +55,12 @@
             public const string FieldValue8 = "field_value_8";
             public const string FieldValue9 = "field_value_9";
             public const string FieldValue10 = "field_value_10";
+        }
+
+        public static class EntityItemSortParameters
+        {
+            public const string Id = "id";
+            public const string Name = "name";
         }
 
         public static class FieldColors

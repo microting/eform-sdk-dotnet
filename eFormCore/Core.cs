@@ -982,7 +982,7 @@ namespace eFormCore
 
         public List<Case> CaseReadAll(int? templateId, DateTime? start, DateTime? end)
         {
-            return CaseReadAll(templateId, start, end, "not_removed", null);
+            return CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null);
         }
 
         public List<Case> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey)
@@ -1093,7 +1093,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
                     log.LogVariable("Not Specified", nameof(siteUId), siteUId);
 
-                    return CaseDelete(templateId, siteUId, "not_removed");
+                    return CaseDelete(templateId, siteUId, Constants.WorkflowStates.NotRemoved);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1668,7 +1668,7 @@ namespace eFormCore
                     string locaR = sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".pdf";
 
                     string command =
-                        "-Dfile.encoding=UTF-8 -jar " + locaJ +
+                        "-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar " + locaJ +
                         " -template=\"" + locaT + "\"" +
                         " type=\"pdf\"" +
                         " -uri=\"" + locaC + "\"" +
@@ -1677,6 +1677,7 @@ namespace eFormCore
                     log.LogVariable("Not Specified", nameof(command), command);
                     p.StartInfo.FileName = "java.exe";
                     p.StartInfo.Arguments = command;
+                    p.StartInfo.Verb = "runas";
                     p.Start();
                     // IF needed:
                     // Do not wait for the child process to exit before
@@ -1795,7 +1796,7 @@ namespace eFormCore
                     if (includeRemoved)
                         return Advanced_SiteReadAll(null, null, null);
                     else
-                        return Advanced_SiteReadAll("not_removed", null, null);
+                        return Advanced_SiteReadAll(Constants.WorkflowStates.NotRemoved, null, null);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1918,6 +1919,11 @@ namespace eFormCore
 
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
+            return EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.Name, "");
+        }
+
+        public EntityGroup EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
+        {
             try
             {
                 if (Running())
@@ -1925,7 +1931,7 @@ namespace eFormCore
                     while (updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    return sqlController.EntityGroupRead(entityGroupMUId);
+                    return sqlController.EntityGroupReadSorted(entityGroupMUId, sort, nameFilter);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2137,7 +2143,7 @@ namespace eFormCore
 
                     string respXml = null;
                     List<string> errors = new List<string>();
-                    foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, "not_removed"))
+                    foreach (string microtingUId in sqlController.CheckListSitesRead(templateId, siteUId, Constants.WorkflowStates.NotRemoved))
                     {
                         respXml = communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteUId, newDisplayIndex);
                         Response resp = new Response();
@@ -2774,7 +2780,7 @@ namespace eFormCore
         {
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
-            if (workflowState != "not_removed" && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
+            if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             string methodName = t.GetMethodName();
@@ -2955,7 +2961,7 @@ namespace eFormCore
             List<string> colume1CaseIds = new List<string> { "Id" };
             List<int> caseIds = new List<int>();
 
-            List<Case> caseList = sqlController.CaseReadAll(templateId, start, end, "not_removed", null, false, "");
+            List<Case> caseList = sqlController.CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null, false, "");
             var template = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)
@@ -3496,7 +3502,7 @@ namespace eFormCore
                         catch (Exception ex)
                         {
                             log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + notification + "' marked as 'not_found'.", ex));
-                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found");
+                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found"); // Add exception to the notification, so it's possible to figure why it was not found!
                             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
                         }

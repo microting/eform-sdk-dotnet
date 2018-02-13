@@ -273,11 +273,6 @@ namespace eFormSqlController
 
                     matches = sub_query.ToList();
 
-                    //if (includeRemoved)
-                    //    matches = db.check_lists.Where(x => x.parent_id == null).ToList();
-                    //else
-                    //    matches = db.check_lists.Where(x => x.parent_id == null && x.workflow_state == Constants.WorkflowStates.Created).ToList();
-
                     foreach (check_lists checkList in matches)
                     {
                         List<SiteName_Dto> sites = new List<SiteName_Dto>();
@@ -290,8 +285,16 @@ namespace eFormSqlController
 
                         foreach (check_list_sites check_list_site in check_list_sites)
                         {
-                            SiteName_Dto site = new SiteName_Dto((int)check_list_site.site.microting_uid, check_list_site.site.name, check_list_site.site.created_at, check_list_site.site.updated_at);
-                            sites.Add(site);
+                            try
+                            {
+                                SiteName_Dto site = new SiteName_Dto((int)check_list_site.site.microting_uid, check_list_site.site.name, check_list_site.site.created_at, check_list_site.site.updated_at);
+                                sites.Add(site);
+                            } catch (Exception innerEx)
+                            {
+                                log.LogException("Not Specified", "could not add the site to the sites for site.id : " + check_list_site.site.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                                throw new Exception("Error adding site to sites for site.id : " + check_list_site.site.id.ToString(), innerEx);
+                            }
+                            
                         }
                         bool hasCases = false;
                         if (checkList.cases.Count() > 0)
@@ -306,9 +309,16 @@ namespace eFormSqlController
                             check_list_tags.Add(kvp);
                         }
                         #endregion
-
-                        Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, check_list_tags);
-                        templateList.Add(templateDto);
+                        try
+                        {
+                            Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, check_list_tags);
+                            templateList.Add(templateDto);
+                        }
+                        catch (Exception innerEx)
+                        {
+                            log.LogException("Not Specified", "could not add the templateDto to the templateList for templateId : " + checkList.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                            throw new Exception("Error adding template to templateList for templateId : " + checkList.id.ToString(), innerEx);
+                        }
                     }
                     return templateList;
                 }
@@ -553,7 +563,7 @@ namespace eFormSqlController
                 {
                     sites site = db.sites.Single(x => x.microting_uid == siteUId);
                     IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.id && x.check_list_id == templateId);
-                    if (workflowState == "not_removed")
+                    if (workflowState == Constants.WorkflowStates.NotRemoved)
                         sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
 
                     return sub_query.Select(x => x.microting_uid).ToList();
@@ -1346,6 +1356,7 @@ namespace eFormSqlController
                         field.Description.InderValue = fieldDb.description;
                         field.FieldType = fieldDb.field_type.field_type;
                         field.FieldValue = fieldDb.default_value;
+                        field.EntityGroupId = fieldDb.entity_group_id;
                         field.Id = fieldDb.id;
 
                         if (field.FieldType == "SingleSelect")
@@ -2126,10 +2137,10 @@ namespace eFormSqlController
                     IQueryable<cases> sub_query = db.cases.Where(x => x.done_at > start && x.done_at < end);
                     switch (workflowState)
                     {
-                        case "not_retracted":
+                        case Constants.WorkflowStates.NotRetracted:
                             sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Retracted);
                             break;
-                        case "not_removed":
+                        case Constants.WorkflowStates.NotRemoved:
                             sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
                         case Constants.WorkflowStates.Created:
@@ -2507,7 +2518,7 @@ namespace eFormSqlController
                 List<sites> matches = null;
                 switch (workflowState)
                 {
-                    case "not_removed":
+                    case Constants.WorkflowStates.NotRemoved:
                         matches = db.sites.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                         break;
                     case Constants.WorkflowStates.Removed:
@@ -2732,7 +2743,7 @@ namespace eFormSqlController
 
                     switch (workflowState)
                     {
-                        case "not_removed":
+                        case Constants.WorkflowStates.NotRemoved:
                             matches = db.workers.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                             break;
                         case Constants.WorkflowStates.Removed:
@@ -3217,7 +3228,7 @@ namespace eFormSqlController
 
             if (entityType != "EntitySearch" && entityType != "EntitySelect")
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
-            if (workflowState != "not_removed" && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
+            if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             List<entity_groups> eG = null;
@@ -3243,7 +3254,7 @@ namespace eFormSqlController
 
                     switch (workflowState)
                     {
-                        case "not_removed":
+                        case Constants.WorkflowStates.NotRemoved:
                             source = source.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
                             break;
                         case Constants.WorkflowStates.Removed:
@@ -3323,7 +3334,7 @@ namespace eFormSqlController
 
                     if (nameFilter == "")
                     {
-                        if (sort == "id")
+                        if (sort == Constants.EntityItemSortParameters.Id)
                         {
                             eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.id).ToList();
                         }
@@ -3334,7 +3345,7 @@ namespace eFormSqlController
                     }
                     else
                     {
-                        if (sort == "id")
+                        if (sort == Constants.EntityItemSortParameters.Id)
                         {
                             eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
                         }
