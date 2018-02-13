@@ -3358,7 +3358,7 @@ namespace eFormSqlController
                     if (eILst.Count > 0)
                         foreach (entity_items item in eILst)
                         {
-                            EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid, item.workflow_state);
+                            EntityItem eI = new EntityItem(item.id, item.name, item.description, item.entity_item_uid, item.workflow_state, item.microting_uid);
                             lst.Add(eI);
                         }
 
