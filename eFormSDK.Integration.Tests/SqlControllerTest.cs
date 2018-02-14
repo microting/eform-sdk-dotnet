@@ -5083,7 +5083,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             var match = sut.CaseReadFirstId(aCase.check_list_id);
             // Assert
-            Assert.AreEqual(aCase.check_list_id, match);
+            Assert.AreEqual(aCase.id, match);
         }
 
         [Test]
