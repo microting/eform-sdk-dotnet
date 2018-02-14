@@ -495,7 +495,7 @@ namespace eFormCommunicator
 
             try
             {
-                if (entityType == "EntitySearch")
+                if (entityType == Constants.FieldTypes.EntitySearch)
                 {
                     string microtingUId = http.EntitySearchGroupCreate(name, id);
 
@@ -505,7 +505,7 @@ namespace eFormCommunicator
                         return microtingUId;
                 }
 
-                if (entityType == "EntitySelect")
+                if (entityType == Constants.FieldTypes.EntitySelect)
                 {
                     string microtingUId = http.EntitySelectGroupCreate(name, id);
 
@@ -533,7 +533,7 @@ namespace eFormCommunicator
 
             try
             {
-                if (entityType == "EntitySearch")
+                if (entityType == Constants.FieldTypes.EntitySearch)
                 {
                     if (http.EntitySearchGroupUpdate(id, name, entityGroupMUId))
                         return true;
@@ -541,7 +541,7 @@ namespace eFormCommunicator
                         throw new Exception("EntityGroupUpdate failed");
                 }
 
-                if (entityType == "EntitySelect")
+                if (entityType == Constants.FieldTypes.EntitySelect)
                 {
                     if (http.EntitySelectGroupUpdate(id, name, entityGroupMUId))
                         return true;
@@ -565,7 +565,7 @@ namespace eFormCommunicator
 
             try
             {
-                if (entityType == "EntitySearch")
+                if (entityType == Constants.FieldTypes.EntitySearch)
                 {
                     if (http.EntitySearchGroupDelete(entityGroupId))
                         return;
@@ -573,7 +573,7 @@ namespace eFormCommunicator
                         throw new Exception("EntitySearchItemDelete failed");
                 }
 
-                if (entityType == "EntitySelect")
+                if (entityType == Constants.FieldTypes.EntitySelect)
                 {
                     if (http.EntitySelectGroupDelete(entityGroupId))
                         return;

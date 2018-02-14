@@ -66,6 +66,7 @@
         public static class FieldTypes
         {
             public const string Audio = "Audio";
+            public const string Movie = "Movie";
             public const string CheckBox = "CheckBox";
             public const string Comment = "Comment";
             public const string Date = "Date";

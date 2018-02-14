@@ -2778,7 +2778,7 @@ namespace eFormCore
         //EntityGroupList
         public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
-            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+            if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
             if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
@@ -3548,7 +3548,7 @@ namespace eFormCore
                                 if (type != null)
                                 {
                                     #region EntitySearch
-                                    if (type.Type == "EntitySearch")
+                                    if (type.Type == Constants.FieldTypes.EntitySearch)
                                     {
                                         if (eI.workflow_state == Constants.WorkflowStates.Created)
                                         {

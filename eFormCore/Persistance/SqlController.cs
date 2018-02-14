@@ -971,7 +971,7 @@ namespace eFormSqlController
                                     field_types field_type = db.fields.First(x => x.id == fieldV.field_id).field_type;
                                     string new_value = fieldV.value;
 
-                                    if (field_type.field_type == "EntitySearch" || field_type.field_type == "EntitySelect")
+                                    if (field_type.field_type == Constants.FieldTypes.EntitySearch || field_type.field_type == Constants.FieldTypes.EntitySelect)
                                     {
                                         try
                                         {
@@ -1453,7 +1453,7 @@ namespace eFormSqlController
                     #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
                     answer.ValueReadable = reply.value;
 
-                    if (answer.FieldType == "EntitySearch" || answer.FieldType == "EntitySelect")
+                    if (answer.FieldType == Constants.FieldTypes.EntitySearch || answer.FieldType == Constants.FieldTypes.EntitySelect)
                     {
                         try
                         {
@@ -1472,7 +1472,7 @@ namespace eFormSqlController
                         catch { }
                     }
 
-                    if (answer.FieldType == "SingleSelect")
+                    if (answer.FieldType == Constants.FieldTypes.SingleSelect)
                     {
                         string key = answer.Value;
                         string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
@@ -1481,7 +1481,7 @@ namespace eFormSqlController
                         answer.KeyValuePairList = PairRead(question.key_value_pair_list);
                     }
 
-                    if (answer.FieldType == "MultiSelect")
+                    if (answer.FieldType == Constants.FieldTypes.MultiSelect)
                     {
                         answer.ValueReadable = "";
 
@@ -1590,7 +1590,7 @@ namespace eFormSqlController
                     switch (matchField.field_type.field_type)
                     {
                         #region special dataItem
-                        case "CheckBox":
+                        case Constants.FieldTypes.CheckBox:
                             foreach (field_values item in matches)
                             {
                                 if (item.value == "checked")
@@ -1599,8 +1599,8 @@ namespace eFormSqlController
                                     replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "0", false, ""));
                             }
                             break;
-                        case "Signature":
-                        case "Picture":
+                        case Constants.FieldTypes.Signature:
+                        case Constants.FieldTypes.Picture:
                             int lastCaseId = -1;
                             int lastIndex = -1;
                             foreach (field_values item in matches)
@@ -1653,7 +1653,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case "SingleSelect":
+                        case Constants.FieldTypes.SingleSelect:
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
@@ -1662,7 +1662,7 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case "MultiSelect":
+                        case Constants.FieldTypes.MultiSelect:
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
                                 rtrnLst = new List<List<KeyValuePair>>();
@@ -1690,8 +1690,8 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case "EntitySelect":
-                        case "EntitySearch":
+                        case Constants.FieldTypes.EntitySelect:
+                        case Constants.FieldTypes.EntitySearch:
                             {
                                 foreach (field_values item in matches)
                                 {
@@ -2389,7 +2389,7 @@ namespace eFormSqlController
                         field_types field_type = item.field.field_type;
                         string new_value = item.value;
 
-                        if (field_type.field_type == "EntitySearch" || field_type.field_type == "EntitySelect")
+                        if (field_type.field_type == Constants.FieldTypes.EntitySearch || field_type.field_type == Constants.FieldTypes.EntitySelect)
                         {
                             try
                             {
@@ -2407,14 +2407,14 @@ namespace eFormSqlController
                             catch { }
                         }
 
-                        if (field_type.field_type == "SingleSelect")
+                        if (field_type.field_type == Constants.FieldTypes.SingleSelect)
                         {
                             string key = item.value;
                             string fullKey = t.Locate(item.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
                             new_value = t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        if (field_type.field_type == "MultiSelect")
+                        if (field_type.field_type == Constants.FieldTypes.MultiSelect)
                         {
                             new_value = "";
 
@@ -3226,7 +3226,7 @@ namespace eFormSqlController
         public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
 
-            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+            if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
             if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
@@ -3285,7 +3285,7 @@ namespace eFormSqlController
         {
             try
             {
-                if (entityType != "EntitySearch" && entityType != "EntitySelect")
+                if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
                     throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
 
                 using (var db = GetContext())
@@ -3746,24 +3746,24 @@ namespace eFormSqlController
                         #region prime FieldTypes
                         //UnitTest_TruncateTable(typeof(field_types).Name);
 
-                        FieldTypeAdd(1, "Text", "Simple text field");
-                        FieldTypeAdd(2, "Number", "Simple number field");
-                        FieldTypeAdd(3, "None", "Simple text to be displayed");
-                        FieldTypeAdd(4, "CheckBox", "Simple check box field");
-                        FieldTypeAdd(5, "Picture", "Simple picture field");
-                        FieldTypeAdd(6, "Audio", "Simple audio field");
-                        FieldTypeAdd(7, "Movie", "Simple movie field");
-                        FieldTypeAdd(8, "SingleSelect", "Single selection list");
-                        FieldTypeAdd(9, "Comment", "Simple comment field");
-                        FieldTypeAdd(10, "MultiSelect", "Simple multi select list");
-                        FieldTypeAdd(11, "Date", "Date selection");
-                        FieldTypeAdd(12, "Signature", "Simple signature field");
-                        FieldTypeAdd(13, "Timer", "Simple timer field");
-                        FieldTypeAdd(14, "EntitySearch", "Autofilled searchable items field");
-                        FieldTypeAdd(15, "EntitySelect", "Autofilled single selection list");
-                        FieldTypeAdd(16, "ShowPdf", "Show PDF");
-                        FieldTypeAdd(17, "FieldGroup", "Field group");
-                        FieldTypeAdd(18, "SaveButton", "Save eForm");
+                        FieldTypeAdd(1, Constants.FieldTypes.Text, "Simple text field");
+                        FieldTypeAdd(2, Constants.FieldTypes.Number, "Simple number field");
+                        FieldTypeAdd(3, Constants.FieldTypes.None, "Simple text to be displayed");
+                        FieldTypeAdd(4, Constants.FieldTypes.CheckBox, "Simple check box field");
+                        FieldTypeAdd(5, Constants.FieldTypes.Picture, "Simple picture field");
+                        FieldTypeAdd(6, Constants.FieldTypes.Audio, "Simple audio field");
+                        FieldTypeAdd(7, Constants.FieldTypes.Movie, "Simple movie field");
+                        FieldTypeAdd(8, Constants.FieldTypes.SingleSelect, "Single selection list");
+                        FieldTypeAdd(9, Constants.FieldTypes.Comment, "Simple comment field");
+                        FieldTypeAdd(10, Constants.FieldTypes.MultiSelect, "Simple multi select list");
+                        FieldTypeAdd(11, Constants.FieldTypes.Date, "Date selection");
+                        FieldTypeAdd(12, Constants.FieldTypes.Signature, "Simple signature field");
+                        FieldTypeAdd(13, Constants.FieldTypes.Timer, "Simple timer field");
+                        FieldTypeAdd(14, Constants.FieldTypes.EntitySearch, "Autofilled searchable items field");
+                        FieldTypeAdd(15, Constants.FieldTypes.EntitySelect, "Autofilled single selection list");
+                        FieldTypeAdd(16, Constants.FieldTypes.ShowPdf, "Show PDF");
+                        FieldTypeAdd(17, Constants.FieldTypes.FieldGroup, "Field group");
+                        FieldTypeAdd(18, Constants.FieldTypes.SaveButton, "Save eForm");
                         #endregion
                     }
 
@@ -4413,85 +4413,85 @@ namespace eFormSqlController
                     //KEY POINT - mapping
                     switch (fieldTypeStr)
                     {
-                        case "Audio":
+                        case Constants.FieldTypes.Audio:
                             lstDataItem.Add(new Audio(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.multi)));
                             break;
 
-                        case "CheckBox":
+                        case Constants.FieldTypes.CheckBox:
                             lstDataItem.Add(new CheckBox(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.default_value), t.Bool(f.selected)));
                             break;
 
-                        case "Comment":
+                        case Constants.FieldTypes.Comment:
                             lstDataItem.Add(new Comment(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value, t.Int(f.max_length), t.Bool(f.split_screen)));
                             break;
 
-                        case "Date":
+                        case Constants.FieldTypes.Date:
                             lstDataItem.Add(new Date(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value));
                             break;
 
-                        case "None":
+                        case Constants.FieldTypes.None:
                             lstDataItem.Add(new None(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
                             break;
 
-                        case "Number":
+                        case Constants.FieldTypes.Number:
                             lstDataItem.Add(new Number(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.min_value, f.max_value, int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
                             break;
 
-                        case "MultiSelect":
+                        case Constants.FieldTypes.MultiSelect:
                             lstDataItem.Add(new MultiSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 PairRead(f.key_value_pair_list)));
                             break;
 
-                        case "Picture":
+                        case Constants.FieldTypes.Picture:
                             lstDataItem.Add(new Picture(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.multi), t.Bool(f.geolocation_enabled)));
                             break;
 
-                        case "SaveButton":
+                        case Constants.FieldTypes.SaveButton:
                             lstDataItem.Add(new SaveButton(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value));
                             break;
 
-                        case "ShowPdf":
+                        case Constants.FieldTypes.ShowPdf:
                             lstDataItem.Add(new ShowPdf(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value));
                             break;
 
-                        case "Signature":
+                        case Constants.FieldTypes.Signature:
                             lstDataItem.Add(new Signature(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
                             break;
 
-                        case "SingleSelect":
+                        case Constants.FieldTypes.SingleSelect:
                             lstDataItem.Add(new SingleSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 PairRead(f.key_value_pair_list)));
                             break;
 
-                        case "Text":
+                        case Constants.FieldTypes.Text:
                             lstDataItem.Add(new Text(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value, t.Int(f.max_length), t.Bool(f.geolocation_enabled), t.Bool(f.geolocation_forced), t.Bool(f.geolocation_hidden), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
-                        case "Timer":
+                        case Constants.FieldTypes.Timer:
                             lstDataItem.Add(new Timer(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.stop_on_save)));
                             break;
 
-                        case "EntitySearch":
+                        case Constants.FieldTypes.EntitySearch:
                             lstDataItem.Add(new EntitySearch(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id), t.Bool(f.is_num), f.query_type, t.Int(f.min_value), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
-                        case "EntitySelect":
+                        case Constants.FieldTypes.EntitySelect:
                             lstDataItem.Add(new EntitySelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id)));
                             break;
 
-                        case "FieldGroup":
+                        case Constants.FieldTypes.FieldGroup:
                             List<DataItem> lst = new List<DataItem>();
                             //CDataValue description = new CDataValue();
                             //description.InderValue = f.description;
