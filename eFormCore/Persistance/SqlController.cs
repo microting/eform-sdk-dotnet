@@ -3358,7 +3358,7 @@ namespace eFormSqlController
                     if (eILst.Count > 0)
                         foreach (entity_items item in eILst)
                         {
-                            EntityItem eI = new EntityItem(item.name, item.description, item.entity_item_uid, item.workflow_state);
+                            EntityItem eI = new EntityItem(item.id, item.name, item.description, item.entity_item_uid, item.workflow_state, item.microting_uid);
                             lst.Add(eI);
                         }
 
@@ -4193,35 +4193,35 @@ namespace eFormSqlController
                     //KEY POINT - mapping
                     switch (typeStr)
                     {
-                        case "Audio":
+                        case Constants.FieldTypes.Audio:
                             Audio audio = (Audio)dataItem;
                             field.multi = audio.Multi;
                             break;
 
-                        case "CheckBox":
+                        case Constants.FieldTypes.CheckBox:
                             CheckBox checkBox = (CheckBox)dataItem;
                             field.default_value = checkBox.DefaultValue.ToString();
                             field.selected = t.Bool(checkBox.Selected);
                             break;
 
-                        case "Comment":
+                        case Constants.FieldTypes.Comment:
                             Comment comment = (Comment)dataItem;
                             field.default_value = comment.Value;
                             field.max_length = comment.Maxlength;
                             field.split_screen = t.Bool(comment.SplitScreen);
                             break;
 
-                        case "Date":
+                        case Constants.FieldTypes.Date:
                             Date date = (Date)dataItem;
                             field.default_value = date.DefaultValue;
                             field.min_value = date.MinValue.ToString("yyyy-MM-dd");
                             field.max_value = date.MaxValue.ToString("yyyy-MM-dd");
                             break;
 
-                        case "None":
+                        case Constants.FieldTypes.None:
                             break;
 
-                        case "Number":
+                        case Constants.FieldTypes.Number:
                             Number number = (Number)dataItem;
                             field.min_value = number.MinValue.ToString();
                             field.max_value = number.MaxValue.ToString();
@@ -4230,36 +4230,36 @@ namespace eFormSqlController
                             field.unit_name = number.UnitName;
                             break;
 
-                        case "MultiSelect":
+                        case Constants.FieldTypes.MultiSelect:
                             MultiSelect multiSelect = (MultiSelect)dataItem;
                             field.key_value_pair_list = PairBuild(multiSelect.KeyValuePairList);
                             break;
 
-                        case "Picture":
+                        case Constants.FieldTypes.Picture:
                             Picture picture = (Picture)dataItem;
                             field.multi = picture.Multi;
                             field.geolocation_enabled = t.Bool(picture.GeolocationEnabled);
                             break;
 
-                        case "SaveButton":
+                        case Constants.FieldTypes.SaveButton:
                             SaveButton saveButton = (SaveButton)dataItem;
                             field.default_value = saveButton.Value;
                             break;
 
-                        case "ShowPdf":
+                        case Constants.FieldTypes.ShowPdf:
                             ShowPdf showPdf = (ShowPdf)dataItem;
                             field.default_value = showPdf.Value;
                             break;
 
-                        case "Signature":
+                        case Constants.FieldTypes.Signature:
                             break;
 
-                        case "SingleSelect":
+                        case Constants.FieldTypes.SingleSelect:
                             SingleSelect singleSelect = (SingleSelect)dataItem;
                             field.key_value_pair_list = PairBuild(singleSelect.KeyValuePairList);
                             break;
 
-                        case "Text":
+                        case Constants.FieldTypes.Text:
                             Text text = (Text)dataItem;
                             field.default_value = text.Value;
                             field.max_length = text.MaxLength;
@@ -4270,14 +4270,14 @@ namespace eFormSqlController
                             field.barcode_type = text.BarcodeType;
                             break;
 
-                        case "Timer":
+                        case Constants.FieldTypes.Timer:
                             Timer timer = (Timer)dataItem;
                             field.split_screen = t.Bool(timer.StopOnSave);
                             break;
 
                         //-------
 
-                        case "EntitySearch":
+                        case Constants.FieldTypes.EntitySearch:
                             EntitySearch entitySearch = (EntitySearch)dataItem;
                             field.entity_group_id = entitySearch.EntityTypeId;
                             field.default_value = entitySearch.DefaultValue.ToString();
@@ -4286,13 +4286,13 @@ namespace eFormSqlController
                             field.min_value = entitySearch.MinSearchLenght.ToString();
                             break;
 
-                        case "EntitySelect":
+                        case Constants.FieldTypes.EntitySelect:
                             EntitySelect entitySelect = (EntitySelect)dataItem;
                             field.entity_group_id = entitySelect.Source;
                             field.default_value = entitySelect.DefaultValue.ToString();
                             break;
 
-                        case "FieldGroup":
+                        case Constants.FieldTypes.FieldGroup:
                             FieldContainer fg = (FieldContainer)dataItem;
                             field.default_value = fg.Value;
                             db.fields.Add(field);

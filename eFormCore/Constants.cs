@@ -63,6 +63,27 @@
             public const string Name = "name";
         }
 
+        public static class FieldTypes
+        {
+            public const string Audio = "Audio";
+            public const string CheckBox = "CheckBox";
+            public const string Comment = "Comment";
+            public const string Date = "Date";
+            public const string None = "None";
+            public const string Number = "Number";
+            public const string MultiSelect = "MultiSelect";
+            public const string Picture = "Picture";
+            public const string SaveButton = "SaveButton";
+            public const string ShowPdf = "ShowPdf";
+            public const string Signature = "Signature";
+            public const string SingleSelect = "SingleSelect";
+            public const string Text = "Text";
+            public const string Timer = "Timer";
+            public const string EntitySearch = "EntitySearch";
+            public const string EntitySelect = "EntitySelect";
+            public const string FieldGroup = "FieldGroup";
+        }
+
         public static class FieldColors
         {
             public const string Blue = "e2f4fb";
