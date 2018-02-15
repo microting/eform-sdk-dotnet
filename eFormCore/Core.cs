@@ -708,7 +708,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ") failed", ex, true);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (int templateId) failed", ex, true);
+                }
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -730,7 +737,13 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (bool " + includeRemoved.ToString() + ") failed", ex, true);
+                } catch
+                {
+                    log.LogException("Not Specified", methodName + " (bool includeRemoved) failed", ex, true);
+                }
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1100,7 +1113,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ", int " + siteUId.ToString() + ") failed", ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (int templateId, int siteUId) failed", ex, false);
+                }
                 return false;
             }
         }
@@ -1138,7 +1158,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ", int " + siteUId.ToString() + ", string " + workflowState + ") failed", ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (int templateId, int siteUId, string workflowState) failed", ex, false);
+                }
                 return false;
             }
         }
@@ -1162,7 +1189,7 @@ namespace eFormCore
                         log.LogEverything("Not Specified", "XML response:");
                         log.LogEverything("Not Specified", xmlResponse);
                         log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
-                        return true;
+                        return false;
                     }
 
                     if (xmlResponse.Contains("Error"))
@@ -1170,12 +1197,19 @@ namespace eFormCore
                         try
                         {
                             resp = resp.XmlToClass(xmlResponse);
-                            log.LogException("Not Specified", methodName + " failed", new Exception("Error from Microting server: " + resp.Value), true);
+                            log.LogException("Not Specified", methodName + " failed", new Exception("Error from Microting server: " + resp.Value), false);
                             return false;
                         }
                         catch (Exception ex)
                         {
-                            log.LogException("Not Specified", methodName + " failed", ex, true);
+                            try
+                            {
+                                log.LogException("Not Specified", methodName + " (string " + microtingUId + ") failed", ex, false);
+                            }
+                            catch
+                            {
+                                log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                            }
                             return false;
                         }
                     }
@@ -1230,7 +1264,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (string " + microtingUId + ") failed", ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                }
                 return false;
             }
         }
@@ -1247,7 +1288,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, false);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + caseId.ToString() + ") failed", ex, false);
+                } catch
+                {
+                    log.LogException("Not Specified", methodName + " (int caseId) failed", ex, false);
+                }
+                
                 return false;
             }
         }
