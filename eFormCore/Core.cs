@@ -356,7 +356,7 @@ namespace eFormCore
                 //XML HACK TODO
                 #region xmlString = corrected xml if needed
                 xmlString = xmlString.Trim();
-                xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
+                //xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"single_select\">", "=\"SingleSelect\">");
                 xmlString = xmlString.Replace("=\"multi_select\">", "=\"MultiSelect\">");
                 xmlString = xmlString.Replace("xsi:type", "type");
@@ -410,6 +410,7 @@ namespace eFormCore
 
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
+                xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
