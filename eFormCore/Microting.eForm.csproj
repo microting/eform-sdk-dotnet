@@ -121,6 +121,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.cs" />
+    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.Designer.cs">
+      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataItemGroup.cs" />
     <Compile Include="Model\Element.cs" />
@@ -236,6 +240,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.resx">
+      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
     </EmbeddedResource>
@@ -269,6 +276,9 @@
     <EmbeddedResource Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.resx">
       <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

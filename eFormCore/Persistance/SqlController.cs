@@ -1828,7 +1828,7 @@ namespace eFormSqlController
             }
         }
 
-        public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState)
+        public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState, string exception)
         {
             try
             {
@@ -1837,6 +1837,7 @@ namespace eFormSqlController
                     notifications aNoti = db.notifications.Single(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId);
                     aNoti.workflow_state = workflowState;
                     aNoti.updated_at = DateTime.Now;
+                    aNoti.exception = exception;
 
                     db.SaveChanges();
                 }

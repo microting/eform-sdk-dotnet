@@ -3504,7 +3504,7 @@ namespace eFormCore
                                             }
                                         }
 
-                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         break;
                                     }
                                 #endregion
@@ -3519,7 +3519,7 @@ namespace eFormCore
                                         catch { log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection"); }
                                         log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
 
-                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         break;
                                     }
                                 #endregion
@@ -3534,11 +3534,11 @@ namespace eFormCore
                                         {
                                             Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
                                             sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
-                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         }
                                         catch
                                         {
-                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         }
                                         break;
                                     }
@@ -3551,7 +3551,7 @@ namespace eFormCore
                         catch (Exception ex)
                         {
                             log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + notification + "' marked as 'not_found'.", ex));
-                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found"); // Add exception to the notification, so it's possible to figure why it was not found!
+                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found", t.PrintException(ex.Message, ex)); // Add exception to the notification, so it's possible to figure why it was not found!
                             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
                         }
