@@ -779,6 +779,48 @@ namespace eFormSDK.Integration.Tests
 
         }
 
+        [Test]
+        public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
+        {
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+            aCase.status = 66;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseDeleteReversed(aCase.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
+            List<sites> siteResults = DbContext.sites.AsNoTracking().ToList();
+
+
+            // Assert
+
+
+
+            Assert.NotNull(caseResults);
+            //Assert.AreEqual(1, caseResults.Count);
+            //Assert.AreNotEqual(1, caseResults[1]);
+        }
+
        
 
         #endregion
