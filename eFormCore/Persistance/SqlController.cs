@@ -1776,7 +1776,7 @@ namespace eFormSqlController
         #endregion
 
         #region notification
-        public void NotificationCreate(string notificationUId, string microtingUId, string activity)
+        public notifications NotificationCreate(string notificationUId, string microtingUId, string activity)
         {
             using (var db = GetContext())
             {
@@ -1795,6 +1795,7 @@ namespace eFormSqlController
 
                     db.notifications.Add(aNote);
                     db.SaveChanges();
+                    return aNote;
                 }
                 else
                 {

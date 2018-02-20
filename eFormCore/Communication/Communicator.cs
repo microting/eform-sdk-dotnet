@@ -24,7 +24,7 @@ SOFTWARE.
 
 using eFormData;
 using eFormShared;
-using eFormSqlController;
+//using eFormSqlController;
 using Newtonsoft.Json.Linq;
 
 using System;
@@ -36,7 +36,7 @@ namespace eFormCommunicator
     public class Communicator
     {
         #region var
-        SqlController sqlController;
+        //SqlController sqlController;
         Log log;
         IHttp http;
         public object _lockSending = new object();
@@ -50,16 +50,16 @@ namespace eFormCommunicator
         /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="comAddressApi">Microting's eForm API server address.</param>
         /// <param name="comOrganizationId">Your company's organization id.</param>
-        public Communicator(SqlController sqlController, Log log)
+        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string ComAddressPdfUpload, Log log)
         {
-            this.sqlController = sqlController;
+            //this.sqlController = sqlController;
             this.log = log;
 
-            string token = sqlController.SettingRead(Settings.token);
-            string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
-            string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
-            string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
-            string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
+            //string token = sqlController.SettingRead(Settings.token);
+            //string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
+            //string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
+            //string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
+            //string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
 
             #region is unit test
             if (token == "UNIT_TEST___________________L:32")
@@ -142,54 +142,54 @@ namespace eFormCommunicator
             }
         }
 
-        public bool CheckStatusUpdateIfNeeded(string microtingUId)
-        {
-            lock (_lockSending)
-            {
-                log.LogEverything("Not Specified", t.GetMethodName() + " called");
-                log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
+        //public bool CheckStatusUpdateIfNeeded(string microtingUId)
+        //{
+        //    lock (_lockSending)
+        //    {
+        //        log.LogEverything("Not Specified", t.GetMethodName() + " called");
+        //        log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
 
-                string correctStat = null;
-                Case_Dto caseDto = null;
+        //        string correctStat = null;
+        //        Case_Dto caseDto = null;
 
-                try
-                {
-                    caseDto = sqlController.CaseReadByMUId(microtingUId);
-                    correctStat = "Created"; //Sent
+        //        try
+        //        {
+        //            caseDto = sqlController.CaseReadByMUId(microtingUId);
+        //            correctStat = "Created"; //Sent
 
-                    string status = CheckStatus(caseDto.MicrotingUId, caseDto.SiteUId);
-                    if (!status.Contains("id=\"\"/>"))
-                    {
-                        correctStat = "Retrived";
+        //            string status = CheckStatus(caseDto.MicrotingUId, caseDto.SiteUId);
+        //            if (!status.Contains("id=\"\"/>"))
+        //            {
+        //                correctStat = "Retrived";
 
-                        string reply = Retrieve(caseDto.MicrotingUId, caseDto.SiteUId);
+        //                string reply = Retrieve(caseDto.MicrotingUId, caseDto.SiteUId);
 
-                        Response resp = new Response();
-                        resp = resp.XmlToClassUsingXmlDocument(reply);
-                        if (resp.Type == Response.ResponseTypes.Success)
-                        {
-                            if (resp.Checks.Count > 0)
-                                correctStat = "Completed";
-                        }
+        //                Response resp = new Response();
+        //                resp = resp.XmlToClassUsingXmlDocument(reply);
+        //                if (resp.Type == Response.ResponseTypes.Success)
+        //                {
+        //                    if (resp.Checks.Count > 0)
+        //                        correctStat = "Completed";
+        //                }
 
-                        if (caseDto.Stat == "Deleted" || caseDto.Stat == correctStat)
-                            return true;
-                    }
-                }
-                catch
-                {
+        //                if (caseDto.Stat == "Deleted" || caseDto.Stat == correctStat)
+        //                    return true;
+        //            }
+        //        }
+        //        catch
+        //        {
 
-                }
+        //        }
 
-                if (correctStat == "Retrived")
-                    sqlController.NotificationCreate("F:" + t.GetRandomInt(10), caseDto.MicrotingUId, "unit_fetch");
+        //        if (correctStat == "Retrived")
+        //            sqlController.NotificationCreate("F:" + t.GetRandomInt(10), caseDto.MicrotingUId, "unit_fetch");
 
-                if (correctStat == "Completed")
-                    sqlController.NotificationCreate("F:" + t.GetRandomInt(10), caseDto.MicrotingUId, "check_status");
+        //        if (correctStat == "Completed")
+        //            sqlController.NotificationCreate("F:" + t.GetRandomInt(10), caseDto.MicrotingUId, "check_status");
 
-                return false;
-            }
-        }
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// Retrieve the XML encoded results from Microting.
