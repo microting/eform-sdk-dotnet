@@ -229,9 +229,9 @@ namespace eFormCore
                     int secondsDelay = 0;
                     switch (sameExceptionCountTried)
                     {
-                        case 1: secondsDelay = 001; break;
-                        case 2: secondsDelay = 008; break;
-                        case 3: secondsDelay = 064; break;
+                        case 1: secondsDelay = 030; break;
+                        case 2: secondsDelay = 060; break;
+                        case 3: secondsDelay = 120; break;
                         case 4: secondsDelay = 512; break;
                         default: throw new ArgumentOutOfRangeException("sameExceptionCount should be above 0");
                     }
@@ -346,6 +346,8 @@ namespace eFormCore
         #region template
         public MainElement TemplateFromXml(string xmlString)
         {
+            if (string.IsNullOrEmpty(xmlString))
+                throw new ArgumentNullException("xmlString cannot be null or empty");
             string methodName = t.GetMethodName();
             try
             {
@@ -1968,11 +1970,16 @@ namespace eFormCore
 
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
+            if (string.IsNullOrEmpty(entityGroupMUId))
+                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
             return EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.Name, "");
         }
 
         public EntityGroup EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
         {
+            string methodName = t.GetMethodName();
+            if (string.IsNullOrEmpty(entityGroupMUId))
+                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
             try
             {
                 if (Running())
@@ -1987,8 +1994,16 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", "EntityGroupRead failed", ex, true);
-                throw new Exception("EntityGroupRead failed", ex);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (string entityGroupMUId " + entityGroupMUId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, true);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (string entityGroupMUId, string sort, string nameFilter) failed", ex, true);
+                }
+                throw new Exception(methodName + " failed", ex);
+
             }
         }
 
