@@ -5409,30 +5409,14 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
         {
             // Arrance
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
+            sites site = CreateSites("mySite", 987);
 
-            check_lists cl = new check_lists();
-            cl.label = "label";
+            check_lists cl1 = CreateTemplate("bla", "bla_desc", "", "", 0, 0);
 
-            DbContext.check_lists.Add(cl);
-            DbContext.SaveChanges();
-
-            cases aCase = new cases();
-            aCase.microting_uid = "microting_uid";
-            aCase.microting_check_uid = "microting_check_uid";
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
-            aCase.status = 66;
-
-            DbContext.cases.Add(aCase);
-            DbContext.SaveChanges();
+            check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
 
             // Act
-            sut.CaseDeleteReversed(aCase.microting_uid);
+            sut.CaseDeleteReversed(cls1.microting_uid);
             //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
             List<sites> siteResults = DbContext.sites.AsNoTracking().ToList();
@@ -5715,7 +5699,20 @@ namespace eFormSDK.Integration.Tests
             return UD;
         }
 
-       
+
+        public check_list_sites CreateCheckListSite(int checkListId, int siteId)
+        {
+            check_list_sites cls = new check_list_sites();
+            cls.site_id = siteId;
+            cls.check_list_id = checkListId;
+            cls.created_at = DateTime.Now;
+            cls.updated_at = DateTime.Now;
+            cls.workflow_state = Constants.WorkflowStates.Created;
+
+            DbContext.check_list_sites.Add(cls);
+            DbContext.SaveChanges();
+            return cls;
+        }
         
         #endregion
 
