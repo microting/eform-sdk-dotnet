@@ -121,11 +121,6 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
-<<<<<<< HEAD
-    <Compile Include="Persistance\Migrations\201801291231102_ModelUpdate.cs" />
-    <Compile Include="Persistance\Migrations\201801291231102_ModelUpdate.Designer.cs">
-      <DependentUpon>201801291231102_ModelUpdate.cs</DependentUpon>
-=======
     <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.cs" />
     <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.Designer.cs">
       <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
@@ -133,7 +128,6 @@
     <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.cs" />
     <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.Designer.cs">
       <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
->>>>>>> a08b0460282d0c762a2ae75c9053b30bf383094f
     </Compile>
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataItemGroup.cs" />
@@ -246,16 +240,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <EmbeddedResource Include="Persistance\Migrations\201801291231102_ModelUpdate.resx">
-      <DependentUpon>201801291231102_ModelUpdate.cs</DependentUpon>
-=======
     <EmbeddedResource Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.resx">
       <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.resx">
       <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
->>>>>>> a08b0460282d0c762a2ae75c9053b30bf383094f
     </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
