@@ -33,6 +33,11 @@ namespace eFormCore.Handlers
                 Unit_Dto unitDto = sqlController.UnitRead(int.Parse(message.MicrotringUUID));
                 sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
                 sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "");
+
+                log.LogStandard("Not Specified", "Unit with id " + message.MicrotringUUID + " has been activated");
+
+                Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
+                core.FireHandleSiteActivated(note_Dto);
             }
             catch (Exception ex)
             {
@@ -40,8 +45,6 @@ namespace eFormCore.Handlers
                 Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
                 core.FireHandleNotificationNotFound(note_Dto);
             }
-
-            // Potentially send new message onto local queue
         }
     }
 }

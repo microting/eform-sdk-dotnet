@@ -29,13 +29,22 @@ namespace Microting.eForm.Handlers
 #pragma warning disable 1998
         public async Task Handle(EformDeleteFromServer message)
         {
+            string methodName = "EformDeleteFromServer";
+
             try
             {
                 DeleteCase(message);
             }
             catch (Exception ex)
             {
-
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " + message.MicrotringUUID, ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (EformDeleteFromServer message) failed", ex, false);
+                }
             }
         }
 

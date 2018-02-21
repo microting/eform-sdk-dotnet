@@ -3654,9 +3654,16 @@ namespace eFormCore
             catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
         }
 
-        public void FireHandleSiteActivated()
+        public void FireHandleSiteActivated(Note_Dto notification)
         {
+            try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }
+            catch { log.LogWarning("Not Specified", "HandleSiteActivated event's external logic suffered an Expection"); }
+        }
 
+        public void FireHandleCaseRetrived(Case_Dto caseDto)
+        {
+            try { HandleCaseRetrived?.Invoke(caseDto, EventArgs.Empty); }
+            catch { log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection"); }
         }
         #endregion
     }
