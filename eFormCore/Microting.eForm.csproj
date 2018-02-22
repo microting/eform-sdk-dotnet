@@ -68,11 +68,11 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.10\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.11\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.Entity.6.9.10\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.11\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -107,6 +107,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Dto\Classes.cs" />
+    <Compile Include="Handlers\EformParsingErrorHandler.cs" />
+    <Compile Include="Handlers\EformParsedByServerHandler.cs" />
     <Compile Include="Handlers\EformCompletedHandler.cs" />
     <Compile Include="Handlers\UnitActivatedHandler.cs" />
     <Compile Include="Handlers\EformRetrievedHandler.cs" />
@@ -114,9 +116,19 @@
     <Compile Include="Installers\RebusHandlerInstaller.cs" />
     <Compile Include="Installers\RebusInstaller.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Messages\EformParsingError.cs" />
+    <Compile Include="Messages\EformParsedByServer.cs" />
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.cs" />
+    <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.Designer.cs">
+      <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.cs" />
+    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.Designer.cs">
+      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataItemGroup.cs" />
     <Compile Include="Model\Element.cs" />
@@ -176,10 +188,6 @@
     </Compile>
     <Compile Include="Persistance\Migrations\Configuration.cs" />
     <Compile Include="Persistance\SqlController.cs" />
-    <Compile Include="Persistance\table\a_interaction_cases.cs" />
-    <Compile Include="Persistance\table\a_interaction_case_lists.cs" />
-    <Compile Include="Persistance\table\a_interaction_case_list_versions.cs" />
-    <Compile Include="Persistance\table\a_interaction_case_versions.cs" />
     <Compile Include="Persistance\table\cases.cs" />
     <Compile Include="Persistance\table\case_versions.cs" />
     <Compile Include="Persistance\table\check_lists.cs" />
@@ -232,6 +240,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.resx">
+      <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.resx">
+      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
     </EmbeddedResource>
@@ -266,6 +280,7 @@
       <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

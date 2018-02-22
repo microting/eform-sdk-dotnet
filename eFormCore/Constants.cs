@@ -7,6 +7,8 @@
             public const string RetrievedForm = "unit_fetch";
             public const string Completed = "check_status";
             public const string UnitActivate = "unit_activate";
+            public const string EformParsedByServer = "eform_parsed_by_server";
+            public const string EformParsingError = "eform_parsing_error";
         }
 
         public static class WorkflowStates
@@ -18,6 +20,8 @@
             public const string Removed = "removed";
             public const string Retracted = "retracted";
             public const string FailedToSync = "failed_to_sync";
+            public const string NotRemoved = "not_removed";
+            public const string NotRetracted = "not_retracted";
 
         }
 
@@ -51,6 +55,62 @@
             public const string FieldValue8 = "field_value_8";
             public const string FieldValue9 = "field_value_9";
             public const string FieldValue10 = "field_value_10";
+        }
+
+        public static class EntityItemSortParameters
+        {
+            public const string Id = "id";
+            public const string Name = "name";
+        }
+
+        public static class FieldTypes
+        {
+            public const string Audio = "Audio";
+            public const string Movie = "Movie";
+            public const string CheckBox = "CheckBox";
+            public const string Comment = "Comment";
+            public const string Date = "Date";
+            public const string None = "None";
+            public const string Number = "Number";
+            public const string MultiSelect = "MultiSelect";
+            public const string Picture = "Picture";
+            public const string SaveButton = "SaveButton";
+            public const string ShowPdf = "ShowPdf";
+            public const string Signature = "Signature";
+            public const string SingleSelect = "SingleSelect";
+            public const string Text = "Text";
+            public const string Timer = "Timer";
+            public const string EntitySearch = "EntitySearch";
+            public const string EntitySelect = "EntitySelect";
+            public const string FieldGroup = "FieldGroup";
+        }
+
+        public static class FieldColors
+        {
+            public const string Blue = "e2f4fb";
+            public const string Purple = "e2f4fb";
+            public const string Green = "f0f8db";
+            public const string Yellow = "fff6df";
+            public const string Red = "ffe4e4";
+            public const string Default = "None";
+        }
+
+        public static class BarcodeTypes
+        {
+            public const string AndroidOnlyCodabar = "CODABAR"; // Android only
+            public const string AndroidOnlyCode93 = "CODE_93"; // Android only
+            public const string AndroidOnlyPdf417 = "PDF417"; // Android only 
+            public const string AndroidOnlyRss14 = "RSS14"; // Android only
+            public const string AndroidOnlyRssExpandend = "RSS_EXPANDED"; // Android only
+            public const string Code128 = "CODE_128";
+            public const string Code39 = "CODE_39";
+            public const string DataMatrix = "DATA_MATRIX";
+            public const string Ean13 = "EAN_13";
+            public const string Ean8 = "EAN_8";
+            public const string Itf = "ITF";
+            public const string QrCode = "QR_CODE";
+            public const string UpcA = "UPC_A";
+            public const string UpcB = "UPC_E";
         }
     }
 }

@@ -9,10 +9,6 @@ namespace eFormSqlController
 {
     interface MicrotingContextInterface : IDisposable
     {
-        DbSet<a_interaction_cases> a_interaction_cases { get; set; }
-        DbSet<a_interaction_case_versions> a_interaction_case_versions { get; set; }
-        DbSet<a_interaction_case_lists> a_interaction_case_lists { get; set; }
-        DbSet<a_interaction_case_list_versions> a_interaction_case_list_versions { get; set; }
         DbSet<cases> cases { get; set; }
         DbSet<check_list_sites> check_list_sites { get; set; }
         DbSet<check_list_values> check_list_values { get; set; }
