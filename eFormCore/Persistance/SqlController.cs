@@ -2098,14 +2098,46 @@ namespace eFormSqlController
             }
         }
 
-        public int? CaseReadFirstId(int? templateId)
+        public int? CaseReadFirstId(int? templateId, string workflowState)
         {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            log.LogVariable("Not Specified", nameof(templateId), templateId);
+            log.LogVariable("Not Specified", nameof(workflowState), workflowState);
             try
             {
                 using (var db = GetContext())
                 {
                     //cases dbCase = null;
-                    return db.cases.Where(x => x.check_list_id == templateId && x.status == 100).First().id;
+                    IQueryable<cases> sub_query = db.cases.Where(x => x.check_list_id == templateId && x.status == 100);
+                    switch (workflowState)
+                    {
+                        case Constants.WorkflowStates.NotRetracted:
+                            sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Retracted);
+                            break;
+                        case Constants.WorkflowStates.NotRemoved:
+                            sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
+                            break;
+                        case Constants.WorkflowStates.Created:
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
+                            break;
+                        case Constants.WorkflowStates.Retracted:
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Retracted);
+                            break;
+                        case Constants.WorkflowStates.Removed:
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Removed);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    try
+                    {
+                        return sub_query.SingleOrDefault().id;
+                    } catch (Exception ex)
+                    {
+                        throw new Exception("CaseReadFirstId failed", ex);
+                    }
                 }
             }
             catch (Exception ex)

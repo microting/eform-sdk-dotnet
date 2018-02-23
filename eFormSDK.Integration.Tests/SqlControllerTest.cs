@@ -5081,7 +5081,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFirstId(aCase.check_list_id);
+            var match = sut.CaseReadFirstId(aCase.check_list_id, Constants.WorkflowStates.NotRemoved);
             // Assert
             Assert.AreEqual(aCase.id, match);
         }
