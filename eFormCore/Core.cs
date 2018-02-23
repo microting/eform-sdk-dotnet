@@ -1571,6 +1571,8 @@ namespace eFormCore
                     //get needed data
                     Case_Dto cDto = CaseLookupCaseId(caseId);
                     ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+                    if (reply == null)
+                        throw new NullReferenceException("reply is null. Delete or fix the case with ID " + caseId.ToString());
                     string clsLst = "";
                     string fldLst = "";
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);

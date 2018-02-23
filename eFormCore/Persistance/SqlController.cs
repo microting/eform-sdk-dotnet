@@ -2133,7 +2133,7 @@ namespace eFormSqlController
 
                     try
                     {
-                        return sub_query.SingleOrDefault().id;
+                        return sub_query.First().id;
                     } catch (Exception ex)
                     {
                         throw new Exception("CaseReadFirstId failed", ex);
