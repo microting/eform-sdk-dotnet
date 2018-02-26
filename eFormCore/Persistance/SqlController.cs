@@ -2217,15 +2217,15 @@ namespace eFormSqlController
                             break;
                         case Constants.CaseSortParameters.WorkerName:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.worker.first_name);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.worker.first_name);
                             break;
                         case Constants.CaseSortParameters.SiteName:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.site.name);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.site.name);
                             break;
                         case Constants.CaseSortParameters.UnitId:
                             if (descendingSort)
