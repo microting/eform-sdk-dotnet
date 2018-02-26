@@ -5081,7 +5081,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFirstId(aCase.check_list_id);
+            var match = sut.CaseReadFirstId(aCase.check_list_id, Constants.WorkflowStates.NotRemoved);
             // Assert
             Assert.AreEqual(aCase.id, match);
         }
@@ -5405,6 +5405,32 @@ namespace eFormSDK.Integration.Tests
 
         }
 
+        [Test]
+        public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
+        {
+            // Arrance
+            sites site = CreateSites("mySite", 987);
+
+            check_lists cl1 = CreateTemplate("bla", "bla_desc", "", "", 0, 0);
+
+            check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
+
+            // Act
+            sut.CaseDeleteReversed(cls1.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
+            List<sites> siteResults = DbContext.sites.AsNoTracking().ToList();
+
+
+            // Assert
+
+
+
+            Assert.NotNull(caseResults);
+            //Assert.AreEqual(1, caseResults.Count);
+            //Assert.AreNotEqual(1, caseResults[1]);
+        }
+
        
 
         #endregion
@@ -5673,7 +5699,20 @@ namespace eFormSDK.Integration.Tests
             return UD;
         }
 
-       
+
+        public check_list_sites CreateCheckListSite(int checkListId, int siteId)
+        {
+            check_list_sites cls = new check_list_sites();
+            cls.site_id = siteId;
+            cls.check_list_id = checkListId;
+            cls.created_at = DateTime.Now;
+            cls.updated_at = DateTime.Now;
+            cls.workflow_state = Constants.WorkflowStates.Created;
+
+            DbContext.check_list_sites.Add(cls);
+            DbContext.SaveChanges();
+            return cls;
+        }
         
         #endregion
 

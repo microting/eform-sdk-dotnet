@@ -1,5 +1,8 @@
 # eform-sdk-dotnet ![C# Build status](https://microtingas2017.visualstudio.com/_apis/public/build/definitions/5f551ab2-01ab-4204-8efa-06be93328bc1/1/badge)
 
+[![NuGet Badge](https://buildstats.info/nuget/Microting.eForm)](https://www.nuget.org/packages/Microting.eForm/)
+
+
 A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Support Platforms
