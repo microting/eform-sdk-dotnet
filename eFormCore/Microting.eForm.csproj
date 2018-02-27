@@ -121,6 +121,14 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.cs" />
+    <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.Designer.cs">
+      <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.cs" />
+    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.Designer.cs">
+      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataItemGroup.cs" />
     <Compile Include="Model\Element.cs" />
@@ -180,10 +188,6 @@
     </Compile>
     <Compile Include="Persistance\Migrations\Configuration.cs" />
     <Compile Include="Persistance\SqlController.cs" />
-    <Compile Include="Persistance\table\a_interaction_cases.cs" />
-    <Compile Include="Persistance\table\a_interaction_case_lists.cs" />
-    <Compile Include="Persistance\table\a_interaction_case_list_versions.cs" />
-    <Compile Include="Persistance\table\a_interaction_case_versions.cs" />
     <Compile Include="Persistance\table\cases.cs" />
     <Compile Include="Persistance\table\case_versions.cs" />
     <Compile Include="Persistance\table\check_lists.cs" />
@@ -236,6 +240,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.resx">
+      <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.resx">
+      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
       <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +280,7 @@
       <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

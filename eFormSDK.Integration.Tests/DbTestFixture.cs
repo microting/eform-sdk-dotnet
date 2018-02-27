@@ -1,8 +1,8 @@
-﻿using eFormSqlController;
+﻿using eFormCore;
+using eFormSqlController;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
@@ -28,9 +28,16 @@ namespace eFormSDK.Integration.Tests
             DbContext = new MicrotingDbMs(ConnectionString);
             DbContext.Database.CommandTimeout = 300;
 
-
-            ClearDb();
-
+            try
+            {
+                ClearDb();
+            }
+            catch
+            {
+                Core core = new Core();
+                core.StartSqlOnly(ConnectionString);
+                core.Close();
+            }
 
             if (!userName.Contains("USER_NAME"))
             {

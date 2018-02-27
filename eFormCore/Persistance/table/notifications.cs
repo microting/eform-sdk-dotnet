@@ -29,5 +29,7 @@ namespace eFormSqlController
         public string notification_uid { get; set; }
 
         public string activity { get; set; }
+
+        public string exception { get; set; }
     }
 }

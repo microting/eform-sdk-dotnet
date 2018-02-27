@@ -229,9 +229,9 @@ namespace eFormCore
                     int secondsDelay = 0;
                     switch (sameExceptionCountTried)
                     {
-                        case 1: secondsDelay = 001; break;
-                        case 2: secondsDelay = 008; break;
-                        case 3: secondsDelay = 064; break;
+                        case 1: secondsDelay = 030; break;
+                        case 2: secondsDelay = 060; break;
+                        case 3: secondsDelay = 120; break;
                         case 4: secondsDelay = 512; break;
                         default: throw new ArgumentOutOfRangeException("sameExceptionCount should be above 0");
                     }
@@ -346,6 +346,8 @@ namespace eFormCore
         #region template
         public MainElement TemplateFromXml(string xmlString)
         {
+            if (string.IsNullOrEmpty(xmlString))
+                throw new ArgumentNullException("xmlString cannot be null or empty");
             string methodName = t.GetMethodName();
             try
             {
@@ -356,7 +358,7 @@ namespace eFormCore
                 //XML HACK TODO
                 #region xmlString = corrected xml if needed
                 xmlString = xmlString.Trim();
-                xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
+                //xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"single_select\">", "=\"SingleSelect\">");
                 xmlString = xmlString.Replace("=\"multi_select\">", "=\"MultiSelect\">");
                 xmlString = xmlString.Replace("xsi:type", "type");
@@ -410,6 +412,7 @@ namespace eFormCore
 
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
+                xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
@@ -708,7 +711,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ") failed", ex, true);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (int templateId) failed", ex, true);
+                }
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -730,7 +740,13 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (bool " + includeRemoved.ToString() + ") failed", ex, true);
+                } catch
+                {
+                    log.LogException("Not Specified", methodName + " (bool includeRemoved) failed", ex, true);
+                }
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -957,7 +973,7 @@ namespace eFormCore
             }
         }
 
-        public int? CaseReadFirstId(int? templateId)
+        public int? CaseReadFirstId(int? templateId, string workflowState)
         {
             string methodName = t.GetMethodName();
             try
@@ -966,8 +982,9 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
-                    return sqlController.CaseReadFirstId(templateId);
+                    return sqlController.CaseReadFirstId(templateId, workflowState);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1100,7 +1117,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ", int " + siteUId.ToString() + ") failed", ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (int templateId, int siteUId) failed", ex, false);
+                }
                 return false;
             }
         }
@@ -1138,7 +1162,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ", int " + siteUId.ToString() + ", string " + workflowState + ") failed", ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (int templateId, int siteUId, string workflowState) failed", ex, false);
+                }
                 return false;
             }
         }
@@ -1162,7 +1193,7 @@ namespace eFormCore
                         log.LogEverything("Not Specified", "XML response:");
                         log.LogEverything("Not Specified", xmlResponse);
                         log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
-                        return true;
+                        return false;
                     }
 
                     if (xmlResponse.Contains("Error"))
@@ -1170,12 +1201,19 @@ namespace eFormCore
                         try
                         {
                             resp = resp.XmlToClass(xmlResponse);
-                            log.LogException("Not Specified", methodName + " failed", new Exception("Error from Microting server: " + resp.Value), true);
+                            log.LogException("Not Specified", methodName + " failed", new Exception("Error from Microting server: " + resp.Value), false);
                             return false;
                         }
                         catch (Exception ex)
                         {
-                            log.LogException("Not Specified", methodName + " failed", ex, true);
+                            try
+                            {
+                                log.LogException("Not Specified", methodName + " (string " + microtingUId + ") failed", ex, false);
+                            }
+                            catch
+                            {
+                                log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                            }
                             return false;
                         }
                     }
@@ -1230,7 +1268,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (string " + microtingUId + ") failed", ex, false);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                }
                 return false;
             }
         }
@@ -1247,7 +1292,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, false);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (int " + caseId.ToString() + ") failed", ex, false);
+                } catch
+                {
+                    log.LogException("Not Specified", methodName + " (int caseId) failed", ex, false);
+                }
+                
                 return false;
             }
         }
@@ -1519,6 +1571,8 @@ namespace eFormCore
                     //get needed data
                     Case_Dto cDto = CaseLookupCaseId(caseId);
                     ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+                    if (reply == null)
+                        throw new NullReferenceException("reply is null. Delete or fix the case with ID " + caseId.ToString());
                     string clsLst = "";
                     string fldLst = "";
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);
@@ -1919,11 +1973,16 @@ namespace eFormCore
 
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
+            if (string.IsNullOrEmpty(entityGroupMUId))
+                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
             return EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.Name, "");
         }
 
         public EntityGroup EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
         {
+            string methodName = t.GetMethodName();
+            if (string.IsNullOrEmpty(entityGroupMUId))
+                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
             try
             {
                 if (Running())
@@ -1938,8 +1997,16 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", "EntityGroupRead failed", ex, true);
-                throw new Exception("EntityGroupRead failed", ex);
+                try
+                {
+                    log.LogException("Not Specified", methodName + " (string entityGroupMUId " + entityGroupMUId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, true);
+                }
+                catch
+                {
+                    log.LogException("Not Specified", methodName + " (string entityGroupMUId, string sort, string nameFilter) failed", ex, true);
+                }
+                throw new Exception(methodName + " failed", ex);
+
             }
         }
 
@@ -2778,7 +2845,7 @@ namespace eFormCore
         //EntityGroupList
         public EntityGroupList Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
         {
-            if (entityType != "EntitySearch" && entityType != "EntitySelect")
+            if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
             if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
@@ -3455,7 +3522,7 @@ namespace eFormCore
                                             }
                                         }
 
-                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         break;
                                     }
                                 #endregion
@@ -3470,7 +3537,7 @@ namespace eFormCore
                                         catch { log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection"); }
                                         log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
 
-                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         break;
                                     }
                                 #endregion
@@ -3485,11 +3552,11 @@ namespace eFormCore
                                         {
                                             Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
                                             sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
-                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         }
                                         catch
                                         {
-                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed");
+                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         }
                                         break;
                                     }
@@ -3502,7 +3569,7 @@ namespace eFormCore
                         catch (Exception ex)
                         {
                             log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + notification + "' marked as 'not_found'.", ex));
-                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found"); // Add exception to the notification, so it's possible to figure why it was not found!
+                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found", t.PrintException(ex.Message, ex)); // Add exception to the notification, so it's possible to figure why it was not found!
                             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
                             catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
                         }
@@ -3548,7 +3615,7 @@ namespace eFormCore
                                 if (type != null)
                                 {
                                     #region EntitySearch
-                                    if (type.Type == "EntitySearch")
+                                    if (type.Type == Constants.FieldTypes.EntitySearch)
                                     {
                                         if (eI.workflow_state == Constants.WorkflowStates.Created)
                                         {
