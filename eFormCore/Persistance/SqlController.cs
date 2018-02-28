@@ -2101,14 +2101,46 @@ namespace eFormSqlController
             }
         }
 
-        public int? CaseReadFirstId(int? templateId)
+        public int? CaseReadFirstId(int? templateId, string workflowState)
         {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            log.LogVariable("Not Specified", nameof(templateId), templateId);
+            log.LogVariable("Not Specified", nameof(workflowState), workflowState);
             try
             {
                 using (var db = GetContext())
                 {
                     //cases dbCase = null;
-                    return db.cases.Where(x => x.check_list_id == templateId && x.status == 100).First().id;
+                    IQueryable<cases> sub_query = db.cases.Where(x => x.check_list_id == templateId && x.status == 100);
+                    switch (workflowState)
+                    {
+                        case Constants.WorkflowStates.NotRetracted:
+                            sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Retracted);
+                            break;
+                        case Constants.WorkflowStates.NotRemoved:
+                            sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
+                            break;
+                        case Constants.WorkflowStates.Created:
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Created);
+                            break;
+                        case Constants.WorkflowStates.Retracted:
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Retracted);
+                            break;
+                        case Constants.WorkflowStates.Removed:
+                            sub_query = sub_query.Where(x => x.workflow_state == Constants.WorkflowStates.Removed);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    try
+                    {
+                        return sub_query.First().id;
+                    } catch (Exception ex)
+                    {
+                        throw new Exception("CaseReadFirstId failed", ex);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2168,7 +2200,7 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString() == searchKey || x.site.name == searchKey || x.worker.first_name == searchKey || x.worker.last_name == searchKey);
                     }
 
                     switch (sortParameter)
@@ -2187,15 +2219,15 @@ namespace eFormSqlController
                             break;
                         case Constants.CaseSortParameters.WorkerName:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.worker.first_name);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.worker.first_name);
                             break;
                         case Constants.CaseSortParameters.SiteName:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.site.name);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.site.name);
                             break;
                         case Constants.CaseSortParameters.UnitId:
                             if (descendingSort)
@@ -2209,61 +2241,61 @@ namespace eFormSqlController
                             else
                                 sub_query = sub_query.OrderBy(x => x.status);
                             break;
-                        case Constants.CaseSortParameters.FieldValue1:
+                        case Constants.CaseSortParameters.Field1:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_1);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_1);
                             break;
-                        case Constants.CaseSortParameters.FieldValue2:
+                        case Constants.CaseSortParameters.Field2:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_2);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_2);
                             break;
-                        case Constants.CaseSortParameters.FieldValue3:
+                        case Constants.CaseSortParameters.Field3:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_3);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_3);
                             break;
-                        case Constants.CaseSortParameters.FieldValue4:
+                        case Constants.CaseSortParameters.Field4:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_4);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_4);
                             break;
-                        case Constants.CaseSortParameters.FieldValue5:
+                        case Constants.CaseSortParameters.Field5:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_5);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_5);
                             break;
-                        case Constants.CaseSortParameters.FieldValue6:
+                        case Constants.CaseSortParameters.Field6:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_6);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_6);
                             break;
-                        case Constants.CaseSortParameters.FieldValue7:
+                        case Constants.CaseSortParameters.Field7:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_7);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_7);
                             break;
-                        case Constants.CaseSortParameters.FieldValue8:
+                        case Constants.CaseSortParameters.Field8:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_8);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_8);
                             break;
-                        case Constants.CaseSortParameters.FieldValue9:
+                        case Constants.CaseSortParameters.Field9:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_9);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_9);
                             break;
-                        case Constants.CaseSortParameters.FieldValue10:
+                        case Constants.CaseSortParameters.Field10:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_10);
                             else

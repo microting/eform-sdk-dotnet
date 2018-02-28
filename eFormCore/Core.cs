@@ -973,7 +973,7 @@ namespace eFormCore
             }
         }
 
-        public int? CaseReadFirstId(int? templateId)
+        public int? CaseReadFirstId(int? templateId, string workflowState)
         {
             string methodName = t.GetMethodName();
             try
@@ -982,8 +982,9 @@ namespace eFormCore
                 {
                     log.LogStandard("Not Specified", methodName + " called");
                     log.LogVariable("Not Specified", nameof(templateId), templateId);
+                    log.LogVariable("Not Specified", nameof(workflowState), workflowState);
 
-                    return sqlController.CaseReadFirstId(templateId);
+                    return sqlController.CaseReadFirstId(templateId, workflowState);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1570,6 +1571,8 @@ namespace eFormCore
                     //get needed data
                     Case_Dto cDto = CaseLookupCaseId(caseId);
                     ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+                    if (reply == null)
+                        throw new NullReferenceException("reply is null. Delete or fix the case with ID " + caseId.ToString());
                     string clsLst = "";
                     string fldLst = "";
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);
