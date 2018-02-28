@@ -45,6 +45,16 @@
             public const string SiteName = "site_name";
             public const string UnitId = "unit_id";
             public const string Status = "status";
+            public const string Field1 = "field1";
+            public const string Field2 = "field2";
+            public const string Field3 = "field3";
+            public const string Field4 = "field4";
+            public const string Field5 = "field5";
+            public const string Field6 = "field6";
+            public const string Field7 = "field7";
+            public const string Field8 = "field8";
+            public const string Field9 = "field9";
+            public const string Field10 = "field10";
             public const string FieldValue1 = "field_value_1";
             public const string FieldValue2 = "field_value_2";
             public const string FieldValue3 = "field_value_3";

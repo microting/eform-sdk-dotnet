@@ -2238,61 +2238,61 @@ namespace eFormSqlController
                             else
                                 sub_query = sub_query.OrderBy(x => x.status);
                             break;
-                        case Constants.CaseSortParameters.FieldValue1:
+                        case Constants.CaseSortParameters.Field1:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_1);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_1);
                             break;
-                        case Constants.CaseSortParameters.FieldValue2:
+                        case Constants.CaseSortParameters.Field2:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_2);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_2);
                             break;
-                        case Constants.CaseSortParameters.FieldValue3:
+                        case Constants.CaseSortParameters.Field3:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_3);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_3);
                             break;
-                        case Constants.CaseSortParameters.FieldValue4:
+                        case Constants.CaseSortParameters.Field4:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_4);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_4);
                             break;
-                        case Constants.CaseSortParameters.FieldValue5:
+                        case Constants.CaseSortParameters.Field5:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_5);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_5);
                             break;
-                        case Constants.CaseSortParameters.FieldValue6:
+                        case Constants.CaseSortParameters.Field6:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_6);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_6);
                             break;
-                        case Constants.CaseSortParameters.FieldValue7:
+                        case Constants.CaseSortParameters.Field7:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_7);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_7);
                             break;
-                        case Constants.CaseSortParameters.FieldValue8:
+                        case Constants.CaseSortParameters.Field8:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_8);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_8);
                             break;
-                        case Constants.CaseSortParameters.FieldValue9:
+                        case Constants.CaseSortParameters.Field9:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_9);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_9);
                             break;
-                        case Constants.CaseSortParameters.FieldValue10:
+                        case Constants.CaseSortParameters.Field10:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_10);
                             else
