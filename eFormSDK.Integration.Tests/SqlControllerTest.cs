@@ -5280,8 +5280,50 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region case
+
         [Test]
-        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
+        public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
+        {
+            sites site = CreateSites("mySite", 987);
+
+            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
+
+            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
+
+            // Act
+            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_Case_CheckListSitesRead_DoesSiteRead()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseCreate_DoesCaseCreate()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseReadCheckIdByMUId_DoesCheckIdByMUId()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
         {
 
             // Arrance
@@ -5302,22 +5344,39 @@ namespace eFormSDK.Integration.Tests
             aCase.workflow_state = Constants.WorkflowStates.Created;
             aCase.check_list_id = cl.id;
             aCase.site_id = site.id;
+            aCase.status = 66;
 
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDeleteResult(aCase.id);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = DbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
+            sut.CaseUpdateRetrived(aCase.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
+
 
             // Assert
-            Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
+
+
+            Assert.NotNull(caseResults);
+            Assert.AreEqual(1, caseResults.Count);
+            Assert.AreNotEqual(1, caseResults[0]);
+
+
+
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
+        {
+     
         }
 
         [Test]
@@ -5361,7 +5420,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
+        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
         {
 
             // Arrance
@@ -5382,28 +5441,23 @@ namespace eFormSDK.Integration.Tests
             aCase.workflow_state = Constants.WorkflowStates.Created;
             aCase.check_list_id = cl.id;
             aCase.site_id = site.id;
-            aCase.status = 66;
 
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseUpdateRetrived(aCase.microting_uid);
-            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
-
+            sut.CaseDeleteResult(aCase.id);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
-
-            
-            Assert.NotNull(caseResults);
-            Assert.AreEqual(1, caseResults.Count);
-            Assert.AreNotEqual(1, caseResults[0]);
-            
-
-        
-
-        }
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
+        }        
 
         [Test]
         public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
@@ -5418,17 +5472,14 @@ namespace eFormSDK.Integration.Tests
             // Act
             sut.CaseDeleteReversed(cls1.microting_uid);
             //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
-            List<sites> siteResults = DbContext.sites.AsNoTracking().ToList();
-
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
 
             // Assert
 
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].workflow_state);
 
-
-            Assert.NotNull(caseResults);
-            //Assert.AreEqual(1, caseResults.Count);
-            //Assert.AreNotEqual(1, caseResults[1]);
         }
 
        

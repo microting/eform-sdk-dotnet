@@ -524,6 +524,7 @@ namespace eFormSqlController
         #endregion
 
         #region public (pre)case
+
         public void CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
             try
@@ -813,6 +814,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
+
                     check_list_sites site = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
 
                     site.updated_at = DateTime.Now;
@@ -821,6 +823,7 @@ namespace eFormSqlController
 
                     db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
                     db.SaveChanges();
+
                 }
             }
             catch (Exception ex)
