@@ -2197,7 +2197,7 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString() == searchKey || x.site.name == searchKey || x.worker.first_name == searchKey || x.worker.last_name == searchKey);
                     }
 
                     switch (sortParameter)
