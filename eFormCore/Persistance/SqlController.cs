@@ -2150,7 +2150,7 @@ namespace eFormSqlController
         }
 
         public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
-        {
+        {            
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
             log.LogVariable("Not Specified", nameof(templatId), templatId);
@@ -2169,6 +2169,7 @@ namespace eFormSqlController
                     if (end == null)
                         end = DateTime.MaxValue;
 
+                    //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
 
                     List<cases> matches = null;
                     IQueryable<cases> sub_query = db.cases.Where(x => x.done_at > start && x.done_at < end);
@@ -2311,6 +2312,9 @@ namespace eFormSqlController
 
                     matches = sub_query.ToList();
 
+
+                    Console.WriteLine(sub_query.ToString());
+                    System.Diagnostics.Debug.WriteLine(sub_query.ToString());
                     //
 
                     List<Case> rtrnLst = new List<Case>();
