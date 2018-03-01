@@ -12869,7 +12869,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
         {
-            sites site = CreateSites("mySite", 987);
+            sites site = CreateSite("mySite", 987);
 
             check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
 
