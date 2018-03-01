@@ -2201,7 +2201,7 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString() == searchKey || x.site.name == searchKey || x.worker.first_name == searchKey || x.worker.last_name == searchKey);
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString().Contains(searchKey) || x.site.name.Contains(searchKey) || x.worker.first_name.Contains(searchKey) || x.worker.last_name.Contains(searchKey));
                     }
 
                     switch (sortParameter)
@@ -2313,8 +2313,8 @@ namespace eFormSqlController
                     matches = sub_query.ToList();
 
 
-                    Console.WriteLine(sub_query.ToString());
-                    System.Diagnostics.Debug.WriteLine(sub_query.ToString());
+                    //Console.WriteLine(sub_query.ToString());
+                    //System.Diagnostics.Debug.WriteLine(sub_query.ToString());
                     //
 
                     List<Case> rtrnLst = new List<Case>();
