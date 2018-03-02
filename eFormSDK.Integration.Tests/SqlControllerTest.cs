@@ -5581,7 +5581,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseListC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -5593,8 +5593,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6396,7 +6396,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -6408,14 +6408,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -6427,14 +6427,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -6446,14 +6446,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -6465,8 +6465,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6475,7 +6475,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -6487,14 +6487,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -6506,14 +6506,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -6525,14 +6525,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -6544,8 +6544,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
