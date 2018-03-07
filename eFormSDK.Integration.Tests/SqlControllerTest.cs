@@ -13,11 +13,13 @@ namespace eFormSDK.Integration.Tests
     public class SqlControllerTest : DbTestFixture
     {
         private SqlController sut;
+        private TestHelpers testHelpers;
 
         public override void DoSetup()
         {
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
+            testHelpers = new TestHelpers(DbContext);
         }
 
         #region notification
@@ -271,8 +273,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.check_lists.Add(cl4);
             DbContext.SaveChanges();
             #endregion
-            
-            
+
+
             // Act
             List<int> emptyList = new List<int>();
 
@@ -501,7 +503,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
-        
+
         [Test]
         public void SQL_Template_TemplateDelete_DoesMarkTemplateAsRemoved()
         {
@@ -536,10 +538,10 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, checkLists.Count());
             //Assert.AreEqual(1, cl_results.Count);
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].workflow_state);
-            
+
         }
-        
-        
+
+
         [Test]
         public void SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
         {
@@ -834,7 +836,7 @@ namespace eFormSDK.Integration.Tests
             */
             #endregion
 
-    
+
             // Act
 
 
@@ -887,7 +889,7 @@ namespace eFormSDK.Integration.Tests
             #region field1
 
 
-            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description", 
+            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
             //    new fields();
@@ -1067,7 +1069,7 @@ namespace eFormSDK.Integration.Tests
             //f4.updated_at = DateTime.Now;
             //f4.version = 1;
             //f4.workflow_state = Constants.WorkflowStates.Created;
-        
+
 
             //DbContext.fields.Add(f4);
             //DbContext.SaveChanges();
@@ -1364,9 +1366,9 @@ namespace eFormSDK.Integration.Tests
             Field _f4 = (Field)clv.DataItemList[3];
             Field _f5 = (Field)clv.DataItemList[4];
 
-          
+
             #endregion
-            
+
             #region Barcode
             Assert.AreEqual(f1.barcode_enabled, 1);
             Assert.AreEqual(f2.barcode_enabled, 1);
@@ -1399,11 +1401,11 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(f4.color, _f4.FieldValues[0].Color);
             Assert.AreEqual(f5.color, _f5.FieldValues[0].Color);
             #endregion
-            
+
             #region custom
             //  Assert.AreEqual(f1.custom, _f1.FieldValues[0].Id);
             #endregion
-            
+
             #region Decimal_Count
             Assert.AreEqual(f1.decimal_count, null);
             Assert.AreEqual(f2.decimal_count, null);
@@ -1617,7 +1619,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(f4.version, 1);
             Assert.AreEqual(f5.version, 1);
             #endregion
-            
+
             #endregion
 
         }
@@ -2415,7 +2417,7 @@ namespace eFormSDK.Integration.Tests
             List<field_values> match = sut.ChecksRead(aCase.microting_uid, aCase.microting_check_uid);
 
             // Assert
-           
+
 
             Assert.AreEqual(field_Value1.value, match[0].value);
             Assert.AreEqual(field_Value2.value, match[1].value);
@@ -2423,7 +2425,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(field_Value4.value, match[3].value);
             Assert.AreEqual(field_Value5.value, match[4].value);
 
-            
+
 
 
 
@@ -2435,12 +2437,12 @@ namespace eFormSDK.Integration.Tests
 
             #region Template1
             check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
-         
+
             #endregion
 
             #region SubTemplate1
             check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-        
+
 
             #endregion
 
@@ -2451,7 +2453,7 @@ namespace eFormSDK.Integration.Tests
             fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
-           
+
             #endregion
 
             #region field2
@@ -2460,7 +2462,7 @@ namespace eFormSDK.Integration.Tests
             fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-            
+
 
             #endregion
 
@@ -2469,7 +2471,7 @@ namespace eFormSDK.Integration.Tests
             fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
                 83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
- 
+
 
             #endregion
 
@@ -2479,7 +2481,7 @@ namespace eFormSDK.Integration.Tests
             fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
                 84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-            
+
 
             #endregion
 
@@ -2500,7 +2502,7 @@ namespace eFormSDK.Integration.Tests
             // Assert
 
             Assert.AreEqual(f1.id, match.Id);
-            
+
 
         }
         [Test]
@@ -2901,7 +2903,7 @@ namespace eFormSDK.Integration.Tests
             #region Field Values
             #region fv1
             field_values field_Value1 = CreateFieldValue(aCase, cl2, f1, ud.id, null, "tomt1", 61234, worker);
-  
+
             #endregion
 
             #region fv2
@@ -3527,7 +3529,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            
+
             #endregion
             // Act
 
@@ -3570,12 +3572,12 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             #region Template1
             check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
-      
+
             #endregion
 
             #region SubTemplate1
             check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-   
+
 
             #endregion
 
@@ -3586,7 +3588,7 @@ namespace eFormSDK.Integration.Tests
             fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
-           
+
             #endregion
 
             #region field2
@@ -3595,7 +3597,7 @@ namespace eFormSDK.Integration.Tests
             fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-          
+
 
             #endregion
 
@@ -3604,7 +3606,7 @@ namespace eFormSDK.Integration.Tests
             fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
                 83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-          
+
 
             #endregion
 
@@ -3614,7 +3616,7 @@ namespace eFormSDK.Integration.Tests
             fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
                 84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-         
+
 
             #endregion
 
@@ -3623,7 +3625,7 @@ namespace eFormSDK.Integration.Tests
             fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-         
+
 
             #endregion
             #endregion
@@ -3631,22 +3633,22 @@ namespace eFormSDK.Integration.Tests
             #region Worker
 
             workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-          
+
             #endregion
 
             #region site
             sites site = CreateSite("SiteName", 88);
-  
+
             #endregion
 
             #region units
             units unit = CreateUnit(48, 49, site, 348);
-  
+
             #endregion
 
             #region site_workers
             site_workers site_workers = CreateSiteWorker(55, site, worker);
-  
+
             #endregion
 
             #region Case1
@@ -3659,29 +3661,29 @@ namespace eFormSDK.Integration.Tests
 
             #region Check List Values
             check_list_values check_List_Values = CreateCheckListValue(aCase, cl2, "completed", null, 865);
-      
+
 
             #endregion
 
             #region Field Values
             #region fv1
             field_values field_Value1 = CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
-        
+
             #endregion
 
             #region fv2
             field_values field_Value2 = CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
-        
+
             #endregion
 
             #region fv3
             field_values field_Value3 = CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
-           
+
             #endregion
 
             #region fv4
             field_values field_Value4 = CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
-          
+
             #endregion
 
             #region fv5
@@ -3836,7 +3838,7 @@ namespace eFormSDK.Integration.Tests
             List<FieldValue> match = sut.FieldValueReadList(f1.id, 5);
 
             // Assert
-            
+
             Assert.AreEqual(field_Value1.value, match[0].Value);
 
         }
@@ -4775,7 +4777,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-           
+
             #endregion
 
 
@@ -5105,7 +5107,7 @@ namespace eFormSDK.Integration.Tests
         public void SQL_PostCase_CaseReadAll()
         {
 
-        
+
             // Arrance
             #region Arrance
             #region Template1
@@ -5219,7 +5221,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da,  worker, "microtingCheck3UId", "microtin3gUId",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
                site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
@@ -6854,7 +6856,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListDescendingDoneAt[2].WorkerName);
             Assert.AreEqual(aCase1.workflow_state, caseListDescendingDoneAt[2].WorkflowState);
             #endregion
-            
+
             #region caseListDescendingDoneAt aCase2
             Assert.AreEqual(aCase2.type, caseListDescendingDoneAt[0].CaseType);
             Assert.AreEqual(aCase2.case_uid, caseListDescendingDoneAt[0].CaseUId);
@@ -7128,7 +7130,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1.workflow_state, caseListDtDoneAt[1].WorkflowState);
             #endregion
-            
+
             #region caseListDtDoneAt aCase3
             Assert.AreEqual(aCase3.type, caseListDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3.case_uid, caseListDtDoneAt[0].CaseUId);
@@ -7148,7 +7150,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3.workflow_state, caseListDtDoneAt[0].WorkflowState);
             #endregion
-            
+
 
             #endregion
 
@@ -7177,7 +7179,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.workflow_state, caseListDtStatus[0].WorkflowState);
 
             #endregion
-            
+
             #region caseListDtStatus aCase3
 
             Assert.AreEqual(aCase3.type, caseListDtStatus[1].CaseType);
@@ -7258,7 +7260,7 @@ namespace eFormSDK.Integration.Tests
 
             #region Def Sort Des w. DateTime
             #region caseListDtDescendingDoneAt Def Sort Des
-        
+
 
             #region caseListDtDescendingDoneAt aCase1
             Assert.NotNull(caseListDtDescendingDoneAt);
@@ -7281,7 +7283,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1.workflow_state, caseListDtDescendingDoneAt[0].WorkflowState);
             #endregion
-            
+
             #region caseListDtDescendingDoneAt aCase4
 
             Assert.AreEqual(aCase3.type, caseListDtDescendingDoneAt[1].CaseType);
@@ -7307,7 +7309,7 @@ namespace eFormSDK.Integration.Tests
 
             #region caseListDtDescendingStatus Def Sort Des
 
-         
+
 
             #region caseListDtDescendingStatus aCase1
             Assert.NotNull(caseListDtDescendingStatus);
@@ -7357,7 +7359,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region caseListDtDescendingUnitId Def Sort Des
-            
+
             #region caseListDtDescendingUnitId aCase3
             Assert.NotNull(caseListDtDescendingUnitId);
             Assert.AreEqual(2, caseListDtDescendingUnitId.Count);
@@ -7805,7 +7807,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase2.workflow_state, caseListC2SortDescendingDoneAt[3].WorkflowState);
 
             #endregion
-            
+
             #region caseListC2SortDescendingStatus aCase2
 
             Assert.NotNull(caseListC2SortDescendingStatus);
@@ -8074,7 +8076,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortDtUnitId[0].WorkerName);
             //Assert.AreEqual(aCase1.workflow_state, caseListC1SortDtUnitId[0].WorkflowState);
             #endregion
-            
+
             #endregion
 
             #region aCase2 sort asc w. DateTime
@@ -8661,7 +8663,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedDoneAt[0].WorkflowState);
             #endregion
-            
+
             #region caseListRemovedDoneAt aCase4Removed
             Assert.AreEqual(aCase4Removed.type, caseListRemovedDoneAt[2].CaseType);
             Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedDoneAt[2].CaseUId);
@@ -9187,7 +9189,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedDtDoneAt[0].WorkflowState);
             #endregion
-            
+
 
             #endregion
 
@@ -9323,7 +9325,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedDtDescendingDoneAt[0].WorkflowState);
             #endregion
-            
+
             #region caseListRemovedDtDescendingDoneAt aCase3Removed
 
             Assert.AreEqual(aCase3Removed.type, caseListRemovedDtDescendingDoneAt[1].CaseType);
@@ -9344,7 +9346,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedDtDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedDtDescendingDoneAt[1].WorkflowState);
             #endregion
-            
+
             #endregion
 
             #region caseListRemovedDtDescendingStatus Def Sort Des
@@ -9748,7 +9750,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortUnitId[0].WorkflowState);
 
             #endregion
-            
+
             #endregion
 
             #endregion
@@ -11218,7 +11220,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedDtDoneAt[1].WorkflowState);
             #endregion
-            
+
             #region caseListRetractedDtDoneAt aCase3Retracted
             Assert.AreEqual(aCase3Retracted.type, caseListRetractedDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedDtDoneAt[0].CaseUId);
@@ -11238,7 +11240,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedDtDoneAt[0].WorkflowState);
             #endregion
-            
+
             #endregion
 
             #region caseListRetractedDtStatus Def Sort Asc w. DateTime
@@ -11575,7 +11577,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortUnitId[0].WorkflowState);
 
             #endregion
-            
+
             #endregion
 
             #region aCase2Retracted sort asc
@@ -12688,10 +12690,149 @@ namespace eFormSDK.Integration.Tests
 
 
             // Arrance
+            #region Arrance
+            #region Template1
+            check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
 
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = CreateCase("case2UId", cl1, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = CreateCase("case4UId", cl1, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #endregion
             // Act
-
+            List<Case_Dto> aCase1Custom = sut.CaseFindCustomMatchs(aCase1.custom);
+            List<Case_Dto> aCase2Custom = sut.CaseFindCustomMatchs(aCase2.custom);
+            List<Case_Dto> aCase3Custom = sut.CaseFindCustomMatchs(aCase3.custom);
+            List<Case_Dto> aCase4Custom = sut.CaseFindCustomMatchs(aCase4.custom);
             // Assert
+            Assert.AreEqual(aCase1.custom, aCase1Custom[0].Custom);
+            Assert.AreEqual(aCase2.custom, aCase2Custom[0].Custom);
+            Assert.AreEqual(aCase3.custom, aCase3Custom[0].Custom);
+            Assert.AreEqual(aCase4.custom, aCase4Custom[0].Custom);
+
+
+
 
         }
 
@@ -12701,10 +12842,348 @@ namespace eFormSDK.Integration.Tests
 
 
             // Arrance
+            #region Arrance
+            #region Template1
+            check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
 
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = CreateCase("case1UId", cl2, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = CreateCase("case2UId", cl1, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = CreateCase("case4UId", cl1, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = CreateUploadedData("checksum1", "File1", "no", "hjgjghjhg", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61234, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61234, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61234, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61234, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61234, worker);
+
+            #endregion
+
+
+            #endregion
+            #endregion
             // Act
+            cases theCase = DbContext.cases.First();
+            Assert.NotNull(theCase);
+            check_lists theCheckList = DbContext.check_lists.First();
+
+            theCheckList.field_1 = f1.id;
+            theCheckList.field_2 = f2.id;
+            theCheckList.field_3 = f3.id;
+            theCheckList.field_4 = f4.id;
+            theCheckList.field_5 = f5.id;
+            theCheckList.field_6 = f6.id;
+            theCheckList.field_7 = f7.id;
+            theCheckList.field_8 = f8.id;
+            theCheckList.field_9 = f9.id;
+            theCheckList.field_10 = f10.id;
+
+            Assert.AreEqual(null, theCase.field_value_1);
+            Assert.AreEqual(null, theCase.field_value_2);
+            Assert.AreEqual(null, theCase.field_value_3);
+            Assert.AreEqual(null, theCase.field_value_4);
+            Assert.AreEqual(null, theCase.field_value_5);
+            Assert.AreEqual(null, theCase.field_value_6);
+            Assert.AreEqual(null, theCase.field_value_7);
+            Assert.AreEqual(null, theCase.field_value_8);
+            Assert.AreEqual(null, theCase.field_value_9);
+            Assert.AreEqual(null, theCase.field_value_10);
+
+            var testThis = sut.CaseUpdateFieldValues(aCase1.id);
 
             // Assert
+            cases theCaseAfter = DbContext.cases.AsNoTracking().First();
+
+            Assert.NotNull(theCaseAfter);
+
+            theCaseAfter.field_value_1 = field_Value1.value;
+            theCaseAfter.field_value_2 = field_Value2.value;
+            theCaseAfter.field_value_3 = field_Value3.value;
+            theCaseAfter.field_value_4 = field_Value4.value;
+            theCaseAfter.field_value_5 = field_Value5.value;
+            theCaseAfter.field_value_6 = field_Value6.value;
+            theCaseAfter.field_value_7 = field_Value7.value;
+            theCaseAfter.field_value_8 = field_Value8.value;
+            theCaseAfter.field_value_9 = field_Value9.value;
+            theCaseAfter.field_value_10 = field_Value10.value;
+
+
+            Assert.True(testThis);
+
+            Assert.AreEqual("tomt1", theCaseAfter.field_value_1);
+            Assert.AreEqual("tomt2", theCaseAfter.field_value_2);
+            Assert.AreEqual("tomt3", theCaseAfter.field_value_3);
+            Assert.AreEqual("tomt4", theCaseAfter.field_value_4);
+            Assert.AreEqual("tomt5", theCaseAfter.field_value_5);
+            Assert.AreEqual("tomt6", theCaseAfter.field_value_6);
+            Assert.AreEqual("tomt7", theCaseAfter.field_value_7);
+            Assert.AreEqual("tomt8", theCaseAfter.field_value_8);
+            Assert.AreEqual("tomt9", theCaseAfter.field_value_9);
+            Assert.AreEqual("tomt10", theCaseAfter.field_value_10);
 
         }
 
@@ -12712,7 +13191,7 @@ namespace eFormSDK.Integration.Tests
 
 
         #endregion
-            
+
 
 
         #region tag
@@ -12809,7 +13288,7 @@ namespace eFormSDK.Integration.Tests
             //int tagId3 = sut.TagCreate(tagName3);
 
             // Act
-            var tags = sut.GetAllTags(true);            
+            var tags = sut.GetAllTags(true);
 
             // Assert
             Assert.True(true);
@@ -12817,7 +13296,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(tagName1, tags[0].Name);
             Assert.AreEqual(0, tags[0].TaggingCount);
             Assert.AreEqual(tagName2, tags[1].Name);
-            Assert.AreEqual(0, tags[1].TaggingCount);       
+            Assert.AreEqual(0, tags[1].TaggingCount);
             Assert.AreEqual(tagName3, tags[2].Name);
             Assert.AreEqual(0, tags[2].TaggingCount);
         }
@@ -12865,46 +13344,84 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region case
-
         [Test]
-        public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
+        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
         {
-            sites site = CreateSite("mySite", 987);
 
-            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
 
-            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
 
             // Act
-            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
-            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            sut.CaseDeleteResult(aCase.id);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
-
-            Assert.NotNull(checkListSiteResult);
-            Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
-
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
         }
 
         [Test]
-        public void SQL_Case_CheckListSitesRead_DoesSiteRead()
+        public void SQL_Case_CaseDelete_DoesCaseRemoved()
         {
+            // Arrance
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
 
-        }
+            check_lists cl = new check_lists();
+            cl.label = "label";
 
-        [Test]
-        public void SQL_Case_CaseCreate_DoesCaseCreate()
-        {
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
 
-        }
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
 
-        [Test]
-        public void SQL_Case_CaseReadCheckIdByMUId_DoesCheckIdByMUId()
-        {
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
 
+            // Act
+            sut.CaseDelete(aCase.microting_uid);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
+
+            // Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
         }
 
         [Test]
@@ -12953,98 +13470,6 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
-        {
-
-        }
-
-        [Test]
-        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
-        {
-     
-        }
-
-        [Test]
-        public void SQL_Case_CaseDelete_DoesCaseRemoved()
-        {
-            // Arrance
-            // Arrance
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
-
-            check_lists cl = new check_lists();
-            cl.label = "label";
-
-            DbContext.check_lists.Add(cl);
-            DbContext.SaveChanges();
-
-            cases aCase = new cases();
-            aCase.microting_uid = "microting_uid";
-            aCase.microting_check_uid = "microting_check_uid";
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
-
-            DbContext.cases.Add(aCase);
-            DbContext.SaveChanges();
-
-            // Act
-            sut.CaseDelete(aCase.microting_uid);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = DbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
-
-            // Assert
-            Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
-        }
-
-        [Test]
-        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
-        {
-
-            // Arrance
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
-
-            check_lists cl = new check_lists();
-            cl.label = "label";
-
-            DbContext.check_lists.Add(cl);
-            DbContext.SaveChanges();
-
-            cases aCase = new cases();
-            aCase.microting_uid = "microting_uid";
-            aCase.microting_check_uid = "microting_check_uid";
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
-
-            DbContext.cases.Add(aCase);
-            DbContext.SaveChanges();
-
-            // Act
-            sut.CaseDeleteResult(aCase.id);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = DbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
-
-            // Assert
-            Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
-        }        
-
-        [Test]
         public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
         {
             // Arrance
@@ -13057,46 +13482,4931 @@ namespace eFormSDK.Integration.Tests
             // Act
             sut.CaseDeleteReversed(cls1.microting_uid);
             //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
+            List<sites> siteResults = DbContext.sites.AsNoTracking().ToList();
+
 
             // Assert
+
+            // Act
+            sut.CaseDeleteReversed(cls1.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
 
             Assert.NotNull(checkListSiteResult);
             Assert.AreEqual(1, checkListSiteResult.Count);
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].workflow_state);
 
+            Assert.NotNull(caseResults);
+            //Assert.AreEqual(1, caseResults.Count);
+            //Assert.AreNotEqual(1, caseResults[1]);
+        }
+        [Test]
+        public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
+        {
+            sites site = CreateSite("mySite", 987);
+
+            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
+
+            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
+
+            // Act
+            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
         }
 
-       
+        [Test]
+        public void SQL_Case_CheckListSitesRead_DoesSiteRead()
+        {
 
+        }
+
+        [Test]
+        public void SQL_Case_CaseCreate_DoesCaseCreate()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseReadCheckIdByMUId_DoesCheckIdByMUId()
+        {
+
+        }
+
+
+        [Test]
+        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
+        {
+
+        }
         #endregion
-
+        
         #region public site
         #region site
-        //         public List<SiteName_Dto> SiteGetAll(bool includeRemoved)
 
         [Test]
 
         public void SQL_Site_SiteGetAll_DoesReturnAllSites()
         {
             // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 88);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 88);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 88);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 88);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 88);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 88);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 88);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 88);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 88);
+
+            #endregion
+
+            #endregion
+            #endregion
+
 
             // Act
 
+            var getAllSitesOnlyCreated = sut.SiteGetAll(false).ToList();
+            var getAllSitesInclRemoved = sut.SiteGetAll(true).ToList();
+
+
+
             // Assert
             Assert.True(true);
+
+            Assert.AreEqual(10, getAllSitesOnlyCreated.Count());
+            Assert.AreEqual(10, getAllSitesInclRemoved.Count());
+
+            Assert.AreEqual(site1.name, getAllSitesOnlyCreated[0].SiteName);
+            Assert.AreEqual(site2.name, getAllSitesOnlyCreated[1].SiteName);
+            Assert.AreEqual(site3.name, getAllSitesOnlyCreated[2].SiteName);
+            Assert.AreEqual(site4.name, getAllSitesOnlyCreated[3].SiteName);
+            Assert.AreEqual(site5.name, getAllSitesOnlyCreated[4].SiteName);
+            Assert.AreEqual(site6.name, getAllSitesOnlyCreated[5].SiteName);
+            Assert.AreEqual(site7.name, getAllSitesOnlyCreated[6].SiteName);
+            Assert.AreEqual(site8.name, getAllSitesOnlyCreated[7].SiteName);
+            Assert.AreEqual(site9.name, getAllSitesOnlyCreated[8].SiteName);
+            Assert.AreEqual(site10.name, getAllSitesOnlyCreated[9].SiteName);
+
+
+            Assert.AreEqual(site1.name, getAllSitesInclRemoved[0].SiteName);
+            Assert.AreEqual(site2.name, getAllSitesInclRemoved[1].SiteName);
+            Assert.AreEqual(site3.name, getAllSitesInclRemoved[2].SiteName);
+            Assert.AreEqual(site4.name, getAllSitesInclRemoved[3].SiteName);
+            Assert.AreEqual(site5.name, getAllSitesInclRemoved[4].SiteName);
+            Assert.AreEqual(site6.name, getAllSitesInclRemoved[5].SiteName);
+            Assert.AreEqual(site7.name, getAllSitesInclRemoved[6].SiteName);
+            Assert.AreEqual(site8.name, getAllSitesInclRemoved[7].SiteName);
+            Assert.AreEqual(site9.name, getAllSitesInclRemoved[8].SiteName);
+            Assert.AreEqual(site10.name, getAllSitesInclRemoved[9].SiteName);
+        }
+
+        [Test]
+        public void SQL_Site_SimpleSiteGetAll_DoesReturnSiteList()
+        {
+
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 88);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 88);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 88);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 88);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 88);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 88);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 88);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 88);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 88);
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            // Act
+            var match = sut.SimpleSiteGetAll(Constants.WorkflowStates.Created, 0, 1);
+
+
+            // Assert
+            Assert.AreEqual(10, match.Count());
+
+
+            Assert.AreEqual(site1.name, match[0].SiteName);
+            Assert.AreEqual(site2.name, match[1].SiteName);
+            Assert.AreEqual(site3.name, match[2].SiteName);
+            Assert.AreEqual(site4.name, match[3].SiteName);
+            Assert.AreEqual(site5.name, match[4].SiteName);
+            Assert.AreEqual(site6.name, match[5].SiteName);
+            Assert.AreEqual(site7.name, match[6].SiteName);
+            Assert.AreEqual(site8.name, match[7].SiteName);
+            Assert.AreEqual(site9.name, match[8].SiteName);
+            Assert.AreEqual(site10.name, match[9].SiteName);
+
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteCreate_ReturnsSiteId()
+        {
+            // Arrance
+
+
+            // Act
+
+            var match = sut.SiteCreate(88, "siteName1");
+
+            // Assert
+            var sites = DbContext.sites.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+
+            Assert.AreEqual(1, sites.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteRead_ReadsSite()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteRead((int)site1.microting_uid);
+
+            // Assert
+            Assert.AreEqual(site1.microting_uid, match.SiteUId);
+            Assert.AreEqual(site1.name, match.SiteName);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteReadSimple_ReadsSite()
+        {
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteReadSimple((int)site1.microting_uid);
+
+            // Assert
+            Assert.AreEqual(site1.microting_uid, match.SiteId);
+            Assert.AreEqual(site1.name, match.SiteName);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteUpdate_UpdatesSite()
+        {
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteUpdate((int)site1.microting_uid, site1.name);
+
+            // Assert
+            Assert.True(match);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteDelete_DeletesSite()
+        {
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteDelete((int)site1.microting_uid);
+
+            // Assert
+            Assert.True(match);
+        }
+
+        #endregion
+
+        #region Worker
+
+        [Test]
+        public void SQL_Worker_WorkerGetAll_ReturnsAllWorkers()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var getAllCreatedWorkers = sut.WorkerGetAll(Constants.WorkflowStates.Created, 0, 1);
+            var getAllRemovedWorkers = sut.WorkerGetAll(Constants.WorkflowStates.Removed, 0, 1);
+
+
+            // Assert
+
+            Assert.AreEqual(10, getAllCreatedWorkers.Count());
+            Assert.AreEqual(0, getAllRemovedWorkers.Count());
+
+            Assert.AreEqual(worker1.first_name, getAllCreatedWorkers[0].FirstName);
+            Assert.AreEqual(worker2.first_name, getAllCreatedWorkers[1].FirstName);
+            Assert.AreEqual(worker3.first_name, getAllCreatedWorkers[2].FirstName);
+            Assert.AreEqual(worker4.first_name, getAllCreatedWorkers[3].FirstName);
+            Assert.AreEqual(worker5.first_name, getAllCreatedWorkers[4].FirstName);
+            Assert.AreEqual(worker6.first_name, getAllCreatedWorkers[5].FirstName);
+            Assert.AreEqual(worker7.first_name, getAllCreatedWorkers[6].FirstName);
+            Assert.AreEqual(worker8.first_name, getAllCreatedWorkers[7].FirstName);
+            Assert.AreEqual(worker9.first_name, getAllCreatedWorkers[8].FirstName);
+            Assert.AreEqual(worker10.first_name, getAllCreatedWorkers[9].FirstName);
+
+
+            Assert.AreEqual(worker1.last_name, getAllCreatedWorkers[0].LastName);
+            Assert.AreEqual(worker2.last_name, getAllCreatedWorkers[1].LastName);
+            Assert.AreEqual(worker3.last_name, getAllCreatedWorkers[2].LastName);
+            Assert.AreEqual(worker4.last_name, getAllCreatedWorkers[3].LastName);
+            Assert.AreEqual(worker5.last_name, getAllCreatedWorkers[4].LastName);
+            Assert.AreEqual(worker6.last_name, getAllCreatedWorkers[5].LastName);
+            Assert.AreEqual(worker7.last_name, getAllCreatedWorkers[6].LastName);
+            Assert.AreEqual(worker8.last_name, getAllCreatedWorkers[7].LastName);
+            Assert.AreEqual(worker9.last_name, getAllCreatedWorkers[8].LastName);
+            Assert.AreEqual(worker10.last_name, getAllCreatedWorkers[9].LastName);
+        }
+        [Test]
+        public void SQL_Worker_WorkerCreate_ReturnsWorkerId()
+        {
+            // Arrance
+
+            // Act
+            var match = sut.WorkerCreate(55, "Arne", "Jensen", "aa@tak.dk");
+            // Assert
+
+            var workers = DbContext.workers.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+            Assert.AreEqual(1, workers.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, workers[0].workflow_state);
+        }
+        [Test]
+        public void SQL_Worker_WorkerNameRead_ReadsName()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerNameRead((int)worker1.id);
+
+            // Assert
+
+            Assert.AreEqual(worker1.first_name + " " + worker1.last_name, match);
+
+
+        }
+        [Test]
+        public void SQL_Worker_WorkerRead_ReadsWorker()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerRead((int)worker1.microting_uid);
+
+            // Assert
+
+            Assert.AreEqual(worker1.microting_uid, match.WorkerUId);
+            Assert.AreEqual(worker1.first_name, match.FirstName);
+
+
+
+        }
+        [Test]
+        public void SQL_Worker_WorkerUpdate_UpdatesWorker()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerUpdate(worker1.microting_uid, worker1.first_name, worker1.last_name, worker1.email);
+
+
+            // Assert
+
+            Assert.True(match);
+        }
+        [Test]
+        public void SQL_Worker_WorkerDelete_DeletesWorker()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerDelete((int)worker1.microting_uid);
+
+            // Assert
+
+            Assert.True(match);
+
         }
         #endregion
+
+        #region site_worker
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerCreate_ReturnsID()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+
+
+            #endregion
+            // Act
+
+            var match = sut.SiteWorkerCreate(5, (int)site1.microting_uid, (int)worker1.microting_uid);
+
+            // Assert
+            var siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+            Assert.AreEqual(1, siteWorkers.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, siteWorkers[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerRead_ReadsSiteWorker()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+
+            // Act
+
+            var match = sut.SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
+
+            // Assert
+
+            Assert.AreEqual(site_workers.microting_uid, match.MicrotingUId);
+            Assert.AreEqual(site_workers.worker_id, match.WorkerUId);
+            Assert.AreEqual(site_workers.site_id, match.SiteUId);
+
+
+
+        }
+
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerUpdate_UpdatesSiteWorker()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+
+            // Act
+
+            var match = sut.SiteWorkerUpdate((int)site_workers.microting_uid, site1.id, worker1.id);
+
+            // Assert
+
+            Assert.True(match);
+
+
+        }
+
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerDelete_DeletesSiteWorker()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+
+            // Act
+
+            var match = sut.SiteWorkerDelete((int)site_workers.microting_uid);
+
+            // Assert
+            Assert.True(match);
+
+        }
         #endregion
 
-        // Arrance
+        #region unit
+
+        [Test]
+        public void SQL_Unit_UnitGetAll_ReturnsAllUnits()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+
+            #region Unit1
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            #endregion
+
+            #region Unit2
+            units unit2 = CreateUnit(2, 55, site2, 349);
+            #endregion
+
+            #region Unit3
+            units unit3 = CreateUnit(3, 51, site3, 350);
+            #endregion
+
+            #region Unit4
+            units unit4 = CreateUnit(4, 52, site4, 351);
+            #endregion
+
+            #region Unit5
+            units unit5 = CreateUnit(5, 6, site5, 352);
+            #endregion
+
+            #region Unit6
+            units unit6 = CreateUnit(6, 85, site6, 353);
+            #endregion
+
+            #region Unit7
+            units unit7 = CreateUnit(7, 62, site7, 354);
+            #endregion
+
+            #region Unit8
+            units unit8 = CreateUnit(8, 96, site8, 355);
+            #endregion
+
+            #region Unit9
+            units unit9 = CreateUnit(9, 69, site9, 356);
+            #endregion
+
+            #region Unit10
+            units unit10 = CreateUnit(10, 100, site10, 357);
+            #endregion
+
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var getAllUnits = sut.UnitGetAll();
+
+            // Assert
+
+            Assert.AreEqual(10, getAllUnits.Count());
+
+            Assert.AreEqual(unit1.microting_uid, getAllUnits[0].UnitUId);
+            Assert.AreEqual(unit2.microting_uid, getAllUnits[1].UnitUId);
+            Assert.AreEqual(unit3.microting_uid, getAllUnits[2].UnitUId);
+            Assert.AreEqual(unit4.microting_uid, getAllUnits[3].UnitUId);
+            Assert.AreEqual(unit5.microting_uid, getAllUnits[4].UnitUId);
+            Assert.AreEqual(unit6.microting_uid, getAllUnits[5].UnitUId);
+            Assert.AreEqual(unit7.microting_uid, getAllUnits[6].UnitUId);
+            Assert.AreEqual(unit8.microting_uid, getAllUnits[7].UnitUId);
+            Assert.AreEqual(unit9.microting_uid, getAllUnits[8].UnitUId);
+            Assert.AreEqual(unit10.microting_uid, getAllUnits[9].UnitUId);
+        }
+
+        [Test]
+        public void SQL_Unit_UnitCreate_CreatesUnit()
+        {
+
+            // Arrance
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+            // Act
+            var match = sut.UnitCreate(5, 654, 88, (int)site1.microting_uid);
+            // Assert
+            var units = DbContext.units.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+            Assert.AreEqual(1, units.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, units[0].workflow_state);
+
+
+        }
+
+        [Test]
+        public void SQL_Unit_UnitRead_ReadsUnit()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+
+            #region Unit1
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            #endregion
+
+            #region Unit2
+            units unit2 = CreateUnit(2, 55, site2, 349);
+            #endregion
+
+            #region Unit3
+            units unit3 = CreateUnit(3, 51, site3, 350);
+            #endregion
+
+            #region Unit4
+            units unit4 = CreateUnit(4, 52, site4, 351);
+            #endregion
+
+            #region Unit5
+            units unit5 = CreateUnit(5, 6, site5, 352);
+            #endregion
+
+            #region Unit6
+            units unit6 = CreateUnit(6, 85, site6, 353);
+            #endregion
+
+            #region Unit7
+            units unit7 = CreateUnit(7, 62, site7, 354);
+            #endregion
+
+            #region Unit8
+            units unit8 = CreateUnit(8, 96, site8, 355);
+            #endregion
+
+            #region Unit9
+            units unit9 = CreateUnit(9, 69, site9, 356);
+            #endregion
+
+            #region Unit10
+            units unit10 = CreateUnit(10, 100, site10, 357);
+            #endregion
+
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.UnitRead((int)unit1.microting_uid);
+
+            // Assert
+
+            Assert.AreEqual(unit1.microting_uid, match.UnitUId);
+            Assert.AreEqual(unit1.customer_no, match.CustomerNo);
+
+
+        }
+
+        [Test]
+        public void SQL_Unit_UnitUpdate_UpdatesUnit()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+
+            #region Unit1
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            #endregion
+
+            #region Unit2
+            units unit2 = CreateUnit(2, 55, site2, 349);
+            #endregion
+
+            #region Unit3
+            units unit3 = CreateUnit(3, 51, site3, 350);
+            #endregion
+
+            #region Unit4
+            units unit4 = CreateUnit(4, 52, site4, 351);
+            #endregion
+
+            #region Unit5
+            units unit5 = CreateUnit(5, 6, site5, 352);
+            #endregion
+
+            #region Unit6
+            units unit6 = CreateUnit(6, 85, site6, 353);
+            #endregion
+
+            #region Unit7
+            units unit7 = CreateUnit(7, 62, site7, 354);
+            #endregion
+
+            #region Unit8
+            units unit8 = CreateUnit(8, 96, site8, 355);
+            #endregion
+
+            #region Unit9
+            units unit9 = CreateUnit(9, 69, site9, 356);
+            #endregion
+
+            #region Unit10
+            units unit10 = CreateUnit(10, 100, site10, 357);
+            #endregion
+
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+            var match = sut.UnitUpdate((int)unit1.microting_uid, (int)unit1.customer_no, (int)unit1.otp_code, (int)unit1.site_id);
+            // Assert
+            Assert.True(match);
+        }
+
+        [Test]
+        public void SQL_Unit_UnitDelete_DeletesUnit()
+        {  // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+        #endregion
+            #endregion
+            
+
+        
+
+        #region units
+
+        #region Unit1
+        units unit1 = CreateUnit(48, 49, site1, 348);
+        #endregion
+
+        #region Unit2
+        units unit2 = CreateUnit(2, 55, site2, 349);
+        #endregion
+
+        #region Unit3
+        units unit3 = CreateUnit(3, 51, site3, 350);
+        #endregion
+
+        #region Unit4
+        units unit4 = CreateUnit(4, 52, site4, 351);
+        #endregion
+
+        #region Unit5
+        units unit5 = CreateUnit(5, 6, site5, 352);
+        #endregion
+
+        #region Unit6
+        units unit6 = CreateUnit(6, 85, site6, 353);
+        #endregion
+
+        #region Unit7
+        units unit7 = CreateUnit(7, 62, site7, 354);
+        #endregion
+
+        #region Unit8
+        units unit8 = CreateUnit(8, 96, site8, 355);
+        #endregion
+
+        #region Unit9
+        units unit9 = CreateUnit(9, 69, site9, 356);
+        #endregion
+
+        #region Unit10
+        units unit10 = CreateUnit(10, 100, site10, 357);
+        #endregion
+
+
+        #endregion
+
+        #region site_workers
+        site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+        #endregion
+
+        #endregion
 
         // Act
-
+        var match = sut.UnitDelete((int)unit1.microting_uid);
         // Assert
+        Assert.True(match);}
 
-        #region helperMethods
-        public workers CreateWorker(string email, string firstName, string lastName, int microtingUId)
+
+
+
+
+
+
+
+    #endregion
+
+    #endregion
+
+
+
+
+    // Arrance
+
+    // Act
+
+    // Assert
+
+    #region helperMethods
+    public workers CreateWorker(string email, string firstName, string lastName, int microtingUId)
         {
             workers worker = new workers();
             worker.first_name = firstName;
@@ -13244,7 +18554,7 @@ namespace eFormSDK.Integration.Tests
         {
 
             cases aCase = new cases();
-           
+
             aCase.case_uid = caseUId;
             aCase.check_list = checkList;
             aCase.check_list_id = checkList.id;
@@ -13269,7 +18579,7 @@ namespace eFormSDK.Integration.Tests
 
             return aCase;
         }
-        public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id,  int? userId, string value, int? version, workers worker)
+        public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id, int? userId, string value, int? version, workers worker)
         {
             field_values fv = new field_values();
             fv.case_id = aCase.id;
@@ -13335,7 +18645,6 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
             return UD;
         }
-
         public check_list_sites CreateCheckListSite(int checkListId, int siteId)
         {
             check_list_sites cls = new check_list_sites();
@@ -13350,11 +18659,10 @@ namespace eFormSDK.Integration.Tests
             return cls;
         }
 
-        
+
         #endregion
 
-
-    }
-
-
+    }     
 }
+
+
