@@ -802,6 +802,14 @@ namespace eFormCore
         #endregion
 
         #region case
+
+        /// <summary>
+        /// This method will send the mainElement to the Microting API endpoint.
+        /// </summary>
+        /// <param name="mainElement">eForm to be deployed</param>
+        /// <param name="caseUId">Optional own id</param>
+        /// <param name="siteUid">API id of the site to deploy the eForm at</param>
+        /// <returns>Microting API ID</returns>
         public string CaseCreate(MainElement mainElement, string caseUId, int siteUid)
         {
             List<int> siteUids = new List<int>();
