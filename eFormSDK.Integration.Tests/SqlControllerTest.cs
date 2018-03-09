@@ -18392,21 +18392,789 @@ namespace eFormSDK.Integration.Tests
 
 
 
-    #endregion
+        #endregion
 
-    #endregion
+        #endregion
+
+        #region Entity
+        #region Entity Group
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroups()
+        {
+
+            // Arrance
+            #region Arrance
+            
+            #region Entity Groups
+            
+            #region EntitySearch
+            #region Created
+            #region eG1
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+         
+            #region eG9
+            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+            
+            #region EntitySelect
+            #region Created
+            #region eG1
+            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            #endregion
+
+            // Act
+
+            #region pageindex 0
+
+            #region pageSize 10
+
+            #region Default Sorting
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region Sorting W.O nameFilter
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region sorting W.O sort param
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+        
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+            // Assert
+            #region pageIndex 0
+
+            #region pageSize 10
+            #region Def Sort
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreated
+            Assert.NotNull(matchEntityGroupAllSearchCreated);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreated
+            Assert.NotNull(matchEntityGroupAllSelectCreated);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemoved
+            Assert.NotNull(matchEntityGroupAllSearchRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemoved
+            Assert.NotNull(matchEntityGroupAllSelectRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemoved
+            Assert.NotNull(matchEntityGroupAllSearchNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemoved
+            Assert.NotNull(matchEntityGroupAllSelectNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, 10);
+
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Name Filter
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Sort Param
+
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+        }
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupCreate_CreatesNewEntityGroup()
+        {
+
+            // Arrance
+
+            // Act
+            var matchEntitySearch = sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch);
+            var matchEntitySelect = sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect);
+            // Assert
+            Assert.AreEqual("eG1", matchEntitySearch.Name);
+            Assert.AreEqual("eG2", matchEntitySelect.Name);
 
 
 
+        }
 
-    // Arrance
 
-    // Act
+        [Test]
+        public void SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
+        {
 
-    // Assert
+            // Arrance
 
-    #region helperMethods
-    public workers CreateWorker(string email, string firstName, string lastName, int microtingUId)
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupRead_ReadsEntityGroupp()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupUpdateName_UpdatesEnityGroupName()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntotyGroupItems()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        #endregion
+
+        #region Entity Item
+
+        #endregion
+
+        #endregion
+
+
+        // Arrance
+
+        // Act
+
+        // Assert
+
+        #region helperMethods
+        public workers CreateWorker(string email, string firstName, string lastName, int microtingUId)
         {
             workers worker = new workers();
             worker.first_name = firstName;
