@@ -3268,11 +3268,11 @@ namespace eFormCore
 
                                         if (customPathForUploadedData != null)
                                         {
-                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">" + customPathForUploadedData + answer.UploadedDataObj.FileName + "</F" + field.Id + "_value>";
+                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + customPathForUploadedData + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
                                         }
                                         else
                                         {
-                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">" + answer.UploadedDataObj.FileName + "</F" + field.Id + "_value>";
+                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
                                         }
                                     }
                                     else
