@@ -1620,12 +1620,12 @@ namespace eFormSqlController
                                             if (kvp.Key == item.case_id.ToString())
                                             {
                                                 if (customPathForUploadedData != null)
-                                                    if (kvp.Value.Contains("http"))
+                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
                                                         kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.file_name;
                                                     else
                                                         kvp.Value = customPathForUploadedData + item.uploaded_data.file_name;
                                                 else
-                                                    if (kvp.Value.Contains("http"))
+                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
                                                     kvp.Value = kvp.Value + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
                                                 else
                                                     kvp.Value = item.uploaded_data.file_location + item.uploaded_data.file_name;
