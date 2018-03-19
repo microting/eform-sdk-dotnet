@@ -13,11 +13,13 @@ namespace eFormSDK.Integration.Tests
     public class SqlControllerTest : DbTestFixture
     {
         private SqlController sut;
+        private TestHelpers testHelpers;
 
         public override void DoSetup()
         {
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
+            testHelpers = new TestHelpers(DbContext);
         }
 
         #region notification
@@ -271,8 +273,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.check_lists.Add(cl4);
             DbContext.SaveChanges();
             #endregion
-            
-            
+
+
             // Act
             List<int> emptyList = new List<int>();
 
@@ -501,7 +503,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
-        
+
         [Test]
         public void SQL_Template_TemplateDelete_DoesMarkTemplateAsRemoved()
         {
@@ -536,10 +538,10 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, checkLists.Count());
             //Assert.AreEqual(1, cl_results.Count);
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].workflow_state);
-            
+
         }
-        
-        
+
+
         [Test]
         public void SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
         {
@@ -834,7 +836,7 @@ namespace eFormSDK.Integration.Tests
             */
             #endregion
 
-    
+
             // Act
 
 
@@ -887,7 +889,7 @@ namespace eFormSDK.Integration.Tests
             #region field1
 
 
-            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description", 
+            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
             //    new fields();
@@ -1067,7 +1069,7 @@ namespace eFormSDK.Integration.Tests
             //f4.updated_at = DateTime.Now;
             //f4.version = 1;
             //f4.workflow_state = Constants.WorkflowStates.Created;
-        
+
 
             //DbContext.fields.Add(f4);
             //DbContext.SaveChanges();
@@ -1364,9 +1366,9 @@ namespace eFormSDK.Integration.Tests
             Field _f4 = (Field)clv.DataItemList[3];
             Field _f5 = (Field)clv.DataItemList[4];
 
-          
+
             #endregion
-            
+
             #region Barcode
             Assert.AreEqual(f1.barcode_enabled, 1);
             Assert.AreEqual(f2.barcode_enabled, 1);
@@ -1399,11 +1401,11 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(f4.color, _f4.FieldValues[0].Color);
             Assert.AreEqual(f5.color, _f5.FieldValues[0].Color);
             #endregion
-            
+
             #region custom
             //  Assert.AreEqual(f1.custom, _f1.FieldValues[0].Id);
             #endregion
-            
+
             #region Decimal_Count
             Assert.AreEqual(f1.decimal_count, null);
             Assert.AreEqual(f2.decimal_count, null);
@@ -1617,7 +1619,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(f4.version, 1);
             Assert.AreEqual(f5.version, 1);
             #endregion
-            
+
             #endregion
 
         }
@@ -2415,7 +2417,7 @@ namespace eFormSDK.Integration.Tests
             List<field_values> match = sut.ChecksRead(aCase.microting_uid, aCase.microting_check_uid);
 
             // Assert
-           
+
 
             Assert.AreEqual(field_Value1.value, match[0].value);
             Assert.AreEqual(field_Value2.value, match[1].value);
@@ -2423,7 +2425,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(field_Value4.value, match[3].value);
             Assert.AreEqual(field_Value5.value, match[4].value);
 
-            
+
 
 
 
@@ -2435,12 +2437,12 @@ namespace eFormSDK.Integration.Tests
 
             #region Template1
             check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
-         
+
             #endregion
 
             #region SubTemplate1
             check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-        
+
 
             #endregion
 
@@ -2451,7 +2453,7 @@ namespace eFormSDK.Integration.Tests
             fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
-           
+
             #endregion
 
             #region field2
@@ -2460,7 +2462,7 @@ namespace eFormSDK.Integration.Tests
             fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-            
+
 
             #endregion
 
@@ -2469,7 +2471,7 @@ namespace eFormSDK.Integration.Tests
             fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
                 83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
- 
+
 
             #endregion
 
@@ -2479,7 +2481,7 @@ namespace eFormSDK.Integration.Tests
             fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
                 84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-            
+
 
             #endregion
 
@@ -2500,7 +2502,7 @@ namespace eFormSDK.Integration.Tests
             // Assert
 
             Assert.AreEqual(f1.id, match.Id);
-            
+
 
         }
         [Test]
@@ -2901,7 +2903,7 @@ namespace eFormSDK.Integration.Tests
             #region Field Values
             #region fv1
             field_values field_Value1 = CreateFieldValue(aCase, cl2, f1, ud.id, null, "tomt1", 61234, worker);
-  
+
             #endregion
 
             #region fv2
@@ -3527,7 +3529,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            
+
             #endregion
             // Act
 
@@ -3570,12 +3572,12 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             #region Template1
             check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
-      
+
             #endregion
 
             #region SubTemplate1
             check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-   
+
 
             #endregion
 
@@ -3586,7 +3588,7 @@ namespace eFormSDK.Integration.Tests
             fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
-           
+
             #endregion
 
             #region field2
@@ -3595,7 +3597,7 @@ namespace eFormSDK.Integration.Tests
             fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-          
+
 
             #endregion
 
@@ -3604,7 +3606,7 @@ namespace eFormSDK.Integration.Tests
             fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
                 83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-          
+
 
             #endregion
 
@@ -3614,7 +3616,7 @@ namespace eFormSDK.Integration.Tests
             fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
                 84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-         
+
 
             #endregion
 
@@ -3623,7 +3625,7 @@ namespace eFormSDK.Integration.Tests
             fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-         
+
 
             #endregion
             #endregion
@@ -3631,22 +3633,22 @@ namespace eFormSDK.Integration.Tests
             #region Worker
 
             workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-          
+
             #endregion
 
             #region site
             sites site = CreateSite("SiteName", 88);
-  
+
             #endregion
 
             #region units
             units unit = CreateUnit(48, 49, site, 348);
-  
+
             #endregion
 
             #region site_workers
             site_workers site_workers = CreateSiteWorker(55, site, worker);
-  
+
             #endregion
 
             #region Case1
@@ -3659,29 +3661,29 @@ namespace eFormSDK.Integration.Tests
 
             #region Check List Values
             check_list_values check_List_Values = CreateCheckListValue(aCase, cl2, "completed", null, 865);
-      
+
 
             #endregion
 
             #region Field Values
             #region fv1
             field_values field_Value1 = CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
-        
+
             #endregion
 
             #region fv2
             field_values field_Value2 = CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
-        
+
             #endregion
 
             #region fv3
             field_values field_Value3 = CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
-           
+
             #endregion
 
             #region fv4
             field_values field_Value4 = CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
-          
+
             #endregion
 
             #region fv5
@@ -3836,7 +3838,7 @@ namespace eFormSDK.Integration.Tests
             List<FieldValue> match = sut.FieldValueReadList(f1.id, 5);
 
             // Assert
-            
+
             Assert.AreEqual(field_Value1.value, match[0].Value);
 
         }
@@ -4775,7 +4777,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-           
+
             #endregion
 
 
@@ -5105,7 +5107,7 @@ namespace eFormSDK.Integration.Tests
         public void SQL_PostCase_CaseReadAll()
         {
 
-        
+
             // Arrance
             #region Arrance
             #region Template1
@@ -5233,6 +5235,7 @@ namespace eFormSDK.Integration.Tests
             cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
               c3_da,  worker3, "microtingCheck3UId", "microtin3gUId",
                site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
+
             #endregion
 
             #region Case4
@@ -5435,7 +5438,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending
             #region aCase1 sorting ascendng
             //List<Case> caseListC1SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -5447,14 +5450,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng
             //List<Case> caseListC2SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -5466,14 +5469,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng
             //List<Case> caseListC3SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -5485,14 +5488,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng
             //List<Case> caseListC4SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -5504,8 +5507,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -5514,7 +5517,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending
             #region aCase1 sorting Descending
             //List<Case> caseListC1SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -5526,14 +5529,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending
             //List<Case> caseListC2SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -5545,14 +5548,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending
             //List<Case> caseListC3SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -5564,14 +5567,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending
             //List<Case> caseListC4SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -5583,8 +5586,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "0004", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -5593,7 +5596,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseListC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -5605,14 +5608,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseListC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -5624,14 +5627,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseListC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -5643,14 +5646,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseListC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -5662,8 +5665,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -5672,7 +5675,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseListC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -5684,14 +5687,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseListC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -5703,14 +5706,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseListC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -5722,14 +5725,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseListC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -5741,8 +5744,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -5842,7 +5845,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending
             #region aCase1 sorting ascendng
             //List<Case> caseListRemovedC1SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -5854,14 +5857,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng
             //List<Case> caseListRemovedC2SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC2SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -5873,14 +5876,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng
             //List<Case> caseListRemovedC3SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -5892,14 +5895,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC3SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng
             //List<Case> caseListRemovedC4SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -5911,8 +5914,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -5921,7 +5924,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending
             #region aCase1 sorting Descending
             //List<Case> caseListRemovedC1SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -5933,14 +5936,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending
             //List<Case> caseListRemovedC2SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -5952,14 +5955,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending
             //List<Case> caseListRemovedC3SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -5971,14 +5974,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending
             //List<Case> caseListRemovedC4SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -5990,8 +5993,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6000,7 +6003,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseListRemovedC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -6012,14 +6015,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseListRemovedC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -6031,14 +6034,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseListRemovedC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -6050,14 +6053,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseListRemovedC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -6069,8 +6072,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6079,7 +6082,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseListRemovedC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -6091,14 +6094,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseListRemovedC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -6110,14 +6113,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseListRemovedC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -6129,14 +6132,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseListRemovedC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -6148,8 +6151,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6250,7 +6253,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending
             #region aCase1 sorting ascendng
             //List<Case> caseListRetractedC1SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "10000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC1SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC1SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC1SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -6262,14 +6265,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC1SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC1SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC1SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC1SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng
             //List<Case> caseListRetractedC2SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC2SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC2SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC2SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -6281,14 +6284,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC2SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC2SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC2SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC2SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng
             //List<Case> caseListRetractedC3SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC3SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC3SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC3SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -6300,14 +6303,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC3SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC3SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC3SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC3SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng
             //List<Case> caseListRetractedC4SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC4SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC4SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC4SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -6319,8 +6322,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC4SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC4SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC4SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6329,7 +6332,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending
             #region aCase1 sorting Descending
             //List<Case> caseListRetractedC1SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC1SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC1SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC1SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -6341,14 +6344,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC1SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC1SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC1SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC1SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending
             //List<Case> caseListRetractedC2SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC2SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC2SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -6360,14 +6363,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC2SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC2SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC2SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC2SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending
             //List<Case> caseListRetractedC3SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC3SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC3SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC3SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -6379,14 +6382,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC3SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC3SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC3SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending
             //List<Case> caseListRetractedC4SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC4SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC4SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC4SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -6398,8 +6401,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC4SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC4SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC4SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6408,7 +6411,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -6420,14 +6423,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -6439,14 +6442,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -6458,14 +6461,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -6477,8 +6480,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6487,7 +6490,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -6499,14 +6502,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -6518,14 +6521,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -6537,14 +6540,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -6556,8 +6559,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -6956,7 +6959,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListDescendingDoneAt[2].WorkerName);
             Assert.AreEqual(aCase1.workflow_state, caseListDescendingDoneAt[2].WorkflowState);
             #endregion
-            
+
             #region caseListDescendingDoneAt aCase2
             Assert.AreEqual(aCase2.type, caseListDescendingDoneAt[0].CaseType);
             Assert.AreEqual(aCase2.case_uid, caseListDescendingDoneAt[0].CaseUId);
@@ -7230,7 +7233,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1.workflow_state, caseListDtDoneAt[1].WorkflowState);
             #endregion
-            
+
             #region caseListDtDoneAt aCase3
             Assert.AreEqual(aCase3.type, caseListDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3.case_uid, caseListDtDoneAt[0].CaseUId);
@@ -7250,7 +7253,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3.workflow_state, caseListDtDoneAt[0].WorkflowState);
             #endregion
-            
+
 
             #endregion
 
@@ -7279,7 +7282,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.workflow_state, caseListDtStatus[0].WorkflowState);
 
             #endregion
-            
+
             #region caseListDtStatus aCase3
 
             Assert.AreEqual(aCase3.type, caseListDtStatus[1].CaseType);
@@ -7360,7 +7363,7 @@ namespace eFormSDK.Integration.Tests
 
             #region Def Sort Des w. DateTime
             #region caseListDtDescendingDoneAt Def Sort Des
-        
+
 
             #region caseListDtDescendingDoneAt aCase1
             Assert.NotNull(caseListDtDescendingDoneAt);
@@ -7383,7 +7386,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1.workflow_state, caseListDtDescendingDoneAt[0].WorkflowState);
             #endregion
-            
+
             #region caseListDtDescendingDoneAt aCase4
 
             Assert.AreEqual(aCase3.type, caseListDtDescendingDoneAt[1].CaseType);
@@ -7409,7 +7412,7 @@ namespace eFormSDK.Integration.Tests
 
             #region caseListDtDescendingStatus Def Sort Des
 
-         
+
 
             #region caseListDtDescendingStatus aCase1
             Assert.NotNull(caseListDtDescendingStatus);
@@ -7459,7 +7462,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region caseListDtDescendingUnitId Def Sort Des
-            
+
             #region caseListDtDescendingUnitId aCase3
             Assert.NotNull(caseListDtDescendingUnitId);
             Assert.AreEqual(2, caseListDtDescendingUnitId.Count);
@@ -7907,7 +7910,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase2.workflow_state, caseListC2SortDescendingDoneAt[3].WorkflowState);
 
             #endregion
-            
+
             #region caseListC2SortDescendingStatus aCase2
 
             Assert.NotNull(caseListC2SortDescendingStatus);
@@ -8176,7 +8179,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortDtUnitId[0].WorkerName);
             //Assert.AreEqual(aCase1.workflow_state, caseListC1SortDtUnitId[0].WorkflowState);
             #endregion
-            
+
             #endregion
 
             #region aCase2 sort asc w. DateTime
@@ -8763,7 +8766,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedDoneAt[0].WorkflowState);
             #endregion
-            
+
             #region caseListRemovedDoneAt aCase4Removed
             Assert.AreEqual(aCase4Removed.type, caseListRemovedDoneAt[2].CaseType);
             Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedDoneAt[2].CaseUId);
@@ -9289,7 +9292,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedDtDoneAt[0].WorkflowState);
             #endregion
-            
+
 
             #endregion
 
@@ -9425,7 +9428,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedDtDescendingDoneAt[0].WorkflowState);
             #endregion
-            
+
             #region caseListRemovedDtDescendingDoneAt aCase3Removed
 
             Assert.AreEqual(aCase3Removed.type, caseListRemovedDtDescendingDoneAt[1].CaseType);
@@ -9446,7 +9449,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedDtDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedDtDescendingDoneAt[1].WorkflowState);
             #endregion
-            
+
             #endregion
 
             #region caseListRemovedDtDescendingStatus Def Sort Des
@@ -9850,7 +9853,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortUnitId[0].WorkflowState);
 
             #endregion
-            
+
             #endregion
 
             #endregion
@@ -11320,7 +11323,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedDtDoneAt[1].WorkflowState);
             #endregion
-            
+
             #region caseListRetractedDtDoneAt aCase3Retracted
             Assert.AreEqual(aCase3Retracted.type, caseListRetractedDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedDtDoneAt[0].CaseUId);
@@ -11340,7 +11343,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedDtDoneAt[0].WorkflowState);
             #endregion
-            
+
             #endregion
 
             #region caseListRetractedDtStatus Def Sort Asc w. DateTime
@@ -11677,7 +11680,7 @@ namespace eFormSDK.Integration.Tests
             //Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortUnitId[0].WorkflowState);
 
             #endregion
-            
+
             #endregion
 
             #region aCase2Retracted sort asc
@@ -12790,10 +12793,149 @@ namespace eFormSDK.Integration.Tests
 
 
             // Arrance
+            #region Arrance
+            #region Template1
+            check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
 
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = CreateCase("case2UId", cl1, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = CreateCase("case4UId", cl1, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #endregion
             // Act
-
+            List<Case_Dto> aCase1Custom = sut.CaseFindCustomMatchs(aCase1.custom);
+            List<Case_Dto> aCase2Custom = sut.CaseFindCustomMatchs(aCase2.custom);
+            List<Case_Dto> aCase3Custom = sut.CaseFindCustomMatchs(aCase3.custom);
+            List<Case_Dto> aCase4Custom = sut.CaseFindCustomMatchs(aCase4.custom);
             // Assert
+            Assert.AreEqual(aCase1.custom, aCase1Custom[0].Custom);
+            Assert.AreEqual(aCase2.custom, aCase2Custom[0].Custom);
+            Assert.AreEqual(aCase3.custom, aCase3Custom[0].Custom);
+            Assert.AreEqual(aCase4.custom, aCase4Custom[0].Custom);
+
+
+
 
         }
 
@@ -12803,10 +12945,348 @@ namespace eFormSDK.Integration.Tests
 
 
             // Arrance
+            #region Arrance
+            #region Template1
+            check_lists cl1 = CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
 
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl2 = CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = CreateCase("case1UId", cl2, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = CreateCase("case2UId", cl1, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = CreateCase("case4UId", cl1, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = CreateUploadedData("checksum1", "File1", "no", "hjgjghjhg", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61234, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61234, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61234, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61234, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61234, worker);
+
+            #endregion
+
+
+            #endregion
+            #endregion
             // Act
+            cases theCase = DbContext.cases.First();
+            Assert.NotNull(theCase);
+            check_lists theCheckList = DbContext.check_lists.First();
+
+            theCheckList.field_1 = f1.id;
+            theCheckList.field_2 = f2.id;
+            theCheckList.field_3 = f3.id;
+            theCheckList.field_4 = f4.id;
+            theCheckList.field_5 = f5.id;
+            theCheckList.field_6 = f6.id;
+            theCheckList.field_7 = f7.id;
+            theCheckList.field_8 = f8.id;
+            theCheckList.field_9 = f9.id;
+            theCheckList.field_10 = f10.id;
+
+            Assert.AreEqual(null, theCase.field_value_1);
+            Assert.AreEqual(null, theCase.field_value_2);
+            Assert.AreEqual(null, theCase.field_value_3);
+            Assert.AreEqual(null, theCase.field_value_4);
+            Assert.AreEqual(null, theCase.field_value_5);
+            Assert.AreEqual(null, theCase.field_value_6);
+            Assert.AreEqual(null, theCase.field_value_7);
+            Assert.AreEqual(null, theCase.field_value_8);
+            Assert.AreEqual(null, theCase.field_value_9);
+            Assert.AreEqual(null, theCase.field_value_10);
+
+            var testThis = sut.CaseUpdateFieldValues(aCase1.id);
 
             // Assert
+            cases theCaseAfter = DbContext.cases.AsNoTracking().First();
+
+            Assert.NotNull(theCaseAfter);
+
+            theCaseAfter.field_value_1 = field_Value1.value;
+            theCaseAfter.field_value_2 = field_Value2.value;
+            theCaseAfter.field_value_3 = field_Value3.value;
+            theCaseAfter.field_value_4 = field_Value4.value;
+            theCaseAfter.field_value_5 = field_Value5.value;
+            theCaseAfter.field_value_6 = field_Value6.value;
+            theCaseAfter.field_value_7 = field_Value7.value;
+            theCaseAfter.field_value_8 = field_Value8.value;
+            theCaseAfter.field_value_9 = field_Value9.value;
+            theCaseAfter.field_value_10 = field_Value10.value;
+
+
+            Assert.True(testThis);
+
+            Assert.AreEqual("tomt1", theCaseAfter.field_value_1);
+            Assert.AreEqual("tomt2", theCaseAfter.field_value_2);
+            Assert.AreEqual("tomt3", theCaseAfter.field_value_3);
+            Assert.AreEqual("tomt4", theCaseAfter.field_value_4);
+            Assert.AreEqual("tomt5", theCaseAfter.field_value_5);
+            Assert.AreEqual("tomt6", theCaseAfter.field_value_6);
+            Assert.AreEqual("tomt7", theCaseAfter.field_value_7);
+            Assert.AreEqual("tomt8", theCaseAfter.field_value_8);
+            Assert.AreEqual("tomt9", theCaseAfter.field_value_9);
+            Assert.AreEqual("tomt10", theCaseAfter.field_value_10);
 
         }
 
@@ -12814,7 +13294,7 @@ namespace eFormSDK.Integration.Tests
 
 
         #endregion
-            
+
 
 
         #region tag
@@ -12911,7 +13391,7 @@ namespace eFormSDK.Integration.Tests
             //int tagId3 = sut.TagCreate(tagName3);
 
             // Act
-            var tags = sut.GetAllTags(true);            
+            var tags = sut.GetAllTags(true);
 
             // Assert
             Assert.True(true);
@@ -12919,7 +13399,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(tagName1, tags[0].Name);
             Assert.AreEqual(0, tags[0].TaggingCount);
             Assert.AreEqual(tagName2, tags[1].Name);
-            Assert.AreEqual(0, tags[1].TaggingCount);       
+            Assert.AreEqual(0, tags[1].TaggingCount);
             Assert.AreEqual(tagName3, tags[2].Name);
             Assert.AreEqual(0, tags[2].TaggingCount);
         }
@@ -13082,13 +13562,13 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
 
-            
+
             Assert.NotNull(caseResults);
             Assert.AreEqual(1, caseResults.Count);
             Assert.AreNotEqual(1, caseResults[0]);
-            
 
-        
+
+
 
         }
 
@@ -13111,34 +13591,5684 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
 
+            // Act
+            sut.CaseDeleteReversed(cls1.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
 
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].workflow_state);
 
             Assert.NotNull(caseResults);
             //Assert.AreEqual(1, caseResults.Count);
             //Assert.AreNotEqual(1, caseResults[1]);
         }
+        [Test]
+        public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
+        {
+            sites site = CreateSite("mySite", 987);
 
-       
+            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
 
+            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
+
+            // Act
+            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_Case_CheckListSitesRead_DoesSiteRead()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseCreate_DoesCaseCreate()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseReadCheckIdByMUId_DoesCheckIdByMUId()
+        {
+
+        }
+
+
+        [Test]
+        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
+        {
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
+        {
+
+        }
         #endregion
-
+        
         #region public site
         #region site
-        //         public List<SiteName_Dto> SiteGetAll(bool includeRemoved)
 
         [Test]
 
         public void SQL_Site_SiteGetAll_DoesReturnAllSites()
         {
             // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 88);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 88);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 88);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 88);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 88);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 88);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 88);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 88);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 88);
+
+            #endregion
+
+            #endregion
+            #endregion
+
+
+            // Act
+
+            var getAllSitesOnlyCreated = sut.SiteGetAll(false).ToList();
+            var getAllSitesInclRemoved = sut.SiteGetAll(true).ToList();
+
+
+
+            // Assert
+            Assert.True(true);
+
+            Assert.AreEqual(10, getAllSitesOnlyCreated.Count());
+            Assert.AreEqual(10, getAllSitesInclRemoved.Count());
+
+            Assert.AreEqual(site1.name, getAllSitesOnlyCreated[0].SiteName);
+            Assert.AreEqual(site2.name, getAllSitesOnlyCreated[1].SiteName);
+            Assert.AreEqual(site3.name, getAllSitesOnlyCreated[2].SiteName);
+            Assert.AreEqual(site4.name, getAllSitesOnlyCreated[3].SiteName);
+            Assert.AreEqual(site5.name, getAllSitesOnlyCreated[4].SiteName);
+            Assert.AreEqual(site6.name, getAllSitesOnlyCreated[5].SiteName);
+            Assert.AreEqual(site7.name, getAllSitesOnlyCreated[6].SiteName);
+            Assert.AreEqual(site8.name, getAllSitesOnlyCreated[7].SiteName);
+            Assert.AreEqual(site9.name, getAllSitesOnlyCreated[8].SiteName);
+            Assert.AreEqual(site10.name, getAllSitesOnlyCreated[9].SiteName);
+
+
+            Assert.AreEqual(site1.name, getAllSitesInclRemoved[0].SiteName);
+            Assert.AreEqual(site2.name, getAllSitesInclRemoved[1].SiteName);
+            Assert.AreEqual(site3.name, getAllSitesInclRemoved[2].SiteName);
+            Assert.AreEqual(site4.name, getAllSitesInclRemoved[3].SiteName);
+            Assert.AreEqual(site5.name, getAllSitesInclRemoved[4].SiteName);
+            Assert.AreEqual(site6.name, getAllSitesInclRemoved[5].SiteName);
+            Assert.AreEqual(site7.name, getAllSitesInclRemoved[6].SiteName);
+            Assert.AreEqual(site8.name, getAllSitesInclRemoved[7].SiteName);
+            Assert.AreEqual(site9.name, getAllSitesInclRemoved[8].SiteName);
+            Assert.AreEqual(site10.name, getAllSitesInclRemoved[9].SiteName);
+        }
+
+        [Test]
+        public void SQL_Site_SimpleSiteGetAll_DoesReturnSiteList()
+        {
+
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 88);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 88);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 88);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 88);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 88);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 88);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 88);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 88);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 88);
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            // Act
+            var match = sut.SimpleSiteGetAll(Constants.WorkflowStates.Created, 0, 1);
+
+
+            // Assert
+            Assert.AreEqual(10, match.Count());
+
+
+            Assert.AreEqual(site1.name, match[0].SiteName);
+            Assert.AreEqual(site2.name, match[1].SiteName);
+            Assert.AreEqual(site3.name, match[2].SiteName);
+            Assert.AreEqual(site4.name, match[3].SiteName);
+            Assert.AreEqual(site5.name, match[4].SiteName);
+            Assert.AreEqual(site6.name, match[5].SiteName);
+            Assert.AreEqual(site7.name, match[6].SiteName);
+            Assert.AreEqual(site8.name, match[7].SiteName);
+            Assert.AreEqual(site9.name, match[8].SiteName);
+            Assert.AreEqual(site10.name, match[9].SiteName);
+
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteCreate_ReturnsSiteId()
+        {
+            // Arrance
+
+
+            // Act
+
+            var match = sut.SiteCreate(88, "siteName1");
+
+            // Assert
+            var sites = DbContext.sites.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+
+            Assert.AreEqual(1, sites.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteRead_ReadsSite()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteRead((int)site1.microting_uid);
+
+            // Assert
+            Assert.AreEqual(site1.microting_uid, match.SiteUId);
+            Assert.AreEqual(site1.name, match.SiteName);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteReadSimple_ReadsSite()
+        {
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteReadSimple((int)site1.microting_uid);
+
+            // Assert
+            Assert.AreEqual(site1.microting_uid, match.SiteId);
+            Assert.AreEqual(site1.name, match.SiteName);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteUpdate_UpdatesSite()
+        {
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteUpdate((int)site1.microting_uid, site1.name);
+
+            // Assert
+            Assert.True(match);
+
+        }
+
+        [Test]
+        public void SQL_Site_SiteDelete_DeletesSite()
+        {
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+
+            #endregion
+            #endregion
+
+            // Act
+
+            var match = sut.SiteDelete((int)site1.microting_uid);
+
+            // Assert
+            Assert.True(match);
+        }
+
+        #endregion
+
+        #region Worker
+
+        [Test]
+        public void SQL_Worker_WorkerGetAll_ReturnsAllWorkers()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var getAllCreatedWorkers = sut.WorkerGetAll(Constants.WorkflowStates.Created, 0, 1);
+            var getAllRemovedWorkers = sut.WorkerGetAll(Constants.WorkflowStates.Removed, 0, 1);
+
+
+            // Assert
+
+            Assert.AreEqual(10, getAllCreatedWorkers.Count());
+            Assert.AreEqual(0, getAllRemovedWorkers.Count());
+
+            Assert.AreEqual(worker1.first_name, getAllCreatedWorkers[0].FirstName);
+            Assert.AreEqual(worker2.first_name, getAllCreatedWorkers[1].FirstName);
+            Assert.AreEqual(worker3.first_name, getAllCreatedWorkers[2].FirstName);
+            Assert.AreEqual(worker4.first_name, getAllCreatedWorkers[3].FirstName);
+            Assert.AreEqual(worker5.first_name, getAllCreatedWorkers[4].FirstName);
+            Assert.AreEqual(worker6.first_name, getAllCreatedWorkers[5].FirstName);
+            Assert.AreEqual(worker7.first_name, getAllCreatedWorkers[6].FirstName);
+            Assert.AreEqual(worker8.first_name, getAllCreatedWorkers[7].FirstName);
+            Assert.AreEqual(worker9.first_name, getAllCreatedWorkers[8].FirstName);
+            Assert.AreEqual(worker10.first_name, getAllCreatedWorkers[9].FirstName);
+
+
+            Assert.AreEqual(worker1.last_name, getAllCreatedWorkers[0].LastName);
+            Assert.AreEqual(worker2.last_name, getAllCreatedWorkers[1].LastName);
+            Assert.AreEqual(worker3.last_name, getAllCreatedWorkers[2].LastName);
+            Assert.AreEqual(worker4.last_name, getAllCreatedWorkers[3].LastName);
+            Assert.AreEqual(worker5.last_name, getAllCreatedWorkers[4].LastName);
+            Assert.AreEqual(worker6.last_name, getAllCreatedWorkers[5].LastName);
+            Assert.AreEqual(worker7.last_name, getAllCreatedWorkers[6].LastName);
+            Assert.AreEqual(worker8.last_name, getAllCreatedWorkers[7].LastName);
+            Assert.AreEqual(worker9.last_name, getAllCreatedWorkers[8].LastName);
+            Assert.AreEqual(worker10.last_name, getAllCreatedWorkers[9].LastName);
+        }
+        [Test]
+        public void SQL_Worker_WorkerCreate_ReturnsWorkerId()
+        {
+            // Arrance
+
+            // Act
+            var match = sut.WorkerCreate(55, "Arne", "Jensen", "aa@tak.dk");
+            // Assert
+
+            var workers = DbContext.workers.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+            Assert.AreEqual(1, workers.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, workers[0].workflow_state);
+        }
+        [Test]
+        public void SQL_Worker_WorkerNameRead_ReadsName()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerNameRead((int)worker1.id);
+
+            // Assert
+
+            Assert.AreEqual(worker1.first_name + " " + worker1.last_name, match);
+
+
+        }
+        [Test]
+        public void SQL_Worker_WorkerRead_ReadsWorker()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerRead((int)worker1.microting_uid);
+
+            // Assert
+
+            Assert.AreEqual(worker1.microting_uid, match.WorkerUId);
+            Assert.AreEqual(worker1.first_name, match.FirstName);
+
+
+
+        }
+        [Test]
+        public void SQL_Worker_WorkerUpdate_UpdatesWorker()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerUpdate(worker1.microting_uid, worker1.first_name, worker1.last_name, worker1.email);
+
+
+            // Assert
+
+            Assert.True(match);
+        }
+        [Test]
+        public void SQL_Worker_WorkerDelete_DeletesWorker()
+        {
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.WorkerDelete((int)worker1.microting_uid);
+
+            // Assert
+
+            Assert.True(match);
+
+        }
+        #endregion
+
+        #region site_worker
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerCreate_ReturnsID()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+
+
+            #endregion
+            // Act
+
+            var match = sut.SiteWorkerCreate(5, (int)site1.microting_uid, (int)worker1.microting_uid);
+
+            // Assert
+            var siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+            Assert.AreEqual(1, siteWorkers.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, siteWorkers[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerRead_ReadsSiteWorker()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+
+            // Act
+
+            var match = sut.SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
+
+            // Assert
+
+            Assert.AreEqual(site_workers.microting_uid, match.MicrotingUId);
+            Assert.AreEqual(site_workers.worker_id, match.WorkerUId);
+            Assert.AreEqual(site_workers.site_id, match.SiteUId);
+
+
+
+        }
+
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerUpdate_UpdatesSiteWorker()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+
+            // Act
+
+            var match = sut.SiteWorkerUpdate((int)site_workers.microting_uid, site1.id, worker1.id);
+
+            // Assert
+
+            Assert.True(match);
+
+
+        }
+
+        [Test]
+        public void SQL_SiteWorker_SiteWorkerDelete_DeletesSiteWorker()
+        {
+
+            // Arrance
+
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+
+            // Act
+
+            var match = sut.SiteWorkerDelete((int)site_workers.microting_uid);
+
+            // Assert
+            Assert.True(match);
+
+        }
+        #endregion
+
+        #region unit
+
+        [Test]
+        public void SQL_Unit_UnitGetAll_ReturnsAllUnits()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+
+            #region Unit1
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            #endregion
+
+            #region Unit2
+            units unit2 = CreateUnit(2, 55, site2, 349);
+            #endregion
+
+            #region Unit3
+            units unit3 = CreateUnit(3, 51, site3, 350);
+            #endregion
+
+            #region Unit4
+            units unit4 = CreateUnit(4, 52, site4, 351);
+            #endregion
+
+            #region Unit5
+            units unit5 = CreateUnit(5, 6, site5, 352);
+            #endregion
+
+            #region Unit6
+            units unit6 = CreateUnit(6, 85, site6, 353);
+            #endregion
+
+            #region Unit7
+            units unit7 = CreateUnit(7, 62, site7, 354);
+            #endregion
+
+            #region Unit8
+            units unit8 = CreateUnit(8, 96, site8, 355);
+            #endregion
+
+            #region Unit9
+            units unit9 = CreateUnit(9, 69, site9, 356);
+            #endregion
+
+            #region Unit10
+            units unit10 = CreateUnit(10, 100, site10, 357);
+            #endregion
+
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var getAllUnits = sut.UnitGetAll();
+
+            // Assert
+
+            Assert.AreEqual(10, getAllUnits.Count());
+
+            Assert.AreEqual(unit1.microting_uid, getAllUnits[0].UnitUId);
+            Assert.AreEqual(unit2.microting_uid, getAllUnits[1].UnitUId);
+            Assert.AreEqual(unit3.microting_uid, getAllUnits[2].UnitUId);
+            Assert.AreEqual(unit4.microting_uid, getAllUnits[3].UnitUId);
+            Assert.AreEqual(unit5.microting_uid, getAllUnits[4].UnitUId);
+            Assert.AreEqual(unit6.microting_uid, getAllUnits[5].UnitUId);
+            Assert.AreEqual(unit7.microting_uid, getAllUnits[6].UnitUId);
+            Assert.AreEqual(unit8.microting_uid, getAllUnits[7].UnitUId);
+            Assert.AreEqual(unit9.microting_uid, getAllUnits[8].UnitUId);
+            Assert.AreEqual(unit10.microting_uid, getAllUnits[9].UnitUId);
+        }
+
+        [Test]
+        public void SQL_Unit_UnitCreate_CreatesUnit()
+        {
+
+            // Arrance
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+            // Act
+            var match = sut.UnitCreate(5, 654, 88, (int)site1.microting_uid);
+            // Assert
+            var units = DbContext.units.AsNoTracking().ToList();
+
+            Assert.NotNull(match);
+            Assert.AreEqual(1, units.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, units[0].workflow_state);
+
+
+        }
+
+        [Test]
+        public void SQL_Unit_UnitRead_ReadsUnit()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+
+            #region Unit1
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            #endregion
+
+            #region Unit2
+            units unit2 = CreateUnit(2, 55, site2, 349);
+            #endregion
+
+            #region Unit3
+            units unit3 = CreateUnit(3, 51, site3, 350);
+            #endregion
+
+            #region Unit4
+            units unit4 = CreateUnit(4, 52, site4, 351);
+            #endregion
+
+            #region Unit5
+            units unit5 = CreateUnit(5, 6, site5, 352);
+            #endregion
+
+            #region Unit6
+            units unit6 = CreateUnit(6, 85, site6, 353);
+            #endregion
+
+            #region Unit7
+            units unit7 = CreateUnit(7, 62, site7, 354);
+            #endregion
+
+            #region Unit8
+            units unit8 = CreateUnit(8, 96, site8, 355);
+            #endregion
+
+            #region Unit9
+            units unit9 = CreateUnit(9, 69, site9, 356);
+            #endregion
+
+            #region Unit10
+            units unit10 = CreateUnit(10, 100, site10, 357);
+            #endregion
+
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+
+            var match = sut.UnitRead((int)unit1.microting_uid);
+
+            // Assert
+
+            Assert.AreEqual(unit1.microting_uid, match.UnitUId);
+            Assert.AreEqual(unit1.customer_no, match.CustomerNo);
+
+
+        }
+
+        [Test]
+        public void SQL_Unit_UnitUpdate_UpdatesUnit()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+            #endregion
+
+            #endregion
+
+            #region units
+
+            #region Unit1
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            #endregion
+
+            #region Unit2
+            units unit2 = CreateUnit(2, 55, site2, 349);
+            #endregion
+
+            #region Unit3
+            units unit3 = CreateUnit(3, 51, site3, 350);
+            #endregion
+
+            #region Unit4
+            units unit4 = CreateUnit(4, 52, site4, 351);
+            #endregion
+
+            #region Unit5
+            units unit5 = CreateUnit(5, 6, site5, 352);
+            #endregion
+
+            #region Unit6
+            units unit6 = CreateUnit(6, 85, site6, 353);
+            #endregion
+
+            #region Unit7
+            units unit7 = CreateUnit(7, 62, site7, 354);
+            #endregion
+
+            #region Unit8
+            units unit8 = CreateUnit(8, 96, site8, 355);
+            #endregion
+
+            #region Unit9
+            units unit9 = CreateUnit(9, 69, site9, 356);
+            #endregion
+
+            #region Unit10
+            units unit10 = CreateUnit(10, 100, site10, 357);
+            #endregion
+
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+            #endregion
+
+            #endregion
+            // Act
+            var match = sut.UnitUpdate((int)unit1.microting_uid, (int)unit1.customer_no, (int)unit1.otp_code, (int)unit1.site_id);
+            // Assert
+            Assert.True(match);
+        }
+
+        [Test]
+        public void SQL_Unit_UnitDelete_DeletesUnit()
+        {  // Arrance
+            #region Arrance
+
+            #region Checklist
+
+            check_lists Cl1 = CreateTemplate("A1", "D1", "caseType1", "WhereItIs", 1, 0);
+
+            #endregion
+
+            #region SubCheckList
+
+            check_lists Cl2 = CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+
+            #endregion
+
+            #region Fields
+
+            #region field1
+
+
+            fields f1 = CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Workers
+
+            #region worker1
+            workers worker1 = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region worker2
+            workers worker2 = CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+
+            #endregion
+
+            #region worker3
+            workers worker3 = CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+
+            #endregion
+
+            #region worker4
+            workers worker4 = CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+
+            #endregion
+
+            #region worker5
+            workers worker5 = CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+
+            #endregion
+
+            #region worker6
+            workers worker6 = CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+
+            #endregion
+
+            #region worker7
+            workers worker7 = CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+
+            #endregion
+
+            #region worker8
+            workers worker8 = CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+
+            #endregion
+
+            #region worker9
+            workers worker9 = CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+
+            #endregion
+
+            #region worker10
+            workers worker10 = CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+
+            #endregion
+
+            #endregion
+
+            #region sites
+
+            #region Site1
+            sites site1 = CreateSite("SiteName1", 88);
+
+            #endregion
+
+            #region Site2
+            sites site2 = CreateSite("SiteName2", 89);
+
+            #endregion
+
+            #region Site3
+            sites site3 = CreateSite("SiteName3", 90);
+
+            #endregion
+
+            #region Site4
+            sites site4 = CreateSite("SiteName4", 91);
+
+            #endregion
+
+            #region Site5
+            sites site5 = CreateSite("SiteName5", 92);
+            #endregion
+
+            #region Site6
+            sites site6 = CreateSite("SiteName6", 93);
+
+            #endregion
+
+            #region Site7
+            sites site7 = CreateSite("SiteName7", 94);
+
+            #endregion
+
+            #region Site8
+            sites site8 = CreateSite("SiteName8", 95);
+
+            #endregion
+
+            #region Site9
+            sites site9 = CreateSite("SiteName9", 96);
+
+            #endregion
+
+            #region Site10
+            sites site10 = CreateSite("SiteName10", 97);
+
+        #endregion
+            #endregion
+            
+
+        
+
+        #region units
+
+        #region Unit1
+        units unit1 = CreateUnit(48, 49, site1, 348);
+        #endregion
+
+        #region Unit2
+        units unit2 = CreateUnit(2, 55, site2, 349);
+        #endregion
+
+        #region Unit3
+        units unit3 = CreateUnit(3, 51, site3, 350);
+        #endregion
+
+        #region Unit4
+        units unit4 = CreateUnit(4, 52, site4, 351);
+        #endregion
+
+        #region Unit5
+        units unit5 = CreateUnit(5, 6, site5, 352);
+        #endregion
+
+        #region Unit6
+        units unit6 = CreateUnit(6, 85, site6, 353);
+        #endregion
+
+        #region Unit7
+        units unit7 = CreateUnit(7, 62, site7, 354);
+        #endregion
+
+        #region Unit8
+        units unit8 = CreateUnit(8, 96, site8, 355);
+        #endregion
+
+        #region Unit9
+        units unit9 = CreateUnit(9, 69, site9, 356);
+        #endregion
+
+        #region Unit10
+        units unit10 = CreateUnit(10, 100, site10, 357);
+        #endregion
+
+
+        #endregion
+
+        #region site_workers
+        site_workers site_workers = CreateSiteWorker(55, site1, worker1);
+
+        #endregion
+
+        #endregion
+
+        // Act
+        var match = sut.UnitDelete((int)unit1.microting_uid);
+        // Assert
+        Assert.True(match);}
+
+
+
+
+
+
+
+
+        #endregion
+
+        #endregion
+
+        #region Entity
+        #region Entity Group
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroups()
+        {
+
+            // Arrance
+            #region Arrance
+            
+            #region Entity Groups
+            
+            #region EntitySearch
+            #region Created
+            #region eG1
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+         
+            #region eG9
+            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+            
+            #region EntitySelect
+            #region Created
+            #region eG1
+            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            #endregion
+
+            // Act
+
+            #region pageindex 0
+
+            #region pageSize 10
+
+            #region Default Sorting
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region Sorting W.O nameFilter
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region sorting W.O sort param
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+        
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+            // Assert
+            #region pageIndex 0
+
+            #region pageSize 10
+            #region Def Sort
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreated
+            Assert.NotNull(matchEntityGroupAllSearchCreated);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreated
+            Assert.NotNull(matchEntityGroupAllSelectCreated);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemoved
+            Assert.NotNull(matchEntityGroupAllSearchRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemoved
+            Assert.NotNull(matchEntityGroupAllSelectRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemoved
+            Assert.NotNull(matchEntityGroupAllSearchNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemoved
+            Assert.NotNull(matchEntityGroupAllSelectNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, 10);
+
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Name Filter
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Sort Param
+
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+        }
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupCreate_CreatesNewEntityGroup()
+        {
+
+            // Arrance
+
+            // Act
+            var matchEntitySearch = sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch);
+            var matchEntitySelect = sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect);
+            // Assert
+            Assert.AreEqual("eG1", matchEntitySearch.Name);
+            Assert.AreEqual("eG2", matchEntitySelect.Name);
+
+
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
+        {
+
+            // Arrance
 
             // Act
 
             // Assert
-            Assert.True(true);
+
         }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupRead_ReadsEntityGroupp()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupUpdateName_UpdatesEnityGroupName()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntotyGroupItems()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
+        [Test]
+        public void SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
+        {
+
+            // Arrance
+
+            // Act
+
+            // Assert
+
+        }
+
+
         #endregion
+
+        #region Entity Item
+
         #endregion
+
+        #endregion
+
 
         // Arrance
 
@@ -13295,7 +19425,7 @@ namespace eFormSDK.Integration.Tests
         {
 
             cases aCase = new cases();
-           
+
             aCase.case_uid = caseUId;
             aCase.check_list = checkList;
             aCase.check_list_id = checkList.id;
@@ -13320,7 +19450,7 @@ namespace eFormSDK.Integration.Tests
 
             return aCase;
         }
-        public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id,  int? userId, string value, int? version, workers worker)
+        public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id, int? userId, string value, int? version, workers worker)
         {
             field_values fv = new field_values();
             fv.case_id = aCase.id;
@@ -13386,7 +19516,6 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
             return UD;
         }
-
         public check_list_sites CreateCheckListSite(int checkListId, int siteId)
         {
             check_list_sites cls = new check_list_sites();
@@ -13401,11 +19530,10 @@ namespace eFormSDK.Integration.Tests
             return cls;
         }
 
-        
+
         #endregion
 
-
-    }
-
-
+    }     
 }
+
+

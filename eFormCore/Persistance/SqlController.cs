@@ -524,6 +524,7 @@ namespace eFormSqlController
         #endregion
 
         #region public (pre)case
+
         public void CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
             try
@@ -813,6 +814,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
+
                     check_list_sites site = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
 
                     site.updated_at = DateTime.Now;
@@ -821,6 +823,7 @@ namespace eFormSqlController
 
                     db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
                     db.SaveChanges();
+
                 }
             }
             catch (Exception ex)
@@ -1466,6 +1469,7 @@ namespace eFormSqlController
                                 {
                                     answer.ValueReadable = match.name;
                                     answer.Value = match.entity_item_uid;
+                                    answer.MicrotingUuid = match.microting_uid;
                                 }
 
                             }
@@ -1616,12 +1620,12 @@ namespace eFormSqlController
                                             if (kvp.Key == item.case_id.ToString())
                                             {
                                                 if (customPathForUploadedData != null)
-                                                    if (kvp.Value.Contains("http"))
+                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
                                                         kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.file_name;
                                                     else
                                                         kvp.Value = customPathForUploadedData + item.uploaded_data.file_name;
                                                 else
-                                                    if (kvp.Value.Contains("http"))
+                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
                                                     kvp.Value = kvp.Value + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
                                                 else
                                                     kvp.Value = item.uploaded_data.file_location + item.uploaded_data.file_name;
@@ -2148,7 +2152,7 @@ namespace eFormSqlController
         }
 
         public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
-        {
+        {            
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
             log.LogVariable("Not Specified", nameof(templatId), templatId);
@@ -2167,6 +2171,7 @@ namespace eFormSqlController
                     if (end == null)
                         end = DateTime.MaxValue;
 
+                    //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
 
                     List<cases> matches = null;
                     IQueryable<cases> sub_query = db.cases.Where(x => x.done_at > start && x.done_at < end);
@@ -2198,7 +2203,7 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey));
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString().Contains(searchKey) || x.site.name.Contains(searchKey) || x.worker.first_name.Contains(searchKey) || x.worker.last_name.Contains(searchKey));
                     }
 
                     switch (sortParameter)
@@ -2239,61 +2244,61 @@ namespace eFormSqlController
                             else
                                 sub_query = sub_query.OrderBy(x => x.status);
                             break;
-                        case Constants.CaseSortParameters.FieldValue1:
+                        case Constants.CaseSortParameters.Field1:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_1);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_1);
                             break;
-                        case Constants.CaseSortParameters.FieldValue2:
+                        case Constants.CaseSortParameters.Field2:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_2);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_2);
                             break;
-                        case Constants.CaseSortParameters.FieldValue3:
+                        case Constants.CaseSortParameters.Field3:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_3);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_3);
                             break;
-                        case Constants.CaseSortParameters.FieldValue4:
+                        case Constants.CaseSortParameters.Field4:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_4);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_4);
                             break;
-                        case Constants.CaseSortParameters.FieldValue5:
+                        case Constants.CaseSortParameters.Field5:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_5);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_5);
                             break;
-                        case Constants.CaseSortParameters.FieldValue6:
+                        case Constants.CaseSortParameters.Field6:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_6);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_6);
                             break;
-                        case Constants.CaseSortParameters.FieldValue7:
+                        case Constants.CaseSortParameters.Field7:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_7);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_7);
                             break;
-                        case Constants.CaseSortParameters.FieldValue8:
+                        case Constants.CaseSortParameters.Field8:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_8);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_8);
                             break;
-                        case Constants.CaseSortParameters.FieldValue9:
+                        case Constants.CaseSortParameters.Field9:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_9);
                             else
                                 sub_query = sub_query.OrderBy(x => x.field_value_9);
                             break;
-                        case Constants.CaseSortParameters.FieldValue10:
+                        case Constants.CaseSortParameters.Field10:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.field_value_10);
                             else
@@ -2309,6 +2314,9 @@ namespace eFormSqlController
 
                     matches = sub_query.ToList();
 
+
+                    //Console.WriteLine(sub_query.ToString());
+                    //System.Diagnostics.Debug.WriteLine(sub_query.ToString());
                     //
 
                     List<Case> rtrnLst = new List<Case>();

@@ -260,7 +260,23 @@ namespace eFormSDK.Integration.Tests
             return UD;
         }
 
+        public entity_groups CreateEntityGroup(string microtingUId, string name, string entityType, string workflowState)
+        {
+            entity_groups eG = new entity_groups();
 
+            eG.created_at = DateTime.Now;
+            //eG.id = xxx;
+            eG.microting_uid = microtingUId;
+            eG.name = name;
+            eG.type = entityType;
+            eG.updated_at = DateTime.Now;
+            eG.version = 1;
+            eG.workflow_state = workflowState;
+
+            DbContext.entity_groups.Add(eG);
+            DbContext.SaveChanges();
+            return eG;
+        }
 
         #endregion
     }

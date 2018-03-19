@@ -43,7 +43,7 @@ using Castle.Windsor;
 using eFormCore.Installers;
 using Castle.MicroKernel.Registration;
 using Rebus.Bus;
-using Microting.eForm.Messages;
+using eForm.Messages;
 
 namespace eFormCore
 {
@@ -816,6 +816,14 @@ namespace eFormCore
         #endregion
 
         #region case
+
+        /// <summary>
+        /// This method will send the mainElement to the Microting API endpoint.
+        /// </summary>
+        /// <param name="mainElement">eForm to be deployed</param>
+        /// <param name="caseUId">Optional own id</param>
+        /// <param name="siteUid">API id of the site to deploy the eForm at</param>
+        /// <returns>Microting API ID</returns>
         public string CaseCreate(MainElement mainElement, string caseUId, int siteUid)
         {
             List<int> siteUids = new List<int>();
@@ -1191,6 +1199,8 @@ namespace eFormCore
         public bool CaseDelete(string microtingUId)
         {
             bus.SendLocal(new EformDeleteFromServer(microtingUId)).Wait();
+            //bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
+
 
             return true;
         }
@@ -1469,7 +1479,7 @@ namespace eFormCore
             }
         }
 
-        public string CaseToJasperXml(int caseId, string timeStamp)
+        public string CaseToJasperXml(int caseId, string timeStamp, string customPathForUploadedData)
         {
             string methodName = t.GetMethodName();
             try
@@ -1491,7 +1501,7 @@ namespace eFormCore
                         throw new NullReferenceException("reply is null. Delete or fix the case with ID " + caseId.ToString());
                     string clsLst = "";
                     string fldLst = "";
-                    GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList);
+                    GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
                     log.LogVariable("Not Specified", nameof(clsLst), clsLst);
                     log.LogVariable("Not Specified", nameof(fldLst), fldLst);
 
@@ -1591,7 +1601,7 @@ namespace eFormCore
             }
         }
 
-        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp)
+        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
             string methodName = t.GetMethodName();
             try
@@ -1606,7 +1616,7 @@ namespace eFormCore
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
 
-                    CaseToJasperXml(caseId, timeStamp);
+                    CaseToJasperXml(caseId, timeStamp, customPathForUploadedData);
 
                     #region run jar
                     // Start the child process.
@@ -3148,8 +3158,9 @@ namespace eFormCore
 
             return errorLst;
         }
+        
+        private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst, string customPathForUploadedData)
 
-        private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst)
         {
             string jasperFieldXml = "";
             string jasperCheckXml = "";
@@ -3160,24 +3171,51 @@ namespace eFormCore
                 {
                     CheckListValue dataE = (CheckListValue)element;
 
-                    jasperCheckXml = jasperCheckXml
-                       + Environment.NewLine + "<C" + dataE.Id + ">" + dataE.Status + "</C" + dataE.Id + ">";
+                    jasperCheckXml += Environment.NewLine + "<C" + dataE.Id + ">" + dataE.Status + "</C" + dataE.Id + ">";
 
                     foreach (Field field in dataE.DataItemList)
                     {
-                        FieldValue answer = field.FieldValues[0];
 
-                        jasperFieldXml = jasperFieldXml
-                           + Environment.NewLine + "<F" + answer.FieldId + " name=\"" + answer.Label + "\" parent=\"" + element.Label + "\">"
-                           + Environment.NewLine + "<F" + answer.FieldId + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + (answer.ValueReadable ?? string.Empty) + "]]></F" + answer.FieldId + "_value>"
-                           + Environment.NewLine + "</F" + answer.FieldId + ">";
+                        jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + element.Label + "\">";
+
+
+                        foreach (FieldValue answer in field.FieldValues)
+                        {
+                            switch (field.FieldType)
+                            {
+                                case Constants.FieldTypes.Picture:
+                                case Constants.FieldTypes.Signature:
+                                    if (answer.UploadedDataObj != null)
+                                    {
+
+                                        if (customPathForUploadedData != null)
+                                        {
+                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + customPathForUploadedData + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
+                                        }
+                                        else
+                                        {
+                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">NO FILE</F" + field.Id + "_value>";
+                                    }                                  
+                                    break;
+                                default:
+                                    jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + (answer.ValueReadable ?? string.Empty) + "]]></F" + field.Id + "_value>";
+                                    break;
+                            }
+                        }
+
+                        jasperFieldXml += Environment.NewLine + "</F" + field.Id + ">";
                     }
                 }
 
                 if (element.GetType() == typeof(GroupElement))
                 {
                     GroupElement groupE = (GroupElement)element;
-                    GetChecksAndFields(ref clsLst, ref fldLst, groupE.ElementList);
+                    GetChecksAndFields(ref clsLst, ref fldLst, groupE.ElementList, customPathForUploadedData);
                 }
             }
 
