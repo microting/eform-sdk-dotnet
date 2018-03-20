@@ -21,7 +21,8 @@ namespace eFormSqlController
 
 
         public DateTime? updated_at { get; set; }
-
+        
+        // TODO! Change this to be int and create migration to handle the move.
         public string entity_group_id { get; set; }
 
         [StringLength(50)]
