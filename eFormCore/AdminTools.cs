@@ -300,7 +300,11 @@ namespace eFormCore
 
                 //sqlController.UnitTest_TruncateTablesIfEmpty();
 
-                Communicator communicator = new Communicator(sqlController, log);
+                string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
+                string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
+                string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
+                string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
+                Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log);
 
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
@@ -382,8 +386,8 @@ namespace eFormCore
             {
                 sqlController = new SqlController(connectionString);
 
-                Communicator communicator = new Communicator(sqlController, log);
                 string token = sqlController.SettingRead(Settings.token);
+                Communicator communicator = new Communicator(token,"", "", "", "", log);
 
                 Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
                 sqlController.SettingUpdate(Settings.token, token);

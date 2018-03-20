@@ -5172,22 +5172,34 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            workers worker1 = CreateWorker("aa@tak.dk", "ArneB", "Jensen", 21);
+            workers worker2 = CreateWorker("aa@tak.dk", "ArneC", "Jensen", 22);
+            workers worker3 = CreateWorker("aa@tak.dk", "ArneA", "Jensen", 23);
+            workers worker4 = CreateWorker("aa@tak.dk", "ArneD", "Jensen", 24);
 
             #endregion
 
             #region site
-            sites site = CreateSite("SiteName", 88);
+            sites site1 = CreateSite("SiteNameB", 88);
+            sites site2 = CreateSite("SiteNameC", 88);
+            sites site3 = CreateSite("SiteNameD", 88);
+            sites site4 = CreateSite("SiteNameA", 88);
 
             #endregion
 
             #region units
-            units unit = CreateUnit(48, 49, site, 348);
+            units unit1 = CreateUnit(48, 49, site1, 348);
+            units unit2 = CreateUnit(49, 49, site2, 348);
+            units unit3 = CreateUnit(50, 49, site3, 348);
+            units unit4 = CreateUnit(51, 49, site4, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = CreateSiteWorker(55, site, worker);
+            site_workers site_workers1 = CreateSiteWorker(55, site1, worker1);
+            site_workers site_workers2 = CreateSiteWorker(56, site2, worker2);
+            site_workers site_workers3 = CreateSiteWorker(57, site3, worker3);
+            site_workers site_workers4 = CreateSiteWorker(58, site4, worker4);
 
             #endregion
 
@@ -5200,8 +5212,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+                c1_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -5211,8 +5223,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
             cases aCase2 = CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+             c2_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
@@ -5221,8 +5233,9 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+              c3_da,  worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
+
             #endregion
 
             #region Case4
@@ -5231,8 +5244,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4 = CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+                c4_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
             #endregion
             #endregion
 
@@ -5245,8 +5258,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Removed_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1Removed = CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
-                c1Removed_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+                c1Removed_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1Removed_ua, 1, worker1, Constants.WorkflowStates.Removed);
 
             #endregion
 
@@ -5256,8 +5269,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Removed_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2Removed_ua = DateTime.Now.AddDays(-6);
             cases aCase2Removed = CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
-             c2Removed_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+             c2Removed_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2Removed_ua, 1, worker2, Constants.WorkflowStates.Removed);
             #endregion
 
             #region Case3Removed
@@ -5266,8 +5279,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Removed_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3Removed = CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
-              c3Removed_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+              c3Removed_da, worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3Removed_ua, 1, worker3, Constants.WorkflowStates.Removed);
             #endregion
 
             #region Case4Removed
@@ -5276,8 +5289,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Removed_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4Removed = CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
-                c4Removed_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+                c4Removed_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4Removed_ua, 1, worker4, Constants.WorkflowStates.Removed);
             #endregion
 
             #endregion
@@ -5291,8 +5304,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Retracted_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1Retracted = CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
-                c1Retracted_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+                c1Retracted_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1Retracted_ua, 1, worker1, Constants.WorkflowStates.Retracted);
 
             #endregion
 
@@ -5303,8 +5316,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Retracted_ua = DateTime.Now.AddDays(-6);
 
             cases aCase2Retracted = CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
-             c2Retracted_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+             c2Retracted_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2Retracted_ua, 1, worker2, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region Case3Retracted
@@ -5313,8 +5326,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Retracted_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3Retracted = CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
-              c3Retracted_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+              c3Retracted_da, worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3Retracted_ua, 1, worker3, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region Case4Retracted
@@ -5323,8 +5336,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Retracted_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4Retracted = CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
-                c4Retracted_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+                c4Retracted_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4Retracted_ua, 1, worker4, Constants.WorkflowStates.Retracted);
             #endregion
 
             #endregion 
@@ -5352,7 +5365,7 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListFieldValue8 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue8);
             //List<Case> caseListFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue10);
-            //List<Case> caseListSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.SiteName);
+            List<Case> caseListSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.SiteName);
             List<Case> caseListStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.Status);
             List<Case> caseListUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.WorkerName);
@@ -6642,6 +6655,96 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase4.version, caseListDoneAt[2].Version);
             Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListDoneAt[2].WorkerName);
             Assert.AreEqual(aCase4.workflow_state, caseListDoneAt[2].WorkflowState);
+            #endregion
+
+            #endregion
+
+            #region caseListSiteName Def Sort Asc
+
+            #region caseListSiteName aCase1
+            Assert.NotNull(caseListSiteName);
+            Assert.AreEqual(4, caseListSiteName.Count);
+            Assert.AreEqual(aCase4.type, caseListSiteName[0].CaseType);
+            Assert.AreEqual(aCase4.case_uid, caseListSiteName[0].CaseUId);
+            Assert.AreEqual(aCase4.microting_check_uid, caseListSiteName[0].CheckUIid);
+            Assert.AreEqual(c4_ca.ToString(), caseListSiteName[0].CreatedAt.ToString());
+            Assert.AreEqual(aCase4.custom, caseListSiteName[0].Custom);
+            Assert.AreEqual(c4_da.ToString(), caseListSiteName[0].DoneAt.ToString());
+            Assert.AreEqual(aCase4.id, caseListSiteName[0].Id);
+            Assert.AreEqual(aCase4.microting_uid, caseListSiteName[0].MicrotingUId);
+            Assert.AreEqual(aCase4.site.microting_uid, caseListSiteName[0].SiteId);
+            Assert.AreEqual(aCase4.site.name, caseListSiteName[0].SiteName);
+            Assert.AreEqual(aCase4.status, caseListSiteName[0].Status);
+            Assert.AreEqual(aCase4.check_list_id, caseListSiteName[0].TemplatId);
+            Assert.AreEqual(aCase4.unit.microting_uid, caseListSiteName[0].UnitId);
+            Assert.AreEqual(c4_ua.ToString(), caseListSiteName[0].UpdatedAt.ToString());
+            Assert.AreEqual(aCase4.version, caseListSiteName[0].Version);
+            Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListSiteName[0].WorkerName);
+            Assert.AreEqual(aCase4.workflow_state, caseListSiteName[0].WorkflowState);
+
+            #endregion
+
+            #region caseListSiteName aCase2
+            Assert.AreEqual(aCase1.type, caseListSiteName[1].CaseType);
+            Assert.AreEqual(aCase1.case_uid, caseListSiteName[1].CaseUId);
+            Assert.AreEqual(aCase1.microting_check_uid, caseListSiteName[1].CheckUIid);
+            Assert.AreEqual(c1_ca.ToString(), caseListSiteName[1].CreatedAt.ToString());
+            Assert.AreEqual(aCase1.custom, caseListSiteName[1].Custom);
+            Assert.AreEqual(c1_da.ToString(), caseListSiteName[1].DoneAt.ToString());
+            Assert.AreEqual(aCase1.id, caseListSiteName[1].Id);
+            Assert.AreEqual(aCase1.microting_uid, caseListSiteName[1].MicrotingUId);
+            Assert.AreEqual(aCase1.site.microting_uid, caseListSiteName[1].SiteId);
+            Assert.AreEqual(aCase1.site.name, caseListSiteName[1].SiteName);
+            Assert.AreEqual(aCase1.status, caseListSiteName[1].Status);
+            Assert.AreEqual(aCase1.check_list_id, caseListSiteName[1].TemplatId);
+            Assert.AreEqual(aCase1.unit.microting_uid, caseListSiteName[1].UnitId);
+            Assert.AreEqual(c1_ua.ToString(), caseListSiteName[1].UpdatedAt.ToString());
+            Assert.AreEqual(aCase1.version, caseListSiteName[1].Version);
+            Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListSiteName[1].WorkerName);
+            Assert.AreEqual(aCase1.workflow_state, caseListSiteName[1].WorkflowState);
+
+            #endregion
+
+            #region caseListSiteName aCase3
+            Assert.AreEqual(aCase2.type, caseListSiteName[2].CaseType);
+            Assert.AreEqual(aCase2.case_uid, caseListSiteName[2].CaseUId);
+            Assert.AreEqual(aCase2.microting_check_uid, caseListSiteName[2].CheckUIid);
+            Assert.AreEqual(c2_ca.ToString(), caseListSiteName[2].CreatedAt.ToString());
+            Assert.AreEqual(aCase2.custom, caseListSiteName[2].Custom);
+            Assert.AreEqual(c2_da.ToString(), caseListSiteName[2].DoneAt.ToString());
+            Assert.AreEqual(aCase2.id, caseListSiteName[2].Id);
+            Assert.AreEqual(aCase2.microting_uid, caseListSiteName[2].MicrotingUId);
+            Assert.AreEqual(aCase2.site.microting_uid, caseListSiteName[2].SiteId);
+            Assert.AreEqual(aCase2.site.name, caseListSiteName[2].SiteName);
+            Assert.AreEqual(aCase2.status, caseListSiteName[2].Status);
+            Assert.AreEqual(aCase2.check_list_id, caseListSiteName[2].TemplatId);
+            Assert.AreEqual(aCase2.unit.microting_uid, caseListSiteName[2].UnitId);
+            Assert.AreEqual(c2_ua.ToString(), caseListSiteName[2].UpdatedAt.ToString());
+            Assert.AreEqual(aCase2.version, caseListSiteName[2].Version);
+            Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListSiteName[2].WorkerName);
+            Assert.AreEqual(aCase2.workflow_state, caseListSiteName[2].WorkflowState);
+
+            #endregion
+
+            #region caseListSiteName aCase4
+            Assert.AreEqual(aCase3.type, caseListSiteName[3].CaseType);
+            Assert.AreEqual(aCase3.case_uid, caseListSiteName[3].CaseUId);
+            Assert.AreEqual(aCase3.microting_check_uid, caseListSiteName[3].CheckUIid);
+            Assert.AreEqual(c3_ca.ToString(), caseListSiteName[3].CreatedAt.ToString());
+            Assert.AreEqual(aCase3.custom, caseListSiteName[3].Custom);
+            Assert.AreEqual(c3_da.ToString(), caseListSiteName[3].DoneAt.ToString());
+            Assert.AreEqual(aCase3.id, caseListSiteName[3].Id);
+            Assert.AreEqual(aCase3.microting_uid, caseListSiteName[3].MicrotingUId);
+            Assert.AreEqual(aCase3.site.microting_uid, caseListSiteName[3].SiteId);
+            Assert.AreEqual(aCase3.site.name, caseListSiteName[3].SiteName);
+            Assert.AreEqual(aCase3.status, caseListSiteName[3].Status);
+            Assert.AreEqual(aCase3.check_list_id, caseListSiteName[3].TemplatId);
+            Assert.AreEqual(aCase3.unit.microting_uid, caseListSiteName[3].UnitId);
+            Assert.AreEqual(c3_ua.ToString(), caseListSiteName[3].UpdatedAt.ToString());
+            Assert.AreEqual(aCase3.version, caseListSiteName[3].Version);
+            Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListSiteName[3].WorkerName);
+            Assert.AreEqual(aCase3.workflow_state, caseListSiteName[3].WorkflowState);
+
             #endregion
 
             #endregion
