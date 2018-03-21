@@ -8166,43 +8166,43 @@ namespace eFormSDK.Integration.Tests
             #region EntitySearch
             #region Created
             #region eG1
-            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG2
-            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG3
-            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG4
-            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG5
-            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG6
-            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG7
-            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG8
-            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG9
-            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG10
-            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #endregion
@@ -8210,43 +8210,43 @@ namespace eFormSDK.Integration.Tests
             #region Removed 
 
             #region eG1
-            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG2
-            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG3
-            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG4
-            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG5
-            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG6
-            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG7
-            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG8
-            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG9
-            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG10
-            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #endregion
@@ -8254,43 +8254,43 @@ namespace eFormSDK.Integration.Tests
             #region Retracted 
 
             #region eG1
-            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG2
-            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG3
-            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG4
-            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG5
-            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG6
-            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG7
-            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG8
-            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG9
-            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG10
-            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #endregion
@@ -8300,43 +8300,43 @@ namespace eFormSDK.Integration.Tests
             #region EntitySelect
             #region Created
             #region eG1
-            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG2
-            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG3
-            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG4
-            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG5
-            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG6
-            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG7
-            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG8
-            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG9
-            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG10
-            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #endregion
@@ -8344,43 +8344,43 @@ namespace eFormSDK.Integration.Tests
             #region Removed 
 
             #region eG1
-            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG2
-            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG3
-            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG4
-            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG5
-            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG6
-            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG7
-            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG8
-            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG9
-            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG10
-            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #endregion
@@ -8388,43 +8388,43 @@ namespace eFormSDK.Integration.Tests
             #region Retracted 
 
             #region eG1
-            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG2
-            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG3
-            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG4
-            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG5
-            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG6
-            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG7
-            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG8
-            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG9
-            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG10
-            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #endregion
@@ -8829,43 +8829,43 @@ namespace eFormSDK.Integration.Tests
             #region EntitySearch
             #region Created
             #region eG1
-            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG2
-            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG3
-            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG4
-            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG5
-            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG6
-            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG7
-            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG8
-            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG9
-            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG10
-            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
             #endregion
 
             #endregion
@@ -8873,43 +8873,43 @@ namespace eFormSDK.Integration.Tests
             #region Removed 
 
             #region eG1
-            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG2
-            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG3
-            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG4
-            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG5
-            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG6
-            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG7
-            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG8
-            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG9
-            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG10
-            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
             #endregion
 
             #endregion
@@ -8917,43 +8917,43 @@ namespace eFormSDK.Integration.Tests
             #region Retracted 
 
             #region eG1
-            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG2
-            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG3
-            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG4
-            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG5
-            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG6
-            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG7
-            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG8
-            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG9
-            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG10
-            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
             #endregion
 
             #endregion
@@ -8963,43 +8963,43 @@ namespace eFormSDK.Integration.Tests
             #region EntitySelect
             #region Created
             #region eG1
-            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG2
-            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG3
-            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG4
-            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG5
-            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG6
-            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG7
-            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG8
-            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG9
-            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #region eG10
-            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
             #endregion
 
             #endregion
@@ -9007,43 +9007,43 @@ namespace eFormSDK.Integration.Tests
             #region Removed 
 
             #region eG1
-            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG2
-            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG3
-            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG4
-            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG5
-            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG6
-            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG7
-            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG8
-            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG9
-            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #region eG10
-            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUIdSR10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
             #endregion
 
             #endregion
@@ -9051,43 +9051,43 @@ namespace eFormSDK.Integration.Tests
             #region Retracted 
 
             #region eG1
-            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG2
-            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG3
-            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG4
-            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG5
-            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG6
-            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG7
-            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG8
-            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG9
-            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region eG10
-            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUIdST10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
             #endregion
 
             #endregion
