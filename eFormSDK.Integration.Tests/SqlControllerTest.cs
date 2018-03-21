@@ -4512,6 +4512,371 @@ namespace eFormSDK.Integration.Tests
 
         #endregion
 
+        #region (pre)case
+
+        [Test]
+        public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
+        {
+            sites site = CreateSite("mySite", 987);
+
+            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
+
+            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
+
+            // Act
+            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_Case_CheckListSitesRead_DoesSiteRead()
+        {
+
+            sites site1 = CreateSite("mySite2", 331);
+            check_lists cl1 = CreateTemplate("template2", "template_desc", "", "", 1, 1);
+
+            string guid = Guid.NewGuid().ToString();
+            string guid2 = Guid.NewGuid().ToString();
+            string lastCheckUid1 = Guid.NewGuid().ToString();
+            string lastCheckUid2 = Guid.NewGuid().ToString();
+
+            check_list_sites cls1 = CreateCheckListSite(cl1.id, site1.id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
+            check_list_sites cls2 = CreateCheckListSite(cl1.id, site1.id, guid2, Constants.WorkflowStates.Removed, lastCheckUid2);
+
+
+            // Act
+            List<string> matches = sut.CheckListSitesRead(cl1.id, (int)site1.microting_uid, Constants.WorkflowStates.NotRemoved);
+            List<string> matches2 = sut.CheckListSitesRead(cl1.id, (int)site1.microting_uid, null);
+            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+
+            // Assert
+            Assert.NotNull(matches);
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(2, matches2.Count);
+            Assert.AreEqual(cls1.microting_uid, matches[0]);
+            Assert.AreEqual(cls1.microting_uid, matches2[0]);
+            Assert.AreEqual(cls2.microting_uid, matches2[1]);
+        }
+
+        [Test]
+        public void SQL_Case_CaseCreate_DoesCaseCreate()
+        {
+            sites site1 = CreateSite("MySite", 22);
+            check_lists cl1 = CreateTemplate("template1", "template_desc", "", "", 1, 1);
+
+            string guid = Guid.NewGuid().ToString();
+
+            //Case aCase = CreateCase("caseUID", cl1, )
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            string microtingUId = Guid.NewGuid().ToString();
+            string microtingCheckId = Guid.NewGuid().ToString();
+            //cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+            //    c1_da, worker, "microtingCheckUId1", "microtingUId1",
+            //   site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+
+            //Act
+            int matches = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
+            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(matches);
+            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[1].workflow_state);
+            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].workflow_state);
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseReadLastCheckIdByMicrotingUId_DoesCaseReadLastIDByMicrotiingUID()
+        {
+            sites site1 = CreateSite("mySite2", 331);
+            check_lists cl1 = CreateTemplate("template2", "template_desc", "", "", 1, 1);
+
+            string guid = Guid.NewGuid().ToString();
+            string guid2 = Guid.NewGuid().ToString();
+            string lastCheckUid1 = Guid.NewGuid().ToString();
+
+
+            check_list_sites cls1 = CreateCheckListSite(cl1.id, site1.id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
+
+            //cases case1 = CreateCase
+
+            // Act
+            string matches = sut.CaseReadLastCheckIdByMicrotingUId(cls1.microting_uid);
+            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
+
+
+            // Assert
+            Assert.AreEqual(cls1.last_check_id, matches);
+
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
+        {
+
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+            aCase.status = 66;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseUpdateRetrived(aCase.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
+
+
+            // Assert
+
+
+            Assert.NotNull(caseResults);
+            Assert.AreEqual(1, caseResults.Count);
+            Assert.AreNotEqual(1, caseResults[0]);
+
+
+
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
+        {
+            sites site1 = CreateSite("MySite", 22);
+            check_lists cl1 = CreateTemplate("template1", "template_desc", "", "", 1, 1);
+
+            string guid = Guid.NewGuid().ToString();
+            string lastCheckUid1 = Guid.NewGuid().ToString();
+
+            //Case aCase = CreateCase("caseUID", cl1, )
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+            units unit = CreateUnit(48, 49, site1, 348);
+
+
+
+            string microtingUId = Guid.NewGuid().ToString();
+            string microtingCheckId = Guid.NewGuid().ToString();
+            cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+                null, worker, "microtingCheckUId1", "microtingUId1",
+              site1, 66, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+
+            //Act
+            //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.id, aCase1.id);
+            List<cases> caseResults = DbContext.cases.AsNoTracking().Where(x => x.microting_uid == aCase1.microting_uid).ToList();
+            Assert.NotNull(caseResults);
+            Assert.AreEqual(1, caseResults.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].workflow_state);
+            Assert.AreEqual(66, caseResults[0].status);
+
+            sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_da, aCase1.worker.microting_uid, (int)unit.microting_uid);
+            caseResults = DbContext.cases.AsNoTracking().Where(x => x.microting_uid == aCase1.microting_uid).ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().Where(x => x.microting_uid == aCase1.microting_uid).ToList();
+            //DbContext.cases
+
+            // Assert
+
+
+            Assert.NotNull(caseResults);
+            Assert.AreEqual(1, caseResults.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].workflow_state);
+            Assert.AreEqual(100, caseResults[0].status);
+            Assert.AreEqual(c1_da.ToString(), caseResults[0].done_at.ToString());
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
+        {
+
+            // Arrance
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseRetract(aCase.microting_uid, aCase.microting_check_uid);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
+
+            // Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Retracted, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Retracted, versionedMatches[0].workflow_state);
+
+
+        }
+
+        [Test]
+        public void SQL_Case_CaseDelete_DoesCaseRemoved()
+        {
+            // Arrance
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseDelete(aCase.microting_uid);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
+
+            // Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
+        }
+
+        [Test]
+        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
+        {
+
+            // Arrance
+            sites site = new sites();
+            site.name = "SiteName";
+            DbContext.sites.Add(site);
+            DbContext.SaveChanges();
+
+            check_lists cl = new check_lists();
+            cl.label = "label";
+
+            DbContext.check_lists.Add(cl);
+            DbContext.SaveChanges();
+
+            cases aCase = new cases();
+            aCase.microting_uid = "microting_uid";
+            aCase.microting_check_uid = "microting_check_uid";
+            aCase.workflow_state = Constants.WorkflowStates.Created;
+            aCase.check_list_id = cl.id;
+            aCase.site_id = site.id;
+
+            DbContext.cases.Add(aCase);
+            DbContext.SaveChanges();
+
+            // Act
+            sut.CaseDeleteResult(aCase.id);
+            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
+
+            // Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Count);
+            Assert.AreEqual(1, versionedMatches.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
+        }
+
+        [Test]
+        public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
+        {
+            // Arrance
+            sites site = CreateSite("mySite", 987);
+
+            check_lists cl1 = CreateTemplate("bla", "bla_desc", "", "", 0, 0);
+
+            string guid = Guid.NewGuid().ToString();
+            string lastCheckUid1 = Guid.NewGuid().ToString();
+
+
+            check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
+
+            // Act
+            sut.CaseDeleteReversed(cls1.microting_uid);
+            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(checkListSiteResult);
+            Assert.AreEqual(1, checkListSiteResult.Count);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].workflow_state);
+
+        }
+        #endregion
         #region (post) case
         [Test]
         public void SQL_PostCase_CaseReadByMUId_Returns_ReturnCase()
@@ -13343,218 +13708,7 @@ namespace eFormSDK.Integration.Tests
         }
         #endregion
 
-        #region case
-        [Test]
-        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
-        {
-
-            // Arrance
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
-
-            check_lists cl = new check_lists();
-            cl.label = "label";
-
-            DbContext.check_lists.Add(cl);
-            DbContext.SaveChanges();
-
-            cases aCase = new cases();
-            aCase.microting_uid = "microting_uid";
-            aCase.microting_check_uid = "microting_check_uid";
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
-
-            DbContext.cases.Add(aCase);
-            DbContext.SaveChanges();
-
-            // Act
-            sut.CaseDeleteResult(aCase.id);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = DbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
-
-            // Assert
-            Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
-        }
-
-        [Test]
-        public void SQL_Case_CaseDelete_DoesCaseRemoved()
-        {
-            // Arrance
-            // Arrance
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
-
-            check_lists cl = new check_lists();
-            cl.label = "label";
-
-            DbContext.check_lists.Add(cl);
-            DbContext.SaveChanges();
-
-            cases aCase = new cases();
-            aCase.microting_uid = "microting_uid";
-            aCase.microting_check_uid = "microting_check_uid";
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
-
-            DbContext.cases.Add(aCase);
-            DbContext.SaveChanges();
-
-            // Act
-            sut.CaseDelete(aCase.microting_uid);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = DbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
-
-            // Assert
-            Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].workflow_state);
-        }
-
-        [Test]
-        public void SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
-        {
-
-            // Arrance
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
-
-            check_lists cl = new check_lists();
-            cl.label = "label";
-
-            DbContext.check_lists.Add(cl);
-            DbContext.SaveChanges();
-
-            cases aCase = new cases();
-            aCase.microting_uid = "microting_uid";
-            aCase.microting_check_uid = "microting_check_uid";
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
-            aCase.status = 66;
-
-            DbContext.cases.Add(aCase);
-            DbContext.SaveChanges();
-
-            // Act
-            sut.CaseUpdateRetrived(aCase.microting_uid);
-            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
-
-
-            // Assert
-
-
-            Assert.NotNull(caseResults);
-            Assert.AreEqual(1, caseResults.Count);
-            Assert.AreNotEqual(1, caseResults[0]);
-
-
-
-
-        }
-
-        [Test]
-        public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
-        {
-            // Arrance
-            sites site = CreateSite("mySite", 987);
-
-            check_lists cl1 = CreateTemplate("bla", "bla_desc", "", "", 0, 0);
-
-            check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
-
-            // Act
-            sut.CaseDeleteReversed(cls1.microting_uid);
-            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
-            List<sites> siteResults = DbContext.sites.AsNoTracking().ToList();
-
-
-            // Assert
-
-            // Act
-            sut.CaseDeleteReversed(cls1.microting_uid);
-            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
-
-            Assert.NotNull(checkListSiteResult);
-            Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].workflow_state);
-
-            Assert.NotNull(caseResults);
-            //Assert.AreEqual(1, caseResults.Count);
-            //Assert.AreNotEqual(1, caseResults[1]);
-        }
-        [Test]
-        public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
-        {
-            sites site = CreateSite("mySite", 987);
-
-            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
-
-            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
-
-            // Act
-            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
-            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
-
-            // Assert
-
-            Assert.NotNull(checkListSiteResult);
-            Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
-
-        }
-
-        [Test]
-        public void SQL_Case_CheckListSitesRead_DoesSiteRead()
-        {
-
-        }
-
-        [Test]
-        public void SQL_Case_CaseCreate_DoesCaseCreate()
-        {
-
-        }
-
-        [Test]
-        public void SQL_Case_CaseReadCheckIdByMUId_DoesCheckIdByMUId()
-        {
-
-        }
-
-
-        [Test]
-        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
-        {
-
-        }
-
-        [Test]
-        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
-        {
-
-        }
-        #endregion
+        
         
         #region public site
         #region site
@@ -22007,7 +22161,7 @@ namespace eFormSDK.Integration.Tests
 
             return f;
         }
-        public cases CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime done_at, workers doneByUserId, string microtingCheckId, string microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
+        public cases CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime? done_at, workers doneByUserId, string microtingCheckId, string microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
         {
 
             cases aCase = new cases();
@@ -22017,7 +22171,10 @@ namespace eFormSDK.Integration.Tests
             aCase.check_list_id = checkList.id;
             aCase.created_at = created_at;
             aCase.custom = custom;
-            aCase.done_at = done_at;
+            if (done_at != null)
+            {
+                aCase.done_at = done_at;
+            }
             aCase.done_by_user_id = worker.id;
             aCase.microting_check_uid = microtingCheckId;
             aCase.microting_uid = microtingUId;
@@ -22025,7 +22182,6 @@ namespace eFormSDK.Integration.Tests
             aCase.site_id = site.id;
             aCase.status = status;
             aCase.type = caseType;
-            aCase.unit = unit;
             aCase.unit_id = unit.id;
             aCase.updated_at = updated_at;
             aCase.version = version;
@@ -22102,14 +22258,17 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
             return UD;
         }
-        public check_list_sites CreateCheckListSite(int checkListId, int siteId)
+
+        public check_list_sites CreateCheckListSite(int checkListId, int siteId, string microtingUId, string workflowState, string lastCheckUid)
         {
             check_list_sites cls = new check_list_sites();
             cls.site_id = siteId;
             cls.check_list_id = checkListId;
+            cls.microting_uid = microtingUId;
+            cls.last_check_id = lastCheckUid;
             cls.created_at = DateTime.Now;
             cls.updated_at = DateTime.Now;
-            cls.workflow_state = Constants.WorkflowStates.Created;
+            cls.workflow_state = workflowState;
 
             DbContext.check_list_sites.Add(cls);
             DbContext.SaveChanges();
