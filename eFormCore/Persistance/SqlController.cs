@@ -3670,11 +3670,11 @@ namespace eFormSqlController
                 {
                     case Settings.firstRunDone: id = 1; defaultValue = "false"; break;
                     case Settings.logLevel: id = 2; defaultValue = "4"; break;
-                    case Settings.logLimit: id = 3; defaultValue = "250"; break;
+                    case Settings.logLimit: id = 3; defaultValue = "25000"; break;
                     case Settings.knownSitesDone: id = 4; defaultValue = "false"; break;
-                    case Settings.fileLocationPicture: id = 5; defaultValue = "dataFolder/picture/"; break;
-                    case Settings.fileLocationPdf: id = 6; defaultValue = "dataFolder/pdf/"; break;
-                    case Settings.fileLocationJasper: id = 7; defaultValue = "dataFolder/reports/"; break;
+                    case Settings.fileLocationPicture: id = 5; defaultValue = @"output\dataFolder\picture\"; break;
+                    case Settings.fileLocationPdf: id = 6; defaultValue = @"output\dataFolder\pdf\"; break;
+                    case Settings.fileLocationJasper: id = 7; defaultValue = @"output\dataFolder\reports\"; break;
                     case Settings.token: id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
                     case Settings.comAddressBasic: id = 9; defaultValue = "https://basic.microting.com"; break;
                     case Settings.comAddressApi: id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
