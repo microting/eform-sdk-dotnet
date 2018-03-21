@@ -3369,7 +3369,7 @@ namespace eFormCore
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
                     #region get response's data and update DB with data
-                    string checkIdLastKnown = sqlController.CaseReadCheckIdByMUId(microtingUid); //null if NOT a checkListSite
+                    string checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
                     log.LogVariable("Not Specified", nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
@@ -3483,8 +3483,102 @@ namespace eFormCore
                                 #region check_status / checklist completed on the device
                                 case "check_status":
                                     {
-                                        //CheckStatusByMicrotingUid(noteUId);
-                                        //sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
+                                        List<Case_Dto> lstCase = new List<Case_Dto>();
+                                        MainElement mainElement = new MainElement();
+
+                                        Case_Dto concreteCase = sqlController.CaseReadByMUId(noteUId);
+                                        log.LogEverything("Not Specified", concreteCase.ToString() + " has been matched");
+
+                                        if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
+                                            lstCase.Add(concreteCase);
+                                        else
+                                            lstCase = sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
+
+                                        foreach (Case_Dto aCase in lstCase)
+                                        {
+                                            if (aCase.SiteUId == concreteCase.SiteUId)
+                                            {
+                                                #region get response's data and update DB with data
+                                                string checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(noteUId); //null if NOT a checkListSite
+                                                log.LogVariable("Not Specified", nameof(checkIdLastKnown), checkIdLastKnown);
+
+                                                string respXml;
+                                                if (checkIdLastKnown == null)
+                                                    respXml = communicator.Retrieve(noteUId, concreteCase.SiteUId);
+                                                else
+                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteUId, checkIdLastKnown);
+                                                log.LogVariable("Not Specified", nameof(respXml), respXml);
+
+                                                Response resp = new Response();
+                                                resp = resp.XmlToClassUsingXmlDocument(respXml);
+                                                //resp = resp.XmlToClass(respXml);
+
+                                                if (resp.Type == Response.ResponseTypes.Success)
+                                                {
+                                                    log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (true)");
+                                                    if (resp.Checks.Count > 0)
+                                                    {
+                                                        XmlDocument xDoc = new XmlDocument();
+
+                                                        xDoc.LoadXml(respXml);
+                                                        XmlNode checks = xDoc.DocumentElement.LastChild;
+                                                        int i = 0;
+                                                        foreach (Check check in resp.Checks)
+                                                        {
+
+                                                            int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).UnitUId;
+                                                            log.LogVariable("Not Specified", nameof(unitUId), unitUId);
+                                                            int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
+                                                            log.LogVariable("Not Specified", nameof(workerUId), workerUId);
+
+                                                            sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
+
+                                                            sqlController.CaseUpdateCompleted(noteUId, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
+                                                            log.LogEverything("Not Specified", "sqlController.CaseUpdateCompleted(...)");
+
+                                                            #region IF needed retract case, thereby completing the process
+                                                            if (checkIdLastKnown == null)
+                                                            {
+                                                                string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
+                                                                Response respRet = new Response();
+                                                                respRet = respRet.XmlToClass(respXml);
+
+                                                                if (respRet.Type == Response.ResponseTypes.Success)
+                                                                {
+                                                                    log.LogEverything("Not Specified", aCase.ToString() + " has been retracted");
+                                                                }
+                                                                else
+                                                                    log.LogWarning("Not Specified", "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                                            }
+                                                            #endregion
+
+                                                            sqlController.CaseRetract(noteUId, check.Id);
+                                                            log.LogEverything("Not Specified", "sqlController.CaseRetract(...)");
+                                                            // TODO add case.id
+                                                            Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
+                                                            //InteractionCaseUpdate(cDto);
+                                                            try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
+                                                            catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
+                                                            log.LogStandard("Not Specified", cDto.ToString() + " has been completed");
+                                                            i++;
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (false)");
+                                                    throw new Exception("Failed to retrive eForm " + noteUId + " from site " + aCase.SiteUId);
+                                                }
+                                                #endregion
+                                            }
+                                            else
+                                            {
+                                                //delete eForm on other tablets and update DB to "deleted"
+                                                CaseDelete(aCase.MicrotingUId);
+                                            }
+                                        }
+
+                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
                                         break;
                                     }
                                 #endregion
