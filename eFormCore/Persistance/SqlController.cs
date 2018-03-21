@@ -556,13 +556,13 @@ namespace eFormSqlController
             }
         }
 
-        public List<string> CheckListSitesRead(int templateId, int siteUId, string workflowState)
+        public List<string> CheckListSitesRead(int templateId, int microtingUid, string workflowState)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.Single(x => x.microting_uid == siteUId);
+                    sites site = db.sites.Single(x => x.microting_uid == microtingUid);
                     IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.id && x.check_list_id == templateId);
                     if (workflowState == Constants.WorkflowStates.NotRemoved)
                         sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
@@ -641,7 +641,7 @@ namespace eFormSqlController
             }
         }
 
-        public string CaseReadCheckIdByMUId(string microtingUId)
+        public string CaseReadLastCheckIdByMicrotingUId(string microtingUId)
         {
             try
             {
@@ -685,7 +685,7 @@ namespace eFormSqlController
             }
         }
 
-        public void CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int userUId, int unitUId)
+        public void CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
         {
             try
             {
@@ -696,8 +696,8 @@ namespace eFormSqlController
                     if (caseStd == null)
                         caseStd = db.cases.Single(x => x.microting_uid == microtingUId);
 
-                    int userId = db.workers.Single(x => x.microting_uid == userUId).id;
-                    int unitId = db.units.Single(x => x.microting_uid == unitUId).id;
+                    int userId = db.workers.Single(x => x.microting_uid == workerMicrotingUId).id;
+                    int unitId = db.units.Single(x => x.microting_uid == unitMicrotingUid).id;
 
                     caseStd.status = 100;
                     caseStd.done_at = doneAt;
@@ -746,7 +746,7 @@ namespace eFormSqlController
 
                     db.case_versions.Add(MapCaseVersions(match));
                     db.SaveChanges();
-                }
+                }   
             }
             catch (Exception ex)
             {

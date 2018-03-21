@@ -3443,7 +3443,7 @@ namespace eFormCore
                                             if (aCase.SiteUId == concreteCase.SiteUId)
                                             {
                                                 #region get response's data and update DB with data
-                                                string checkIdLastKnown = sqlController.CaseReadCheckIdByMUId(noteUId); //null if NOT a checkListSite
+                                                string checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(noteUId); //null if NOT a checkListSite
                                                 log.LogVariable("Not Specified", nameof(checkIdLastKnown), checkIdLastKnown);
 
                                                 string respXml;
