@@ -260,8 +260,53 @@ namespace eFormSDK.Integration.Tests
             return UD;
         }
 
+        public entity_groups CreateEntityGroup(string microtingUId, string name, string entityType, string workflowState)
+        {
 
+            var lists =  DbContext.entity_groups.Where(x => x.microting_uid == microtingUId).ToList();
 
+            if (lists.Count == 0)
+            {
+                entity_groups eG = new entity_groups();
+
+                eG.created_at = DateTime.Now;
+                //eG.id = xxx;
+                eG.microting_uid = microtingUId;
+                eG.name = name;
+                eG.type = entityType;
+                eG.updated_at = DateTime.Now;
+                eG.version = 1;
+                eG.workflow_state = workflowState;
+
+                DbContext.entity_groups.Add(eG);
+                DbContext.SaveChanges();
+                return eG;
+            } else {
+                throw new ArgumentException("microtingUId already exists: " + microtingUId);
+            }
+            
+        }
+
+        public entity_items CreateEntityItem(string description, int displayIndex, string entityGroupId, string entityItemUId, string microtingUId, string name, short? synced, int version, string workflowState)
+        {
+            entity_items eI = new entity_items();
+            eI.created_at = DateTime.Now;
+            eI.description = description;
+            eI.display_index = displayIndex;
+            eI.entity_group_id = entityGroupId;
+            eI.entity_item_uid = entityItemUId;
+            eI.microting_uid = microtingUId;
+            eI.name = name;
+            eI.synced = synced;
+            eI.updated_at = DateTime.Now;
+            eI.version = version;
+            eI.workflow_state = workflowState;
+
+            DbContext.entity_items.Add(eI);
+            DbContext.SaveChanges();
+
+            return eI;
+        }
         #endregion
     }
 }

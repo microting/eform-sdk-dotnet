@@ -1469,6 +1469,7 @@ namespace eFormSqlController
                                 {
                                     answer.ValueReadable = match.name;
                                     answer.Value = match.entity_item_uid;
+                                    answer.MicrotingUuid = match.microting_uid;
                                 }
 
                             }
@@ -1619,12 +1620,12 @@ namespace eFormSqlController
                                             if (kvp.Key == item.case_id.ToString())
                                             {
                                                 if (customPathForUploadedData != null)
-                                                    if (kvp.Value.Contains("http"))
+                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
                                                         kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.file_name;
                                                     else
                                                         kvp.Value = customPathForUploadedData + item.uploaded_data.file_name;
                                                 else
-                                                    if (kvp.Value.Contains("http"))
+                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
                                                     kvp.Value = kvp.Value + "|" + item.uploaded_data.file_location + item.uploaded_data.file_name;
                                                 else
                                                     kvp.Value = item.uploaded_data.file_location + item.uploaded_data.file_name;
@@ -1780,7 +1781,7 @@ namespace eFormSqlController
         #endregion
 
         #region notification
-        public void NotificationCreate(string notificationUId, string microtingUId, string activity)
+        public notifications NotificationCreate(string notificationUId, string microtingUId, string activity)
         {
             using (var db = GetContext())
             {
@@ -1799,6 +1800,7 @@ namespace eFormSqlController
 
                     db.notifications.Add(aNote);
                     db.SaveChanges();
+                    return aNote;
                 }
                 else
                 {
@@ -2150,7 +2152,7 @@ namespace eFormSqlController
         }
 
         public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
-        {
+        {            
             string methodName = t.GetMethodName();
             log.LogStandard("Not Specified", methodName + " called");
             log.LogVariable("Not Specified", nameof(templatId), templatId);
@@ -2169,6 +2171,7 @@ namespace eFormSqlController
                     if (end == null)
                         end = DateTime.MaxValue;
 
+                    //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
 
                     List<cases> matches = null;
                     IQueryable<cases> sub_query = db.cases.Where(x => x.done_at > start && x.done_at < end);
@@ -2200,7 +2203,7 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString() == searchKey || x.site.name == searchKey || x.worker.first_name == searchKey || x.worker.last_name == searchKey);
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString().Contains(searchKey) || x.site.name.Contains(searchKey) || x.worker.first_name.Contains(searchKey) || x.worker.last_name.Contains(searchKey));
                     }
 
                     switch (sortParameter)
@@ -2311,6 +2314,9 @@ namespace eFormSqlController
 
                     matches = sub_query.ToList();
 
+
+                    //Console.WriteLine(sub_query.ToString());
+                    //System.Diagnostics.Debug.WriteLine(sub_query.ToString());
                     //
 
                     List<Case> rtrnLst = new List<Case>();

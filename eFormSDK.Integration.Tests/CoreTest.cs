@@ -893,7 +893,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending
             #region aCase1 sorting ascendng
             //List<Case> caseListC1SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -905,14 +905,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng
             //List<Case> caseListC2SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -924,14 +924,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng
             //List<Case> caseListC3SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -943,14 +943,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng
             //List<Case> caseListC4SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -962,8 +962,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -972,7 +972,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending
             #region aCase1 sorting Descending
             //List<Case> caseListC1SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -984,14 +984,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending
             //List<Case> caseListC2SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1003,14 +1003,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending
             //List<Case> caseListC3SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1022,14 +1022,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending
             //List<Case> caseListC4SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1041,8 +1041,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1051,7 +1051,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseListC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1063,14 +1063,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "0001", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseListC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1082,14 +1082,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseListC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1101,14 +1101,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseListC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1120,8 +1120,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1130,7 +1130,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseListC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1142,14 +1142,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseListC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1161,14 +1161,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseListC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1180,14 +1180,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseListC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1199,8 +1199,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1300,7 +1300,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending
             #region aCase1 sorting ascendng
             //List<Case> caseListRemovedC1SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1312,14 +1312,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng
             //List<Case> caseListRemovedC2SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC2SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1331,14 +1331,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng
             //List<Case> caseListRemovedC3SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1350,14 +1350,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC3SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng
             //List<Case> caseListRemovedC4SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1369,8 +1369,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1379,7 +1379,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending
             #region aCase1 sorting Descending
             //List<Case> caseListRemovedC1SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1391,14 +1391,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending
             //List<Case> caseListRemovedC2SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1410,14 +1410,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending
             //List<Case> caseListRemovedC3SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1429,14 +1429,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending
             //List<Case> caseListRemovedC4SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1448,8 +1448,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1458,7 +1458,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseListRemovedC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1470,14 +1470,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseListRemovedC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1489,14 +1489,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseListRemovedC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1508,14 +1508,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseListRemovedC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1527,8 +1527,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1537,7 +1537,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseListRemovedC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1549,14 +1549,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseListRemovedC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1568,14 +1568,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseListRemovedC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1587,14 +1587,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseListRemovedC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRemovedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRemovedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1606,8 +1606,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRemovedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRemovedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRemovedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRemovedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRemovedC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1708,7 +1708,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending
             #region aCase1 sorting ascendng
             //List<Case> caseListRetractedC1SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC1SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC1SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC1SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1720,14 +1720,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC1SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC1SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC1SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC1SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng
             //List<Case> caseListRetractedC2SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC2SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC2SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC2SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1739,14 +1739,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC2SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC2SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC2SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC2SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng
             //List<Case> caseListRetractedC3SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC3SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC3SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC3SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1758,14 +1758,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC3SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC3SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC3SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC3SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng
             //List<Case> caseListRetractedC4SortCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC4SortFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC4SortFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC4SortFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1777,8 +1777,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC4SortFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC4SortFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC4SortWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1787,7 +1787,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending
             #region aCase1 sorting Descending
             //List<Case> caseListRetractedC1SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC1SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC1SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC1SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1799,14 +1799,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC1SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC1SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC1SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC1SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending
             //List<Case> caseListRetractedC2SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC2SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC2SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1818,14 +1818,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC2SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC2SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC2SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC2SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending
             //List<Case> caseListRetractedC3SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC3SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC3SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC3SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1837,14 +1837,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC3SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC3SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC3SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending
             //List<Case> caseListRetractedC4SortDescendingCreatedAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDescendingDoneAt = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseListRetractedC4SortDescendingFieldValue1 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC4SortDescendingFieldValue2 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC4SortDescendingFieldValue3 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1856,8 +1856,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseListRetractedC4SortDescendingFieldValue9 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC4SortDescendingFieldValue10 = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDescendingStatus = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDescendingUnitId = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseListRetractedC4SortDescendingWorkerName = sut.CaseReadAll(cl1.id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1866,7 +1866,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting ascending w. Dt
             #region aCase1 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC1SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC1SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1878,14 +1878,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC1SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC1SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC2SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC2SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC2SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1897,14 +1897,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC2SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC2SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC3SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC3SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1916,14 +1916,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC3SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC3SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC3SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
             //List<Case> caseDtListRetractedC4SortDtCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDtDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC4SortDtFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1935,8 +1935,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC4SortDtFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDtStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDtUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC4SortDtWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -1945,7 +1945,7 @@ namespace eFormSDK.Integration.Tests
             #region aCase sorting Descending w. Dt
             #region aCase1 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC1SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC1SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1957,14 +1957,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortvDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC1SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC1SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC1SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase2 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC2SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC2SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1976,14 +1976,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC2SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC2SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC2SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase3 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC3SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC3SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1995,14 +1995,14 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC3SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC3SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC3SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
             #region aCase4 sorting Descending w. Dt
             //List<Case> caseDtListRetractedC4SortDtDescendingCreatedAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Case> caseListRetractedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.DoneAt);
+            List<Case> caseListRetractedC4SortDtDescendingDoneAt = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue1 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue2 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue3 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -2014,8 +2014,8 @@ namespace eFormSDK.Integration.Tests
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue9 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue10 = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtDescendingSiteName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Case> caseListRetractedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.Status);
-            List<Case> caseListRetractedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.UnitId);
+            List<Case> caseListRetractedC4SortDtDescendingStatus = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status);
+            List<Case> caseListRetractedC4SortDtDescendingUnitId = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId);
             //List<Case> caseDtListRetractedC4SortDtDescendingWorkerName = sut.CaseReadAll(cl1.id, DateTime.Now.AddDays(-8), DateTime.Now.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
             #endregion
 
@@ -8151,6 +8151,1710 @@ namespace eFormSDK.Integration.Tests
 
 
         }
+        #endregion
+
+        #region Entity
+        [Test]
+        public void Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroups()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Entity Groups
+
+            #region EntitySearch
+            #region Created
+            #region eG1
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG9
+            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region EntitySelect
+            #region Created
+            #region eG1
+            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            #endregion
+
+            // Act
+
+            #region pageindex 0
+
+            #region pageSize 10
+
+            #region Default Sorting
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreated = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreated = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region Sorting W.O nameFilter
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region sorting W.O sort param
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+            // Assert
+            #region pageIndex 0
+
+            #region pageSize 10
+            #region Def Sort
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreated
+            Assert.NotNull(matchEntityGroupAllSearchCreated);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreated
+            Assert.NotNull(matchEntityGroupAllSelectCreated);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemoved
+            Assert.NotNull(matchEntityGroupAllSearchRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemoved
+            Assert.NotNull(matchEntityGroupAllSelectRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemoved
+            Assert.NotNull(matchEntityGroupAllSearchNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemoved
+            Assert.NotNull(matchEntityGroupAllSelectNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, 10);
+
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Name Filter
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Sort Param
+
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), 20);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+        }
+
+        [Test]
+        public void Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroupsPaged()
+        {
+
+            // Arrance
+            #region Arrance
+
+            #region Entity Groups
+
+            #region EntitySearch
+            #region Created
+            #region eG1
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG9
+            entity_groups eG9 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10 = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Removed = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Retracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region EntitySelect
+            #region Created
+            #region eG1
+            entity_groups eG1Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG2
+            entity_groups eG2Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG3
+            entity_groups eG3Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG4
+            entity_groups eG4Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG5
+            entity_groups eG5Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG6
+            entity_groups eG6Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG7
+            entity_groups eG7Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG8
+            entity_groups eG8Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG9
+            entity_groups eG9Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region eG10
+            entity_groups eG10Select = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            #endregion
+
+            #endregion
+
+            #region Removed 
+
+            #region eG1
+            entity_groups eG1SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRemoved = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+            #endregion
+
+            #endregion
+
+            #region Retracted 
+
+            #region eG1
+            entity_groups eG1SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG2
+            entity_groups eG2SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG3
+            entity_groups eG3SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG4
+            entity_groups eG4SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG5
+            entity_groups eG5SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG6
+            entity_groups eG6SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG7
+            entity_groups eG7SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG8
+            entity_groups eG8SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG9
+            entity_groups eG9SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #region eG10
+            entity_groups eG10SelectRetracted = testHelpers.CreateEntityGroup("microtingUId", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+            #endregion
+
+            #endregion
+
+            #endregion
+            #endregion
+
+            #endregion
+
+            // Act
+
+            #region pageindex 0
+
+            #region pageSize 5
+
+            #region Default Sorting
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreated = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreated = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemoved = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region Sorting W.O nameFilter
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region sorting W.O sort param
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region pageindex 1
+
+            #region pageSize 5
+
+            #region Default Sorting
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedB = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedB = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedB = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedB = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedB = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedB = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedBWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedBWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDesc = sut.Advanced_EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region Sorting W.O nameFilter
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedBNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedBNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter = sut.Advanced_EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #endregion
+
+            #region sorting W.O sort param
+
+            #region entityGroup Asc
+            EntityGroupList matchEntityGroupAllSearchCreatedBNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedBNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+            #region entityGroup Desc
+            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoSort = sut.Advanced_EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            #endregion
+
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+
+            // Assert
+            #region pageIndex 0
+
+            #region pageSize 5
+            #region Def Sort
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreated
+            Assert.NotNull(matchEntityGroupAllSearchCreated);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreated.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreated
+            Assert.NotNull(matchEntityGroupAllSelectCreated);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreated.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemoved
+            Assert.NotNull(matchEntityGroupAllSearchRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemoved
+            Assert.NotNull(matchEntityGroupAllSelectRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemoved
+            Assert.NotNull(matchEntityGroupAllSearchNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemoved
+            Assert.NotNull(matchEntityGroupAllSelectNotRemoved);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, 10);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, 5);
+
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDesc
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, 0);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Name Filter
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Sort Param
+
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, 0);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region pageIndex 1
+
+            #region pageSize 5
+            #region Def Sort
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedB
+            Assert.NotNull(matchEntityGroupAllSearchCreatedB);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedB.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedB.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedB.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedB
+            Assert.NotNull(matchEntityGroupAllSelectCreatedB);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedB.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedB.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedB.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedB
+            Assert.NotNull(matchEntityGroupAllSearchRemovedB);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedB.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedB.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedB.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedB
+            Assert.NotNull(matchEntityGroupAllSelectRemovedB);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedB.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedB.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedB.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedB
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedB);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedB.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedB.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedB.EntityGroups.Count, 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedB
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedB);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedB.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedB.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedB.EntityGroups.Count, 10);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedBWDesc
+            Assert.NotNull(matchEntityGroupAllSearchCreatedBWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDesc.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDesc.EntityGroups.Count, 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedBWDesc
+            Assert.NotNull(matchEntityGroupAllSelectCreatedBWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDesc.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDesc.EntityGroups.Count, 5);
+
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedBWDesc
+            Assert.NotNull(matchEntityGroupAllSearchRemovedBWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDesc.PageNum, 1);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedBWDesc
+            Assert.NotNull(matchEntityGroupAllSelectRemovedBWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDesc.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDesc.PageNum, 1);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedBWDesc
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBWDesc);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDesc.PageNum, 1);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedBWDesc
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBWDesc);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDesc.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDesc.PageNum, 1);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Name Filter
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedBNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedBNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedBNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedBNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedBNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedBNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedBNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedBNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedBNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedBNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedBWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchCreatedBWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedBWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectCreatedBWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedBWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchRemovedBWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedBWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectRemovedBWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #region No Sort Param
+
+            #region Asc
+
+            #region matchEntityGroupAllSearchCreatedBNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedBNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedBNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedBNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedBNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedBNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedBNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedBNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedBNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedBNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #region Desc
+
+            #region matchEntityGroupAllSearchCreatedBWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchCreatedBWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDescNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchCreatedBWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectCreatedBWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectCreatedBWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDescNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectCreatedBWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchRemovedBWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchRemovedBWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDescNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchRemovedBWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSelectRemovedBWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectRemovedBWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDescNoSort.NumOfElements, 10);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDescNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectRemovedBWDescNoSort.EntityGroups.Count(), 5);
+            #endregion
+
+            #region matchEntityGroupAllSearchNotRemovedBWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDescNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSearchNotRemovedBWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #region matchEntityGroupAllSelectNotRemovedBWDescNoSort
+            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBWDescNoSort);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDescNoSort.NumOfElements, 20);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDescNoSort.PageNum, 1);
+            Assert.AreEqual(matchEntityGroupAllSelectNotRemovedBWDescNoSort.EntityGroups.Count(), 10);
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+            #endregion
+
+        }
+
         #endregion
     }
 }
