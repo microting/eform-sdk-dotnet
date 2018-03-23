@@ -1563,6 +1563,36 @@ namespace eFormCore
             }
         }
 
+        public string GetPicturePath()
+        {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationPicture);
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public string GetPdfPath()
+        {
+            string methodName = t.GetMethodName();
+            log.LogStandard("Not Specified", methodName + " called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationPdf);
+            }
+            catch (Exception ex)
+            {
+                log.LogException("Not Specified", methodName + " failed", ex, false);
+                return "N/A";
+            }
+        }
+
         public string GetHttpServerAddress()
         {
             string methodName = t.GetMethodName();
