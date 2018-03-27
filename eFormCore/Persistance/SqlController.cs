@@ -1804,7 +1804,8 @@ namespace eFormSqlController
                 }
                 else
                 {
-                    throw new InvalidOperationException($"Duplicate notification found for notificationid = '{notificationUId}' and MicrotingUid = '{microtingUId}'");
+                    notifications aNote = db.notifications.SingleOrDefault(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId);
+                    return aNote;
                 }
 
                 //TODO else log warning
