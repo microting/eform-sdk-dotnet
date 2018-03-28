@@ -579,7 +579,9 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            check_lists cl1 = testHelpers.CreateTemplate("A", "D", "CheckList", "Template1FolderName", 1, 1);
+            DateTime cl1_ca = DateTime.Now;
+            DateTime cl1_ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
