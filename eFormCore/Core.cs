@@ -90,52 +90,60 @@ namespace eFormCore
 
         int sameExceptionCountTried = 0;
         IBus bus;
-        #endregion
+		#endregion
 
-        //con
+		//con
 
-        #region public state
-        public bool Start(string connectionString)
-        {
-            try
-            {
-                if (!coreAvailable && !coreStatChanging)
-                {
+		#region public state
+		public bool Start(string connectionString)
+		{
+			try
+			{
+				if (!coreAvailable && !coreStatChanging)
+				{
 
 
-                    if (!StartSqlOnly(connectionString))
-                        return false;
-                    log.LogCritical("Not Specified", t.GetMethodName() + " called");
+					if (!StartSqlOnly(connectionString))
+					{
+						return false;
+					}
+					container.Install(
+						new RebusHandlerInstaller()
+						, new RebusInstaller(connectionString)
+					);
+					bus = container.Resolve<IBus>();
+					log.LogCritical("Not Specified", t.GetMethodName() + " called");
 
-                    //---
+					//---
 
-                    coreStatChanging = true;
+					coreStatChanging = true;
 
-                    //subscriber
-                    subscriber = new Subscriber(sqlController, log, bus);
-                    subscriber.Start();
-                    log.LogStandard("Not Specified", "Subscriber started");
+					//subscriber
+					subscriber = new Subscriber(sqlController, log, bus);
+					subscriber.Start();
+					log.LogStandard("Not Specified", "Subscriber started");
 
-                    log.LogCritical("Not Specified", t.GetMethodName() + " started");
-                    coreAvailable = true;
-                    coreStatChanging = false;
+					log.LogCritical("Not Specified", t.GetMethodName() + " started");
+					coreAvailable = true;
+					coreStatChanging = false;
 
-                    //coreThread
-                    Thread coreThread = new Thread(() => CoreThread());
-                    coreThread.Start();
-                    log.LogStandard("Not Specified", "CoreThread started");
-                }
-            }
-            #region catch
-            catch (Exception ex)
-            {
-                FatalExpection(t.GetMethodName() + " failed", ex);
-                return false;
-            }
-            #endregion
+					//coreThread
+					Thread coreThread = new Thread(() => CoreThread());
+					coreThread.Start();
+					log.LogStandard("Not Specified", "CoreThread started");
+				}
+			}
+			#region catch
+			catch (Exception ex)
+			{
+				FatalExpection(t.GetMethodName() + " failed", ex);
+				throw ex;
+				//return false;
+			}
+			#endregion
 
-            return true;
-        }
+			return true;
+		}
 
         public bool StartSqlOnly(string connectionString)
         {
@@ -192,12 +200,10 @@ namespace eFormCore
                     container.Register(Component.For<Communicator>().Instance(communicator));
                     container.Register(Component.For<Log>().Instance(log));
                     container.Register(Component.For<Core>().Instance(this));
-                    container.Install(
-                        new RebusHandlerInstaller()
-                        , new RebusInstaller(connectionString)
-                    );
 
-                    bus = container.Resolve<IBus>();
+
+
+
 
                     log.LogStandard("Not Specified", "Communicator started");
 
@@ -3456,9 +3462,10 @@ namespace eFormCore
                                 log.LogEverything("Not Specified", "sqlController.CaseRetract(...)");
                                 // TODO add case.id
                                 Case_Dto cDto = sqlController.CaseReadByMUId(microtingUid);
-                                //InteractionCaseUpdate(cDto);
-                                try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
-                                catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
+								//InteractionCaseUpdate(cDto);
+								FireHandleCaseCompleted(cDto);
+                                //try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
+                                //catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
                                 log.LogStandard("Not Specified", cDto.ToString() + " has been completed");
                                 i++;
                             }
@@ -3478,202 +3485,6 @@ namespace eFormCore
                 }
             }
             return true;
-        }
-
-        private void CoreHandleUpdateNotifications()
-        {
-            try
-            {
-                if (!updateIsRunningNotifications)
-                {
-                    updateIsRunningNotifications = true;
-
-                    #region update notifications
-                    Note_Dto notification;
-                    string noteUId;
-                    bool oneFound = true;
-                    while (oneFound)
-                    {
-                        notification = sqlController.NotificationReadFirst();
-                        #region if no new notification found - stops method
-                        if (notification == null)
-                        {
-                            oneFound = false;
-                            break;
-                        }
-                        #endregion
-
-                        noteUId = notification.MicrotingUId;
-                        log.LogEverything("Not Specified", "Received notification:" + notification.ToString());
-
-                        try
-                        {
-                            switch (notification.Activity)
-                            {
-                                #region check_status / checklist completed on the device
-                                case "check_status":
-                                    {
-                                        List<Case_Dto> lstCase = new List<Case_Dto>();
-                                        MainElement mainElement = new MainElement();
-
-                                        Case_Dto concreteCase = sqlController.CaseReadByMUId(noteUId);
-                                        log.LogEverything("Not Specified", concreteCase.ToString() + " has been matched");
-
-                                        if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
-                                            lstCase.Add(concreteCase);
-                                        else
-                                            lstCase = sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
-
-                                        foreach (Case_Dto aCase in lstCase)
-                                        {
-                                            if (aCase.SiteUId == concreteCase.SiteUId)
-                                            {
-                                                #region get response's data and update DB with data
-                                                string checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(noteUId); //null if NOT a checkListSite
-                                                log.LogVariable("Not Specified", nameof(checkIdLastKnown), checkIdLastKnown);
-
-                                                string respXml;
-                                                if (checkIdLastKnown == null)
-                                                    respXml = communicator.Retrieve(noteUId, concreteCase.SiteUId);
-                                                else
-                                                    respXml = communicator.RetrieveFromId(noteUId, concreteCase.SiteUId, checkIdLastKnown);
-                                                log.LogVariable("Not Specified", nameof(respXml), respXml);
-
-                                                Response resp = new Response();
-                                                resp = resp.XmlToClassUsingXmlDocument(respXml);
-                                                //resp = resp.XmlToClass(respXml);
-
-                                                if (resp.Type == Response.ResponseTypes.Success)
-                                                {
-                                                    log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (true)");
-                                                    if (resp.Checks.Count > 0)
-                                                    {
-                                                        XmlDocument xDoc = new XmlDocument();
-
-                                                        xDoc.LoadXml(respXml);
-                                                        XmlNode checks = xDoc.DocumentElement.LastChild;
-                                                        int i = 0;
-                                                        foreach (Check check in resp.Checks)
-                                                        {
-
-                                                            int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).UnitUId;
-                                                            log.LogVariable("Not Specified", nameof(unitUId), unitUId);
-                                                            int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
-                                                            log.LogVariable("Not Specified", nameof(workerUId), workerUId);
-
-                                                            sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
-
-                                                            sqlController.CaseUpdateCompleted(noteUId, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
-                                                            log.LogEverything("Not Specified", "sqlController.CaseUpdateCompleted(...)");
-
-                                                            #region IF needed retract case, thereby completing the process
-                                                            if (checkIdLastKnown == null)
-                                                            {
-                                                                string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
-                                                                Response respRet = new Response();
-                                                                respRet = respRet.XmlToClass(respXml);
-
-                                                                if (respRet.Type == Response.ResponseTypes.Success)
-                                                                {
-                                                                    log.LogEverything("Not Specified", aCase.ToString() + " has been retracted");
-                                                                }
-                                                                else
-                                                                    log.LogWarning("Not Specified", "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
-                                                            }
-                                                            #endregion
-
-                                                            sqlController.CaseRetract(noteUId, check.Id);
-                                                            log.LogEverything("Not Specified", "sqlController.CaseRetract(...)");
-                                                            // TODO add case.id
-                                                            Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                                            //InteractionCaseUpdate(cDto);
-                                                            try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
-                                                            catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
-                                                            log.LogStandard("Not Specified", cDto.ToString() + " has been completed");
-                                                            i++;
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (false)");
-                                                    throw new Exception("Failed to retrive eForm " + noteUId + " from site " + aCase.SiteUId);
-                                                }
-                                                #endregion
-                                            }
-                                            else
-                                            {
-                                                //delete eForm on other tablets and update DB to "deleted"
-                                                CaseDelete(aCase.MicrotingUId);
-                                            }
-                                        }
-
-                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
-                                        break;
-                                    }
-                                #endregion
-
-                                #region unit fetch / checklist retrieve by device
-                                case "unit_fetch":
-                                    {
-                                        sqlController.CaseUpdateRetrived(noteUId);
-                                        Case_Dto cDto = sqlController.CaseReadByMUId(noteUId);
-                                        //InteractionCaseUpdate(cDto);
-                                        try { HandleCaseRetrived?.Invoke(cDto, EventArgs.Empty); }
-                                        catch { log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection"); }
-                                        log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
-
-                                        sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
-                                        break;
-                                    }
-                                #endregion
-
-                                #region unit_activate / tablet added
-                                case "unit_activate":
-                                    {
-                                        try { HandleSiteActivated?.Invoke(noteUId, EventArgs.Empty); }
-                                        catch { log.LogWarning("Not Specified", "HandleSiteActivated event's external logic suffered an Expection"); }
-                                        log.LogStandard("Not Specified", noteUId + " has been added");
-                                        try
-                                        {
-                                            Unit_Dto unitDto = sqlController.UnitRead(int.Parse(noteUId));
-                                            sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
-                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
-                                        }
-                                        catch
-                                        {
-                                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "processed", "");
-                                        }
-                                        break;
-                                    }
-                                #endregion
-
-                                default:
-                                    throw new IndexOutOfRangeException("Notification activity '" + notification.Activity + "' is not known or mapped");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            log.LogWarning("Not Specified", t.GetMethodName() + " failed." + t.PrintException("failed.Case:'" + notification + "' marked as 'not_found'.", ex));
-                            sqlController.NotificationUpdate(notification.Id, notification.MicrotingUId, "not_found", t.PrintException(ex.Message, ex)); // Add exception to the notification, so it's possible to figure why it was not found!
-                            FireHandleNotificationNotFound(notification);
-                            //try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
-                            //catch { log.LogWarning("Not Specified", "HandleNotificationNotFound event's external logic suffered an Expection"); }
-                        }
-                    }
-                    #endregion
-
-                    updateIsRunningNotifications = false;
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                log.LogWarning("Not Specified", t.GetMethodName() + " catch of ThreadAbortException");
-            }
-            catch (Exception ex)
-            {
-                log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
-            }
         }
 
         private void CoreHandleUpdateEntityItems()
@@ -3796,16 +3607,24 @@ namespace eFormCore
                 log.LogException("Not Specified", "CoreHandleUpdateEntityItems failed", ex, true);
             }
         }
-        #endregion
+		#endregion
 
 
-        #region fireEvents
+		#region fireEvents
 
-        public void FireHandleCaseCompleted(Case_Dto caseDto)
-        {
-            try { HandleCaseCompleted?.Invoke(caseDto, EventArgs.Empty); }
-            catch { log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection"); }
-        }
+		public void FireHandleCaseCompleted(Case_Dto caseDto)
+		{
+			Console.ForegroundColor = ConsoleColor.DarkGreen;
+			Console.WriteLine($"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
+			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
+			catch (Exception ex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine($"HandleCaseCompleted event's external logic suffered an Expection and Exception was: {ex.Message}");
+				log.LogWarning("Not Specified", "HandleCaseCompleted event's external logic suffered an Expection");
+				throw ex;
+			}
+		}
 
         public void FireHandleCaseDeleted(Case_Dto caseDto)
         {
@@ -3825,11 +3644,19 @@ namespace eFormCore
             catch { log.LogWarning("Not Specified", "HandleSiteActivated event's external logic suffered an Expection"); }
         }
 
-        public void FireHandleCaseRetrived(Case_Dto caseDto)
-        {
-            try { HandleCaseRetrived?.Invoke(caseDto, EventArgs.Empty); }
-            catch { log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection"); }
-        }
+		public void FireHandleCaseRetrived(Case_Dto caseDto)
+		{
+			Console.ForegroundColor = ConsoleColor.DarkYellow;
+			Console.WriteLine($"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
+			try { HandleCaseRetrived.Invoke(caseDto, EventArgs.Empty); }
+			catch (Exception ex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine($"FireHandleCaseRetrived event's external logic suffered an Expection and Exception was: {ex.Message}");
+				log.LogWarning("Not Specified", "HandleCaseRetrived event's external logic suffered an Expection");
+				throw ex;
+			}
+		}
         #endregion
     }
 
