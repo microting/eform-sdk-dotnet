@@ -387,7 +387,7 @@ namespace eFormCore
                 sqlController = new SqlController(connectionString);
 
                 string token = sqlController.SettingRead(Settings.token);
-                Communicator communicator = new Communicator(token,"", "", "", "", log);
+                Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log);
 
                 Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
                 sqlController.SettingUpdate(Settings.token, token);

@@ -84,8 +84,8 @@ namespace eFormCommunicator
             if (comOrganizationId == null)
                 comOrganizationId = "";
 
-            if (comOrganizationId == "")
-                errorsFound += "comOrganizationId is missing" + Environment.NewLine;
+            //if (comOrganizationId == "")
+            //    errorsFound += "comOrganizationId is missing" + Environment.NewLine;
 
             if (errorsFound != "")
                 throw new InvalidOperationException(errorsFound.TrimEnd());
