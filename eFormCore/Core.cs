@@ -1238,22 +1238,25 @@ namespace eFormCore
                     try
                     {
                         log.LogException("Not Specified", methodName + " (string " + microtingUId + ") failed", ex, false);
+                        throw ex;
                     }
                     catch
                     {
                         log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                        throw ex;
                     }
-                    return false;
                 }
             }
 
             if (xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i < 12; i++)
                 {
-                    Thread.Sleep(i * 200);
+                    Thread.Sleep(i * 2000);
                     xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
                     if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
                         break;
+                    else
+                        log.LogEverything("Not Specified", $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                 }
 
             log.LogEverything("Not Specified", "XML response:");
@@ -1273,7 +1276,10 @@ namespace eFormCore
 
                     return true;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                }
 
                 try
                 {
@@ -1285,7 +1291,11 @@ namespace eFormCore
 
                     return true;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                    throw ex;
+                }
             }
             return false;
             //return true;
