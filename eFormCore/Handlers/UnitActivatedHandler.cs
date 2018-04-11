@@ -14,6 +14,7 @@ namespace eFormCore.Handlers
         private readonly Communicator communicator;
         private readonly Log log;
         private readonly Core core;
+        Tools t = new Tools();
 
         public UnitActivatedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
         {
@@ -34,7 +35,7 @@ namespace eFormCore.Handlers
                 sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
                 sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "");
 
-                log.LogStandard("Not Specified", "Unit with id " + message.MicrotringUUID + " has been activated");
+                log.LogStandard(t.GetMethodName("UnitActivatedHandler"), "Unit with id " + message.MicrotringUUID + " has been activated");
 
                 Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
                 core.FireHandleSiteActivated(note_Dto);

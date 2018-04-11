@@ -163,7 +163,7 @@ namespace eFormShared
             #endregion
 
             exceptionClass.Occurrence = count;
-            LogStandard("Not Specified", count + ". time the same Exception, within the last hour");
+            LogStandard(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
             return count;
         }
 

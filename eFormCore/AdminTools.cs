@@ -376,7 +376,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                return t.PrintException(t.GetMethodName() + " failed", ex);
+                return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
             }
         }
 
@@ -408,7 +408,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                return t.PrintException(t.GetMethodName() + " failed", ex);
+                return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
             }
         }
 

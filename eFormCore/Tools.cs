@@ -432,12 +432,12 @@ namespace eFormShared
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public string GetMethodName()
+        public string GetMethodName(string className)
         {
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);
 
-            return sf.GetMethod().Name;
+            return className + " - " +sf.GetMethod().Name;
         }
     }
 }

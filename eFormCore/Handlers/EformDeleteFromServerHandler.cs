@@ -17,6 +17,7 @@ namespace Microting.eForm.Handlers
         private readonly Communicator communicator;
         private readonly Log log;
         private readonly Core core;
+        Tools t = new Tools();
 
         public EformDeleteFromServerHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
         {
@@ -39,11 +40,11 @@ namespace Microting.eForm.Handlers
             {
                 try
                 {
-                    log.LogException("Not Specified", methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " + message.MicrotringUUID, ex, false);
+                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " + message.MicrotringUUID, ex, false);
                 }
                 catch
                 {
-                    log.LogException("Not Specified", methodName + " (EformDeleteFromServer message) failed", ex, false);
+                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (EformDeleteFromServer message) failed", ex, false);
                 }
             }
         }
@@ -53,8 +54,8 @@ namespace Microting.eForm.Handlers
             string microtingUId = message.MicrotringUUID;
             string methodName = "EformDeleteFromServerHandler";
 
-            log.LogStandard("Not Specified", methodName + " called");
-            log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
+            log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " called");
+            log.LogVariable(t.GetMethodName("EformDeleteFromServerHandler"), nameof(microtingUId), microtingUId);
 
             var cDto = sqlController.CaseReadByMUId(microtingUId);
             string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
@@ -62,8 +63,8 @@ namespace Microting.eForm.Handlers
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
             {
-                log.LogEverything("Not Specified", "XML response:");
-                log.LogEverything("Not Specified", xmlResponse);
+                log.LogEverything(t.GetMethodName("EformDeleteFromServerHandler"), "XML response:");
+                log.LogEverything(t.GetMethodName("EformDeleteFromServerHandler"), xmlResponse);
                 log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
                 return false;
             }
@@ -73,18 +74,18 @@ namespace Microting.eForm.Handlers
                 try
                 {
                     resp = resp.XmlToClass(xmlResponse);
-                    log.LogException("Not Specified", methodName + " failed", new Exception("Error from Microting server: " + resp.Value), false);
+                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " failed", new Exception("Error from Microting server: " + resp.Value), false);
                     return false;
                 }
                 catch (Exception ex)
                 {
                     try
                     {
-                        log.LogException("Not Specified", methodName + " (string " + microtingUId + ") failed", ex, false);
+                        log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (string " + microtingUId + ") failed", ex, false);
                     }
                     catch
                     {
-                        log.LogException("Not Specified", methodName + " (string microtingUId) failed", ex, false);
+                        log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (string microtingUId) failed", ex, false);
                     }
                     return false;
                 }
@@ -99,8 +100,8 @@ namespace Microting.eForm.Handlers
                         break;
                 }
 
-            log.LogEverything("Not Specified", "XML response:");
-            log.LogEverything("Not Specified", xmlResponse);
+            log.LogEverything(t.GetMethodName("EformDeleteFromServerHandler"), "XML response:");
+            log.LogEverything(t.GetMethodName("EformDeleteFromServerHandler"), xmlResponse);
 
             resp = resp.XmlToClass(xmlResponse);
             if (resp.Type.ToString() == "Success")
@@ -112,7 +113,7 @@ namespace Microting.eForm.Handlers
                     cDto = sqlController.CaseReadByMUId(microtingUId);
                     core.FireHandleCaseDeleted(cDto);
 
-                    log.LogStandard("Not Specified", cDto.ToString() + " has been removed");
+                    log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), cDto.ToString() + " has been removed");
 
                     return true;
                 }
@@ -124,7 +125,7 @@ namespace Microting.eForm.Handlers
 
                     cDto = sqlController.CaseReadByMUId(microtingUId);
                     core.FireHandleCaseDeleted(cDto);
-                    log.LogStandard("Not Specified", cDto.ToString() + " has been removed");
+                    log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), cDto.ToString() + " has been removed");
 
                     return true;
                 }
