@@ -99,7 +99,7 @@ namespace eFormSDK.Integration.Tests
             cl1.folder_name = folderName;
             cl1.display_index = displayIndex;
             cl1.repeated = repeated;
-
+            
             DbContext.check_lists.Add(cl1);
             DbContext.SaveChanges();
             return cl1;
@@ -232,7 +232,7 @@ namespace eFormSDK.Integration.Tests
             CLV.user_id = userId;
             CLV.version = version;
             CLV.workflow_state = Constants.WorkflowStates.Created;
-
+            
             DbContext.check_list_values.Add(CLV);
             DbContext.SaveChanges();
             return CLV;
@@ -241,7 +241,7 @@ namespace eFormSDK.Integration.Tests
         public uploaded_data CreateUploadedData(string checkSum, string currentFile, string extension, string fileLocation, string fileName, short? local, workers worker, string uploaderType, int version)
         {
             uploaded_data UD = new uploaded_data();
-
+            
             UD.checksum = checkSum;
             UD.created_at = DateTime.Now;
             UD.current_file = currentFile;
@@ -317,6 +317,21 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             return tag;
+        }
+        public check_list_sites CreateCheckListSite(check_lists checklist, DateTime createdAt,
+            sites site, DateTime updatedAt, int version, string workflowState)
+        {
+            check_list_sites cls = new check_list_sites();
+            cls.check_list = checklist;
+            cls.created_at = createdAt;
+            cls.site = site;
+            cls.updated_at = updatedAt;
+            cls.version = version;
+            cls.workflow_state = workflowState;
+
+            DbContext.check_list_sites.Add(cls);
+            DbContext.SaveChanges();
+            return cls;
         }
         #endregion
     }
