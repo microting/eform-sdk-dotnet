@@ -84,8 +84,8 @@ namespace eFormCommunicator
             if (comOrganizationId == null)
                 comOrganizationId = "";
 
-            if (comOrganizationId == "")
-                errorsFound += "comOrganizationId is missing" + Environment.NewLine;
+            //if (comOrganizationId == "")
+            //    errorsFound += "comOrganizationId is missing" + Environment.NewLine;
 
             if (errorsFound != "")
                 throw new InvalidOperationException(errorsFound.TrimEnd());
@@ -105,7 +105,7 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                log.LogEverything("Not Specified", t.GetMethodName() + " called");
+                log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
                 //TODO - ALL xml hacks
                 //XML HACK
@@ -118,8 +118,8 @@ namespace eFormCommunicator
                 //Missing serverside.
                 //XML HACK
 
-                log.LogVariable("Not Specified", nameof(xmlString), xmlString);
-                log.LogVariable("Not Specified", nameof(siteId), siteId);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(xmlString), xmlString);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
                 return http.Post(xmlString, siteId.ToString());
             }
@@ -134,9 +134,9 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                log.LogEverything("Not Specified", t.GetMethodName() + " called");
-                log.LogVariable("Not Specified", nameof(eFormId), eFormId);
-                log.LogVariable("Not Specified", nameof(siteId), siteId);
+                log.LogEverything(t.GetMethodName("Comminicator"), "called");
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
                 return http.Status(eFormId, siteId.ToString());
             }
@@ -146,8 +146,8 @@ namespace eFormCommunicator
         //{
         //    lock (_lockSending)
         //    {
-        //        log.LogEverything("Not Specified", t.GetMethodName() + " called");
-        //        log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
+        //        log.LogEverything(t.GetMethodName("Comminicator"), "called");
+        //        log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtingUId), microtingUId);
 
         //        string correctStat = null;
         //        Case_Dto caseDto = null;
@@ -200,9 +200,9 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                log.LogEverything("Not Specified", t.GetMethodName() + " called");
-                log.LogVariable("Not Specified", nameof(eFormId), eFormId);
-                log.LogVariable("Not Specified", nameof(siteId), siteId);
+                log.LogEverything(t.GetMethodName("Comminicator"), "called");
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
                 return http.Retrieve(eFormId, "0", siteId); //Always gets the first
             }
@@ -218,10 +218,10 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                log.LogEverything("Not Specified", t.GetMethodName() + " called");
-                log.LogVariable("Not Specified", nameof(eFormId), eFormId);
-                log.LogVariable("Not Specified", nameof(siteId), siteId);
-                log.LogVariable("Not Specified", nameof(eFormCheckId), eFormCheckId);
+                log.LogEverything(t.GetMethodName("Comminicator"), "called");
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormCheckId), eFormCheckId);
 
                 return http.Retrieve(eFormId, eFormCheckId, siteId);
             }
@@ -236,9 +236,9 @@ namespace eFormCommunicator
         {
             lock (_lockSending)
             {
-                log.LogEverything("Not Specified", t.GetMethodName() + " called");
-                log.LogVariable("Not Specified", nameof(eFormId), eFormId);
-                log.LogVariable("Not Specified", nameof(siteId), siteId);
+                log.LogEverything(t.GetMethodName("Comminicator"), "called");
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
                 return http.Delete(eFormId, siteId.ToString());
             }
@@ -249,8 +249,8 @@ namespace eFormCommunicator
         #region public siteName
         public Tuple<Site_Dto, Unit_Dto> SiteCreate(string name)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(name), name);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
 
             string response = http.SiteCreate(name);
             var parsedData = JRaw.Parse(response);
@@ -266,17 +266,17 @@ namespace eFormCommunicator
 
         public bool SiteUpdate(int siteId, string name)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(siteId), siteId);
-            log.LogVariable("Not Specified", nameof(name), name);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
 
             return http.SiteUpdate(siteId, name);
         }
 
         public bool SiteDelete(int siteId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(siteId), siteId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
             string response = http.SiteDelete(siteId);
             var parsedData = JRaw.Parse(response);
@@ -293,7 +293,7 @@ namespace eFormCommunicator
 
         public List<SiteName_Dto> SiteLoadAllFromRemote()
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
             var parsedData = JRaw.Parse(http.SiteLoadAllFromRemote());
             List<SiteName_Dto> lst = new List<SiteName_Dto>();
@@ -314,10 +314,10 @@ namespace eFormCommunicator
         #region public worker
         public Worker_Dto WorkerCreate(string firstName, string lastName, string email)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(firstName), firstName);
-            log.LogVariable("Not Specified", nameof(lastName), lastName);
-            log.LogVariable("Not Specified", nameof(email), email);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(firstName), firstName);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(lastName), lastName);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(email), email);
 
             string result = http.WorkerCreate(firstName, lastName, email);
             var parsedData = JRaw.Parse(result);
@@ -329,19 +329,19 @@ namespace eFormCommunicator
 
         public bool WorkerUpdate(int workerId, string firstName, string lastName, string email)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(workerId), workerId);
-            log.LogVariable("Not Specified", nameof(firstName), firstName);
-            log.LogVariable("Not Specified", nameof(lastName), lastName);
-            log.LogVariable("Not Specified", nameof(email), email);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(firstName), firstName);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(lastName), lastName);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(email), email);
 
             return http.WorkerUpdate(workerId, firstName, lastName, email);
         }
 
         public bool WorkerDelete(int workerId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(workerId), workerId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
 
             string response = http.WorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
@@ -354,7 +354,7 @@ namespace eFormCommunicator
 
         public List<Worker_Dto> WorkerLoadAllFromRemote()
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
             var parsedData = JRaw.Parse(http.WorkerLoadAllFromRemote());
             List<Worker_Dto> lst = new List<Worker_Dto>();
@@ -377,9 +377,9 @@ namespace eFormCommunicator
         #region public site_worker
         public Site_Worker_Dto SiteWorkerCreate(int siteId, int workerId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(siteId), siteId);
-            log.LogVariable("Not Specified", nameof(workerId), workerId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
 
             string result = http.SiteWorkerCreate(siteId, workerId);
             var parsedData = JRaw.Parse(result);
@@ -389,8 +389,8 @@ namespace eFormCommunicator
 
         public bool SiteWorkerDelete(int workerId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(workerId), workerId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
 
             string response = http.SiteWorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
@@ -403,7 +403,7 @@ namespace eFormCommunicator
 
         public List<Site_Worker_Dto> SiteWorkerLoadAllFromRemote()
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
             var parsedData = JRaw.Parse(http.SiteWorkerLoadAllFromRemote());
             List<Site_Worker_Dto> lst = new List<Site_Worker_Dto>();
@@ -423,16 +423,16 @@ namespace eFormCommunicator
         #region public unit      
         public int UnitRequestOtp(int unitId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(unitId), unitId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(unitId), unitId);
 
             return http.UnitRequestOtp(unitId);
         }
 
         public List<Unit_Dto> UnitLoadAllFromRemote(int customerNo)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(customerNo), customerNo);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(customerNo), customerNo);
 
             var parsedData = JRaw.Parse(http.UnitLoadAllFromRemote());
             List<Unit_Dto> lst = new List<Unit_Dto>();
@@ -461,8 +461,8 @@ namespace eFormCommunicator
         #region public organization      
         public Organization_Dto OrganizationLoadAllFromRemote(string token)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(token), token);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(token), token);
 
             Http specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "666", "");
 
@@ -488,10 +488,10 @@ namespace eFormCommunicator
         #region public entity
         public string EntityGroupCreate(string entityType, string name, string id)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entityType), entityType);
-            log.LogVariable("Not Specified", nameof(name), name);
-            log.LogVariable("Not Specified", nameof(id), id);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entityType), entityType);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
 
             try
             {
@@ -525,11 +525,11 @@ namespace eFormCommunicator
 
         public bool EntityGroupUpdate(string entityType, string name, int id, string entityGroupMUId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entityType), entityType);
-            log.LogVariable("Not Specified", nameof(name), name);
-            log.LogVariable("Not Specified", nameof(id), id);
-            log.LogVariable("Not Specified", nameof(entityGroupMUId), entityGroupMUId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entityType), entityType);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entityGroupMUId), entityGroupMUId);
 
             try
             {
@@ -559,9 +559,9 @@ namespace eFormCommunicator
 
         public void EntityGroupDelete(string entityType, string entityGroupId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entityType), entityType);
-            log.LogVariable("Not Specified", nameof(entityGroupId), entityGroupId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entityType), entityType);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entityGroupId), entityGroupId);
 
             try
             {
@@ -593,11 +593,11 @@ namespace eFormCommunicator
 
         public string EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entitySearchGroupId), entitySearchGroupId);
-            log.LogVariable("Not Specified", nameof(name), name);
-            log.LogVariable("Not Specified", nameof(id), id);
-            log.LogVariable("Not Specified", nameof(description), description);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(description), description);
 
             try
             {
@@ -611,12 +611,12 @@ namespace eFormCommunicator
 
         public bool EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entitySearchGroupId), entitySearchGroupId);
-            log.LogVariable("Not Specified", nameof(entitySearchItemId), entitySearchItemId);
-            log.LogVariable("Not Specified", nameof(name), name);
-            log.LogVariable("Not Specified", nameof(id), id);
-            log.LogVariable("Not Specified", nameof(description), description);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchItemId), entitySearchItemId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(description), description);
 
             try
             {
@@ -630,8 +630,8 @@ namespace eFormCommunicator
 
         public bool EntitySearchItemDelete(string entitySearchItemId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entitySearchItemId), entitySearchItemId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchItemId), entitySearchItemId);
 
             try
             {
@@ -647,11 +647,11 @@ namespace eFormCommunicator
 
         public string EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string id)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entitySearchGroupId), entitySearchGroupId);
-            log.LogVariable("Not Specified", nameof(name), name);
-            log.LogVariable("Not Specified", nameof(displayOrder), displayOrder);
-            log.LogVariable("Not Specified", nameof(id), id);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
 
             try
             {
@@ -665,12 +665,12 @@ namespace eFormCommunicator
 
         public bool EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string id)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entitySearchGroupId), entitySearchGroupId);
-            log.LogVariable("Not Specified", nameof(entitySearchItemId), entitySearchItemId);
-            log.LogVariable("Not Specified", nameof(name), name);
-            log.LogVariable("Not Specified", nameof(displayOrder), displayOrder);
-            log.LogVariable("Not Specified", nameof(id), id);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchItemId), entitySearchItemId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
 
             try
             {
@@ -684,8 +684,8 @@ namespace eFormCommunicator
 
         public bool EntitySelectItemDelete(string entitySearchItemId)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(entitySearchItemId), entitySearchItemId);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchItemId), entitySearchItemId);
 
             try
             {
@@ -701,9 +701,9 @@ namespace eFormCommunicator
 
         public bool PdfUpload(string localPath, string hash)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(localPath), localPath);
-            log.LogVariable("Not Specified", nameof(hash), hash);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(localPath), localPath);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(hash), hash);
 
             try
             {
@@ -711,16 +711,16 @@ namespace eFormCommunicator
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("Comminicator") + " failed", ex);
             }
         }
 
         public string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
-            log.LogEverything("Not Specified", t.GetMethodName() + " called");
-            log.LogVariable("Not Specified", nameof(microtingUId), microtingUId);
-            log.LogVariable("Not Specified", nameof(siteId), siteId);
-            log.LogVariable("Not Specified", nameof(newDisplayIndex), newDisplayIndex);
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtingUId), microtingUId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(newDisplayIndex), newDisplayIndex);
 
             try
             {
@@ -728,7 +728,7 @@ namespace eFormCommunicator
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("Comminicator") + " failed", ex);
             }
         }
         #endregion

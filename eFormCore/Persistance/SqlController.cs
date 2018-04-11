@@ -213,19 +213,19 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
         public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
-            string methodName = t.GetMethodName();
-            log.LogStandard("Not Specified", methodName + " called");
-            log.LogVariable("Not Specified", nameof(includeRemoved), includeRemoved);
-            log.LogVariable("Not Specified", nameof(searchKey), searchKey);
-            log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
-            log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
-            log.LogVariable("Not Specified", nameof(tagIds), tagIds.ToString());
+            string methodName = t.GetMethodName("SQLController");
+            log.LogStandard(methodName, "called");
+            log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
+            log.LogVariable(methodName, nameof(searchKey), searchKey);
+            log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+            log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+            log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
             try
             {
                 List<Template_Dto> templateList = new List<Template_Dto>();
@@ -291,7 +291,7 @@ namespace eFormSqlController
                                 sites.Add(site);
                             } catch (Exception innerEx)
                             {
-                                log.LogException("Not Specified", "could not add the site to the sites for site.id : " + check_list_site.site.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                                log.LogException(methodName, "could not add the site to the sites for site.id : " + check_list_site.site.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
                                 throw new Exception("Error adding site to sites for site.id : " + check_list_site.site.id.ToString(), innerEx);
                             }
                             
@@ -316,7 +316,7 @@ namespace eFormSqlController
                         }
                         catch (Exception innerEx)
                         {
-                            log.LogException("Not Specified", "could not add the templateDto to the templateList for templateId : " + checkList.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                            log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
                             throw new Exception("Error adding template to templateList for templateId : " + checkList.id.ToString(), innerEx);
                         }
                     }
@@ -333,7 +333,7 @@ namespace eFormSqlController
 
         public List<Field_Dto> TemplateFieldReadAll(int templateId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -382,7 +382,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
@@ -418,13 +418,13 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
         public bool TemplateDelete(int templateId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -459,7 +459,7 @@ namespace eFormSqlController
 
         public bool TemplateSetTags(int templateId, List<int> tagIds)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -754,21 +754,34 @@ namespace eFormSqlController
             }
         }
 
-        public void CaseDelete(string microtingUId)
+        public bool CaseDelete(string microtingUId)
 
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
+                    cases aCase = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId);
+                    //cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
+                    if (aCase != null)
+                    {
+                        if (aCase.workflow_state != Constants.WorkflowStates.Removed)
+                        {
+                            aCase.updated_at = DateTime.Now;
+                            aCase.workflow_state = Constants.WorkflowStates.Removed;
+                            aCase.version = aCase.version + 1;
 
-                    aCase.updated_at = DateTime.Now;
-                    aCase.workflow_state = Constants.WorkflowStates.Removed;
-                    aCase.version = aCase.version + 1;
-
-                    db.case_versions.Add(MapCaseVersions(aCase));
-                    db.SaveChanges();
+                            db.case_versions.Add(MapCaseVersions(aCase));
+                            db.SaveChanges();
+                        }
+                        return true;
+                    } else
+                    {
+                        log.LogStandard(t.GetMethodName("SQLController"), "There was not found a case for MicrotingUID " + microtingUId);
+                        return false;
+                    }
+                    
+                    
                 }
             }
             catch (Exception ex)
@@ -1345,7 +1358,7 @@ namespace eFormSqlController
         public Field FieldRead(int id)
         {
 
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -1783,11 +1796,13 @@ namespace eFormSqlController
         #region notification
         public notifications NotificationCreate(string notificationUId, string microtingUId, string activity)
         {
+            string methodName = t.GetMethodName("SQLController");
+
             using (var db = GetContext())
             {
                 if (db.notifications.Count(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId) == 0)
                 {
-                    log.LogStandard("Not Specified", "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
+                    log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
                     notifications aNote = new notifications();
 
@@ -1831,7 +1846,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
@@ -1851,7 +1866,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
         #endregion
@@ -2106,10 +2121,10 @@ namespace eFormSqlController
 
         public int? CaseReadFirstId(int? templateId, string workflowState)
         {
-            string methodName = t.GetMethodName();
-            log.LogStandard("Not Specified", methodName + " called");
-            log.LogVariable("Not Specified", nameof(templateId), templateId);
-            log.LogVariable("Not Specified", nameof(workflowState), workflowState);
+            string methodName = t.GetMethodName("SQLController");
+            log.LogStandard(methodName, "called");
+            log.LogVariable(methodName, nameof(templateId), templateId);
+            log.LogVariable(methodName, nameof(workflowState), workflowState);
             try
             {
                 using (var db = GetContext())
@@ -2154,15 +2169,15 @@ namespace eFormSqlController
 
         public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
         {            
-            string methodName = t.GetMethodName();
-            log.LogStandard("Not Specified", methodName + " called");
-            log.LogVariable("Not Specified", nameof(templatId), templatId);
-            log.LogVariable("Not Specified", nameof(start), start);
-            log.LogVariable("Not Specified", nameof(end), end);
-            log.LogVariable("Not Specified", nameof(workflowState), workflowState);
-            log.LogVariable("Not Specified", nameof(searchKey), searchKey);
-            log.LogVariable("Not Specified", nameof(descendingSort), descendingSort);
-            log.LogVariable("Not Specified", nameof(sortParameter), sortParameter);
+            string methodName = t.GetMethodName("SQLController");
+            log.LogStandard(methodName, "called");
+            log.LogVariable(methodName, nameof(templatId), templatId);
+            log.LogVariable(methodName, nameof(start), start);
+            log.LogVariable(methodName, nameof(end), end);
+            log.LogVariable(methodName, nameof(workflowState), workflowState);
+            log.LogVariable(methodName, nameof(searchKey), searchKey);
+            log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+            log.LogVariable(methodName, nameof(sortParameter), sortParameter);
             try
             {
                 using (var db = GetContext())
@@ -2526,7 +2541,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
         #endregion
@@ -2621,7 +2636,7 @@ namespace eFormSqlController
 
         public int SiteCreate(int microtingUid, string name)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2656,7 +2671,7 @@ namespace eFormSqlController
 
         public SiteName_Dto SiteRead(int microting_uid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2677,7 +2692,7 @@ namespace eFormSqlController
 
         public Site_Dto SiteReadSimple(int microting_uid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2704,7 +2719,7 @@ namespace eFormSqlController
 
         public bool SiteUpdate(int microting_uid, string name)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2739,7 +2754,7 @@ namespace eFormSqlController
 
         public bool SiteDelete(int microting_uid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2776,7 +2791,7 @@ namespace eFormSqlController
         #region worker
         public List<Worker_Dto> WorkerGetAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 List<Worker_Dto> listWorkerDto = new List<Worker_Dto>();
@@ -2818,7 +2833,7 @@ namespace eFormSqlController
 
         public int WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2854,7 +2869,7 @@ namespace eFormSqlController
 
         public string WorkerNameRead(int workerId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2875,7 +2890,7 @@ namespace eFormSqlController
 
         public Worker_Dto WorkerRead(int microting_uid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2896,7 +2911,7 @@ namespace eFormSqlController
 
         public bool WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2933,7 +2948,7 @@ namespace eFormSqlController
 
         public bool WorkerDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -2969,7 +2984,7 @@ namespace eFormSqlController
         #region site_worker
         public int SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3007,7 +3022,7 @@ namespace eFormSqlController
 
         public Site_Worker_Dto SiteWorkerRead(int? microtingUid, int? siteId, int? workerId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3041,7 +3056,7 @@ namespace eFormSqlController
 
         public bool SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3076,7 +3091,7 @@ namespace eFormSqlController
 
         public bool SiteWorkerDelete(int microting_uid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3112,7 +3127,7 @@ namespace eFormSqlController
         #region unit
         public List<Unit_Dto> UnitGetAll()
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 List<Unit_Dto> listWorkerDto = new List<Unit_Dto>();
@@ -3135,7 +3150,7 @@ namespace eFormSqlController
 
         public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3172,7 +3187,7 @@ namespace eFormSqlController
 
         public Unit_Dto UnitRead(int microtingUid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3196,7 +3211,7 @@ namespace eFormSqlController
 
         public bool UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3231,7 +3246,7 @@ namespace eFormSqlController
 
         public bool UnitDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName();
+            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3750,7 +3765,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
@@ -3774,7 +3789,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
@@ -3838,7 +3853,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
         #endregion
@@ -3856,7 +3871,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName() + " failed", ex);
+                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 
@@ -3898,7 +3913,7 @@ namespace eFormSqlController
                 }
                 catch (Exception ex)
                 {
-                    return t.PrintException(t.GetMethodName() + " failed", ex);
+                    return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
                 }
             }
         }
@@ -3936,7 +3951,7 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
-                return t.PrintException(t.GetMethodName() + " failed", ex);
+                return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
             }
         }
 

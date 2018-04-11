@@ -558,8 +558,10 @@ namespace eFormSDK.Integration.Tests
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
-            MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, DateTime.Now,
-                DateTime.Now, "Swahili", false, true, false, true, "type1", "MessageTitle",
+            DateTime startDt = DateTime.Now;
+            DateTime endDt = DateTime.Now;
+            MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, startDt,
+                endDt, "Swahili", false, true, false, true, "type1", "MessageTitle",
                 "MessageBody", CElement.ElementList);
             
             // Act
@@ -574,8 +576,6 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(cl1.label, "label1");
             Assert.AreEqual(cl1.folder_name, "folderWithList");
             Assert.AreEqual(cl1.case_type, "type1");
-            Assert.AreEqual(cl1.created_at.ToString(), DateTime.Now.ToString());
-            Assert.AreEqual(cl1.updated_at.ToString(), DateTime.Now.ToString());
             Assert.AreEqual(cl1.display_index, 4);
             Assert.AreEqual(cl1.workflow_state, Constants.WorkflowStates.Created);
             Assert.AreEqual(cl1.version, 1);

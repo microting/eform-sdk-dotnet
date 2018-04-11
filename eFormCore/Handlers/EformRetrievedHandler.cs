@@ -14,6 +14,7 @@ namespace eFormCore.Handlers
         private readonly Communicator communicator;
         private readonly Log log;
         private readonly Core core;
+        Tools t = new Tools();
 
         public EformRetrievedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
         {
@@ -34,7 +35,7 @@ namespace eFormCore.Handlers
                 sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "");
 
                 Case_Dto cDto = sqlController.CaseReadByMUId(message.MicrotringUUID);
-                log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
+                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrived");
                 core.FireHandleCaseRetrived(cDto);
             }
             catch (Exception ex)

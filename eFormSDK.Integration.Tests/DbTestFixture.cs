@@ -1,7 +1,7 @@
 ﻿using eFormCore;
 using eFormSqlController;
-using Microsoft.Azure.Management.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent;
+//using Microsoft.Azure.Management.Fluent;
+//using Microsoft.Azure.Management.ResourceManager.Fluent;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -39,17 +39,17 @@ namespace eFormSDK.Integration.Tests
                 core.Close();
             }
 
-            if (!userName.Contains("USER_NAME"))
-            {
-                var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGlobalCloud);
-                var azure = Azure
-                    .Configure()
-                    .Authenticate(credentials)
-                    .WithDefaultSubscription();
+            //if (!userName.Contains("USER_NAME"))
+            //{
+            //    var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGlobalCloud);
+            //    var azure = Azure
+            //        .Configure()
+            //        .Authenticate(credentials)
+            //        .WithDefaultSubscription();
 
-                var sqlServer = azure.SqlServers.GetById(databaseServerId);
-                sqlServer.Databases.Define(databaseName: databaseName).Create();
-            }
+            //    var sqlServer = azure.SqlServers.GetById(databaseServerId);
+            //    sqlServer.Databases.Define(databaseName: databaseName).Create();
+            //}
             DbContext.Database.CreateIfNotExists();
 
             DbContext.Database.Initialize(true);
