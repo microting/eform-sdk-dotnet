@@ -553,7 +553,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -632,7 +632,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -664,7 +664,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -686,7 +686,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -708,7 +708,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -732,11 +732,11 @@ namespace eFormCore
             {
                 try
                 {
-                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ") failed", ex, true);
+                    log.LogException("Not Specified", methodName + " (int " + templateId.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    log.LogException("Not Specified", methodName + " (int templateId) failed", ex, true);
+                    log.LogException("Not Specified", methodName + " (int templateId) failed", ex, false);
                 }
                 throw new Exception(methodName + " failed", ex);
             }
@@ -761,11 +761,11 @@ namespace eFormCore
             {
                 try
                 {
-                    log.LogException("Not Specified", methodName + " (bool " + includeRemoved.ToString() + ") failed", ex, true);
+                    log.LogException("Not Specified", methodName + " (bool " + includeRemoved.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    log.LogException("Not Specified", methodName + " (bool includeRemoved) failed", ex, true);
+                    log.LogException("Not Specified", methodName + " (bool includeRemoved) failed", ex, false);
                 }
                 throw new Exception(methodName + " failed", ex);
             }
@@ -792,7 +792,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -815,7 +815,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -909,7 +909,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -932,7 +932,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -974,7 +974,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -996,7 +996,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1019,7 +1019,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1050,7 +1050,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1077,7 +1077,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1122,7 +1122,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return false;
             }
         }
@@ -1359,7 +1359,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1381,7 +1381,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1403,7 +1403,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1443,7 +1443,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -1722,7 +1722,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1866,7 +1866,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1888,7 +1888,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1910,7 +1910,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1935,7 +1935,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1962,7 +1962,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -1987,7 +1987,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2019,7 +2019,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", "EntityListCreate failed", ex, true);
+                log.LogException("Not Specified", "EntityListCreate failed", ex, false);
                 throw new Exception("EntityListCreate failed", ex);
             }
         }
@@ -2052,11 +2052,11 @@ namespace eFormCore
             {
                 try
                 {
-                    log.LogException("Not Specified", methodName + " (string entityGroupMUId " + entityGroupMUId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, true);
+                    log.LogException("Not Specified", methodName + " (string entityGroupMUId " + entityGroupMUId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
                 }
                 catch
                 {
-                    log.LogException("Not Specified", methodName + " (string entityGroupMUId, string sort, string nameFilter) failed", ex, true);
+                    log.LogException("Not Specified", methodName + " (string entityGroupMUId, string sort, string nameFilter) failed", ex, false);
                 }
                 throw new Exception(methodName + " failed", ex);
 
@@ -2093,7 +2093,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", "EntityGroupRead failed", ex, true);
+                log.LogException("Not Specified", "EntityGroupRead failed", ex, false);
                 throw new Exception("EntityGroupRead failed", ex);
             }
             return true;
@@ -2120,7 +2120,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", "EntityGroupDelete failed", ex, true);
+                log.LogException("Not Specified", "EntityGroupDelete failed", ex, false);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
             return true;
@@ -2155,7 +2155,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", t.GetMethodName() + " failed", ex, true);
+                log.LogException("Not Specified", t.GetMethodName() + " failed", ex, false);
                 throw new Exception(t.GetMethodName() + " failed", ex);
             }
         }
@@ -2177,7 +2177,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2196,7 +2196,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2217,7 +2217,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2244,7 +2244,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2285,7 +2285,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2317,7 +2317,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2339,7 +2339,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -2367,7 +2367,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
             }
         }
         #endregion
@@ -2392,7 +2392,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2414,7 +2414,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2438,7 +2438,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2468,7 +2468,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2494,7 +2494,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2530,7 +2530,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2552,7 +2552,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2574,7 +2574,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2598,7 +2598,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2630,7 +2630,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2656,7 +2656,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2693,7 +2693,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2717,7 +2717,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2743,7 +2743,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2767,7 +2767,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -2788,7 +2788,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -2816,7 +2816,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 return null;
             }
         }
@@ -2840,7 +2840,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2867,7 +2867,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2890,7 +2890,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2925,7 +2925,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2961,7 +2961,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2984,7 +2984,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", methodName + " failed", ex, true);
+                log.LogException("Not Specified", methodName + " failed", ex, false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
