@@ -892,21 +892,33 @@ namespace eFormSqlController
                     foreach (string elementStr in elements)
                     {
                         #region foreach element
-                        check_list_values clv = new check_list_values();
-                        clv.created_at = DateTime.Now;
-                        clv.updated_at = DateTime.Now;
-                        clv.check_list_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
-                        clv.case_id = responseCase.id;
-                        clv.status = t.Locate(elementStr, "<Status>", "</");
-                        clv.version = 1;
-                        clv.user_id = userId;
-                        clv.workflow_state = Constants.WorkflowStates.Created;
 
-                        db.check_list_values.Add(clv);
-                        db.SaveChanges();
+                        int cl_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
+                        int case_id = responseCase.id;
 
-                        db.check_list_value_versions.Add(MapCheckListValueVersions(clv));
-                        db.SaveChanges();
+                        check_list_values clv = null;
+                        clv = db.check_list_values.SingleOrDefault(x => x.check_list_id == cl_id && x.case_id == case_id);
+
+                        if (clv == null)
+                        {
+                            clv = new check_list_values();
+                            clv.created_at = DateTime.Now;
+                            clv.updated_at = DateTime.Now;
+                            clv.check_list_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
+                            clv.case_id = responseCase.id;
+                            clv.status = t.Locate(elementStr, "<Status>", "</");
+                            clv.version = 1;
+                            clv.user_id = userId;
+                            clv.workflow_state = Constants.WorkflowStates.Created;
+
+                            db.check_list_values.Add(clv);
+                            db.SaveChanges();
+
+                            db.check_list_value_versions.Add(MapCheckListValueVersions(clv));
+                            db.SaveChanges();
+                        }
+
+                        
 
                         #region foreach (string dataItemStr in dataItems)
                         elementId = clv.id;
@@ -916,181 +928,202 @@ namespace eFormSqlController
                         {
                             foreach (string dataItemStr in dataItems)
                             {
-                                field_values fieldV = new field_values();
 
-                                #region if contains a file
-                                string urlXml = t.Locate(dataItemStr, "<URL>", "</URL>");
-                                if (urlXml != "" && urlXml != "none")
+
+                                int field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
+                                field_values fieldV = null;
+
+                                fieldV = db.field_values.SingleOrDefault(x => x.field_id == field_id && x.case_id == case_id && x.check_list_id == cl_id && x.user_id == userId);
+
+
+                                if (fieldV == null)
                                 {
-                                    uploaded_data dU = new uploaded_data();
+                                    fieldV = new field_values();
 
-                                    dU.created_at = DateTime.Now;
-                                    dU.updated_at = DateTime.Now;
-                                    dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
-                                    dU.uploader_id = userId;
-                                    dU.uploader_type = Constants.UploaderTypes.System;
-                                    dU.workflow_state = Constants.WorkflowStates.PreCreated;
-                                    dU.version = 1;
-                                    dU.local = 0;
-                                    dU.file_location = t.Locate(dataItemStr, "<URL>", "</");
+                                    //= new field_values();
 
-                                    db.uploaded_data.Add(dU);
-                                    db.SaveChanges();
-
-                                    db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
-                                    db.SaveChanges();
-
-                                    fieldV.uploaded_data_id = dU.id;
-                                }
-                                #endregion
-
-                                fieldV.created_at = DateTime.Now;
-                                fieldV.updated_at = DateTime.Now;
-                                #region fieldV.value = t.Locate(xml, "<Value>", "</");
-                                string temp = t.Locate(dataItemStr, "<Value>", "</");
-
-                                if (temp.Length > 8)
-                                {
-                                    if (temp.StartsWith(@"<![CDATA["))
+                                    #region if contains a file
+                                    string urlXml = t.Locate(dataItemStr, "<URL>", "</URL>");
+                                    if (urlXml != "" && urlXml != "none")
                                     {
-                                        temp = temp.Substring(9);
-                                        temp = temp.Substring(0, temp.Length - 3);
-                                    }
-                                }
+                                        uploaded_data dU = null;
+                                        string fileLocation = t.Locate(dataItemStr, "<URL>", "</");
 
-                                fieldV.value = temp;
-                                #endregion
-                                //geo
-                                fieldV.latitude = t.Locate(dataItemStr, "<Latitude>", "</");
-                                fieldV.longitude = t.Locate(dataItemStr, "<Longitude>", "</");
-                                fieldV.altitude = t.Locate(dataItemStr, "<Altitude>", "</");
-                                fieldV.heading = t.Locate(dataItemStr, "<Heading>", "</");
-                                fieldV.accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
-                                fieldV.date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
-                                //
-                                fieldV.workflow_state = Constants.WorkflowStates.Created;
-                                fieldV.version = 1;
-                                fieldV.case_id = responseCase.id;
-                                fieldV.field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
-                                fieldV.user_id = userId;
-                                fieldV.check_list_id = clv.check_list_id;
-                                fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
+                                        dU = db.uploaded_data.SingleOrDefault(x => x.uploader_id == userId && x.file_location == fileLocation && x.uploader_type == Constants.UploaderTypes.System);
+                                        //
 
-                                db.field_values.Add(fieldV);
-                                db.SaveChanges();
-
-                                db.field_value_versions.Add(MapFieldValueVersions(fieldV));
-                                db.SaveChanges();
-
-                                #region update case field_values
-                                if (case_fields.Contains(fieldV.field_id))
-                                {
-                                    field_types field_type = db.fields.First(x => x.id == fieldV.field_id).field_type;
-                                    string new_value = fieldV.value;
-
-                                    if (field_type.field_type == Constants.FieldTypes.EntitySearch || field_type.field_type == Constants.FieldTypes.EntitySelect)
-                                    {
-                                        try
+                                        if (dU == null)
                                         {
-                                            if (fieldV.value != "" || fieldV.value != null)
-                                            {
-                                                entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == fieldV.value);
+                                            dU = new uploaded_data();
+                                            dU.created_at = DateTime.Now;
+                                            dU.updated_at = DateTime.Now;
+                                            dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
+                                            dU.uploader_id = userId;
+                                            dU.uploader_type = Constants.UploaderTypes.System;
+                                            dU.workflow_state = Constants.WorkflowStates.PreCreated;
+                                            dU.version = 1;
+                                            dU.local = 0;
+                                            dU.file_location = fileLocation;
 
-                                                if (match != null)
+                                            db.uploaded_data.Add(dU);
+                                            db.SaveChanges();
+
+                                            db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
+                                            db.SaveChanges();                                            
+                                        }
+                                        fieldV.uploaded_data_id = dU.id;
+
+                                    }
+                                    #endregion
+
+                                    fieldV.created_at = DateTime.Now;
+                                    fieldV.updated_at = DateTime.Now;
+                                    #region fieldV.value = t.Locate(xml, "<Value>", "</");
+                                    string temp = t.Locate(dataItemStr, "<Value>", "</");
+
+                                    if (temp.Length > 8)
+                                    {
+                                        if (temp.StartsWith(@"<![CDATA["))
+                                        {
+                                            temp = temp.Substring(9);
+                                            temp = temp.Substring(0, temp.Length - 3);
+                                        }
+                                    }
+
+                                    fieldV.value = temp;
+                                    #endregion
+                                    //geo
+                                    fieldV.latitude = t.Locate(dataItemStr, "<Latitude>", "</");
+                                    fieldV.longitude = t.Locate(dataItemStr, "<Longitude>", "</");
+                                    fieldV.altitude = t.Locate(dataItemStr, "<Altitude>", "</");
+                                    fieldV.heading = t.Locate(dataItemStr, "<Heading>", "</");
+                                    fieldV.accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
+                                    fieldV.date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
+                                    //
+                                    fieldV.workflow_state = Constants.WorkflowStates.Created;
+                                    fieldV.version = 1;
+                                    fieldV.case_id = responseCase.id;
+                                    fieldV.field_id = field_id;
+                                    fieldV.user_id = userId;
+                                    fieldV.check_list_id = clv.check_list_id;
+                                    fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
+
+                                    db.field_values.Add(fieldV);
+                                    db.SaveChanges();
+
+                                    db.field_value_versions.Add(MapFieldValueVersions(fieldV));
+                                    db.SaveChanges();
+
+                                    #region update case field_values
+                                    if (case_fields.Contains(fieldV.field_id))
+                                    {
+                                        field_types field_type = db.fields.First(x => x.id == fieldV.field_id).field_type;
+                                        string new_value = fieldV.value;
+
+                                        if (field_type.field_type == Constants.FieldTypes.EntitySearch || field_type.field_type == Constants.FieldTypes.EntitySelect)
+                                        {
+                                            try
+                                            {
+                                                if (fieldV.value != "" || fieldV.value != null)
                                                 {
-                                                    new_value = match.name;
+                                                    entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == fieldV.value);
+
+                                                    if (match != null)
+                                                    {
+                                                        new_value = match.name;
+                                                    }
+
                                                 }
-
                                             }
+                                            catch { }
                                         }
-                                        catch { }
-                                    }
 
-                                    if (field_type.field_type == "SingleSelect")
-                                    {
-                                        string key = fieldV.value;
-                                        string fullKey = t.Locate(fieldV.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
-                                        new_value = t.Locate(fullKey, "<key>", "</key>");
-                                    }
-
-                                    if (field_type.field_type == "MultiSelect")
-                                    {
-                                        new_value = "";
-
-                                        string keys = fieldV.value;
-                                        List<string> keyLst = keys.Split('|').ToList();
-
-                                        foreach (string key in keyLst)
+                                        if (field_type.field_type == "SingleSelect")
                                         {
+                                            string key = fieldV.value;
                                             string fullKey = t.Locate(fieldV.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
-                                            if (new_value != "")
+                                            new_value = t.Locate(fullKey, "<key>", "</key>");
+                                        }
+
+                                        if (field_type.field_type == "MultiSelect")
+                                        {
+                                            new_value = "";
+
+                                            string keys = fieldV.value;
+                                            List<string> keyLst = keys.Split('|').ToList();
+
+                                            foreach (string key in keyLst)
                                             {
-                                                new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
-                                            }
-                                            else
-                                            {
-                                                new_value += t.Locate(fullKey, "<key>", "</key>");
+                                                string fullKey = t.Locate(fieldV.field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                                                if (new_value != "")
+                                                {
+                                                    new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
+                                                }
+                                                else
+                                                {
+                                                    new_value += t.Locate(fullKey, "<key>", "</key>");
+                                                }
                                             }
                                         }
+
+
+                                        int i = case_fields.IndexOf(fieldV.field_id);
+                                        switch (i)
+                                        {
+                                            case 0:
+                                                responseCase.field_value_1 = new_value;
+                                                break;
+                                            case 1:
+                                                responseCase.field_value_2 = new_value;
+                                                break;
+                                            case 2:
+                                                responseCase.field_value_3 = new_value;
+                                                break;
+                                            case 3:
+                                                responseCase.field_value_4 = new_value;
+                                                break;
+                                            case 4:
+                                                responseCase.field_value_5 = new_value;
+                                                break;
+                                            case 5:
+                                                responseCase.field_value_6 = new_value;
+                                                break;
+                                            case 6:
+                                                responseCase.field_value_7 = new_value;
+                                                break;
+                                            case 7:
+                                                responseCase.field_value_8 = new_value;
+                                                break;
+                                            case 8:
+                                                responseCase.field_value_9 = new_value;
+                                                break;
+                                            case 9:
+                                                responseCase.field_value_10 = new_value;
+                                                break;
+                                        }
+                                        responseCase.version = responseCase.version + 1;
+                                        db.cases.AddOrUpdate(responseCase);
+                                        db.SaveChanges();
+                                        db.case_versions.Add(MapCaseVersions(responseCase));
+                                        db.SaveChanges();
                                     }
 
+                                    #endregion
 
-                                    int i = case_fields.IndexOf(fieldV.field_id);
-                                    switch (i)
+                                    #region remove dataItem duplicate from TemplatDataItemLst
+                                    int index = 0;
+                                    foreach (var field in TemplatFieldLst)
                                     {
-                                        case 0:
-                                            responseCase.field_value_1 = new_value;
+                                        if (fieldV.field_id == field.Id)
+                                        {
+                                            TemplatFieldLst.RemoveAt(index);
                                             break;
-                                        case 1:
-                                            responseCase.field_value_2 = new_value;
-                                            break;
-                                        case 2:
-                                            responseCase.field_value_3 = new_value;
-                                            break;
-                                        case 3:
-                                            responseCase.field_value_4 = new_value;
-                                            break;
-                                        case 4:
-                                            responseCase.field_value_5 = new_value;
-                                            break;
-                                        case 5:
-                                            responseCase.field_value_6 = new_value;
-                                            break;
-                                        case 6:
-                                            responseCase.field_value_7 = new_value;
-                                            break;
-                                        case 7:
-                                            responseCase.field_value_8 = new_value;
-                                            break;
-                                        case 8:
-                                            responseCase.field_value_9 = new_value;
-                                            break;
-                                        case 9:
-                                            responseCase.field_value_10 = new_value;
-                                            break;
+                                        }
+
+                                        index++;
                                     }
-                                    responseCase.version = responseCase.version + 1;
-                                    db.cases.AddOrUpdate(responseCase);
-                                    db.SaveChanges();
-                                    db.case_versions.Add(MapCaseVersions(responseCase));
-                                    db.SaveChanges();
+                                    #endregion
                                 }
-
-                                #endregion
-
-                                #region remove dataItem duplicate from TemplatDataItemLst
-                                int index = 0;
-                                foreach (var field in TemplatFieldLst)
-                                {
-                                    if (fieldV.field_id == field.Id)
-                                    {
-                                        TemplatFieldLst.RemoveAt(index);
-                                        break;
-                                    }
-
-                                    index++;
-                                }
-                                #endregion
                             }
                         }
                         #endregion
@@ -1098,36 +1131,48 @@ namespace eFormSqlController
                     }
 
                     #region foreach (var field in TemplatFieldLst)
+                    // We do this because even thought the user did not fill in information for a given field
+                    // we need the field_value to be populated.
                     foreach (var field in TemplatFieldLst)
                     {
-                        field_values fieldV = new field_values();
+                        //field_values fieldV = new field_values();
 
-                        fieldV.created_at = DateTime.Now;
-                        fieldV.updated_at = DateTime.Now;
+                        field_values fieldV = null;
 
-                        fieldV.value = null;
+                        fieldV = db.field_values.SingleOrDefault(x => x.field_id == field.Id && x.case_id == responseCase.id && x.check_list_id == field.CheckListId && x.user_id == userId);
 
-                        //geo
-                        fieldV.latitude = null;
-                        fieldV.longitude = null;
-                        fieldV.altitude = null;
-                        fieldV.heading = null;
-                        fieldV.accuracy = null;
-                        fieldV.date = null;
-                        //
-                        fieldV.workflow_state = Constants.WorkflowStates.Created;
-                        fieldV.version = 1;
-                        fieldV.case_id = responseCase.id;
-                        fieldV.field_id = field.Id;
-                        fieldV.user_id = userId;
-                        fieldV.check_list_id = field.CheckListId;
-                        fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
+                        if (fieldV == null)
+                        {
+                            fieldV = new field_values();
+                            fieldV.created_at = DateTime.Now;
+                            fieldV.updated_at = DateTime.Now;
 
-                        db.field_values.Add(fieldV);
-                        db.SaveChanges();
+                            fieldV.value = null;
 
-                        db.field_value_versions.Add(MapFieldValueVersions(fieldV));
-                        db.SaveChanges();
+                            //geo
+                            fieldV.latitude = null;
+                            fieldV.longitude = null;
+                            fieldV.altitude = null;
+                            fieldV.heading = null;
+                            fieldV.accuracy = null;
+                            fieldV.date = null;
+                            //
+                            fieldV.workflow_state = Constants.WorkflowStates.Created;
+                            fieldV.version = 1;
+                            fieldV.case_id = responseCase.id;
+                            fieldV.field_id = field.Id;
+                            fieldV.user_id = userId;
+                            fieldV.check_list_id = field.CheckListId;
+                            fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
+
+                            db.field_values.Add(fieldV);
+                            db.SaveChanges();
+
+                            db.field_value_versions.Add(MapFieldValueVersions(fieldV));
+                            db.SaveChanges();
+                        }
+
+                        
                     }
                     #endregion
                 }

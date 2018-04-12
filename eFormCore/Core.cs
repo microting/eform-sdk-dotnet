@@ -701,22 +701,7 @@ namespace eFormCore
                     log.LogStandard(t.GetMethodName("Core"), "called");
                     log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
 
-                    bool allDeploymentsDeleted = true;
-                    var templateDto = TemplateItemRead(templateId);
-                    foreach (var siteUId in templateDto.DeployedSites)
-                    {
-                        if (!CaseDelete(templateDto.Id, siteUId.SiteUId))
-                        {
-                            allDeploymentsDeleted = false;
-                        }
-                    }
-                    if (allDeploymentsDeleted) {
-                        return sqlController.TemplateDelete(templateId);
-                    } else
-                    {
-                        return false;
-                    }
-                    
+                    return sqlController.TemplateDelete(templateId);                    
                 }
                 else
                     throw new Exception("Core is not running");
