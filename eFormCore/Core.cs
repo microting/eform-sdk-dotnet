@@ -1215,7 +1215,7 @@ namespace eFormCore
 
             var cDto = sqlController.CaseReadByMUId(microtingUId);
             string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
-            log.LogEverything(methodName, "XML response is : " + xmlResponse);
+            log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
             Response resp = new Response();
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
@@ -1251,7 +1251,7 @@ namespace eFormCore
             if (xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
                 for (int i = 1; i < 12; i++)
                 {
-                    Thread.Sleep(i * 2000);
+                    Thread.Sleep(i * 10000);
                     xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
                     if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
                     {
