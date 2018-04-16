@@ -1263,14 +1263,30 @@ namespace eFormCore
                 {
                     Thread.Sleep(i * 10000);
                     xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
-                    if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
+                    try
                     {
-                        break;
-                    }
-                    else
+                        resp = resp.XmlToClass(xmlResponse);
+                        if (resp.Type.ToString() == "Success")
+                        {
+                            log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + $" has been removed from server in retry loop with i being : {i.ToString()}");
+                            break;
+                        }                            
+                        else
+                        {
+                            log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                        }
+                    } catch (Exception ex)
                     {
-                        log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                        log.LogEverything(t.GetMethodName("Core"), $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                     }
+                    //if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
+                    //{
+                    //    break;
+                    //}
+                    //else
+                    //{
+                    //    log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                    //}
                 }
 
             log.LogEverything(t.GetMethodName("Core"), "XML response:");
