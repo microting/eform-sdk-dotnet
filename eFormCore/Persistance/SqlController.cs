@@ -3715,6 +3715,8 @@ namespace eFormSqlController
             SettingCreate(Settings.awsEndPoint);
             SettingCreate(Settings.unitLicenseNumber);
             SettingCreate(Settings.httpServerAddress);
+            SettingCreate(Settings.maxParallelism);
+            SettingCreate(Settings.numberOfWorkers);
 
             return true;
         }
@@ -3746,6 +3748,8 @@ namespace eFormSqlController
                     case Settings.awsEndPoint: id = 15; defaultValue = "XXX"; break;
                     case Settings.unitLicenseNumber: id = 16; defaultValue = "0"; break;
                     case Settings.httpServerAddress: id = 17; defaultValue = "http://localhost:3000"; break;
+                    case Settings.maxParallelism: id = 18; defaultValue = "1"; break;
+                    case Settings.numberOfWorkers: id = 19; defaultValue = "1"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -5291,6 +5295,8 @@ namespace eFormSqlController
         awsSecretAccessKey,
         awsEndPoint,
         unitLicenseNumber,
-        httpServerAddress
+        httpServerAddress,       
+        maxParallelism,
+        numberOfWorkers
     }
 }

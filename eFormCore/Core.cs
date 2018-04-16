@@ -89,6 +89,8 @@ namespace eFormCore
         string fileLocationPdf;
 
         int sameExceptionCountTried = 0;
+        int maxParallelism = 1;
+        int numberOfWorkers = 1;
         IBus bus;
 		#endregion
 
@@ -107,9 +109,17 @@ namespace eFormCore
 					{
 						return false;
 					}
-					container.Install(
+
+                    try
+                    {
+                        maxParallelism = int.Parse(sqlController.SettingRead(Settings.maxParallelism));
+                        numberOfWorkers = int.Parse(sqlController.SettingRead(Settings.numberOfWorkers));
+                    }
+                    catch { }                  
+
+                    container.Install(
 						new RebusHandlerInstaller()
-						, new RebusInstaller(connectionString)
+						, new RebusInstaller(connectionString, maxParallelism, numberOfWorkers)
 					);
 					bus = container.Resolve<IBus>();
 					log.LogCritical(t.GetMethodName("Core"), "called");
