@@ -1220,7 +1220,7 @@ namespace eFormCore
             //string microtingUId = message.MicrotringUUID;
             string methodName = t.GetMethodName("Core");
 
-            log.LogStandard(t.GetMethodName("Core"), "called");
+            //log.LogStandard(t.GetMethodName("Core"), "called");
             log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             var cDto = sqlController.CaseReadByMUId(microtingUId);
@@ -1259,9 +1259,9 @@ namespace eFormCore
             }
 
             if (xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
-                for (int i = 1; i < 12; i++)
+                for (int i = 1; i < 102; i++)
                 {
-                    Thread.Sleep(i * 10000);
+                    Thread.Sleep(i * 5000);
                     xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
                     try
                     {
@@ -1298,35 +1298,39 @@ namespace eFormCore
                 log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed from server");
                 try
                 {
-                    sqlController.CaseDelete(microtingUId);
+                    if (sqlController.CaseDelete(microtingUId))
+                    {
+                        cDto = sqlController.CaseReadByMUId(microtingUId);
+                        FireHandleCaseDeleted(cDto);
 
-                    cDto = sqlController.CaseReadByMUId(microtingUId);
-                    FireHandleCaseDeleted(cDto);
+                        log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
 
-                    log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
+                        return true;
+                    } else
+                    {
+                        try
+                        {
+                            sqlController.CaseDeleteReversed(microtingUId);
 
-                    return true;
+                            cDto = sqlController.CaseReadByMUId(microtingUId);
+                            FireHandleCaseDeleted(cDto);
+                            log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
+
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
+                            throw ex;
+                        }
+                    }                    
                 }
                 catch (Exception ex)
                 {
                     log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
                 }
 
-                try
-                {
-                    sqlController.CaseDeleteReversed(microtingUId);
-
-                    cDto = sqlController.CaseReadByMUId(microtingUId);
-                    FireHandleCaseDeleted(cDto);
-                    log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
-                    throw ex;
-                }
+                
             }
             return false;
             //return true;

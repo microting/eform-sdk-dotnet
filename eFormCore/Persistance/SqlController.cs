@@ -774,10 +774,11 @@ namespace eFormSqlController
                             db.case_versions.Add(MapCaseVersions(aCase));
                             db.SaveChanges();
                         }
+                        log.LogStandard(t.GetMethodName("SQLController"), "Case successfully marked as removed for microtingUId " + microtingUId);
                         return true;
                     } else
                     {
-                        log.LogStandard(t.GetMethodName("SQLController"), "There was not found a case for MicrotingUID " + microtingUId);
+                        log.LogStandard(t.GetMethodName("SQLController"), "Could not find a case with microtingUId " + microtingUId);
                         return false;
                     }
                     
