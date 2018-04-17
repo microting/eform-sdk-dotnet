@@ -1896,7 +1896,7 @@ namespace eFormSqlController
             }
         }
 
-        public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState, string exception)
+        public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState, string exception, string stacktrace)
         {
             try
             {
@@ -1906,6 +1906,7 @@ namespace eFormSqlController
                     aNoti.workflow_state = workflowState;
                     aNoti.updated_at = DateTime.Now;
                     aNoti.exception = exception;
+                    aNoti.stacktrace = stacktrace;
 
                     db.SaveChanges();
                 }

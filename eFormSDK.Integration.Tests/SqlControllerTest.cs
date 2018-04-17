@@ -92,7 +92,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
-            sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "");
+            sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
 
             // Assert
             var notification = DbContext.notifications.SingleOrDefault(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId);
