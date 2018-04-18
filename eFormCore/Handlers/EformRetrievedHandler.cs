@@ -14,6 +14,7 @@ namespace eFormCore.Handlers
         private readonly Communicator communicator;
         private readonly Log log;
         private readonly Core core;
+        Tools t = new Tools();
 
         public EformRetrievedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
         {
@@ -31,15 +32,15 @@ namespace eFormCore.Handlers
             {
                 sqlController.CaseUpdateRetrived(message.MicrotringUUID);
                 
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "");
+                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
                 Case_Dto cDto = sqlController.CaseReadByMUId(message.MicrotringUUID);
-                log.LogStandard("Not Specified", cDto.ToString() + " has been retrived");
+                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrived");
                 core.FireHandleCaseRetrived(cDto);
             }
             catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message);
+                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
                 Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
                 core.FireHandleNotificationNotFound(note_Dto);
             }

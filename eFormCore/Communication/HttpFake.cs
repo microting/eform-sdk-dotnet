@@ -150,259 +150,94 @@ namespace eFormCommunicator
         #region public PdfUpload
         public bool PdfUpload(string name, string hash)
         {
-            try
-            {
-                using (WebClient client = new WebClient())
-                {
-                    string url = addressPdfUpload + "/data_uploads/upload?token=" + token + "&hash=" + hash + "&extension=pdf" + "&sdk_ver=" + dllVersion;
-                    client.UploadFile(url, name);
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return true;
         }
         #endregion
 
         #region public TemplateDisplayIndexChange
         public string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + microtingUId + "?token=" + token + "&protocol=" + protocolXml +
-                    "&site_id=" + siteId + "&download=false&delete=false&update_attributes=true&display_order=" + newDisplayIndex.ToString() + "&sdk_ver=" + dllVersion);
-                request.Method = "GET";
-
-                return PostToServer(request);
-            }
-            catch (Exception ex)
-            {
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " + ex.Message + "</Value>\n\t</Response>";
-                //return false;
-            }
+            return "Not implemented!";
         }
         #endregion
 
         #region public site
         public string SiteCreate(string name)
         {
-            JObject content_to_microting = JObject.FromObject(new { name = name });
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/sites?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create(newUrl + "?token=" + token);
-            request.Method = "GET";
-
-            string response = PostToServer(request);
-
-            return response;
+            return "Not implemented!";
         }
 
         public bool SiteUpdate(int id, string name)
         {
-            JObject content_to_microting = JObject.FromObject(new { name = name });
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/sites/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = PostToServerGetRedirect(request, content);
-
             return true;
         }
 
         public string SiteDelete(int id)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressBasic + "/v1/sites/" + id + "?token=" + token + "&sdk_ver=" + dllVersion);
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-
-                string newUrl = PostToServerGetRedirect(request);
-
-                request = WebRequest.Create(newUrl + "?token=" + token);
-                request.Method = "GET";
-
-                return PostToServer(request);
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("SiteDelete failed", ex);
-            }
+            return "Not implemented!";
         }
 
         public string SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/sites?token=" + token + "&sdk_ver=" + dllVersion);
-            request.Method = "GET";
-
-            return PostToServer(request);
+            return "Not implemented!";
         }
         #endregion
 
         #region public Worker
         public string WorkerCreate(string firstName, string lastName, string email)
         {
-            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/users?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create(newUrl + "?token=" + token);
-            request.Method = "GET";
-
-            string response = PostToServer(request);
-
-            return response;
+            return "Not implemented!";
         }
 
         public bool WorkerUpdate(int id, string firstName, string lastName, string email)
         {
-            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/users/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = PostToServerGetRedirect(request, content);
-
             return true;
         }
 
         public string WorkerDelete(int id)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressBasic + "/v1/users/" + id + "?token=" + token + "&sdk_ver=" + dllVersion);
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-
-                string newUrl = PostToServerGetRedirect(request);
-
-                request = WebRequest.Create(newUrl + "?token=" + token);
-                request.Method = "GET";
-
-                return PostToServer(request);
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("WorkerDelete failed", ex);
-            }
+            return "Not implemented!";
         }
 
         public string WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/users?token=" + token + "&sdk_ver=" + dllVersion);
-            request.Method = "GET";
-
-            return PostToServer(request);
+            return "Not implemented!";
         }
         #endregion
 
         #region public SiteWorker
         public string SiteWorkerCreate(int siteId, int workerId)
         {
-            JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create(newUrl + "?token=" + token);
-            request.Method = "GET";
-
-            string response = PostToServer(request);
-
-            return response;
+            return "Not implemented!";
         }
 
         public string SiteWorkerDelete(int id)
         {
-            try
-            {
-                WebRequest request = WebRequest.Create(addressBasic + "/v1/workers/" + id + "?token=" + token + "&sdk_ver=" + dllVersion);
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-
-                string newUrl = PostToServerGetRedirect(request);
-
-                request = WebRequest.Create(newUrl + "?token=" + token);
-                request.Method = "GET";
-
-                return PostToServer(request);
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("SiteWorkerDelete failed", ex);
-            }
+            return "Not implemented!";
         }
 
         public string SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token + "&sdk_ver=" + dllVersion);
-            request.Method = "GET";
-
-            return PostToServer(request);
+            return "Not implemented!";
         }
         #endregion
 
         #region public Unit
         public int UnitRequestOtp(int id)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { unit_id = id } });
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/units/" + id + "?token=" + token + "&new_otp=true" + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create(newUrl + "?token=" + token);
-            request.Method = "GET";
-
-            int response = int.Parse(JRaw.Parse(PostToServer(request))["otp_code"].ToString());
-
-            return response;
+            return 1;
         }
 
         public string UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/units?token=" + token + "&sdk_ver=" + dllVersion);
-            request.Method = "GET";
-
-            return PostToServer(request);
+            return "Not implemented!";
         }
         #endregion
 
         #region public Organization
         public string OrganizationLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/organizations?token=" + token + "&sdk_ver=" + dllVersion);
-            request.Method = "GET";
-
-            return PostToServer(request);
+            return "Not implemented!";
         }
         #endregion
         #endregion
@@ -410,200 +245,32 @@ namespace eFormCommunicator
         #region private
         private string PostToServer(WebRequest request, byte[] content)
         {
-            lock (_lock)
-            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
-
-                WebResponse response = request.GetResponse();
-
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = reader.ReadToEnd();
-
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
-
-                }
-
-                return responseFromServer;
-            }
+            return "Not implemented!";
         }
 
         private string PostToServerGetRedirect(WebRequest request, byte[] content)
         {
-            lock (_lock)
-            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
-
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
-
-
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                string newUrl = "";
-                if (response.StatusCode == HttpStatusCode.Redirect ||
-                    response.StatusCode == HttpStatusCode.MovedPermanently)
-                {
-                    newUrl = response.Headers["Location"];
-                }
-
-                // Clean up the streams.
-                try
-                {
-                    response.Close();
-                }
-                catch
-                {
-
-                }
-                return newUrl;
-            }
+            return "Not implemented!";
         }
 
         private string PostToServerGetRedirect(WebRequest request)
         {
-            lock (_lock)
-            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
-
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                string newUrl = "";
-                if (response.StatusCode == HttpStatusCode.Redirect ||
-                    response.StatusCode == HttpStatusCode.MovedPermanently)
-                {
-                    newUrl = response.Headers["Location"];
-                }
-
-                // Clean up the streams.
-                try
-                {
-                    response.Close();
-                }
-                catch
-                {
-
-                }
-
-                return newUrl;
-            }
+            return "Not implemented!";
         }
 
         private string PostToServerNoRedirect(WebRequest request, byte[] content)
         {
-            lock (_lock)
-            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
-
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
-
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = reader.ReadToEnd();
-
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
-
-                }
-
-                return responseFromServer;
-            }
+            return "Not implemented!";
         }
 
         private string PostToServer(WebRequest request)
         {
-            lock (_lock)
-            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-                WebResponse response = request.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = reader.ReadToEnd();
-
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
-
-                }
-
-                return responseFromServer;
-            }
+            return "Not implemented!";
         }
 
         private string PostToServerNoRedirect(WebRequest request)
         {
-            lock (_lock)
-            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
-
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = reader.ReadToEnd();
-
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
-
-                }
-
-                return responseFromServer;
-            }
+            return "Not implemented!";
         }
 
         /// <summary>

@@ -17,6 +17,7 @@ namespace eFormCore.Handlers
         private readonly Communicator communicator;
         private readonly Log log;
         private readonly Core core;
+        Tools t = new Tools();
 
         public EformCompletedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
         {
@@ -34,10 +35,10 @@ namespace eFormCore.Handlers
             try
             {
                 CheckStatusByMicrotingUid(message.MicrotringUUID);
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "");
+                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
             } catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message);
+                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
                 Note_Dto note_Dto = new Note_Dto(notification.notification_uid, notification.microting_uid, notification.activity);
                 core.FireHandleNotificationNotFound(note_Dto);
             }
@@ -49,7 +50,7 @@ namespace eFormCore.Handlers
             MainElement mainElement = new MainElement();
 
             Case_Dto concreteCase = sqlController.CaseReadByMUId(microtingUid);
-            log.LogEverything("Not Specified", concreteCase.ToString() + " has been matched");
+            log.LogEverything(t.GetMethodName("EformCompletedHandler"), concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                 lstCase.Add(concreteCase);
@@ -62,21 +63,21 @@ namespace eFormCore.Handlers
                 {
                     #region get response's data and update DB with data
                     string checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
-                    log.LogVariable("Not Specified", nameof(checkIdLastKnown), checkIdLastKnown);
+                    log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
                         respXml = communicator.Retrieve(microtingUid, concreteCase.SiteUId);
                     else
                         respXml = communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown);
-                    log.LogVariable("Not Specified", nameof(respXml), respXml);
+                    log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(respXml), respXml);
 
                     Response resp = new Response();
                     resp = resp.XmlToClassUsingXmlDocument(respXml);
 
                     if (resp.Type == Response.ResponseTypes.Success)
                     {
-                        log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (true)");
+                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (true)");
                         if (resp.Checks.Count > 0)
                         {
                             XmlDocument xDoc = new XmlDocument();
@@ -88,14 +89,14 @@ namespace eFormCore.Handlers
                             {
 
                                 int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).UnitUId;
-                                log.LogVariable("Not Specified", nameof(unitUId), unitUId);
+                                log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
                                 int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
-                                log.LogVariable("Not Specified", nameof(workerUId), workerUId);
+                                log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 
                                 sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
                                 sqlController.CaseUpdateCompleted(microtingUid, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
-                                log.LogEverything("Not Specified", "sqlController.CaseUpdateCompleted(...)");
+                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
@@ -106,26 +107,26 @@ namespace eFormCore.Handlers
 
                                     if (respRet.Type == Response.ResponseTypes.Success)
                                     {
-                                        log.LogEverything("Not Specified", aCase.ToString() + " has been retracted");
+                                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), aCase.ToString() + " has been retracted");
                                     }
                                     else
-                                        log.LogWarning("Not Specified", "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                        log.LogWarning(t.GetMethodName("EformCompletedHandler"), "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                 }
                                 #endregion
 
                                 sqlController.CaseRetract(microtingUid, check.Id);
-                                log.LogEverything("Not Specified", "sqlController.CaseRetract(...)");
+                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                                 // TODO add case.id
                                 Case_Dto cDto = sqlController.CaseReadByMUId(microtingUid);
                                 core.FireHandleCaseCompleted(cDto);
-                                log.LogStandard("Not Specified", cDto.ToString() + " has been completed");
+                                log.LogStandard(t.GetMethodName("EformCompletedHandler"), cDto.ToString() + " has been completed");
                                 i++;
                             }
                         }
                     }
                     else
                     {
-                        log.LogEverything("Not Specified", "resp.Type == Response.ResponseTypes.Success (false)");
+                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (false)");
                         throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                     }
                     #endregion

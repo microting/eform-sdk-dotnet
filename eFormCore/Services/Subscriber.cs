@@ -108,7 +108,7 @@ namespace eFormSubscriber
             }
             catch (Exception ex)
             {
-                log.LogException("Not Specified", t.GetMethodName() + " failed", ex, false);
+                log.LogException(t.GetMethodName("Subscriber"), "failed", ex, false);
             }
         }
 
@@ -156,23 +156,23 @@ namespace eFormSubscriber
                                 string microtingUId = parsedData["microting_uuid"].ToString();
                                 string action = parsedData["text"].ToString();
                                 #endregion
-                                log.LogStandard("Not Specified", "Notification notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + action);
+                                log.LogStandard(t.GetMethodName("Subscriber"), "Notification notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + action);
                                 switch (action)
                                 {
                                     case Constants.Notifications.Completed:
-                                        bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
+                                        bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsedByServer:
-                                        bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId)).Wait();
+                                        bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsingError:
-                                        bus.SendLocal(new EformParsingError(notificationUId, microtingUId)).Wait();
+                                        bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.RetrievedForm:
-                                        bus.SendLocal(new EformRetrieved(notificationUId, microtingUId)).Wait();
+                                        bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.UnitActivate:
-                                        bus.SendLocal(new UnitActivated(notificationUId, microtingUId)).Wait();
+                                        bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
                                 }
 
@@ -189,12 +189,12 @@ namespace eFormSubscriber
                     catch (Exception ex)
                     {
                         //Log expection
-                        log.LogWarning("Not Specified", t.PrintException(t.GetMethodName() + " failed", ex));
+                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex));
 
                         if (DateTime.Compare(lastExpection.AddMinutes(5), DateTime.Now) > 0)
                         {
                             keepSubscribed = false;
-                            log.LogException("Not Specified", t.GetMethodName() + " failed, twice in the last 5 minuts", ex, true);
+                            log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true);
                         }
 
                         lastExpection = DateTime.Now;
@@ -209,7 +209,7 @@ namespace eFormSubscriber
             else
             #region unit test
             {
-                log.LogStandard("Not Specified", "Subscriber faked");
+                log.LogStandard(t.GetMethodName("Subscriber"), "Subscriber faked");
                 isActive = true;
                 keepSubscribed = true;
 

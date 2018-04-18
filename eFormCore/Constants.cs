@@ -122,5 +122,13 @@
             public const string UpcA = "UPC_A";
             public const string UpcB = "UPC_E";
         }
+        public static class CheckListValues
+        {
+            public const string Checked = "Checked";
+            public const string NotChecked = "Not Checked";
+            public const string NotApproved = "Not Approved";
+
+
+        }
     }
 }
