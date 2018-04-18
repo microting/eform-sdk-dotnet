@@ -13,7 +13,7 @@ namespace eFormSDK.Integration.Tests
     public abstract class DbTestFixture
     {
         protected MicrotingDbMs DbContext;
-        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests";
+        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
 
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
