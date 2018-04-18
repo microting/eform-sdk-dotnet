@@ -383,6 +383,29 @@ namespace eFormSDK.Integration.Tests
         }
         #endregion
 
+
+        #region site
+        [Test]
+        public void Core_Site_SiteCreate_ReturnsSiteId()
+        {
+            // Arrance
+
+
+            // Act
+
+            //var match = sut.SiteCreate("John", "Noname", "Doe", "some_email@invalid.com");
+
+            // Assert
+            //var sites = DbContext.sites.AsNoTracking().ToList();
+
+            //Assert.NotNull(sites);
+
+            //Assert.AreEqual(1, sites.Count());
+            //Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].workflow_state);
+
+        }
+        #endregion
+
         #region tag
         [Test]
         public void Core_Tags_CreateTag_DoesCreateNewTag()
