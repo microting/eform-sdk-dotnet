@@ -62,7 +62,7 @@ namespace eFormCommunicator
             //string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
 
             #region is unit test
-            if (token == "UNIT_TEST___________________L:32")
+            if (token == "abc1234567890abc1234567890abcdef")
             {
                 http = new HttpFake();
                 return;
