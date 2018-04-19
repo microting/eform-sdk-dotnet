@@ -761,10 +761,14 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId);
-                    //cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
-                    if (aCase != null)
+                    var matches = db.cases.Where(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
+                    if (matches.Count() > 1)
                     {
+                        return false;
+                    }
+                    if (matches != null && matches.Count() == 1)
+                    {
+                        cases aCase = matches.First();
                         if (aCase.workflow_state != Constants.WorkflowStates.Removed)
                         {
                             aCase.updated_at = DateTime.Now;
@@ -778,7 +782,7 @@ namespace eFormSqlController
                         return true;
                     } else
                     {
-                        log.LogStandard(t.GetMethodName("SQLController"), "Could not find a case with microtingUId " + microtingUId);
+                        //log.LogStandard(t.GetMethodName("SQLController"), "Could not find a case with microtingUId " + microtingUId);
                         return false;
                     }
                     
