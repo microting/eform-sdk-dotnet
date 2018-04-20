@@ -2785,7 +2785,7 @@ namespace eFormCore
         #endregion
 
         #region units
-        public Unit_Dto Advanced_UnitRead(int unitId)
+        public Unit_Dto Advanced_UnitRead(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2793,9 +2793,9 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    return sqlController.UnitRead(unitId);
+                    return sqlController.UnitRead(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2828,7 +2828,7 @@ namespace eFormCore
             }
         }
 
-        public Unit_Dto Advanced_UnitRequestOtp(int unitId)
+        public Unit_Dto Advanced_UnitRequestOtp(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2836,15 +2836,15 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    int otp_code = communicator.UnitRequestOtp(unitId);
+                    int otp_code = communicator.UnitRequestOtp(microtingUid);
 
-                    Unit_Dto my_dto = Advanced_UnitRead(unitId);
+                    Unit_Dto my_dto = Advanced_UnitRead(microtingUid);
 
-                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
+                    sqlController.UnitUpdate(microtingUid, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
 
-                    return Advanced_UnitRead(unitId);
+                    return Advanced_UnitRead(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");

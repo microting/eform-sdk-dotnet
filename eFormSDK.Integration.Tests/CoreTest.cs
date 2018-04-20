@@ -18698,6 +18698,26 @@ namespace eFormSDK.Integration.Tests
 
         #endregion
 
+
+        #region unit
+        [Test]
+        public void Core_Advanced_UnitRequestOtp_SetsNewOtp()
+        {
+            //Arrance
+            sites site = testHelpers.CreateSite("test site 1", 1313);
+            units unit = testHelpers.CreateUnit(564646, 0, site, 0);
+
+            //Act
+            sut.Advanced_UnitRequestOtp((int)unit.microting_uid);
+            
+            //Assert
+            List<units> matches = DbContext.units.AsNoTracking().ToList();
+
+            Assert.NotNull(matches);
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(558877, matches[0].otp_code);
+        }
+        #endregion
         //Arrance
 
         //Act
