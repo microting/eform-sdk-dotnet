@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microting.eForm", "eFormCore\Microting.eForm.csproj", "{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}"
 EndProject
@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{BF943E
 		CodeCoverage.runsettings = CodeCoverage.runsettings
 		TestSettings.runsettings = TestSettings.runsettings
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Wrapper", "eFormSDK.Wrapper\eFormSDK.Wrapper.csproj", "{B1BE65FC-4401-44FE-8522-81128D35A7CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,14 @@ Global
 		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|x64.ActiveCfg = Release|x64
 		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|x64.Build.0 = Release|x64
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1BE65FC-4401-44FE-8522-81128D35A7CF}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
