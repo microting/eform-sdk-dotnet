@@ -20,7 +20,7 @@ namespace eFormSDK.Integration.Tests
         {
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(DbContext);
+            testHelpers = new TestHelpers();
         }
 
         #region notification

@@ -14,9 +14,10 @@ namespace eFormCore.Helpers
     {
         private MicrotingDbMs DbContext;
 
-        public TestHelpers(MicrotingDbMs dbContext)
+        public TestHelpers()
         {
-            DbContext = dbContext;
+            string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            DbContext = new MicrotingDbMs(ConnectionString);
         }
 
         #region helperMethods
@@ -332,6 +333,13 @@ namespace eFormCore.Helpers
             DbContext.check_list_sites.Add(cls);
             DbContext.SaveChanges();
             return cls;
+        }
+        #endregion
+
+        #region
+        public string CreateMultiPictureXMLResult()
+        {
+            return "<? xml version = '1.0' encoding = 'UTF-8' ?>< Response >< Value type = 'success' > 7 </ Value >< Checks ></Checks></Response>";
         }
         #endregion
     }

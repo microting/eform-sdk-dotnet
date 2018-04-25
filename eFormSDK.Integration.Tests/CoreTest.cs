@@ -29,7 +29,7 @@ namespace eFormSDK.Integration.Tests
 
             sut = new Core();
             sut.StartSqlOnly(ConnectionString);
-            testHelpers = new TestHelpers(DbContext);
+            testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
         }
 
