@@ -49,5 +49,29 @@ namespace Microting.eForm.Wrapper
             return result;
         }
 
+        [DllExport("AdminTools_DbSetupCompleted")]
+        public static int AdminTools_DbSetupCompleted([MarshalAs(UnmanagedType.BStr)] ref string reply)
+        {
+            int result = 0;
+            try
+            {
+                List<string> checkResult = program.DbSetupCompleted();
+                if (checkResult.Count == 1)
+                {
+                    if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
+                        reply = checkResult[0];
+                    else
+                        reply = "Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+
+            return result;
+        }
+
     }
 }
