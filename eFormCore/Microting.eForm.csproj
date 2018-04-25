@@ -118,6 +118,7 @@
     <Compile Include="Handlers\EformCompletedHandler.cs" />
     <Compile Include="Handlers\UnitActivatedHandler.cs" />
     <Compile Include="Handlers\EformRetrievedHandler.cs" />
+    <Compile Include="Helpers\TestHelpers.cs" />
     <Compile Include="ICore.cs" />
     <Compile Include="Installers\RebusHandlerInstaller.cs" />
     <Compile Include="Installers\RebusInstaller.cs" />

@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace eFormSDK.Integration.Tests
+namespace eFormCore.Helpers
 {
-    class TestHelpers
+    public class TestHelpers
     {
         private MicrotingDbMs DbContext;
 
