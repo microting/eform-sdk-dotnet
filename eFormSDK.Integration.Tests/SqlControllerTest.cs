@@ -15,14 +15,16 @@ namespace eFormSDK.Integration.Tests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", "");
+        //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
+
+
 
         public override void DoSetup()
         {
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            string path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
             sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
             sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
             sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
@@ -22991,9 +22993,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match5, "https://basic.microting.com");
             Assert.AreEqual(match6, "https://xxxxxx.xxxxxx.com");
             Assert.AreEqual(match7, "0");
-            Assert.AreEqual(match8, @"output\dataFolder\reports\");
-            Assert.AreEqual(match9, @"output\dataFolder\pdf\");
-            Assert.AreEqual(match10, @"output\dataFolder\picture\");
+            Assert.AreEqual(match8, path + @"output\dataFolder\reports\");
+            Assert.AreEqual(match9, path + @"output\dataFolder\pdf\");
+            Assert.AreEqual(match10, path + @"output\dataFolder\picture\");
             Assert.AreEqual(match11, "false");
             Assert.AreEqual(match12, "http://localhost:3000");
             Assert.AreEqual(match13, "false");
@@ -23060,9 +23062,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match[1].value, "4");
             Assert.AreEqual(match[2].value, "25000");
             Assert.AreEqual(match[3].value, "false");
-            Assert.AreEqual(match[4].value, @"output\dataFolder\picture\");
-            Assert.AreEqual(match[5].value, @"output\dataFolder\pdf\");
-            Assert.AreEqual(match[6].value, @"output\dataFolder\reports\");
+            Assert.AreEqual(match[4].value, path + @"\output\dataFolder\picture\");
+            Assert.AreEqual(match[5].value, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match[6].value, path + @"\output\dataFolder\reports\");
             Assert.AreEqual(match[7].value, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             Assert.AreEqual(match[8].value, "https://basic.microting.com");
             Assert.AreEqual(match[9].value, "https://xxxxxx.xxxxxx.com");
