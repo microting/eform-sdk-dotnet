@@ -81,7 +81,7 @@ namespace eFormCommunicator
         {
             if (microtingUuid == "MultiPictureTestInMultipleChecks")
             {
-                return testHelpers.CreateMultiPictureXMLResult();
+                return testHelpers.CreateMultiPictureXMLResult(false);
             } else
             {
                 return "failed";
