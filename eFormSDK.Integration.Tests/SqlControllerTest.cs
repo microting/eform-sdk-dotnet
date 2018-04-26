@@ -22993,9 +22993,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match5, "https://basic.microting.com");
             Assert.AreEqual(match6, "https://xxxxxx.xxxxxx.com");
             Assert.AreEqual(match7, "0");
-            Assert.AreEqual(match8, path + @"output\dataFolder\reports\");
-            Assert.AreEqual(match9, path + @"output\dataFolder\pdf\");
-            Assert.AreEqual(match10, path + @"output\dataFolder\picture\");
+            Assert.AreEqual(match8, path + @"\output\dataFolder\reports\");
+            Assert.AreEqual(match9, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match10, path + @"\output\dataFolder\picture\");
             Assert.AreEqual(match11, "false");
             Assert.AreEqual(match12, "http://localhost:3000");
             Assert.AreEqual(match13, "false");
