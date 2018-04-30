@@ -5251,7 +5251,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             //Act
-            sut.NotificationUpdate(aNote1.notification_uid, aNote1.microting_uid, aNote1.workflow_state, aNote1.exception);
+            //sut.NotificationUpdate(aNote1.notification_uid, aNote1.microting_uid, aNote1.workflow_state, aNote1.exception);
             List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
             var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
 
