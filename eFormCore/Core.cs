@@ -1679,51 +1679,8 @@ namespace eFormCore
             }
         }
 
-        public string GetJasperPath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationJasper);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public string GetPicturePath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationPicture);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public string GetPdfPath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationPdf);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
+        #region settings
+        #region httpServerAddress
         public string GetHttpServerAddress()
         {
             string methodName = t.GetMethodName("Core");
@@ -1761,6 +1718,128 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
+        #endregion
+
+        #region fileLocationPicture
+        public string GetPicturePath()
+        {
+            string methodName = t.GetMethodName("Core");
+            log.LogStandard(t.GetMethodName("Core"), "called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationPicture);
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetPicturePath(string fileLocationPicture)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPicture), fileLocationPicture);
+
+                    sqlController.SettingUpdate(Settings.fileLocationPicture, fileLocationPicture);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+        #endregion
+
+        #region fileLocationPdf
+        public string GetPdfPath()
+        {
+            string methodName = t.GetMethodName("Core");
+            log.LogStandard(t.GetMethodName("Core"), "called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationPdf);
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetPdfPath(string fileLocationPdf)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPdf), fileLocationPdf);
+
+                    sqlController.SettingUpdate(Settings.fileLocationPdf, fileLocationPdf);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+        #endregion
+
+        #region fileLocationJasper
+        public string GetJasperPath()
+        {
+            string methodName = t.GetMethodName("Core");
+            log.LogStandard(t.GetMethodName("Core"), "called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationJasper);
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetJasperPath(string fileLocationJasper)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationJasper), fileLocationJasper);
+
+                    sqlController.SettingUpdate(Settings.fileLocationJasper, fileLocationJasper);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+        #endregion
+        #endregion
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
@@ -2785,7 +2864,7 @@ namespace eFormCore
         #endregion
 
         #region units
-        public Unit_Dto Advanced_UnitRead(int unitId)
+        public Unit_Dto Advanced_UnitRead(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2793,9 +2872,9 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    return sqlController.UnitRead(unitId);
+                    return sqlController.UnitRead(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2828,7 +2907,7 @@ namespace eFormCore
             }
         }
 
-        public Unit_Dto Advanced_UnitRequestOtp(int unitId)
+        public Unit_Dto Advanced_UnitRequestOtp(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2836,15 +2915,15 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    int otp_code = communicator.UnitRequestOtp(unitId);
+                    int otp_code = communicator.UnitRequestOtp(microtingUid);
 
-                    Unit_Dto my_dto = Advanced_UnitRead(unitId);
+                    Unit_Dto my_dto = Advanced_UnitRead(microtingUid);
 
-                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
+                    sqlController.UnitUpdate(microtingUid, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
 
-                    return Advanced_UnitRead(unitId);
+                    return Advanced_UnitRead(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");

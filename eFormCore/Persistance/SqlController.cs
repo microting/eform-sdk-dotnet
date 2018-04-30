@@ -761,10 +761,14 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId);
-                    //cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
-                    if (aCase != null)
+                    var matches = db.cases.Where(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
+                    if (matches.Count() > 1)
                     {
+                        return false;
+                    }
+                    if (matches != null && matches.Count() == 1)
+                    {
+                        cases aCase = matches.First();
                         if (aCase.workflow_state != Constants.WorkflowStates.Removed)
                         {
                             aCase.updated_at = DateTime.Now;
@@ -778,7 +782,7 @@ namespace eFormSqlController
                         return true;
                     } else
                     {
-                        log.LogStandard(t.GetMethodName("SQLController"), "Could not find a case with microtingUId " + microtingUId);
+                        //log.LogStandard(t.GetMethodName("SQLController"), "Could not find a case with microtingUId " + microtingUId);
                         return false;
                     }
                     
@@ -862,6 +866,7 @@ namespace eFormSqlController
                     List<Field_Dto> TemplatFieldLst = null;
                     cases responseCase = null;
                     List<int?> case_fields = new List<int?>();
+                    List<int> fieldTypeIds = db.field_types.Where(x => x.field_type == Constants.FieldTypes.Picture || x.field_type == Constants.FieldTypes.Signature || x.field_type == Constants.FieldTypes.Audio).Select(x => x.id).ToList();
 
                     try //if a reversed case, case needs to be created
                     {
@@ -932,9 +937,15 @@ namespace eFormSqlController
 
 
                                 int field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
+
+                                fields f = db.fields.Single(x => x.id == field_id);
                                 field_values fieldV = null;
 
-                                fieldV = db.field_values.SingleOrDefault(x => x.field_id == field_id && x.case_id == case_id && x.check_list_id == cl_id && x.user_id == userId);
+
+                                if (!fieldTypeIds.Contains((int)f.field_type_id)) 
+                                {
+                                    fieldV = db.field_values.SingleOrDefault(x => x.field_id == field_id && x.case_id == case_id && x.check_list_id == cl_id && x.user_id == userId);
+                                }
 
 
                                 if (fieldV == null)
@@ -950,28 +961,28 @@ namespace eFormSqlController
                                         uploaded_data dU = null;
                                         string fileLocation = t.Locate(dataItemStr, "<URL>", "</");
 
-                                        dU = db.uploaded_data.SingleOrDefault(x => x.uploader_id == userId && x.file_location == fileLocation && x.uploader_type == Constants.UploaderTypes.System);
-                                        //
+                                        //dU = db.uploaded_data.SingleOrDefault(x => x.uploader_id == userId && x.file_location == fileLocation && x.uploader_type == Constants.UploaderTypes.System);
+                                        ////
 
-                                        if (dU == null)
-                                        {
-                                            dU = new uploaded_data();
-                                            dU.created_at = DateTime.Now;
-                                            dU.updated_at = DateTime.Now;
-                                            dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
-                                            dU.uploader_id = userId;
-                                            dU.uploader_type = Constants.UploaderTypes.System;
-                                            dU.workflow_state = Constants.WorkflowStates.PreCreated;
-                                            dU.version = 1;
-                                            dU.local = 0;
-                                            dU.file_location = fileLocation;
+                                        //if (dU == null)
+                                        //{
+                                        dU = new uploaded_data();
+                                        dU.created_at = DateTime.Now;
+                                        dU.updated_at = DateTime.Now;
+                                        dU.extension = t.Locate(dataItemStr, "<Extension>", "</");
+                                        dU.uploader_id = userId;
+                                        dU.uploader_type = Constants.UploaderTypes.System;
+                                        dU.workflow_state = Constants.WorkflowStates.PreCreated;
+                                        dU.version = 1;
+                                        dU.local = 0;
+                                        dU.file_location = fileLocation;
 
-                                            db.uploaded_data.Add(dU);
-                                            db.SaveChanges();
+                                        db.uploaded_data.Add(dU);
+                                        db.SaveChanges();
 
-                                            db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
-                                            db.SaveChanges();                                            
-                                        }
+                                        db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
+                                        db.SaveChanges();
+                                        //}
                                         fieldV.uploaded_data_id = dU.id;
 
                                     }

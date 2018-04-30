@@ -35,6 +35,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Net.Http;
 using System.Reflection;
+using eFormCore.Helpers;
 
 namespace eFormCommunicator
 {
@@ -49,9 +50,13 @@ namespace eFormCommunicator
         private string addressPdfUpload = "";
 
         private string dllVersion = "";
+        private TestHelpers testHelpers = new TestHelpers();
+
 
         Tools t = new Tools();
+
         object _lock = new object();
+
         #endregion
 
         #region public
@@ -74,7 +79,13 @@ namespace eFormCommunicator
 
         public string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
-            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
+            if (microtingUuid == "MultiPictureTestInMultipleChecks")
+            {
+                return testHelpers.CreateMultiPictureXMLResult(false);
+            } else
+            {
+                return "failed";
+            }
         }
 
         public string Delete(string elementId, string siteId)
@@ -225,7 +236,7 @@ namespace eFormCommunicator
         #region public Unit
         public int UnitRequestOtp(int id)
         {
-            return 1;
+            return 558877;
         }
 
         public string UnitLoadAllFromRemote()

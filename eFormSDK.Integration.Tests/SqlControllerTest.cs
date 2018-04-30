@@ -1,5 +1,6 @@
 ﻿using eFormData;
 using eFormShared;
+using eFormCore.Helpers;
 using eFormSqlController;
 using NUnit.Framework;
 using System;
@@ -14,12 +15,19 @@ namespace eFormSDK.Integration.Tests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", "");
+        //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
+
+
 
         public override void DoSetup()
         {
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(DbContext);
+            testHelpers = new TestHelpers();
+            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
         }
 
         #region notification
@@ -101,6 +109,92 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, DbContext.notifications.Count());
             Assert.AreEqual(Constants.Notifications.Completed, notification.activity);
             Assert.AreEqual(Constants.WorkflowStates.Processed, notification.workflow_state);
+        }
+
+
+        [Test]
+        public void SQL_Notification_Notificationcreate_isCreated()
+        {
+            //notifications aNote1 = new notifications();
+
+            //aNote1.workflow_state = Constants.WorkflowStates.Created;
+            //aNote1.created_at = DateTime.Now;
+            //aNote1.updated_at = DateTime.Now;
+            //aNote1.notification_uid = Guid.NewGuid().ToString();
+            //aNote1.microting_uid = Guid.NewGuid().ToString();
+            //aNote1.activity = Constants.Notifications.UnitActivate;
+
+            //DbContext.notifications.Add(aNote1);
+            //DbContext.SaveChanges();
+
+            //Act
+            sut.NotificationCreate(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Constants.Notifications.UnitActivate);
+            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+
+            //Assert
+
+            Assert.NotNull(notificationResult);
+            Assert.AreEqual(1, notificationResult.Count);
+            Assert.AreEqual(Constants.Notifications.UnitActivate, notificationResult[0].activity);
+            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
+
+
+        }
+
+        [Test]
+        public void SQL_Notification_NotificationReadFirst_doesReadFirst()
+        {
+            notifications aNote1 = new notifications();
+
+            aNote1.workflow_state = Constants.WorkflowStates.Created;
+            aNote1.created_at = DateTime.Now;
+            aNote1.updated_at = DateTime.Now;
+            aNote1.notification_uid = "0";
+            aNote1.microting_uid = "1";
+            aNote1.activity = Constants.Notifications.UnitActivate;
+
+            DbContext.notifications.Add(aNote1);
+            DbContext.SaveChanges();
+
+            //Act
+            sut.NotificationReadFirst();
+            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+
+
+            //assert
+            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].workflow_state);
+
+
+        }
+
+        [Test]
+        public void SQL_Notification_NotificationUpdate_doesGetUpdated()
+        {
+            notifications aNote1 = new notifications();
+
+            aNote1.workflow_state = Constants.WorkflowStates.Created;
+            aNote1.created_at = DateTime.Now;
+            aNote1.updated_at = DateTime.Now;
+            aNote1.notification_uid = "0";
+            aNote1.microting_uid = "1";
+            aNote1.activity = Constants.Notifications.UnitActivate;
+
+            DbContext.notifications.Add(aNote1);
+            DbContext.SaveChanges();
+
+            //Act
+            sut.NotificationUpdate(aNote1.notification_uid, aNote1.microting_uid, aNote1.workflow_state, aNote1.exception, "");
+            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+
+            //Assert
+
+            Assert.AreEqual(aNote1.notification_uid, notificationResult[0].notification_uid);
+            Assert.AreEqual(aNote1.microting_uid, notificationResult[0].microting_uid);
         }
         #endregion
 
@@ -5169,96 +5263,6 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(newValue.status, "not_approved");
 
 
-        }
-
-
-        #endregion
-
-        #region notification
-
-        [Test]
-        public void SQL_Notification_Notificationcreate_isCreated()
-        {
-            //notifications aNote1 = new notifications();
-
-            //aNote1.workflow_state = Constants.WorkflowStates.Created;
-            //aNote1.created_at = DateTime.Now;
-            //aNote1.updated_at = DateTime.Now;
-            //aNote1.notification_uid = Guid.NewGuid().ToString();
-            //aNote1.microting_uid = Guid.NewGuid().ToString();
-            //aNote1.activity = Constants.Notifications.UnitActivate;
-
-            //DbContext.notifications.Add(aNote1);
-            //DbContext.SaveChanges();
-
-            //Act
-            sut.NotificationCreate(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Constants.Notifications.UnitActivate);
-            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
-
-            //Assert
-
-            Assert.NotNull(notificationResult);
-            Assert.AreEqual(1, notificationResult.Count);
-            Assert.AreEqual(Constants.Notifications.UnitActivate, notificationResult[0].activity);
-            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
-
-
-
-        }
-
-        [Test]
-        public void SQL_Notification_NotificationReadFirst_doesReadFirst()
-        {
-            notifications aNote1 = new notifications();
-
-            aNote1.workflow_state = Constants.WorkflowStates.Created;
-            aNote1.created_at = DateTime.Now;
-            aNote1.updated_at = DateTime.Now;
-            aNote1.notification_uid = "0";
-            aNote1.microting_uid = "1";
-            aNote1.activity = Constants.Notifications.UnitActivate;
-
-            DbContext.notifications.Add(aNote1);
-            DbContext.SaveChanges();
-
-            //Act
-            sut.NotificationReadFirst();
-            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
-
-
-            //assert
-            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].workflow_state);
-
-
-        }
-
-        [Test]
-        public void SQL_Notification_NotificationUpdate_doesGetUpdated()
-        {
-            notifications aNote1 = new notifications();
-
-            aNote1.workflow_state = Constants.WorkflowStates.Created;
-            aNote1.created_at = DateTime.Now;
-            aNote1.updated_at = DateTime.Now;
-            aNote1.notification_uid = "0";
-            aNote1.microting_uid = "1";
-            aNote1.activity = Constants.Notifications.UnitActivate;
-
-            DbContext.notifications.Add(aNote1);
-            DbContext.SaveChanges();
-
-            //Act
-            //sut.NotificationUpdate(aNote1.notification_uid, aNote1.microting_uid, aNote1.workflow_state, aNote1.exception);
-            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
-
-            //Assert
-
-            Assert.AreEqual(aNote1.notification_uid, notificationResult[0].notification_uid);
-            Assert.AreEqual(aNote1.microting_uid, notificationResult[0].microting_uid);
         }
 
 
@@ -14650,9 +14654,6 @@ namespace eFormSDK.Integration.Tests
 
         }
 
-
-
-
         #endregion
 
         #region tag
@@ -22992,9 +22993,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match5, "https://basic.microting.com");
             Assert.AreEqual(match6, "https://xxxxxx.xxxxxx.com");
             Assert.AreEqual(match7, "0");
-            Assert.AreEqual(match8, @"output\dataFolder\reports\");
-            Assert.AreEqual(match9, @"output\dataFolder\pdf\");
-            Assert.AreEqual(match10, @"output\dataFolder\picture\");
+            Assert.AreEqual(match8, path + @"\output\dataFolder\reports\");
+            Assert.AreEqual(match9, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match10, path + @"\output\dataFolder\picture\");
             Assert.AreEqual(match11, "false");
             Assert.AreEqual(match12, "http://localhost:3000");
             Assert.AreEqual(match13, "false");
@@ -23061,9 +23062,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match[1].value, "4");
             Assert.AreEqual(match[2].value, "25000");
             Assert.AreEqual(match[3].value, "false");
-            Assert.AreEqual(match[4].value, @"output\dataFolder\picture\");
-            Assert.AreEqual(match[5].value, @"output\dataFolder\pdf\");
-            Assert.AreEqual(match[6].value, @"output\dataFolder\reports\");
+            Assert.AreEqual(match[4].value, path + @"\output\dataFolder\picture\");
+            Assert.AreEqual(match[5].value, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match[6].value, path + @"\output\dataFolder\reports\");
             Assert.AreEqual(match[7].value, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             Assert.AreEqual(match[8].value, "https://basic.microting.com");
             Assert.AreEqual(match[9].value, "https://xxxxxx.xxxxxx.com");
