@@ -5275,6 +5275,14 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data();
 
+            ud.checksum = "checksum1";
+            ud.extension = "extension";
+            ud.current_file = "currentFile1";
+            ud.uploader_id = 223;
+            ud.uploader_type = "uploader_type";
+            ud.file_location = "file_location";
+            ud.file_name = "fileName";
+            ud.id = 111;
 
             ud.workflow_state = Constants.WorkflowStates.PreCreated;
          
@@ -5282,15 +5290,27 @@ namespace eFormSDK.Integration.Tests
 
             DbContext.uploaded_data.Add(ud);
             DbContext.SaveChanges();
+      
 
-            //Act
-         var m = sut.FileRead();
-            
+            // Act
+            UploadedData Ud = sut.FileRead();
+            //List<UploadedData> uploadedDataResult = DbContext.uploaded_data_versions.AsNoTracking().ToList();
+            //var versionedMatches = DbContext.uploaded_data.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
 
-            
-            //Assert.AreEqual(aNote1.microting_uid, notificationResult[0].microting_uid);
+            Assert.NotNull(ud);
+            Assert.NotNull(Ud);
+            Assert.AreEqual(Ud.Checksum, ud.checksum);
+            Assert.AreEqual(Ud.Extension, ud.extension);
+            Assert.AreEqual(Ud.CurrentFile, ud.current_file);
+            Assert.AreEqual(Ud.UploaderId, ud.uploader_id);
+            Assert.AreEqual(Ud.UploaderType, ud.uploader_type);
+            Assert.AreEqual(Ud.FileLocation, ud.file_location);
+            Assert.AreEqual(Ud.FileName, ud.file_name);
+            Assert.AreEqual(Ud.Id, ud.id);
+            Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.workflow_state);
+            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
 
 
 
@@ -5299,6 +5319,51 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_File_FileCaseFindMUId_doesFindMUId()
         {
+            sites site1 = CreateSite("MySite", 22);
+            check_lists cl1 = CreateTemplate("template1", "template_desc", "", "", 1, 1);
+
+            string guid = Guid.NewGuid().ToString();
+
+            //Case aCase = CreateCase("caseUID", cl1, )
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            string microtingUId = Guid.NewGuid().ToString();
+            string microtingCheckId = Guid.NewGuid().ToString();
+            cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            uploaded_data ud = new uploaded_data();
+
+            ud.checksum = "checksum1";
+            ud.extension = "extension";
+            ud.current_file = "currentFile1";
+            ud.uploader_id = 223;
+            ud.uploader_type = "uploader_type";
+            ud.file_location = "file_location";
+            ud.file_name = "fileName";
+            ud.id = 111;
+
+
+            field_values fVs = new field_values();
+            fVs.uploaded_data_id = ud.uploader_id;
+            fVs.case_id = aCase1.id;
+
+            DbContext.field_values.Add(fVs);
+            DbContext.SaveChanges();
+
+
+            //Act
+            Case_Dto fVs1 = sut.FileCaseFindMUId("url");
+            //int case1 = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
+
+            Assert.NotNull(fVs1);
+            Assert.AreEqual(fVs1.CaseId, aCase1.case_uid);
 
         }
 
