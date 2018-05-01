@@ -5370,19 +5370,75 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_File_FileProcessed_isProcessed()
         {
+            uploaded_data ud = new uploaded_data();
+
+            //ud.checksum = "checksum1";
+            //ud.file_location = "file_location";
+            //ud.file_name = "fileName";
+            ud.local = 0;
+            ud.workflow_state = Constants.WorkflowStates.PreCreated;
+            ud.version = 1;
+
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+
+
+            // Act
+            sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.id);
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            //var versionedMatches = DbContext.uploaded_data_versions.AsNoTracking().ToList(); TODO 05/01/2018
+
+            // Assert
+
+            Assert.NotNull(uploadedDataResult);
+            Assert.NotNull(ud);
+            Assert.AreEqual(Constants.WorkflowStates.Created, uploadedDataResult[0].workflow_state);
+            Assert.AreEqual(1, uploadedDataResult[0].local);
+            Assert.AreEqual(2, uploadedDataResult[0].version);
+            Assert.AreEqual("myChecksum", uploadedDataResult[0].checksum);
+            Assert.AreEqual("myFileLocation", uploadedDataResult[0].file_location);
+            Assert.AreEqual("myFileName", uploadedDataResult[0].file_name);
+            Assert.AreEqual(ud.id, uploadedDataResult[0].id);
 
         }
 
         [Test]
         public void SQL_File_GetUploadedData_doesGetUploadedData()
         {
+            uploaded_data ud = new uploaded_data();
+
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+
+
+            sut.GetUploadedData(ud.id);
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+
+
+            Assert.NotNull(ud);
+            Assert.NotNull(uploadedDataResult);
+            Assert.AreEqual(ud.id, uploadedDataResult[0].id);
 
         }
 
         [Test]
         public void SQL_File_DeleteFile_doesFileGetDeleted()
         {
+            uploaded_data ud = new uploaded_data();
 
+            ud.workflow_state = Constants.WorkflowStates.Created;
+            ud.version = 1;
+
+            //Act
+            sut.DeleteFile(ud.id);
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+
+            //Assert
+            Assert.NotNull(ud);
+            Assert.NotNull(uploadedDataResult);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, uploadedDataResult[0].workflow_state);
+            Assert.AreEqual(2, uploadedDataResult[0].version);
+            Assert.AreEqual(ud.id, uploadedDataResult[0].id);
         }
 
 
