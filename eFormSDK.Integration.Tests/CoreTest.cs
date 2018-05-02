@@ -81,6 +81,67 @@ namespace eFormSDK.Integration.Tests
 
         #region template
         [Test]
+        public void Core_Template_TemplateFromXml_REturnsTemplate()
+        {
+            //Arrance
+            string xmlstring = @"<?xml version='1.0' encoding='UTF-8' ?>
+   <Main>
+     <Id> 9060 </Id>
+        <Repeated> 0 </Repeated>
+        <Label> comment </Label>
+        <StartDate> 2017 - 07 - 07 </StartDate>
+        <EndDate> 2027 - 07 - 07 </EndDate>
+        <Language> da </Language>
+        <MultiApproval> false </MultiApproval>
+        <FastNavigation> false </FastNavigation>
+        <Review> false </Review>
+        <Summary> false </Summary>
+        <DisplayOrder> 0 </DisplayOrder>
+        <ElementList>
+          <Element type = 'DataElement'>
+            <Id> 9060 </Id>
+            <Label> comment </Label>
+            <Description><![CDATA[]]></Description>
+            <DisplayOrder> 0 </DisplayOrder>
+            <ReviewEnabled> false </ReviewEnabled>
+            <ManualSync> false </ManualSync>
+            <ExtraFieldsEnabled> false </ExtraFieldsEnabled>
+            <DoneButtonDisabled> false </DoneButtonDisabled>
+            <ApprovalEnabled> false </ApprovalEnabled>
+            <DataItemList>
+              <DataItem type = 'Comment'>
+                <Id> 73660 </Id>
+                <Label> Comment </Label>
+                 <Description><![CDATA[]]></Description>
+                 <DisplayOrder> 0 </DisplayOrder>
+                 <Multi> 1 </Multi>
+                 <GeolocationEnabled> false </GeolocationEnabled>
+                 <Split> false </Split>
+                 <Value/>
+                 <ReadOnly> false </ReadOnly>
+                  <Mandatory> false </Mandatory>
+                  <Color> e8eaf6 </Color>
+                </DataItem>
+              </DataItemList>
+            </Element>
+          </ElementList>
+    </Main>";
+            //Act
+            var match = sut.TemplateFromXml(xmlstring);
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match.CaseType, "");
+            Assert.AreEqual(match.Repeated, 1);
+            Assert.AreEqual(match.Id, 1);
+            Assert.AreEqual(match.Label, " comment ");
+            Assert.AreEqual(match.Language, " da ");
+            Assert.AreEqual(match.MultiApproval, false);
+            Assert.AreEqual(match.FastNavigation, false);
+            Assert.AreEqual(match.DisplayOrder, 0);
+            
+        }
+        [Test]
         public void Core_Template_TemplateItemReadAll_DoesReturnSortedTemplates()
         {
             // Arrance
@@ -381,6 +442,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
+
+
         #endregion
 
         #region tag
@@ -16967,10 +17030,2509 @@ namespace eFormSDK.Integration.Tests
 
 
         }
+        [Test]
+        public void Core_Case_CaseToJasperXml_ReturnsPath()
+        {
+            //Arrance
+            #region Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", @"C:\Users\soipi\Desktop", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", @"C:\Users\soipi\Desktop", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", @"C:\Users\soipi\Desktop", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", @"C: \Users\soipi\Desktop", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", @"C:\Users\soipi\Desktop", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", @"C:\Users\soipi\Desktop", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", @"C:\Users\soipi\Desktop", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", @"C:\Users\soipi\Desktop", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", @"C:\Users\soipi\Desktop", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", @"C:\Users\soipi\Desktop", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Check List Values
+            #region clv1
+            check_list_values clv1 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
+            #endregion
+
+            #region clv2
+            check_list_values clv2 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 861);
+            #endregion
+
+            #region clv3
+            check_list_values clv3 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 862);
+            #endregion
+
+            #region clv4
+            check_list_values clv4 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 863);
+            #endregion
+
+            #region clv5
+            check_list_values clv5 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 864);
+            #endregion
+
+            #region clv6
+            check_list_values clv6 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 865);
+            #endregion
+
+            #region clv7
+            check_list_values clv7 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 866);
+            #endregion
+
+            #region clv8
+            check_list_values clv8 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 867);
+            #endregion
+
+            #region clv9
+            check_list_values clv9 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 868);
+            #endregion
+
+            #region clv10
+            check_list_values clv10 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 869);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+
+            #endregion
+
+
+            #endregion
+
+            #region checkListSites
+            DateTime cls_ca = DateTime.Now;
+            DateTime cls_ua = DateTime.Now;
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+               cls_ua, 5, Constants.WorkflowStates.Created);
+
+            #endregion
+            #endregion
+            //Act
+       
+         string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
+            string path =@"output\dataFolder\reports\" + "results/" + timeStamp + "_" + aCase2.id +".xml";
+        var match = sut.CaseToJasperXml(aCase2.id, null, @"C:\Users\soipi\Desktop");
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match, path);
+
+        }
+        [Test]
+        public void Core_Case_GetJasperPath_returnsPath()
+        {
+            //Arrance
+            #region Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", @"C:\Users\soipi\Desktop", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", @"C:\Users\soipi\Desktop", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", @"C:\Users\soipi\Desktop", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", @"C: \Users\soipi\Desktop", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", @"C:\Users\soipi\Desktop", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", @"C:\Users\soipi\Desktop", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", @"C:\Users\soipi\Desktop", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", @"C:\Users\soipi\Desktop", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", @"C:\Users\soipi\Desktop", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", @"C:\Users\soipi\Desktop", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Check List Values
+            #region clv1
+            check_list_values clv1 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
+            #endregion
+
+            #region clv2
+            check_list_values clv2 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 861);
+            #endregion
+
+            #region clv3
+            check_list_values clv3 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 862);
+            #endregion
+
+            #region clv4
+            check_list_values clv4 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 863);
+            #endregion
+
+            #region clv5
+            check_list_values clv5 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 864);
+            #endregion
+
+            #region clv6
+            check_list_values clv6 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 865);
+            #endregion
+
+            #region clv7
+            check_list_values clv7 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 866);
+            #endregion
+
+            #region clv8
+            check_list_values clv8 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 867);
+            #endregion
+
+            #region clv9
+            check_list_values clv9 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 868);
+            #endregion
+
+            #region clv10
+            check_list_values clv10 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 869);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+
+            #endregion
+
+
+            #endregion
+
+            #region checkListSites
+            DateTime cls_ca = DateTime.Now;
+            DateTime cls_ua = DateTime.Now;
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+               cls_ua, 5, Constants.WorkflowStates.Created);
+
+            #endregion
+            #endregion
+            //Act
+
+            var match = sut.GetJasperPath();
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match, @"output\dataFolder\reports\");
+
+
+        }
+        [Test]
+        public void Core_Case_GetPicturePath_returnsPath()
+        {
+            //Arrance
+            #region Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", @"C:\Users\soipi\Desktop", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", @"C:\Users\soipi\Desktop", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", @"C:\Users\soipi\Desktop", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", @"C: \Users\soipi\Desktop", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", @"C:\Users\soipi\Desktop", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", @"C:\Users\soipi\Desktop", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", @"C:\Users\soipi\Desktop", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", @"C:\Users\soipi\Desktop", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", @"C:\Users\soipi\Desktop", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", @"C:\Users\soipi\Desktop", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Check List Values
+            #region clv1
+            check_list_values clv1 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
+            #endregion
+
+            #region clv2
+            check_list_values clv2 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 861);
+            #endregion
+
+            #region clv3
+            check_list_values clv3 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 862);
+            #endregion
+
+            #region clv4
+            check_list_values clv4 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 863);
+            #endregion
+
+            #region clv5
+            check_list_values clv5 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 864);
+            #endregion
+
+            #region clv6
+            check_list_values clv6 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 865);
+            #endregion
+
+            #region clv7
+            check_list_values clv7 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 866);
+            #endregion
+
+            #region clv8
+            check_list_values clv8 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 867);
+            #endregion
+
+            #region clv9
+            check_list_values clv9 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 868);
+            #endregion
+
+            #region clv10
+            check_list_values clv10 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 869);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+
+            #endregion
+
+
+            #endregion
+
+            #region checkListSites
+            DateTime cls_ca = DateTime.Now;
+            DateTime cls_ua = DateTime.Now;
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+               cls_ua, 5, Constants.WorkflowStates.Created);
+
+            #endregion
+            #endregion
+            //Act
+
+            var match = sut.GetPicturePath();
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match, @"output\dataFolder\picture\");
+
+
+        }
+        [Test]
+        public void Core_Case_GetPdfPath_returnsPath()
+        {
+            //Arrance
+            #region Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", @"C:\Users\soipi\Desktop", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", @"C:\Users\soipi\Desktop", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", @"C:\Users\soipi\Desktop", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", @"C: \Users\soipi\Desktop", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", @"C:\Users\soipi\Desktop", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", @"C:\Users\soipi\Desktop", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", @"C:\Users\soipi\Desktop", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", @"C:\Users\soipi\Desktop", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", @"C:\Users\soipi\Desktop", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", @"C:\Users\soipi\Desktop", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Check List Values
+            #region clv1
+            check_list_values clv1 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
+            #endregion
+
+            #region clv2
+            check_list_values clv2 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 861);
+            #endregion
+
+            #region clv3
+            check_list_values clv3 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 862);
+            #endregion
+
+            #region clv4
+            check_list_values clv4 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 863);
+            #endregion
+
+            #region clv5
+            check_list_values clv5 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 864);
+            #endregion
+
+            #region clv6
+            check_list_values clv6 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 865);
+            #endregion
+
+            #region clv7
+            check_list_values clv7 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 866);
+            #endregion
+
+            #region clv8
+            check_list_values clv8 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 867);
+            #endregion
+
+            #region clv9
+            check_list_values clv9 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 868);
+            #endregion
+
+            #region clv10
+            check_list_values clv10 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 869);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+
+            #endregion
+
+
+            #endregion
+
+            #region checkListSites
+            DateTime cls_ca = DateTime.Now;
+            DateTime cls_ua = DateTime.Now;
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+               cls_ua, 5, Constants.WorkflowStates.Created);
+
+            #endregion
+            #endregion
+            //Act
+
+            var match = sut.GetPdfPath();
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match, @"output\dataFolder\pdf\");
+
+
+        }
+        [Test]
+        public void Core_Case_GetHttpServerAddress_returnsPath()
+        {
+            //Arrance
+            #region Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            #region cases
+            #region cases created
+            #region Case1
+
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+
+            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            #endregion
+
+            #region Case2
+
+            DateTime c2_ca = DateTime.Now.AddDays(-7);
+            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            cases aCase2 = testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
+             c2_da, worker, "microtingCheck2UId", "microting2UId",
+               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case3
+            DateTime c3_ca = DateTime.Now.AddDays(-10);
+            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.Now.AddDays(-9);
+
+            cases aCase3 = testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
+              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+
+            #region Case4
+            DateTime c4_ca = DateTime.Now.AddDays(-8);
+            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.Now.AddDays(-7);
+
+            cases aCase4 = testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
+                c4_da, worker, "microtingCheck4UId", "microting4UId",
+               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+            #endregion
+            #endregion
+
+            #endregion
+
+            #region UploadedData
+            #region ud1
+            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", @"C:\Users\soipi\Desktop", "File1", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud2
+            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", @"C:\Users\soipi\Desktop", "File2", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud3
+            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", @"C:\Users\soipi\Desktop", "File3", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud4
+            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", @"C: \Users\soipi\Desktop", "File4", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud5
+            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", @"C:\Users\soipi\Desktop", "File5", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud6
+            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", @"C:\Users\soipi\Desktop", "File6", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud7
+            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", @"C:\Users\soipi\Desktop", "File7", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud8
+            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", @"C:\Users\soipi\Desktop", "File8", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud9
+            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", @"C:\Users\soipi\Desktop", "File9", 1, worker,
+                "local", 55);
+            #endregion
+
+            #region ud10
+            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", @"C:\Users\soipi\Desktop", "File10", 1, worker,
+                "local", 55);
+            #endregion
+
+            #endregion
+
+            #region Check List Values
+            #region clv1
+            check_list_values clv1 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
+            #endregion
+
+            #region clv2
+            check_list_values clv2 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 861);
+            #endregion
+
+            #region clv3
+            check_list_values clv3 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 862);
+            #endregion
+
+            #region clv4
+            check_list_values clv4 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 863);
+            #endregion
+
+            #region clv5
+            check_list_values clv5 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 864);
+            #endregion
+
+            #region clv6
+            check_list_values clv6 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotChecked, null, 865);
+            #endregion
+
+            #region clv7
+            check_list_values clv7 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 866);
+            #endregion
+
+            #region clv8
+            check_list_values clv8 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 867);
+            #endregion
+
+            #region clv9
+            check_list_values clv9 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 868);
+            #endregion
+
+            #region clv10
+            check_list_values clv10 = testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.NotApproved, null, 869);
+            #endregion
+
+            #endregion
+
+            #region Field Values
+            #region fv1
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+
+            #endregion
+
+            #region fv2
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+
+            #endregion
+
+            #region fv3
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+
+            #endregion
+
+            #region fv4
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+
+            #endregion
+
+            #region fv5
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+
+            #endregion
+
+            #region fv6
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+
+            #endregion
+
+            #region fv7
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+
+            #endregion
+
+            #region fv8
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+
+            #endregion
+
+            #region fv9
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+
+            #endregion
+
+            #region fv10
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+
+            #endregion
+
+
+            #endregion
+
+            #region checkListSites
+            DateTime cls_ca = DateTime.Now;
+            DateTime cls_ua = DateTime.Now;
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+               cls_ua, 5, Constants.WorkflowStates.Created);
+
+            #endregion
+            #endregion
+            //Act
+
+            var match = sut.GetHttpServerAddress();
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match, "http://localhost:3000");
+
+
+        }
+        [Test]
+        public void Core_Case_SetHttpServerAddress_ReturnsTrue()
+        {
+            //Arrance
+
+            //Act
+            var match = sut.SetHttpServerAddress("facebook.com");
+            //Assert
+            Assert.NotNull(match);
+            Assert.True(match);
+        }
+        [Test]//can't be done, because of Jaxml file.
+        public void Core_Case_CaseToPdf_returns_Path()
+        {
+            //Arrance
+
+            //Act
+
+            //Assert
+        }
 
         #endregion
 
+        #region site
+
+        [Test]//Using communicator, needs httpMock
+        public void Core_Site_SiteCreate_ReturnSiteId()
+        {
+            ////Arrance
+
+            ////Act
+
+            //var site = sut.SiteCreate("site1", "René", "Madsen", "rm@rm.dk");
+
+            ////Assert
+            //Assert.NotNull(site);
+            //Assert.AreEqual(site.SiteName, "site1");
+            //Assert.AreEqual(site.FirstName, "René");
+            //Assert.AreEqual(site.LastName, "Madsen");
+
+
+
+        }
+        [Test]
+        public void Core_Site_SiteRead_ReturnsFullSite()
+        {
+            //Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+
+            //Act
+
+            var match = sut.SiteRead((int) site.microting_uid);
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match.SiteId, site.microting_uid);
+            Assert.AreEqual(match.SiteName, site.name);
+
+
+        }
+        [Test]
+        public void Core_Site_SiteReadAll_ReturnsSites()
+        {
+
+            //Arrance
+            #region Template1
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            #region subtemplates
+            #region SubTemplate1
+            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+
+            #region SubTemplate1
+            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+
+
+            #endregion
+            #endregion
+
+            #region Fields
+            #region field1
+
+
+            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region field2
+
+
+            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+
+            #endregion
+
+            #region field3
+
+            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field4
+
+
+            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field5
+
+            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field6
+
+            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field7
+
+            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field8
+
+            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field9
+
+            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region field10
+
+            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #endregion
+
+            #region Worker
+
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+            #endregion
+
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
+
+            #endregion
+
+            #region units
+            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+
+            #endregion
+
+            #region site_workers
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+
+            #endregion
+            //Act
+            var matchNotRemoved = sut.SiteReadAll(false);
+            var matchInclRemoved = sut.SiteReadAll(true);
+            //Assert
+            Assert.NotNull(matchInclRemoved);
+            Assert.NotNull(matchNotRemoved);
+
+            Assert.AreEqual(matchInclRemoved.Count, 1);
+            Assert.AreEqual(matchNotRemoved.Count, 1);
+
+
+
+        }
+        [Test]//Using Communicatorn needs httpMock
+        public void Core_Site_SiteReset_ReturnsSite()
+        {
+
+            //Arrance
+
+            //Act
+
+            //Assert
+
+        }
+        [Test]//Using Communicatorn needs httpMock
+        public void Core_Site_SiteUpdate_returnsTrue()
+        {
+            //Arrance
+
+            //Act
+
+            //Assert
+        }
+        [Test]//Using Communicatorn needs httpMock
+        public void Core_Site_SiteDelete_ReturnsTrue()
+        {
+            //Arrance
+
+            //Act
+
+            //Assert
+        }
+
+        #endregion
+        
         #region Entity
         [Test]
         public void Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroups()
