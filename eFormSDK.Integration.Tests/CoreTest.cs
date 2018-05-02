@@ -16,6 +16,7 @@ namespace eFormSDK.Integration.Tests
     {
         private Core sut;
         private TestHelpers testHelpers;
+        private string path;
 
         public override void DoSetup()
         {
@@ -35,7 +36,7 @@ namespace eFormSDK.Integration.Tests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             sut.StartSqlOnly(ConnectionString);
-            string path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
             sut.SetPicturePath(path + @"\output\dataFolder\picture\");
             sut.SetPdfPath(path + @"\output\dataFolder\pdf\");

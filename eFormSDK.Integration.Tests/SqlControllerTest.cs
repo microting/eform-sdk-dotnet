@@ -5345,13 +5345,15 @@ namespace eFormSDK.Integration.Tests
             ud.current_file = "currentFile1";
             ud.uploader_id = 223;
             ud.uploader_type = "uploader_type";
-            ud.file_location = "file_location";
+            ud.file_location = "url";
             ud.file_name = "fileName";
             ud.id = 111;
 
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
 
             field_values fVs = new field_values();
-            fVs.uploaded_data_id = ud.uploader_id;
+            fVs.uploaded_data_id = ud.id;
             fVs.case_id = aCase1.id;
 
             DbContext.field_values.Add(fVs);
@@ -5363,7 +5365,7 @@ namespace eFormSDK.Integration.Tests
             //int case1 = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
 
             Assert.NotNull(fVs1);
-            Assert.AreEqual(fVs1.CaseId, aCase1.case_uid);
+            Assert.AreEqual(fVs1.CaseId, aCase1.id);
 
         }
 
