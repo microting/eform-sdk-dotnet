@@ -5428,6 +5428,8 @@ namespace eFormSDK.Integration.Tests
 
             ud.workflow_state = Constants.WorkflowStates.Created;
             ud.version = 1;
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
 
             //Act
             sut.DeleteFile(ud.id);
