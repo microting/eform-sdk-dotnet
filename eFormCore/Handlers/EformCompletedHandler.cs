@@ -35,10 +35,10 @@ namespace eFormCore.Handlers
             try
             {
                 CheckStatusByMicrotingUid(message.MicrotringUUID);
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "");
+                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
             } catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message);
+                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
                 Note_Dto note_Dto = new Note_Dto(notification.notification_uid, notification.microting_uid, notification.activity);
                 core.FireHandleNotificationNotFound(note_Dto);
             }

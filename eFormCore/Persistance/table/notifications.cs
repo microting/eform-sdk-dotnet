@@ -31,5 +31,7 @@ namespace eFormSqlController
         public string activity { get; set; }
 
         public string exception { get; set; }
+
+        public string stacktrace { get; set; }
     }
 }

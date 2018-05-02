@@ -1,5 +1,6 @@
 ﻿using eFormData;
 using eFormShared;
+using eFormCore.Helpers;
 using eFormSqlController;
 using NUnit.Framework;
 using System;
@@ -14,12 +15,19 @@ namespace eFormSDK.Integration.Tests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", "");
+        //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
+
+
 
         public override void DoSetup()
         {
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(DbContext);
+            testHelpers = new TestHelpers();
+            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
         }
 
         #region notification
@@ -92,7 +100,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
-            sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "");
+            sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
 
             // Assert
             var notification = DbContext.notifications.SingleOrDefault(x => x.notification_uid == notificationUId && x.microting_uid == microtingUId);
@@ -101,6 +109,92 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, DbContext.notifications.Count());
             Assert.AreEqual(Constants.Notifications.Completed, notification.activity);
             Assert.AreEqual(Constants.WorkflowStates.Processed, notification.workflow_state);
+        }
+
+
+        [Test]
+        public void SQL_Notification_Notificationcreate_isCreated()
+        {
+            //notifications aNote1 = new notifications();
+
+            //aNote1.workflow_state = Constants.WorkflowStates.Created;
+            //aNote1.created_at = DateTime.Now;
+            //aNote1.updated_at = DateTime.Now;
+            //aNote1.notification_uid = Guid.NewGuid().ToString();
+            //aNote1.microting_uid = Guid.NewGuid().ToString();
+            //aNote1.activity = Constants.Notifications.UnitActivate;
+
+            //DbContext.notifications.Add(aNote1);
+            //DbContext.SaveChanges();
+
+            //Act
+            sut.NotificationCreate(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Constants.Notifications.UnitActivate);
+            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+
+            //Assert
+
+            Assert.NotNull(notificationResult);
+            Assert.AreEqual(1, notificationResult.Count);
+            Assert.AreEqual(Constants.Notifications.UnitActivate, notificationResult[0].activity);
+            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
+
+
+        }
+
+        [Test]
+        public void SQL_Notification_NotificationReadFirst_doesReadFirst()
+        {
+            notifications aNote1 = new notifications();
+
+            aNote1.workflow_state = Constants.WorkflowStates.Created;
+            aNote1.created_at = DateTime.Now;
+            aNote1.updated_at = DateTime.Now;
+            aNote1.notification_uid = "0";
+            aNote1.microting_uid = "1";
+            aNote1.activity = Constants.Notifications.UnitActivate;
+
+            DbContext.notifications.Add(aNote1);
+            DbContext.SaveChanges();
+
+            //Act
+            sut.NotificationReadFirst();
+            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+
+
+            //assert
+            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].workflow_state);
+
+
+        }
+
+        [Test]
+        public void SQL_Notification_NotificationUpdate_doesGetUpdated()
+        {
+            notifications aNote1 = new notifications();
+
+            aNote1.workflow_state = Constants.WorkflowStates.Created;
+            aNote1.created_at = DateTime.Now;
+            aNote1.updated_at = DateTime.Now;
+            aNote1.notification_uid = "0";
+            aNote1.microting_uid = "1";
+            aNote1.activity = Constants.Notifications.UnitActivate;
+
+            DbContext.notifications.Add(aNote1);
+            DbContext.SaveChanges();
+
+            //Act
+            sut.NotificationUpdate(aNote1.notification_uid, aNote1.microting_uid, aNote1.workflow_state, aNote1.exception, "");
+            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+
+            //Assert
+
+            Assert.AreEqual(aNote1.notification_uid, notificationResult[0].notification_uid);
+            Assert.AreEqual(aNote1.microting_uid, notificationResult[0].microting_uid);
         }
         #endregion
 
@@ -1517,7 +1611,7 @@ namespace eFormSDK.Integration.Tests
         #region public "reply"
 
         #region check
-        //TODO
+        
         [Test]
         public void SQL_Check_ChecksCreate_IsCreated()
         {
@@ -2583,292 +2677,6 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
-        //[Test]
-        //public void SQL_Check_SubChecks_ReturnsCheckListValue()
-        //{
-        //    // Arrance
-        //    #region Template1
-        //    check_lists cl1 = new check_lists();
-        //    cl1.created_at = DateTime.Now;
-        //    cl1.updated_at = DateTime.Now;
-        //    cl1.label = "A";
-        //    cl1.description = "D";
-        //    cl1.workflow_state = Constants.WorkflowStates.Created;
-        //    cl1.case_type = "CheckList";
-        //    cl1.folder_name = "Template1FolderName";
-        //    cl1.display_index = 1;
-        //    cl1.repeated = 1;
-
-        //    DbContext.check_lists.Add(cl1);
-        //    DbContext.SaveChanges();
-        //    #endregion
-
-        //    #region SubTemplate1
-        //    check_lists cl2 = new check_lists();
-        //    cl2.created_at = DateTime.Now;
-        //    cl2.updated_at = DateTime.Now;
-        //    cl2.label = "A.1";
-        //    cl2.description = "D.1";
-        //    cl2.workflow_state = Constants.WorkflowStates.Created;
-        //    cl2.case_type = "CheckList";
-        //    cl2.display_index = 1;
-        //    cl2.repeated = 1;
-        //    cl2.parent_id = cl1.id;
-
-        //    DbContext.check_lists.Add(cl2);
-        //    DbContext.SaveChanges();
-
-        //    #endregion
-
-        //    #region Fields
-        //    #region field1
-
-
-        //    fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-        //        5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-        //        0, 0, "", 49);
-        //    //    new fields();
-        //    //field_types ft1 = DbContext.field_types.Where(x => x.field_type == "comment").First();
-        //    //f1.field_type = ft1;
-
-        //    //f1.barcode_enabled = 1;
-        //    //f1.barcode_type = "barcode";
-        //    //f1.check_list_id = cl2.id;
-        //    //f1.color = "e2f4fb";
-        //    //f1.created_at = DateTime.Now;
-        //    //f1.custom = "custom";
-        //    //f1.decimal_count = null;
-        //    //f1.default_value = "";
-        //    //f1.description = "Comment field Description";
-        //    //f1.display_index = 5;
-        //    //f1.dummy = 1;
-        //    //f1.geolocation_enabled = 0;
-        //    //f1.geolocation_forced = 0;
-        //    //f1.geolocation_hidden = 1;
-        //    //f1.is_num = 0;
-        //    //f1.label = "Comment field";
-        //    //f1.mandatory = 1;
-        //    //f1.max_length = 55;
-        //    //f1.max_value = "55";
-        //    //f1.min_value = "0";
-        //    //f1.multi = 0;
-        //    //f1.optional = 0;
-        //    //f1.query_type = null;
-        //    //f1.read_only = 1;
-        //    //f1.selected = 0;
-        //    //f1.split_screen = 0;
-        //    //f1.stop_on_save = 0;
-        //    //f1.unit_name = "";
-        //    //f1.updated_at = DateTime.Now;
-        //    //f1.version = 49;
-        //    //f1.workflow_state = Constants.WorkflowStates.Created;
-
-        //    //DbContext.fields.Add(f1);
-        //    //DbContext.SaveChanges();
-        //    //Thread.Sleep(2000);
-        //    #endregion
-
-        //    #region field2
-
-
-        //    fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-        //        45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
-        //        "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-        //    //    new fields();
-        //    //field_types ft2 = DbContext.field_types.Where(x => x.field_type == "comment").First();
-        //    //f2.field_type = ft2;
-
-        //    //f2.barcode_enabled = 1;
-        //    //f2.barcode_type = "barcode";
-        //    //f2.check_list_id = cl2.id;
-        //    //f2.color = "f5eafa";
-        //    //f2.default_value = "";
-        //    //f2.description = "showPDf Description";
-        //    //f2.display_index = 45;
-        //    //f2.dummy = 1;
-        //    //f2.geolocation_enabled = 0;
-        //    //f2.geolocation_forced = 1;
-        //    //f2.geolocation_hidden = 0;
-        //    //f2.is_num = 0;
-        //    //f2.label = "ShowPdf";
-        //    //f2.mandatory = 0;
-        //    //f2.max_length = 5;
-        //    //f2.max_value = "5";
-        //    //f2.min_value = "0";
-        //    //f2.multi = 0;
-        //    //f2.optional = 0;
-        //    //f2.query_type = null;
-        //    //f2.read_only = 0;
-        //    //f2.selected = 0;
-        //    //f2.split_screen = 0;
-        //    //f2.stop_on_save = 0;
-        //    //f2.unit_name = "";
-        //    //f2.updated_at = DateTime.Now;
-        //    //f2.version = 9;
-        //    //f2.workflow_state = Constants.WorkflowStates.Created;
-
-        //    //DbContext.fields.Add(f2);
-        //    //DbContext.SaveChanges();
-        //    //Thread.Sleep(2000);
-
-        //    #endregion
-
-        //    #region field3
-
-        //    fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-        //        83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
-        //        "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-        //    //    new fields();
-        //    //field_types ft3 = DbContext.field_types.Where(x => x.field_type == "number").First();
-
-        //    //f3.field_type = ft3;
-
-        //    //f3.barcode_enabled = 0;
-        //    //f3.barcode_type = "barcode";
-        //    //f3.check_list_id = cl2.id;
-        //    //f3.color = "f0f8db";
-        //    //f3.created_at = DateTime.Now;
-        //    //f3.custom = "custom";
-        //    //f3.decimal_count = 3;
-        //    //f3.default_value = "";
-        //    //f3.description = "Number Field Description";
-        //    //f3.display_index = 83;
-        //    //f3.dummy = 0;
-        //    //f3.geolocation_enabled = 0;
-        //    //f3.geolocation_forced = 0;
-        //    //f3.geolocation_hidden = 1;
-        //    //f3.is_num = 0;
-        //    //f3.label = "Numberfield";
-        //    //f3.mandatory = 1;
-        //    //f3.max_length = 8;
-        //    //f3.max_value = "4865";
-        //    //f3.min_value = "0";
-        //    //f3.multi = 0;
-        //    //f3.optional = 1;
-        //    //f3.query_type = null;
-        //    //f3.read_only = 1;
-        //    //f3.selected = 0;
-        //    //f3.split_screen = 0;
-        //    //f3.stop_on_save = 0;
-        //    //f3.unit_name = "";
-        //    //f3.updated_at = DateTime.Now;
-        //    //f3.version = 1;
-        //    //f3.workflow_state = Constants.WorkflowStates.Created;
-
-
-
-        //    //DbContext.fields.Add(f3);
-        //    //DbContext.SaveChanges();
-        //    //Thread.Sleep(2000);
-
-        //    #endregion
-
-        //    #region field4
-
-
-        //    fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-        //        84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
-        //        "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-        //    //    new fields();
-        //    //field_types ft4 = DbContext.field_types.Where(x => x.field_type == "comment").First();
-        //    //f4.field_type = ft4;
-
-        //    //f4.barcode_enabled = 1;
-        //    //f4.barcode_type = "barcode";
-        //    //f4.check_list_id = cl2.id;
-        //    //f4.color = "fff6df";
-        //    //f4.created_at = DateTime.Now;
-        //    //f4.custom = "custom";
-        //    //f4.decimal_count = null;
-        //    //f4.default_value = "";
-        //    //f4.description = "date Description";
-        //    //f4.display_index = 84;
-        //    //f4.dummy = 0;
-        //    //f4.geolocation_enabled = 0;
-        //    //f4.geolocation_forced = 0;
-        //    //f4.geolocation_hidden = 1;
-        //    //f4.is_num = 0;
-        //    //f4.label = "Date";
-        //    //f4.mandatory = 1;
-        //    //f4.max_length = 666;
-        //    //f4.max_value = "41153";
-        //    //f4.min_value = "0";
-        //    //f4.multi = 0;
-        //    //f4.optional = 1;
-        //    //f4.query_type = null;
-        //    //f4.read_only = 0;
-        //    //f4.selected = 1;
-        //    //f4.split_screen = 0;
-        //    //f4.stop_on_save = 0;
-        //    //f4.unit_name = "";
-        //    //f4.updated_at = DateTime.Now;
-        //    //f4.version = 1;
-        //    //f4.workflow_state = Constants.WorkflowStates.Created;
-
-
-        //    //DbContext.fields.Add(f4);
-        //    //DbContext.SaveChanges();
-        //    //Thread.Sleep(2000);
-
-        //    #endregion
-
-        //    #region field5
-
-        //    fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-        //        85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-        //        "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-        //    //    new fields();
-        //    //field_types ft5 = DbContext.field_types.Where(x => x.field_type == "comment").First();
-
-        //    //f5.field_type = ft5;
-        //    //f5.barcode_enabled = 0;
-        //    //f5.barcode_type = "barcode";
-        //    //f5.check_list_id = cl2.id;
-        //    //f5.color = "ffe4e4";
-        //    //f5.created_at = DateTime.Now;
-        //    //f5.custom = "custom";
-        //    //f5.decimal_count = null;
-        //    //f5.default_value = "";
-        //    //f5.description = "picture Description";
-        //    //f5.display_index = 85;
-        //    //f5.dummy = 0;
-        //    //f5.geolocation_enabled = 1;
-        //    //f5.geolocation_forced = 0;
-        //    //f5.geolocation_hidden = 1;
-        //    //f5.is_num = 0;
-        //    //f5.label = "Picture";
-        //    //f5.mandatory = 1;
-        //    //f5.max_length = 69;
-        //    //f5.max_value = "69";
-        //    //f5.min_value = "1";
-        //    //f5.multi = 0;
-        //    //f5.optional = 1;
-        //    //f5.query_type = null;
-        //    //f5.read_only = 0;
-        //    //f5.selected = 1;
-        //    //f5.split_screen = 0;
-        //    //f5.stop_on_save = 0;
-        //    //f5.unit_name = "";
-        //    //f5.updated_at = DateTime.Now;
-        //    //f5.version = 1;
-        //    //f5.workflow_state = Constants.WorkflowStates.Created;
-
-        //    //DbContext.fields.Add(f5);
-        //    //DbContext.SaveChanges();
-        //    //Thread.Sleep(2000);
-
-        //    #endregion
-
-
-        //    #endregion
-
-
-        //    // Act
-
-
-
-        //    // Assert
-        //} //private method
         [Test]
         public void SQL_Check_ChecksRead_ReturnsListOfFieldValues()
         {
@@ -5460,15 +5268,471 @@ namespace eFormSDK.Integration.Tests
 
         #endregion
 
-        //todo
-        #region notification
-
-
-        #endregion
-        //todo
         #region file
+                        
+        [Test]
+        public void SQL_File_FileRead_doesFileRead()
+        {
+            uploaded_data ud = new uploaded_data();
+
+            ud.checksum = "checksum1";
+            ud.extension = "extension";
+            ud.current_file = "currentFile1";
+            ud.uploader_id = 223;
+            ud.uploader_type = "uploader_type";
+            ud.file_location = "file_location";
+            ud.file_name = "fileName";
+            ud.id = 111;
+
+            ud.workflow_state = Constants.WorkflowStates.PreCreated;
+         
+           
+
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+      
+
+            // Act
+            UploadedData Ud = sut.FileRead();
+            //List<UploadedData> uploadedDataResult = DbContext.uploaded_data_versions.AsNoTracking().ToList();
+            //var versionedMatches = DbContext.uploaded_data.AsNoTracking().ToList();
+
+            // Assert
+
+            Assert.NotNull(ud);
+            Assert.NotNull(Ud);
+            Assert.AreEqual(Ud.Checksum, ud.checksum);
+            Assert.AreEqual(Ud.Extension, ud.extension);
+            Assert.AreEqual(Ud.CurrentFile, ud.current_file);
+            Assert.AreEqual(Ud.UploaderId, ud.uploader_id);
+            Assert.AreEqual(Ud.UploaderType, ud.uploader_type);
+            Assert.AreEqual(Ud.FileLocation, ud.file_location);
+            Assert.AreEqual(Ud.FileName, ud.file_name);
+            Assert.AreEqual(Ud.Id, ud.id);
+            Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.workflow_state);
+            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
+
+
+        }
+
+        [Test]
+        public void SQL_File_FileCaseFindMUId_doesFindMUId()
+        {
+            sites site1 = CreateSite("MySite", 22);
+            check_lists cl1 = CreateTemplate("template1", "template_desc", "", "", 1, 1);
+
+            string guid = Guid.NewGuid().ToString();
+
+            //Case aCase = CreateCase("caseUID", cl1, )
+            DateTime c1_ca = DateTime.Now.AddDays(-9);
+            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            site_workers site_workers = CreateSiteWorker(55, site1, worker);
+            units unit = CreateUnit(48, 49, site1, 348);
+
+            string microtingUId = Guid.NewGuid().ToString();
+            string microtingCheckId = Guid.NewGuid().ToString();
+            cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+
+            uploaded_data ud = new uploaded_data();
+
+            ud.checksum = "checksum1";
+            ud.extension = "extension";
+            ud.current_file = "currentFile1";
+            ud.uploader_id = 223;
+            ud.uploader_type = "uploader_type";
+            ud.file_location = "file_location";
+            ud.file_name = "fileName";
+            ud.id = 111;
+
+
+            field_values fVs = new field_values();
+            fVs.uploaded_data_id = ud.uploader_id;
+            fVs.case_id = aCase1.id;
+
+            DbContext.field_values.Add(fVs);
+            DbContext.SaveChanges();
+
+
+            //Act
+            Case_Dto fVs1 = sut.FileCaseFindMUId("url");
+            //int case1 = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
+
+            Assert.NotNull(fVs1);
+            Assert.AreEqual(fVs1.CaseId, aCase1.case_uid);
+
+        }
+
+        [Test]
+        public void SQL_File_FileProcessed_isProcessed()
+        {
+            uploaded_data ud = new uploaded_data();
+
+            //ud.checksum = "checksum1";
+            //ud.file_location = "file_location";
+            //ud.file_name = "fileName";
+            ud.local = 0;
+            ud.workflow_state = Constants.WorkflowStates.PreCreated;
+            ud.version = 1;
+
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+
+
+            // Act
+            sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.id);
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            //var versionedMatches = DbContext.uploaded_data_versions.AsNoTracking().ToList(); TODO 05/01/2018
+
+            // Assert
+
+            Assert.NotNull(uploadedDataResult);
+            Assert.NotNull(ud);
+            Assert.AreEqual(Constants.WorkflowStates.Created, uploadedDataResult[0].workflow_state);
+            Assert.AreEqual(1, uploadedDataResult[0].local);
+            Assert.AreEqual(2, uploadedDataResult[0].version);
+            Assert.AreEqual("myChecksum", uploadedDataResult[0].checksum);
+            Assert.AreEqual("myFileLocation", uploadedDataResult[0].file_location);
+            Assert.AreEqual("myFileName", uploadedDataResult[0].file_name);
+            Assert.AreEqual(ud.id, uploadedDataResult[0].id);
+
+        }
+
+        [Test]
+        public void SQL_File_GetUploadedData_doesGetUploadedData()
+        {
+            uploaded_data ud = new uploaded_data();
+
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+
+
+            sut.GetUploadedData(ud.id);
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+
+
+            Assert.NotNull(ud);
+            Assert.NotNull(uploadedDataResult);
+            Assert.AreEqual(ud.id, uploadedDataResult[0].id);
+
+        }
+
+        [Test]
+        public void SQL_File_DeleteFile_doesFileGetDeleted()
+        {
+            uploaded_data ud = new uploaded_data();
+
+            ud.workflow_state = Constants.WorkflowStates.Created;
+            ud.version = 1;
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+
+            //Act
+            sut.DeleteFile(ud.id);
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+
+            //Assert
+            Assert.NotNull(ud);
+            Assert.NotNull(uploadedDataResult);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, uploadedDataResult[0].workflow_state);
+            Assert.AreEqual(2, uploadedDataResult[0].version);
+            Assert.AreEqual(ud.id, uploadedDataResult[0].id);
+        }
+
 
         #endregion
+
+        //[Test]
+        //public void SQL_Check_SubChecks_ReturnsCheckListValue()
+        //{
+        //    // Arrance
+        //    #region Template1
+        //    check_lists cl1 = new check_lists();
+        //    cl1.created_at = DateTime.Now;
+        //    cl1.updated_at = DateTime.Now;
+        //    cl1.label = "A";
+        //    cl1.description = "D";
+        //    cl1.workflow_state = Constants.WorkflowStates.Created;
+        //    cl1.case_type = "CheckList";
+        //    cl1.folder_name = "Template1FolderName";
+        //    cl1.display_index = 1;
+        //    cl1.repeated = 1;
+
+        //    DbContext.check_lists.Add(cl1);
+        //    DbContext.SaveChanges();
+        //    #endregion
+
+        //    #region SubTemplate1
+        //    check_lists cl2 = new check_lists();
+        //    cl2.created_at = DateTime.Now;
+        //    cl2.updated_at = DateTime.Now;
+        //    cl2.label = "A.1";
+        //    cl2.description = "D.1";
+        //    cl2.workflow_state = Constants.WorkflowStates.Created;
+        //    cl2.case_type = "CheckList";
+        //    cl2.display_index = 1;
+        //    cl2.repeated = 1;
+        //    cl2.parent_id = cl1.id;
+
+        //    DbContext.check_lists.Add(cl2);
+        //    DbContext.SaveChanges();
+
+        //    #endregion
+
+        //    #region Fields
+        //    #region field1
+
+
+        //    fields f1 = CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+        //        5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+        //        0, 0, "", 49);
+        //    //    new fields();
+        //    //field_types ft1 = DbContext.field_types.Where(x => x.field_type == "comment").First();
+        //    //f1.field_type = ft1;
+
+        //    //f1.barcode_enabled = 1;
+        //    //f1.barcode_type = "barcode";
+        //    //f1.check_list_id = cl2.id;
+        //    //f1.color = "e2f4fb";
+        //    //f1.created_at = DateTime.Now;
+        //    //f1.custom = "custom";
+        //    //f1.decimal_count = null;
+        //    //f1.default_value = "";
+        //    //f1.description = "Comment field Description";
+        //    //f1.display_index = 5;
+        //    //f1.dummy = 1;
+        //    //f1.geolocation_enabled = 0;
+        //    //f1.geolocation_forced = 0;
+        //    //f1.geolocation_hidden = 1;
+        //    //f1.is_num = 0;
+        //    //f1.label = "Comment field";
+        //    //f1.mandatory = 1;
+        //    //f1.max_length = 55;
+        //    //f1.max_value = "55";
+        //    //f1.min_value = "0";
+        //    //f1.multi = 0;
+        //    //f1.optional = 0;
+        //    //f1.query_type = null;
+        //    //f1.read_only = 1;
+        //    //f1.selected = 0;
+        //    //f1.split_screen = 0;
+        //    //f1.stop_on_save = 0;
+        //    //f1.unit_name = "";
+        //    //f1.updated_at = DateTime.Now;
+        //    //f1.version = 49;
+        //    //f1.workflow_state = Constants.WorkflowStates.Created;
+
+        //    //DbContext.fields.Add(f1);
+        //    //DbContext.SaveChanges();
+        //    //Thread.Sleep(2000);
+        //    #endregion
+
+        //    #region field2
+
+
+        //    fields f2 = CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+        //        45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+        //        "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+        //    //    new fields();
+        //    //field_types ft2 = DbContext.field_types.Where(x => x.field_type == "comment").First();
+        //    //f2.field_type = ft2;
+
+        //    //f2.barcode_enabled = 1;
+        //    //f2.barcode_type = "barcode";
+        //    //f2.check_list_id = cl2.id;
+        //    //f2.color = "f5eafa";
+        //    //f2.default_value = "";
+        //    //f2.description = "showPDf Description";
+        //    //f2.display_index = 45;
+        //    //f2.dummy = 1;
+        //    //f2.geolocation_enabled = 0;
+        //    //f2.geolocation_forced = 1;
+        //    //f2.geolocation_hidden = 0;
+        //    //f2.is_num = 0;
+        //    //f2.label = "ShowPdf";
+        //    //f2.mandatory = 0;
+        //    //f2.max_length = 5;
+        //    //f2.max_value = "5";
+        //    //f2.min_value = "0";
+        //    //f2.multi = 0;
+        //    //f2.optional = 0;
+        //    //f2.query_type = null;
+        //    //f2.read_only = 0;
+        //    //f2.selected = 0;
+        //    //f2.split_screen = 0;
+        //    //f2.stop_on_save = 0;
+        //    //f2.unit_name = "";
+        //    //f2.updated_at = DateTime.Now;
+        //    //f2.version = 9;
+        //    //f2.workflow_state = Constants.WorkflowStates.Created;
+
+        //    //DbContext.fields.Add(f2);
+        //    //DbContext.SaveChanges();
+        //    //Thread.Sleep(2000);
+
+        //    #endregion
+
+        //    #region field3
+
+        //    fields f3 = CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+        //        83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
+        //        "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+        //    //    new fields();
+        //    //field_types ft3 = DbContext.field_types.Where(x => x.field_type == "number").First();
+
+        //    //f3.field_type = ft3;
+
+        //    //f3.barcode_enabled = 0;
+        //    //f3.barcode_type = "barcode";
+        //    //f3.check_list_id = cl2.id;
+        //    //f3.color = "f0f8db";
+        //    //f3.created_at = DateTime.Now;
+        //    //f3.custom = "custom";
+        //    //f3.decimal_count = 3;
+        //    //f3.default_value = "";
+        //    //f3.description = "Number Field Description";
+        //    //f3.display_index = 83;
+        //    //f3.dummy = 0;
+        //    //f3.geolocation_enabled = 0;
+        //    //f3.geolocation_forced = 0;
+        //    //f3.geolocation_hidden = 1;
+        //    //f3.is_num = 0;
+        //    //f3.label = "Numberfield";
+        //    //f3.mandatory = 1;
+        //    //f3.max_length = 8;
+        //    //f3.max_value = "4865";
+        //    //f3.min_value = "0";
+        //    //f3.multi = 0;
+        //    //f3.optional = 1;
+        //    //f3.query_type = null;
+        //    //f3.read_only = 1;
+        //    //f3.selected = 0;
+        //    //f3.split_screen = 0;
+        //    //f3.stop_on_save = 0;
+        //    //f3.unit_name = "";
+        //    //f3.updated_at = DateTime.Now;
+        //    //f3.version = 1;
+        //    //f3.workflow_state = Constants.WorkflowStates.Created;
+
+
+
+        //    //DbContext.fields.Add(f3);
+        //    //DbContext.SaveChanges();
+        //    //Thread.Sleep(2000);
+
+        //    #endregion
+
+        //    #region field4
+
+
+        //    fields f4 = CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+        //        84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+        //        "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+        //    //    new fields();
+        //    //field_types ft4 = DbContext.field_types.Where(x => x.field_type == "comment").First();
+        //    //f4.field_type = ft4;
+
+        //    //f4.barcode_enabled = 1;
+        //    //f4.barcode_type = "barcode";
+        //    //f4.check_list_id = cl2.id;
+        //    //f4.color = "fff6df";
+        //    //f4.created_at = DateTime.Now;
+        //    //f4.custom = "custom";
+        //    //f4.decimal_count = null;
+        //    //f4.default_value = "";
+        //    //f4.description = "date Description";
+        //    //f4.display_index = 84;
+        //    //f4.dummy = 0;
+        //    //f4.geolocation_enabled = 0;
+        //    //f4.geolocation_forced = 0;
+        //    //f4.geolocation_hidden = 1;
+        //    //f4.is_num = 0;
+        //    //f4.label = "Date";
+        //    //f4.mandatory = 1;
+        //    //f4.max_length = 666;
+        //    //f4.max_value = "41153";
+        //    //f4.min_value = "0";
+        //    //f4.multi = 0;
+        //    //f4.optional = 1;
+        //    //f4.query_type = null;
+        //    //f4.read_only = 0;
+        //    //f4.selected = 1;
+        //    //f4.split_screen = 0;
+        //    //f4.stop_on_save = 0;
+        //    //f4.unit_name = "";
+        //    //f4.updated_at = DateTime.Now;
+        //    //f4.version = 1;
+        //    //f4.workflow_state = Constants.WorkflowStates.Created;
+
+
+        //    //DbContext.fields.Add(f4);
+        //    //DbContext.SaveChanges();
+        //    //Thread.Sleep(2000);
+
+        //    #endregion
+
+        //    #region field5
+
+        //    fields f5 = CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+        //        85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+        //        "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+        //    //    new fields();
+        //    //field_types ft5 = DbContext.field_types.Where(x => x.field_type == "comment").First();
+
+        //    //f5.field_type = ft5;
+        //    //f5.barcode_enabled = 0;
+        //    //f5.barcode_type = "barcode";
+        //    //f5.check_list_id = cl2.id;
+        //    //f5.color = "ffe4e4";
+        //    //f5.created_at = DateTime.Now;
+        //    //f5.custom = "custom";
+        //    //f5.decimal_count = null;
+        //    //f5.default_value = "";
+        //    //f5.description = "picture Description";
+        //    //f5.display_index = 85;
+        //    //f5.dummy = 0;
+        //    //f5.geolocation_enabled = 1;
+        //    //f5.geolocation_forced = 0;
+        //    //f5.geolocation_hidden = 1;
+        //    //f5.is_num = 0;
+        //    //f5.label = "Picture";
+        //    //f5.mandatory = 1;
+        //    //f5.max_length = 69;
+        //    //f5.max_value = "69";
+        //    //f5.min_value = "1";
+        //    //f5.multi = 0;
+        //    //f5.optional = 1;
+        //    //f5.query_type = null;
+        //    //f5.read_only = 0;
+        //    //f5.selected = 1;
+        //    //f5.split_screen = 0;
+        //    //f5.stop_on_save = 0;
+        //    //f5.unit_name = "";
+        //    //f5.updated_at = DateTime.Now;
+        //    //f5.version = 1;
+        //    //f5.workflow_state = Constants.WorkflowStates.Created;
+
+        //    //DbContext.fields.Add(f5);
+        //    //DbContext.SaveChanges();
+        //    //Thread.Sleep(2000);
+
+        //    #endregion
+
+
+        //    #endregion
+
+
+        //    // Act
+
+
+
+        //    // Assert
+        //} //private method
+
 
         #endregion
 
@@ -14513,9 +14777,6 @@ namespace eFormSDK.Integration.Tests
 
         }
 
-
-
-
         #endregion
 
         #region tag
@@ -22855,9 +23116,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match5, "https://basic.microting.com");
             Assert.AreEqual(match6, "https://xxxxxx.xxxxxx.com");
             Assert.AreEqual(match7, "0");
-            Assert.AreEqual(match8, @"output\dataFolder\reports\");
-            Assert.AreEqual(match9, @"output\dataFolder\pdf\");
-            Assert.AreEqual(match10, @"output\dataFolder\picture\");
+            Assert.AreEqual(match8, path + @"\output\dataFolder\reports\");
+            Assert.AreEqual(match9, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match10, path + @"\output\dataFolder\picture\");
             Assert.AreEqual(match11, "false");
             Assert.AreEqual(match12, "http://localhost:3000");
             Assert.AreEqual(match13, "false");
@@ -22924,9 +23185,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match[1].value, "4");
             Assert.AreEqual(match[2].value, "25000");
             Assert.AreEqual(match[3].value, "false");
-            Assert.AreEqual(match[4].value, @"output\dataFolder\picture\");
-            Assert.AreEqual(match[5].value, @"output\dataFolder\pdf\");
-            Assert.AreEqual(match[6].value, @"output\dataFolder\reports\");
+            Assert.AreEqual(match[4].value, path + @"\output\dataFolder\picture\");
+            Assert.AreEqual(match[5].value, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match[6].value, path + @"\output\dataFolder\reports\");
             Assert.AreEqual(match[7].value, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             Assert.AreEqual(match[8].value, "https://basic.microting.com");
             Assert.AreEqual(match[9].value, "https://xxxxxx.xxxxxx.com");

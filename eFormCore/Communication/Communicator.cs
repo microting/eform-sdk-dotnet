@@ -62,7 +62,7 @@ namespace eFormCommunicator
             //string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
 
             #region is unit test
-            if (token == "UNIT_TEST___________________L:32")
+            if (token == "abc1234567890abc1234567890abcdef")
             {
                 http = new HttpFake();
                 return;
@@ -421,12 +421,12 @@ namespace eFormCommunicator
         #endregion
 
         #region public unit      
-        public int UnitRequestOtp(int unitId)
+        public int UnitRequestOtp(int microtingUid)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
-            log.LogVariable(t.GetMethodName("Comminicator"), nameof(unitId), unitId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtingUid), microtingUid);
 
-            return http.UnitRequestOtp(unitId);
+            return http.UnitRequestOtp(microtingUid);
         }
 
         public List<Unit_Dto> UnitLoadAllFromRemote(int customerNo)

@@ -89,6 +89,8 @@ namespace eFormCore
         string fileLocationPdf;
 
         int sameExceptionCountTried = 0;
+        int maxParallelism = 1;
+        int numberOfWorkers = 1;
         IBus bus;
 		#endregion
 
@@ -107,9 +109,17 @@ namespace eFormCore
 					{
 						return false;
 					}
-					container.Install(
+
+                    try
+                    {
+                        maxParallelism = int.Parse(sqlController.SettingRead(Settings.maxParallelism));
+                        numberOfWorkers = int.Parse(sqlController.SettingRead(Settings.numberOfWorkers));
+                    }
+                    catch { }                  
+
+                    container.Install(
 						new RebusHandlerInstaller()
-						, new RebusInstaller(connectionString)
+						, new RebusInstaller(connectionString, maxParallelism, numberOfWorkers)
 					);
 					bus = container.Resolve<IBus>();
 					log.LogCritical(t.GetMethodName("Core"), "called");
@@ -701,22 +711,7 @@ namespace eFormCore
                     log.LogStandard(t.GetMethodName("Core"), "called");
                     log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
 
-                    bool allDeploymentsDeleted = true;
-                    var templateDto = TemplateItemRead(templateId);
-                    foreach (var siteUId in templateDto.DeployedSites)
-                    {
-                        if (!CaseDelete(templateDto.Id, siteUId.SiteUId))
-                        {
-                            allDeploymentsDeleted = false;
-                        }
-                    }
-                    if (allDeploymentsDeleted) {
-                        return sqlController.TemplateDelete(templateId);
-                    } else
-                    {
-                        return false;
-                    }
-                    
+                    return sqlController.TemplateDelete(templateId);                    
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1225,12 +1220,12 @@ namespace eFormCore
             //string microtingUId = message.MicrotringUUID;
             string methodName = t.GetMethodName("Core");
 
-            log.LogStandard(t.GetMethodName("Core"), "called");
+            //log.LogStandard(t.GetMethodName("Core"), "called");
             log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             var cDto = sqlController.CaseReadByMUId(microtingUId);
             string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
-            log.LogEverything(methodName, "XML response is : " + xmlResponse);
+            log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
             Response resp = new Response();
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
@@ -1264,18 +1259,34 @@ namespace eFormCore
             }
 
             if (xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
-                for (int i = 1; i < 12; i++)
+                for (int i = 1; i < 102; i++)
                 {
-                    Thread.Sleep(i * 2000);
+                    Thread.Sleep(i * 5000);
                     xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
-                    if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
+                    try
                     {
-                        break;
-                    }
-                    else
+                        resp = resp.XmlToClass(xmlResponse);
+                        if (resp.Type.ToString() == "Success")
+                        {
+                            log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + $" has been removed from server in retry loop with i being : {i.ToString()}");
+                            break;
+                        }                            
+                        else
+                        {
+                            log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                        }
+                    } catch (Exception ex)
                     {
-                        log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                        log.LogEverything(t.GetMethodName("Core"), $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                     }
+                    //if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
+                    //{
+                    //    break;
+                    //}
+                    //else
+                    //{
+                    //    log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                    //}
                 }
 
             log.LogEverything(t.GetMethodName("Core"), "XML response:");
@@ -1287,35 +1298,39 @@ namespace eFormCore
                 log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed from server");
                 try
                 {
-                    sqlController.CaseDelete(microtingUId);
+                    if (sqlController.CaseDelete(microtingUId))
+                    {
+                        cDto = sqlController.CaseReadByMUId(microtingUId);
+                        FireHandleCaseDeleted(cDto);
 
-                    cDto = sqlController.CaseReadByMUId(microtingUId);
-                    FireHandleCaseDeleted(cDto);
+                        log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
 
-                    log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
+                        return true;
+                    } else
+                    {
+                        try
+                        {
+                            sqlController.CaseDeleteReversed(microtingUId);
 
-                    return true;
+                            cDto = sqlController.CaseReadByMUId(microtingUId);
+                            FireHandleCaseDeleted(cDto);
+                            log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
+
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
+                            throw ex;
+                        }
+                    }                    
                 }
                 catch (Exception ex)
                 {
                     log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
                 }
 
-                try
-                {
-                    sqlController.CaseDeleteReversed(microtingUId);
-
-                    cDto = sqlController.CaseReadByMUId(microtingUId);
-                    FireHandleCaseDeleted(cDto);
-                    log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
-                    throw ex;
-                }
+                
             }
             return false;
             //return true;
@@ -1664,51 +1679,8 @@ namespace eFormCore
             }
         }
 
-        public string GetJasperPath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationJasper);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public string GetPicturePath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationPicture);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public string GetPdfPath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationPdf);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
+        #region settings
+        #region httpServerAddress
         public string GetHttpServerAddress()
         {
             string methodName = t.GetMethodName("Core");
@@ -1746,6 +1718,128 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
+        #endregion
+
+        #region fileLocationPicture
+        public string GetPicturePath()
+        {
+            string methodName = t.GetMethodName("Core");
+            log.LogStandard(t.GetMethodName("Core"), "called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationPicture);
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetPicturePath(string fileLocationPicture)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPicture), fileLocationPicture);
+
+                    sqlController.SettingUpdate(Settings.fileLocationPicture, fileLocationPicture);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+        #endregion
+
+        #region fileLocationPdf
+        public string GetPdfPath()
+        {
+            string methodName = t.GetMethodName("Core");
+            log.LogStandard(t.GetMethodName("Core"), "called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationPdf);
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetPdfPath(string fileLocationPdf)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPdf), fileLocationPdf);
+
+                    sqlController.SettingUpdate(Settings.fileLocationPdf, fileLocationPdf);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+        #endregion
+
+        #region fileLocationJasper
+        public string GetJasperPath()
+        {
+            string methodName = t.GetMethodName("Core");
+            log.LogStandard(t.GetMethodName("Core"), "called");
+            try
+            {
+                return sqlController.SettingRead(Settings.fileLocationJasper);
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return "N/A";
+            }
+        }
+
+        public bool SetJasperPath(string fileLocationJasper)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationJasper), fileLocationJasper);
+
+                    sqlController.SettingUpdate(Settings.fileLocationJasper, fileLocationJasper);
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+        #endregion
+        #endregion
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
@@ -2770,7 +2864,7 @@ namespace eFormCore
         #endregion
 
         #region units
-        public Unit_Dto Advanced_UnitRead(int unitId)
+        public Unit_Dto Advanced_UnitRead(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2778,9 +2872,9 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    return sqlController.UnitRead(unitId);
+                    return sqlController.UnitRead(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2813,7 +2907,7 @@ namespace eFormCore
             }
         }
 
-        public Unit_Dto Advanced_UnitRequestOtp(int unitId)
+        public Unit_Dto Advanced_UnitRequestOtp(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2821,15 +2915,15 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    int otp_code = communicator.UnitRequestOtp(unitId);
+                    int otp_code = communicator.UnitRequestOtp(microtingUid);
 
-                    Unit_Dto my_dto = Advanced_UnitRead(unitId);
+                    Unit_Dto my_dto = Advanced_UnitRead(microtingUid);
 
-                    sqlController.UnitUpdate(unitId, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
+                    sqlController.UnitUpdate(microtingUid, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
 
-                    return Advanced_UnitRead(unitId);
+                    return Advanced_UnitRead(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");

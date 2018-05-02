@@ -43,20 +43,22 @@ namespace SourceCode
 
 
                 #region pick database
-                //string serverConnectionString = "Persist Security Info=True;server=localhost;database=microtingMySQL;uid=root;password=1234";
-                string serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=v166;User Id=sa;Password=aiT1sueh;";
+
+                string serverConnectionString = "";
 
                 Console.WriteLine("Enter database to use:");
                 Console.WriteLine("> If left blank, it will use 'Microting'");
                 Console.WriteLine("  Enter name of database to be used");
                 string databaseName = Console.ReadLine();
 
-                //if (databaseName.ToUpper() != "")
-                //    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
-                //if (databaseName.ToUpper() == "T")
-                //    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
-                //if (databaseName.ToUpper() == "O")
-                //    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+                if (databaseName.ToUpper() != "")
+                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
+                if (databaseName.ToUpper() == "T")
+                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
+                if (databaseName.ToUpper() == "O")
+                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+                if (serverConnectionString == "")
+                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingSourceCode" + ";Integrated Security=True";
 
                 Console.WriteLine(serverConnectionString);
                 #endregion
@@ -72,16 +74,6 @@ namespace SourceCode
                 string input = Console.ReadLine().ToUpper();
                 #endregion
 
-
-                var bus = Configure.With(new BuiltinHandlerActivator())
-                    .Logging(l => l.ColoredConsole())
-                    .Transport(t => t.UseSqlServerAsOneWayClient(connectionStringOrConnectionStringName: serverConnectionString, tableName: "Rebus"))
-                    .Options(o =>
-                    {
-
-                    })
-                    .Routing(r => r.TypeBased().Map<EformRetrieved>("eformsdk-input"))
-                    .Start();
 
                 if (input == "A")
                 {
@@ -108,17 +100,6 @@ namespace SourceCode
                     #endregion
                 }
 
-                if (input == "E")
-                {
-                    var core = new Core();
-                    core.Start(serverConnectionString);
-
-                    Console.WriteLine("Sending EformRetrieved message");
-                    bus.Send(new EformRetrieved("123", "123")).Wait();
-
-                    Console.WriteLine("Hit a key to exit");
-                    Console.ReadLine();
-                }
 
                 Console.WriteLine("");
                 Console.WriteLine("Console will close in 1s");
