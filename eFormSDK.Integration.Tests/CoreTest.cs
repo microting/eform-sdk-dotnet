@@ -667,7 +667,6 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(theCase);
             Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.WorkflowState);
         }
-
         [Test]
         public void Core_Case_CaseReadAll_Long()
         {
@@ -8250,7 +8249,6 @@ namespace eFormSDK.Integration.Tests
 
 
         }
-
         [Test]//needs http mock done
         public void Core_Case_CaseCreate_CreatesCase()
         {
@@ -8342,13 +8340,11 @@ namespace eFormSDK.Integration.Tests
             //Assert.NotNull(match);
 
         }
-
         [Test]//needs http mock done
         public void Core_Case_CaseCheck_ChecksCase()
         {
 
         }
-
         [Test]
         public void Core_Case_CaseRead_ReadsCase()
         {
@@ -8697,7 +8693,6 @@ namespace eFormSDK.Integration.Tests
 
             Assert.AreEqual(aCase.id, match.CaseId);
         }
-
         [Test]
         public void Core_Case_CaseReadFirstId()
         {
@@ -8801,7 +8796,6 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.AreEqual(aCase.id, match);
         }
-
         [Test]
         public void Core_Case_CaseReadAll_Medium()
         {
@@ -17875,7 +17869,7 @@ namespace eFormSDK.Integration.Tests
 
             //Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, @"output\dataFolder\reports\");
+            Assert.AreEqual(match, path + @"\output\dataFolder\reports\");
 
 
         }
@@ -18280,8 +18274,7 @@ namespace eFormSDK.Integration.Tests
 
             //Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, @"output\dataFolder\picture\");
-
+            Assert.AreEqual(match, path + @"\output\dataFolder\picture\");
 
         }
         [Test]
@@ -18685,8 +18678,7 @@ namespace eFormSDK.Integration.Tests
 
             //Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, @"output\dataFolder\pdf\");
-
+            Assert.AreEqual(match, path + @"\output\dataFolder\pdf\");
 
         }
         [Test]
