@@ -1975,7 +1975,7 @@ namespace eFormSqlController
 
                         return CaseReadByCaseId(aCase.id);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         return null;
                     }
