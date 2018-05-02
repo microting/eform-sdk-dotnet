@@ -16,6 +16,7 @@ namespace eFormSDK.Integration.Tests
     {
         private Core sut;
         private TestHelpers testHelpers;
+        private string path;
 
         public override void DoSetup()
         {
@@ -35,7 +36,7 @@ namespace eFormSDK.Integration.Tests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             sut.StartSqlOnly(ConnectionString);
-            string path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
             sut.SetPicturePath(path + @"\output\dataFolder\picture\");
             sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
@@ -17458,19 +17459,19 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created);
+               cls_ua, 5, Constants.WorkflowStates.Created, "");
 
             #endregion
             #endregion
             //Act
-       
-         string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
-            string path =@"output\dataFolder\reports\" + "results/" + timeStamp + "_" + aCase2.id +".xml";
-        var match = sut.CaseToJasperXml(aCase2.id, null, @"C:\Users\soipi\Desktop");
+
+            string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
+            string pdfPath = path + @"\output\dataFolder\reports\results\" + timeStamp + "_" + aCase2.id + ".xml";
+            var match = sut.CaseToJasperXml(aCase2.id, timeStamp, pdfPath);
 
             //Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, path);
+            Assert.AreEqual(match, pdfPath);
 
         }
         [Test]
@@ -17864,7 +17865,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created);
+               cls_ua, 5, Constants.WorkflowStates.Created, "");
 
             #endregion
             #endregion
@@ -18269,7 +18270,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created);
+               cls_ua, 5, Constants.WorkflowStates.Created, "");
 
             #endregion
             #endregion
@@ -18674,7 +18675,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created);
+               cls_ua, 5, Constants.WorkflowStates.Created, "");
 
             #endregion
             #endregion
@@ -19079,7 +19080,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created);
+               cls_ua, 5, Constants.WorkflowStates.Created, "");
 
             #endregion
             #endregion

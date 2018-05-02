@@ -1660,14 +1660,15 @@ namespace eFormCore
                     #endregion
 
                     //place in settings allocated placement
-                    string path = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + timeStamp + "_" + caseId + ".xml";
+                    string fullPath = sqlController.SettingRead(Settings.fileLocationJasper) + @"results\" + timeStamp + "_" + caseId + ".xml";
                     //string path = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss") + "_" + caseId + ".xml";
-                    Directory.CreateDirectory(sqlController.SettingRead(Settings.fileLocationJasper) + "results/");
-                    File.WriteAllText(path, jasperXml.Trim(), Encoding.UTF8);
+                    string path = sqlController.SettingRead(Settings.fileLocationJasper);
+                    Directory.CreateDirectory(path + @"results\");
+                    File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
                     //string path = Path.GetFullPath(locaR);
-                    log.LogVariable(t.GetMethodName("Core"), nameof(path), path);
-                    return path;
+                    log.LogVariable(t.GetMethodName("Core"), nameof(fullPath), fullPath);
+                    return fullPath;
                 }
                 else
                     throw new Exception("Core is not running");
