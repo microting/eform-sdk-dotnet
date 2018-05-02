@@ -42,9 +42,9 @@ namespace eFormSDK.Wrapper
             try
             {
                 core.Start(serverConnectionString);
-                IntPtr ptr = (IntPtr)startCallbackPointer;
-                NativeCallback callbackMethod =  (NativeCallback)Marshal.GetDelegateForFunctionPointer(ptr, typeof(NativeCallback));
-                callbackMethod(100);
+                //IntPtr ptr = (IntPtr)startCallbackPointer;
+                //NativeCallback callbackMethod =  (NativeCallback)Marshal.GetDelegateForFunctionPointer(ptr, typeof(NativeCallback));
+                //callbackMethod(100);
             }
             catch (Exception ex)
             {
@@ -89,6 +89,39 @@ namespace eFormSDK.Wrapper
             //CaseCompletedCallback caseCompletedCallbackMethod = (CaseCompletedCallback)Marshal.GetDelegateForFunctionPointer(ptr, typeof(NativeCallback));
             //caseCompletedCallbackMethod(siteId, caseType, caseUid, mUId, checkUId, CaseId);
 
+        }
+
+        [DllExport("Core_TemplatFromXml")]
+        public static int Core_TemplatFromXml([MarshalAs(UnmanagedType.BStr)]String xml, ref int id,
+                [MarshalAs(UnmanagedType.BStr)] ref string label, ref int displayOrder,
+                [MarshalAs(UnmanagedType.BStr)] ref string checkListFolderName, ref int repeated,
+                [MarshalAs(UnmanagedType.BStr)] ref string startDate, [MarshalAs(UnmanagedType.BStr)] ref string endDate,
+                [MarshalAs(UnmanagedType.BStr)] ref string language, ref bool multiApproval, ref bool fastNavigation,
+                ref bool downloadEntities, ref bool manualSync, [MarshalAs(UnmanagedType.BStr)] ref string caseType)
+        {
+            int result = 0;
+            try
+            {
+                var main = core.TemplateFromXml(xml);
+                id = main.Id;
+                label = main.Label;
+                displayOrder = main.DisplayOrder;
+                checkListFolderName = main.CheckListFolderName;
+                startDate = main.StartDate.ToString("yyyy-MM-dd");
+                endDate = main.EndDate.ToString("yyyy-MM-dd");
+                language = main.Language;
+                multiApproval = main.MultiApproval;
+                fastNavigation = main.FastNavigation;
+                downloadEntities = main.DownloadEntities;
+                manualSync = main.ManualSync;
+                caseType = main.CaseType;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
         }
     }
 
