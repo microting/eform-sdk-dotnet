@@ -5362,7 +5362,7 @@ namespace eFormSDK.Integration.Tests
             Case_Dto fVs1 = sut.FileCaseFindMUId("url");
             //int case1 = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
 
-            Assert.NotNull(fVs1);
+         
             Assert.AreEqual(fVs1.CaseId, aCase1.case_uid);
 
         }
@@ -5428,6 +5428,10 @@ namespace eFormSDK.Integration.Tests
 
             ud.workflow_state = Constants.WorkflowStates.Created;
             ud.version = 1;
+
+            DbContext.uploaded_data.Add(ud);
+            DbContext.SaveChanges();
+
 
             //Act
             sut.DeleteFile(ud.id);
