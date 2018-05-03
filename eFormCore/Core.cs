@@ -2485,7 +2485,6 @@ namespace eFormCore
                 log.LogException(t.GetMethodName("Core"), "failed", ex, false);
             }
         }
-        #endregion
 
         #region sites
         public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
@@ -2775,6 +2774,7 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
+        #endregion
         #endregion
 
         #region site_workers
