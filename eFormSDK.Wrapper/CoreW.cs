@@ -1,4 +1,5 @@
 ﻿using eFormCore;
+using eFormData;
 using eFormShared;
 using RGiesecke.DllExport;
 using System;
@@ -13,6 +14,7 @@ namespace eFormSDK.Wrapper
     public static class CoreW
     {
         private static Core core;
+        private static MainElement mainElement;
         private static Int32 startCallbackPointer;
 
         public delegate void NativeCallback(Int32 param);
@@ -27,7 +29,7 @@ namespace eFormSDK.Wrapper
             }
             catch (Exception ex)
             {
-                LastError.Value = ex.Message; 
+                LastError.Value = ex.Message;
                 result = 1;
             }
 
@@ -102,19 +104,88 @@ namespace eFormSDK.Wrapper
             int result = 0;
             try
             {
-                var main = core.TemplateFromXml(xml);
-                id = main.Id;
-                label = main.Label;
-                displayOrder = main.DisplayOrder;
-                checkListFolderName = main.CheckListFolderName;
-                startDate = main.StartDate.ToString("yyyy-MM-dd");
-                endDate = main.EndDate.ToString("yyyy-MM-dd");
-                language = main.Language;
-                multiApproval = main.MultiApproval;
-                fastNavigation = main.FastNavigation;
-                downloadEntities = main.DownloadEntities;
-                manualSync = main.ManualSync;
-                caseType = main.CaseType;
+                mainElement = core.TemplateFromXml(xml);
+                id = mainElement.Id;
+                label = mainElement.Label;
+                displayOrder = mainElement.DisplayOrder;
+                checkListFolderName = mainElement.CheckListFolderName;
+                startDate = mainElement.StartDate.ToString("yyyy-MM-dd");
+                endDate = mainElement.EndDate.ToString("yyyy-MM-dd");
+                language = mainElement.Language;
+                multiApproval = mainElement.MultiApproval;
+                fastNavigation = mainElement.FastNavigation;
+                downloadEntities = mainElement.DownloadEntities;
+                manualSync = mainElement.ManualSync;
+                caseType = mainElement.CaseType;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_ElementListCount")]
+        public static int Core_TemplatFromXml_ElementListCount(ref int count)
+        {
+            int result = 0;
+            try
+            {
+                count = mainElement.ElementList.Count;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_GetElementType")]
+        public static int Core_TemplatFromXml_GetElementType(int n, [MarshalAs(UnmanagedType.BStr)] ref string elementType)
+        {
+            int result = 0;
+            try
+            {
+                if (mainElement.ElementList[n] is DataElement)
+                    elementType = "DataElement";
+                else if (mainElement.ElementList[n] is GroupElement)
+                    elementType = "GroupElement";
+                else if (mainElement.ElementList[n] is CheckListValue)
+                    elementType = "CheckListValue";
+                else
+                    elementType = "Element";
+
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        //function(n: integer; var id: integer; var _label: WideString;
+        //var description: WideString; var displayOrder: integer; var reviewEnabled: boolean;
+        //var extraFieldsEnabled: boolean; var approvalEnabled: boolean): integer; stdcall;
+
+        [DllExport("Core_TemplatFromXml_GetDataElement")]
+        public static int Core_TemplatFromXml_GetDataElement(int n, ref int id, [MarshalAs(UnmanagedType.BStr)] ref string label,
+            [MarshalAs(UnmanagedType.BStr)] ref string description, ref int displayOrder, ref bool reviewEnabled, 
+            ref bool extraFieldsEnabled, ref bool approvalEnabled)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                id = e.Id;
+                label = e.Label;
+                description = e.Description.CDataWrapper[0].OuterXml;
+                displayOrder = e.DisplayOrder;
+                reviewEnabled = e.ReviewEnabled;
+                extraFieldsEnabled = e.ExtraFieldsEnabled;
+                approvalEnabled = e.ApprovalEnabled;   
             }
             catch (Exception ex)
             {
