@@ -12,7 +12,7 @@ using System.Threading;
 namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
-    public class CoreTest : DbTestFixture
+    public class CoreTestUnit : DbTestFixture
     {
         private Core sut;
         private TestHelpers testHelpers;
@@ -45,36 +45,25 @@ namespace eFormSDK.Integration.Tests
             //sut.StartLog(new CoreBase());
         }
 
-
-        
-
-        
-        
-        
-
-
+        #region unit
         [Test]
-        public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
+        public void Core_Advanced_UnitRequestOtp_SetsNewOtp()
         {
             //Arrance
-            string microtingUuid = testHelpers.CreateMultiPictureXMLResult(true);
+            sites site = testHelpers.CreateSite("test site 1", 1313);
+            units unit = testHelpers.CreateUnit(564646, 0, site, 0);
 
             //Act
-            sut.CheckStatusByMicrotingUid(microtingUuid);
+            sut.Advanced_UnitRequestOtp((int)unit.microting_uid);
 
             //Assert
-            List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
-            List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
+            List<units> matches = DbContext.units.AsNoTracking().ToList();
 
-            Assert.NotNull(caseMatches);
-            Assert.NotNull(udMatches);
-            Assert.NotNull(fvMatches);
-            Assert.AreEqual(3, caseMatches.Count());
-            Assert.AreEqual(5, udMatches.Count());
-            Assert.AreEqual(5, fvMatches.Count());
-
+            Assert.NotNull(matches);
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(558877, matches[0].otp_code);
         }
+        #endregion
 
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
@@ -107,10 +96,6 @@ namespace eFormSDK.Integration.Tests
             // Does nothing for web implementation
         }
         #endregion
-        //Arrance
-
-        //Act
-
-        //Assert
     }
+
 }

@@ -101,6 +101,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTest.cs" />
+    <Compile Include="CoreTestAdvanced.cs" />
+    <Compile Include="CoreTestCase.cs" />
+    <Compile Include="CoreTestCaseCreate.cs" />
+    <Compile Include="CoreTestCaseReadAllLong.cs" />
+    <Compile Include="CoreTestCaseReadAllMedium.cs" />
+    <Compile Include="CoreTestCaseReadAllShort.cs" />
+    <Compile Include="CoreTesteForm.cs" />
+    <Compile Include="CoreTestEntity.cs" />
+    <Compile Include="CoreTestEvent.cs" />
+    <Compile Include="CoreTestSite.cs" />
+    <Compile Include="CoreTestTag.cs" />
+    <Compile Include="CoreTestUnit.cs" />
+    <Compile Include="CoreTestUploadedData.cs" />
+    <Compile Include="CoreTestWorker.cs" />
     <Compile Include="DbTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlControllerTest.cs" />

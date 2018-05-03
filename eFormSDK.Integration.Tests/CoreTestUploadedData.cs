@@ -12,7 +12,7 @@ using System.Threading;
 namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
-    public class CoreTest : DbTestFixture
+    public class CoreTestUploadedData : DbTestFixture
     {
         private Core sut;
         private TestHelpers testHelpers;
@@ -45,36 +45,52 @@ namespace eFormSDK.Integration.Tests
             //sut.StartLog(new CoreBase());
         }
 
-
-        
-
-        
-        
-        
-
-
+        #region uploaded_datas
         [Test]
-        public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
+        public void Core_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
         {
-            //Arrance
-            string microtingUuid = testHelpers.CreateMultiPictureXMLResult(true);
+            // Arrance
+            string checksum = "";
+            string extension = "jpg";
+            string currentFile = "Hello.jpg";
+            int uploaderId = 1;
+            string fileLocation = @"c:\here";
+            string fileName = "Hello.jpg";
 
-            //Act
-            sut.CheckStatusByMicrotingUid(microtingUuid);
+            // Act
+            uploaded_data dU = new uploaded_data();
 
-            //Assert
-            List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
-            List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
+            dU.created_at = DateTime.Now;
+            dU.updated_at = DateTime.Now;
+            dU.extension = extension;
+            dU.uploader_id = uploaderId;
+            dU.uploader_type = Constants.UploaderTypes.System;
+            dU.workflow_state = Constants.WorkflowStates.PreCreated;
+            dU.version = 1;
+            dU.local = 0;
+            dU.file_location = fileLocation;
+            dU.file_name = fileName;
+            dU.current_file = currentFile;
+            dU.checksum = checksum;
 
-            Assert.NotNull(caseMatches);
-            Assert.NotNull(udMatches);
-            Assert.NotNull(fvMatches);
-            Assert.AreEqual(3, caseMatches.Count());
-            Assert.AreEqual(5, udMatches.Count());
-            Assert.AreEqual(5, fvMatches.Count());
+            DbContext.uploaded_data.Add(dU);
+            DbContext.SaveChanges();
+
+            UploadedData ud = sut.Advanced_UploadedDataRead(dU.id);
+
+            // Assert
+            Assert.NotNull(ud);
+            Assert.AreEqual(ud.Id, dU.id);
+            Assert.AreEqual(ud.Extension, dU.extension);
+            Assert.AreEqual(ud.UploaderId, dU.uploader_id);
+            Assert.AreEqual(ud.UploaderType, dU.uploader_type);
+            Assert.AreEqual(ud.FileLocation, dU.file_location);
+            Assert.AreEqual(ud.FileName, dU.file_name);
+            Assert.AreEqual(ud.CurrentFile, dU.current_file);
+            Assert.AreEqual(ud.Checksum, dU.checksum);
 
         }
+        #endregion
 
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
@@ -107,10 +123,6 @@ namespace eFormSDK.Integration.Tests
             // Does nothing for web implementation
         }
         #endregion
-        //Arrance
-
-        //Act
-
-        //Assert
     }
+
 }

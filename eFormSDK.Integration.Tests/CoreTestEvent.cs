@@ -12,7 +12,7 @@ using System.Threading;
 namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
-    public class CoreTest : DbTestFixture
+    public class CoreTestEvent : DbTestFixture
     {
         private Core sut;
         private TestHelpers testHelpers;
@@ -44,38 +44,6 @@ namespace eFormSDK.Integration.Tests
             testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
         }
-
-
-        
-
-        
-        
-        
-
-
-        [Test]
-        public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
-        {
-            //Arrance
-            string microtingUuid = testHelpers.CreateMultiPictureXMLResult(true);
-
-            //Act
-            sut.CheckStatusByMicrotingUid(microtingUuid);
-
-            //Assert
-            List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
-            List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
-
-            Assert.NotNull(caseMatches);
-            Assert.NotNull(udMatches);
-            Assert.NotNull(fvMatches);
-            Assert.AreEqual(3, caseMatches.Count());
-            Assert.AreEqual(5, udMatches.Count());
-            Assert.AreEqual(5, fvMatches.Count());
-
-        }
-
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {
@@ -107,10 +75,6 @@ namespace eFormSDK.Integration.Tests
             // Does nothing for web implementation
         }
         #endregion
-        //Arrance
-
-        //Act
-
-        //Assert
     }
+
 }
