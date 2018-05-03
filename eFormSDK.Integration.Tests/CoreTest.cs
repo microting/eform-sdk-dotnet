@@ -455,10 +455,380 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
         }
+        [Test]
+        public void Core_Template_TemplateValidation_ReturnsErrorLst()
+        {
+            //Arrance
+            CoreElement CElement = new CoreElement();
+            //CElement.ElementList = new List<Element>();
+
+            DateTime startDt = DateTime.Now;
+            DateTime endDt = DateTime.Now;
+            MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, startDt,
+                endDt, "Swahili", false, true, false, true, "type1", "MessageTitle",
+                "MessageBody", CElement.ElementList);
+            //Act
+            var match = sut.TemplateValidation(main);
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match.Count(), 0);
+        }
+        [Test]
+        public void Core_Template_TemplateUploadData_ReturnsmainElement()
+        {
+            //Arrance
+            CoreElement CElement = new CoreElement();
+            //CElement.ElementList = new List<Element>();
+
+            DateTime startDt = DateTime.Now;
+            DateTime endDt = DateTime.Now;
+            MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
+                endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
+                "MessageBody", CElement.ElementList);
+            //Act
+            var match = sut.TemplateUploadData(main);
+            //Assert
+            #region Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match.CaseType , main.CaseType);
+            Assert.AreEqual(match.CheckListFolderName , main.CheckListFolderName);
+            Assert.AreEqual(match.DisplayOrder , main.DisplayOrder);
+            Assert.AreEqual(match.DownloadEntities , main.DownloadEntities);
+            Assert.AreEqual(match.ElementList , main.ElementList);
+            Assert.AreEqual(match.EndDate ,main.EndDate);
+            Assert.AreEqual(match.EndDateString , main.EndDateString);
+            Assert.AreEqual(match.FastNavigation ,main.FastNavigation);
+            Assert.AreEqual(match.Id ,main.Id);
+            Assert.AreEqual(match.Label ,main.Label);
+            Assert.AreEqual(match.Language ,main.Language);
+            Assert.AreEqual(match.ManualSync ,main.ManualSync);
+            Assert.AreEqual(match.MicrotingUId , main.MicrotingUId);
+            Assert.AreEqual(match.MultiApproval , main.MultiApproval);
+            Assert.AreEqual(match.PushMessageBody , main.PushMessageBody);
+            Assert.AreEqual(match.PushMessageTitle , main.PushMessageTitle);
+            Assert.AreEqual(match.Repeated , main.Repeated);
+            Assert.AreEqual(match.StartDate , main.StartDate);
+            Assert.AreEqual(match.StartDateString , main.StartDateString);
+            Assert.AreEqual(match , main);
+            #endregion
+        }
+        [Test]
+        public void Core_Template_TemplateCreate_CreatesTemplate()
+        {
+
+            //Arrance
+            CoreElement CElement = new CoreElement();
+            //CElement.ElementList = new List<Element>();
+
+            DateTime startDt = DateTime.Now;
+            DateTime endDt = DateTime.Now;
+            MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
+                endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
+                "MessageBody", CElement.ElementList);
+            //Act
+            var match = sut.TemplateCreate(main);
+            //Assert
+            
+            Assert.NotNull(match);
+            Assert.AreEqual(match, main.Id);
+            
+        }
+        [Test]
+        public void Core_Template_TemplateRead_ReturnsTemplate()
+        {
+            //Arrance
+            #region Tempalte
+
+            DateTime cl1_ca = DateTime.Now;
+            DateTime cl1_ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+
+            //Act
+            var match = sut.TemplateRead(cl1.id);
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(match.Id, cl1.id);
+            Assert.AreEqual(match.CaseType, cl1.case_type);
+            Assert.AreEqual(match.FastNavigation, false);
+            Assert.AreEqual(match.Label, cl1.label);
+            Assert.AreEqual(match.ManualSync, false);
+            Assert.AreEqual(match.MultiApproval, false);
+            Assert.AreEqual(match.Repeated, cl1.repeated);
+            
+
+        }
+        [Test]
+        public void Core_Template_TemplateDelete_SetsWorkflowStateToRemoved()
+        {
+            //Arrance
+            #region Tempalte1
+
+            DateTime cl1_ca = DateTime.Now;
+            DateTime cl1_ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+            #region Tempalte2
+
+            DateTime cl2_ca = DateTime.Now;
+            DateTime cl2_ua = DateTime.Now;
+            check_lists cl2 = testHelpers.CreateTemplate(cl2_ca, cl2_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+            #region Tempalte3
+
+            DateTime cl3_ca = DateTime.Now;
+            DateTime cl3_ua = DateTime.Now;
+            check_lists cl3 = testHelpers.CreateTemplate(cl3_ca, cl3_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+            #region Tempalte4
+
+            DateTime cl4_ca = DateTime.Now;
+            DateTime cl4_ua = DateTime.Now;
+            check_lists cl4 = testHelpers.CreateTemplate(cl4_ca, cl4_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+            #endregion
+            //Act
+            var deleteTemplate1 = sut.TemplateDelete(cl1.id);
+            var deleteTemplate2 = sut.TemplateDelete(cl2.id);
+            var deleteTemplate3 = sut.TemplateDelete(cl3.id);
+            var deleteTemplate4 = sut.TemplateDelete(cl4.id);
+            //Assert
+            Assert.NotNull(deleteTemplate1);
+            Assert.NotNull(deleteTemplate2);
+            Assert.NotNull(deleteTemplate3);
+            Assert.NotNull(deleteTemplate4);
+            Assert.True(deleteTemplate1);
+            Assert.True(deleteTemplate2);
+            Assert.True(deleteTemplate3);
+            Assert.True(deleteTemplate4);
+
+        }
+        [Test]
+        public void Core_Template_TemplateItemRead_ReadsTemplateItems()
+        {
+            // Arrance
+            #region Templates
+
+            #region template1
+            DateTime cl1_ca = DateTime.Now;
+            DateTime cl1_ua = DateTime.Now;
+            check_lists Template1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
+                "CaseType1", "FolderWithTemplate", 1, 0);
+
+            #endregion
+
+            #region template2
+            DateTime cl2_ca = DateTime.Now;
+            DateTime cl2_ua = DateTime.Now;
+            check_lists Template2 = testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
+                "CaseType2", "FolderWithTemplate", 0, 1);
+
+            #endregion
+
+            #region template3
+            DateTime cl3_ca = DateTime.Now;
+            DateTime cl3_ua = DateTime.Now;
+            check_lists Template3 = testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
+                "CaseType3", "FolderWithTemplate", 1, 1);
+
+            #endregion
+
+            #region template4
+            DateTime cl4_ca = DateTime.Now;
+            DateTime cl4_ua = DateTime.Now;
+            check_lists Template4 = testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
+                "CaseType4", "FolderWithTemplate", 0, 0);
+
+            #endregion
+
+            #endregion
+
+            #region SubTemplates
+
+            #region subTemplate1
+
+            check_lists subTemplate1 = testHelpers.CreateSubTemplate("SubLabel1", "SubDescription1",
+                "CaseType1", 1, 0, Template1);
+
+            #endregion
+
+            #region subTemplate2
+
+            check_lists subTemplate2 = testHelpers.CreateSubTemplate("SubLabel2", "SubDescription2",
+                "CaseType2", 0, 1, Template2);
+
+            #endregion
+
+            #region subTemplate3
+
+            check_lists subTemplate3 = testHelpers.CreateSubTemplate("SubLabel3", "SubDescription3",
+                "CaseType3", 1, 1, Template3);
+
+            #endregion
+
+            #region subTemplate4
+
+            check_lists subTemplate4 = testHelpers.CreateSubTemplate("SubLabel4", "SubDescription4",
+                "CaseType4", 0, 0, Template4);
+
+            #endregion
+
+            #endregion
+
+            #region Fields
+
+            #region Field1
+
+            fields Field1 = testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                0, 0, "", 49);
+
+            #endregion
+
+            #region Field2
+
+            fields Field2 = testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+            #endregion
+
+            #region Field3
+
+            fields Field3 = testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
+            #endregion
+
+            #region Field4
+
+            fields Field4 = testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region Field5
+
+            fields Field5 = testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region Field6
+
+            fields Field6 = testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region Field7
+
+            fields Field7 = testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region Field8
+
+            fields Field8 = testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region Field9
+
+            fields Field9 = testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+            #region Field10
+
+            fields Field10 = testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+
+            #endregion
+
+
+            #endregion
+
+            #region Tag
+
+            tags tag = testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
+
+            #endregion
+            // Act
+
+            var match1 = sut.TemplateItemRead(Template1.id);
+            var match2 = sut.TemplateItemRead(Template2.id);
+            var match3 = sut.TemplateItemRead(Template3.id);
+            var match4 = sut.TemplateItemRead(Template4.id);
+
+
+            // Assert
+            #region template1
+            Assert.NotNull(match1);
+            Assert.AreEqual(match1.Description, "Description1");
+            Assert.AreEqual(match1.Label, "Label1");
+            Assert.AreEqual(match1.CreatedAt.ToString(), Template1.created_at.ToString());
+            Assert.AreEqual(match1.FolderName, "FolderWithTemplate");
+            Assert.AreEqual(match1.Id, Template1.id);
+            Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.updated_at.ToString());
+            #endregion
+
+            #region template2
+            Assert.NotNull(match1);
+            Assert.AreEqual(match2.Description, "Description2");
+            Assert.AreEqual(match2.Label, "Label2");
+            Assert.AreEqual(match2.CreatedAt.ToString(), Template2.created_at.ToString());
+            Assert.AreEqual(match2.FolderName, "FolderWithTemplate");
+            Assert.AreEqual(match2.Id, Template2.id);
+            Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.updated_at.ToString());
+            #endregion
+
+            #region template3
+            Assert.NotNull(match1);
+            Assert.AreEqual(match3.Description, "Description3");
+            Assert.AreEqual(match3.Label, "Label3");
+            Assert.AreEqual(match3.CreatedAt.ToString(), Template3.created_at.ToString());
+            Assert.AreEqual(match3.FolderName, "FolderWithTemplate");
+            Assert.AreEqual(match3.Id, Template3.id);
+            Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.updated_at.ToString());
+            #endregion
+
+            #region template4
+            Assert.NotNull(match1);
+            Assert.AreEqual(match4.Description, "Description4");
+            Assert.AreEqual(match4.Label, "Label4");
+            Assert.AreEqual(match4.CreatedAt.ToString(), Template4.created_at.ToString());
+            Assert.AreEqual(match4.FolderName, "FolderWithTemplate");
+            Assert.AreEqual(match4.Id, Template4.id);
+            Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.updated_at.ToString());
+            #endregion
+        }
+        
         #endregion
-
 
         #region site
         [Test]
@@ -670,8 +1040,6 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_CaseReadAll_Long()
         {
-
-
             // Arrance
             #region Arrance
             #region Template1
@@ -8335,7 +8703,7 @@ namespace eFormSDK.Integration.Tests
             //    DateTime.Now.AddDays(2), "Swahili", false, true, false, true, "type1", "MessageTitle",
             //    "MessageBody", CElement.ElementList);
             ////Act
-            //var match = sut.CaseCreate(main, "", (int) site.microting_uid);
+            //var match = sut.CaseCreate(main, "", (int)site.microting_uid);
             ////Assert
             //Assert.NotNull(match);
 
@@ -17874,6 +18242,19 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
+        public void Core_Case_SetJasperPath_returnsTrue()
+        {
+
+            //Arrance
+
+            //Act
+            var match = sut.SetJasperPath(@"C:\local\gitgud");
+            //Assert
+            Assert.NotNull(match);
+            Assert.True(match);
+
+        }
+        [Test]
         public void Core_Case_GetPicturePath_returnsPath()
         {
             //Arrance
@@ -18275,6 +18656,19 @@ namespace eFormSDK.Integration.Tests
             //Assert
             Assert.NotNull(match);
             Assert.AreEqual(match, path + @"\output\dataFolder\picture\");
+
+        }
+        [Test]
+        public void Core_Case_SetPicturePath_returnsTrue()
+        {
+
+            //Arrance
+
+            //Act
+            var match = sut.SetPicturePath(@"C:\local");
+            //Assert
+            Assert.NotNull(match);
+            Assert.True(match);
 
         }
         [Test]
