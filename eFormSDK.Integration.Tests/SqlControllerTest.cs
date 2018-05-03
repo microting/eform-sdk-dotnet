@@ -5361,11 +5361,11 @@ namespace eFormSDK.Integration.Tests
 
 
             //Act
-            Case_Dto fVs1 = sut.FileCaseFindMUId("url");
+             sut.FileCaseFindMUId("url");
             //int case1 = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
 
-            Assert.NotNull(fVs1);
-            Assert.AreEqual(fVs1.CaseId, aCase1.id);
+            Assert.NotNull(fVs);
+            Assert.AreEqual(fVs.case_id, aCase1.id);
 
         }
 
