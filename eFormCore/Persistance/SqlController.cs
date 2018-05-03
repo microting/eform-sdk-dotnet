@@ -1975,7 +1975,7 @@ namespace eFormSqlController
 
                         return CaseReadByCaseId(aCase.id);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         return null;
                     }
@@ -2038,6 +2038,8 @@ namespace eFormSqlController
                     uD.workflow_state = Constants.WorkflowStates.Removed;
                     uD.updated_at = DateTime.Now;
                     uD.version = uD.version + 1;
+                    db.SaveChanges();
+
                     return true;
                 }
             }
