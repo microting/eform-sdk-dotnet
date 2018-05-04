@@ -102,6 +102,7 @@
             public const string Green = "f0f8db";
             public const string Yellow = "fff6df";
             public const string Red = "ffe4e4";
+            public const string Grey = "e8eaf6";
             public const string Default = "None";
         }
 
