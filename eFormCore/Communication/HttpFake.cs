@@ -51,6 +51,7 @@ namespace eFormCommunicator
 
         private string dllVersion = "";
         private TestHelpers testHelpers = new TestHelpers();
+        private TestHelperReturnXML testHelperReturnXml = new TestHelperReturnXML();
 
 
         Tools t = new Tools();
@@ -81,7 +82,7 @@ namespace eFormCommunicator
         {
             if (microtingUuid == "MultiPictureTestInMultipleChecks")
             {
-                return testHelpers.CreateMultiPictureXMLResult(false);
+                return testHelperReturnXml.CreateMultiPictureXMLResult(false);
             } else
             {
                 return "failed";
