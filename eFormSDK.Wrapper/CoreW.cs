@@ -93,6 +93,7 @@ namespace eFormSDK.Wrapper
 
         }
 
+        #region TemplatFromXml
         [DllExport("Core_TemplatFromXml")]
         public static int Core_TemplatFromXml([MarshalAs(UnmanagedType.BStr)]String xml, ref int id,
                 [MarshalAs(UnmanagedType.BStr)] ref string label, ref int displayOrder,
@@ -166,10 +167,6 @@ namespace eFormSDK.Wrapper
             return result;
         }
 
-        //function(n: integer; var id: integer; var _label: WideString;
-        //var description: WideString; var displayOrder: integer; var reviewEnabled: boolean;
-        //var extraFieldsEnabled: boolean; var approvalEnabled: boolean): integer; stdcall;
-
         [DllExport("Core_TemplatFromXml_GetDataElement")]
         public static int Core_TemplatFromXml_GetDataElement(int n, ref int id, [MarshalAs(UnmanagedType.BStr)] ref string label,
             [MarshalAs(UnmanagedType.BStr)] ref string description, ref int displayOrder, ref bool reviewEnabled, 
@@ -194,6 +191,70 @@ namespace eFormSDK.Wrapper
             }
             return result;
         }
+
+
+        [DllExport("Core_TemplatFromXml_DataElement_DataItemCount")]
+        public static int Core_TemplatFromXml_DataElement_DataItemCount(int n, ref int count)
+        {
+            int result = 0;
+            try
+            {
+                count = (mainElement.ElementList[n] as DataElement).DataItemList.Count;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetDataItemType")]
+        public static int Core_TemplatFromXml_DataElement_GetDataItemType(int n, int m, [MarshalAs(UnmanagedType.BStr)] ref string elementType)
+        {
+            int result = 0;
+            try
+            {
+                DataElement dataElement = (mainElement.ElementList[n] as DataElement);
+                if (dataElement.DataItemList[m] is Picture)
+                    elementType = "Picture";               
+                else
+                    elementType = "DataItem";
+
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetPicture")]
+        public static int Core_TemplatFromXml_DataElement_GetPicture(int n, int m, ref int id, 
+           [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+           ref int displayOrder, ref bool mandatory, [MarshalAs(UnmanagedType.BStr)] ref string color)    
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Picture picture = e.DataItemList[m] as Picture;
+                id = picture.Id;
+                label = picture.Label;
+                description = picture.Description.CDataWrapper[0].OuterXml;
+                displayOrder = picture.DisplayOrder;
+                mandatory = picture.Mandatory;
+                color = picture.Color;               
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
     }
 
 }
