@@ -46,67 +46,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         #region template
-        [Test]
-        public void Core_Template_TemplateFromXml_REturnsTemplate()
-        {
-            //Arrance
-            string xmlstring = @"<?xml version='1.0' encoding='UTF-8' ?>
-   <Main>
-     <Id> 9060 </Id>
-        <Repeated> 0 </Repeated>
-        <Label> comment </Label>
-        <StartDate> 2017 - 07 - 07 </StartDate>
-        <EndDate> 2027 - 07 - 07 </EndDate>
-        <Language> da </Language>
-        <MultiApproval> false </MultiApproval>
-        <FastNavigation> false </FastNavigation>
-        <Review> false </Review>
-        <Summary> false </Summary>
-        <DisplayOrder> 0 </DisplayOrder>
-        <ElementList>
-          <Element type = 'DataElement'>
-            <Id> 9060 </Id>
-            <Label> comment </Label>
-            <Description><![CDATA[]]></Description>
-            <DisplayOrder> 0 </DisplayOrder>
-            <ReviewEnabled> false </ReviewEnabled>
-            <ManualSync> false </ManualSync>
-            <ExtraFieldsEnabled> false </ExtraFieldsEnabled>
-            <DoneButtonDisabled> false </DoneButtonDisabled>
-            <ApprovalEnabled> false </ApprovalEnabled>
-            <DataItemList>
-              <DataItem type = 'Comment'>
-                <Id> 73660 </Id>
-                <Label> Comment </Label>
-                 <Description><![CDATA[]]></Description>
-                 <DisplayOrder> 0 </DisplayOrder>
-                 <Multi> 1 </Multi>
-                 <GeolocationEnabled> false </GeolocationEnabled>
-                 <Split> false </Split>
-                 <Value/>
-                 <ReadOnly> false </ReadOnly>
-                  <Mandatory> false </Mandatory>
-                  <Color> e8eaf6 </Color>
-                </DataItem>
-              </DataItemList>
-            </Element>
-          </ElementList>
-    </Main>";
-            //Act
-            var match = sut.TemplateFromXml(xmlstring);
-
-            //Assert
-            Assert.NotNull(match);
-            Assert.AreEqual(match.CaseType, "");
-            Assert.AreEqual(match.Repeated, 1);
-            Assert.AreEqual(match.Id, 1);
-            Assert.AreEqual(match.Label, " comment ");
-            Assert.AreEqual(match.Language, " da ");
-            Assert.AreEqual(match.MultiApproval, false);
-            Assert.AreEqual(match.FastNavigation, false);
-            Assert.AreEqual(match.DisplayOrder, 0);
-
-        }
+        
         [Test]
         public void Core_Template_TemplateItemReadAll_DoesReturnSortedTemplates()
         {
