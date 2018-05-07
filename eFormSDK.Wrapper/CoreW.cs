@@ -110,6 +110,7 @@ namespace eFormSDK.Wrapper
                 label = mainElement.Label;
                 displayOrder = mainElement.DisplayOrder;
                 checkListFolderName = mainElement.CheckListFolderName;
+                repeated = mainElement.Repeated;
                 startDate = mainElement.StartDate.ToString("yyyy-MM-dd");
                 endDate = mainElement.EndDate.ToString("yyyy-MM-dd");
                 language = mainElement.Language;
@@ -217,7 +218,11 @@ namespace eFormSDK.Wrapper
             {
                 DataElement dataElement = (mainElement.ElementList[n] as DataElement);
                 if (dataElement.DataItemList[m] is Picture)
-                    elementType = "Picture";               
+                    elementType = "Picture";
+                if (dataElement.DataItemList[m] is ShowPdf)
+                    elementType = "ShowPdf";
+                if (dataElement.DataItemList[m] is Date)
+                    elementType = "Date";
                 else
                     elementType = "DataItem";
 
@@ -246,6 +251,62 @@ namespace eFormSDK.Wrapper
                 displayOrder = picture.DisplayOrder;
                 mandatory = picture.Mandatory;
                 color = picture.Color;               
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+       [DllExport("Core_TemplatFromXml_DataElement_GetShowPdf")]
+       public static int Core_TemplatFromXml_DataElement_GetShowPdf(int n, int m, ref int id,
+            [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+            ref int displayOrder, [MarshalAs(UnmanagedType.BStr)] ref string color, [MarshalAs(UnmanagedType.BStr)] ref string value)
+       {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                ShowPdf pdf = e.DataItemList[m] as ShowPdf;
+                id = pdf.Id;
+                label = pdf.Label;
+                description = pdf.Description.CDataWrapper[0].OuterXml;
+                displayOrder = pdf.DisplayOrder;              
+                color = pdf.Color;
+                value = pdf.Value;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+       [DllExport("Core_TemplatFromXml_DataElement_GetDate")]
+       public static int Core_TemplatFromXml_DataElement_GetDate(int n, int m, ref int id,
+             [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+             ref int displayOrder, [MarshalAs(UnmanagedType.BStr)] ref string minValue, 
+             [MarshalAs(UnmanagedType.BStr)] ref string maxValue, ref bool mandatory, ref bool _readonly,
+             [MarshalAs(UnmanagedType.BStr)] ref string color, [MarshalAs(UnmanagedType.BStr)] ref string value)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Date date = e.DataItemList[m] as Date;
+                id = date.Id;
+                label = date.Label;
+                description = date.Description.CDataWrapper[0].OuterXml;
+                displayOrder = date.DisplayOrder;
+                minValue = date.MinValue.ToString("yyyy-MM-dd");
+                maxValue = date.MaxValue.ToString("yyyy-MM-dd");
+                color = date.Color;
+                mandatory = date.Mandatory;
+                _readonly = date.ReadOnly;
+                value = date.DefaultValue;
             }
             catch (Exception ex)
             {
