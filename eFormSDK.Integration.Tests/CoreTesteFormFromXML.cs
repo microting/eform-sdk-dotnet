@@ -346,6 +346,44 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+          
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("ny pdf", match.Label);
+            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.AreEqual("ny pdf", dE.Label);
+            //Assert.AreEqual(dE.DisplayOrder, CDataValue); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            ShowPdf showPDFField = (ShowPdf)dE.DataItemList[0];
+            Assert.AreEqual("bla", showPDFField.Label);
+            //Assert.AreEqual(dateField.Description, CDataValue) //TODO
+            Assert.AreEqual(0, showPDFField.DisplayOrder);
+            Assert.AreEqual(Constants.FieldColors.Grey, showPDFField.Color);
+            Assert.AreEqual("https://eform.microting.com/app_files/uploads/20170804132716_13790_20d483dd7791cd6becf089432724c663.pdf", showPDFField.Value);
+
+
         }
 
         [Test]
@@ -421,6 +459,72 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Tester grupper", match.Label);
+            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(3, dE.DataItemList.Count());
+            Assert.AreEqual("Tester grupper", dE.Label);
+            //Assert.AreEqual(dE.DisplayOrder, CDataValue); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+
+            FieldContainer fC = (FieldContainer)dE.DataItemList[0];
+            Assert.AreEqual("Gruppe efter tjekboks", fC.Label);
+            //Assert.AreEqual(CDataValue, fE.Description); TODO
+            Assert.AreEqual(1, fC.DisplayOrder);
+            Assert.AreEqual("Closed", fC.Value);
+            Assert.AreEqual(Constants.FieldColors.Grey, fC.Color);
+
+            CheckBox fE = (CheckBox)fC.DataItemList[0];
+            Assert.AreEqual("Tjekboks inde i gruppe", fE.Label);
+            //Assert.AreEqual(dateField.Description, CDataValue) //TODO
+            Assert.AreEqual(0, fE.DisplayOrder);
+            Assert.AreEqual(false, fE.Selected);
+            Assert.AreEqual(false, fE.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, fE.Color);
+
+
+            CheckBox checkboxField = (CheckBox)dE.DataItemList[1];
+            Assert.AreEqual("Tjekboks før gruppe", checkboxField.Label);
+            //Assert.AreEqual(dateField.Description, CDataValue) //TODO
+            Assert.AreEqual(0, checkboxField.DisplayOrder);
+            Assert.AreEqual(false, checkboxField.Selected);
+            Assert.AreEqual(false, checkboxField.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, checkboxField.Color);
+
+
+            CheckBox checkboxField1 = (CheckBox)dE.DataItemList[2];
+            Assert.AreEqual("Tjekboks efter gruppe", checkboxField1.Label);
+            //Assert.AreEqual(dateField.Description, CDataValue) //TODO
+            Assert.AreEqual(2, checkboxField1.DisplayOrder);
+            Assert.AreEqual(false, checkboxField1.Selected);
+            Assert.AreEqual(false, checkboxField1.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, checkboxField1.Color);
+
+
         }
 
         [Test]
@@ -473,6 +577,53 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Billede og signatur", match.Label);
+            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(2, dE.DataItemList.Count());
+            Assert.AreEqual("Billede og signatur", dE.Label);
+            //Assert.AreEqual(CD.Datavalue, de.description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            Picture fE = (Picture)dE.DataItemList[0];
+            Assert.AreEqual("Tag et billede", fE.Label);
+            //Assert.AreEqual(cD.Datavalue, fe.description) //TODO
+            Assert.AreEqual(0, fE.DisplayOrder);
+            Assert.AreEqual(false, fE.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, fE.Color);
+
+            Signature fE1 = (Signature)dE.DataItemList[1];
+            Assert.AreEqual("Skriv", fE1.Label);
+            //TODO Statement below -> CD.Datavalue
+            //Assert.AreEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dui neque, molestie at maximus a, malesuada at mi. Cras venenatis porttitor augue nec sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris urna massa, sagittis at fringilla ut, convallis sed dolor. Praesent scelerisque magna dolor, quis blandit metus pharetra eu. Cras euismod facilisis risus at ullamcorper. Pellentesque vitae maximus elit. Sed scelerisque nec velit dictum sodales. Duis sed dapibus odio. Sed non luctus sem. Donec eu mollis lectus, nec porta nisl. Aenean a consequat metus, ac auctor arcu. Cras sit amet blandit velit. Pellentesque faucibus eros sed ullamcorper rutrum.<br><br><br>Pellentesque ultrices ex erat. Pellentesque rhoncus eget lectus et scelerisque. Cras vitae diam ex. Ut felis ligula, venenatis ut lorem vel, venenatis convallis turpis. Sed rutrum ac odio ac auctor. Sed mauris ipsum, vulputate ut sodales a, mattis et purus. Nam convallis augue velit, nec blandit ipsum porta vitae. Quisque et iaculis lectus. Donec eu fringilla turpis, id rutrum mauris.<br><br><br>Proin eu sagittis sem. Aenean vel placerat sapien. Praesent et rutrum justo. Mauris consectetur venenatis est, eu vulputate enim elementum eget. In hac habitasse platea dictumst. Sed vehicula nec neque sed posuere. Aenean sodales lectus a purus posuere lacinia. Aenean ut enim vel odio varius placerat. Phasellus faucibus turpis sed arcu ultrices interdum. Sed porta, nisi nec vehicula lacinia, ante tortor tristique justo, vel sagittis felis ligula eu magna. Pellentesque a velit laoreet nunc aliquet ornare sit amet eget lorem. Duis aliquet viverra pretium. Etiam a mauris tellus. Sed viverra eros eget lectus lobortis, in vestibulum lorem rhoncus. Aliquam sem felis, suscipit a gravida ut, eleifend et ipsum. Nullam lacus lacus, rutrum quis sollicitudin et, porta et erat", fE1.Description);
+            Assert.AreEqual(1, fE1.DisplayOrder);
+            Assert.AreEqual(false, fE1.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, fE1.Color);
+
+
         }
 
         [Test]
@@ -751,6 +902,262 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Muligheder med Microting eForm", match.Label);
+            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(76, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(14, dE.DataItemList.Count());
+            Assert.AreEqual("Muligheder med Microting eForm", dE.Label);
+            //Assert.AreEqual(CDataValue, "Tryk her og prøv hvordan du indsamler data med Microting eForm.<br><br>God fornøjelse :-)"); //TODO
+            Assert.AreEqual(76, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(dE.DoneButtonDisabled, true); //TODO no method donebuttondisabled
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            SaveButton sB = (SaveButton)dE.DataItemList[0];
+            Assert.AreEqual("GEM", sB.Label);
+            //Assert.AreEqual("Tryk her for at gemme dine indtastede data", CDataValue) //TODO
+            Assert.AreEqual(0, sB.DisplayOrder);
+            Assert.AreEqual("GEM", sB.Value);
+
+            eFormData.Timer t1 = (eFormData.Timer)dE.DataItemList[1];
+            Assert.AreEqual("START-STOP TID", t1.Label);
+            //Assert.AreEqual("Start-stop tid.", CDataValue) //TODO
+            Assert.AreEqual(0, sB.DisplayOrder);
+            Assert.AreEqual(false, t1.StopOnSave);
+            Assert.AreEqual(false, t1.Mandatory);
+
+            None n1 = (None)dE.DataItemList[2];
+            Assert.AreEqual("INFO", n1.Label);
+            //Assert.AreEqual("I dette tekstfelt vises ikke redigerbar tekst.", n1.Description); TODO
+            Assert.AreEqual(2, n1.DisplayOrder);
+
+            ShowPdf sp = (ShowPdf)dE.DataItemList[3];
+            Assert.AreEqual("PDF", sp.Label);
+            //Assert.AreEqual("Her vises PDF-filer.", sp.Description); TODO 
+            Assert.AreEqual(3, sp.DisplayOrder);
+            Assert.AreEqual("https://eform.microting.com/app_files/uploads/20160609143348_366_a60ad2d8c22ed24780bfa9a348376232.pdf", sp.Value);
+
+            CheckBox cB = (CheckBox)dE.DataItemList[4];
+            Assert.AreEqual("TJEK", cB.Label);
+            //Assert.AreEqual("I et tjekfelt sættes et flueben.", cB.Description); TODO
+            Assert.AreEqual(5, cB.DisplayOrder);
+            Assert.AreEqual(false, cB.Selected);
+            Assert.AreEqual(false, cB.Mandatory);
+
+            MultiSelect mS = (MultiSelect)dE.DataItemList[5];
+            Assert.AreEqual("VÆLG", mS.Label);
+            //Assert.AreEqual("Vælg en eller flere i liste. er Microting eform integereret med ERP-System, kan valgmulighederne komme derfra", cB.Description); TODO
+            Assert.AreEqual(6, mS.DisplayOrder);
+            Assert.AreEqual(false, mS.Mandatory);
+
+            KeyValuePair kP = (KeyValuePair)mS.KeyValuePairList[0];
+            Assert.AreEqual("1", kP.Key);
+            Assert.AreEqual("Valgmulighed 1", kP.Value);
+            Assert.AreEqual(false, kP.Selected);
+            Assert.AreEqual("1", kP.DisplayOrder);
+
+            KeyValuePair kP1 = (KeyValuePair)mS.KeyValuePairList[1];
+            Assert.AreEqual("2", kP1.Key);
+            Assert.AreEqual("Valgmulighed 2", kP1.Value);
+            Assert.AreEqual(false, kP1.Selected);
+            Assert.AreEqual("2", kP1.DisplayOrder);
+
+            KeyValuePair kP2 = (KeyValuePair)mS.KeyValuePairList[2];
+            Assert.AreEqual("3", kP2.Key);
+            Assert.AreEqual("Valgmulighed 3", kP2.Value);
+            Assert.AreEqual(false, kP2.Selected);
+            Assert.AreEqual("3", kP2.DisplayOrder);
+
+            KeyValuePair kP3 = (KeyValuePair)mS.KeyValuePairList[3];
+            Assert.AreEqual("4", kP3.Key);
+            Assert.AreEqual("Valgmulighed 4", kP3.Value);
+            Assert.AreEqual(false, kP3.Selected);
+            Assert.AreEqual("4", kP3.DisplayOrder);
+
+            KeyValuePair kP4 = (KeyValuePair)mS.KeyValuePairList[4];
+            Assert.AreEqual("5", kP4.Key);
+            Assert.AreEqual("Valgmulighed 5", kP4.Value);
+            Assert.AreEqual(false, kP4.Selected);
+            Assert.AreEqual("5", kP4.DisplayOrder);
+
+            KeyValuePair kP5 = (KeyValuePair)mS.KeyValuePairList[5];
+            Assert.AreEqual("6", kP5.Key);
+            Assert.AreEqual("Valgmulighed 6", kP5.Value);
+            Assert.AreEqual(false, kP5.Selected);
+            Assert.AreEqual("6", kP5.DisplayOrder);
+
+            KeyValuePair kP6 = (KeyValuePair)mS.KeyValuePairList[6];
+            Assert.AreEqual("7", kP6.Key);
+            Assert.AreEqual("Valgmulighed 7", kP6.Value);
+            Assert.AreEqual(false, kP6.Selected);
+            Assert.AreEqual("7", kP6.DisplayOrder);
+
+            KeyValuePair kP7 = (KeyValuePair)mS.KeyValuePairList[7];
+            Assert.AreEqual("8", kP7.Key);
+            Assert.AreEqual("Valgmulighed 8", kP7.Value);
+            Assert.AreEqual(false, kP7.Selected);
+            Assert.AreEqual("8", kP7.DisplayOrder);
+
+            KeyValuePair kP8 = (KeyValuePair)mS.KeyValuePairList[8];
+            Assert.AreEqual("9", kP8.Key);
+            Assert.AreEqual("Valgmulighed 9", kP8.Value);
+            Assert.AreEqual(false, kP8.Selected);
+            Assert.AreEqual("9", kP8.DisplayOrder);
+
+            KeyValuePair kP9 = (KeyValuePair)mS.KeyValuePairList[9];
+            Assert.AreEqual("Valgmulighed N", kP9.Value);
+            Assert.AreEqual(false, kP9.Selected);
+            Assert.AreEqual("10", kP9.DisplayOrder);
+
+            SingleSelect sS = (SingleSelect)dE.DataItemList[6];
+            Assert.AreEqual("VÆLG ÉN", sS.Label);
+            //Assert.AreEqual("Vælg én blandt flere valgmuligheder.<br><br>Er Microting eForm integreret med ERP-system, kan valgmulighederne komme derfra.]]></", cB.Description); TODO
+            Assert.AreEqual(7, sS.DisplayOrder);
+            Assert.AreEqual(false, sS.Mandatory);
+
+            KeyValuePair skP = (KeyValuePair)mS.KeyValuePairList[0];
+            Assert.AreEqual("1", kP.Key);
+            Assert.AreEqual("Valgmulighed 1", kP.Value);
+            Assert.AreEqual(false, kP.Selected);
+            Assert.AreEqual("1", kP.DisplayOrder);
+
+            KeyValuePair skP1 = (KeyValuePair)mS.KeyValuePairList[1];
+            Assert.AreEqual("2", kP1.Key);
+            Assert.AreEqual("Valgmulighed 2", kP1.Value);
+            Assert.AreEqual(false, kP1.Selected);
+            Assert.AreEqual("2", kP1.DisplayOrder);
+
+            KeyValuePair skP2 = (KeyValuePair)mS.KeyValuePairList[2];
+            Assert.AreEqual("3", kP2.Key);
+            Assert.AreEqual("Valgmulighed 3", kP2.Value);
+            Assert.AreEqual(false, kP2.Selected);
+            Assert.AreEqual("3", kP2.DisplayOrder);
+
+            KeyValuePair skP3 = (KeyValuePair)mS.KeyValuePairList[3];
+            Assert.AreEqual("4", kP3.Key);
+            Assert.AreEqual("Valgmulighed 4", kP3.Value);
+            Assert.AreEqual(false, kP3.Selected);
+            Assert.AreEqual("4", kP3.DisplayOrder);
+
+            KeyValuePair skP4 = (KeyValuePair)mS.KeyValuePairList[4];
+            Assert.AreEqual("5", kP4.Key);
+            Assert.AreEqual("Valgmulighed 5", kP4.Value);
+            Assert.AreEqual(false, kP4.Selected);
+            Assert.AreEqual("5", kP4.DisplayOrder);
+
+            KeyValuePair skP5 = (KeyValuePair)mS.KeyValuePairList[5];
+            Assert.AreEqual("6", kP5.Key);
+            Assert.AreEqual("Valgmulighed 6", kP5.Value);
+            Assert.AreEqual(false, kP5.Selected);
+            Assert.AreEqual("6", kP5.DisplayOrder);
+
+            KeyValuePair skP6 = (KeyValuePair)mS.KeyValuePairList[6];
+            Assert.AreEqual("7", kP6.Key);
+            Assert.AreEqual("Valgmulighed 7", kP6.Value);
+            Assert.AreEqual(false, kP6.Selected);
+            Assert.AreEqual("7", kP6.DisplayOrder);
+
+            KeyValuePair skP7 = (KeyValuePair)mS.KeyValuePairList[7];
+            Assert.AreEqual("8", kP7.Key);
+            Assert.AreEqual("Valgmulighed 8", kP7.Value);
+            Assert.AreEqual(false, kP7.Selected);
+            Assert.AreEqual("8", kP7.DisplayOrder);
+
+            KeyValuePair skP8 = (KeyValuePair)mS.KeyValuePairList[8];
+            Assert.AreEqual("9", kP8.Key);
+            Assert.AreEqual("Valgmulighed 9", kP8.Value);
+            Assert.AreEqual(false, kP8.Selected);
+            Assert.AreEqual("9", kP8.DisplayOrder);
+
+            KeyValuePair skP9 = (KeyValuePair)mS.KeyValuePairList[9];
+            Assert.AreEqual("Valgmulighed N", kP9.Value);
+            Assert.AreEqual(false, kP9.Selected);
+            Assert.AreEqual("10", kP9.DisplayOrder);
+
+            Date d1 = (Date)dE.DataItemList[7];
+            Assert.AreEqual("DATO", d1.Label);
+            //Assert.AreEqual("Vælg dato<br><br>Er Microting eForm integreret med ERP-system, kan valgt dato leveres direkte i ERP-system]]></", cB.Description); TODO
+            Assert.AreEqual(8, d1.DisplayOrder);
+            //Assert.AreEqual("2016-06-09", d1.MinValue); TODO
+            //Assert.AreEqual("2026-06-09", d1.MaxValue); TODO
+            Assert.AreEqual(false, d1.Mandatory);
+            Assert.AreEqual(false, d1.ReadOnly);
+
+            Number n2 = (Number)dE.DataItemList[8];
+            Assert.AreEqual("INDTAST TAL", n2.Label);
+            //Assert.AreEqual("Indtast tal og opsæt evt. regler for mindste/højeste tilladte værdi.<br><br>Er Microting eForm integreret med ERP-system, sendes de indtastede værdier direkte til ERP-systemet]></", cB.Description); TODO
+            Assert.AreEqual(9, n2.DisplayOrder);
+   //         Assert.AreEqual("", n2.MinValue);
+   //         Assert.AreEqual("", n2.MaxValue);
+   //         Assert.AreEqual("", n2.DecimalCount);
+   //         Assert.AreEqual("", n2.UnitName);      
+            Assert.AreEqual(false, d1.Mandatory);
+
+            Text tt1 = (Text)dE.DataItemList[9];
+            Assert.AreEqual("SKRIV KORT KOMMENTAR", tt1.Label);
+            //Assert.AreEqual(" Skriv kort kommentar uden linieskift]></", cB.Description); TODO
+            Assert.AreEqual(10, tt1.DisplayOrder);
+            //Assert.AreEqual(0, tt1.multi) TODO
+            Assert.AreEqual(false, tt1.GeolocationEnabled);
+            //Assert.AreEqual(false, tt1.split) TODO
+            //Assert.AreEqual("", tt1.Value); TODO
+            Assert.AreEqual(false, tt1.ReadOnly);
+            Assert.AreEqual(false, tt1.Mandatory);
+
+            Picture pp1 = (Picture)dE.DataItemList[10];
+            Assert.AreEqual("FOTO", pp1.Label);
+            //Assert.AreEqual("Er Microting eForm integreret med ERP-system, kan billederne vises direkte i virksomhedens ERP/andet databasesystem.", pp1.Description);
+            Assert.AreEqual(11, pp1.DisplayOrder);
+            Assert.AreEqual(false, pp1.Mandatory);
+
+            Comment cc1 = (Comment)dE.DataItemList[11];
+            Assert.AreEqual("SKRIV LANG KOMMENTAR", cc1.Label);
+            //Assert.AreEqual("Skriv længere kommentar med mulighed for linieskift.", cc1.Description);
+            Assert.AreEqual(12, cc1.DisplayOrder);
+            //Assert.AreEqual(1, cc1.multi);
+            //Assert.AreEqual(false, cc1.geolocation);
+            Assert.AreEqual("", cc1.Value);
+            Assert.AreEqual(false, cc1.ReadOnly);
+            Assert.AreEqual(false, cc1.Mandatory);
+
+            Signature ss1 = (Signature)dE.DataItemList[12];
+            Assert.AreEqual("UNDERSKRIFT", ss1.Label);
+            //Assert.AreEqual("Underskrift<br><br>Er Microting eForm integreret med ERP-system, kan underskrifterne sendes direkte til ERP/andet databasesystem.", ss1.Description);
+            Assert.AreEqual(13, ss1.DisplayOrder);
+            Assert.AreEqual(false, ss1.Mandatory);
+
+            SaveButton ssB = (SaveButton)dE.DataItemList[13];
+            Assert.AreEqual("GEM", ssB.Label);
+            //Assert.AreEqual("Tryk for at gemme data.<br>Press to save data.", ssB.Description);
+            Assert.AreEqual(14, ssB.DisplayOrder);
+            Assert.AreEqual("GEM/SAVE", ssB.Value);
+
+
+
+
+
+
+
+
+
         }
 
         #region eventhandlers

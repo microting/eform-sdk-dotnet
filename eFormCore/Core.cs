@@ -440,6 +440,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
 
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
+                xmlString = xmlString.Replace("='ShowPDF'>", "='ShowPdf'>");
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
