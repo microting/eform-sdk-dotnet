@@ -200,7 +200,8 @@ namespace eFormSDK.Wrapper
             int result = 0;
             try
             {
-                count = (mainElement.ElementList[n] as DataElement).DataItemList.Count;
+                DataElement dataElement = mainElement.ElementList[n] as DataElement;
+                count = dataElement.DataItemList.Count;
             }
             catch (Exception ex)
             {
@@ -219,10 +220,30 @@ namespace eFormSDK.Wrapper
                 DataElement dataElement = (mainElement.ElementList[n] as DataElement);
                 if (dataElement.DataItemList[m] is Picture)
                     elementType = "Picture";
-                if (dataElement.DataItemList[m] is ShowPdf)
+                else if (dataElement.DataItemList[m] is ShowPdf)
                     elementType = "ShowPdf";
-                if (dataElement.DataItemList[m] is Date)
+                else if (dataElement.DataItemList[m] is Date)
                     elementType = "Date";
+                else if (dataElement.DataItemList[m] is Signature)
+                    elementType = "Signature";
+                else if (dataElement.DataItemList[m] is CheckBox)
+                    elementType = "CheckBox";
+                else if (dataElement.DataItemList[m] is SaveButton)
+                    elementType = "SaveButton";
+                else if (dataElement.DataItemList[m] is Timer)
+                    elementType = "Timer";
+                else if (dataElement.DataItemList[m] is Text)
+                    elementType = "Text";
+                else if (dataElement.DataItemList[m] is None)
+                    elementType = "None";
+                else if (dataElement.DataItemList[m] is Comment)
+                    elementType = "Comment";
+                else if (dataElement.DataItemList[m] is SingleSelect)
+                    elementType = "SingleSelect";
+                else if (dataElement.DataItemList[m] is MultiSelect)
+                    elementType = "MultiSelect";
+                else if (dataElement.DataItemList[m] is Number)
+                    elementType = "Number";
                 else
                     elementType = "DataItem";
 
@@ -268,7 +289,7 @@ namespace eFormSDK.Wrapper
             int result = 0;
             try
             {
-                DataElement e = mainElement.ElementList[n] as DataElement;
+                DataElement e = mainElement.ElementList[n] as DataElement;              
                 ShowPdf pdf = e.DataItemList[m] as ShowPdf;
                 id = pdf.Id;
                 label = pdf.Label;
@@ -307,6 +328,261 @@ namespace eFormSDK.Wrapper
                 mandatory = date.Mandatory;
                 _readonly = date.ReadOnly;
                 value = date.DefaultValue;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetSignature")]
+        public static int Core_TemplatFromXml_DataElement_GetSignature(int n, int m, ref int id,
+          [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+          ref int displayOrder, ref bool mandatory, [MarshalAs(UnmanagedType.BStr)] ref string color)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Signature signature = e.DataItemList[m] as Signature;
+                id = signature.Id;
+                label = signature.Label;
+                description = signature.Description.CDataWrapper[0].OuterXml;
+                displayOrder = signature.DisplayOrder;
+                mandatory = signature.Mandatory;
+                color = signature.Color;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetSaveButton")]
+        public static int Core_TemplatFromXml_DataElement_GetSaveButton(int n, int m, ref int id,
+           [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+           ref int displayOrder, [MarshalAs(UnmanagedType.BStr)] ref string value)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                SaveButton saveButton = e.DataItemList[m] as SaveButton;
+                id = saveButton.Id;
+                label = saveButton.Label;
+                description = saveButton.Description.CDataWrapper[0].OuterXml;
+                displayOrder = saveButton.DisplayOrder;             
+                value = saveButton.Value;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetTimer")]
+        public static int Core_TemplatFromXml_DataElement_GetTimer(int n, int m, ref int id,
+           [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+           ref int displayOrder, ref bool stopOnSave, ref bool mandatory)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Timer timer = e.DataItemList[m] as Timer;
+                id = timer.Id;
+                label = timer.Label;
+                description = timer.Description.CDataWrapper[0].OuterXml;
+                displayOrder = timer.DisplayOrder;
+                stopOnSave = timer.StopOnSave;
+                mandatory = timer.Mandatory;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetNone")]
+        public static int Core_TemplatFromXml_DataElement_GetNone(int n, int m, ref int id,
+          [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+          ref int displayOrder)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                None none = e.DataItemList[m] as None;
+                id = none.Id;
+                label = none.Label;
+                description = none.Description.CDataWrapper[0].OuterXml;
+                displayOrder = none.DisplayOrder;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetCheckBox")]
+        public static int Core_TemplatFromXml_DataElement_GetCheckBox(int n, int m, ref int id,
+             [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+             ref int displayOrder, ref bool mandatory, ref bool selected)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                CheckBox checkBox = e.DataItemList[m] as CheckBox;
+                id = checkBox.Id;
+                label = checkBox.Label;
+                description = checkBox.Description.CDataWrapper[0].OuterXml;
+                displayOrder = checkBox.DisplayOrder;
+                mandatory = checkBox.Mandatory;
+                selected = checkBox.Selected;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetMultiSelect")]
+        public static int Core_TemplatFromXml_DataElement_GetMultiSelect(int n, int m, ref int id,
+            [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+            ref int displayOrder, ref bool mandatory)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                MultiSelect multiSelect = e.DataItemList[m] as MultiSelect;
+                id = multiSelect.Id;
+                label = multiSelect.Label;
+                description = multiSelect.Description.CDataWrapper[0].OuterXml;
+                displayOrder = multiSelect.DisplayOrder;
+                mandatory = multiSelect.Mandatory;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetSingleSelect")]
+        public static int Core_TemplatFromXml_DataElement_GetSingleSelect(int n, int m, ref int id,
+           [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+           ref int displayOrder, ref bool mandatory)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                SingleSelect singleSelect = e.DataItemList[m] as SingleSelect;
+                id = singleSelect.Id;
+                label = singleSelect.Label;
+                description = singleSelect.Description.CDataWrapper[0].OuterXml;
+                displayOrder = singleSelect.DisplayOrder;
+                mandatory = singleSelect.Mandatory;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetNumber")]
+        public static int Core_TemplatFromXml_DataElement_GetNumber(int n, int m, ref int id,
+          [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+          ref int displayOrder, [MarshalAs(UnmanagedType.BStr)] ref string minValue,
+          [MarshalAs(UnmanagedType.BStr)] ref string maxValue, ref bool mandatory, ref int decimalCount)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Number number = e.DataItemList[m] as Number;
+                id = number.Id;
+                label = number.Label;
+                description = number.Description.CDataWrapper[0].OuterXml;
+                displayOrder = number.DisplayOrder;
+                minValue = number.MinValue;
+                maxValue = number.MaxValue;
+                mandatory = number.Mandatory;
+                decimalCount = number.DecimalCount;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetText")]
+        public static int Core_TemplatFromXml_DataElement_GetText(int n, int m, ref int id,
+          [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+          ref bool geolocationEnabled, [MarshalAs(UnmanagedType.BStr)] ref string value,  ref bool readOnly,
+          ref bool mandatory)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Text text = e.DataItemList[m] as Text;
+                id = text.Id;
+                label = text.Label;
+                description = text.Description.CDataWrapper[0].OuterXml;
+                geolocationEnabled = text.GeolocationEnabled;
+                value = text.Value;
+                readOnly = text.ReadOnly;
+                mandatory = text.Mandatory;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+
+        [DllExport("Core_TemplatFromXml_DataElement_GetComment")]
+        public static int Core_TemplatFromXml_DataElement_GetComment(int n, int m, ref int id,
+          [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
+          ref bool splitScreen, [MarshalAs(UnmanagedType.BStr)] ref string value, ref bool readOnly,
+          ref bool mandatory)
+        {
+            int result = 0;
+            try
+            {
+                DataElement e = mainElement.ElementList[n] as DataElement;
+                Comment comment = e.DataItemList[m] as Comment;
+                id = comment.Id;
+                label = comment.Label;
+                description = comment.Description.CDataWrapper[0].OuterXml;
+                splitScreen = comment.SplitScreen;
+                value = comment.Value;
+                readOnly = comment.ReadOnly;
+                mandatory = comment.Mandatory;
             }
             catch (Exception ex)
             {
