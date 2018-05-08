@@ -136,7 +136,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePictureFromFromXML_ReturnsTemplate()
+        public void Core_eForm_SimplePictureFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -217,7 +217,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleDateFromFromXML_ReturnsTemplate()
+        public void Core_eForm_SimpleDateFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -305,7 +305,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePdfFromFromXML_ReturnsTemplate()
+        public void Core_eForm_SimplePdfFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -387,7 +387,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleFieldGroupsFromFromXML_ReturnsTemplate()
+        public void Core_eForm_SimpleFieldGroupsFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -528,7 +528,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePictureAndSignatureFromFromXML_ReturnsTemplate()
+        public void Core_eForm_SimplePictureAndSignatureFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -627,7 +627,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_OptionsWithMicrotingFromFromXML_ReturnsTemplate()
+        public void Core_eForm_OptionsWithMicrotingFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -1161,7 +1161,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleMultiSelectFromXML_ReturnsTemplate()
+        public void Core_eForm_SimpleMultiSelectFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -1251,7 +1251,425 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_MultiLvleFormFromXML_ReturnsTemplate()
+        public void Core_eFormSimpleSingleSelectFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138808</Id>
+                  <Repeated>0</Repeated>
+                  <Label>Single Select</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138808</Id>
+                      <Label>Single Select</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='SingleSelect'>
+                          <Id>343973</Id>
+                          <Label>Single Select 1</Label>
+                          <Description><![CDATA[Single Select 1 description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Mandatory>false</Mandatory>
+                          <KeyValuePairList>
+                            <KeyValuePair>
+                              <Key>1</Key>
+                              <Value><![CDATA[a]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>1</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>2</Key>
+                              <Value><![CDATA[b]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>2</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>3</Key>
+                              <Value><![CDATA[c]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>3</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>4</Key>
+                              <Value><![CDATA[d]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>4</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>5</Key>
+                              <Value><![CDATA[...]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>5</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>6</Key>
+                              <Value><![CDATA[x]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>6</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>7</Key>
+                              <Value><![CDATA[y]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>7</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>8</Key>
+                              <Value><![CDATA[z]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>8</DisplayOrder>
+                            </KeyValuePair>
+                          </KeyValuePairList>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test] // Comment
+        public void Core_eFormSimpleTextMultiLineFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>9060</Id>
+                  <Repeated>0</Repeated>
+                  <Label>comment</Label>
+                  <StartDate>2017-07-07</StartDate>
+                  <EndDate>2027-07-07</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>9060</Id>
+                      <Label>comment</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='Comment'>
+                          <Id>73660</Id>
+                          <Label>Comment</Label>
+                          <Description><![CDATA[]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Multi>1</Multi>
+                          <GeolocationEnabled>false</GeolocationEnabled>
+                          <Split>false</Split>
+                          <Value/>
+                          <ReadOnly>false</ReadOnly>
+                          <Mandatory>false</Mandatory>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test] // Text
+        public void Core_eFormSimpleTextSingleLineFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138803</Id>
+                  <Repeated>0</Repeated>
+                  <Label>Single line</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138803</Id>
+                      <Label>Single line</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='Text'>
+                          <Id>343968</Id>
+                          <Label>Single line 1</Label>
+                          <Description><![CDATA[Single line 1 description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Multi>0</Multi>
+                          <GeolocationEnabled>false</GeolocationEnabled>
+                          <Split>false</Split>
+                          <Value/>
+                          <ReadOnly>false</ReadOnly>
+                          <Mandatory>false</Mandatory>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eFormSimpleNumberFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138798</Id>
+                  <Repeated>0</Repeated>
+                  <Label>Number 1</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138798</Id>
+                      <Label>Number 1</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='Number'>
+                          <Id>343963</Id>
+                          <Label>Number 1</Label>
+                          <Description><![CDATA[Number 1 description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Mandatory>true</Mandatory>
+                          <MinValue>1</MinValue>
+                          <MaxValue>1100</MaxValue>
+                          <Value>24</Value>
+                          <DecimalCount>2</DecimalCount>
+                          <UnitName/>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eFormSimpleInfoboxFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138793</Id>
+                  <Repeated>0</Repeated>
+                  <Label>Info box</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138793</Id>
+                      <Label>Info box</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='None'>
+                          <Id>343958</Id>
+                          <Label>Info box 1</Label>
+                          <Description><![CDATA[Info box 1 description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eFormSimpleCheckBoxFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138778</Id>
+                  <Repeated>0</Repeated>
+                  <Label>checkbox</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138778</Id>
+                      <Label>checkbox</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='CheckBox'>
+                          <Id>343943</Id>
+                          <Label>Checkbox 1</Label>
+                          <Description><![CDATA[Checkbox 1 description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Selected>false</Selected>
+                          <Mandatory>false</Mandatory>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eFormSimpleTimerFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138783</Id>
+                  <Repeated>0</Repeated>
+                  <Label>TimerStartStop</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138783</Id>
+                      <Label>TimerStartStop</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='Timer'>
+                          <Id>343948</Id>
+                          <Label>Timer Start Stop 1</Label>
+                          <Description><![CDATA[Timer Start Stop 1 Description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <StopOnSave>false</StopOnSave>
+                          <Mandatory>false</Mandatory>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eFormSimpleSaveButtonFormFromXML_ReturnseMainElement()
+        {
+
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138788</Id>
+                  <Repeated>0</Repeated>
+                  <Label>Save button</Label>
+                  <StartDate>2018-05-08</StartDate>
+                  <EndDate>2028-05-08</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>138788</Id>
+                      <Label>Save button</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>true</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='SaveButton'>
+                          <Id>343953</Id>
+                          <Label>Save button 1</Label>
+                          <Description><![CDATA[Save button 1 Description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Value/>
+                          <Color>e8eaf6</Color>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eForm_MultiLvleFormFromXML_ReturnseMainElement()
         {
             //Arrance
             string xmlstring = @"
@@ -1355,6 +1773,7 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
         }
 
+ 
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {
