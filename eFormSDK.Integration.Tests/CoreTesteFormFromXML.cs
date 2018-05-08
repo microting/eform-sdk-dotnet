@@ -1160,6 +1160,201 @@ namespace eFormSDK.Integration.Tests
 
         }
 
+        [Test]
+        public void Core_eForm_SimpleMultiSelectFromXML_ReturnsTemplate()
+        {
+            //Arrance
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>6210</Id>
+                  <Repeated>0</Repeated>
+                  <Label>Multiselect</Label>
+                  <StartDate>2017-01-22</StartDate>
+                  <EndDate>2027-01-22</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='DataElement'>
+                      <Id>6210</Id>
+                      <Label>Multiselect</Label>
+                      <Description><![CDATA[]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ReviewEnabled>false</ReviewEnabled>
+                      <ManualSync>false</ManualSync>
+                      <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                      <DoneButtonDisabled>false</DoneButtonDisabled>
+                      <ApprovalEnabled>false</ApprovalEnabled>
+                      <DataItemList>
+                        <DataItem type='MultiSelect'>
+                          <Id>42600</Id>
+                          <Label>Flere valg</Label>
+                          <Description><![CDATA[sfsfs]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <Mandatory>false</Mandatory>
+                          <KeyValuePairList>
+                            <KeyValuePair>
+                              <Key>1</Key>
+                              <Value><![CDATA[a]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>1</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>2</Key>
+                              <Value><![CDATA[b]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>2</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>3</Key>
+                              <Value><![CDATA[c]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>3</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>4</Key>
+                              <Value><![CDATA[d]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>4</DisplayOrder>
+                            </KeyValuePair>
+                          </KeyValuePairList>
+                        </DataItem>
+                        <DataItem type='SingleSelect'>
+                          <Id>42605</Id>
+                          <Label>Choose one option</Label>
+                          <Description><![CDATA[This is a description]]></Description>
+                          <DisplayOrder>1</DisplayOrder>
+                          <Mandatory>false</Mandatory>
+                          <KeyValuePairList>
+                            <KeyValuePair>
+                              <Key>1</Key>
+                              <Value><![CDATA[Option 1]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>1</DisplayOrder>
+                            </KeyValuePair>
+                            <KeyValuePair>
+                              <Key>2</Key>
+                              <Value><![CDATA[Option 2]]></Value>
+                              <Selected>false</Selected>
+                              <DisplayOrder>2</DisplayOrder>
+                            </KeyValuePair>
+                          </KeyValuePairList>
+                        </DataItem>
+                      </DataItemList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
+        [Test]
+        public void Core_eForm_MultiLvleFormFromXML_ReturnsTemplate()
+        {
+            //Arrance
+            string xmlstring = @"
+                <?xml version='1.0' encoding='UTF-8'?>
+                <Main>
+                  <Id>138738</Id>
+                  <Repeated>0</Repeated>
+                  <Label>MultiLvlTest</Label>
+                  <StartDate>2018-05-04</StartDate>
+                  <EndDate>2028-05-04</EndDate>
+                  <Language>da</Language>
+                  <MultiApproval>false</MultiApproval>
+                  <FastNavigation>false</FastNavigation>
+                  <Review>false</Review>
+                  <Summary>false</Summary>
+                  <DisplayOrder>0</DisplayOrder>
+                  <ElementList>
+                    <Element type='GroupElement'>
+                      <Id>138743</Id>
+                      <Label>1 lvl</Label>
+                      <Description><![CDATA[1 lvl description]]></Description>
+                      <DisplayOrder>0</DisplayOrder>
+                      <ElementList>
+                        <Element type='DataElement'>
+                          <Id>138748</Id>
+                          <Label>1.1 lvl</Label>
+                          <Description><![CDATA[1.1 lvl description]]></Description>
+                          <DisplayOrder>0</DisplayOrder>
+                          <ReviewEnabled>false</ReviewEnabled>
+                          <ManualSync>false</ManualSync>
+                          <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                          <DoneButtonDisabled>false</DoneButtonDisabled>
+                          <ApprovalEnabled>false</ApprovalEnabled>
+                          <DataItemList>
+                            <DataItem type='CheckBox'>
+                              <Id>343828</Id>
+                              <Label>1.1 lvl checkbox</Label>
+                              <Description><![CDATA[1.1 lvl cehckbox description]]></Description>
+                              <DisplayOrder>0</DisplayOrder>
+                              <Selected>false</Selected>
+                              <Mandatory>false</Mandatory>
+                              <Color>e8eaf6</Color>
+                            </DataItem>
+                          </DataItemList>
+                        </Element>
+                        <Element type='DataElement'>
+                          <Id>138753</Id>
+                          <Label>1.2 lvl</Label>
+                          <Description><![CDATA[1.2 lvl description]]></Description>
+                          <DisplayOrder>1</DisplayOrder>
+                          <ReviewEnabled>false</ReviewEnabled>
+                          <ManualSync>false</ManualSync>
+                          <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                          <DoneButtonDisabled>false</DoneButtonDisabled>
+                          <ApprovalEnabled>false</ApprovalEnabled>
+                          <DataItemList>
+                            <DataItem type='CheckBox'>
+                              <Id>343833</Id>
+                              <Label>1.2 lvl checkbox</Label>
+                              <Description><![CDATA[1.2 lvl checkbox description]]></Description>
+                              <DisplayOrder>0</DisplayOrder>
+                              <Selected>false</Selected>
+                              <Mandatory>false</Mandatory>
+                              <Color>e8eaf6</Color>
+                            </DataItem>
+                          </DataItemList>
+                        </Element>
+                        <Element type='GroupElement'>
+                          <Id>138758</Id>
+                          <Label>1.3 lvl</Label>
+                          <Description><![CDATA[1.3 lvl descrition]]></Description>
+                          <DisplayOrder>2</DisplayOrder>
+                          <ElementList>
+                            <Element type='DataElement'>
+                              <Id>138763</Id>
+                              <Label>1.3.1 lvl</Label>
+                              <Description><![CDATA[1.3.1 lvl description]]></Description>
+                              <DisplayOrder>0</DisplayOrder>
+                              <ReviewEnabled>false</ReviewEnabled>
+                              <ManualSync>false</ManualSync>
+                              <ExtraFieldsEnabled>false</ExtraFieldsEnabled>
+                              <DoneButtonDisabled>false</DoneButtonDisabled>
+                              <ApprovalEnabled>false</ApprovalEnabled>
+                              <DataItemList>
+                                <DataItem type='CheckBox'>
+                                  <Id>343838</Id>
+                                  <Label>1.3.1 lvl checkbox</Label>
+                                  <Description><![CDATA[1.3.1 lvl checkbox description]]></Description>
+                                  <DisplayOrder>0</DisplayOrder>
+                                  <Selected>false</Selected>
+                                  <Mandatory>false</Mandatory>
+                                  <Color>e8eaf6</Color>
+                                </DataItem>
+                              </DataItemList>
+                            </Element>
+                          </ElementList>
+                        </Element>
+                      </ElementList>
+                    </Element>
+                  </ElementList>
+                </Main>";
+        }
+
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {

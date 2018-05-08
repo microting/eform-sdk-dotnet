@@ -1874,7 +1874,14 @@ namespace eFormCore
                     }
                     else
                     {
-                        locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils\\JasperExporter.jar";
+                        if(File.Exists(exepath + "\\JasperExpoter.jar"))
+                        {
+                            locaJ = exepath + "\\JasperExporter.jar";
+                        }
+                        else
+                        {
+                            locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils\\JasperExporter.jar";
+                        }                        
                     }
 
                     string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates\\" + jasperTemplate + "\\compact\\" + jasperTemplate + ".jrxml";
