@@ -1160,7 +1160,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             //Act
-            var match = sut.Advanced_SiteWorkerRead(site_workers.id, site1.id, worker1.id);
+            var match = sut.Advanced_SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
             //Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.MicrotingUId, site_workers.microting_uid);
