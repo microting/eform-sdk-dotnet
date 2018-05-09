@@ -473,6 +473,7 @@ namespace eFormSqlController
                     {
                         // Delete all not wanted taggings first
                         List<taggings> cl_taggings = check_list.taggings.Where(x => !tagIds.Contains(x.id)).ToList();
+                        int index = 0;
                         foreach (taggings tagging in cl_taggings)
                         {
                             taggings current_tagging = db.taggings.Single(x => x.id == tagging.id);
@@ -485,6 +486,7 @@ namespace eFormSqlController
 
                                 db.tagging_versions.Add(MapTaggingVersions(current_tagging));
                                 db.SaveChanges();
+                                tagIds.Remove(tagging.id); // TODO write tests to ensure this works. 9 may 2018
                             }
                         }
 
