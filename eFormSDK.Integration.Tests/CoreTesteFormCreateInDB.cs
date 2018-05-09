@@ -93,44 +93,51 @@ namespace eFormSDK.Integration.Tests
                     </ElementList>
                 </Main>";
             //Act
-            var match = sut.TemplateFromXml(xmlstring);
+            MainElement mainElement = sut.TemplateFromXml(xmlstring);
+            int eFormId = sut.TemplateCreate(mainElement);
+            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             //Assert
-            Assert.NotNull(match);
-            Assert.AreEqual("", match.CaseType);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual(1, match.Id);
-            Assert.AreEqual("CommentMain", match.Label);
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
-            Assert.AreEqual(0, match.DisplayOrder);
-            Assert.AreEqual(1, match.ElementList.Count());
-            DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(dE.DataItemList.Count(), 1);
-            Assert.AreEqual("CommentDataElement", dE.Label);
+            Assert.NotNull(cl);
+            Assert.AreEqual("", cl[0].case_type);
+            Assert.AreEqual(1, cl[0].repeated);
+            //Assert.AreEqual(1, cl[0].id);
+            Assert.AreEqual("CommentMain", cl[0].label);
+            //Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(0, cl[0].multi_approval); //false
+            Assert.AreEqual(0, cl[0].fast_navigation); //false
+            Assert.AreEqual(0, cl[0].display_index);
+            //Assert.AreEqual(1, match.ElementList.Count());
+            //DataElement dE = (DataElement)cl[1];
+            Assert.AreEqual(2, cl.Count);
+            Assert.AreEqual("CommentDataElement", cl[1].label);
 
-            CDataValue cd = new CDataValue();
+            //CDataValue cd = new CDataValue();
 
             //Assert.AreEqual(dE.Description, cd); TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
-            //Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync 
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
-            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.AreEqual(0, cl[1].display_index);
+            Assert.AreEqual(0, cl[1].review_enabled); //False
+            //Assert.AreEqual(0, cl[1].manual_sync); //false TODO was null
+            Assert.AreEqual(0, cl[1].extra_fields_enabled); //False
+            //Assert.AreEqual(0, cl[1].done_button_Disabled); //TODO no method
+            Assert.AreEqual(0, cl[1].approval_enabled); //False
 
-            Comment commentField = (Comment)dE.DataItemList[0];
-            Assert.AreEqual("CommentField", commentField.Label);
+            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+
+            Assert.NotNull(_fields);
+            Assert.AreEqual(1, _fields.Count());
+            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            //Comment commentField = (Comment)dE.DataItemList[0];
+            Assert.AreEqual("CommentField", _fields[0].label);
             //Assert.AreEqual(commentField.Description, cd);
-            Assert.AreEqual(0, commentField.DisplayOrder);
-            //Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
-            //Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
-            //Assert.AreEqual(commentField.Split, false) //TODO no method Split
-            Assert.AreEqual("", commentField.Value);
-            Assert.AreEqual(false, commentField.ReadOnly);
-            Assert.AreEqual(false, commentField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
+            Assert.AreEqual(0, _fields[0].display_index);
+            //Assert.AreEqual(1, _fields[0].multi); was null TODO
+            //Assert.AreEqual(0, _fields[0].geolocation_enabled); //False TODO was null
+            Assert.AreEqual(0, _fields[0].split_screen); //TODO no method Split
+            Assert.AreEqual("", _fields[0].default_value);
+            Assert.AreEqual(0, _fields[0].read_only); //false
+            Assert.AreEqual(0, _fields[0].mandatory); //false
+            Assert.AreEqual(Constants.FieldColors.Grey, _fields[0].color);
 
 
         }
