@@ -12,7 +12,7 @@ using System.Threading;
 namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
-    public class CoreTesteFormFromXML : DbTestFixture
+    public class CoreTesteFormCreateInDB : DbTestFixture
     {
         private Core sut;
         private TestHelpers testHelpers;
@@ -46,7 +46,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
-        public void Core_eForm_SimpleCommenteFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimpleCommenteFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -136,7 +136,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePictureFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimplePictureFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -217,7 +217,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleDateFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimpleDateFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -305,7 +305,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePdfFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimplePdfFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -387,7 +387,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleFieldGroupsFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimpleFieldGroupsFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -528,7 +528,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePictureAndSignatureFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimplePictureAndSignatureFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -627,7 +627,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_OptionsWithMicrotingFormFromXML_ReturnseMainElement()
+        public void Core_eForm_OptionsWithMicrotingFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -1161,7 +1161,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleMultiSelectFormFromXML_ReturnseMainElement()
+        public void Core_eForm_SimpleMultiSelectFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
@@ -1333,7 +1333,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleSingleSelectFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleSingleSelectFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1516,7 +1516,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Comment
-        public void Core_eFormSimpleTextMultiLineFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleTextMultiLineFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1608,7 +1608,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Text
-        public void Core_eFormSimpleTextSingleLineFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleTextSingleLineFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1701,7 +1701,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleNumberFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleNumberFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1793,7 +1793,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleInfoboxFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleInfoboxFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1873,7 +1873,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleCheckBoxFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleCheckBoxFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1957,7 +1957,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleTimerFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleTimerFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -2041,7 +2041,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleSaveButtonFormFromXML_ReturnseMainElement()
+        public void Core_eFormSimpleSaveButtonFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -2123,7 +2123,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_MultiLvleFormFromXML_ReturnseMainElement()
+        public void Core_eForm_MultiLvleFormCreateInDB_ReturnseFormId()
         {
             //Arrance
             string xmlstring = @"
