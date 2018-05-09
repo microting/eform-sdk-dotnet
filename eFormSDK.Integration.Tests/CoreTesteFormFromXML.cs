@@ -1248,6 +1248,88 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Multiselect", match.Label);
+            //Assert.AreEqual("2017-01-22", match.StartDate); TODO
+            //Assert.AreEqual("2027-01-22", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(2, dE.DataItemList.Count());
+
+            Assert.AreEqual("Multiselect", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Label); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //TODO
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            MultiSelect mS = (MultiSelect)dE.DataItemList[0];
+
+            
+            Assert.AreEqual("Flere valg", mS.Label);
+            //Assert.AreEqual(CDataValue, de.description)"); //TODO
+            Assert.AreEqual(0, mS.DisplayOrder);
+            Assert.AreEqual(false, mS.Mandatory);
+
+            KeyValuePair kP = (KeyValuePair)mS.KeyValuePairList[0];
+            Assert.AreEqual("1", kP.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP.Selected);
+            Assert.AreEqual("1", kP.DisplayOrder);
+
+            KeyValuePair kP2 = (KeyValuePair)mS.KeyValuePairList[1];
+            Assert.AreEqual("2", kP2.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP2.Selected);
+            Assert.AreEqual("2", kP2.DisplayOrder);
+
+            KeyValuePair kP3 = (KeyValuePair)mS.KeyValuePairList[2];
+            Assert.AreEqual("3", kP3.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP3.Selected);
+            Assert.AreEqual("3", kP3.DisplayOrder);
+
+            KeyValuePair kP4 = (KeyValuePair)mS.KeyValuePairList[3];
+            Assert.AreEqual("4", kP4.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP4.Selected);
+            Assert.AreEqual("4", kP4.DisplayOrder);
+
+            SingleSelect sS = (SingleSelect)dE.DataItemList[1];
+            Assert.AreEqual("Choose one option", sS.Label);
+            //Assert.AreEqual("This is a description", sS.Description) //TODO
+            Assert.AreEqual(1, sS.DisplayOrder);
+            Assert.AreEqual(false, sS.Mandatory);
+
+            KeyValuePair kkP = (KeyValuePair)sS.KeyValuePairList[0];
+            Assert.AreEqual("1", kkP.Key);
+            //Assert.AreEqual(CData, kkP.Value); TODO
+            Assert.AreEqual(false, kkP.Selected);
+            Assert.AreEqual("1", kkP.DisplayOrder);
+
+            KeyValuePair kkP2 = (KeyValuePair)sS.KeyValuePairList[1];
+            Assert.AreEqual("2", kkP2.Key);
+            //Assert.AreEqual(CData, kkP2.Value); TODO
+            Assert.AreEqual(false, kkP2.Selected);
+            Assert.AreEqual("2", kkP2.DisplayOrder);
+
+
+
         }
 
         [Test]
@@ -1342,6 +1424,95 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Single Select", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("Single Select", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Label); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //TODO
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            SingleSelect sS = (SingleSelect)dE.DataItemList[0];
+
+
+            Assert.AreEqual("Single Select 1", sS.Label);
+            //Assert.AreEqual(CDataValue, ss.description)"); //TODO
+            Assert.AreEqual(0, sS.DisplayOrder);
+            Assert.AreEqual(false, sS.Mandatory);
+
+            KeyValuePair kP = (KeyValuePair)sS.KeyValuePairList[0];
+            Assert.AreEqual("1", kP.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP.Selected);
+            Assert.AreEqual("1", kP.DisplayOrder);
+
+            KeyValuePair kP2 = (KeyValuePair)sS.KeyValuePairList[1];
+            Assert.AreEqual("2", kP2.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP2.Selected);
+            Assert.AreEqual("2", kP2.DisplayOrder);
+
+            KeyValuePair kP3 = (KeyValuePair)sS.KeyValuePairList[2];
+            Assert.AreEqual("3", kP3.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP3.Selected);
+            Assert.AreEqual("3", kP3.DisplayOrder);
+
+            KeyValuePair kP4 = (KeyValuePair)sS.KeyValuePairList[3];
+            Assert.AreEqual("4", kP4.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP4.Selected);
+            Assert.AreEqual("4", kP4.DisplayOrder);
+
+            KeyValuePair kP5 = (KeyValuePair)sS.KeyValuePairList[4];
+            Assert.AreEqual("5", kP5.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP5.Selected);
+            Assert.AreEqual("5", kP5.DisplayOrder);
+
+            KeyValuePair kP6 = (KeyValuePair)sS.KeyValuePairList[5];
+            Assert.AreEqual("6", kP6.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP6.Selected);
+            Assert.AreEqual("6", kP6.DisplayOrder);
+
+            KeyValuePair kP7 = (KeyValuePair)sS.KeyValuePairList[6];
+            Assert.AreEqual("7", kP7.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP7.Selected);
+            Assert.AreEqual("7", kP7.DisplayOrder);
+
+            KeyValuePair kP8 = (KeyValuePair)sS.KeyValuePairList[7];
+            Assert.AreEqual("8", kP8.Key);
+            //Assert.AreEqual(CData, kP.Value); TODO
+            Assert.AreEqual(false, kP8.Selected);
+            Assert.AreEqual("8", kP8.DisplayOrder);
+
+            Assert.AreEqual(Constants.FieldColors.Grey, sS.Color);
+
+
         }
 
         [Test] // Comment
@@ -1391,6 +1562,49 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("comment", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("comment", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            Comment cc = (Comment)dE.DataItemList[0];
+
+            Assert.AreEqual("Comment", cc.Label);
+            //Assert.AreEqual(CDataValue, cc.Description); //todo
+            Assert.AreEqual(0, cc.DisplayOrder);
+            //Assert.AreEqual(1, cc.multi) //TODO
+            //Assert.AreEqual(false, cc.geolocation) //todo
+            //Assert.AreEqual(false, cc.split) //TODO
+            Assert.AreEqual("", cc.Value);
+            Assert.AreEqual(false, cc.ReadOnly);
+            Assert.AreEqual(false, cc.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, cc.Color);
+
         }
 
         [Test] // Text
@@ -1440,6 +1654,50 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+            
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Single line", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("Single line", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            Text t = (Text)dE.DataItemList[0];
+
+            Assert.AreEqual("Single line 1", t.Label);
+            //Assert.AreEqual(CDataValue, t.Description); //TODO
+            Assert.AreEqual(0, t.DisplayOrder);
+            //Assert.AreEqual(0, t.multi) //TODO
+            Assert.AreEqual(false, t.GeolocationEnabled);
+            //Assert.AreEqual(false, t.split) //TODO
+            Assert.AreEqual("", t.Value);
+            Assert.AreEqual(false, t.ReadOnly);
+            Assert.AreEqual(false, t.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, t.Color);
+            
+
         }
 
         [Test]
@@ -1489,6 +1747,49 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Number 1", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("Number 1", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            Number n = (Number)dE.DataItemList[0];
+
+            Assert.AreEqual("Number 1", n.Label);
+            //Assert.AreEqual(CDataValue, t.Description); //TODO
+            Assert.AreEqual(0, n.DisplayOrder);
+            Assert.AreEqual("1", n.MinValue);
+            Assert.AreEqual("1100", n.MaxValue);
+            //Assert.AreEqual(24, n.value) //TODO
+            Assert.AreEqual(2, n.DecimalCount);
+            Assert.AreEqual(true, n.Mandatory);
+            Assert.AreEqual("", n.UnitName);
+            Assert.AreEqual(Constants.FieldColors.Grey, n.Color);
+
         }
 
         [Test]
@@ -1532,6 +1833,43 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Info box", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("Info box", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            None n = (None)dE.DataItemList[0];
+
+            Assert.AreEqual("Info box 1", n.Label);
+            //Assert.AreEqual(CDataValue, t.Description); //TODO
+            Assert.AreEqual(0, n.DisplayOrder);
+            Assert.AreEqual(Constants.FieldColors.Grey, n.Color);
+
         }
 
         [Test]
@@ -1577,6 +1915,45 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("checkbox", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("checkbox", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            CheckBox cB = (CheckBox)dE.DataItemList[0];
+
+            Assert.AreEqual("Checkbox 1", cB.Label);
+            //Assert.AreEqual(CDataValue, t.Description); //TODO
+            Assert.AreEqual(0, cB.DisplayOrder);
+            Assert.AreEqual(false, cB.Selected);
+            Assert.AreEqual(false, cB.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, cB.Color);
+
         }
 
         [Test]
@@ -1622,6 +1999,45 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("TimerStartStop", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("TimerStartStop", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            eFormData.Timer t = (eFormData.Timer)dE.DataItemList[0];
+
+            Assert.AreEqual("Timer Start Stop 1", t.Label);
+            //Assert.AreEqual(CDataValue, t.Description); //TODO
+            Assert.AreEqual(0, t.DisplayOrder);
+            Assert.AreEqual(false, t.StopOnSave);
+            Assert.AreEqual(false, t.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, t.Color);
+
         }
 
         [Test]
@@ -1666,6 +2082,44 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("Save button", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            DataElement dE = (DataElement)match.ElementList[0];
+            Assert.AreEqual(1, dE.DataItemList.Count());
+
+            Assert.AreEqual("Save button", dE.Label);
+            //Assert.AreEqual(CDataValue, dE.Description); //TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            SaveButton sB = (SaveButton)dE.DataItemList[0];
+
+            Assert.AreEqual("Save button 1", sB.Label);
+            //Assert.AreEqual(CDataValue, t.Description); //TODO
+            Assert.AreEqual(0, sB.DisplayOrder);
+            Assert.AreEqual("", sB.Value);
+            Assert.AreEqual(Constants.FieldColors.Grey, sB.Color);
+
         }
 
         [Test]
@@ -1771,6 +2225,91 @@ namespace eFormSDK.Integration.Tests
                     </Element>
                   </ElementList>
                 </Main>";
+
+            var match = sut.TemplateFromXml(xmlstring);
+
+            
+            //Assert
+            Assert.NotNull(match);
+            Assert.AreEqual(1, match.Repeated);
+            Assert.AreEqual("MultiLvlTest", match.Label);
+            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            Assert.AreEqual("da", match.Language);
+            Assert.AreEqual(false, match.MultiApproval);
+            Assert.AreEqual(false, match.FastNavigation);
+            //Assert.AreEqual(match.review, false); //TODO no method review
+            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            Assert.AreEqual(0, match.DisplayOrder);
+
+            Assert.AreEqual(1, match.ElementList.Count());
+            GroupElement gE = (GroupElement)match.ElementList[0];
+            Assert.AreEqual(3, gE.ElementList.Count());
+
+            Assert.AreEqual("1 lvl", gE.Label);
+            //Assert.AreEqual("1 lvl description", gE.Description); //TODO
+            Assert.AreEqual(0, gE.DisplayOrder);
+
+            DataElement dE = (DataElement)gE.ElementList[0];
+            Assert.AreEqual("1.1 lvl", dE.Label);
+            //Assert.AreEqual("1.1 lvl description", de.description); TODO
+            Assert.AreEqual(0, dE.DisplayOrder);
+            Assert.AreEqual(false, dE.ReviewEnabled);
+            //Assert.AreEqual(false, dE.manualSync) //TODO
+            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            Assert.AreEqual(false, dE.ApprovalEnabled);
+
+            CheckBox cB = (CheckBox)dE.DataItemList[0];
+            Assert.AreEqual("1.1 lvl checkbox", cB.Label);
+            //Assert.AreEqual("1.1 lvl cehckbox description", cB.Description) //TODO
+            Assert.AreEqual(0, cB.DisplayOrder);
+            Assert.AreEqual(false, cB.Selected);
+            Assert.AreEqual(false, cB.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, cB.Color);
+
+            DataElement dE2 = (DataElement)gE.ElementList[1];
+            Assert.AreEqual("1.2 lvl", dE2.Label);
+            //Assert.AreEqual("1.2 lvl description", dE2.Description); //TODO
+            Assert.AreEqual(1, dE2.DisplayOrder);
+            Assert.AreEqual(false, dE2.ReviewEnabled);
+            //Assert.AreEqual(false, dE2.manualsync)//TODO
+            Assert.AreEqual(false, dE2.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, dE2.DoneButtonDisabled); //TODO
+            Assert.AreEqual(false, dE2.ApprovalEnabled);
+
+            CheckBox cb2 = (CheckBox)dE2.DataItemList[0];
+            Assert.AreEqual("1.2 lvl checkbox", cb2.Label);
+            //Assert.AreEqual("1.2 lvl checkbox description", cb2.Description) //TODO
+            Assert.AreEqual(0, cb2.DisplayOrder);
+            Assert.AreEqual(false, cb2.Selected);
+            Assert.AreEqual(false, cb2.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, cb2.Color);
+
+            GroupElement gE2 = (GroupElement)gE.ElementList[2];
+            Assert.AreEqual("1.3 lvl", gE2.Label);
+            //Assert.AreEqual("1.3 lvl description", gE2.Description); //TODO
+            Assert.AreEqual(2, gE2.DisplayOrder);
+
+            DataElement de3 = (DataElement)gE2.ElementList[0];
+            Assert.AreEqual("1.3.1 lvl", de3.Label);
+            //Assert.AreEqual("1.3.1.1 lvl description", de3.Description) //TODO
+            Assert.AreEqual(0, cb2.DisplayOrder);
+            Assert.AreEqual(false, de3.ReviewEnabled);
+            //Assert.AreEqual(false, de3.manualsync);//TODO
+            Assert.AreEqual(false, de3.ExtraFieldsEnabled);
+            //Assert.AreEqual(false, de3.donebuttondisabled)//TODO
+            Assert.AreEqual(false, de3.ApprovalEnabled);
+
+            CheckBox cb3 = (CheckBox)de3.DataItemList[0];
+            Assert.AreEqual("1.3.1 lvl checkbox", cb3.Label);
+            //Assert.AreEqual("1.2 lvl checkbox description", cb2.Description) //TODO
+            Assert.AreEqual(0, cb3.DisplayOrder);
+            Assert.AreEqual(false, cb3.Selected);
+            Assert.AreEqual(false, cb3.Mandatory);
+            Assert.AreEqual(Constants.FieldColors.Grey, cb3.Color);
+
+
         }
 
  
