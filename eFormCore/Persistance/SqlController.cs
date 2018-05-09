@@ -3082,7 +3082,7 @@ namespace eFormSqlController
             }
         }
 
-        public Site_Worker_Dto SiteWorkerRead(int? microtingUid, int? siteId, int? workerId)
+        public Site_Worker_Dto SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName("SQLController");
             try
@@ -3091,7 +3091,7 @@ namespace eFormSqlController
                 {
                     //logger.LogEverything(methodName + " called");
                     site_workers site_worker = null;
-                    if (microtingUid == null)
+                    if (siteWorkerMicrotingUid == null)
                     {
                         sites site = db.sites.Single(x => x.microting_uid == siteId);
                         workers worker = db.workers.Single(x => x.microting_uid == workerId);
@@ -3099,7 +3099,7 @@ namespace eFormSqlController
                     }
                     else
                     {
-                        site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == microtingUid && x.workflow_state == Constants.WorkflowStates.Created);
+                        site_worker = db.site_workers.SingleOrDefault(x => x.microting_uid == siteWorkerMicrotingUid && x.workflow_state == Constants.WorkflowStates.Created);
                     }
 
 

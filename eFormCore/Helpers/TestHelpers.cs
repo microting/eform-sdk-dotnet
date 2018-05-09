@@ -85,8 +85,10 @@ namespace eFormCore.Helpers
             site_workers.worker = worker;
             site_workers.worker_id = worker.id;
             site_workers.workflow_state = Constants.WorkflowStates.Created;
+
             DbContext.site_workers.Add(site_workers);
             DbContext.SaveChanges();
+
             return site_workers;
         }
         public check_lists CreateTemplate(DateTime cl_ca, DateTime cl_ua, string label, string description, string caseType, string folderName, int displayIndex, int repeated)

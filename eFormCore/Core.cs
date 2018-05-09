@@ -2821,7 +2821,7 @@ namespace eFormCore
             }
         }
 
-        public Site_Worker_Dto Advanced_SiteWorkerRead(int? siteWorkerId, int? siteId, int? workerId)
+        public Site_Worker_Dto Advanced_SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2829,11 +2829,11 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(siteWorkerId), siteWorkerId.ToString());
+                    log.LogVariable(t.GetMethodName("Core"), nameof(siteWorkerMicrotingUid), siteWorkerMicrotingUid.ToString());
                     log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId.ToString());
                     log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId.ToString());
 
-                    return sqlController.SiteWorkerRead(siteWorkerId, siteId, workerId);
+                    return sqlController.SiteWorkerRead(siteWorkerMicrotingUid, siteId, workerId);
                 }
                 else
                     throw new Exception("Core is not running");
