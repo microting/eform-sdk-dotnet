@@ -108,6 +108,7 @@
     <Compile Include="CoreTestCaseReadAllMedium.cs" />
     <Compile Include="CoreTestCaseReadAllShort.cs" />
     <Compile Include="CoreTesteForm.cs" />
+    <Compile Include="CoreTesteFormFromXML.cs" />
     <Compile Include="CoreTestEntity.cs" />
     <Compile Include="CoreTestEvent.cs" />
     <Compile Include="CoreTestSite.cs" />

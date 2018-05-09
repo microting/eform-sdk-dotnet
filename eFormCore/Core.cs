@@ -440,6 +440,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
 
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
+                xmlString = xmlString.Replace("='ShowPDF'>", "='ShowPdf'>");
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
@@ -1873,7 +1874,14 @@ namespace eFormCore
                     }
                     else
                     {
-                        locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils\\JasperExporter.jar";
+                        if(File.Exists(exepath + "\\JasperExpoter.jar"))
+                        {
+                            locaJ = exepath + "\\JasperExporter.jar";
+                        }
+                        else
+                        {
+                            locaJ = sqlController.SettingRead(Settings.fileLocationJasper) + "utils\\JasperExporter.jar";
+                        }                        
                     }
 
                     string locaT = sqlController.SettingRead(Settings.fileLocationJasper) + "templates\\" + jasperTemplate + "\\compact\\" + jasperTemplate + ".jrxml";

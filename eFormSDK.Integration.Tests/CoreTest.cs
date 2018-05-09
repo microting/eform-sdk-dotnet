@@ -16,6 +16,7 @@ namespace eFormSDK.Integration.Tests
     {
         private Core sut;
         private TestHelpers testHelpers;
+        private TestHelperReturnXML testHelperReturnXml;
         private string path;
 
         public override void DoSetup()
@@ -42,6 +43,7 @@ namespace eFormSDK.Integration.Tests
             sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
             sut.SetJasperPath(path + @"\output\dataFolder\reports\");
             testHelpers = new TestHelpers();
+            testHelperReturnXml = new TestHelperReturnXML();
             //sut.StartLog(new CoreBase());
         }
 
@@ -57,7 +59,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
         {
             //Arrance
-            string microtingUuid = testHelpers.CreateMultiPictureXMLResult(true);
+            string microtingUuid = testHelperReturnXml.CreateMultiPictureXMLResult(true);
 
             //Act
             sut.CheckStatusByMicrotingUid(microtingUuid);
