@@ -512,7 +512,8 @@ namespace eFormSDK.Wrapper
         public static int Core_TemplatFromXml_DataElement_GetNumber(int n, int m, ref int id,
           [MarshalAs(UnmanagedType.BStr)] ref string label, [MarshalAs(UnmanagedType.BStr)] ref string description,
           ref int displayOrder, [MarshalAs(UnmanagedType.BStr)] ref string minValue,
-          [MarshalAs(UnmanagedType.BStr)] ref string maxValue, ref bool mandatory, ref int decimalCount)
+          [MarshalAs(UnmanagedType.BStr)] ref string maxValue, ref bool mandatory, ref int decimalCount,
+          [MarshalAs(UnmanagedType.BStr)] ref string unitName)
         {
             int result = 0;
             try
@@ -527,6 +528,7 @@ namespace eFormSDK.Wrapper
                 maxValue = number.MaxValue;
                 mandatory = number.Mandatory;
                 decimalCount = number.DecimalCount;
+                unitName = number.UnitName;
             }
             catch (Exception ex)
             {
@@ -583,6 +585,108 @@ namespace eFormSDK.Wrapper
                 value = comment.Value;
                 readOnly = comment.ReadOnly;
                 mandatory = comment.Mandatory;
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+
+        [DllExport("Core_TemplatFromXml_KeyValueListCount")]
+        public static int Core_TemplatFromXml_KeyValueListCount([MarshalAs(UnmanagedType.BStr)]string location, ref int count)
+        {
+            int result = 0;
+            try
+            {
+                string[] parts = location.Split('_');
+                if (parts[0] == "DataElement")
+                {
+                    int n = int.Parse(parts[2]);
+                    int m = int.Parse(parts[3]);
+                    DataElement dataElement = mainElement.ElementList[n] as DataElement;
+                    if (parts[1] == "MultiSelect")
+                    {
+                        MultiSelect multiSelect = dataElement.DataItemList[m] as MultiSelect;
+                        count = multiSelect.KeyValuePairList.Count;
+                    }
+                    else if (parts[1] == "SingleSelect")
+                    {
+                        SingleSelect singleSelect = dataElement.DataItemList[m] as SingleSelect;
+                        count = singleSelect.KeyValuePairList.Count;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+
+        [DllExport("Core_TemplatFromXml_GetKeyValuePair")]
+        public static int Core_TemplatFromXml_GetKeyValuePair([MarshalAs(UnmanagedType.BStr)]string location,
+            [MarshalAs(UnmanagedType.BStr)] ref string key, [MarshalAs(UnmanagedType.BStr)] ref string value, ref bool selected,
+            [MarshalAs(UnmanagedType.BStr)] ref string displayOrder)
+        {
+            int result = 0;
+            try
+            {
+                KeyValuePair keyValuePair = null;
+                string[] parts = location.Split('_');
+                if (parts[0] == "DataElement")
+                {
+                    int n = int.Parse(parts[2]);
+                    int m = int.Parse(parts[3]);
+                    int k = int.Parse(parts[4]);
+                    DataElement dataElement = mainElement.ElementList[n] as DataElement;
+                    if (parts[1] == "MultiSelect")
+                    {
+                        MultiSelect multiSelect = dataElement.DataItemList[m] as MultiSelect;
+                        keyValuePair = multiSelect.KeyValuePairList[k];
+                    }
+                    else if (parts[1] == "SingleSelect")
+                    {
+                        SingleSelect singleSelect = dataElement.DataItemList[m] as SingleSelect;
+                        keyValuePair = singleSelect.KeyValuePairList[k];
+                    }
+                }
+
+                if (keyValuePair != null)
+                {
+                    key = keyValuePair.Key;
+                    value = keyValuePair.Value;
+                    selected = keyValuePair.Selected;
+                    displayOrder = keyValuePair.DisplayOrder;
+                }
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+
+        [DllExport("Core_TemplatFromXml_DataItemGroupCount")]
+        public static int Core_TemplatFromXml_DataItemGroupCount([MarshalAs(UnmanagedType.BStr)]string location,
+              ref int count)
+        {
+            int result = 0;
+            try
+            {
+                string[] parts = location.Split('_');
+                if (parts[0] == "DataElement")
+                {
+                    int n = int.Parse(parts[1]);
+                    DataElement dataElement = mainElement.ElementList[n] as DataElement;
+                    count = dataElement.DataItemGroupList.Count;
+
+                }
             }
             catch (Exception ex)
             {
