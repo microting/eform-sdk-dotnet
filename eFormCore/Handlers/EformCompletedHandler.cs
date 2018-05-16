@@ -30,16 +30,14 @@ namespace eFormCore.Handlers
         #pragma warning disable 1998
         public async Task Handle(EformCompleted message)
         {
-
-            notifications notification = sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.Completed);
             try
             {
                 CheckStatusByMicrotingUid(message.MicrotringUUID);
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
             } catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
-                Note_Dto note_Dto = new Note_Dto(notification.notification_uid, notification.microting_uid, notification.activity);
+                sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                Note_Dto note_Dto = new Note_Dto(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
                 core.FireHandleNotificationNotFound(note_Dto);
             }
         }

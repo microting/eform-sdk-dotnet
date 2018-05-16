@@ -4,15 +4,15 @@ namespace eForm.Messages
 {
     public class EformCompleted
     {
-        public string NotificationId { get; protected set; }
+        public string NotificationUId { get; protected set; }
         public string MicrotringUUID { get; protected set; }
 
-        public EformCompleted(string notificationId, string microtringUUID)
+        public EformCompleted(string notificationUId, string microtringUUID)
         {
-            if (string.IsNullOrEmpty(notificationId)) throw new ArgumentNullException(nameof(notificationId));
+            if (string.IsNullOrEmpty(notificationUId)) throw new ArgumentNullException(nameof(notificationUId));
 
-            this.NotificationId = notificationId;
-            this.MicrotringUUID = microtringUUID;
+            NotificationUId = notificationUId;
+            MicrotringUUID = microtringUUID;
         }
     }
 }

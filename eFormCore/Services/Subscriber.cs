@@ -160,6 +160,7 @@ namespace eFormSubscriber
                                 switch (action)
                                 {
                                     case Constants.Notifications.Completed:
+                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
                                         bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsedByServer:
@@ -169,16 +170,14 @@ namespace eFormSubscriber
                                         bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.RetrievedForm:
+                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.RetrievedForm);
                                         bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.UnitActivate:
+                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.UnitActivate);
                                         bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
-                                }
-
-
-
-                                //sqlController.NotificationCreate(notificationUId, microtingUId, action);
+                                }                               
 
                                 sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
                             }
