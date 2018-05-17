@@ -27,23 +27,21 @@ namespace eFormCore.Handlers
 #pragma warning disable 1998
         public async Task Handle(UnitActivated message)
         {
-            notifications not = sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.UnitActivate);
-
             try
             {
                 Unit_Dto unitDto = sqlController.UnitRead(int.Parse(message.MicrotringUUID));
                 sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
                 log.LogStandard(t.GetMethodName("UnitActivatedHandler"), "Unit with id " + message.MicrotringUUID + " has been activated");
 
-                Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
+                Note_Dto note_Dto = new Note_Dto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed);
                 core.FireHandleSiteActivated(note_Dto);
             }
             catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
-                Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
+                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                Note_Dto note_Dto = new Note_Dto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
                 core.FireHandleNotificationNotFound(note_Dto);
             }
         }

@@ -27,12 +27,11 @@ namespace eFormCore.Handlers
 #pragma warning disable 1998
         public async Task Handle(EformRetrieved message)
         {
-            notifications not = sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.RetrievedForm);
             try
             {
                 sqlController.CaseUpdateRetrived(message.MicrotringUUID);
                 
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
                 Case_Dto cDto = sqlController.CaseReadByMUId(message.MicrotringUUID);
                 log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrived");
@@ -40,8 +39,8 @@ namespace eFormCore.Handlers
             }
             catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
-                Note_Dto note_Dto = new Note_Dto(not.notification_uid, not.microting_uid, not.activity);
+                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                Note_Dto note_Dto = new Note_Dto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
                 core.FireHandleNotificationNotFound(note_Dto);
             }
         }
