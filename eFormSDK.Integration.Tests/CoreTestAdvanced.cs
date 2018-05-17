@@ -745,52 +745,52 @@ namespace eFormSDK.Integration.Tests
             #region UploadedData
             #region ud1
             uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", "hjgjghjhg", "File1", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud2
             uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud3
             uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud4
             uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud5
             uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud6
             uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud7
             uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud8
             uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud9
             uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud10
             uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #endregion
@@ -2074,52 +2074,52 @@ namespace eFormSDK.Integration.Tests
             #region UploadedData
             #region ud1
             uploaded_data ud1 = testHelpers.CreateUploadedData("", "File.jpg", "jpg", path + @"\output\dataFolder\picture\", "File.jpg", 1, worker,
-                Constants.UploaderTypes.System, 55);
+                Constants.UploaderTypes.System, 55, true);
             #endregion
 
             #region ud2
             uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud3
             uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud4
             uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud5
             uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud6
             uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud7
             uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud8
             uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud9
             uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud10
             uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #endregion
@@ -2369,52 +2369,52 @@ namespace eFormSDK.Integration.Tests
             #region UploadedData
             #region ud1
             uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", "hjgjghjhg", "File1", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud2
             uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud3
             uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud4
             uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud5
             uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud6
             uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud7
             uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud8
             uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud9
             uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #region ud10
             uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
-                "local", 55);
+                "local", 55, false);
             #endregion
 
             #endregion

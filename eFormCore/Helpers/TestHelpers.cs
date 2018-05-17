@@ -243,7 +243,7 @@ namespace eFormCore.Helpers
             return CLV;
 
         }
-        public uploaded_data CreateUploadedData(string checkSum, string currentFile, string extension, string fileLocation, string fileName, short? local, workers worker, string uploaderType, int version)
+        public uploaded_data CreateUploadedData(string checkSum, string currentFile, string extension, string fileLocation, string fileName, short? local, workers worker, string uploaderType, int version, bool createPhysicalFile)
         {
             uploaded_data UD = new uploaded_data();
                
@@ -263,6 +263,22 @@ namespace eFormCore.Helpers
 
             DbContext.uploaded_data.Add(UD);
             DbContext.SaveChanges();
+
+            string path = System.IO.Path.Combine(fileLocation, fileName);
+
+            if (createPhysicalFile)
+            {
+                if (!System.IO.File.Exists(path))
+                {
+                    using (System.IO.FileStream fs = System.IO.File.Create(path))
+                    {
+                        for (byte i = 0; i < 100; i++)
+                        {
+                            fs.WriteByte(i);
+                        }
+                    }
+                }
+            }
             return UD;
         }
         public entity_groups CreateEntityGroup(string microtingUId, string name, string entityType, string workflowState)
