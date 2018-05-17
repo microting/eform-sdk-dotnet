@@ -1,6 +1,7 @@
 ﻿using eFormCore;
 using eFormData;
 using eFormShared;
+using Newtonsoft.Json;
 using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,9 @@ namespace eFormSDK.Wrapper
             try
             {
                 mainElement = core.TemplateFromXml(xml);
+
+              //  String s = JsonConvert.SerializeObject(mainElement);
+
                 id = mainElement.Id;
                 label = mainElement.Label;
                 displayOrder = mainElement.DisplayOrder;
@@ -870,8 +874,9 @@ namespace eFormSDK.Wrapper
         }
 
         [DllExport("Core_TemplatFromXml_GetFieldContainer")]
-        public static int Core_TemplatFromXml_GetFieldContainer([MarshalAs(UnmanagedType.BStr)] string path,
-           [MarshalAs(UnmanagedType.BStr)] ref string value, [MarshalAs(UnmanagedType.BStr)] ref string fieldType)
+        public static int Core_TemplatFromXml_GetFieldContainer([MarshalAs(UnmanagedType.BStr)] string path, ref int id,
+            [MarshalAs(UnmanagedType.BStr)]  ref string _label, [MarshalAs(UnmanagedType.BStr)]  ref string description,
+            [MarshalAs(UnmanagedType.BStr)] ref string value, [MarshalAs(UnmanagedType.BStr)] ref string fieldType)
         {
             int result = 0;
             try
@@ -888,6 +893,9 @@ namespace eFormSDK.Wrapper
 
                 if (fieldContainer != null)
                 {
+                    id = fieldContainer.Id;
+                    _label = fieldContainer.Label;
+                    description = fieldContainer.Description.InderValue;
                     value = fieldContainer.Value;
                     fieldType = fieldContainer.FieldType == null ? "" : fieldContainer.FieldType;
                 }
@@ -1001,6 +1009,35 @@ namespace eFormSDK.Wrapper
             return result;
         }
         #endregion
+
+        #region TemplateCreate
+        [DllExport("Core_TemplateCreate")]
+        public static int Core_TemplateCreate([MarshalAs(UnmanagedType.BStr)]String json, ref int templateId)
+        {
+            int result = 0;
+            try
+            {
+                Packer packer = new Packer();
+                MainElement mainElement = packer.UnpackMainElement(json);
+                List<String> errors = core.TemplateValidation(mainElement);
+                if (errors.Count > 0)
+                {
+                    string totalError = "";
+                    foreach(string error in errors)
+                        totalError += error + "\n";
+                    throw new Exception(totalError);
+                }
+                templateId = core.TemplateCreate(mainElement);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
     }
 
 }

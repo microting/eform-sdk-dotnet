@@ -62,6 +62,7 @@
     <Compile Include="AdminToolsW.cs" />
     <Compile Include="CoreW.cs" />
     <Compile Include="LastError.cs" />
+    <Compile Include="Packer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
