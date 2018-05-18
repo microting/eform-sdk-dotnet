@@ -1017,8 +1017,7 @@ namespace eFormSDK.Wrapper
             int result = 0;
             try
             {
-                Packer packer = new Packer();
-                MainElement mainElement = packer.UnpackMainElement(json);
+                MainElement mainElement = new Packer().UnpackMainElement(json);
                 List<String> errors = core.TemplateValidation(mainElement);
                 if (errors.Count > 0)
                 {
@@ -1028,6 +1027,26 @@ namespace eFormSDK.Wrapper
                     throw new Exception(totalError);
                 }
                 templateId = core.TemplateCreate(mainElement);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
+
+        #region TemplateRead
+        [DllExport("Core_TemplateRead")]
+        public static int Core_TemplateRead(int templateId, [MarshalAs(UnmanagedType.BStr)] ref string json)
+        {
+            int result = 0;
+            try
+            {
+                MainElement mainElement = core.TemplateRead(templateId);
+                json = new Packer().Pack(mainElement);
             }
             catch (Exception ex)
             {

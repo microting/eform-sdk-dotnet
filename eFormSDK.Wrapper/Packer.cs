@@ -12,6 +12,7 @@ namespace eFormSDK.Wrapper
 {
     class Packer
     {
+        #region Unpackers
         private DataItem UnpackDataItem(JObject dataItemObj)
         {
             DataItem dataItem = dataItemObj.ToObject<DataItem>();
@@ -170,5 +171,32 @@ namespace eFormSDK.Wrapper
             }
             return mainElement;
         }
+        #endregion
+
+        #region Packers
+        private void AddTypes(JArray dataItemArray, List<DataItem> dataItemList)
+        {
+            for (int i = 0; i < dataItemList.Count; i++)
+                dataItemArray[i]["Type"] = dataItemList[i].GetType().Name;
+        }
+
+        public string Pack(MainElement mainElement)
+        {
+            JObject mainElementObj = new JObject();
+            //string json = JsonConvert.SerializeObject(mainElement);
+            mainElementObj = JObject.FromObject(mainElement);
+            JArray a = mainElementObj["ElementList"] as JArray;
+            for (int i = 0; i < mainElement.ElementList.Count; i++)
+            {
+                if (mainElement.ElementList[i] is DataElement)
+                {
+                    a[i]["Type"] = "DataElement";
+                    AddTypes(a[i]["DataItemList"] as JArray, (mainElement.ElementList[i] as DataElement).DataItemList);
+                }                
+            }
+            //return mainElementObj.ToString().Replace(@"\","").Replace("\r\n","");
+            return mainElementObj.ToString();
+        }
+        #endregion
     }
 }
