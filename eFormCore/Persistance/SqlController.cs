@@ -472,7 +472,7 @@ namespace eFormSqlController
                     if (check_list != null)
                     {
                         // Delete all not wanted taggings first
-                        List<taggings> cl_taggings = check_list.taggings.Where(x => !tagIds.Contains(x.id)).ToList();
+                        List<taggings> cl_taggings = check_list.taggings.Where(x => !tagIds.Contains((int)x.tag_id)).ToList();
                         int index = 0;
                         foreach (taggings tagging in cl_taggings)
                         {
@@ -486,7 +486,7 @@ namespace eFormSqlController
 
                                 db.tagging_versions.Add(MapTaggingVersions(current_tagging));
                                 db.SaveChanges();
-                                tagIds.Remove(tagging.id); // TODO write tests to ensure this works. 9 may 2018
+                                //tagIds.Remove(tagging.id); // TODO write tests to ensure this works. 9 may 2018
                             }
                         }
 
@@ -496,18 +496,36 @@ namespace eFormSqlController
                             tags tag = db.tags.Single(x => x.id == id);
                             if (tag != null)
                             {
-                                taggings tagging = new taggings();
-                                tagging.check_list_id = templateId;
-                                tagging.tag_id = tag.id;
-                                tagging.created_at = DateTime.Now;
-                                tagging.workflow_state = Constants.WorkflowStates.Created;
-                                tagging.version = 1;
 
-                                db.taggings.Add(tagging);
-                                db.SaveChanges();
+                                taggings current_tagging = db.taggings.SingleOrDefault(x => x.tag_id == tag.id && x.check_list_id == templateId);
 
-                                db.tagging_versions.Add(MapTaggingVersions(tagging));
-                                db.SaveChanges();
+                                if (current_tagging == null)
+                                {
+                                    taggings tagging = new taggings();
+                                    tagging.check_list_id = templateId;
+                                    tagging.tag_id = tag.id;
+                                    tagging.created_at = DateTime.Now;
+                                    tagging.updated_at = tagging.created_at;
+                                    tagging.workflow_state = Constants.WorkflowStates.Created;
+                                    tagging.version = 1;
+
+                                    db.taggings.Add(tagging);
+                                    db.SaveChanges();
+
+                                    db.tagging_versions.Add(MapTaggingVersions(tagging));
+                                    db.SaveChanges();
+                                } else {
+                                    if (current_tagging.workflow_state != Constants.WorkflowStates.Created)
+                                    {
+                                        current_tagging.version = check_list.version + 1;
+                                        current_tagging.updated_at = DateTime.Now;
+
+                                        current_tagging.workflow_state = Constants.WorkflowStates.Created;
+
+                                        db.tagging_versions.Add(MapTaggingVersions(current_tagging));
+                                        db.SaveChanges();
+                                    }                                    
+                                }                                
                             }
                         }
 
