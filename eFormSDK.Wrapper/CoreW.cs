@@ -1037,7 +1037,6 @@ namespace eFormSDK.Wrapper
         }
         #endregion
 
-
         #region TemplateRead
         [DllExport("Core_TemplateRead")]
         public static int Core_TemplateRead(int templateId, [MarshalAs(UnmanagedType.BStr)] ref string json)

@@ -180,6 +180,12 @@ namespace eFormSDK.Wrapper
                 dataItemArray[i]["Type"] = dataItemList[i].GetType().Name;
         }
 
+        private void AddTypes(JArray dataItemGroupArray, List<DataItemGroup> dataItemGroupList)
+        {
+            for (int i = 0; i < dataItemGroupList.Count; i++)
+                AddTypes(dataItemGroupArray[i]["DataItemList"] as JArray, dataItemGroupList[i].DataItemList);
+        }
+
         public string Pack(MainElement mainElement)
         {
             JObject mainElementObj = new JObject();
@@ -192,6 +198,7 @@ namespace eFormSDK.Wrapper
                 {
                     a[i]["Type"] = "DataElement";
                     AddTypes(a[i]["DataItemList"] as JArray, (mainElement.ElementList[i] as DataElement).DataItemList);
+                    AddTypes(a[i]["DataItemGroupList"] as JArray, (mainElement.ElementList[i] as DataElement).DataItemGroupList);
                 }                
             }
             //return mainElementObj.ToString().Replace(@"\","").Replace("\r\n","");
