@@ -1010,6 +1010,25 @@ namespace eFormSDK.Wrapper
         }
         #endregion
 
+        #region TemplateFromXml2
+        [DllExport("Core_TemplateFromXml2")]
+        public static int Core_TemplateFromXml2([MarshalAs(UnmanagedType.BStr)] string xml, [MarshalAs(UnmanagedType.BStr)] ref string json)
+        {
+            int result = 0;
+            try
+            {
+                MainElement mainElement = core.TemplateFromXml(xml);
+                json = new Packer().Pack(mainElement);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
         #region TemplateCreate
         [DllExport("Core_TemplateCreate")]
         public static int Core_TemplateCreate([MarshalAs(UnmanagedType.BStr)]String json, ref int templateId)
@@ -1056,6 +1075,27 @@ namespace eFormSDK.Wrapper
         }
         #endregion
 
+        #region TemplateValidation
+        [DllExport("Core_TemplateValidation")]
+        public static int Core_TemplateValidation([MarshalAs(UnmanagedType.BStr)] string jsonMainElement,
+                [MarshalAs(UnmanagedType.BStr)] ref string jsonValidaitonErrors)
+        {
+            int result = 0;
+            try
+            {
+                Packer packer = new Packer();
+                MainElement mainElement = packer.UnpackMainElement(jsonMainElement);
+                List<String> errors = core.TemplateValidation(mainElement);
+                jsonValidaitonErrors = packer.PackValidationErrors(errors); 
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
     }
 
 }

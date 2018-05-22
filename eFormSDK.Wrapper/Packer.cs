@@ -204,6 +204,11 @@ namespace eFormSDK.Wrapper
             //return mainElementObj.ToString().Replace(@"\","").Replace("\r\n","");
             return mainElementObj.ToString();
         }
+
+        public string PackValidationErrors(List<String> validationErrors)
+        {
+            return JArray.FromObject(validationErrors).ToString();
+        }
         #endregion
     }
 }
