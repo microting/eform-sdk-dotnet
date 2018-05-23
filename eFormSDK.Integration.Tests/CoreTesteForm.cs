@@ -668,7 +668,7 @@ namespace eFormSDK.Integration.Tests
 
             #region Tag
 
-            tags tag = testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
+            //tags tag = testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
 
             #endregion
             // Act

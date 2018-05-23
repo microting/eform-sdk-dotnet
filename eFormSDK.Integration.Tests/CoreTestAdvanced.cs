@@ -1938,195 +1938,203 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Advanced_DeleteUploadedData_DeletesData()
         {
-            //Arrance
-            #region Template1
-            DateTime cl_ca = DateTime.Now;
-            DateTime cl_ua = DateTime.Now;
-            check_lists cl1 = testHelpers.CreateTemplate(cl_ca, cl_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            ////Arrance
+            //#region Template1
+            //DateTime cl_ca = DateTime.Now;
+            //DateTime cl_ua = DateTime.Now;
+            //check_lists cl1 = testHelpers.CreateTemplate(cl_ca, cl_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
-            #endregion
+            //#endregion
 
-            #region SubTemplate1
-            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            //#region SubTemplate1
+            //check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
 
-            #endregion
+            //#endregion
 
-            #region Fields
-            #region field1
+            //#region Fields
+            //#region field1
 
 
-            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+            //fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+            //    5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            //    0, 0, "", 49);
 
-            #endregion
+            //#endregion
 
-            #region field2
+            //#region field2
 
 
-            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+            //fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+            //    45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+            //    "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
-            #endregion
+            //#endregion
 
-            #region field3
+            //#region field3
 
-            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+            //fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+            //    83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
+            //    "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
-            #endregion
+            //#endregion
 
-            #region field4
+            //#region field4
 
 
-            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+            //fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+            //    84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+            //    "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
-            #endregion
+            //#endregion
 
-            #region field5
+            //#region field5
 
-            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+            //fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+            //    85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+            //    "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
-            #endregion
-            #endregion
+            //#endregion
+            //#endregion
 
-            #region Worker
+            //#region Worker
 
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            //workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+            //#endregion
 
-            #region sites
+            //#region sites
 
-            #region Site1
-            sites site1 = testHelpers.CreateSite("SiteName1", 88);
+            //#region Site1
+            //sites site1 = testHelpers.CreateSite("SiteName1", 88);
 
-            #endregion
+            //#endregion
 
-            #region Site2
-            sites site2 = testHelpers.CreateSite("SiteName2", 89);
+            //#region Site2
+            //sites site2 = testHelpers.CreateSite("SiteName2", 89);
 
-            #endregion
+            //#endregion
 
-            #region Site3
-            sites site3 = testHelpers.CreateSite("SiteName3", 90);
+            //#region Site3
+            //sites site3 = testHelpers.CreateSite("SiteName3", 90);
 
-            #endregion
+            //#endregion
 
-            #region Site4
-            sites site4 = testHelpers.CreateSite("SiteName4", 91);
+            //#region Site4
+            //sites site4 = testHelpers.CreateSite("SiteName4", 91);
 
-            #endregion
+            //#endregion
 
-            #region Site5
-            sites site5 = testHelpers.CreateSite("SiteName5", 92);
+            //#region Site5
+            //sites site5 = testHelpers.CreateSite("SiteName5", 92);
 
-            #endregion
+            //#endregion
 
-            #region Site6
-            sites site6 = testHelpers.CreateSite("SiteName6", 93);
+            //#region Site6
+            //sites site6 = testHelpers.CreateSite("SiteName6", 93);
 
-            #endregion
+            //#endregion
 
-            #region Site7
-            sites site7 = testHelpers.CreateSite("SiteName7", 94);
+            //#region Site7
+            //sites site7 = testHelpers.CreateSite("SiteName7", 94);
 
-            #endregion
+            //#endregion
 
-            #region Site8
-            sites site8 = testHelpers.CreateSite("SiteName8", 95);
+            //#region Site8
+            //sites site8 = testHelpers.CreateSite("SiteName8", 95);
 
-            #endregion
+            //#endregion
 
-            #region Site9
-            sites site9 = testHelpers.CreateSite("SiteName9", 96);
+            //#region Site9
+            //sites site9 = testHelpers.CreateSite("SiteName9", 96);
 
-            #endregion
+            //#endregion
 
-            #region Site10
-            sites site10 = testHelpers.CreateSite("SiteName10", 97);
+            //#region Site10
+            //sites site10 = testHelpers.CreateSite("SiteName10", 97);
 
-            #endregion
+            //#endregion
 
-            #endregion
+            //#endregion
 
-            #region units
-            units unit = testHelpers.CreateUnit(48, 49, site1, 348);
+            //#region units
+            //units unit = testHelpers.CreateUnit(48, 49, site1, 348);
 
-            #endregion
+            //#endregion
 
-            #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker);
+            //#region site_workers
+            //site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker);
 
-            #endregion
+            //#endregion
 
-            #region UploadedData
-            #region ud1
-            uploaded_data ud1 = testHelpers.CreateUploadedData("", "File.jpg", "jpg", path + @"\output\dataFolder\picture\", "File.jpg", 1, worker,
-                Constants.UploaderTypes.System, 55, true);
-            #endregion
+            //#region UploadedData
+            //#region ud1
+            //uploaded_data ud1 = testHelpers.CreateUploadedData("", "File.jpg", "jpg", path + @"\output\dataFolder\picture\", "File.jpg", 1, worker,
+            //    Constants.UploaderTypes.System, 55, true);
+            //#endregion
 
-            #region ud2
-            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud2
+            //uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud3
-            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud3
+            //uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud4
-            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud4
+            //uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud5
-            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud5
+            //uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud6
-            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud6
+            //uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud7
-            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud7
+            //uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud8
-            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud8
+            //uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud9
-            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud9
+            //uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
-            #region ud10
-            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
-                "local", 55, false);
-            #endregion
+            //#region ud10
+            //uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
+            //    "local", 55, false);
+            //#endregion
 
+<<<<<<< HEAD
             #endregion
             //Act
             bool match = sut.Advanced_DeleteUploadedData(f1.id, ud1.id);
             //Assert
             Assert.True(match);
+=======
+            //#endregion
+            ////Act
+            //bool match = sut.Advanced_DeleteUploadedData(f2.id, ud1.id);
+            ////Assert
+            //Assert.True(match);
+>>>>>>> e516eb5d315b555594371c61a8330dda731bec04
 
         }
         [Test]
