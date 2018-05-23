@@ -209,6 +209,11 @@ namespace eFormSDK.Wrapper
         {
             return JArray.FromObject(validationErrors).ToString();
         }
+
+        public string PackSiteNameDtoList(List<SiteName_Dto> siteNameDtoList)
+        {
+            return JArray.FromObject(siteNameDtoList).ToString();
+        }
         #endregion
     }
 }
