@@ -781,7 +781,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    var matches = db.cases.Where(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted);
+                    List<cases> matches = db.cases.Where(x => x.microting_uid == microtingUId && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.Retracted).ToList();
                     if (matches.Count() > 1)
                     {
                         return false;
