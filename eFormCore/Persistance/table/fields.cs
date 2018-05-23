@@ -50,7 +50,6 @@ namespace eFormSqlController
 
         public short? dummy { get; set; }
 
-        [StringLength(255)]
         public string default_value { get; set; }
 
         [StringLength(255)]
