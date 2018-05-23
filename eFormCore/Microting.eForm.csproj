@@ -131,6 +131,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201805231104015_ChangingFieldDefaultValueToBeMax.cs" />
+    <Compile Include="Persistance\Migrations\201805231104015_ChangingFieldDefaultValueToBeMax.Designer.cs">
+      <DependentUpon>201805231104015_ChangingFieldDefaultValueToBeMax.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistance\Migrations\201804171003516_AddingStackTraceToNotifications.cs" />
     <Compile Include="Persistance\Migrations\201804171003516_AddingStackTraceToNotifications.Designer.cs">
       <DependentUpon>201804171003516_AddingStackTraceToNotifications.cs</DependentUpon>
@@ -251,6 +255,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201805231104015_ChangingFieldDefaultValueToBeMax.resx">
+      <DependentUpon>201805231104015_ChangingFieldDefaultValueToBeMax.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201804171003516_AddingStackTraceToNotifications.resx">
       <DependentUpon>201804171003516_AddingStackTraceToNotifications.cs</DependentUpon>
     </EmbeddedResource>
@@ -296,6 +303,9 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.SQS.3.3.3.6\analyzers\dotnet\cs\AWSSDK.SQS.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
