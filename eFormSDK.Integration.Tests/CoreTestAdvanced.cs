@@ -2124,7 +2124,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             //Act
-            bool match = sut.Advanced_DeleteUploadedData(f2.id, ud1.id);
+            bool match = sut.Advanced_DeleteUploadedData(f1.id, ud1.id);
             //Assert
             Assert.True(match);
 

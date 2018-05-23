@@ -1,0 +1,706 @@
+17-05-2018 10:07:44 // L:-22 // Write logic failed // 
+17-05-2018 10:07:44 // L:-2 // ###########################################################################
+
+######## SQLController - WriteLogEntry failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SQLController - SettingRead failed
+Source     :Microting.eForm
+StackTrace :   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3834
+   ved eFormSqlController.SqlController.WriteLogEntry(LogEntry logEntry) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3965
+######## -Expection at level 2- ########
+Message    :Sekvensen indeholder ingen elementer
+Source     :System.Core
+StackTrace :   ved System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   ved System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   ved System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3824
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountMax / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCount / Content:1
+17-05-2018 10:07:44 // L:1 // called
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:True
+17-05-2018 10:07:44 // L:-1 // 
+######## failed, twice in the last 5 minuts
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:False
+17-05-2018 10:07:44 // L:-1 // 
+######## failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :failed
+Source     :Microting.eForm
+StackTrace :   ved eFormCore.Core.Advanced_DeleteUploadedData(Int32 fieldId, Int32 uploadedDataId) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Core.cs:linje 3077
+######## -Expection at level 2- ########
+Message    :En fil, som allerede findes, kan ikke oprettes.
+
+Source     :mscorlib
+StackTrace :   ved System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   ved System.IO.__Error.WinIOError()
+   ved System.IO.File.InternalMove(String sourceFileName, String destFileName, Boolean checkHost)
+   ved System.IO.File.Move(String sourceFileName, String destFileName)
+   ved eFormCore.Core.Advanced_DeleteUploadedData(Int32 fieldId, Int32 uploadedDataId) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Core.cs:linje 3072
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:4 // initiated
+
+17-05-2018 10:07:44 // L:-2 // ###########################################################################
+17-05-2018 10:07:44 // L:-22 // Write logic failed // 
+17-05-2018 10:07:44 // L:-2 // ###########################################################################
+
+######## SQLController - WriteLogEntry failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SQLController - SettingRead failed
+Source     :Microting.eForm
+StackTrace :   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3834
+   ved eFormSqlController.SqlController.WriteLogEntry(LogEntry logEntry) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3965
+######## -Expection at level 2- ########
+Message    :Sekvensen indeholder ingen elementer
+Source     :System.Core
+StackTrace :   ved System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   ved System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   ved System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3824
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountTried / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountMax / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCount / Content:1
+17-05-2018 10:07:44 // L:1 // called
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:True
+17-05-2018 10:07:44 // L:-1 // 
+######## failed, twice in the last 5 minuts
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:False
+17-05-2018 10:07:44 // L:-1 // 
+######## failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :failed
+Source     :Microting.eForm
+StackTrace :   ved eFormCore.Core.Advanced_DeleteUploadedData(Int32 fieldId, Int32 uploadedDataId) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Core.cs:linje 3077
+######## -Expection at level 2- ########
+Message    :En fil, som allerede findes, kan ikke oprettes.
+
+Source     :mscorlib
+StackTrace :   ved System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   ved System.IO.__Error.WinIOError()
+   ved System.IO.File.InternalMove(String sourceFileName, String destFileName, Boolean checkHost)
+   ved System.IO.File.Move(String sourceFileName, String destFileName)
+   ved eFormCore.Core.Advanced_DeleteUploadedData(Int32 fieldId, Int32 uploadedDataId) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Core.cs:linje 3072
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:44 // L:-2 // ###########################################################################
+17-05-2018 10:07:45 // L:-22 // Write logic failed // 
+17-05-2018 10:07:45 // L:-2 // ###########################################################################
+
+######## SQLController - WriteLogEntry failed
+######## 2018 05-17 10.07:45
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SQLController - SettingRead failed
+Source     :Microting.eForm
+StackTrace :   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3834
+   ved eFormSqlController.SqlController.WriteLogEntry(LogEntry logEntry) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3965
+######## -Expection at level 2- ########
+Message    :Sekvensen indeholder ingen elementer
+Source     :System.Core
+StackTrace :   ved System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   ved System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   ved System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3824
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:44 // L:3 // Variable Name:secondsDelay / Content:30
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountTried / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountMax / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCount / Content:1
+17-05-2018 10:07:44 // L:1 // called
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:True
+17-05-2018 10:07:44 // L:-1 // 
+######## failed, twice in the last 5 minuts
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:False
+
+17-05-2018 10:07:45 // L:-2 // ###########################################################################
+17-05-2018 10:07:45 // L:-22 // Write logic failed // 
+17-05-2018 10:07:45 // L:-2 // ###########################################################################
+
+######## SQLController - WriteLogEntry failed
+######## 2018 05-17 10.07:45
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SQLController - SettingRead failed
+Source     :Microting.eForm
+StackTrace :   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3834
+   ved eFormSqlController.SqlController.WriteLogEntry(LogEntry logEntry) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3965
+######## -Expection at level 2- ########
+Message    :Sekvensen indeholder ingen elementer
+Source     :System.Core
+StackTrace :   ved System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   ved System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   ved System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3824
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:45 // L:1 // called
+17-05-2018 10:07:44 // L:3 // Variable Name:secondsDelay / Content:30
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountTried / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountMax / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCount / Content:1
+17-05-2018 10:07:44 // L:1 // called
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:True
+17-05-2018 10:07:44 // L:-1 // 
+######## failed, twice in the last 5 minuts
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+
+17-05-2018 10:07:45 // L:-2 // ###########################################################################
+17-05-2018 10:07:45 // L:-22 // Write logic failed // 
+17-05-2018 10:07:45 // L:-2 // ###########################################################################
+
+######## SQLController - WriteLogEntry failed
+######## 2018 05-17 10.07:45
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SQLController - SettingRead failed
+Source     :Microting.eForm
+StackTrace :   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3834
+   ved eFormSqlController.SqlController.WriteLogEntry(LogEntry logEntry) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3965
+######## -Expection at level 2- ########
+Message    :Sekvensen indeholder ingen elementer
+Source     :System.Core
+StackTrace :   ved System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   ved System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   ved System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3824
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:45 // L:4 // Subscriber requested to close connection
+17-05-2018 10:07:45 // L:1 // called
+17-05-2018 10:07:44 // L:3 // Variable Name:secondsDelay / Content:30
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountTried / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCountMax / Content:1
+17-05-2018 10:07:44 // L:3 // Variable Name:sameExceptionCount / Content:1
+17-05-2018 10:07:44 // L:1 // called
+17-05-2018 10:07:44 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:07:44 // L:3 // Variable Name:restartCore / Content:True
+17-05-2018 10:07:44 // L:-1 // 
+######## failed, twice in the last 5 minuts
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:07:44 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.07:44
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:07:45 // L:-2 // ###########################################################################
+17-05-2018 10:31:27 // L:-22 // Write logic failed // 
+17-05-2018 10:31:27 // L:-2 // ###########################################################################
+
+######## SQLController - WriteLogEntry failed
+######## 2018 05-17 10.31:27
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :SQLController - SettingRead failed
+Source     :Microting.eForm
+StackTrace :   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3834
+   ved eFormSqlController.SqlController.WriteLogEntry(LogEntry logEntry) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3965
+######## -Expection at level 2- ########
+Message    :Sekvensen indeholder ingen elementer
+Source     :System.Core
+StackTrace :   ved System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.<GetElementFunction>b__3[TResult](IEnumerable`1 sequence)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.ExecuteSingle[TResult](IEnumerable`1 query, Expression queryRoot)
+   ved System.Data.Entity.Core.Objects.ELinq.ObjectQueryProvider.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   ved System.Data.Entity.Internal.Linq.DbQueryProvider.Execute[TResult](Expression expression)
+   ved System.Linq.Queryable.Single[TSource](IQueryable`1 source, Expression`1 predicate)
+   ved eFormSqlController.SqlController.SettingRead(Settings name) i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Persistance\SqlController.cs:linje 3824
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:31:27 // L:0 // catch of ThreadAbortException
+17-05-2018 10:31:27 // L:4 // Subscriber requested to close connection
+17-05-2018 10:31:27 // L:1 // called
+17-05-2018 10:31:27 // L:3 // Variable Name:secondsDelay / Content:30
+17-05-2018 10:31:27 // L:3 // Variable Name:sameExceptionCountTried / Content:1
+17-05-2018 10:31:27 // L:3 // Variable Name:sameExceptionCountMax / Content:1
+17-05-2018 10:31:27 // L:3 // Variable Name:sameExceptionCount / Content:1
+17-05-2018 10:31:27 // L:1 // called
+17-05-2018 10:31:27 // L:2 // 1. time the same Exception, within the last hour
+17-05-2018 10:31:27 // L:3 // Variable Name:restartCore / Content:True
+17-05-2018 10:31:27 // L:-1 // 
+######## failed, twice in the last 5 minuts
+######## 2018 05-17 10.31:27
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+17-05-2018 10:31:27 // L:0 // 
+######## Subscriber - SubscriberThread failed
+######## 2018 05-17 10.31:27
+######## EXCEPTION FOUND; BEGIN ########
+######## -Expection at level 1- ########
+Message    :Ugyldig URI: Formatet for URI'en kunne ikke bestemmes.
+Source     :System
+StackTrace :   ved System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   ved System.Uri..ctor(String uriString)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.PreInvoke(IExecutionContext executionContext)
+   ved Amazon.SQS.Internal.ProcessRequestHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.Marshaller.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.CallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.ErrorCallbackHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.PipelineHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.MetricsHandler.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.Internal.RuntimePipeline.InvokeSync(IExecutionContext executionContext)
+   ved Amazon.Runtime.AmazonServiceClient.Invoke[TRequest,TResponse](TRequest request, IMarshaller`2 marshaller, ResponseUnmarshaller unmarshaller)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(ReceiveMessageRequest request)
+   ved Amazon.SQS.AmazonSQSClient.ReceiveMessage(String queueUrl)
+   ved eFormSubscriber.Subscriber.SubscriberThread() i C:\Users\soipi\Desktop\arb\eform-sdk-dotnet\eFormCore\Services\Subscriber.cs:linje 148
+
+######## EXCEPTION FOUND; ENDED ########
+
+
+17-05-2018 10:31:27 // L:-2 // ###########################################################################

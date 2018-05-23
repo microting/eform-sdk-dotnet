@@ -3,9 +3,12 @@ using eFormSqlController;
 //using Microsoft.Azure.Management.Fluent;
 //using Microsoft.Azure.Management.ResourceManager.Fluent;
 using NUnit.Framework;
+using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -21,6 +24,7 @@ namespace eFormSDK.Integration.Tests
         private static string databaseServerId = "__DB_SERVER_ID__";
         private static string directoryId = "__DIRECTORY_ID__";
         private static string applicationId = "__APPLICATION_ID__";
+
 
         [SetUp]
         public void Setup()
@@ -63,8 +67,9 @@ namespace eFormSDK.Integration.Tests
 
             ClearDb();
 
-            DbContext.Dispose();
+            ClearFile();
 
+            DbContext.Dispose();
         }
 
         public void ClearDb()
@@ -91,7 +96,23 @@ namespace eFormSDK.Integration.Tests
 
             }
         }
+        private string path;
+        
+        public void ClearFile()
+        {
+            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
 
+            string picturePath =path + @"\output\dataFolder\picture\Deleted";
+
+        DirectoryInfo diPic = new DirectoryInfo(picturePath);
+
+            foreach (FileInfo file in diPic.GetFiles())
+            {
+                file.Delete();
+            }
+
+        }
         public virtual void DoSetup() { }
 
     }
