@@ -13,7 +13,7 @@ namespace eFormSqlController.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201805231104015_ChangingFieldDefaultValueToBeMax"; }
+            get { return "201805231146385_ChangingFieldDefaultValueToBeMax"; }
         }
         
         string IMigrationMetadata.Source
