@@ -20,6 +20,7 @@ namespace eFormSDK.Wrapper
 
         public delegate void NativeCallback(Int32 param);
 
+        #region Core_Create
         [DllExport("Core_Create")]
         public static int Core_Create()
         {
@@ -36,8 +37,9 @@ namespace eFormSDK.Wrapper
 
             return result;
         }
+        #endregion
 
-
+        #region Core_Start
         [DllExport("Core_Start")]
         public static int Core_Start([MarshalAs(UnmanagedType.BStr)]String serverConnectionString)
         {
@@ -57,6 +59,7 @@ namespace eFormSDK.Wrapper
 
             return result;
         }
+        #endregion
 
         [DllExport("Core_SubscribeStartEvent")]
         unsafe public static int Core_SubscribeStartEvent(Int32 callbackPointer)
@@ -91,7 +94,6 @@ namespace eFormSDK.Wrapper
             //IntPtr ptr = (IntPtr)caseCompletedCallbackPointer;
             //CaseCompletedCallback caseCompletedCallbackMethod = (CaseCompletedCallback)Marshal.GetDelegateForFunctionPointer(ptr, typeof(NativeCallback));
             //caseCompletedCallbackMethod(siteId, caseType, caseUid, mUId, checkUId, CaseId);
-
         }
 
   
@@ -192,6 +194,25 @@ namespace eFormSDK.Wrapper
                 List<SiteName_Dto> siteNameDtoList = core.Advanced_SiteItemReadAll();
                 Packer packer = new Packer();
                 json = packer.PackSiteNameDtoList(siteNameDtoList);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
+        #region TemplateItemRead
+        [DllExport("Core_TemplateItemRead")]
+        public static int Core_TemplateItemRead(int templateId, [MarshalAs(UnmanagedType.BStr)] ref string json)
+        {
+            int result = 0;
+            try
+            {
+                Template_Dto templateDto = core.TemplateItemRead(templateId);
+                json = new Packer().PackTemplateDto(templateDto);
             }
             catch (Exception ex)
             {

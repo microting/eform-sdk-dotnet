@@ -214,6 +214,11 @@ namespace eFormSDK.Wrapper
         {
             return JArray.FromObject(siteNameDtoList).ToString();
         }
+        public string PackTemplateDto(Template_Dto templateDto )
+        {
+            return JObject.FromObject(templateDto).ToString();
+        }
+
         #endregion
     }
 }
