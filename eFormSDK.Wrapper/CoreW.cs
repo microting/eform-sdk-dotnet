@@ -222,6 +222,27 @@ namespace eFormSDK.Wrapper
             return result;
         }
         #endregion
+
+        #region CaseCreate
+        [DllExport("Core_CaseCreate")]
+        public static int Core_CaseCreate([MarshalAs(UnmanagedType.BStr)] string jsonMainElement,
+            [MarshalAs(UnmanagedType.BStr)] string caseUId, int siteUId,
+            [MarshalAs(UnmanagedType.BStr)] ref string resultCase)
+        {
+            int result = 0;
+            try
+            {
+                MainElement mainElement = new Packer().UnpackMainElement(jsonMainElement);
+                resultCase = core.CaseCreate(mainElement, caseUId, siteUId);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
     }
 
 }
