@@ -173,7 +173,7 @@ namespace eFormSDK.Wrapper
                 Packer packer = new Packer();
                 MainElement mainElement = packer.UnpackMainElement(jsonMainElement);
                 List<String> errors = core.TemplateValidation(mainElement);
-                jsonValidaitonErrors = packer.PackValidationErrors(errors); 
+                jsonValidaitonErrors = packer.PackStringList(errors); 
             }
             catch (Exception ex)
             {
@@ -234,6 +234,30 @@ namespace eFormSDK.Wrapper
             {
                 MainElement mainElement = new Packer().UnpackMainElement(jsonMainElement);
                 resultCase = core.CaseCreate(mainElement, caseUId, siteUId);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
+        #region CaseCreate2
+        [DllExport("Core_CaseCreate2")]
+        public static int Core_CaseCreate2([MarshalAs(UnmanagedType.BStr)] string jsonMainElement,
+            [MarshalAs(UnmanagedType.BStr)] string caseUId, [MarshalAs(UnmanagedType.BStr)] string jsonSiteUIds,
+            [MarshalAs(UnmanagedType.BStr)] string custom, [MarshalAs(UnmanagedType.BStr)] ref string jsonResultCases)
+        {
+            int result = 0;
+            try
+            {
+                Packer packer = new Packer();
+                MainElement mainElement = packer.UnpackMainElement(jsonMainElement);
+                List<int> siteUIds = packer.UnpackIntList(jsonSiteUIds);
+                List<string> resultCases = core.CaseCreate(mainElement, caseUId, siteUIds, custom);
+                jsonResultCases = packer.PackStringList(resultCases);
             }
             catch (Exception ex)
             {

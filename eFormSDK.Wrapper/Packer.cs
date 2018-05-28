@@ -154,7 +154,6 @@ namespace eFormSDK.Wrapper
             return dataElement;
         }
 
-
         public MainElement UnpackMainElement(String json)
         {
             MainElement mainElement = JsonConvert.DeserializeObject<MainElement>(json);
@@ -170,6 +169,18 @@ namespace eFormSDK.Wrapper
                 }
             }
             return mainElement;
+        }
+        
+        public List<int> UnpackIntList(String json)
+        {
+            List<int> result = new List<int>();
+            JArray arr = JArray.Parse(json);
+            foreach (JToken token in arr)
+            {
+                string val = token.ToString();
+                result.Add(int.Parse(val));
+            }
+            return result;
         }
         #endregion
 
@@ -205,9 +216,13 @@ namespace eFormSDK.Wrapper
             return mainElementObj.ToString();
         }
 
-        public string PackValidationErrors(List<String> validationErrors)
+        public string PackStringList(List<String> stringList)
         {
-            return JArray.FromObject(validationErrors).ToString();
+            if (stringList == null)
+            {
+                stringList = new List<String>();
+            }
+            return JArray.FromObject(stringList).ToString();
         }
 
         public string PackSiteNameDtoList(List<SiteName_Dto> siteNameDtoList)
