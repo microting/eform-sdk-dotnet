@@ -105,7 +105,7 @@ namespace eFormSDK.Wrapper
             try
             {
                 MainElement mainElement = core.TemplateFromXml(xml);
-                json = new Packer().Pack(mainElement);
+                json = new Packer().PackCoreElement(mainElement);
             }
             catch (Exception ex)
             {
@@ -151,7 +151,7 @@ namespace eFormSDK.Wrapper
             try
             {
                 MainElement mainElement = core.TemplateRead(templateId);
-                json = new Packer().Pack(mainElement);
+                json = new Packer().PackCoreElement(mainElement);
             }
             catch (Exception ex)
             {
@@ -258,6 +258,26 @@ namespace eFormSDK.Wrapper
                 List<int> siteUIds = packer.UnpackIntList(jsonSiteUIds);
                 List<string> resultCases = core.CaseCreate(mainElement, caseUId, siteUIds, custom);
                 jsonResultCases = packer.PackStringList(resultCases);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
+        #region CaseRead
+        [DllExport("Core_CaseRead")]
+        public static int Core_CaseRead([MarshalAs(UnmanagedType.BStr)] string microtingUId,
+            [MarshalAs(UnmanagedType.BStr)] string checkUId, [MarshalAs(UnmanagedType.BStr)] ref string jsonReplyElement)
+        {
+            int result = 0;
+            try
+            {
+                ReplyElement replyElement = core.CaseRead(microtingUId, checkUId);
+                jsonReplyElement = new Packer().PackCoreElement(replyElement);
             }
             catch (Exception ex)
             {

@@ -196,24 +196,34 @@ namespace eFormSDK.Wrapper
             for (int i = 0; i < dataItemGroupList.Count; i++)
                 AddTypes(dataItemGroupArray[i]["DataItemList"] as JArray, dataItemGroupList[i].DataItemList);
         }
-
-        public string Pack(MainElement mainElement)
+        
+        public string PackCoreElement(CoreElement coreElement)
         {
-            JObject mainElementObj = new JObject();
+            JObject coreElementObj = new JObject();
             //string json = JsonConvert.SerializeObject(mainElement);
-            mainElementObj = JObject.FromObject(mainElement);
-            JArray a = mainElementObj["ElementList"] as JArray;
-            for (int i = 0; i < mainElement.ElementList.Count; i++)
+            if (coreElement is MainElement)
+                coreElementObj = JObject.FromObject(coreElement as MainElement);
+            else if (coreElement is ReplyElement)
+               coreElementObj = JObject.FromObject(coreElement as ReplyElement);
+            else
+               coreElementObj = JObject.FromObject(coreElement);
+            JArray a = coreElementObj["ElementList"] as JArray;
+            for (int i = 0; i < coreElement.ElementList.Count; i++)
             {
-                if (mainElement.ElementList[i] is DataElement)
+                if (coreElement.ElementList[i] is DataElement)
                 {
                     a[i]["Type"] = "DataElement";
-                    AddTypes(a[i]["DataItemList"] as JArray, (mainElement.ElementList[i] as DataElement).DataItemList);
-                    AddTypes(a[i]["DataItemGroupList"] as JArray, (mainElement.ElementList[i] as DataElement).DataItemGroupList);
-                }                
+                    AddTypes(a[i]["DataItemList"] as JArray, (coreElement.ElementList[i] as DataElement).DataItemList);
+                    AddTypes(a[i]["DataItemGroupList"] as JArray, (coreElement.ElementList[i] as DataElement).DataItemGroupList);
+                }
+                else if (coreElement.ElementList[i] is CheckListValue)
+                {
+                    a[i]["Type"] = "CheckListValue";
+                    AddTypes(a[i]["DataItemList"] as JArray, (coreElement.ElementList[i] as CheckListValue).DataItemList);
+                    AddTypes(a[i]["DataItemGroupList"] as JArray, (coreElement.ElementList[i] as CheckListValue).DataItemGroupList);
+                }
             }
-            //return mainElementObj.ToString().Replace(@"\","").Replace("\r\n","");
-            return mainElementObj.ToString();
+            return coreElementObj.ToString();
         }
 
         public string PackStringList(List<String> stringList)
