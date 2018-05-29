@@ -4926,7 +4926,7 @@ namespace eFormSqlController
             return str;
         }
 
-        private List<KeyValuePair> PairRead(string str)
+        public List<KeyValuePair> PairRead(string str)
         {
             List<KeyValuePair> list = new List<KeyValuePair>();
             str = t.Locate(str, "<hash>", "</hash>");
