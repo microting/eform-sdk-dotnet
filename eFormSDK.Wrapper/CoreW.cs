@@ -287,6 +287,24 @@ namespace eFormSDK.Wrapper
             return result;
         }
         #endregion
+
+        #region CaseDelete
+        [DllExport("Core_CaseDelete")]
+        public static int Core_CaseDelete([MarshalAs(UnmanagedType.BStr)] string microtingUId, ref bool deleteResult)
+        {
+            int result = 0;
+            try
+            {
+                deleteResult = core.CaseDelete(microtingUId);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
     }
 
 }
