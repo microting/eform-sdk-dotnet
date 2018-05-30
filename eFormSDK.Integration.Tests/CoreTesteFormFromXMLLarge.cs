@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace eFormSDK.Integration.Tests
 {
-    public class CoreeFormFromXMLLarge : DbTestFixture
+    public class CoreTesteFormFromXMLLarge : DbTestFixture
     {
         private Core sut;
         private TestHelpers testHelpers;
