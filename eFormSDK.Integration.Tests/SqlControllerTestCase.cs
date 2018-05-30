@@ -57,10 +57,7 @@ namespace eFormSDK.Integration.Tests
 
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
-            //cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
-            //    c1_da, worker, "microtingCheckUId1", "microtingUId1",
-            //   site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
-
+        
 
             //Act
             int matches = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);

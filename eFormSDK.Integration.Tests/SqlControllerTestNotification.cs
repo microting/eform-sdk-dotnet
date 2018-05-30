@@ -121,17 +121,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Notification_Notificationcreate_isCreated()
         {
-            //notifications aNote1 = new notifications();
 
-            //aNote1.workflow_state = Constants.WorkflowStates.Created;
-            //aNote1.created_at = DateTime.Now;
-            //aNote1.updated_at = DateTime.Now;
-            //aNote1.notification_uid = Guid.NewGuid().ToString();
-            //aNote1.microting_uid = Guid.NewGuid().ToString();
-            //aNote1.activity = Constants.Notifications.UnitActivate;
-
-            //DbContext.notifications.Add(aNote1);
-            //DbContext.SaveChanges();
 
             //Act
             sut.NotificationCreate(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Constants.Notifications.UnitActivate);

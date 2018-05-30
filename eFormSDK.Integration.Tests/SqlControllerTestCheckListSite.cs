@@ -44,7 +44,6 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
 
-            //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
 
             // Act
             sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
@@ -111,7 +110,6 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             sut.CaseDeleteReversed(cls1.microting_uid);
-            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
 
             // Assert

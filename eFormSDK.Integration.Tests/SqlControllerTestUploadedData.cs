@@ -156,8 +156,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             UploadedData Ud = sut.FileRead();
-            //List<UploadedData> uploadedDataResult = DbContext.uploaded_data_versions.AsNoTracking().ToList();
-            //var versionedMatches = DbContext.uploaded_data.AsNoTracking().ToList();
+
 
             // Assert
 
@@ -172,7 +171,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Ud.FileName, ud.file_name);
             Assert.AreEqual(Ud.Id, ud.id);
             Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.workflow_state);
-            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+
 
 
 
@@ -188,7 +187,7 @@ namespace eFormSDK.Integration.Tests
 
             string guid = Guid.NewGuid().ToString();
 
-            //Case aCase = CreateCase("caseUID", cl1, )
+
             DateTime c1_ca = DateTime.Now.AddDays(-9);
             DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.Now.AddDays(-8);
@@ -226,7 +225,7 @@ namespace eFormSDK.Integration.Tests
 
             //Act
             sut.FileCaseFindMUId("url");
-            //int case1 = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
+
 
             Assert.NotNull(fVs);
             Assert.AreEqual(fVs.case_id, aCase1.id);
@@ -238,9 +237,7 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data();
 
-            //ud.checksum = "checksum1";
-            //ud.file_location = "file_location";
-            //ud.file_name = "fileName";
+
             ud.local = 0;
             ud.workflow_state = Constants.WorkflowStates.PreCreated;
             ud.version = 1;

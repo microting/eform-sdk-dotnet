@@ -366,7 +366,6 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(clResult);
             Assert.AreEqual(1, checkLists.Count());
-            //Assert.AreEqual(1, cl_results.Count);
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].workflow_state);
 
         }
@@ -386,7 +385,6 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             CoreElement CElement = new CoreElement();
-            //CElement.ElementList = new List<Element>();
 
             DateTime startDt = DateTime.Now;
             DateTime endDt = DateTime.Now;
@@ -398,7 +396,6 @@ namespace eFormSDK.Integration.Tests
             int templateId = sut.TemplateCreate(main);
 
             check_lists cl1 = DbContext.check_lists.AsNoTracking().First();
-            //check_lists cl2 = DbContext.check_lists.AsNoTracking().Last();
             // Assert
             Assert.NotNull(templateId);
             Assert.IsNull(cl1.parent_id);

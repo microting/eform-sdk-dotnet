@@ -154,12 +154,10 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            //List<settings> setting = DbContext.settings.AsNoTracking().ToList();
             sut.SettingUpdate(Settings.token, "player");
             var match = DbContext.settings.AsNoTracking().ToList();
 
             // Assert
-            //Assert.NotNull(setting);
             Assert.AreEqual(match[7].value, "player");
         }
 
