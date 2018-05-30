@@ -54,15 +54,15 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            //var match = sut.SiteCreate("John", "Noname", "Doe", "some_email@invalid.com");
+            var match = sut.SiteCreate("John", "Noname", "Doe", "some_email@invalid.com");
 
             // Assert
-            //var sites = DbContext.sites.AsNoTracking().ToList();
+            var sites = DbContext.sites.AsNoTracking().ToList();
 
-            //Assert.NotNull(sites);
+            Assert.NotNull(sites);
 
-            //Assert.AreEqual(1, sites.Count());
-            //Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].workflow_state);
+            Assert.AreEqual(1, sites.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].workflow_state);
 
         }
         [Test]//Using communicator, needs httpMock

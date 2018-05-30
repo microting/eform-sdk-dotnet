@@ -136,12 +136,12 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match8, path + @"\output\dataFolder\reports\");
             Assert.AreEqual(match9, path + @"\output\dataFolder\pdf\");
             Assert.AreEqual(match10, path + @"\output\dataFolder\picture\");
-            Assert.AreEqual(match11, "false");
+            Assert.AreEqual(match11, "true");
             Assert.AreEqual(match12, "http://localhost:3000");
-            Assert.AreEqual(match13, "false");
+            Assert.AreEqual(match13, "true");
             Assert.AreEqual(match14, "4");
             Assert.AreEqual(match15, "25000");
-            Assert.AreEqual(match16, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Assert.AreEqual(match16, "abc1234567890abc1234567890abcdef");
             Assert.AreEqual(match17, "0");
 
 
@@ -196,14 +196,14 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Value
-            Assert.AreEqual(match[0].value, "false");
+            Assert.AreEqual(match[0].value, "true");
             Assert.AreEqual(match[1].value, "4");
             Assert.AreEqual(match[2].value, "25000");
-            Assert.AreEqual(match[3].value, "false");
+            Assert.AreEqual(match[3].value, "true");
             Assert.AreEqual(match[4].value, path + @"\output\dataFolder\picture\");
             Assert.AreEqual(match[5].value, path + @"\output\dataFolder\pdf\");
             Assert.AreEqual(match[6].value, path + @"\output\dataFolder\reports\");
-            Assert.AreEqual(match[7].value, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Assert.AreEqual(match[7].value, "abc1234567890abc1234567890abcdef");
             Assert.AreEqual(match[8].value, "https://basic.microting.com");
             Assert.AreEqual(match[9].value, "https://xxxxxx.xxxxxx.com");
             Assert.AreEqual(match[10].value, "https://xxxxxx.xxxxxx.com");
