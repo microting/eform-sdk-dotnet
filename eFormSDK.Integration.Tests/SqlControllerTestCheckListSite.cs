@@ -85,7 +85,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.NotNull(matches);
-            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(2, matches.Count);
             Assert.AreEqual(2, matches2.Count);
             Assert.AreEqual(cls1.microting_uid, matches[0]);
             Assert.AreEqual(cls1.microting_uid, matches2[0]);
