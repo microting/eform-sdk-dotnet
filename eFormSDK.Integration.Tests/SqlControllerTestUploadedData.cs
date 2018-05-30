@@ -14,7 +14,7 @@ namespace eFormSDK.Integration.Tests
     [TestFixture]
     public class SqlControllerTestUploadedData : DbTestFixture
     {
-        private Core sut;
+        private SqlController sut;
         private TestHelpers testHelpers;
         private string path;
 
@@ -28,21 +28,12 @@ namespace eFormSDK.Integration.Tests
             sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
-            sut.SetPicturePath(path + @"\output\dataFolder\picture\");
-            sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
-            sut.SetJasperPath(path + @"\output\dataFolder\reports\");
+            sut = new SqlController(ConnectionString);
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
         }
 
         #region uploaded_data
@@ -190,8 +181,10 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_File_FileCaseFindMUId_doesFindMUId()
         {
-            sites site1 = CreateSite("MySite", 22);
-            check_lists cl1 = CreateTemplate("template1", "template_desc", "", "", 1, 1);
+            sites site1 = testHelpers.CreateSite("MySite", 22);
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
 
@@ -199,13 +192,13 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ca = DateTime.Now.AddDays(-9);
             DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.Now.AddDays(-8);
-            workers worker = CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            site_workers site_workers = CreateSiteWorker(55, site1, worker);
-            units unit = CreateUnit(48, 49, site1, 348);
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker);
+            units unit = testHelpers.CreateUnit(48, 49, site1, 348);
 
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
-            cases aCase1 = CreateCase("case1UId", cl1, c1_ca, "custom1",
+            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, "microtingCheckUId1", "microtingUId1",
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 

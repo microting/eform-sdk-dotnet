@@ -14,7 +14,7 @@ namespace eFormSDK.Integration.Tests
     [TestFixture]
     public class SqlControllerTestCheckListSite : DbTestFixture
     {
-        private Core sut;
+        private SqlController sut;
         private TestHelpers testHelpers;
         private string path;
 
@@ -28,29 +28,21 @@ namespace eFormSDK.Integration.Tests
             sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
-            sut.SetPicturePath(path + @"\output\dataFolder\picture\");
-            sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
-            sut.SetJasperPath(path + @"\output\dataFolder\reports\");
+            sut = new SqlController(ConnectionString);
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
         }
 
         [Test]
         public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
         {
-            sites site = CreateSite("mySite", 987);
-
-            check_lists cl1 = CreateTemplate("template", "template_desc", "", "", 0, 0);
+            sites site = testHelpers.CreateSite("mySite", 987);
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
 
             //check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id);
 
@@ -72,17 +64,18 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Case_CheckListSitesRead_DoesSiteRead()
         {
 
-            sites site1 = CreateSite("mySite2", 331);
-            check_lists cl1 = CreateTemplate("template2", "template_desc", "", "", 1, 1);
+            sites site1 = testHelpers.CreateSite("mySite2", 331);
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
             string guid2 = Guid.NewGuid().ToString();
             string lastCheckUid1 = Guid.NewGuid().ToString();
             string lastCheckUid2 = Guid.NewGuid().ToString();
 
-            check_list_sites cls1 = CreateCheckListSite(cl1.id, site1.id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
-            check_list_sites cls2 = CreateCheckListSite(cl1.id, site1.id, guid2, Constants.WorkflowStates.Removed, lastCheckUid2);
-
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
+            check_list_sites cls2 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
 
             // Act
             List<string> matches = sut.CheckListSitesRead(cl1.id, (int)site1.microting_uid, Constants.WorkflowStates.NotRemoved);
@@ -105,15 +98,16 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
         {
             // Arrance
-            sites site = CreateSite("mySite", 987);
-
-            check_lists cl1 = CreateTemplate("bla", "bla_desc", "", "", 0, 0);
+            sites site = testHelpers.CreateSite("mySite", 987);
+            DateTime cl1_Ca = DateTime.Now;
+            DateTime cl1_Ua = DateTime.Now;
+            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
 
             string guid = Guid.NewGuid().ToString();
             string lastCheckUid1 = Guid.NewGuid().ToString();
 
 
-            check_list_sites cls1 = CreateCheckListSite(cl1.id, site.id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
+            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
 
             // Act
             sut.CaseDeleteReversed(cls1.microting_uid);

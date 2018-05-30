@@ -14,7 +14,7 @@ namespace eFormSDK.Integration.Tests
     [TestFixture]
     public class SqlControllerTestCaseCreate : DbTestFixture
     {
-        private Core sut;
+        private SqlController sut;
         private TestHelpers testHelpers;
         private string path;
 
@@ -28,21 +28,12 @@ namespace eFormSDK.Integration.Tests
             sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
-            sut.SetPicturePath(path + @"\output\dataFolder\picture\");
-            sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
-            sut.SetJasperPath(path + @"\output\dataFolder\reports\");
+            sut = new SqlController(ConnectionString);
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
         }
 
         #region eventhandlers
