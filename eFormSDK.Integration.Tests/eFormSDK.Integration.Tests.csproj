@@ -100,7 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreeFormFromXMLLarge.cs" />
+    <Compile Include="CoreTesteFormFromXMLLarge.cs" />
     <Compile Include="CoreTest.cs" />
     <Compile Include="CoreTestAdvanced.cs" />
     <Compile Include="CoreTestCase.cs" />
@@ -115,6 +115,29 @@
     <Compile Include="CoreTestEvent.cs" />
     <Compile Include="CoreTestSite.cs" />
     <Compile Include="CoreTestTag.cs" />
+    <Compile Include="SqlControllerTestCheckListValue.cs" />
+    <Compile Include="SqlControllerTestFieldValue.cs" />
+    <Compile Include="SqlControllerTestField.cs" />
+    <Compile Include="SqlControllerTestReplyElementy.cs" />
+    <Compile Include="SqlControllerTestCheckListSite.cs" />
+    <Compile Include="SqlControllerTesteForm.cs" />
+    <Compile Include="SqlControllerTesteFormCreateInDB.cs" />
+    <Compile Include="SqlControllerTesteFormFromXML.cs" />
+    <Compile Include="SqlControllerTesteFormFromXMLLarge.cs" />
+    <Compile Include="SqlControllerTestCaseReadAllShort.cs" />
+    <Compile Include="SqlControllerTestCaseReadAllMedium.cs" />
+    <Compile Include="SqlControllerTestCaseReadAllLong.cs" />
+    <Compile Include="SqlControllerTestCaseCreate.cs" />
+    <Compile Include="SqlControllerTestCase.cs" />
+    <Compile Include="SqlControllerTestPublicSetting.cs" />
+    <Compile Include="SqlControllerTestEntity.cs" />
+    <Compile Include="SqlControllerTestUnit.cs" />
+    <Compile Include="SqlControllerTestSiteWorker.cs" />
+    <Compile Include="SqlControllerTestWorker.cs" />
+    <Compile Include="SqlControllerTestSite.cs" />
+    <Compile Include="SqlControllerTestTag.cs" />
+    <Compile Include="SqlControllerTestUploadedData.cs" />
+    <Compile Include="SqlControllerTestNotification.cs" />
     <Compile Include="CoreTestUnit.cs" />
     <Compile Include="CoreTestUploadedData.cs" />
     <Compile Include="CoreTestWorker.cs" />

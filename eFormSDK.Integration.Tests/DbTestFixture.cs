@@ -107,10 +107,14 @@ namespace eFormSDK.Integration.Tests
 
         DirectoryInfo diPic = new DirectoryInfo(picturePath);
 
-            foreach (FileInfo file in diPic.GetFiles())
-            {
-                file.Delete();
+            try {
+                foreach (FileInfo file in diPic.GetFiles())
+                {
+                    file.Delete();
+                }
             }
+            catch { }
+            
 
         }
         public virtual void DoSetup() { }

@@ -3820,12 +3820,17 @@ namespace eFormCore
                 log.LogException(t.GetMethodName("Core"), "CoreHandleUpdateEntityItems failed", ex, true);
             }
         }
-		#endregion
+        #endregion
 
 
-		#region fireEvents
+        public List<KeyValuePair> PairRead(string str)
+        {
+            return sqlController.PairRead(str);
+        }
 
-		public void FireHandleCaseCompleted(Case_Dto caseDto)
+        #region fireEvents
+
+        public void FireHandleCaseCompleted(Case_Dto caseDto)
 		{
 			Console.ForegroundColor = ConsoleColor.DarkGreen;
 			Console.WriteLine($"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
