@@ -176,7 +176,17 @@ namespace eFormCommunicator
         #region public site
         public string SiteCreate(string name)
         {
-            return "Not implemented!";
+            if (name == "John Noname Doe")
+            {
+                int id = t.GetRandomInt(6);
+                JObject content_to_microting = JObject.FromObject(new { name = name, id = id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+                return content_to_microting.ToString();
+            } else
+            {
+                return "Not implemented!";
+            }
+            
+            //
         }
 
         public bool SiteUpdate(int id, string name)
@@ -198,7 +208,16 @@ namespace eFormCommunicator
         #region public Worker
         public string WorkerCreate(string firstName, string lastName, string email)
         {
-            return "Not implemented!";
+            if (firstName == "John Noname")
+            {
+                int id = t.GetRandomInt(6);
+                JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+                return content_to_microting.ToString();
+            }
+            else
+            {
+                return "Not implemented!";
+            }
         }
 
         public bool WorkerUpdate(int id, string firstName, string lastName, string email)
@@ -220,7 +239,9 @@ namespace eFormCommunicator
         #region public SiteWorker
         public string SiteWorkerCreate(int siteId, int workerId)
         {
-            return "Not implemented!";
+            int id = t.GetRandomInt(6);
+            JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+            return content_to_microting.ToString();
         }
 
         public string SiteWorkerDelete(int id)
@@ -249,7 +270,31 @@ namespace eFormCommunicator
         #region public Organization
         public string OrganizationLoadAllFromRemote()
         {
-            return "Not implemented!";
+            int id = t.GetRandomInt(6);
+            JObject content_to_microting = JObject.FromObject(new { my_organization = new
+            { aws_endpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
+                aws_id = "3T98EGIO4Y9H8W2",
+                aws_key = "098u34098uergijt3098w",
+                created_at = "2018-01-12T01:01:00Z",
+                customer_no = "342345",
+                cvr_no = 234234,
+                ean_no = 235234,
+                id = id,
+                name = "John Doe corporation Ltd.",
+                payment_overdue = false,
+                payment_status = "OK",
+                unit_license_number = 55,
+                updated_at = "2018-01-12T01:01:10Z",
+                workflow_state = "new",
+                token = token,
+                token_expires = "2034-01-12T01:01:10Z",
+                com_address = "http://srv05.microting.com",
+                com_address_basic = "https://basic.microting.com",
+                com_address_pdf_upload = "https://srv16.microting.com",
+                subscriber_address = "notification.microting.com",
+                subscriber_token = token,
+                subscriber_name = "john_doen_corporation_ltd" } });
+            return content_to_microting.ToString();
         }
         #endregion
         #endregion

@@ -463,8 +463,15 @@ namespace eFormCommunicator
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(token), token);
-
-            Http specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "666", "");
+            IHttp specialHttp;
+            if (token == "abc1234567890abc1234567890abcdef")
+            {
+                specialHttp = new HttpFake();
+            } else
+            {
+                specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "");
+            }
+            
 
             JToken orgResult = JRaw.Parse(specialHttp.OrganizationLoadAllFromRemote());
 
