@@ -176,6 +176,8 @@ namespace eFormData
         {
             get
             {
+                if (pushMessageTitle == null)
+                    pushMessageTitle = "";
                 if (pushMessageTitle.Length > 255)
                     return pushMessageTitle.Substring(0, 255);
                 return pushMessageTitle;

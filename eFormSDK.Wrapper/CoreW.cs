@@ -184,6 +184,46 @@ namespace eFormSDK.Wrapper
         }
         #endregion
 
+        #region TemplateDelete
+        [DllExport("Core_TemplateDelete")]
+        public static int Core_TemplateDelete(int templateId, ref bool deleteResult)
+        {
+            int result = 0;
+            try
+            {
+                deleteResult = core.TemplateDelete(templateId);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
+        #region TemplateUploadData
+        [DllExport("Core_TemplateUploadData")]
+        public static int Core_TemplateUploadData([MarshalAs(UnmanagedType.BStr)] string jsonMainElementIn,
+                [MarshalAs(UnmanagedType.BStr)] ref string jsonMainElementOut)
+        {
+            int result = 0;
+            try
+            {
+                Packer packer = new Packer();
+                MainElement mainElementIn = packer.UnpackMainElement(jsonMainElementIn);
+                MainElement mainElementOut = core.TemplateUploadData(mainElementIn);
+                jsonMainElementOut = packer.PackCoreElement(mainElementOut);
+            }
+            catch (Exception ex)
+            {
+                LastError.Value = ex.Message;
+                result = 1;
+            }
+            return result;
+        }
+        #endregion
+
         #region Core_Advanced_SiteItemReadAll
         [DllExport("Core_Advanced_SiteItemReadAll")]
         public static int Core_Advanced_SiteItemReadAll([MarshalAs(UnmanagedType.BStr)] ref string json)
