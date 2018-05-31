@@ -245,19 +245,19 @@ namespace eFormSqlController
 
                     switch (sortParameter)
                     {
-                        case Constants.TamplateSortParameters.Label:
+                        case Constants.eFormSortParameters.Label:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.label);
                             else
                                 sub_query = sub_query.OrderBy(x => x.label);
                             break;
-                        case Constants.TamplateSortParameters.Description:
+                        case Constants.eFormSortParameters.Description:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.description);
                             else
                                 sub_query = sub_query.OrderBy(x => x.description);
                             break;
-                        case Constants.TamplateSortParameters.CreatedAt:
+                        case Constants.eFormSortParameters.CreatedAt:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.created_at);
                             else
