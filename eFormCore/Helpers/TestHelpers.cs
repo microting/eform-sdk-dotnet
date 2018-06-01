@@ -269,6 +269,7 @@ namespace eFormCore.Helpers
 
             if (createPhysicalFile)
             {
+                System.IO.Directory.CreateDirectory(fileLocation);
                 if (!System.IO.File.Exists(path))
                 {
                     using (System.IO.FileStream fs = System.IO.File.Create(path))
