@@ -325,7 +325,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match.CaseType, aCase.type);
 
 
-
+           
         }
         [Test]
         public void Core_Case_CaseReadByCaseId_Returns_cDto()
@@ -2224,10 +2224,11 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
 
-            Assert.AreEqual(aCase.microting_uid, match.MicrotingUId);
+             Assert.AreEqual(aCase.microting_uid, match.MicrotingUId);
+           
+         
 
-
-        }
+        } 
         [Test]
         public void Core_Case_CaseLookupCaseId_Returns_cDto()
         {
