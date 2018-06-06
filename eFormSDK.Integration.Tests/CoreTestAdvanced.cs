@@ -1142,9 +1142,10 @@ namespace eFormSDK.Integration.Tests
             site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker1);
             #endregion
 
-          
+
 
             SiteName_Dto siteWorkerDto = new SiteName_Dto();
+            
             
 
 
@@ -1155,11 +1156,14 @@ namespace eFormSDK.Integration.Tests
 
             //Act
 
-            var match = sut.Advanced_SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
-            //var match2 = sut.Advanced_SiteWorkerCreate(siteWorkerDto.SiteUId, workerDto.WorkerUId);
+            //TODO
+         
+            //var match2 = sut.Advanced_SiteWorkerCreate(siteWorkerDto, workerDto);
+        
 
-            
             //Assert
+
+            //Assert.NotNull(match2);
 
 
         }
