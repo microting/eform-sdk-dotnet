@@ -161,6 +161,8 @@ namespace eFormSDK.Integration.Tests
             List<int> tagIds3 = new List<int>();
             List<int> tagIds4 = new List<int>();
 
+
+
             tagIds1.Add(tag1.id);
             tagIds2.Add(tag2.id);
             tagIds3.Add(tag3.id);
@@ -183,6 +185,8 @@ namespace eFormSDK.Integration.Tests
             List<Template_Dto> templateListDescription = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
             List<Template_Dto> templateListCreatedAt = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
             List<Template_Dto> templateListTag = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList);
+            List<Template_Dto> templateListSpecificTag = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2);
+
 
             // Descending including removed
             List<Template_Dto> templateListDescengingId = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList);
@@ -190,6 +194,7 @@ namespace eFormSDK.Integration.Tests
             List<Template_Dto> templateListDescengingDescription = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
             List<Template_Dto> templateListDescengingCreatedAt = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
             List<Template_Dto> templateListDescendingTag = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList);
+            List<Template_Dto> templateListDescendingSpecificTag = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2);
 
             // Default sorting excluding removed
             List<Template_Dto> templateListIdNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList);
@@ -197,6 +202,7 @@ namespace eFormSDK.Integration.Tests
             List<Template_Dto> templateListDescriptionNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
             List<Template_Dto> templateListCreatedAtNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
             List<Template_Dto> templateListTagNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList);
+            List<Template_Dto> templateListSpecificTagNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2);
 
             // Descending excluding removed
             List<Template_Dto> templateListDescengingIdNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList);
@@ -204,6 +210,7 @@ namespace eFormSDK.Integration.Tests
             List<Template_Dto> templateListDescengingDescriptionNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
             List<Template_Dto> templateListDescengingCreatedAtNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
             List<Template_Dto> templateListDescendingTagNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList);
+            List<Template_Dto> templateListDescendingSpecificTagNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2);
 
             // Assert
 
@@ -278,6 +285,17 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Tag3", templateListTag[3].Tags[0].Value);
             Assert.AreEqual("Tag4", templateListTag[3].Tags[1].Value);
 
+            // Default sorting including removed
+            // Tagid 
+            Assert.NotNull(templateListSpecificTag);
+            Assert.AreEqual(2, templateListSpecificTag.Count());
+            Assert.AreEqual("B", templateListSpecificTag[0].Label);
+            Assert.AreEqual("D", templateListSpecificTag[1].Label);
+            Assert.AreEqual(1, templateListSpecificTag[0].Tags.Count());
+            Assert.AreEqual(1, templateListSpecificTag[1].Tags.Count());
+            Assert.AreEqual("TagFor2CLs", templateListSpecificTag[0].Tags[0].Value);
+            Assert.AreEqual("TagFor2CLs", templateListSpecificTag[1].Tags[0].Value);
+
             // Descending sorting including removed 
             // Id
             Assert.NotNull(templateListDescengingId);
@@ -348,10 +366,20 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("TagFor2CLs", templateListDescendingTag[2].Tags[0].Value);
             Assert.AreEqual("TagFor1CL", templateListDescendingTag[3].Tags[0].Value);
 
+            // Descending sorting including removed
+            // Tagid 
+            Assert.NotNull(templateListDescendingSpecificTag);
+            Assert.AreEqual(2, templateListDescendingSpecificTag.Count());
+            Assert.AreEqual("D", templateListDescendingSpecificTag[0].Label);
+            Assert.AreEqual("B", templateListDescendingSpecificTag[1].Label);
+            Assert.AreEqual(1, templateListDescendingSpecificTag[0].Tags.Count());
+            Assert.AreEqual(1, templateListDescendingSpecificTag[1].Tags.Count());
+            Assert.AreEqual("TagFor2CLs", templateListDescendingSpecificTag[0].Tags[0].Value);
+            Assert.AreEqual("TagFor2CLs", templateListDescendingSpecificTag[1].Tags[0].Value);
             #endregion
 
             #region Exclude removed
-            // Default sorting including removed 
+            // Default sorting excluding removed 
             // Id
             Assert.NotNull(templateListIdNr);
             Assert.AreEqual(3, templateListIdNr.Count());
@@ -362,7 +390,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, templateListIdNr[1].Tags.Count());
             Assert.AreEqual(2, templateListIdNr[2].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting excluding removed 
             // Label
             Assert.NotNull(templateListLabelNr);
             Assert.AreEqual(3, templateListLabelNr.Count());
@@ -373,7 +401,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, templateListLabelNr[1].Tags.Count());
             Assert.AreEqual(1, templateListLabelNr[2].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting excluding removed 
             // Description
             Assert.NotNull(templateListDescriptionNr);
             Assert.AreEqual(3, templateListDescriptionNr.Count());
@@ -384,7 +412,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, templateListDescriptionNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescriptionNr[2].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting excluding removed 
             // Created At
             Assert.NotNull(templateListCreatedAtNr);
             Assert.AreEqual(3, templateListCreatedAtNr.Count());
@@ -395,7 +423,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, templateListCreatedAtNr[1].Tags.Count());
             Assert.AreEqual(2, templateListCreatedAtNr[2].Tags.Count());
 
-            // Default sorting including removed
+            // Default sorting excluding removed
             // Tag
             Assert.NotNull(templateListTag);
             Assert.AreEqual(4, templateListTag.Count());
@@ -410,7 +438,15 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Tag3", templateListTagNr[2].Tags[0].Value);
             Assert.AreEqual("Tag4", templateListTagNr[2].Tags[1].Value);
 
-            // Descending sorting including removed 
+            // Default sorting excluding removed
+            // Tagid 
+            Assert.NotNull(templateListSpecificTagNr);
+            Assert.AreEqual(1, templateListSpecificTagNr.Count());
+            Assert.AreEqual("D", templateListSpecificTagNr[0].Label);
+            Assert.AreEqual(1, templateListSpecificTagNr[0].Tags.Count());
+            Assert.AreEqual("TagFor2CLs", templateListSpecificTagNr[0].Tags[0].Value);
+
+            // Descending sorting excluding removed 
             // Id
             Assert.NotNull(templateListDescengingIdNr);
             Assert.AreEqual(3, templateListDescengingIdNr.Count());
@@ -421,7 +457,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, templateListDescengingIdNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescengingIdNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting excluding removed 
             // Label
             Assert.NotNull(templateListDescengingLabelNr);
             Assert.AreEqual(3, templateListDescengingLabelNr.Count());
@@ -432,7 +468,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, templateListDescengingLabelNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescengingLabelNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting excluding removed 
             // Description
             Assert.NotNull(templateListDescengingDescriptionNr);
             Assert.AreEqual(3, templateListDescengingDescriptionNr.Count());
@@ -443,7 +479,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, templateListDescengingDescriptionNr[1].Tags.Count());
             Assert.AreEqual(2, templateListDescengingDescriptionNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting excluding removed 
             // Created At
             Assert.NotNull(templateListDescengingCreatedAtNr);
             Assert.AreEqual(3, templateListDescengingCreatedAtNr.Count());
@@ -454,7 +490,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, templateListDescengingCreatedAtNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescengingCreatedAtNr[2].Tags.Count());
 
-            // Descending sorting including removed
+            // Descending sorting excluding removed
             // Tag
             Assert.NotNull(templateListTag);
             Assert.AreEqual(4, templateListTag.Count());
@@ -468,6 +504,14 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Tag4", templateListDescendingTagNr[0].Tags[1].Value);
             Assert.AreEqual("TagFor2CLs", templateListDescendingTagNr[1].Tags[0].Value);
             Assert.AreEqual("TagFor1CL", templateListDescendingTagNr[2].Tags[0].Value);
+
+            // Descending sorting excluding removed
+            // Tagid 
+            Assert.NotNull(templateListDescendingSpecificTagNr);
+            Assert.AreEqual(1, templateListDescendingSpecificTagNr.Count());
+            Assert.AreEqual("D", templateListDescendingSpecificTagNr[0].Label);
+            Assert.AreEqual(1, templateListDescendingSpecificTagNr[0].Tags.Count());
+            Assert.AreEqual("TagFor2CLs", templateListDescendingSpecificTagNr[0].Tags[0].Value);
 
             #endregion
 

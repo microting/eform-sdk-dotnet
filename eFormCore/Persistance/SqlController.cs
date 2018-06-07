@@ -243,6 +243,17 @@ namespace eFormSqlController
                         sub_query = sub_query.Where(x => x.label.Contains(searchKey) || x.description.Contains(searchKey));
                     }
 
+                    if (tagIds.Count > 0)
+                    {
+                        List<int?> check_list_ids = db.taggings.Where(x => tagIds.Contains((int)x.tag_id)).Select(x => x.check_list_id).ToList();
+                        if (check_list_ids != null)
+                        {
+                            sub_query = sub_query.Where(x => check_list_ids.Contains(x.id));
+                        }
+                        
+                    }
+
+
                     switch (sortParameter)
                     {
                         case Constants.eFormSortParameters.Label:
@@ -258,6 +269,12 @@ namespace eFormSqlController
                                 sub_query = sub_query.OrderBy(x => x.description);
                             break;
                         case Constants.eFormSortParameters.CreatedAt:
+                            if (descendingSort)
+                                sub_query = sub_query.OrderByDescending(x => x.created_at);
+                            else
+                                sub_query = sub_query.OrderBy(x => x.created_at);
+                            break;
+                        case Constants.eFormSortParameters.Tags:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.created_at);
                             else
