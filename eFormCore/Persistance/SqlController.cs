@@ -3139,7 +3139,7 @@ namespace eFormSqlController
 
 
                     if (site_worker != null)
-                        return new Site_Worker_Dto((int)site_worker.microting_uid, (int)site_worker.site_id, (int)site_worker.worker_id);
+                        return new Site_Worker_Dto((int)site_worker.microting_uid, (int)site_worker.site.microting_uid, (int)site_worker.worker.microting_uid);
                     else
                         return null;
                 }

@@ -2801,14 +2801,14 @@ namespace eFormCore
                     //var parsedData = JRaw.Parse(result);
                     //int workerUid = int.Parse(parsedData["id"].ToString());
 
-                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.WorkerUId, null, null);
+                    Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(result.MicrotingUId, null, null);
 
                     if (siteWorkerDto == null)
                     {
                         sqlController.SiteWorkerCreate(result.MicrotingUId, siteDto.SiteUId, workerDto.WorkerUId);
                     }
 
-                    return Advanced_SiteWorkerRead(result.WorkerUId, null, null);
+                    return Advanced_SiteWorkerRead(result.MicrotingUId, null, null);
                     //return null;
                 }
                 else

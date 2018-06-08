@@ -919,251 +919,35 @@ namespace eFormSDK.Integration.Tests
         public void Core_SiteWorkers_Advanced_SiteWorkerCreate_CreatesWorker()
         {
             //Arrance
-            #region checklist
-            DateTime cl_ca = DateTime.Now;
-            DateTime cl_ua = DateTime.Now;
-            check_lists Cl1 = testHelpers.CreateTemplate(cl_ca, cl_ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            #region site
+            string siteName = Guid.NewGuid().ToString();
+            int siteMicrotingUid = testHelpers.GetRandomInt();
+
+            sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
+            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
             #endregion
 
-            #region SubCheckList
-            check_lists Cl2 = testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+            #region worker
+            string email = Guid.NewGuid().ToString();
+            string firstName = Guid.NewGuid().ToString();
+            string lastName = Guid.NewGuid().ToString();
+            int workerMicrotingUid = testHelpers.GetRandomInt();
+
+            workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            Worker_Dto worker_Dto = new Worker_Dto(worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
             #endregion
-
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
-
-            #region Workers
-
-            #region worker1
-            workers worker1 = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
-
-            #region worker2
-            workers worker2 = testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
-
-            #endregion
-
-            #region worker3
-            workers worker3 = testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
-
-            #endregion
-
-            #region worker4
-            workers worker4 = testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
-
-            #endregion
-
-            #region worker5
-            workers worker5 = testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
-
-            #endregion
-
-            #region worker6
-            workers worker6 = testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
-
-            #endregion
-
-            #region worker7
-            workers worker7 = testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
-
-            #endregion
-
-            #region worker8
-            workers worker8 = testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
-
-            #endregion
-
-            #region worker9
-            workers worker9 = testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
-
-            #endregion
-
-            #region worker10
-            workers worker10 = testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
-
-            #endregion
-
-            #endregion
-
-            #region sites
-
-            #region Site1
-            sites site1 = testHelpers.CreateSite("SiteName1", 88);
-
-            #endregion
-
-            #region Site2
-            sites site2 = testHelpers.CreateSite("SiteName2", 89);
-
-            #endregion
-
-            #region Site3
-            sites site3 = testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
-
-            #endregion
-
-            #region units
-            units unit = testHelpers.CreateUnit(48, 49, site1, 348);
-
-            #endregion
-
-            #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker1);
-            #endregion
-
-
-
-            SiteName_Dto siteWorkerDto = new SiteName_Dto();
-            
-            
-
-
-            var workerDto = new Worker_Dto();
-
-
-
 
             //Act
 
-            //TODO
-         
-            //var match2 = sut.Advanced_SiteWorkerCreate(siteWorkerDto, workerDto);
-        
+            var match = sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
+
 
             //Assert
 
-            //Assert.NotNull(match2);
+            Assert.NotNull(match);
+            Assert.AreEqual(match.SiteUId, siteName_Dto.SiteUId);
+            Assert.AreEqual(match.WorkerUId, worker_Dto.WorkerUId);
+            Assert.NotNull(match.MicrotingUId);
 
 
         }
