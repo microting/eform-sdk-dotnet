@@ -357,8 +357,15 @@ namespace eFormCore.Helpers
             DbContext.SaveChanges();
             return cls;
         }
+
+        public int GetRandomInt()
+        {
+            Random random = new Random();
+            int i = random.Next(0, int.MaxValue);            
+            return i;
+        }
         #endregion
 
-        
+
     }
 }
