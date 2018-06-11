@@ -522,13 +522,13 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
+            Site_Worker_Dto match = sut.SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
 
             // Assert
 
             Assert.AreEqual(site_workers.microting_uid, match.MicrotingUId);
-            Assert.AreEqual(site_workers.worker_id, match.WorkerUId);
-            Assert.AreEqual(site_workers.site_id, match.SiteUId);
+            Assert.AreEqual(site_workers.worker.microting_uid, match.WorkerUId);
+            Assert.AreEqual(site_workers.site.microting_uid, match.SiteUId);
 
 
 
