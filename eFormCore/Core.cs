@@ -3464,6 +3464,7 @@ namespace eFormCore
 
                             foreach (Field field in fieldC.DataItemList)
                             {
+                                jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + field.Label + "\">";
                                 foreach (FieldValue answer in field.FieldValues)
                                 {
                                     switch (field.FieldType)
@@ -3492,6 +3493,9 @@ namespace eFormCore
                                             break;
                                     }
                                 }
+
+
+                                jasperFieldXml += Environment.NewLine + "</F" + field.Id + ">";
                             }
                         }
 
