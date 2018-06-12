@@ -1197,15 +1197,67 @@ namespace eFormSDK.Integration.Tests
 
 
         }
-        [Test]//mangler mock
+        [Test]
         public void Core_SiteWorkers_Advanced_SiteWorkerDelete_MarksAsRemoved()
         {
+
+            //Arrance
+            #region site
+            string siteName = Guid.NewGuid().ToString();
+            int siteMicrotingUid = testHelpers.GetRandomInt();
+
+            sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
+            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
+            #endregion
+
+            #region worker
+            string email = Guid.NewGuid().ToString();
+            string firstName = Guid.NewGuid().ToString();
+            string lastName = Guid.NewGuid().ToString();
+            int workerMicrotingUid = testHelpers.GetRandomInt();
+
+            workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            Worker_Dto worker_Dto = new Worker_Dto(worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
+
+            
+            #endregion
+
+            //Act
+
+            var match = sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
+            var match2 = sut.Advanced_SiteWorkerDelete(match.MicrotingUId);
+            var result = DbContext.site_workers.AsNoTracking().ToList();
+
+
+
+            //Assert
+
+            Assert.True(match2);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].workflow_state);
+
+        }
+
+        [Test]
+        public void Core_SiteWorkers_Advanced_WorkerDelete_MarksAsRemoved()
+        {
+            //arrance
+            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+
+            //act
+            var match = sut.Advanced_WorkerDelete(worker.id);
+            var result = DbContext.workers.AsNoTracking().ToList();
+            //assert
+
+            Assert.True(match);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].workflow_state);
 
 
 
         }
-        
-        
+
+
+
 
         #endregion
 

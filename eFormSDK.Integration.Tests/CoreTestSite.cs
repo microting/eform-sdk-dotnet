@@ -490,9 +490,12 @@ namespace eFormSDK.Integration.Tests
         {
 
             //Arrance
+            #region site
+            sites site = testHelpers.CreateSite("SiteName", 88);
 
+            #endregion
             //Act
-
+           
             //Assert
 
         }
@@ -500,20 +503,56 @@ namespace eFormSDK.Integration.Tests
         public void Core_Site_SiteUpdate_returnsTrue()
         {
             //Arrance
+            //Arrance
+            #region site
+            string siteName = Guid.NewGuid().ToString();
+            int siteMicrotingUid = testHelpers.GetRandomInt();
 
+            sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
+            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
+            #endregion
+
+            #region worker
+            string email = Guid.NewGuid().ToString();
+            string firstName = Guid.NewGuid().ToString();
+            string lastName = Guid.NewGuid().ToString();
             //Act
-
+            var match = sut.SiteUpdate(site.id, site.name, firstName, lastName, email);
             //Assert
+            Assert.True(match);
+            #endregion
         }
         [Test]//Using Communicatorn needs httpMock
         public void Core_Site_SiteDelete_ReturnsTrue()
         {
             //Arrance
+            #region site
+            string siteName = Guid.NewGuid().ToString();
+            int siteMicrotingUid = testHelpers.GetRandomInt();
 
+            sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
+            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
+            #endregion
+
+            #region worker
+            string email = Guid.NewGuid().ToString();
+            string firstName = Guid.NewGuid().ToString();
+            string lastName = Guid.NewGuid().ToString();
             //Act
-
+            var match = sut.SiteDelete(site.id);
             //Assert
+            Assert.True(match);
+            #endregion
         }
+
+
+
+
+
+
+
+
+
 
         #endregion
 
