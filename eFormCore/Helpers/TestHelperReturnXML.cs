@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using eFormCore.Helpers;
 
 namespace eFormCore.Helpers
 {
@@ -12,12 +14,40 @@ namespace eFormCore.Helpers
     {
 
         private TestHelpers testHelpers;
+        Tools t = new Tools();
 
         public TestHelperReturnXML()
-        {
+        {        Tools t = new Tools();
             testHelpers = new TestHelpers();
 
         }
+
+        #region "prep sever information for full load"
+        public string CreateSiteUnitWorkersForFullLoaed(bool create)
+        {
+            if (create)
+            {
+                int id = t.GetRandomInt(6);
+                string siteName = Guid.NewGuid().ToString();
+                sites site = testHelpers.CreateSite(siteName, id);
+
+                id = t.GetRandomInt(6);
+                string userFirstName = Guid.NewGuid().ToString();
+                string userLastName = Guid.NewGuid().ToString();
+                workers worker = testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
+                return "";
+            }
+            else
+            {
+                sites site = testHelpers.DbContext.sites.First();
+                workers worker = testHelpers.DbContext.workers.First();
+
+                int id = t.GetRandomInt(6);
+                JObject result = JObject.FromObject(new JArray(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Created, person_type = "", site_id = site.microting_uid, user_id = worker.microting_uid }));
+                return result.ToString();
+            }
+        }
+        #endregion
 
         #region
         public string CreateMultiPictureXMLResult(bool create)
