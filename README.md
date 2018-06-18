@@ -19,7 +19,7 @@ To get started with Microting eForm SDK, we recommend you to install the SDK usi
 PM> Install-Package Microting.eForm
 ```
 
-[We also recommend you to have a look at the reference web frontend](https://github.com/microting/eform-frontend-dotnet)
+[We also recommend you to have a look at the reference Angular/C# web frontend](https://github.com/microting/eform-angular-frontend)
 
 At this project you will be able to see best practice for using our SDK.
 
