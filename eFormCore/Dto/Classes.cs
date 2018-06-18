@@ -458,6 +458,7 @@ namespace eFormShared
     #endregion
 
     #region Site_Dto
+    // TODO: Refactor to be called Device_User
     public class Site_Dto
     {
         #region con

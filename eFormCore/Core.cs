@@ -1994,7 +1994,13 @@ namespace eFormCore
             }
         }
 
-        public Site_Dto SiteRead(int siteId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <returns></returns>
+        // TODO: Refactor to DeviceUserRead(int siteMicrotingUUID)
+        public Site_Dto SiteRead(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2002,9 +2008,9 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    return sqlController.SiteReadSimple(siteId);
+                    return sqlController.SiteReadSimple(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2063,15 +2069,25 @@ namespace eFormCore
             }
         }
 
-        public bool SiteUpdate(int siteId, string name, string userFirstName, string userLastName, string userEmail)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="siteMicrotingUid"></param>
+        /// <param name="siteName"></param>
+        /// <param name="userFirstName"></param>
+        /// <param name="userLastName"></param>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        // TODO Refactor to be named DeviceUserUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail)
+        public bool SiteUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    Site_Dto siteDto = SiteRead(siteId);
-                    Advanced_SiteItemUpdate(siteId, name);
+                    Site_Dto siteDto = SiteRead(siteMicrotingUid);
+                    Advanced_SiteItemUpdate(siteMicrotingUid, siteName);
                     if (String.IsNullOrEmpty(userEmail))
                     {
                         //if (String.IsNullOrEmpty)
@@ -2090,19 +2106,35 @@ namespace eFormCore
             }
         }
 
-        public bool SiteDelete(int siteId)
+        /// <summary>
+        /// This method deletes a device user.
+        /// This includes deleting: site, unit, worker and site_worker
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <returns>true/false if the process went well</returns>
+        // TODO: Refactor to DeviceUserDelete(int siteMicrotingUUID)
+        public bool SiteDelete(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    Site_Dto siteDto = SiteRead(siteId);
-                    Advanced_SiteItemDelete(siteId);
-                    Site_Worker_Dto siteWorkerDto = Advanced_SiteWorkerRead(null, siteId, siteDto.WorkerUid);
-                    Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId);
-                    Advanced_WorkerDelete((int)siteDto.WorkerUid);
-                    return true;
+                    Site_Dto siteDto = SiteRead(microtingUid);
+
+                    if (siteDto != null)
+                    {
+                        Advanced_SiteItemDelete(microtingUid);
+                        Site_Worker_Dto siteWorkerDto = Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid);
+                        Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId);
+                        Advanced_WorkerDelete((int)siteDto.WorkerUid);
+                        return true;
+                    } else
+                    {
+                        return false;
+                    }
+
+                    
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2757,7 +2789,7 @@ namespace eFormCore
             }
         }
 
-        public bool Advanced_WorkerDelete(int workerId)
+        public bool Advanced_WorkerDelete(int microtingUid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2765,13 +2797,13 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
 
-                    bool success = communicator.WorkerDelete(workerId);
+                    bool success = communicator.WorkerDelete(microtingUid);
                     if (!success)
                         return false;
 
-                    return sqlController.WorkerDelete(workerId);
+                    return sqlController.WorkerDelete(microtingUid);
                 }
                 else
                     throw new Exception("Core is not running");
