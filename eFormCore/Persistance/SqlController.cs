@@ -2800,10 +2800,13 @@ namespace eFormSqlController
 
                     site_workers site_worker = db.site_workers.Where(x => x.site_id == site.id).ToList().First();
                     workers worker = db.workers.Single(x => x.id == site_worker.worker_id);
-                    units unit = db.units.Where(x => x.site_id == site.id).ToList().First();
+                    List<units> units = db.units.Where(x => x.site_id == site.id).ToList();
 
-                    if (unit != null && worker != null)
+                    if (units.Count() > 0 && worker != null)
+                    {
+                        units unit = units.First();
                         return new Site_Dto((int)site.microting_uid, site.name, worker.first_name, worker.last_name, (int)unit.customer_no, (int)unit.otp_code, (int)unit.microting_uid, worker.microting_uid);
+                    }
                     else
                         return null;
                 }

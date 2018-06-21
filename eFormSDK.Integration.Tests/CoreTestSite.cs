@@ -506,7 +506,8 @@ namespace eFormSDK.Integration.Tests
             //Arrance
             #region site
             string siteName = Guid.NewGuid().ToString();
-            int siteMicrotingUid = testHelpers.GetRandomInt();
+            int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
+            // TODO: Improve the test for supporting random id.
 
             sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
@@ -516,11 +517,25 @@ namespace eFormSDK.Integration.Tests
             string email = Guid.NewGuid().ToString();
             string firstName = Guid.NewGuid().ToString();
             string lastName = Guid.NewGuid().ToString();
-            //Act
-            var match = sut.SiteUpdate(site.id, site.name, firstName, lastName, email);
+            //int workerMicrotingUid = testHelpers.GetRandomInt();
+            int workerMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
+            // TODO: Improve the test for supporting random id.
+
+            workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            #endregion
+
+            #region site_worker
+            site_workers site_worker = testHelpers.CreateSiteWorker(1, site, worker);
+            #endregion
+
+            #region unit
+            units unit = testHelpers.CreateUnit(1, 1, site, 1);
+            #endregion
+
+
+            var match = sut.SiteUpdate((int)site.microting_uid, site.name, firstName, lastName, email);
             //Assert
             Assert.True(match);
-            #endregion
         }
         [Test]//Using Communicatorn needs httpMock
         public void Core_Site_SiteDelete_ReturnsTrue()
@@ -528,7 +543,8 @@ namespace eFormSDK.Integration.Tests
             //Arrance
             #region site
             string siteName = Guid.NewGuid().ToString();
-            int siteMicrotingUid = testHelpers.GetRandomInt();
+            int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
+            // TODO: Improve the test for supporting random id.
 
             sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.microting_uid, site.name, site.created_at, site.updated_at);
@@ -538,11 +554,25 @@ namespace eFormSDK.Integration.Tests
             string email = Guid.NewGuid().ToString();
             string firstName = Guid.NewGuid().ToString();
             string lastName = Guid.NewGuid().ToString();
+            //int workerMicrotingUid = testHelpers.GetRandomInt();
+            int workerMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
+            // TODO: Improve the test for supporting random id.
+
+            workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            #endregion
+
+            #region site_worker
+            site_workers site_worker = testHelpers.CreateSiteWorker(1, site, worker);
+            #endregion
+
+            #region unit
+            units unit = testHelpers.CreateUnit(1, 1, site, 1);
+            #endregion
             //Act
-            var match = sut.SiteDelete(site.id);
+            var match = sut.SiteDelete((int)site.microting_uid);
             //Assert
             Assert.True(match);
-            #endregion
+            //#endregion
         }
 
 
