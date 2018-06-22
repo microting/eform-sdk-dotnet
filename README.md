@@ -31,7 +31,7 @@ You need to create an account for Microting API and get your access credentials.
 
 ## Docs
 
-[SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-dotnet/)
+[SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-documentation/?csharp#)
 
 ## Examples, demonstrating different use cases.
 
