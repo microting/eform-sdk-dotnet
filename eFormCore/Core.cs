@@ -2379,6 +2379,29 @@ namespace eFormCore
         #endregion
 
 
+        #region speach to text
+
+        public bool SpeachToText(int fieldValueId)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    return true;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        #endregion
+
         #region public advanced actions
         #region templat
         public bool Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
