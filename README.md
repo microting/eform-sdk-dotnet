@@ -31,7 +31,7 @@ You need to create an account for Microting API and get your access credentials.
 
 ## Docs
 
-[SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-dotnet/)
+[SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-documentation/?csharp#)
 
 ## Examples, demonstrating different use cases.
 
@@ -63,7 +63,7 @@ You need to run Update-Database from within NuGet Package Manager with eFormSqlC
 
 The MIT License (MIT)
 
-Copyright (c) 2007-2017 microting
+Copyright (c) 2007-2018 microting
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

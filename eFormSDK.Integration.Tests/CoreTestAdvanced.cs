@@ -1219,7 +1219,6 @@ namespace eFormSDK.Integration.Tests
             workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
             Worker_Dto worker_Dto = new Worker_Dto(worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
 
-
             site_workers site_worker = testHelpers.CreateSiteWorker(1, site, worker);
 
             #endregion
