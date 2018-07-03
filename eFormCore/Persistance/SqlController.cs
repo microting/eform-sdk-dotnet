@@ -501,6 +501,9 @@ namespace eFormSqlController
 
                                 current_tagging.workflow_state = Constants.WorkflowStates.Removed;
 
+                                db.taggings.Add(current_tagging);
+                                db.SaveChanges();
+
                                 db.tagging_versions.Add(MapTaggingVersions(current_tagging));
                                 db.SaveChanges();
                                 //tagIds.Remove(tagging.id); // TODO write tests to ensure this works. 9 may 2018

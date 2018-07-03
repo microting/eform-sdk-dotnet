@@ -2337,9 +2337,18 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// This method will create a tag, which is globally accessible.
+        /// </summary>
+        /// <param name="name">Name of the tag, which is not allowed to be null or empty.</param>
+        /// <returns></returns>
         public int TagCreate(string name)
         {
             string methodName = t.GetMethodName("Core");
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("Name is not allowed to be null or empty");
+            }
             try
             {
                 if (Running())
