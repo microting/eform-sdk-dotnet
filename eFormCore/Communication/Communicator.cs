@@ -493,6 +493,19 @@ namespace eFormCommunicator
         #endregion
         #endregion
 
+        #region speech2text
+        public int uploadAudioFile(string path)
+        {
+            return 1;
+        }
+
+        public string getTranscription(int id)
+        {
+            return "";
+        }
+
+        #endregion
+
         #region public entity
         public string EntityGroupCreate(string entityType, string name, string id)
         {

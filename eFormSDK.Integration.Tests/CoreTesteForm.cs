@@ -166,12 +166,12 @@ namespace eFormSDK.Integration.Tests
             tagIds1.Add(tag1.id);
             tagIds2.Add(tag2.id);
             tagIds3.Add(tag3.id);
+            tagIds4.Add(tag3.id);
             tagIds4.Add(tag4.id);
 
             sut.TemplateSetTags(cl1.id, tagIds1);
             sut.TemplateSetTags(cl2.id, tagIds2);
             sut.TemplateSetTags(cl3.id, tagIds2);
-            sut.TemplateSetTags(cl4.id, tagIds3);
             sut.TemplateSetTags(cl4.id, tagIds4);
 
             #endregion

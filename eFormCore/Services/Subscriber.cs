@@ -177,6 +177,10 @@ namespace eFormSubscriber
                                         sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.UnitActivate);
                                         bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
+                                    case Constants.Notifications.TranscriptionCompleted:
+                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.TranscriptionCompleted);
+                                        bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
+                                        break;
                                 }                               
 
                                 sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
