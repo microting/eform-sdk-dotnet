@@ -794,7 +794,7 @@ namespace eFormShared
 
         }
 
-        public Organization_Dto(int id, string name, int customerNo, int unitLicenseNumber, string awsAccessKeyId, string awsSecretAccessKey, string awsEndPoint, string comAddress, string comAddressBasic, string comAddressPdfUpload)
+        public Organization_Dto(int id, string name, int customerNo, int unitLicenseNumber, string awsAccessKeyId, string awsSecretAccessKey, string awsEndPoint, string comAddress, string comAddressBasic, string comSpeechToText, string comAddressPdfUpload)
         {
             Id = id;
             Name = name;
@@ -806,6 +806,7 @@ namespace eFormShared
             ComAddressApi = comAddress;
             ComAddressBasic = comAddressBasic;
             ComAddressPdfUpload = comAddressPdfUpload;
+            ComSpeechToText = comSpeechToText;
         }
         #endregion
 
@@ -820,6 +821,7 @@ namespace eFormShared
         public string ComAddressApi { get; }
         public string ComAddressBasic { get; }
         public string ComAddressPdfUpload { get; }
+        public string ComSpeechToText { get; }
         #endregion
 
         public override string ToString()

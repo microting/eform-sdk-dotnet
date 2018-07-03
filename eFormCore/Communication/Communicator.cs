@@ -484,6 +484,7 @@ namespace eFormCommunicator
                 orgResult.First.First["aws_endpoint"].ToString(),
                 orgResult.First.First["com_address"].ToString(),
                 orgResult.First.First["com_address_basic"].ToString(),
+                orgResult.First.First["com_speech_to_text"].ToString(),
                 orgResult.First.First["com_address_pdf_upload"].ToString());
 
             return organizationDto;
