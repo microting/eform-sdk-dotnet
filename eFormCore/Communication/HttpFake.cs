@@ -319,6 +319,7 @@ namespace eFormCommunicator
                 com_address = "http://srv05.microting.com",
                 com_address_basic = "https://basic.microting.com",
                 com_address_pdf_upload = "https://srv16.microting.com",
+                com_speech_to_text = "https://srv16.microting.com",
                 subscriber_address = "notification.microting.com",
                 subscriber_token = token,
                 subscriber_name = "john_doen_corporation_ltd" } });
