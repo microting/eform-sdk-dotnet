@@ -140,6 +140,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.cs" />
+    <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.Designer.cs">
+      <DependentUpon>201807051306536_AddTranscriptionIdToUploadedData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistance\Migrations\201805231146385_ChangingFieldDefaultValueToBeMax.cs" />
     <Compile Include="Persistance\Migrations\201805231146385_ChangingFieldDefaultValueToBeMax.Designer.cs">
       <DependentUpon>201805231146385_ChangingFieldDefaultValueToBeMax.cs</DependentUpon>
@@ -264,6 +268,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.resx">
+      <DependentUpon>201807051306536_AddTranscriptionIdToUploadedData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201805231146385_ChangingFieldDefaultValueToBeMax.resx">
       <DependentUpon>201805231146385_ChangingFieldDefaultValueToBeMax.cs</DependentUpon>
     </EmbeddedResource>

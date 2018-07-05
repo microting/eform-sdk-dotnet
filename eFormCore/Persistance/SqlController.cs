@@ -2067,6 +2067,50 @@ namespace eFormSqlController
             }
         }
 
+        public bool UpdateUploadedData(uploaded_data uploadedData)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    uploadedData.updated_at = DateTime.Now;
+                    uploadedData.version = uploadedData.version + 1;
+                    db.uploaded_data.Add(uploadedData);
+
+                    db.SaveChanges();
+
+                    db.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UpdateUploadedData failed", ex);
+            }
+        }
+
+        public field_values GetFieldValueByTranscriptionId(int transcriptionId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    uploaded_data ud = db.uploaded_data.SingleOrDefault(x => x.transcription_id == transcriptionId);
+                    if (ud != null)
+                    {
+                        return db.field_values.SingleOrDefault(x => x.uploaded_data_id == ud.id);
+                    } else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Get uploaded data object failed", ex);
+            }
+        }
+
         public bool DeleteFile(int id)
         {
             try

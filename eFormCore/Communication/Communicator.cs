@@ -754,6 +754,38 @@ namespace eFormCommunicator
         }
         #endregion
 
+        #region public speechToText
+        public int SpeechToText(string pathToAudioFile)
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(pathToAudioFile), pathToAudioFile);
+
+            try
+            {
+                return http.SpeechToText(pathToAudioFile);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Comminicator") + " failed", ex);
+            }
+        }
+
+        public string SpeechToText(int requestId)
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(requestId), requestId);
+
+            try
+            {
+                return http.SpeechToText(requestId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Comminicator") + " failed", ex);
+            }
+        }
+        #endregion
+
         #region remove unwanted/uneeded methods from finished DLL
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

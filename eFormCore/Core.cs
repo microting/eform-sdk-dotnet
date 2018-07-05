@@ -2390,13 +2390,63 @@ namespace eFormCore
 
         #region speach to text
 
-        public bool SpeachToText(int fieldValueId)
+        public bool TranscribeUploadedData(int uploadedDataId)
         {
             string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
+                    uploaded_data uploadedData = sqlController.GetUploadedData(uploadedDataId);
+                    if (uploadedData != null)
+                    {
+                        int requestId = SpeechToText(uploadedData.file_location + @"\" + uploadedData.file_name);
+                        uploadedData.transcription_id = requestId;
+
+                        sqlController.UpdateUploadedData(uploadedData);
+                        return true;
+                    } else
+                    {
+                        return false;
+                    }
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        public int SpeechToText(string pathToAudioFile)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    return communicator.SpeechToText(pathToAudioFile);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        public bool SpeechToText(int requestId)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    //Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
                     return true;
                 }
                 else

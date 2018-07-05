@@ -29,10 +29,17 @@ namespace eFormCore.Handlers
         {
             try
             {
+                field_values fv = sqlController.GetFieldValueByTranscriptionId(int.Parse(message.MicrotringUUID));
+                string result = communicator.SpeechToText(int.Parse(message.MicrotringUUID));
 
+                sqlController.FieldValueUpdate((int)fv.case_id, (int)fv.field_id, result);
+                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+
+                log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Transcription with id " + message.MicrotringUUID + " has been transcribed");
             }
             catch (Exception ex)
             {
+                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
             }
         }
     }

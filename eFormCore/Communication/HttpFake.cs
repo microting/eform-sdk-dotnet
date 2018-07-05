@@ -326,6 +326,18 @@ namespace eFormCommunicator
             return content_to_microting.ToString();
         }
         #endregion
+
+        #region SpeechToText
+        public int SpeechToText(string pathToAudioFile)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string SpeechToText(int requestId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         #endregion
 
         #region private

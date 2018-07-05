@@ -46,5 +46,7 @@ namespace eFormSqlController
         public DateTime? expiration_date { get; set; }
 
         public short? local { get; set; }
+
+        public int? transcription_id { get; set; }
     }
 }
