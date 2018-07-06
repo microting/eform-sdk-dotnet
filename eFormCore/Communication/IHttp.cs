@@ -66,7 +66,7 @@
 
         string OrganizationLoadAllFromRemote();
 
-        int SpeechToText(string pathToAudioFile);
+        int SpeechToText(string pathToAudioFile, string language);
 
         string SpeechToText(int requestId);
     }

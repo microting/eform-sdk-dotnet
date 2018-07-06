@@ -762,7 +762,7 @@ namespace eFormCommunicator
 
             try
             {
-                return http.SpeechToText(pathToAudioFile);
+                return http.SpeechToText(pathToAudioFile, "da-DK");
             }
             catch (Exception ex)
             {

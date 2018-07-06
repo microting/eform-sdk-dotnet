@@ -328,7 +328,7 @@ namespace eFormCommunicator
         #endregion
 
         #region SpeechToText
-        public int SpeechToText(string pathToAudioFile)
+        public int SpeechToText(string pathToAudioFile, string language)
         {
             throw new NotImplementedException();
         }
