@@ -123,6 +123,7 @@
     <Compile Include="Handlers\EformParsingErrorHandler.cs" />
     <Compile Include="Handlers\EformParsedByServerHandler.cs" />
     <Compile Include="Handlers\EformCompletedHandler.cs" />
+    <Compile Include="Handlers\TranscribeAudioFileHandler.cs" />
     <Compile Include="Handlers\TranscriptionCompletedHandler.cs" />
     <Compile Include="Handlers\UnitActivatedHandler.cs" />
     <Compile Include="Handlers\EformRetrievedHandler.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Messages\EformDeleteFromServer.cs" />
     <Compile Include="Messages\EformParsingError.cs" />
     <Compile Include="Messages\EformParsedByServer.cs" />
+    <Compile Include="Messages\TranscribeAudioFile.cs" />
     <Compile Include="Messages\TranscriptionCompleted.cs" />
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />

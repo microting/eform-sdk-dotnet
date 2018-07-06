@@ -304,7 +304,8 @@ namespace eFormCore
                 string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
                 string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
                 string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
-                Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log);
+                string ComSpeechToText = sqlController.SettingRead(Settings.comSpeachToText);
+                Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
@@ -387,7 +388,7 @@ namespace eFormCore
                 sqlController = new SqlController(connectionString);
 
                 string token = sqlController.SettingRead(Settings.token);
-                Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log);
+                Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com");
 
                 Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
                 sqlController.SettingUpdate(Settings.token, token);

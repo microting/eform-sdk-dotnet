@@ -49,6 +49,7 @@ namespace eFormCommunicator
         private string addressApi;
         private string addressBasic;
         private string addressPdfUpload;
+        private string addressSpeechToText;
         private string organizationId;
 
         private string dllVersion;
@@ -58,13 +59,14 @@ namespace eFormCommunicator
         #endregion
 
         #region con
-        public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload)
+        public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload, string comSpeechToText)
         {
             this.token = token;
             addressBasic = comAddressBasic;
             addressApi = comAddressApi;
             addressPdfUpload = comAddressPdfUpload;
             organizationId = comOrganizationId;
+            addressSpeechToText = comSpeechToText;
 
             dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
@@ -706,14 +708,31 @@ namespace eFormCommunicator
         #endregion
 
         #region SpeechToText        
-        public int SpeechToText(string pathToAudioFile)
+        public int SpeechToText(string pathToAudioFile, string language)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string url = addressSpeechToText + "/audio/?token=" + token + "&sdk_ver=" + dllVersion;
+                    byte[] responseArray = client.UploadFile(url, pathToAudioFile);
+                    string result = Encoding.UTF8.GetString(responseArray);
+                    var parsedData = JRaw.Parse(result);
+                    return int.Parse(parsedData.First["id"].ToString());
+                }
+            }
+            catch
+            {
+                throw new Exception("Unable to upload the file");
+            }
         }
 
         public string SpeechToText(int requestId)
         {
-            throw new NotImplementedException();
+            WebRequest request = WebRequest.Create(addressSpeechToText + "/audio/"+ requestId + "?" + token + "&sdk_ver=" + dllVersion);
+            request.Method = "GET";
+
+            return PostToServer(request);
         }
         #endregion
 

@@ -91,7 +91,18 @@ namespace eFormCore.Handlers
                                 int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 
-                                sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
+                                List<int> uploadedDataIds = sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
+
+                                foreach (int uploadedDataid in uploadedDataIds)
+                                {
+                                    if (core.downloadUploadedData(uploadedDataid))
+                                    {
+                                        core.TranscribeUploadedData(uploadedDataid);
+                                    } else
+                                    {
+                                        log.LogEverything(t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid.ToString());
+                                    }
+                                }
 
                                 sqlController.CaseUpdateCompleted(microtingUid, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");

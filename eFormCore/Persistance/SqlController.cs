@@ -893,8 +893,9 @@ namespace eFormSqlController
 
         #region public "reply"
         #region check
-        public void ChecksCreate(Response response, string xmlString, int xmlIndex)
+        public List<int> ChecksCreate(Response response, string xmlString, int xmlIndex)
         {
+            List<int> uploadedDataIds = new List<int>();
             try
             {
                 using (var db = GetContext())
@@ -1024,6 +1025,7 @@ namespace eFormSqlController
                                         db.SaveChanges();
                                         //}
                                         fieldV.uploaded_data_id = dU.id;
+                                        uploadedDataIds.Add(dU.id);
 
                                     }
                                     #endregion
@@ -1228,6 +1230,7 @@ namespace eFormSqlController
                     }
                     #endregion
                 }
+                return uploadedDataIds;
             }
             catch (Exception ex)
             {

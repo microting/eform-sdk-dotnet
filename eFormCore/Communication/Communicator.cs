@@ -50,7 +50,7 @@ namespace eFormCommunicator
         /// <param name="token">Your company's XML eForm API access token.</param>
         /// <param name="comAddressApi">Microting's eForm API server address.</param>
         /// <param name="comOrganizationId">Your company's organization id.</param>
-        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string ComAddressPdfUpload, Log log)
+        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string ComAddressPdfUpload, Log log, string ComSpeechToText)
         {
             //this.sqlController = sqlController;
             this.log = log;
@@ -91,7 +91,7 @@ namespace eFormCommunicator
                 throw new InvalidOperationException(errorsFound.TrimEnd());
             #endregion
 
-            http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId, ComAddressPdfUpload);
+            http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId, ComAddressPdfUpload, ComSpeechToText);
         }
         #endregion
 
@@ -469,7 +469,7 @@ namespace eFormCommunicator
                 specialHttp = new HttpFake();
             } else
             {
-                specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "");
+                specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "", "https://speechtotext.microting.com");
             }
             
 

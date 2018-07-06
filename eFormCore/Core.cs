@@ -137,10 +137,12 @@ namespace eFormCore
 					coreAvailable = true;
 					coreStatChanging = false;
 
-					//coreThread
-					Thread coreThread = new Thread(() => CoreThread());
-					coreThread.Start();
-					log.LogStandard(t.GetMethodName("Core"), "CoreThread started");
+                    //coreThread
+                    //Thread coreThread = new Thread(() => CoreThread());
+                    //coreThread.Start();
+                    coreThreadRunning = true;
+
+                    log.LogStandard(t.GetMethodName("Core"), "CoreThread started");
 				}
 			}
 			#region catch
@@ -203,7 +205,8 @@ namespace eFormCore
                     string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
                     string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
                     string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
-                    communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log);
+                    string ComSpeechToText = sqlController.SettingRead(Settings.comSpeachToText);
+                    communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                     container = new WindsorContainer();
                     container.Register(Component.For<SqlController>().Instance(sqlController));
@@ -2400,10 +2403,14 @@ namespace eFormCore
                     uploaded_data uploadedData = sqlController.GetUploadedData(uploadedDataId);
                     if (uploadedData != null)
                     {
-                        int requestId = SpeechToText(uploadedData.file_location + @"\" + uploadedData.file_name);
-                        uploadedData.transcription_id = requestId;
+                        string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
+                        if (audioFileExtenstions.Any(uploadedData.extension.Contains)) {
 
-                        sqlController.UpdateUploadedData(uploadedData);
+                            int requestId = SpeechToText(uploadedData.file_location + @"\" + uploadedData.file_name);
+                            uploadedData.transcription_id = requestId;
+
+                            sqlController.UpdateUploadedData(uploadedData);
+                        }
                         return true;
                     } else
                     {
@@ -3641,9 +3648,9 @@ namespace eFormCore
                 {
                     if (coreThreadRunning)
                     {
-                        Thread updateFilesThread
-                            = new Thread(() => CoreHandleUpdateFiles());
-                        updateFilesThread.Start();
+                        //Thread updateFilesThread
+                        //    = new Thread(() => CoreHandleUpdateFiles());
+                        //updateFilesThread.Start();
 
                         //Thread updateNotificationsThread
                         //    = new Thread(() => CoreHandleUpdateNotifications());
@@ -3672,89 +3679,152 @@ namespace eFormCore
             coreThreadRunning = false;
         }
 
-        private void CoreHandleUpdateFiles()
+        public bool downloadUploadedData(int uploadedDataId)
         {
-            try
+            uploaded_data uploadedData = sqlController.GetUploadedData(uploadedDataId);
+
+            if (uploadedData != null)
             {
-                if (!updateIsRunningFiles)
+                string urlStr = uploadedData.file_location;
+                log.LogEverything(t.GetMethodName("Core"), "Received file:" + uploadedData.ToString());
+
+                #region finding file name and creating folder if needed
+                FileInfo file = new FileInfo(fileLocationPicture);
+                file.Directory.Create(); // If the directory already exists, this method does nothing.
+
+                int index = urlStr.LastIndexOf("/") + 1;
+                string fileName = uploadedData.id.ToString() + "_" + urlStr.Remove(0, index);
+                #endregion
+
+                #region download file
+                using (var client = new WebClient())
                 {
-                    updateIsRunningFiles = true;
-
-                    #region update files
-                    UploadedData ud = null;
-                    string urlStr = "";
-                    bool oneFound = true;
-                    while (oneFound)
+                    try
                     {
-                        ud = sqlController.FileRead();
-                        if (ud != null)
-                            urlStr = ud.FileLocation;
-                        else
-                            break;
-
-                        log.LogEverything(t.GetMethodName("Core"), "Received file:" + ud.ToString());
-
-                        #region finding file name and creating folder if needed
-                        FileInfo file = new FileInfo(fileLocationPicture);
-                        file.Directory.Create(); // If the directory already exists, this method does nothing.
-
-                        int index = urlStr.LastIndexOf("/") + 1;
-                        string fileName = ud.Id.ToString() + "_" + urlStr.Remove(0, index);
-                        #endregion
-
-                        #region download file
-                        using (var client = new WebClient())
-                        {
-                            try
-                            {
-                                client.DownloadFile(urlStr, fileLocationPicture + fileName);
-                            }
-                            catch (Exception ex)
-                            {
-                                throw new Exception("Downloading and creating fil locally failed.", ex);
-                            }
-                        }
-                        #endregion
-
-                        #region finding checkSum
-                        string chechSum = "";
-                        using (var md5 = MD5.Create())
-                        {
-                            using (var stream = File.OpenRead(fileLocationPicture + fileName))
-                            {
-                                byte[] grr = md5.ComputeHash(stream);
-                                chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
-                            }
-                        }
-                        #endregion
-
-                        #region checks checkSum
-                        if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
-                            log.LogWarning(t.GetMethodName("Core"), "Download of '" + urlStr + "' failed. Check sum did not match");
-                        #endregion
-
-                        Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
-                        File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocationPicture + fileName);
-                        try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
-                        catch { log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
-                        log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
-
-                        sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, ud.Id);
+                        client.DownloadFile(urlStr, fileLocationPicture + fileName);
                     }
-                    #endregion
-
-                    updateIsRunningFiles = false;
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Downloading and creating fil locally failed.", ex);
+                    }
                 }
-            }
-            catch (ThreadAbortException)
+                #endregion
+
+                #region finding checkSum
+                string chechSum = "";
+                using (var md5 = MD5.Create())
+                {
+                    using (var stream = File.OpenRead(fileLocationPicture + fileName))
+                    {
+                        byte[] grr = md5.ComputeHash(stream);
+                        chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+                    }
+                }
+                #endregion
+
+                #region checks checkSum
+                if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
+                    log.LogWarning(t.GetMethodName("Core"), "Download of '" + urlStr + "' failed. Check sum did not match");
+                #endregion
+
+                Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
+                File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocationPicture + fileName);
+                try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
+                catch { log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
+                log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
+
+                sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, uploadedData.id);
+
+                return true;
+            } else
             {
-                log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, true);
+                return false;
             }
         }
+
+        //private void CoreHandleUpdateFiles()
+        //{
+        //    try
+        //    {
+        //        if (!updateIsRunningFiles)
+        //        {
+        //            updateIsRunningFiles = true;
+
+        //            #region update files
+        //            UploadedData ud = null;
+        //            string urlStr = "";
+        //            bool oneFound = true;
+        //            while (oneFound)
+        //            {
+        //                ud = sqlController.FileRead();
+        //                if (ud != null)
+        //                    urlStr = ud.FileLocation;
+        //                else
+        //                    break;
+
+        //                log.LogEverything(t.GetMethodName("Core"), "Received file:" + ud.ToString());
+
+        //                #region finding file name and creating folder if needed
+        //                FileInfo file = new FileInfo(fileLocationPicture);
+        //                file.Directory.Create(); // If the directory already exists, this method does nothing.
+
+        //                int index = urlStr.LastIndexOf("/") + 1;
+        //                string fileName = ud.Id.ToString() + "_" + urlStr.Remove(0, index);
+        //                #endregion
+
+        //                #region download file
+        //                using (var client = new WebClient())
+        //                {
+        //                    try
+        //                    {
+        //                        client.DownloadFile(urlStr, fileLocationPicture + fileName);
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        throw new Exception("Downloading and creating fil locally failed.", ex);
+        //                    }
+        //                }
+        //                #endregion
+
+        //                #region finding checkSum
+        //                string chechSum = "";
+        //                using (var md5 = MD5.Create())
+        //                {
+        //                    using (var stream = File.OpenRead(fileLocationPicture + fileName))
+        //                    {
+        //                        byte[] grr = md5.ComputeHash(stream);
+        //                        chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+        //                    }
+        //                }
+        //                #endregion
+
+        //                #region checks checkSum
+        //                if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
+        //                    log.LogWarning(t.GetMethodName("Core"), "Download of '" + urlStr + "' failed. Check sum did not match");
+        //                #endregion
+
+        //                Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
+        //                File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocationPicture + fileName);
+        //                try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
+        //                catch { log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
+        //                log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
+
+        //                sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, ud.Id);
+        //            }
+        //            #endregion
+
+        //            updateIsRunningFiles = false;
+        //        }
+        //    }
+        //    catch (ThreadAbortException)
+        //    {
+        //        log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.LogException(t.GetMethodName("Core"), "failed", ex, true);
+        //    }
+        //}
 
         public bool CheckStatusByMicrotingUid(string microtingUid)
         {
