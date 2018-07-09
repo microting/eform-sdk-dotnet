@@ -714,14 +714,14 @@ namespace eFormCommunicator
             {
                 using (WebClient client = new WebClient())
                 {
-                    string url = addressSpeechToText + "/audio/?token=" + token + "&sdk_ver=" + dllVersion;
+                    string url = addressSpeechToText + "/audio/?token=" + token + "&sdk_ver=" + dllVersion + "&lang=" + language;
                     byte[] responseArray = client.UploadFile(url, pathToAudioFile);
                     string result = Encoding.UTF8.GetString(responseArray);
                     var parsedData = JRaw.Parse(result);
-                    return int.Parse(parsedData.First["id"].ToString());
+                    return int.Parse(parsedData["id"].ToString());
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 throw new Exception("Unable to upload the file");
             }
@@ -729,10 +729,12 @@ namespace eFormCommunicator
 
         public string SpeechToText(int requestId)
         {
-            WebRequest request = WebRequest.Create(addressSpeechToText + "/audio/"+ requestId + "?" + token + "&sdk_ver=" + dllVersion);
+            WebRequest request = WebRequest.Create(addressSpeechToText + "/audio/"+ requestId + "?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
 
-            return PostToServer(request);
+            string result = PostToServer(request);
+            var parsedData = JRaw.Parse(result);
+            return parsedData["text"].ToString();
         }
         #endregion
 

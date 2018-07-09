@@ -2076,9 +2076,11 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploadedData.updated_at = DateTime.Now;
-                    uploadedData.version = uploadedData.version + 1;
-                    db.uploaded_data.Add(uploadedData);
+                    uploaded_data uD = db.uploaded_data.Single(x => x.id == uploadedData.id);
+                    uD.transcription_id = uploadedData.transcription_id;
+                    uD.updated_at = DateTime.Now;
+                    uD.version = uploadedData.version + 1;
+                    //db.uploaded_data.Add(uploadedData);
 
                     db.SaveChanges();
 

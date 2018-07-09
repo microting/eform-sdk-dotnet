@@ -9,7 +9,7 @@
             public const string UnitActivate = "unit_activate";
             public const string EformParsedByServer = "eform_parsed_by_server";
             public const string EformParsingError = "eform_parsing_error";
-            public const string TranscriptionCompleted = "transcription_completed";
+            public const string SpeechToTextCompleted = "speech_to_text_completed";
         }
 
         public static class WorkflowStates

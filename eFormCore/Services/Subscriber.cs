@@ -177,8 +177,8 @@ namespace eFormSubscriber
                                         sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.UnitActivate);
                                         bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
-                                    case Constants.Notifications.TranscriptionCompleted:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.TranscriptionCompleted);
+                                    case Constants.Notifications.SpeechToTextCompleted:
+                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.SpeechToTextCompleted);
                                         bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
                                         break;
                                 }                               
