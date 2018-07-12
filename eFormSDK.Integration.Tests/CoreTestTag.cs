@@ -249,17 +249,17 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            //List<int> tags = new List<int>();
-            //tags.Add(tag.id);
-            //sut.TemplateSetTags(cl1.id, tags);
+            List<int> tags = new List<int>();
+            tags.Add(tag1.id);
+            sut.TemplateSetTags(cl1.id, tags);
 
 
             //// Assert
-            //List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
+            List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
 
-            //Assert.AreEqual(1, result.Count());
-            //Assert.AreEqual(tag.id, result[0].tag_id);
-            //Assert.AreEqual(cl1.id, result[0].check_list_id);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(tag1.id, result[0].tag_id);
+            Assert.AreEqual(cl1.id, result[0].check_list_id);
             //Assert.True(true);
 
         }
