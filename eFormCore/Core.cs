@@ -1871,6 +1871,7 @@ namespace eFormCore
                     p.StartInfo.RedirectStandardOutput = true;
                     string locaJ;
                     string exepath = AppDomain.CurrentDomain.BaseDirectory;
+                    log.LogStandard(t.GetMethodName("Core"), "exepath is " + exepath);
                     if (File.Exists(exepath + "\\bin\\JasperExporter.jar"))
                     {
                         locaJ = exepath + "\\bin\\JasperExporter.jar";
