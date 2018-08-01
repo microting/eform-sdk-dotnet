@@ -1894,6 +1894,7 @@ namespace eFormCore
                         throw new FileNotFoundException("jrxml template was not found at " + locaT);
                     }
                     string locaC = sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".xml";
+                    locaC = locaC.Replace("\\", "/");
 
                     if (!File.Exists(locaC))
                     {
@@ -1904,7 +1905,7 @@ namespace eFormCore
                     string command =
                         "-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar " + locaJ +
                         " -template=\"" + locaT + "\"" +
-                        " type=\"pdf\"" +
+                        " -type=\"pdf\"" +
                         " -uri=\"" + locaC + "\"" +
                         " -outputFile=\"" + locaR + "\"";
 
