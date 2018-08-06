@@ -1381,7 +1381,7 @@ namespace eFormSqlController
                         {
                             elementList.Add(SubChecks(subList.id, caseId));
                         }
-                        GroupElement element = new GroupElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", elementList);
+                        GroupElement element = new GroupElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), elementList);
                         return element;
                     }
                     else
@@ -1423,7 +1423,7 @@ namespace eFormSqlController
                                 dataItemList.Add(_field);
                             }
                         }
-                        DataElement dataElement = new DataElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", dataItemGroupList, dataItemList);
+                        DataElement dataElement = new DataElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), dataItemGroupList, dataItemList);
                         //return dataElement;
                         return new CheckListValue(dataElement, CheckListValueStatusRead(caseId, checkList.id));
                     }
@@ -4573,7 +4573,7 @@ namespace eFormSqlController
                         {
                             check_lists cl = db.check_lists.Single(x => x.id == elementId);
                             GroupElement gElement = new GroupElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
-                                t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", lst);
+                                t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", t.Bool(cl.quick_sync_enabled), lst);
 
                             //the actual Elements
                             foreach (var subElement in lstElement)
@@ -4594,7 +4594,7 @@ namespace eFormSqlController
                         {
                             check_lists cl = db.check_lists.Single(x => x.id == elementId);
                             DataElement dElement = new DataElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
-                                t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", new List<DataItemGroup>(), new List<DataItem>());
+                                t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", t.Bool(cl.quick_sync_enabled), new List<DataItemGroup>(), new List<DataItem>());
 
                             //the actual DataItems
                             List<fields> lstFields = db.fields.Where(x => x.check_list_id == elementId && x.parent_field_id == null).ToList();

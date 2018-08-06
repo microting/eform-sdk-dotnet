@@ -142,6 +142,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.cs" />
+    <Compile Include="Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.Designer.cs">
+      <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.cs" />
     <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.Designer.cs">
       <DependentUpon>201807051306536_AddTranscriptionIdToUploadedData.cs</DependentUpon>
@@ -270,6 +274,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.resx">
+      <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.resx">
       <DependentUpon>201807051306536_AddTranscriptionIdToUploadedData.cs</DependentUpon>
     </EmbeddedResource>
