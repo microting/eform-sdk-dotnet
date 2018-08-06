@@ -263,6 +263,44 @@ namespace eFormData
     }
     #endregion
 
+    #region Number Stepper
+    public class NumberStepper : DataItem
+    {
+        internal NumberStepper()
+        {
+
+        }
+
+        public NumberStepper(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+            string minValue, string maxValue, int defaultValue, int decimalCount, string unitName)
+        {
+            Id = id;
+            Mandatory = mandatory;
+            ReadOnly = readOnly;
+            Label = label;
+            Description = new CDataValue();
+            Description.InderValue = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+            Dummy = dummy;
+
+            MinValue = minValue;
+            MaxValue = maxValue;
+            DefaultValue = defaultValue;
+            DecimalCount = decimalCount;
+            UnitName = unitName;
+        }
+
+        #region var
+        public string MinValue { get; set; }
+        public string MaxValue { get; set; }
+        public int DefaultValue { get; set; }
+        public int DecimalCount { get; set; }
+        public string UnitName { get; set; }
+        #endregion
+    }
+    #endregion
+
     #region MultiSelect
     public class MultiSelect : DataItem
     {
