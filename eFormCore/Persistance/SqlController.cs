@@ -3824,7 +3824,7 @@ namespace eFormSqlController
             SettingCreate(Settings.httpServerAddress);
             SettingCreate(Settings.maxParallelism);
             SettingCreate(Settings.numberOfWorkers);
-            SettingCreate(Settings.comSpeachToText);
+            SettingCreate(Settings.comSpeechToText);
 
             return true;
         }
@@ -3858,7 +3858,7 @@ namespace eFormSqlController
                     case Settings.httpServerAddress: id = 17; defaultValue = "http://localhost:3000"; break;
                     case Settings.maxParallelism: id = 18; defaultValue = "1"; break;
                     case Settings.numberOfWorkers: id = 19; defaultValue = "1"; break;
-                    case Settings.comSpeachToText: id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.comSpeechToText: id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -5407,6 +5407,6 @@ namespace eFormSqlController
         httpServerAddress,       
         maxParallelism,
         numberOfWorkers,
-        comSpeachToText
+        comSpeechToText
     }
 }

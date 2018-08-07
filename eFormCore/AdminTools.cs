@@ -304,7 +304,7 @@ namespace eFormCore
                 string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
                 string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
                 string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
-                string ComSpeechToText = sqlController.SettingRead(Settings.comSpeachToText);
+                string ComSpeechToText = sqlController.SettingRead(Settings.comSpeechToText);
                 Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                 #region add site's data to db
@@ -400,6 +400,7 @@ namespace eFormCore
                 sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                 sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
+                sqlController.SettingUpdate(Settings.comSpeechToText, organizationDto.ComSpeechToText);
                 if (sqlController.SettingRead(Settings.logLevel) == "true")
                 {
                     sqlController.SettingUpdate(Settings.logLevel, "2");

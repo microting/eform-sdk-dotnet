@@ -205,7 +205,7 @@ namespace eFormCore
                     string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
                     string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
                     string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
-                    string ComSpeechToText = sqlController.SettingRead(Settings.comSpeachToText);
+                    string ComSpeechToText = sqlController.SettingRead(Settings.comSpeechToText);
                     communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                     container = new WindsorContainer();
