@@ -927,16 +927,16 @@ namespace eFormSDK.Integration.Tests
             #endregion
             //Act
             List<string> FVPlist = new List<string>();
-            FVPlist.Add(field_Value1.field_id + " |" + field_Value1.value);
-            FVPlist.Add(field_Value2.field_id + " |" + field_Value2.value);
-            FVPlist.Add(field_Value3.field_id + " |" + field_Value3.value);
-            FVPlist.Add(field_Value4.field_id + " |" + field_Value4.value);
-            FVPlist.Add(field_Value5.field_id + " |" + field_Value5.value);
-            FVPlist.Add(field_Value6.field_id + " |" + field_Value6.value);
-            FVPlist.Add(field_Value7.field_id + " |" + field_Value7.value);
-            FVPlist.Add(field_Value8.field_id + " |" + field_Value8.value);
-            FVPlist.Add(field_Value9.field_id + " |" + field_Value9.value);
-            FVPlist.Add(field_Value10.field_id + " |" + field_Value10.value);
+            FVPlist.Add(field_Value1.id + " |" + field_Value1.value);
+            FVPlist.Add(field_Value2.id + " |" + field_Value2.value);
+            FVPlist.Add(field_Value3.id + " |" + field_Value3.value);
+            FVPlist.Add(field_Value4.id + " |" + field_Value4.value);
+            FVPlist.Add(field_Value5.id + " |" + field_Value5.value);
+            FVPlist.Add(field_Value6.id + " |" + field_Value6.value);
+            FVPlist.Add(field_Value7.id + " |" + field_Value7.value);
+            FVPlist.Add(field_Value8.id + " |" + field_Value8.value);
+            FVPlist.Add(field_Value9.id + " |" + field_Value9.value);
+            FVPlist.Add(field_Value10.id + " |" + field_Value10.value);
             //FVPlist.ToList();
 
             List<string> CLVlist = new List<string>();
