@@ -771,7 +771,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            sut.FieldValueUpdate(aCase.id, f1.id, "udfyldt");
+            sut.FieldValueUpdate(aCase.id, field_Value1.id, "udfyldt");
 
 
 

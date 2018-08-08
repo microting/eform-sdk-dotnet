@@ -1669,13 +1669,13 @@ namespace eFormSqlController
             }
         }
 
-        public void FieldValueUpdate(int caseId, int fieldId, string value)
+        public void FieldValueUpdate(int caseId, int fieldValueId, string value)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    field_values fieldMatch = db.field_values.Single(x => x.case_id == caseId && x.field_id == fieldId);
+                    field_values fieldMatch = db.field_values.Single(x => x.id == fieldValueId);
 
                     fieldMatch.value = value;
                     fieldMatch.updated_at = DateTime.Now;
