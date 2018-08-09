@@ -142,8 +142,8 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
-    <Compile Include="Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.cs" />
-    <Compile Include="Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.Designer.cs">
+    <Compile Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.cs" />
+    <Compile Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.Designer.cs">
       <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.cs" />
@@ -274,7 +274,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.resx">
+    <EmbeddedResource Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.resx">
       <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.resx">
@@ -328,6 +328,9 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.SQS.3.3.3.11\analyzers\dotnet\cs\AWSSDK.SQS.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
