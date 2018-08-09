@@ -1,13 +1,12 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
+    using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class AddingInteractionsTable : DbMigration
+    public partial class AddingInteractionsTable : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_case_lists",
                 c => new
                 {
@@ -27,7 +26,7 @@ namespace eFormSqlController.Migrations
                 .ForeignKey("dbo.a_interaction_cases", t => t.a_interaction_case_id)
                 .Index(t => t.a_interaction_case_id);
 
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_cases",
                 c => new
                 {
@@ -47,13 +46,13 @@ namespace eFormSqlController.Migrations
                 })
                 .PrimaryKey(t => t.id);
 
-            DropTable("dbo.a_input_cases");
-            DropTable("dbo.a_output_cases");
+            migrationBuilder.DropTable("dbo.a_input_cases");
+            migrationBuilder.DropTable("dbo.a_output_cases");
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_output_cases",
                 c => new
                 {
@@ -73,7 +72,7 @@ namespace eFormSqlController.Migrations
                 })
                 .PrimaryKey(t => t.id);
 
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_input_cases",
                 c => new
                 {
@@ -92,10 +91,10 @@ namespace eFormSqlController.Migrations
                 })
                 .PrimaryKey(t => t.id);
 
-            DropForeignKey("dbo.a_interaction_case_lists", "a_interaction_case_id", "dbo.a_interaction_cases");
-            DropIndex("dbo.a_interaction_case_lists", new[] { "a_interaction_case_id" });
-            DropTable("dbo.a_interaction_cases");
-            DropTable("dbo.a_interaction_case_lists");
+            migrationBuilder.DropForeignKey("dbo.a_interaction_case_lists", "a_interaction_case_id", "dbo.a_interaction_cases");
+            migrationBuilder.DropIndex("dbo.a_interaction_case_lists", new[] { "a_interaction_case_id" });
+            migrationBuilder.DropTable("dbo.a_interaction_cases");
+            migrationBuilder.DropTable("dbo.a_interaction_case_lists");
         }
     }
 }

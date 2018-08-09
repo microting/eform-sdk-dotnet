@@ -1,23 +1,22 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class ModelUpdate : DbMigration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class ModelUpdate : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
 
-            DropForeignKey("dbo.check_lists", "tags_id", "dbo.tags");
-            DropIndex("dbo.check_lists", new[] { "tags_id" });
-            DropColumn("dbo.check_lists", "tags_id");
+            migrationBuilder.DropForeignKey("dbo.check_lists", "tags_id", "dbo.tags");
+            migrationBuilder.DropIndex("dbo.check_lists", new[] { "tags_id" });
+            migrationBuilder.DropColumn("dbo.check_lists", "tags_id");
         }
-        
-        public override void Down()
+
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            AddColumn("dbo.check_lists", "tags_id", c => c.Int());
-            CreateIndex("dbo.check_lists", "tags_id");
-            AddForeignKey("dbo.check_lists", "tags_id", "dbo.tags", "id");
+            migrationBuilder.AddColumn("dbo.check_lists", "tags_id", c => c.Int());
+            migrationBuilder.CreateIndex("dbo.check_lists", "tags_id");
+            migrationBuilder.AddForeignKey("dbo.check_lists", "tags_id", "dbo.tags", "id");
         }
     }
 }

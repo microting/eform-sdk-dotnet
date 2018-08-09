@@ -38,7 +38,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Xml;
-using OfficeOpenXml;
+//using OfficeOpenXml;
 using Castle.Windsor;
 using eFormCore.Installers;
 using Castle.MicroKernel.Registration;
@@ -1487,59 +1487,59 @@ namespace eFormCore
             }
         }
 
-        public string CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
-        {
-            string methodName = t.GetMethodName("Core");
-            try
-            {
-                if (Running())
-                {
-                    log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId.ToString());
-                    log.LogVariable(t.GetMethodName("Core"), nameof(start), start.ToString());
-                    log.LogVariable(t.GetMethodName("Core"), nameof(end), end.ToString());
-                    log.LogVariable(t.GetMethodName("Core"), nameof(pathAndName), pathAndName);
-                    log.LogVariable(t.GetMethodName("Core"), nameof(customPathForUploadedData), customPathForUploadedData);
+        //public string CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        //{
+        //    string methodName = t.GetMethodName("Core");
+        //    try
+        //    {
+        //        if (Running())
+        //        {
+        //            log.LogStandard(t.GetMethodName("Core"), "called");
+        //            log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId.ToString());
+        //            log.LogVariable(t.GetMethodName("Core"), nameof(start), start.ToString());
+        //            log.LogVariable(t.GetMethodName("Core"), nameof(end), end.ToString());
+        //            log.LogVariable(t.GetMethodName("Core"), nameof(pathAndName), pathAndName);
+        //            log.LogVariable(t.GetMethodName("Core"), nameof(customPathForUploadedData), customPathForUploadedData);
 
-                    List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData);
+        //            List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData);
 
-                    if (dataSet == null)
-                        return "";
+        //            if (dataSet == null)
+        //                return "";
 
-                    using (var p = new ExcelPackage())
-                    {
-                        var ws = p.Workbook.Worksheets.Add("DataSet");
+        //            using (var p = new ExcelPackage())
+        //            {
+        //                var ws = p.Workbook.Worksheets.Add("DataSet");
 
-                        int colI = 0;
-                        int rowI = 0;
-                        foreach (var col in dataSet)
-                        {
-                            colI++;
-                            rowI = 0;
-                            foreach (var cell in col)
-                            {
-                                rowI++;
-                                ws.Cells[rowI, colI].Value = cell;
-                            }
-                        }
+        //                int colI = 0;
+        //                int rowI = 0;
+        //                foreach (var col in dataSet)
+        //                {
+        //                    colI++;
+        //                    rowI = 0;
+        //                    foreach (var cell in col)
+        //                    {
+        //                        rowI++;
+        //                        ws.Cells[rowI, colI].Value = cell;
+        //                    }
+        //                }
 
-                        if (!pathAndName.Contains(".xlsx"))
-                            pathAndName = pathAndName + ".xlsx";
+        //                if (!pathAndName.Contains(".xlsx"))
+        //                    pathAndName = pathAndName + ".xlsx";
 
-                        p.SaveAs(new FileInfo(pathAndName));
-                    }
+        //                p.SaveAs(new FileInfo(pathAndName));
+        //            }
 
-                    return Path.GetFullPath(pathAndName);
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return null;
-            }
-        }
+        //            return Path.GetFullPath(pathAndName);
+        //        }
+        //        else
+        //            throw new Exception("Core is not running");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+        //        return null;
+        //    }
+        //}
 
         public string CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
@@ -3399,17 +3399,17 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<KeyValuePair>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData);
+                        List<List<eFormShared.KeyValuePair>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData);
 
                         if (result.Count == 1)
                         {
                             newRow = new List<string>();
                             newRow.Insert(0, label);
-                            List<KeyValuePair> tempList = result[0];
+                            List<eFormShared.KeyValuePair> tempList = result[0];
                             foreach (int i in caseIds)
                             {
                                 string value = "";
-                                foreach (KeyValuePair KvP in tempList)
+                                foreach (eFormShared.KeyValuePair KvP in tempList)
                                 {
                                     if (KvP.Key == i.ToString())
                                     {
@@ -3427,12 +3427,12 @@ namespace eFormCore
                             foreach (var lst in result)
                             {
                                 newRow = new List<string>();
-                                List<KeyValuePair> fieldKvP = field.KeyValuePairList;
+                                List<eFormShared.KeyValuePair> fieldKvP = field.KeyValuePairList;
                                 newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
                                 foreach (int i in caseIds)
                                 {
                                     string value = "";
-                                    foreach (KeyValuePair KvP in lst)
+                                    foreach (eFormShared.KeyValuePair KvP in lst)
                                     {
                                         if (KvP.Key == i.ToString())
                                         {
@@ -4051,7 +4051,7 @@ namespace eFormCore
         #endregion
 
 
-        public List<KeyValuePair> PairRead(string str)
+        public List<eFormShared.KeyValuePair> PairRead(string str)
         {
             return sqlController.PairRead(str);
         }

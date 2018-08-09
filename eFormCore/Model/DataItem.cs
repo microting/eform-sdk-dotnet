@@ -306,13 +306,13 @@ namespace eFormData
     {
         internal MultiSelect()
         {
-            KeyValuePairList = new List<KeyValuePair>();
+            KeyValuePairList = new List<eFormShared.KeyValuePair>();
         }
 
         public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            List<KeyValuePair> keyValuePairList)
+            List<eFormShared.KeyValuePair> keyValuePairList)
         {
-            KeyValuePairList = new List<KeyValuePair>();
+            KeyValuePairList = new List<eFormShared.KeyValuePair>();
 
             Id = id;
             Mandatory = mandatory;
@@ -327,8 +327,8 @@ namespace eFormData
             KeyValuePairList = keyValuePairList;
         }
 
-        [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(eFormShared.KeyValuePair), ElementName = "KeyValuePair")]
+        public List<eFormShared.KeyValuePair> KeyValuePairList { get; set; }
     }
     #endregion
 
@@ -448,13 +448,13 @@ namespace eFormData
     {
         internal SingleSelect()
         {
-            KeyValuePairList = new List<KeyValuePair>();
+            KeyValuePairList = new List<eFormShared.KeyValuePair>();
         }
 
         public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            List<KeyValuePair> keyValuePairList)
+            List<eFormShared.KeyValuePair> keyValuePairList)
         {
-            KeyValuePairList = new List<KeyValuePair>();
+            KeyValuePairList = new List<eFormShared.KeyValuePair>();
 
             Id = id;
             Mandatory = mandatory;
@@ -469,8 +469,8 @@ namespace eFormData
             KeyValuePairList = keyValuePairList;
         }
 
-        [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(eFormShared.KeyValuePair), ElementName = "KeyValuePair")]
+        public List<eFormShared.KeyValuePair> KeyValuePairList { get; set; }
     }
     #endregion
 
@@ -631,7 +631,7 @@ namespace eFormData
         public string FieldType { get; set; }
         public string FieldValue { get; set; }
         public int? EntityGroupId { get; set; }
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        public List<eFormShared.KeyValuePair> KeyValuePairList { get; set; }
     }
 
     public class FieldValue : DataItem
@@ -651,7 +651,7 @@ namespace eFormData
         public DateTime? Date { get; set; }
         public string UploadedData { get; set; }
         public UploadedData UploadedDataObj { get; set; }
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        public List<eFormShared.KeyValuePair> KeyValuePairList { get; set; }
     }
 
     public class FieldContainer : DataItem

@@ -1,13 +1,12 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
+    using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class RemoveingReversedFromAInteractiveCase : DbMigration
+    public partial class RemoveingReversedFromAInteractiveCase : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_case_list_versions",
                 c => new
                 {
@@ -25,7 +24,7 @@ namespace eFormSqlController.Migrations
                 })
                 .PrimaryKey(t => t.id);
 
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_case_versions",
                 c => new
                 {
@@ -46,14 +45,14 @@ namespace eFormSqlController.Migrations
                 })
                 .PrimaryKey(t => t.id);
 
-            DropColumn("dbo.a_interaction_cases", "reversed");
+            migrationBuilder.DropColumn("dbo.a_interaction_cases", "reversed");
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            AddColumn("dbo.a_interaction_cases", "reversed", c => c.Short());
-            DropTable("dbo.a_interaction_case_versions");
-            DropTable("dbo.a_interaction_case_list_versions");
+            migrationBuilder.AddColumn("dbo.a_interaction_cases", "reversed", c => c.Short());
+            migrationBuilder.DropTable("dbo.a_interaction_case_versions");
+            migrationBuilder.DropTable("dbo.a_interaction_case_list_versions");
         }
     }
 }

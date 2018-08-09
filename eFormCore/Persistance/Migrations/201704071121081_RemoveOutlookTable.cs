@@ -1,18 +1,17 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
+    using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class RemoveOutlookTable : DbMigration
+    public partial class RemoveOutlookTable : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            DropTable("dbo.outlook");
+            migrationBuilder.DropTable("dbo.outlook");
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.outlook",
                 c => new
                 {

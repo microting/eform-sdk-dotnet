@@ -145,7 +145,7 @@ namespace eFormSubscriber
                     try
                     {
                         lastCheckAdd15s = DateTime.Now.AddSeconds(15);
-                        var res = sqsClient.ReceiveMessage(awsQueueUrl);
+                        var res = sqsClient.ReceiveMessageAsync(awsQueueUrl).Result;
 
                         if (res.Messages.Count > 0)
                             foreach (var message in res.Messages)
@@ -183,7 +183,7 @@ namespace eFormSubscriber
                                         break;
                                 }                               
 
-                                sqsClient.DeleteMessage(awsQueueUrl, message.ReceiptHandle);
+                                sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
                             }
                         else
                             while (lastCheckAdd15s > DateTime.Now)

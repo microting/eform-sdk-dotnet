@@ -1,73 +1,55 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microting.eForm", "eFormCore\Microting.eForm.csproj", "{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microting.eForm", "eFormCore\Microting.eForm.csproj", "{0E10E232-04E2-447C-B3D7-DBFF310D61C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceCode", "SourceCode\SourceCode.csproj", "{4B3A5031-33E3-4862-83C4-E2EB6472C228}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57B09E49-C984-4052-9BEA-1B751B935064}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{CE8C964D-0404-4FDD-AE3C-E6873FA90478}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Integration.Tests", "eFormSDK.Integration.Tests\eFormSDK.Integration.Tests.csproj", "{02A7DE31-D726-44BF-91F4-2D3F81599942}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{BF943E81-A419-4EDE-801D-1EB800F28F97}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D59552CA-9214-4D5A-9DEB-1EB9139CF95D}"
 	ProjectSection(SolutionItems) = preProject
 		CodeCoverage.runsettings = CodeCoverage.runsettings
 		TestSettings.runsettings = TestSettings.runsettings
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4B420779-2C87-49B7-A21A-0EC383659914}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceCode", "SourceCode\SourceCode.csproj", "{C2042D03-89AF-4C66-9084-FFE64A77A9DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{28E49E0A-362E-4254-8B70-BE3F8AB46280}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Integration.Tests", "eFormSDK.Integration.Tests\eFormSDK.Integration.Tests.csproj", "{2C7918BC-6467-43D8-8EAF-20B15E5F2238}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Debug|x64.ActiveCfg = Debug|x64
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Debug|x64.Build.0 = Debug|x64
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Release|x64.ActiveCfg = Release|x64
-		{C4E2AF2F-10A6-40FF-80E5-E3262ED76599}.Release|x64.Build.0 = Release|x64
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Debug|x64.ActiveCfg = Debug|x64
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Debug|x64.Build.0 = Debug|x64
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Release|x64.ActiveCfg = Release|x64
-		{4B3A5031-33E3-4862-83C4-E2EB6472C228}.Release|x64.Build.0 = Release|x64
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Debug|x64.ActiveCfg = Debug|x64
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Debug|x64.Build.0 = Debug|x64
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Release|x64.ActiveCfg = Release|x64
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478}.Release|x64.Build.0 = Release|x64
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Debug|x64.ActiveCfg = Debug|x64
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Debug|x64.Build.0 = Debug|x64
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|x64.ActiveCfg = Release|x64
-		{02A7DE31-D726-44BF-91F4-2D3F81599942}.Release|x64.Build.0 = Release|x64
+		{0E10E232-04E2-447C-B3D7-DBFF310D61C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E10E232-04E2-447C-B3D7-DBFF310D61C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E10E232-04E2-447C-B3D7-DBFF310D61C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E10E232-04E2-447C-B3D7-DBFF310D61C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2042D03-89AF-4C66-9084-FFE64A77A9DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2042D03-89AF-4C66-9084-FFE64A77A9DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2042D03-89AF-4C66-9084-FFE64A77A9DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2042D03-89AF-4C66-9084-FFE64A77A9DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28E49E0A-362E-4254-8B70-BE3F8AB46280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E49E0A-362E-4254-8B70-BE3F8AB46280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E49E0A-362E-4254-8B70-BE3F8AB46280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E49E0A-362E-4254-8B70-BE3F8AB46280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C7918BC-6467-43D8-8EAF-20B15E5F2238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C7918BC-6467-43D8-8EAF-20B15E5F2238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C7918BC-6467-43D8-8EAF-20B15E5F2238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C7918BC-6467-43D8-8EAF-20B15E5F2238}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CE8C964D-0404-4FDD-AE3C-E6873FA90478} = {57B09E49-C984-4052-9BEA-1B751B935064}
-		{02A7DE31-D726-44BF-91F4-2D3F81599942} = {57B09E49-C984-4052-9BEA-1B751B935064}
+		{28E49E0A-362E-4254-8B70-BE3F8AB46280} = {4B420779-2C87-49B7-A21A-0EC383659914}
+		{2C7918BC-6467-43D8-8EAF-20B15E5F2238} = {4B420779-2C87-49B7-A21A-0EC383659914}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6B279AEB-A7EB-4E8D-A8C0-58FA9062CD38}
+		SolutionGuid = {B77664E6-415C-4074-B233-5F75F0ECD63F}
 	EndGlobalSection
 EndGlobal

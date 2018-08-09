@@ -1,18 +1,17 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class AddingStackTraceToNotifications : DbMigration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class AddingStackTraceToNotifications : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            AddColumn("dbo.notifications", "stacktrace", c => c.String(maxLength: int.MaxValue));
+            migrationBuilder.AddColumn("dbo.notifications", "stacktrace", c => c.String(maxLength: int.MaxValue));
         }
-        
-        public override void Down()
+
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            DropColumn("dbo.notifications", "stacktrace");
+            migrationBuilder.DropColumn("dbo.notifications", "stacktrace");
         }
     }
 }

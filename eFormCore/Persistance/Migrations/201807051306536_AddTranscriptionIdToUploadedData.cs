@@ -1,20 +1,20 @@
+using Microsoft.EntityFrameworkCore.Migrations;
+
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class AddTranscriptionIdToUploadedData : DbMigration
+
+    public partial class AddTranscriptionIdToUploadedData : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            AddColumn("dbo.uploaded_data", "transcription_id", c => c.Int());
-            AddColumn("dbo.uploaded_data_versions", "transcription_id", c => c.Int());
+            migrationBuilder.AddColumn("dbo.uploaded_data", "transcription_id", c => c.Int());
+            migrationBuilder.AddColumn("dbo.uploaded_data_versions", "transcription_id", c => c.Int());
         }
-        
-        public override void Down()
+
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            DropColumn("dbo.uploaded_data_versions", "transcription_id");
-            DropColumn("dbo.uploaded_data", "transcription_id");
+            migrationBuilder.DropColumn("dbo.uploaded_data_versions", "transcription_id");
+            migrationBuilder.DropColumn("dbo.uploaded_data", "transcription_id");
         }
     }
 }

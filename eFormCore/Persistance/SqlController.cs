@@ -1,15 +1,11 @@
 ﻿using eFormShared;
 using eFormData;
 using eFormSqlController.Migrations;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.IO;
-using System.Data.Entity;
 
 namespace eFormSqlController
 {
@@ -1691,7 +1687,7 @@ namespace eFormSqlController
             }
         }
 
-        public List<List<KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData)
+        public List<List<eFormShared.KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData)
         {
             try
             {
@@ -1701,8 +1697,8 @@ namespace eFormSqlController
 
                     List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && caseIds.Contains((int)x.case_id)).ToList();
 
-                    List<List<KeyValuePair>> rtrnLst = new List<List<KeyValuePair>>();
-                    List<KeyValuePair> replyLst1 = new List<KeyValuePair>();
+                    List<List<eFormShared.KeyValuePair>> rtrnLst = new List<List<eFormShared.KeyValuePair>>();
+                    List<eFormShared.KeyValuePair> replyLst1 = new List<eFormShared.KeyValuePair>();
                     rtrnLst.Add(replyLst1);
 
                     switch (matchField.field_type.field_type)
@@ -1712,9 +1708,9 @@ namespace eFormSqlController
                             foreach (field_values item in matches)
                             {
                                 if (item.value == "checked")
-                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "1", false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "1", false, ""));
                                 else
-                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "0", false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "0", false, ""));
                             }
                             break;
                         case Constants.FieldTypes.Signature:
@@ -1728,7 +1724,7 @@ namespace eFormSqlController
                                     if (lastCaseId == (int)item.case_id)
                                     {
 
-                                        foreach (KeyValuePair kvp in replyLst1)
+                                        foreach (eFormShared.KeyValuePair kvp in replyLst1)
                                         {
                                             if (kvp.Key == item.case_id.ToString())
                                             {
@@ -1752,20 +1748,20 @@ namespace eFormSqlController
                                         {
                                             if (customPathForUploadedData != null)
 
-                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), customPathForUploadedData + item.uploaded_data.file_name, false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), customPathForUploadedData + item.uploaded_data.file_name, false, ""));
                                             else
-                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), item.uploaded_data.file_location + item.uploaded_data.file_name, false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.uploaded_data.file_location + item.uploaded_data.file_name, false, ""));
                                         }
                                         else
                                         {
-                                            replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                            replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
                                         }
                                     }
                                 }
                                 else
                                 {
                                     lastIndex++;
-                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
                                 }
                                 lastCaseId = (int)item.case_id;
                             }
@@ -1776,30 +1772,30 @@ namespace eFormSqlController
                                 var kVP = PairRead(matchField.key_value_pair_list);
 
                                 foreach (field_values item in matches)
-                                    replyLst1.Add(new KeyValuePair(item.case_id.ToString(), PairMatch(kVP, item.value), false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), PairMatch(kVP, item.value), false, ""));
                             }
                             break;
 
                         case Constants.FieldTypes.MultiSelect:
                             {
                                 var kVP = PairRead(matchField.key_value_pair_list);
-                                rtrnLst = new List<List<KeyValuePair>>();
-                                List<KeyValuePair> replyLst = null;
+                                rtrnLst = new List<List<eFormShared.KeyValuePair>>();
+                                List<eFormShared.KeyValuePair> replyLst = null;
                                 int index = 0;
                                 string valueExt = "";
 
                                 foreach (var key in kVP)
                                 {
-                                    replyLst = new List<KeyValuePair>();
+                                    replyLst = new List<eFormShared.KeyValuePair>();
                                     index++;
 
                                     foreach (field_values item in matches)
                                     {
                                         valueExt = "|" + item.value + "|";
                                         if (valueExt.Contains("|" + index.ToString() + "|"))
-                                            replyLst.Add(new KeyValuePair(item.case_id.ToString(), "1", false, ""));
+                                            replyLst.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "1", false, ""));
                                         else
-                                            replyLst.Add(new KeyValuePair(item.case_id.ToString(), "0", false, ""));
+                                            replyLst.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "0", false, ""));
                                     }
 
                                     rtrnLst.Add(replyLst);
@@ -1821,18 +1817,18 @@ namespace eFormSqlController
 
                                             if (match != null)
                                             {
-                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), match.name, false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), match.name, false, ""));
                                             }
                                             else
                                             {
-                                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
                                             }
 
                                         }
                                     }
                                     catch
                                     {
-                                        replyLst1.Add(new KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
                                     }
                                 }
                             }
@@ -1841,7 +1837,7 @@ namespace eFormSqlController
 
                         default:
                             foreach (field_values item in matches)
-                                replyLst1.Add(new KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
                             break;
                     }
 
@@ -4976,13 +4972,13 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
-        private string PairBuild(List<KeyValuePair> lst)
+        private string PairBuild(List<eFormShared.KeyValuePair> lst)
         {
             string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><hash>";
             string inderStr;
             int index = 1;
 
-            foreach (KeyValuePair kVP in lst)
+            foreach (eFormShared.KeyValuePair kVP in lst)
             {
                 inderStr = "<" + index + ">";
 
@@ -5000,9 +4996,9 @@ namespace eFormSqlController
             return str;
         }
 
-        public List<KeyValuePair> PairRead(string str)
+        public List<eFormShared.KeyValuePair> PairRead(string str)
         {
-            List<KeyValuePair> list = new List<KeyValuePair>();
+            List<eFormShared.KeyValuePair> list = new List<eFormShared.KeyValuePair>();
             str = t.Locate(str, "<hash>", "</hash>");
 
             bool flag = true;
@@ -5018,7 +5014,7 @@ namespace eFormSqlController
                 selected = bool.Parse(t.Locate(inderStr.ToLower(), "<selected>", "</"));
                 displayIndex = t.Locate(inderStr, "<displayIndex>", "</");
 
-                list.Add(new KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
+                list.Add(new eFormShared.KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
 
                 index += 1;
 
@@ -5029,7 +5025,7 @@ namespace eFormSqlController
             return list;
         }
 
-        private string PairMatch(List<KeyValuePair> keyValuePairs, string match)
+        private string PairMatch(List<eFormShared.KeyValuePair> keyValuePairs, string match)
         {
             foreach (var item in keyValuePairs)
             {

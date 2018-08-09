@@ -1,10 +1,7 @@
 namespace eFormSqlController
 {
-    using System.Data.Entity;
-    //
+    using Microsoft.EntityFrameworkCore;
 
-    //
-    //
     public partial class MicrotingDbMs : DbContext, MicrotingContextInterface
     {
         public MicrotingDbMs() { }
@@ -50,771 +47,771 @@ namespace eFormSqlController
         public virtual DbSet<taggings> taggings { get; set; }
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<cases>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.done_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.microting_check_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.case_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<cases>()
-                .Property(e => e.custom)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_sites>()
-                .Property(e => e.last_check_id)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_values>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_values>()
-                .Property(e => e.status)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_values>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_values>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.label)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.description)
-                .HasMaxLength(int.MaxValue)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.custom)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.case_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_lists>()
-                .Property(e => e.folder_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_lists>()
-                .HasOptional(e => e.parent)
-                .WithMany(e => e.children)
-                .HasForeignKey(e => e.parent_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<uploaded_data>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<uploaded_data>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<uploaded_data>()
-                .Property(e => e.expiration_date)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_groups>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_groups>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_groups>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_groups>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_groups>()
-                .Property(e => e.name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_groups>()
-                .Property(e => e.type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.entity_group_id)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.entity_item_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.description)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_types>()
-                .Property(e => e.field_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_types>()
-                .Property(e => e.description)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.done_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.date)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.latitude)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.longitude)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.altitude)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.heading)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_values>()
-                .Property(e => e.accuracy)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.label)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.description)
-                .HasMaxLength(int.MaxValue)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.color)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.default_value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.unit_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.min_value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.max_value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.barcode_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.query_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.key_value_pair_list)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .Property(e => e.custom)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<fields>()
-                .HasOptional(e => e.parent)
-                .WithMany(e => e.children)
-                .HasForeignKey(e => e.parent_field_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<notifications>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<notifications>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<notifications>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<notifications>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<notifications>()
-                .Property(e => e.transmission)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<settings>()
-                .Property(e => e.name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<settings>()
-                .Property(e => e.value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<sites>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<sites>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<sites>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<site_workers>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<site_workers>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<site_workers>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<units>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<units>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<units>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.first_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.last_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<workers>()
-                .Property(e => e.email)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<tags>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<tags>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<tags>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<taggings>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<taggings>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<taggings>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.done_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.microting_check_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.case_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<case_versions>()
-                .Property(e => e.custom)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_site_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_site_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_site_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_site_versions>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_site_versions>()
-                .Property(e => e.last_check_id)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_value_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_value_versions>()
-                .Property(e => e.status)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_value_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_value_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.label)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.description)
-                .HasMaxLength(int.MaxValue)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.custom)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.case_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<check_list_versions>()
-                .Property(e => e.folder_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<uploaded_data_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<uploaded_data_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<uploaded_data_versions>()
-                .Property(e => e.expiration_date)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_group_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_group_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_group_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_group_versions>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_group_versions>()
-                .Property(e => e.name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_group_versions>()
-                .Property(e => e.type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.entity_group_id)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.entity_item_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.microting_uid)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.description)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.done_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.date)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.latitude)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.longitude)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.altitude)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.heading)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_value_versions>()
-                .Property(e => e.accuracy)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.label)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.description)
-                .HasMaxLength(int.MaxValue)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.color)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.default_value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.unit_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.min_value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.max_value)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.barcode_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.query_type)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.key_value_pair_list)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<field_versions>()
-                .Property(e => e.custom)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<site_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<site_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<site_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<site_worker_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<site_worker_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<site_worker_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<unit_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<unit_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<unit_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<worker_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<worker_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<worker_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<worker_versions>()
-                .Property(e => e.first_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<worker_versions>()
-                .Property(e => e.last_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<worker_versions>()
-                .Property(e => e.email)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<tag_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<tag_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<tag_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<tagging_versions>()
-                .Property(e => e.workflow_state)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<tagging_versions>()
-                .Property(e => e.created_at)
-                .HasPrecision(0);
-
-            modelBuilder.Entity<tagging_versions>()
-                .Property(e => e.updated_at)
-                .HasPrecision(0);
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.done_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.microting_check_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.case_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<cases>()
+        //        .Property(e => e.custom)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_sites>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_sites>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_sites>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_sites>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_sites>()
+        //        .Property(e => e.last_check_id)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_values>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_values>()
+        //        .Property(e => e.status)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_values>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_values>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.label)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.description)
+        //        .HasMaxLength(int.MaxValue)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.custom)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.case_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .Property(e => e.folder_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_lists>()
+        //        .HasOptional(e => e.parent)
+        //        .WithMany(e => e.children)
+        //        .HasForeignKey(e => e.parent_id)
+        //        .WillCascadeOnDelete(false);
+
+        //    modelBuilder.Entity<uploaded_data>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<uploaded_data>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<uploaded_data>()
+        //        .Property(e => e.expiration_date)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_groups>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_groups>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_groups>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_groups>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_groups>()
+        //        .Property(e => e.name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_groups>()
+        //        .Property(e => e.type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.entity_group_id)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.entity_item_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_items>()
+        //        .Property(e => e.description)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_types>()
+        //        .Property(e => e.field_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_types>()
+        //        .Property(e => e.description)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.done_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.date)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.latitude)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.longitude)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.altitude)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.heading)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_values>()
+        //        .Property(e => e.accuracy)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.label)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.description)
+        //        .HasMaxLength(int.MaxValue)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.color)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.default_value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.unit_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.min_value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.max_value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.barcode_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.query_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.key_value_pair_list)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .Property(e => e.custom)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<fields>()
+        //        .HasOptional(e => e.parent)
+        //        .WithMany(e => e.children)
+        //        .HasForeignKey(e => e.parent_field_id)
+        //        .WillCascadeOnDelete(false);
+
+        //    modelBuilder.Entity<notifications>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<notifications>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<notifications>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<notifications>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<notifications>()
+        //        .Property(e => e.transmission)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<settings>()
+        //        .Property(e => e.name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<settings>()
+        //        .Property(e => e.value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<sites>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<sites>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<sites>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<site_workers>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<site_workers>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<site_workers>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<units>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<units>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<units>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<workers>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<workers>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<workers>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<workers>()
+        //        .Property(e => e.first_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<workers>()
+        //        .Property(e => e.last_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<workers>()
+        //        .Property(e => e.email)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<tags>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<tags>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<tags>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<taggings>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<taggings>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<taggings>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.done_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.microting_check_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.case_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<case_versions>()
+        //        .Property(e => e.custom)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_site_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_site_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_site_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_site_versions>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_site_versions>()
+        //        .Property(e => e.last_check_id)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_value_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_value_versions>()
+        //        .Property(e => e.status)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_value_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_value_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.label)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.description)
+        //        .HasMaxLength(int.MaxValue)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.custom)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.case_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<check_list_versions>()
+        //        .Property(e => e.folder_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<uploaded_data_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<uploaded_data_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<uploaded_data_versions>()
+        //        .Property(e => e.expiration_date)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_group_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_group_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_group_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_group_versions>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_group_versions>()
+        //        .Property(e => e.name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_group_versions>()
+        //        .Property(e => e.type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.entity_group_id)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.entity_item_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.microting_uid)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<entity_item_versions>()
+        //        .Property(e => e.description)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.done_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.date)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.latitude)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.longitude)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.altitude)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.heading)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_value_versions>()
+        //        .Property(e => e.accuracy)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.label)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.description)
+        //        .HasMaxLength(int.MaxValue)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.color)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.default_value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.unit_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.min_value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.max_value)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.barcode_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.query_type)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.key_value_pair_list)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<field_versions>()
+        //        .Property(e => e.custom)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<site_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<site_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<site_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<site_worker_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<site_worker_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<site_worker_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<unit_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<unit_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<unit_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<worker_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<worker_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<worker_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<worker_versions>()
+        //        .Property(e => e.first_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<worker_versions>()
+        //        .Property(e => e.last_name)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<worker_versions>()
+        //        .Property(e => e.email)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<tag_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<tag_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<tag_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<tagging_versions>()
+        //        .Property(e => e.workflow_state)
+        //        .IsUnicode(false);
+
+        //    modelBuilder.Entity<tagging_versions>()
+        //        .Property(e => e.created_at)
+        //        .HasPrecision(0);
+
+        //    modelBuilder.Entity<tagging_versions>()
+        //        .Property(e => e.updated_at)
+        //        .HasPrecision(0);
+        //}
     }
 }

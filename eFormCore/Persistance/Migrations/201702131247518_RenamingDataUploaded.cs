@@ -1,18 +1,17 @@
+using Microsoft.EntityFrameworkCore.Migrations;
+
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-
-    public partial class RenamingDataUploaded : DbMigration
+    public partial class RenamingDataUploaded : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            RenameTable(name: "dbo.data_uploaded", newName: "uploaded_data");
+            migrationBuilder.RenameTable(name: "dbo.data_uploaded", newName: "uploaded_data");
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            RenameTable(name: "dbo.uploaded_data", newName: "data_uploaded");
+            migrationBuilder.RenameTable(name: "dbo.uploaded_data", newName: "data_uploaded");
         }
     }
 }

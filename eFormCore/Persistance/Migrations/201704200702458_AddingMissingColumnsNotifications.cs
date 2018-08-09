@@ -1,28 +1,27 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
+    using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class AddingMissingColumnsNotifications : DbMigration
+    public partial class AddingMissingColumnsNotifications : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
             try
             {
-                AddColumn("dbo.notifications", "notification_uid", c => c.String());
+                migrationBuilder.AddColumn("dbo.notifications", "notification_uid", c => c.String());
             }
             catch { }
             try
             {
-                AddColumn("dbo.notifications", "activity", c => c.String());
+                migrationBuilder.AddColumn("dbo.notifications", "activity", c => c.String());
             }
             catch { }
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            DropColumn("dbo.notifications", "notification_uid");
-            DropColumn("dbo.notifications", "activity");
+            migrationBuilder.DropColumn("dbo.notifications", "notification_uid");
+            migrationBuilder.DropColumn("dbo.notifications", "activity");
         }
     }
 }

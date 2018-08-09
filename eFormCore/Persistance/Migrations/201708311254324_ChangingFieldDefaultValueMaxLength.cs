@@ -1,20 +1,19 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
+    using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class ChangingFieldDefaultValueMaxLength : DbMigration
+    public partial class ChangingFieldDefaultValueMaxLength : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            AlterColumn("dbo.fields", "default_value", c => c.String(maxLength: int.MaxValue));
-            AlterColumn("dbo.field_versions", "default_value", c => c.String(maxLength: int.MaxValue));
+            migrationBuilder.AlterColumn("dbo.fields", "default_value", c => c.String(maxLength: int.MaxValue));
+            migrationBuilder.AlterColumn("dbo.field_versions", "default_value", c => c.String(maxLength: int.MaxValue));
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            AlterColumn("dbo.fields", "default_value", c => c.String(maxLength: 255));
-            AlterColumn("dbo.field_versions", "default_value", c => c.String(maxLength: 255));
+            migrationBuilder.AlterColumn("dbo.fields", "default_value", c => c.String(maxLength: 255));
+            migrationBuilder.AlterColumn("dbo.field_versions", "default_value", c => c.String(maxLength: 255));
         }
     }
 }

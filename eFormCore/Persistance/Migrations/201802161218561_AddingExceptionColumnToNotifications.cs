@@ -1,18 +1,17 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class AddingExceptionColumnToNotifications : DbMigration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class AddingExceptionColumnToNotifications : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            AddColumn("dbo.notifications", "exception", c => c.String(maxLength: int.MaxValue));
+            migrationBuilder.AddColumn("dbo.notifications", "exception", c => c.String(maxLength: int.MaxValue));
         }
-        
-        public override void Down()
+
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            DropColumn("dbo.notifications", "exception");
+            migrationBuilder.DropColumn("dbo.notifications", "exception");
         }
     }
 }

@@ -1,13 +1,12 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
+    using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class AddInputAndOutputTables : DbMigration
+    public partial class AddInputAndOutputTables : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_input_cases",
                 c => new
                 {
@@ -25,7 +24,7 @@ namespace eFormSqlController.Migrations
                     replacements = c.String(unicode: false)
                 })
                 .PrimaryKey(t => t.id);
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_output_cases",
                 c => new
                 {
@@ -46,10 +45,10 @@ namespace eFormSqlController.Migrations
                 .PrimaryKey(t => t.id);
         }
 
-        public override void Down()
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            DropTable("dbo.a_input_cases");
-            DropTable("dbo.a_output_cases");
+            migrationBuilder.DropTable("dbo.a_input_cases");
+            migrationBuilder.DropTable("dbo.a_output_cases");
         }
     }
 }

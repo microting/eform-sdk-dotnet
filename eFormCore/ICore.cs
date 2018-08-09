@@ -178,14 +178,14 @@ namespace eFormCore
 
         //---------------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Tries to retrieve all connected cases to a templat, and delivers them as a Excel fil, at the returned path's location
-        /// </summary>
-        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
-        /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
-        /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
-        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut. WARNING: Excel might use its default location</param>
-        string CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData);
+        ///// <summary>
+        ///// Tries to retrieve all connected cases to a templat, and delivers them as a Excel fil, at the returned path's location
+        ///// </summary>
+        ///// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
+        ///// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
+        ///// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
+        ///// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut. WARNING: Excel might use its default location</param>
+        //string CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData);
 
         /// <summary>
         /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location

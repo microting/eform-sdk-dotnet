@@ -1,23 +1,22 @@
 namespace eFormSqlController.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class RemovingAInteractiveCasesTables : DbMigration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class RemovingAInteractiveCasesTables : Migration
     {
-        public override void Up()
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-            DropForeignKey("dbo.a_interaction_case_lists", "a_interaction_case_id", "dbo.a_interaction_cases");
-            DropIndex("dbo.a_interaction_case_lists", new[] { "a_interaction_case_id" });
-            DropTable("dbo.a_interaction_case_list_versions");
-            DropTable("dbo.a_interaction_case_lists");
-            DropTable("dbo.a_interaction_cases");
-            DropTable("dbo.a_interaction_case_versions");
+            migrationBuilder.DropForeignKey("dbo.a_interaction_case_lists", "a_interaction_case_id", "dbo.a_interaction_cases");
+            migrationBuilder.DropIndex("dbo.a_interaction_case_lists", new[] { "a_interaction_case_id" });
+            migrationBuilder.DropTable("dbo.a_interaction_case_list_versions");
+            migrationBuilder.DropTable("dbo.a_interaction_case_lists");
+            migrationBuilder.DropTable("dbo.a_interaction_cases");
+            migrationBuilder.DropTable("dbo.a_interaction_case_versions");
         }
-        
-        public override void Down()
+
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
-            CreateTable(
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_case_versions",
                 c => new
                     {
@@ -37,8 +36,8 @@ namespace eFormSqlController.Migrations
                         expectionString = c.String(),
                     })
                 .PrimaryKey(t => t.id);
-            
-            CreateTable(
+
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_cases",
                 c => new
                     {
@@ -56,8 +55,8 @@ namespace eFormSqlController.Migrations
                         expectionString = c.String(),
                     })
                 .PrimaryKey(t => t.id);
-            
-            CreateTable(
+
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_case_lists",
                 c => new
                     {
@@ -74,8 +73,8 @@ namespace eFormSqlController.Migrations
                         case_id = c.Int(),
                     })
                 .PrimaryKey(t => t.id);
-            
-            CreateTable(
+
+            migrationBuilder.CreateTable(
                 "dbo.a_interaction_case_list_versions",
                 c => new
                     {
@@ -92,9 +91,9 @@ namespace eFormSqlController.Migrations
                         case_id = c.Int(),
                     })
                 .PrimaryKey(t => t.id);
-            
-            CreateIndex("dbo.a_interaction_case_lists", "a_interaction_case_id");
-            AddForeignKey("dbo.a_interaction_case_lists", "a_interaction_case_id", "dbo.a_interaction_cases", "id");
+
+            migrationBuilder.CreateIndex("dbo.a_interaction_case_lists", "a_interaction_case_id");
+            migrationBuilder.AddForeignKey("dbo.a_interaction_case_lists", "a_interaction_case_id", "dbo.a_interaction_cases", "id");
         }
     }
 }
