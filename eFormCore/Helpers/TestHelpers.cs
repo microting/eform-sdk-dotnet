@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace eFormCore.Helpers
 {
@@ -19,7 +20,10 @@ namespace eFormCore.Helpers
         public TestHelpers()
         {
             string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-            DbContext = new MicrotingDbMs(ConnectionString);
+            //DbContextOptions dbo = new DbContextOptions();
+            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
         }
 
         #region helperMethods

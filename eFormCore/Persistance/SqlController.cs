@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace eFormSqlController
 {
@@ -37,13 +38,14 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    db.Database.CreateIfNotExists();
+                    //db.Database.CreateIfNotExists();
+                    //db.Database.Migrate();
                     var match = db.settings.Count();
                 }
             }
             catch
             {
-                MigrateDb();
+                //MigrateDb();
             }
             #endregion
 
@@ -54,19 +56,25 @@ namespace eFormSqlController
 
         private MicrotingContextInterface GetContext()
         {
-            if (msSql)
-                return new MicrotingDbMs(connectionStr);
-            else
-                return new MicrotingDbMy(connectionStr);
+            //if (msSql)
+            //{
+
+                DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);
+                return new MicrotingDbMs(dbContextOptionsBuilder.Options);
+            //}
+                
+            //else
+            //    return new MicrotingDbMy(connectionStr);
         }
 
         public bool MigrateDb()
         {
-            var configuration = new Configuration();
-            configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
-            var migrator = new DbMigrator(configuration);           
+            //var configuration = new Configuration();
+            //configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
+            //var migrator = new DbMigrator(configuration);           
             
-            migrator.Update();
+            //migrator.Update();
             return true;
         }
         #endregion
