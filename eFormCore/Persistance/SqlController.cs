@@ -1,12 +1,13 @@
 ﻿using eFormShared;
 using eFormData;
-using eFormSqlController.Migrations;
+//using eFormSqlController.Migrations;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 namespace eFormSqlController
 {
@@ -38,6 +39,8 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
+                    //TODO! THIS part need to be redone in some form in EF Core!
+                    db.Database.Migrate();
                     //db.Database.CreateIfNotExists();
                     //db.Database.Migrate();
                     var match = db.settings.Count();
@@ -45,6 +48,7 @@ namespace eFormSqlController
             }
             catch
             {
+                //TODO! THIS part need to be redone in some form in EF Core!
                 //MigrateDb();
             }
             #endregion
@@ -54,7 +58,7 @@ namespace eFormSqlController
                 SettingCreateDefaults();
         }
 
-        private MicrotingContextInterface GetContext()
+        private MicrotingDbMs GetContext()
         {
             //if (msSql)
             //{
@@ -1160,7 +1164,8 @@ namespace eFormSqlController
                                                 break;
                                         }
                                         responseCase.version = responseCase.version + 1;
-                                        db.cases.AddOrUpdate(responseCase);
+                                        //TODO! THIS part need to be redone in some form in EF Core!
+                                        //db.cases.AddOrUpdate(responseCase);
                                         db.SaveChanges();
                                         db.case_versions.Add(MapCaseVersions(responseCase));
                                         db.SaveChanges();
@@ -1311,7 +1316,8 @@ namespace eFormSqlController
 
                         match.version += 1;
                         match.updated_at = DateTime.Now;
-                        db.cases.AddOrUpdate(match);
+                        //TODO! THIS part need to be redone in some form in EF Core!
+                        //db.cases.AddOrUpdate(match);
                         db.SaveChanges();
                         db.case_versions.Add(MapCaseVersions(match));
                         db.SaveChanges();
@@ -2684,7 +2690,8 @@ namespace eFormSqlController
                         }
                     }
 
-                    db.cases.AddOrUpdate(lstMatchs);
+                    //TODO! THIS part need to be redone in some form in EF Core!
+                    //db.cases.AddOrUpdate(lstMatchs);
                     db.SaveChanges();
                     db.case_versions.Add(MapCaseVersions(lstMatchs));
                     db.SaveChanges();
@@ -5380,12 +5387,16 @@ namespace eFormSqlController
             using (var db = GetContext())
             {
                 field_types fT = new field_types();
-                fT.id = id;
+                //fT.id = id;
                 fT.field_type = fieldType;
                 fT.description = description;
 
                 db.field_types.Add(fT);
+                //db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.field_types ON");
+                //db.field_types.s
                 db.SaveChanges();
+
+                //db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.field_types OFF");
             }
         }
     }

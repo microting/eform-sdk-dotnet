@@ -7,8 +7,8 @@ namespace eFormSqlController.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn("dbo.uploaded_data", "transcription_id", c => c.Int());
-            migrationBuilder.AddColumn("dbo.uploaded_data_versions", "transcription_id", c => c.Int());
+            //migrationBuilder.AddColumn("dbo.uploaded_data", "transcription_id", c => c.Int());
+            //migrationBuilder.AddColumn("dbo.uploaded_data_versions", "transcription_id", c => c.Int());
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

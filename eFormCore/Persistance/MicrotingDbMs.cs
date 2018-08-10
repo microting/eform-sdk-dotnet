@@ -3,7 +3,7 @@ namespace eFormSqlController
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage;
 
-    public partial class MicrotingDbMs : DbContext, MicrotingContextInterface
+    public partial class MicrotingDbMs : DbContext
     {
         public MicrotingDbMs() { }
 
@@ -48,7 +48,7 @@ namespace eFormSqlController
         public virtual DbSet<taggings> taggings { get; set; }
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
 
-        Database MicrotingContextInterface.Database => throw new System.NotImplementedException();
+        //Database MicrotingContextInterface.Database => throw new System.NotImplementedException();
 
     }
 }

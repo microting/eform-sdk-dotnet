@@ -8,12 +8,12 @@ namespace eFormSqlController.Migrations
         {
             try
             {
-                migrationBuilder.AddColumn("dbo.notifications", "notification_uid", c => c.String());
+                //migrationBuilder.AddColumn("dbo.notifications", "notification_uid", c => c.String());
             }
             catch { }
             try
             {
-                migrationBuilder.AddColumn("dbo.notifications", "activity", c => c.String());
+                //migrationBuilder.AddColumn("dbo.notifications", "activity", c => c.String());
             }
             catch { }
         }

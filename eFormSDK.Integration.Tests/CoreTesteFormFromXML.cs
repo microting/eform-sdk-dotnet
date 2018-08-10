@@ -968,61 +968,61 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(6, mS.DisplayOrder);
             Assert.AreEqual(false, mS.Mandatory);
 
-            KeyValuePair kP = (KeyValuePair)mS.KeyValuePairList[0];
+            eFormShared.KeyValuePair kP = (eFormShared.KeyValuePair)mS.KeyValuePairList[0];
             Assert.AreEqual("1", kP.Key);
             Assert.AreEqual("Valgmulighed 1", kP.Value);
             Assert.AreEqual(false, kP.Selected);
             Assert.AreEqual("1", kP.DisplayOrder);
 
-            KeyValuePair kP1 = (KeyValuePair)mS.KeyValuePairList[1];
+            eFormShared.KeyValuePair kP1 = (eFormShared.KeyValuePair)mS.KeyValuePairList[1];
             Assert.AreEqual("2", kP1.Key);
             Assert.AreEqual("Valgmulighed 2", kP1.Value);
             Assert.AreEqual(false, kP1.Selected);
             Assert.AreEqual("2", kP1.DisplayOrder);
 
-            KeyValuePair kP2 = (KeyValuePair)mS.KeyValuePairList[2];
+            eFormShared.KeyValuePair kP2 = (eFormShared.KeyValuePair)mS.KeyValuePairList[2];
             Assert.AreEqual("3", kP2.Key);
             Assert.AreEqual("Valgmulighed 3", kP2.Value);
             Assert.AreEqual(false, kP2.Selected);
             Assert.AreEqual("3", kP2.DisplayOrder);
 
-            KeyValuePair kP3 = (KeyValuePair)mS.KeyValuePairList[3];
+            eFormShared.KeyValuePair kP3 = (eFormShared.KeyValuePair)mS.KeyValuePairList[3];
             Assert.AreEqual("4", kP3.Key);
             Assert.AreEqual("Valgmulighed 4", kP3.Value);
             Assert.AreEqual(false, kP3.Selected);
             Assert.AreEqual("4", kP3.DisplayOrder);
 
-            KeyValuePair kP4 = (KeyValuePair)mS.KeyValuePairList[4];
+            eFormShared.KeyValuePair kP4 = (eFormShared.KeyValuePair)mS.KeyValuePairList[4];
             Assert.AreEqual("5", kP4.Key);
             Assert.AreEqual("Valgmulighed 5", kP4.Value);
             Assert.AreEqual(false, kP4.Selected);
             Assert.AreEqual("5", kP4.DisplayOrder);
 
-            KeyValuePair kP5 = (KeyValuePair)mS.KeyValuePairList[5];
+            eFormShared.KeyValuePair kP5 = (eFormShared.KeyValuePair)mS.KeyValuePairList[5];
             Assert.AreEqual("6", kP5.Key);
             Assert.AreEqual("Valgmulighed 6", kP5.Value);
             Assert.AreEqual(false, kP5.Selected);
             Assert.AreEqual("6", kP5.DisplayOrder);
 
-            KeyValuePair kP6 = (KeyValuePair)mS.KeyValuePairList[6];
+            eFormShared.KeyValuePair kP6 = (eFormShared.KeyValuePair)mS.KeyValuePairList[6];
             Assert.AreEqual("7", kP6.Key);
             Assert.AreEqual("Valgmulighed 7", kP6.Value);
             Assert.AreEqual(false, kP6.Selected);
             Assert.AreEqual("7", kP6.DisplayOrder);
 
-            KeyValuePair kP7 = (KeyValuePair)mS.KeyValuePairList[7];
+            eFormShared.KeyValuePair kP7 = (eFormShared.KeyValuePair)mS.KeyValuePairList[7];
             Assert.AreEqual("8", kP7.Key);
             Assert.AreEqual("Valgmulighed 8", kP7.Value);
             Assert.AreEqual(false, kP7.Selected);
             Assert.AreEqual("8", kP7.DisplayOrder);
 
-            KeyValuePair kP8 = (KeyValuePair)mS.KeyValuePairList[8];
+            eFormShared.KeyValuePair kP8 = (eFormShared.KeyValuePair)mS.KeyValuePairList[8];
             Assert.AreEqual("9", kP8.Key);
             Assert.AreEqual("Valgmulighed 9", kP8.Value);
             Assert.AreEqual(false, kP8.Selected);
             Assert.AreEqual("9", kP8.DisplayOrder);
 
-            KeyValuePair kP9 = (KeyValuePair)mS.KeyValuePairList[9];
+            eFormShared.KeyValuePair kP9 = (eFormShared.KeyValuePair)mS.KeyValuePairList[9];
             Assert.AreEqual("Valgmulighed N", kP9.Value);
             Assert.AreEqual(false, kP9.Selected);
             Assert.AreEqual("10", kP9.DisplayOrder);
@@ -1033,61 +1033,61 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(7, sS.DisplayOrder);
             Assert.AreEqual(false, sS.Mandatory);
 
-            KeyValuePair skP = (KeyValuePair)mS.KeyValuePairList[0];
+            eFormShared.KeyValuePair skP = (eFormShared.KeyValuePair)mS.KeyValuePairList[0];
             Assert.AreEqual("1", kP.Key);
             Assert.AreEqual("Valgmulighed 1", kP.Value);
             Assert.AreEqual(false, kP.Selected);
             Assert.AreEqual("1", kP.DisplayOrder);
 
-            KeyValuePair skP1 = (KeyValuePair)mS.KeyValuePairList[1];
+            eFormShared.KeyValuePair skP1 = (eFormShared.KeyValuePair)mS.KeyValuePairList[1];
             Assert.AreEqual("2", kP1.Key);
             Assert.AreEqual("Valgmulighed 2", kP1.Value);
             Assert.AreEqual(false, kP1.Selected);
             Assert.AreEqual("2", kP1.DisplayOrder);
 
-            KeyValuePair skP2 = (KeyValuePair)mS.KeyValuePairList[2];
+            eFormShared.KeyValuePair skP2 = (eFormShared.KeyValuePair)mS.KeyValuePairList[2];
             Assert.AreEqual("3", kP2.Key);
             Assert.AreEqual("Valgmulighed 3", kP2.Value);
             Assert.AreEqual(false, kP2.Selected);
             Assert.AreEqual("3", kP2.DisplayOrder);
 
-            KeyValuePair skP3 = (KeyValuePair)mS.KeyValuePairList[3];
+            eFormShared.KeyValuePair skP3 = (eFormShared.KeyValuePair)mS.KeyValuePairList[3];
             Assert.AreEqual("4", kP3.Key);
             Assert.AreEqual("Valgmulighed 4", kP3.Value);
             Assert.AreEqual(false, kP3.Selected);
             Assert.AreEqual("4", kP3.DisplayOrder);
 
-            KeyValuePair skP4 = (KeyValuePair)mS.KeyValuePairList[4];
+            eFormShared.KeyValuePair skP4 = (eFormShared.KeyValuePair)mS.KeyValuePairList[4];
             Assert.AreEqual("5", kP4.Key);
             Assert.AreEqual("Valgmulighed 5", kP4.Value);
             Assert.AreEqual(false, kP4.Selected);
             Assert.AreEqual("5", kP4.DisplayOrder);
 
-            KeyValuePair skP5 = (KeyValuePair)mS.KeyValuePairList[5];
+            eFormShared.KeyValuePair skP5 = (eFormShared.KeyValuePair)mS.KeyValuePairList[5];
             Assert.AreEqual("6", kP5.Key);
             Assert.AreEqual("Valgmulighed 6", kP5.Value);
             Assert.AreEqual(false, kP5.Selected);
             Assert.AreEqual("6", kP5.DisplayOrder);
 
-            KeyValuePair skP6 = (KeyValuePair)mS.KeyValuePairList[6];
+            eFormShared.KeyValuePair skP6 = (eFormShared.KeyValuePair)mS.KeyValuePairList[6];
             Assert.AreEqual("7", kP6.Key);
             Assert.AreEqual("Valgmulighed 7", kP6.Value);
             Assert.AreEqual(false, kP6.Selected);
             Assert.AreEqual("7", kP6.DisplayOrder);
 
-            KeyValuePair skP7 = (KeyValuePair)mS.KeyValuePairList[7];
+            eFormShared.KeyValuePair skP7 = (eFormShared.KeyValuePair)mS.KeyValuePairList[7];
             Assert.AreEqual("8", kP7.Key);
             Assert.AreEqual("Valgmulighed 8", kP7.Value);
             Assert.AreEqual(false, kP7.Selected);
             Assert.AreEqual("8", kP7.DisplayOrder);
 
-            KeyValuePair skP8 = (KeyValuePair)mS.KeyValuePairList[8];
+            eFormShared.KeyValuePair skP8 = (eFormShared.KeyValuePair)mS.KeyValuePairList[8];
             Assert.AreEqual("9", kP8.Key);
             Assert.AreEqual("Valgmulighed 9", kP8.Value);
             Assert.AreEqual(false, kP8.Selected);
             Assert.AreEqual("9", kP8.DisplayOrder);
 
-            KeyValuePair skP9 = (KeyValuePair)mS.KeyValuePairList[9];
+            eFormShared.KeyValuePair skP9 = (eFormShared.KeyValuePair)mS.KeyValuePairList[9];
             Assert.AreEqual("Valgmulighed N", kP9.Value);
             Assert.AreEqual(false, kP9.Selected);
             Assert.AreEqual("10", kP9.DisplayOrder);
@@ -1286,25 +1286,25 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, mS.DisplayOrder);
             Assert.AreEqual(false, mS.Mandatory);
 
-            KeyValuePair kP = (KeyValuePair)mS.KeyValuePairList[0];
+            eFormShared.KeyValuePair kP = (eFormShared.KeyValuePair)mS.KeyValuePairList[0];
             Assert.AreEqual("1", kP.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP.Selected);
             Assert.AreEqual("1", kP.DisplayOrder);
 
-            KeyValuePair kP2 = (KeyValuePair)mS.KeyValuePairList[1];
+            eFormShared.KeyValuePair kP2 = (eFormShared.KeyValuePair)mS.KeyValuePairList[1];
             Assert.AreEqual("2", kP2.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP2.Selected);
             Assert.AreEqual("2", kP2.DisplayOrder);
 
-            KeyValuePair kP3 = (KeyValuePair)mS.KeyValuePairList[2];
+            eFormShared.KeyValuePair kP3 = (eFormShared.KeyValuePair)mS.KeyValuePairList[2];
             Assert.AreEqual("3", kP3.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP3.Selected);
             Assert.AreEqual("3", kP3.DisplayOrder);
 
-            KeyValuePair kP4 = (KeyValuePair)mS.KeyValuePairList[3];
+            eFormShared.KeyValuePair kP4 = (eFormShared.KeyValuePair)mS.KeyValuePairList[3];
             Assert.AreEqual("4", kP4.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP4.Selected);
@@ -1316,13 +1316,13 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, sS.DisplayOrder);
             Assert.AreEqual(false, sS.Mandatory);
 
-            KeyValuePair kkP = (KeyValuePair)sS.KeyValuePairList[0];
+            eFormShared.KeyValuePair kkP = (eFormShared.KeyValuePair)sS.KeyValuePairList[0];
             Assert.AreEqual("1", kkP.Key);
             //Assert.AreEqual(CData, kkP.Value); TODO
             Assert.AreEqual(false, kkP.Selected);
             Assert.AreEqual("1", kkP.DisplayOrder);
 
-            KeyValuePair kkP2 = (KeyValuePair)sS.KeyValuePairList[1];
+            eFormShared.KeyValuePair kkP2 = (eFormShared.KeyValuePair)sS.KeyValuePairList[1];
             Assert.AreEqual("2", kkP2.Key);
             //Assert.AreEqual(CData, kkP2.Value); TODO
             Assert.AreEqual(false, kkP2.Selected);
@@ -1462,49 +1462,49 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, sS.DisplayOrder);
             Assert.AreEqual(false, sS.Mandatory);
 
-            KeyValuePair kP = (KeyValuePair)sS.KeyValuePairList[0];
+            eFormShared.KeyValuePair kP = (eFormShared.KeyValuePair)sS.KeyValuePairList[0];
             Assert.AreEqual("1", kP.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP.Selected);
             Assert.AreEqual("1", kP.DisplayOrder);
 
-            KeyValuePair kP2 = (KeyValuePair)sS.KeyValuePairList[1];
+            eFormShared.KeyValuePair kP2 = (eFormShared.KeyValuePair)sS.KeyValuePairList[1];
             Assert.AreEqual("2", kP2.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP2.Selected);
             Assert.AreEqual("2", kP2.DisplayOrder);
 
-            KeyValuePair kP3 = (KeyValuePair)sS.KeyValuePairList[2];
+            eFormShared.KeyValuePair kP3 = (eFormShared.KeyValuePair)sS.KeyValuePairList[2];
             Assert.AreEqual("3", kP3.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP3.Selected);
             Assert.AreEqual("3", kP3.DisplayOrder);
 
-            KeyValuePair kP4 = (KeyValuePair)sS.KeyValuePairList[3];
+            eFormShared.KeyValuePair kP4 = (eFormShared.KeyValuePair)sS.KeyValuePairList[3];
             Assert.AreEqual("4", kP4.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP4.Selected);
             Assert.AreEqual("4", kP4.DisplayOrder);
 
-            KeyValuePair kP5 = (KeyValuePair)sS.KeyValuePairList[4];
+            eFormShared.KeyValuePair kP5 = (eFormShared.KeyValuePair)sS.KeyValuePairList[4];
             Assert.AreEqual("5", kP5.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP5.Selected);
             Assert.AreEqual("5", kP5.DisplayOrder);
 
-            KeyValuePair kP6 = (KeyValuePair)sS.KeyValuePairList[5];
+            eFormShared.KeyValuePair kP6 = (eFormShared.KeyValuePair)sS.KeyValuePairList[5];
             Assert.AreEqual("6", kP6.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP6.Selected);
             Assert.AreEqual("6", kP6.DisplayOrder);
 
-            KeyValuePair kP7 = (KeyValuePair)sS.KeyValuePairList[6];
+            eFormShared.KeyValuePair kP7 = (eFormShared.KeyValuePair)sS.KeyValuePairList[6];
             Assert.AreEqual("7", kP7.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP7.Selected);
             Assert.AreEqual("7", kP7.DisplayOrder);
 
-            KeyValuePair kP8 = (KeyValuePair)sS.KeyValuePairList[7];
+            eFormShared.KeyValuePair kP8 = (eFormShared.KeyValuePair)sS.KeyValuePairList[7];
             Assert.AreEqual("8", kP8.Key);
             //Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kP8.Selected);

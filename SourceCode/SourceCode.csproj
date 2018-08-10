@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microting.eForm\Microting.eForm.csproj" />
+    <ProjectReference Include="..\eFormCore\Microting.eForm.csproj" />
   </ItemGroup>
 
 </Project>

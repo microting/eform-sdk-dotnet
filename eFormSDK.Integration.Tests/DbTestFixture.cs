@@ -6,9 +6,8 @@ using NUnit.Framework;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity.Infrastructure;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -28,9 +27,13 @@ namespace eFormSDK.Integration.Tests
 
         [SetUp]
         public void Setup()
-        {            
-            DbContext = new MicrotingDbMs(ConnectionString);
-            DbContext.Database.CommandTimeout = 300;
+        {
+
+            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
+            //DbContext = new MicrotingDbMs(ConnectionString);
+            DbContext.Database.SetCommandTimeout(300);
 
             try
             {
@@ -54,9 +57,9 @@ namespace eFormSDK.Integration.Tests
             //    var sqlServer = azure.SqlServers.GetById(databaseServerId);
             //    sqlServer.Databases.Define(databaseName: databaseName).Create();
             //}
-            DbContext.Database.CreateIfNotExists();
+            //DbContext.Database.CreateIfNotExists();
 
-            DbContext.Database.Initialize(true);
+            //DbContext.Database.Initialize(true);
 
             DoSetup();
         }
@@ -74,27 +77,29 @@ namespace eFormSDK.Integration.Tests
 
         public void ClearDb()
         {
-            var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
 
-            List<string> tables = new List<string>();
-            foreach (var item in metadata)
-            {
-                if (item.ToString().Contains("CodeFirstDatabaseSchema"))
-                {
-                    tables.Add(item.ToString().Replace("CodeFirstDatabaseSchema.", ""));
-                }
-            }
+            //TODO! THIS part need to be redone in some form in EF Core!
+            //var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
 
-            foreach (string tableName in tables)
-            {
-                try
-                {
-                    DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + tableName + "]");
-                }
-                catch 
-                { }
+            //List<string> tables = new List<string>();
+            //foreach (var item in metadata)
+            //{
+            //    if (item.ToString().Contains("CodeFirstDatabaseSchema"))
+            //    {
+            //        tables.Add(item.ToString().Replace("CodeFirstDatabaseSchema.", ""));
+            //    }
+            //}
 
-            }
+            //foreach (string tableName in tables)
+            //{
+            //    try
+            //    {
+            //        DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + tableName + "]");
+            //    }
+            //    catch 
+            //    { }
+
+            //}
         }
         private string path;
         

@@ -6,7 +6,7 @@ namespace eFormSqlController.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn("dbo.notifications", "exception", c => c.String(maxLength: int.MaxValue));
+            //migrationBuilder.AddColumn("dbo.notifications", "exception", c => c.String(maxLength: int.MaxValue));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

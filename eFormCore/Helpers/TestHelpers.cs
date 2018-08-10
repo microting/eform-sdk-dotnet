@@ -108,6 +108,7 @@ namespace eFormCore.Helpers
             cl1.folder_name = folderName;
             cl1.display_index = displayIndex;
             cl1.repeated = repeated;
+            cl1.parent_id = 0;
             
             DbContext.check_lists.Add(cl1);
             DbContext.SaveChanges();

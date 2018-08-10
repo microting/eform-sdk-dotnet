@@ -6,8 +6,8 @@ namespace eFormSqlController.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn("dbo.check_lists", "quick_sync_enabled", c => c.Short());
-            migrationBuilder.AddColumn("dbo.check_list_versions", "quick_sync_enabled", c => c.Short());
+            //migrationBuilder.AddColumn("dbo.check_lists", "quick_sync_enabled", c => c.Short());
+            //migrationBuilder.AddColumn("dbo.check_list_versions", "quick_sync_enabled", c => c.Short());
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
