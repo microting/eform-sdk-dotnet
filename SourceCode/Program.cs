@@ -25,6 +25,9 @@ SOFTWARE.
 using eForm.Messages;
 using eFormCore;
 using eFormShared;
+using eFormSqlController;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Rebus.Activation;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
@@ -38,10 +41,15 @@ namespace SourceCode
     {
         static void Main(string[] args)
         {
+            //MicrotingDbMs DbContext;
+
+            string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            //dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            //DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
+
             try
             {
-
-
                 #region pick database
 
                 string serverConnectionString = "";

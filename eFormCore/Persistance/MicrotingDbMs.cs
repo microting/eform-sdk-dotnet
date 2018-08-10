@@ -48,6 +48,11 @@ namespace eFormSqlController
         public virtual DbSet<taggings> taggings { get; set; }
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
 
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+        //    optionsBuilder.UseSqlServer(ConnectionString);
+        //}
         //Database MicrotingContextInterface.Database => throw new System.NotImplementedException();
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

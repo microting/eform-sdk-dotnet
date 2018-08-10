@@ -37,30 +37,6 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
-    <Compile Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.cs" />
-    <Compile Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.Designer.cs">
-      <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.cs" />
-    <Compile Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.Designer.cs">
-      <DependentUpon>201807051306536_AddTranscriptionIdToUploadedData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201805231146385_ChangingFieldDefaultValueToBeMax.cs" />
-    <Compile Include="Persistance\Migrations\201805231146385_ChangingFieldDefaultValueToBeMax.Designer.cs">
-      <DependentUpon>201805231146385_ChangingFieldDefaultValueToBeMax.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201804171003516_AddingStackTraceToNotifications.cs" />
-    <Compile Include="Persistance\Migrations\201804171003516_AddingStackTraceToNotifications.Designer.cs">
-      <DependentUpon>201804171003516_AddingStackTraceToNotifications.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.cs" />
-    <Compile Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.Designer.cs">
-      <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.cs" />
-    <Compile Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.Designer.cs">
-      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataItemGroup.cs" />
     <Compile Include="Model\Element.cs" />
@@ -74,6 +50,9 @@
     <Compile Include="Persistance\MicrotingContextInterface.cs" />
     <Compile Include="Persistance\MicrotingDbMs.cs" />
     <Compile Include="Persistance\MicrotingDbMy.cs" />
+    <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.cs" />
+    <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.Designer.cs" />
+    <Compile Include="Persistance\Migrations\MicrotingDbMsModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\cases.cs" />
     <Compile Include="Persistance\table\case_versions.cs" />
@@ -112,110 +91,6 @@
     <Compile Include="Persistance\table\worker_versions.cs" />
     <Compile Include="Services\Subscriber.cs" />
     <Compile Include="Tools.cs" />
-    <Compile Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.cs" />
-    <Compile Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.Designer.cs">
-      <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201702131247518_RenamingDataUploaded.cs" />
-    <Compile Include="Persistance\Migrations\201702131247518_RenamingDataUploaded.Designer.cs">
-      <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201704071121081_RemoveOutlookTable.cs" />
-    <Compile Include="Persistance\Migrations\201704071121081_RemoveOutlookTable.Designer.cs">
-      <DependentUpon>201704071121081_RemoveOutlookTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201704180753399_AddInputAndOutputTables.cs" />
-    <Compile Include="Persistance\Migrations\201704180753399_AddInputAndOutputTables.Designer.cs">
-      <DependentUpon>201704180753399_AddInputAndOutputTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201704200702458_AddingMissingColumnsNotifications.cs" />
-    <Compile Include="Persistance\Migrations\201704200702458_AddingMissingColumnsNotifications.Designer.cs">
-      <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201704270817388_ChangingDescriptionToMax.cs" />
-    <Compile Include="Persistance\Migrations\201704270817388_ChangingDescriptionToMax.Designer.cs">
-      <DependentUpon>201704270817388_ChangingDescriptionToMax.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201704280759188_AddingInteractionsTable.cs" />
-    <Compile Include="Persistance\Migrations\201704280759188_AddingInteractionsTable.Designer.cs">
-      <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.cs" />
-    <Compile Include="Persistance\Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.Designer.cs">
-      <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs" />
-    <Compile Include="Persistance\Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.Designer.cs">
-      <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.cs" />
-    <Compile Include="Persistance\Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.Designer.cs">
-      <DependentUpon>201708311254324_ChangingFieldDefaultValueMaxLength.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.cs" />
-    <Compile Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.Designer.cs">
-      <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Persistance\Migrations\201801291231102_ModelUpdate.cs" />
-    <Compile Include="Persistance\Migrations\201801291231102_ModelUpdate.Designer.cs">
-      <DependentUpon>201801291231102_ModelUpdate.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-  <EmbeddedResource Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.resx">
-      <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201807051306536_AddTranscriptionIdToUploadedData.resx">
-      <DependentUpon>201807051306536_AddTranscriptionIdToUploadedData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201805231146385_ChangingFieldDefaultValueToBeMax.resx">
-      <DependentUpon>201805231146385_ChangingFieldDefaultValueToBeMax.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201804171003516_AddingStackTraceToNotifications.resx">
-      <DependentUpon>201804171003516_AddingStackTraceToNotifications.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201802191303376_RemovingAInteractiveCasesTables.resx">
-      <DependentUpon>201802191303376_RemovingAInteractiveCasesTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201802161218561_AddingExceptionColumnToNotifications.resx">
-      <DependentUpon>201802161218561_AddingExceptionColumnToNotifications.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201702131234257_RenamingTablesToEnableInterpolation.resx">
-      <DependentUpon>201702131234257_RenamingTablesToEnableInterpolation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201702131247518_RenamingDataUploaded.resx">
-      <DependentUpon>201702131247518_RenamingDataUploaded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201704071121081_RemoveOutlookTable.resx">
-      <DependentUpon>201704071121081_RemoveOutlookTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201704180753399_AddInputAndOutputTables.resx">
-      <DependentUpon>201704180753399_AddInputAndOutputTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201704200702458_AddingMissingColumnsNotifications.resx">
-      <DependentUpon>201704200702458_AddingMissingColumnsNotifications.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201704270817388_ChangingDescriptionToMax.resx">
-      <DependentUpon>201704270817388_ChangingDescriptionToMax.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201704280759188_AddingInteractionsTable.resx">
-      <DependentUpon>201704280759188_AddingInteractionsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201705161228522_RemoveingReversedFromAInteractiveCase.resx">
-      <DependentUpon>201705161228522_RemoveingReversedFromAInteractiveCase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.resx">
-      <DependentUpon>201708090934335_AddingFieldValuesToCasesAndFieldsToCheckLists.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201708311254324_ChangingFieldDefaultValueMaxLength.resx">
-      <DependentUpon>201708311254324_ChangingFieldDefaultValueMaxLength.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201711301336144_AddingTaggingAbilityToCheckLists.resx">
-      <DependentUpon>201711301336144_AddingTaggingAbilityToCheckLists.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Persistance\Migrations\201801291231102_ModelUpdate.resx">
-      <DependentUpon>201801291231102_ModelUpdate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -224,6 +99,7 @@
     <PackageReference Include="Castle.Core" Version="4.3.1" />
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
