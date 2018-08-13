@@ -135,7 +135,7 @@ namespace eFormCore.Helpers
         {
 
             fields f = new fields();
-            f.field_type = ft;
+            f.field_type_id = ft.id;
 
             f.barcode_enabled = barcodeEnabled;
             f.barcode_type = barcodeType;

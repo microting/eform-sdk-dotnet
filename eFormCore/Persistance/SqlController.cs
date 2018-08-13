@@ -63,9 +63,10 @@ namespace eFormSqlController
             //if (msSql)
             //{
 
-                DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);
-                return new MicrotingDbMs(dbContextOptionsBuilder.Options);
+            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            dbContextOptionsBuilder.UseSqlServer(connectionStr);
+            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+            return new MicrotingDbMs(dbContextOptionsBuilder.Options);
             //}
                 
             //else

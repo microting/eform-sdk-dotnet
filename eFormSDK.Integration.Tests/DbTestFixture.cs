@@ -77,7 +77,49 @@ namespace eFormSDK.Integration.Tests
 
         public void ClearDb()
         {
+            List<string> modelNames = new List<string>();
+            modelNames.Add("case_versions");
+            modelNames.Add("cases");
+            modelNames.Add("field_value_versions");
+            modelNames.Add("field_values");
+            modelNames.Add("field_versions");
+            modelNames.Add("fields");
+            modelNames.Add("check_list_site_versions");
+            modelNames.Add("check_list_sites");
+            modelNames.Add("check_list_value_versions");
+            modelNames.Add("check_list_values");
+            modelNames.Add("check_list_versions");
+            modelNames.Add("check_lists");
+            modelNames.Add("entity_group_versions");
+            modelNames.Add("entity_groups");
+            modelNames.Add("entity_item_versions");
+            modelNames.Add("entity_items");
+            modelNames.Add("log_exceptions");
+            modelNames.Add("logs");
+            modelNames.Add("notifications");
+            modelNames.Add("settings");
+            modelNames.Add("unit_versions");
+            modelNames.Add("units");
+            modelNames.Add("site_worker_versions");
+            modelNames.Add("site_workers");
+            modelNames.Add("worker_versions");
+            modelNames.Add("workers");
+            modelNames.Add("site_versions");
+            modelNames.Add("sites");
+            modelNames.Add("uploaded_data");
+            modelNames.Add("uploaded_data_versions");
+            modelNames.Add("tags");
+            modelNames.Add("tag_versions");
+            modelNames.Add("taggings");
+            modelNames.Add("tagging_versions");
+            modelNames.Add("field_types");
 
+
+            foreach (var modelName in modelNames)
+            {
+                //Console.WriteLine(modelName.Name);
+                DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + modelName + "]");
+            }
             //TODO! THIS part need to be redone in some form in EF Core!
             //var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
 
