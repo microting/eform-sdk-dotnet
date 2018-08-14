@@ -818,12 +818,12 @@ namespace eFormSDK.Integration.Tests
             #region template1
             Assert.NotNull(match1);
             Assert.AreEqual(match1[0].Description, Field1.description);
-            Assert.AreEqual(match1[0].FieldType, Field1.field_type.field_type);
+            Assert.AreEqual(match1[0].FieldType, "Picture");
             Assert.AreEqual(match1[0].Label, Field1.label);
             Assert.AreEqual(match1[0].Id, Field1.id);
 
             Assert.AreEqual(match1[1].Description, Field2.description);
-            Assert.AreEqual(match1[1].FieldType, Field2.field_type.field_type);
+            Assert.AreEqual(match1[1].FieldType, "Comment");
             Assert.AreEqual(match1[1].Label, Field2.label);
             Assert.AreEqual(match1[1].Id, Field2.id);
             #endregion
@@ -831,17 +831,17 @@ namespace eFormSDK.Integration.Tests
             #region template2
             Assert.NotNull(match2);
             Assert.AreEqual(match2[0].Description, Field3.description);
-            Assert.AreEqual(match2[0].FieldType, Field3.field_type.field_type);
+            Assert.AreEqual(match2[0].FieldType, "Picture");
             Assert.AreEqual(match2[0].Label, Field3.label);
             Assert.AreEqual(match2[0].Id, Field3.id);
 
             Assert.AreEqual(match2[1].Description, Field4.description);
-            Assert.AreEqual(match2[1].FieldType, Field4.field_type.field_type);
+            Assert.AreEqual(match2[1].FieldType, "Picture");
             Assert.AreEqual(match2[1].Label, Field4.label);
             Assert.AreEqual(match2[1].Id, Field4.id);
 
             Assert.AreEqual(match2[2].Description, Field5.description);
-            Assert.AreEqual(match2[2].FieldType, Field5.field_type.field_type);
+            Assert.AreEqual(match2[2].FieldType, "Comment");
             Assert.AreEqual(match2[2].Label, Field5.label);
             Assert.AreEqual(match2[2].Id, Field5.id);
             #endregion
@@ -849,12 +849,12 @@ namespace eFormSDK.Integration.Tests
             #region template3
             Assert.NotNull(match3);
             Assert.AreEqual(match3[0].Description, Field6.description);
-            Assert.AreEqual(match3[0].FieldType, Field6.field_type.field_type);
+            Assert.AreEqual(match3[0].FieldType, "Comment");
             Assert.AreEqual(match3[0].Label, Field6.label);
             Assert.AreEqual(match3[0].Id, Field6.id);
 
             Assert.AreEqual(match3[1].Description, Field7.description);
-            Assert.AreEqual(match3[1].FieldType, Field7.field_type.field_type);
+            Assert.AreEqual(match3[1].FieldType, "Comment");
             Assert.AreEqual(match3[1].Label, Field7.label);
             Assert.AreEqual(match3[1].Id, Field7.id);
             #endregion
@@ -862,17 +862,17 @@ namespace eFormSDK.Integration.Tests
             #region template4
             Assert.NotNull(match4);
             Assert.AreEqual(match4[0].Description, Field8.description);
-            Assert.AreEqual(match4[0].FieldType, Field8.field_type.field_type);
+            Assert.AreEqual(match4[0].FieldType, "Comment");
             Assert.AreEqual(match4[0].Label, Field8.label);
             Assert.AreEqual(match4[0].Id, Field8.id);
 
             Assert.AreEqual(match4[1].Description, Field9.description);
-            Assert.AreEqual(match4[1].FieldType, Field9.field_type.field_type);
+            Assert.AreEqual(match4[1].FieldType, "Comment");
             Assert.AreEqual(match4[1].Label, Field9.label);
             Assert.AreEqual(match4[1].Id, Field9.id);
 
             Assert.AreEqual(match4[2].Description, Field10.description);
-            Assert.AreEqual(match4[2].FieldType, Field10.field_type.field_type);
+            Assert.AreEqual(match4[2].FieldType, "Comment");
             Assert.AreEqual(match4[2].Label, Field10.label);
             Assert.AreEqual(match4[2].Id, Field10.id);
             #endregion
