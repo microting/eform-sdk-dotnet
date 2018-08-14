@@ -11,7 +11,7 @@
     <TargetPlatform>x86</TargetPlatform>
 
     <!-- Framework35 | [Framework40] | Framework45 -->
-    <TargetFrameworkVersion>FrameworkCore20</TargetFrameworkVersion>
+    <TargetFrameworkVersion>FrameworkCore10</TargetFrameworkVersion>
     <!--<startup>
       <supportedRuntumer version=""/>
     </startup>-->
