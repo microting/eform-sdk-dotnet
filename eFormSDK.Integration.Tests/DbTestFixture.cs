@@ -88,6 +88,10 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("check_list_sites");
             modelNames.Add("check_list_value_versions");
             modelNames.Add("check_list_values");
+            modelNames.Add("taggings");
+            modelNames.Add("tagging_versions");
+            modelNames.Add("tags");
+            modelNames.Add("tag_versions");
             modelNames.Add("check_list_versions");
             modelNames.Add("check_lists");
             modelNames.Add("entity_group_versions");
@@ -108,10 +112,6 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("sites");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
-            modelNames.Add("tags");
-            modelNames.Add("tag_versions");
-            modelNames.Add("taggings");
-            modelNames.Add("tagging_versions");
             modelNames.Add("field_types");
 
 

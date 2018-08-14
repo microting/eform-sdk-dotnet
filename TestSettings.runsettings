@@ -11,7 +11,10 @@
     <TargetPlatform>x86</TargetPlatform>
 
     <!-- Framework35 | [Framework40] | Framework45 -->
-    <TargetFrameworkVersion>FrameworkCore21</TargetFrameworkVersion>
+    <TargetFrameworkVersion>FrameworkCore20</TargetFrameworkVersion>
+    <!--<startup>
+      <supportedRuntumer version=""/>
+    </startup>-->
 
     <!-- Path to Test Adapters -->
   </RunConfiguration>
