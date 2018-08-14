@@ -12,9 +12,6 @@
 
     <!-- Framework35 | [Framework40] | Framework45 -->
     <TargetFrameworkVersion>FrameworkCore10</TargetFrameworkVersion>
-    <!--<startup>
-      <supportedRuntumer version=""/>
-    </startup>-->
 
     <!-- Path to Test Adapters -->
   </RunConfiguration>

@@ -443,12 +443,12 @@ namespace eFormSDK.Integration.Tests
             #region template1
             Assert.NotNull(match1);
             Assert.AreEqual(match1[0].Description, Field1.description);
-            Assert.AreEqual(match1[0].FieldType, Field1.field_type.field_type);
+            Assert.AreEqual(match1[0].FieldType, "Picture");
             Assert.AreEqual(match1[0].Label, Field1.label);
             Assert.AreEqual(match1[0].Id, Field1.id);
 
             Assert.AreEqual(match1[1].Description, Field2.description);
-            Assert.AreEqual(match1[1].FieldType, Field2.field_type.field_type);
+            Assert.AreEqual(match1[1].FieldType, "Comment");
             Assert.AreEqual(match1[1].Label, Field2.label);
             Assert.AreEqual(match1[1].Id, Field2.id);
             #endregion

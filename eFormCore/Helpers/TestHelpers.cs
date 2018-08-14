@@ -23,6 +23,7 @@ namespace eFormCore.Helpers
             //DbContextOptions dbo = new DbContextOptions();
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
             dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
         }
 
