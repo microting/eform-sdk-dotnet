@@ -11,7 +11,7 @@
     <TargetPlatform>x86</TargetPlatform>
 
     <!-- Framework35 | [Framework40] | Framework45 -->
-    <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
+    <TargetFrameworkVersion>netcoreapp2.1</TargetFrameworkVersion>
 
     <!-- Path to Test Adapters -->
   </RunConfiguration>
