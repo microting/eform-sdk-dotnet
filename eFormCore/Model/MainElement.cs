@@ -75,6 +75,7 @@ namespace eFormData
         public bool FastNavigation { get; set; }
         public bool DownloadEntities { get; set; }
         public bool ManualSync { get; set; }
+        public bool EnableQuickSync { get; set; }
 
         [XmlArray("ElementList"), XmlArrayItem(typeof(Element), ElementName = "Element")]
         public List<Element> ElementList { get; set; }
@@ -142,13 +143,14 @@ namespace eFormData
             ManualSync = coreElement.ManualSync;
             CaseType = coreElement.CaseType;
             ElementList = coreElement.ElementList;
+            EnableQuickSync = coreElement.EnableQuickSync;
 
             PushMessageTitle = "";
             PushMessageBody = "";
         }
 
         public MainElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, List<Element> elementList)
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, bool enableQuickSync, List<Element> elementList)
         {
             Id = id;
             Label = label;
@@ -165,6 +167,7 @@ namespace eFormData
             CaseType = caseType;
             PushMessageTitle = pushMessageTitle;
             PushMessageBody = pushMessageBody;
+            EnableQuickSync = enableQuickSync;
             ElementList = elementList;
         }
         #endregion
