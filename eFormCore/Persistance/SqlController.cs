@@ -4152,6 +4152,7 @@ namespace eFormSqlController
                     cl.workflow_state = Constants.WorkflowStates.Created;
                     cl.parent_id = null; //MainElements never have parents ;)
                     cl.repeated = mainElement.Repeated;
+                    cl.quick_sync_enabled = t.Bool(mainElement.EnableQuickSync);
                     cl.version = 1;
                     cl.case_type = mainElement.CaseType;
                     cl.folder_name = mainElement.CheckListFolderName;
