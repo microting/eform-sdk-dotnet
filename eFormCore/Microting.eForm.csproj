@@ -142,6 +142,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.cs" />
+    <Compile Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.Designer.cs">
+      <DependentUpon>201808241140436_RemoveTagsIdFromCheckLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.cs" />
     <Compile Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.Designer.cs">
       <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
@@ -274,6 +278,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.resx">
+      <DependentUpon>201808241140436_RemoveTagsIdFromCheckLists.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201808061141542_AddingQuickSyncEnabledToCheckLists.resx">
       <DependentUpon>201808061141542_AddingQuickSyncEnabledToCheckLists.cs</DependentUpon>
     </EmbeddedResource>
