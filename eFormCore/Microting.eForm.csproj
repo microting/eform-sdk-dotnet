@@ -142,6 +142,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Migrations\201808281004468_FixingModelChanges.cs" />
+    <Compile Include="Migrations\201808281004468_FixingModelChanges.Designer.cs">
+      <DependentUpon>201808281004468_FixingModelChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.cs" />
     <Compile Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.Designer.cs">
       <DependentUpon>201808241140436_RemoveTagsIdFromCheckLists.cs</DependentUpon>
@@ -278,6 +282,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808281004468_FixingModelChanges.resx">
+      <DependentUpon>201808281004468_FixingModelChanges.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.resx">
       <DependentUpon>201808241140436_RemoveTagsIdFromCheckLists.cs</DependentUpon>
     </EmbeddedResource>
