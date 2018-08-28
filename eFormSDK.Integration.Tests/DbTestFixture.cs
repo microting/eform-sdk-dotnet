@@ -31,7 +31,9 @@ namespace eFormSDK.Integration.Tests
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
             dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
+
             //DbContext = new MicrotingDbMs(ConnectionString);
             DbContext.Database.SetCommandTimeout(300);
 

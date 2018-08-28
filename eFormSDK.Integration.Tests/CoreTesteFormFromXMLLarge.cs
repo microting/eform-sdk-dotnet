@@ -11615,7 +11615,7 @@ namespace eFormSDK.Integration.Tests
             var match = sut.TemplateCreate(mainelement);
 
             List<check_lists> listOfCL = DbContext.check_lists.AsNoTracking().ToList();
-            List<fields> listOfFields = DbContext.fields.AsNoTracking().ToList();
+            List<fields> listOfFields = DbContext.fields.ToList();
 
             //Assert
             Assert.NotNull(mainelement);
