@@ -437,7 +437,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<short?>("review_enabled");
 
-                    b.Property<int?>("tagsid");
+                    //b.Property<int?>("tagsid");
 
                     b.Property<DateTime?>("updated_at");
 
@@ -450,7 +450,7 @@ namespace Microting.eForm.Migrations
 
                     b.HasIndex("parentid");
 
-                    b.HasIndex("tagsid");
+                    //b.HasIndex("tagsid");
 
                     b.ToTable("check_lists");
                 });
@@ -1461,9 +1461,9 @@ namespace Microting.eForm.Migrations
                         .WithMany("children")
                         .HasForeignKey("parentid");
 
-                    b.HasOne("eFormSqlController.tags")
-                        .WithMany("check_lists")
-                        .HasForeignKey("tagsid");
+                    //b.HasOne("eFormSqlController.tags")
+                    //    .WithMany("check_lists")
+                    //    .HasForeignKey("tagsid");
                 });
 
             modelBuilder.Entity("eFormSqlController.field_values", b =>

@@ -48,6 +48,19 @@ namespace eFormSqlController
         public virtual DbSet<taggings> taggings { get; set; }
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<check_lists>(entity =>
+            {
+                entity.HasOne(d => d.parent).WithMany(p => p.children).HasForeignKey(d => d.parent_id);
+            });
+
+            modelBuilder.Entity<fields>(entity =>
+            {
+                entity.HasOne(d => d.parent).WithMany(p => p.children).HasForeignKey(d => d.parent_field_id);
+            });
+        }
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";

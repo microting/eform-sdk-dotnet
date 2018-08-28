@@ -9,7 +9,7 @@
         public tags()
         {
             this.taggings = new HashSet<taggings>();
-            this.check_lists = new HashSet<check_lists>();
+            //this.check_lists = new HashSet<check_lists>();
         }
 
         [Key]
@@ -31,6 +31,6 @@
 
         public virtual ICollection<taggings> taggings { get; set; }
 
-        public virtual ICollection<check_lists> check_lists { get; set; }
+        //public virtual ICollection<check_lists> check_lists { get; set; }
     }
 }

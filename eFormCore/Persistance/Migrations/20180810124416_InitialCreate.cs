@@ -691,8 +691,8 @@ namespace Microting.eForm.Migrations
                     field_9 = table.Column<int>(nullable: true),
                     field_10 = table.Column<int>(nullable: true),
                     quick_sync_enabled = table.Column<short>(nullable: true),
-                    parentid = table.Column<int>(nullable: true),
-                    tagsid = table.Column<int>(nullable: true)
+                    parentid = table.Column<int>(nullable: true)
+                    //tagsid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -703,12 +703,12 @@ namespace Microting.eForm.Migrations
                         principalTable: "check_lists",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_check_lists_tags_tagsid",
-                        column: x => x.tagsid,
-                        principalTable: "tags",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                    //table.ForeignKey(
+                    //    name: "FK_check_lists_tags_tagsid",
+                    //    column: x => x.tagsid,
+                    //    principalTable: "tags",
+                    //    principalColumn: "id",
+                    //    onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1021,10 +1021,10 @@ namespace Microting.eForm.Migrations
                 table: "check_lists",
                 column: "parentid");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_check_lists_tagsid",
-                table: "check_lists",
-                column: "tagsid");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_check_lists_tagsid",
+            //    table: "check_lists",
+            //    column: "tagsid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_field_values_check_list_id",
