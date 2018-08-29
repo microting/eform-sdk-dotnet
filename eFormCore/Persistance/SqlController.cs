@@ -5259,7 +5259,7 @@ namespace eFormSqlController
         {
             entity_group_versions entityGroupVer = new entity_group_versions();
             entityGroupVer.created_at = entityGroup.created_at;
-            entityGroupVer.id = entityGroup.id;
+            entityGroupVer.entity_group_id = entityGroup.id;
             entityGroupVer.microting_uid = entityGroup.microting_uid;
             entityGroupVer.name = entityGroup.name;
             entityGroupVer.type = entityGroup.type;
