@@ -1,5 +1,9 @@
 ## Changelog
 
+
+  - Version 3.0.1 *(August 30th 2018)*
+	- We have now switched to support the .Net Core as base framework for supporting multi platforms. 
+
   - Version 1.6.4.7 *(December 8th 2017)*
 	- Fixing parsing of XML with FieldGroup elements. 
 
