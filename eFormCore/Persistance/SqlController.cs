@@ -1411,7 +1411,7 @@ namespace eFormSqlController
                                     _field.FieldValues = new List<FieldValue>();
                                     foreach (field_values fieldValue in subField.field_values.Where(x => x.case_id == caseId).ToList())
                                     {
-                                        FieldValue answer = FieldValueRead(subField, fieldValue, false);
+                                        FieldValue answer = FieldValueRead(fieldValue, false);
                                         _field.FieldValues.Add(answer);
                                     }
                                     dataItemSubList.Add(_field);
@@ -1428,7 +1428,7 @@ namespace eFormSqlController
                                 _field.FieldValues = new List<FieldValue>();
                                 foreach (field_values fieldValue in field.field_values.Where(x => x.case_id == caseId).ToList())
                                 {
-                                    FieldValue answer = FieldValueRead(field, fieldValue, false);
+                                    FieldValue answer = FieldValueRead(fieldValue, false);
                                     _field.FieldValues.Add(answer);
                                 }
                                 dataItemList.Add(_field);
@@ -1510,30 +1510,32 @@ namespace eFormSqlController
         }
 
         // Rename method to something more intuitive!
-        public FieldValue FieldValueRead(fields question, field_values reply, bool joinUploadedData)
+        public FieldValue FieldValueRead(field_values reply, bool joinUploadedData)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    FieldValue answer = new FieldValue();
-                    answer.Accuracy = reply.accuracy;
-                    answer.Altitude = reply.altitude;
-                    answer.Color = question.color;
-                    answer.Date = reply.date;
-                    answer.FieldId = t.Int(reply.field_id);
-                    answer.FieldType = question.field_type.field_type;
-                    answer.DateOfDoing = t.Date(reply.done_at);
-                    answer.Description = new CDataValue();
-                    answer.Description.InderValue = question.description;
-                    answer.DisplayOrder = t.Int(question.display_index);
-                    answer.Heading = reply.heading;
-                    answer.Id = reply.id;
-                    answer.Label = question.label;
-                    answer.Latitude = reply.latitude;
-                    answer.Longitude = reply.longitude;
-                    answer.Mandatory = t.Bool(question.mandatory);
-                    answer.ReadOnly = t.Bool(question.read_only);
+
+                    fields field = db.fields.Single(x => x.id == reply.field_id);
+                    FieldValue field_value = new FieldValue();
+                    field_value.Accuracy = reply.accuracy;
+                    field_value.Altitude = reply.altitude;
+                    field_value.Color = field.color;
+                    field_value.Date = reply.date;
+                    field_value.FieldId = t.Int(reply.field_id);
+                    field_value.FieldType = field.field_type.field_type;
+                    field_value.DateOfDoing = t.Date(reply.done_at);
+                    field_value.Description = new CDataValue();
+                    field_value.Description.InderValue = field.description;
+                    field_value.DisplayOrder = t.Int(field.display_index);
+                    field_value.Heading = reply.heading;
+                    field_value.Id = reply.id;
+                    field_value.Label = field.label;
+                    field_value.Latitude = reply.latitude;
+                    field_value.Longitude = reply.longitude;
+                    field_value.Mandatory = t.Bool(field.mandatory);
+                    field_value.ReadOnly = t.Bool(field.read_only);
                     #region answer.UploadedDataId = reply.uploaded_data_id;
                     if (reply.uploaded_data_id.HasValue)
                         if (reply.uploaded_data_id > 0)
@@ -1556,7 +1558,7 @@ namespace eFormSqlController
                                     else
                                         locations += "File attached, awaiting download" + Environment.NewLine;
                                 }
-                                answer.UploadedData = locations.TrimEnd();
+                                field_value.UploadedData = locations.TrimEnd();
                             }
                             else
                             {
@@ -1571,17 +1573,17 @@ namespace eFormSqlController
                                 uploadedDataObj.FileLocation = uploadedData.file_location;
                                 uploadedDataObj.FileName = uploadedData.file_name;
                                 uploadedDataObj.Id = uploadedData.id;
-                                answer.UploadedDataObj = uploadedDataObj;
-                                answer.UploadedData = "";
+                                field_value.UploadedDataObj = uploadedDataObj;
+                                field_value.UploadedData = "";
                             }
 
                         }
                     #endregion
-                    answer.Value = reply.value;
+                    field_value.Value = reply.value;
                     #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
-                    answer.ValueReadable = reply.value;
+                    field_value.ValueReadable = reply.value;
 
-                    if (answer.FieldType == Constants.FieldTypes.EntitySearch || answer.FieldType == Constants.FieldTypes.EntitySelect)
+                    if (field_value.FieldType == Constants.FieldTypes.EntitySearch || field_value.FieldType == Constants.FieldTypes.EntitySelect)
                     {
                         try
                         {
@@ -1591,9 +1593,9 @@ namespace eFormSqlController
 
                                 if (match != null)
                                 {
-                                    answer.ValueReadable = match.name;
-                                    answer.Value = match.entity_item_uid;
-                                    answer.MicrotingUuid = match.microting_uid;
+                                    field_value.ValueReadable = match.name;
+                                    field_value.Value = match.entity_item_uid;
+                                    field_value.MicrotingUuid = match.microting_uid;
                                 }
 
                             }
@@ -1601,35 +1603,35 @@ namespace eFormSqlController
                         catch { }
                     }
 
-                    if (answer.FieldType == Constants.FieldTypes.SingleSelect)
+                    if (field_value.FieldType == Constants.FieldTypes.SingleSelect)
                     {
-                        string key = answer.Value;
-                        string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
-                        answer.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+                        string key = field_value.Value;
+                        string fullKey = t.Locate(field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                        field_value.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
 
-                        answer.KeyValuePairList = PairRead(question.key_value_pair_list);
+                        field_value.KeyValuePairList = PairRead(field.key_value_pair_list);
                     }
 
-                    if (answer.FieldType == Constants.FieldTypes.MultiSelect)
+                    if (field_value.FieldType == Constants.FieldTypes.MultiSelect)
                     {
-                        answer.ValueReadable = "";
+                        field_value.ValueReadable = "";
 
-                        string keys = answer.Value;
+                        string keys = field_value.Value;
                         List<string> keyLst = keys.Split('|').ToList();
 
                         foreach (string key in keyLst)
                         {
-                            string fullKey = t.Locate(question.key_value_pair_list, "<" + key + ">", "</" + key + ">");
-                            if (answer.ValueReadable != "")
-                                answer.ValueReadable += '|';
-                            answer.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
+                            string fullKey = t.Locate(field.key_value_pair_list, "<" + key + ">", "</" + key + ">");
+                            if (field_value.ValueReadable != "")
+                                field_value.ValueReadable += '|';
+                            field_value.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        answer.KeyValuePairList = PairRead(question.key_value_pair_list);
+                        field_value.KeyValuePairList = PairRead(field.key_value_pair_list);
                     }
                     #endregion
 
-                    return answer;
+                    return field_value;
                 }
             }
             catch (Exception ex)
@@ -1645,8 +1647,8 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     field_values reply = db.field_values.Single(x => x.id == id);
-                    fields question = db.fields.Single(x => x.id == reply.field_id);
-                    return FieldValueRead(question, reply, true);
+                    //fields field = db.fields.Single(x => x.id == reply.field_id);
+                    return FieldValueRead(reply, true);
                 }
             }
             catch (Exception ex)

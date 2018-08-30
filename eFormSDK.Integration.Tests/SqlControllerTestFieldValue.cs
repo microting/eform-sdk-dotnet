@@ -153,7 +153,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.FieldValueRead(f1, field_Value1, false);
+            var match = sut.FieldValueRead(field_Value1, false);
 
             // Assert
             #region Assert
@@ -324,7 +324,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.FieldValueRead(f1, field_Value1, true);
+            var match = sut.FieldValueRead(field_Value1, true);
 
             //// Assert
             #region Assert
