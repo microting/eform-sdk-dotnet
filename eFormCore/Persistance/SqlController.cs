@@ -114,7 +114,7 @@ namespace eFormSqlController
                         return null;
 
                     mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
-                        t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", new List<Element>());
+                        t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", t.Bool(mainCl.quick_sync_enabled), new List<Element>());
 
                     //getting elements
                     List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templateId).ToList();
@@ -4166,6 +4166,7 @@ namespace eFormSqlController
                     cl.workflow_state = Constants.WorkflowStates.Created;
                     cl.parent_id = null; //MainElements never have parents ;)
                     cl.repeated = mainElement.Repeated;
+                    cl.quick_sync_enabled = t.Bool(mainElement.EnableQuickSync);
                     cl.version = 1;
                     cl.case_type = mainElement.CaseType;
                     cl.folder_name = mainElement.CheckListFolderName;
