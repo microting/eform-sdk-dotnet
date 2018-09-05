@@ -144,7 +144,7 @@ namespace eFormSDK.Integration.Tests
             ud.uploader_type = "uploader_type";
             ud.file_location = "file_location";
             ud.file_name = "fileName";
-            ud.id = 111;
+            //ud.id = 111;
 
             ud.workflow_state = Constants.WorkflowStates.PreCreated;
 
@@ -210,7 +210,7 @@ namespace eFormSDK.Integration.Tests
             ud.uploader_type = "uploader_type";
             ud.file_location = "url";
             ud.file_name = "fileName";
-            ud.id = 111;
+            //ud.id = 111;
 
             DbContext.uploaded_data.Add(ud);
             DbContext.SaveChanges();
