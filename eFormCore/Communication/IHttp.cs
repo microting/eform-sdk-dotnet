@@ -1,4 +1,6 @@
-﻿namespace eFormCommunicator
+﻿using Newtonsoft.Json.Linq;
+
+namespace eFormCommunicator
 {
     internal interface IHttp
     {
@@ -68,6 +70,7 @@
 
         int SpeechToText(string pathToAudioFile, string language);
 
-        string SpeechToText(int requestId);
+        JToken SpeechToText(int requestId);
+
     }
 }

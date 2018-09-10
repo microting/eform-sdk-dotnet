@@ -770,7 +770,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string SpeechToText(int requestId)
+        public JToken SpeechToText(int requestId)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(requestId), requestId);

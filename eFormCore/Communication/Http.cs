@@ -727,14 +727,14 @@ namespace eFormCommunicator
             }
         }
 
-        public string SpeechToText(int requestId)
+        public JToken SpeechToText(int requestId)
         {
             WebRequest request = WebRequest.Create(addressSpeechToText + "/audio/"+ requestId + "?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
 
             string result = PostToServer(request);
-            var parsedData = JRaw.Parse(result);
-            return parsedData["text"].ToString();
+            JToken parsedData = JRaw.Parse(result);
+            return parsedData;
         }
         #endregion
 

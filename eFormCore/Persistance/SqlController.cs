@@ -2101,7 +2101,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data ud = db.uploaded_data.SingleOrDefault(x => x.transcription_id == transcriptionId);
+                    uploaded_data ud = GetUploaded_DataByTranscriptionId(transcriptionId);
                     if (ud != null)
                     {
                         return db.field_values.SingleOrDefault(x => x.uploaded_data_id == ud.id);
@@ -2109,6 +2109,22 @@ namespace eFormSqlController
                     {
                         return null;
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Get uploaded data object failed", ex);
+            }
+        }
+
+        public uploaded_data GetUploaded_DataByTranscriptionId(int transcriptionId)
+        {
+
+            try
+            {
+                using (var db = GetContext())
+                {
+                    return db.uploaded_data.SingleOrDefault(x => x.transcription_id == transcriptionId);                    
                 }
             }
             catch (Exception ex)
