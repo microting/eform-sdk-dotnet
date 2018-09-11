@@ -3998,6 +3998,7 @@ namespace eFormSqlController
                         FieldTypeAdd(16, Constants.FieldTypes.ShowPdf, "Show PDF");
                         FieldTypeAdd(17, Constants.FieldTypes.FieldGroup, "Field group");
                         FieldTypeAdd(18, Constants.FieldTypes.SaveButton, "Save eForm");
+                        FieldTypeAdd(19, Constants.FieldTypes.NumberStepper, "Number stepper field");
                         #endregion
                     }
 
@@ -4465,6 +4466,15 @@ namespace eFormSqlController
                             field.unit_name = number.UnitName;
                             break;
 
+                        case Constants.FieldTypes.NumberStepper:
+                            NumberStepper numberStepper = (NumberStepper)dataItem;
+                            field.min_value = numberStepper.MinValue.ToString();
+                            field.max_value = numberStepper.MaxValue.ToString();
+                            field.default_value = numberStepper.DefaultValue.ToString();
+                            field.decimal_count = numberStepper.DecimalCount;
+                            field.unit_name = numberStepper.UnitName;
+                            break;
+
                         case Constants.FieldTypes.MultiSelect:
                             MultiSelect multiSelect = (MultiSelect)dataItem;
                             field.key_value_pair_list = PairBuild(multiSelect.KeyValuePairList);
@@ -4674,6 +4684,11 @@ namespace eFormSqlController
 
                         case Constants.FieldTypes.Number:
                             lstDataItem.Add(new Number(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                                f.min_value, f.max_value, int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
+                            break;
+
+                        case Constants.FieldTypes.NumberStepper:
+                            lstDataItem.Add(new NumberStepper(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.min_value, f.max_value, int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
                             break;
 

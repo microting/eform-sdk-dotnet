@@ -95,6 +95,7 @@
             public const string EntitySearch = "EntitySearch";
             public const string EntitySelect = "EntitySelect";
             public const string FieldGroup = "FieldGroup";
+            public const string NumberStepper = "NumberStepper";
         }
 
         public static class FieldColors
