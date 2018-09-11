@@ -41,7 +41,7 @@ namespace eFormCore.Handlers
                 if (ud.file_name.Contains("3gp"))
                 {
                     log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
-                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "";
+                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
                     string fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
                     using (var client = new System.Net.WebClient())
                     {
