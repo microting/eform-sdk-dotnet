@@ -417,6 +417,7 @@ namespace eFormCore
                 keyWords.Add("EntitySelect");
                 keyWords.Add("None");
                 keyWords.Add("Number");
+                keyWords.Add("NumberStepper");
                 keyWords.Add("MultiSelect");
                 keyWords.Add("Picture");
                 keyWords.Add("ShowPdf");

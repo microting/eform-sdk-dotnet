@@ -38,14 +38,16 @@ namespace eFormCore.Handlers
                 #region download file
                 uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(int.Parse(message.MicrotringUUID));
 
-                if (ud.file_name.Contains(".3gp"))
+                if (ud.file_name.Contains("3gp"))
                 {
+                    log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
                     string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "";
                     string fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
                     using (var client = new System.Net.WebClient())
                     {
                         try
                         {
+                            log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Trying to donwload file from : " + urlStr);
                             client.DownloadFile(urlStr, fileLocationPicture + ud.file_name.Replace(".3gp", ".wav"));
                         }
                         catch (Exception ex)
