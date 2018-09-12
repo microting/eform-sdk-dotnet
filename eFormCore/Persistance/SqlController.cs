@@ -3975,7 +3975,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    if (db.field_types.Count() != 18)
+                    if (db.field_types.Count() != 19)
                     {
                         #region prime FieldTypes
                         //UnitTest_TruncateTable(typeof(field_types).Name);
