@@ -2287,6 +2287,25 @@ namespace eFormCore
             return true;
         }
 
+        #region EntityItem
+
+        public EntityItem EntityItemCreate(int id, string name, string description, string entityItemUId, int entityItemGroup)
+        {
+            return new EntityItem(id, name, description, entityItemUId, "", Constants.WorkflowStates.Created);
+        }
+
+        public void EntityItemUpdate(int id, string name, string description, string entityItemUId)
+        {
+
+        }
+
+        public void EntityItemDelete(int id)
+        {
+
+        }
+
+        #endregion
+
         public string PdfUpload(string localPath)
         {
             try
