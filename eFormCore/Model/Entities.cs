@@ -82,7 +82,7 @@ namespace eFormData
             Name = "";
             Description = "";
             EntityItemUId = "";
-            MicrotingUId = "";
+            MicrotingUUID = "";
         }
 
         public EntityItem(string name, string description, string entityItemUId)
@@ -105,7 +105,7 @@ namespace eFormData
             Name = name;
             Description = description;
             EntityItemUId = entityItemUId;
-            MicrotingUId = microtingUId;
+            MicrotingUUID = microtingUId;
         }
 
         public EntityItem(int id, string name, string description, string entityItemUId, string microtingUId, string workflowState)
@@ -115,7 +115,7 @@ namespace eFormData
             Description = description;
             EntityItemUId = entityItemUId;
             WorkflowState = workflowState;
-            MicrotingUId = microtingUId;
+            MicrotingUUID = microtingUId;
         }
 
         public int Id { get; set; }
@@ -123,7 +123,7 @@ namespace eFormData
         public string Description { get; set; }
         public string EntityItemUId { get; set; }
         public string WorkflowState { get; }
-        public string MicrotingUId { get; set; }
+        public string MicrotingUUID { get; set; }
         public int DisplayIndex { get; set; }
         public string EntityItemGroupId { get; set; }
     }

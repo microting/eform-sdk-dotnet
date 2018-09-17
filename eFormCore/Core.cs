@@ -2333,9 +2333,9 @@ namespace eFormCore
                     bool result = false;
                     if (eg.Type == Constants.FieldTypes.EntitySearch)
                     {
-                        result = communicator.EntitySearchItemUpdate(eg.MicrotingUUID, et.MicrotingUId, name, description, ownUUID);
+                        result = communicator.EntitySearchItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, description, ownUUID);
                     } else {
-                        result = communicator.EntitySelectItemUpdate(eg.MicrotingUUID, et.MicrotingUId, name, displayIndex, ownUUID);
+                        result = communicator.EntitySelectItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, displayIndex, ownUUID);
                     }
                     if (result) {
                         et.DisplayIndex = displayIndex;
