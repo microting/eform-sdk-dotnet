@@ -13,21 +13,21 @@ namespace eFormData
 
         }
 
-        public EntityGroup(int id, string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst)
+        public EntityGroup(int id, string name, string type, string microtingUUId, List<EntityItem> entityGroupItemLst)
         {
             Id = id;
             Name = name;
             Type = type;
-            EntityGroupMUId = entityGroupMUId;
+            MicrotingUUID = microtingUUId;
             EntityGroupItemLst = entityGroupItemLst;
         }
 
-        public EntityGroup(int id, string name, string type, string entityGroupMUId, List<EntityItem> entityGroupItemLst, string workflowState, DateTime? createdAt, DateTime? updatedAt)
+        public EntityGroup(int id, string name, string type, string microtingUUId, List<EntityItem> entityGroupItemLst, string workflowState, DateTime? createdAt, DateTime? updatedAt)
         {
             Id = id;
             Name = name;
             Type = type;
-            EntityGroupMUId = entityGroupMUId;
+            MicrotingUUID = microtingUUId;
             EntityGroupItemLst = entityGroupItemLst;
             WorkflowState = workflowState;
             CreatedAt = createdAt;
@@ -37,7 +37,7 @@ namespace eFormData
         public int Id { get; }
         public string Name { get; set; }
         public string Type { get; }
-        public string EntityGroupMUId { get; }
+        public string MicrotingUUID { get; }
         public List<EntityItem> EntityGroupItemLst { get; set; }
         public string WorkflowState { get; }
 
@@ -124,6 +124,8 @@ namespace eFormData
         public string EntityItemUId { get; set; }
         public string WorkflowState { get; }
         public string MicrotingUId { get; set; }
+        public int DisplayIndex { get; set; }
+        public string EntityItemGroupId { get; set; }
     }
     #endregion
 }

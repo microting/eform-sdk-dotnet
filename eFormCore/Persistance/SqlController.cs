@@ -3683,12 +3683,12 @@ namespace eFormSqlController
                 {
                     List<EntityItemUpdateInfo> rtnLst = new List<EntityItemUpdateInfo>();
                     EntityGroup eGNew = entityGroup;
-                    EntityGroup eGFDb = EntityGroupRead(eGNew.EntityGroupMUId);
+                    EntityGroup eGFDb = EntityGroupRead(eGNew.MicrotingUUID);
 
                     //same, new or update
                     foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
                     {
-                        EntityItemCreateUpdate(entityGroup.EntityGroupMUId, itemNew);
+                        EntityItemCreateUpdate(entityGroup.MicrotingUUID, itemNew);
                     }
 
                     //delete
@@ -3707,7 +3707,7 @@ namespace eFormSqlController
 
                         if (!stillInUse)
                         {
-                            EntityItemDelete(entityGroup.EntityGroupMUId, itemFDb.EntityItemUId);
+                            EntityItemDelete(entityGroup.MicrotingUUID, itemFDb.EntityItemUId);
                         }
                     }
                 }
@@ -4815,6 +4815,17 @@ namespace eFormSqlController
 
         #region EntityItem 
 
+        public EntityItem EntityItemRead(string entityItemGroupId, string name, string description) {
+            using (var db = GetContext()) {
+                entity_items et = db.entity_items.SingleOrDefault(x => x.name == name && x.description == description && x.entity_group_id == entityItemGroupId);
+                if (et != null) {
+                    return new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid, et.workflow_state);
+                } else {
+                    return null;
+                }
+            }
+        }
+
         public EntityItem EntityItemCreate(string entityItemGroupId, EntityItem entityItem) {
 
             using (var db = GetContext()) {
@@ -4829,6 +4840,7 @@ namespace eFormSqlController
                 eI.microting_uid = "";
                 eI.name = entityItem.Name;
                 eI.description = entityItem.Description;
+                eI.display_index = entityItem.DisplayIndex;
                 eI.synced = t.Bool(false);
 
                 db.entity_items.Add(eI);
@@ -4840,13 +4852,14 @@ namespace eFormSqlController
             return entityItem;
         }
 
-        private void EntityItemUpdate(EntityItem entityItem) {
+        public void EntityItemUpdate(EntityItem entityItem) {
             using (var db = GetContext()) {
                 var match = db.entity_items.SingleOrDefault(x => x.id == entityItem.Id);
                 match.description = entityItem.Description;
                 match.name = entityItem.Name;
                 match.synced = t.Bool(false);
                 match.updated_at = DateTime.Now;
+                match.display_index = entityItem.DisplayIndex;
                 match.version = match.version + 1;
                 match.workflow_state = "updated";
 
@@ -4857,7 +4870,7 @@ namespace eFormSqlController
             }
         }
 
-        private void EntityItemCreateUpdate(string entityGroupId, EntityItem entityItem)
+        public void EntityItemCreateUpdate(string entityGroupId, EntityItem entityItem)
         {
             using (var db = GetContext())
             {
@@ -4884,7 +4897,26 @@ namespace eFormSqlController
             }
         }
 
-        private void EntityItemDelete(string entityGroupMUId, string entityItemUId)
+        public void EntityItemDelete(int id) {
+            using (var db = GetContext()) {
+                entity_items et = db.entity_items.SingleOrDefault(x => x.id == id);
+                if (et == null) {
+                    throw new NullReferenceException("EntityItem not found with id " + id.ToString());
+                } else {
+                    et.synced = t.Bool(true);
+                    et.updated_at = DateTime.Now;
+                    et.version = et.version + 1;
+                    et.workflow_state = Constants.WorkflowStates.Removed;
+
+                    db.SaveChanges();
+
+                    db.entity_item_versions.Add(MapEntityItemVersions(et));
+                    db.SaveChanges();
+                }
+            }
+         }
+
+        public void EntityItemDelete(string entityGroupMUId, string entityItemUId)
         {
             try
             {

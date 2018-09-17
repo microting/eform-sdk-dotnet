@@ -2240,10 +2240,10 @@ namespace eFormCore
                     while (updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    bool isUpdated = communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.EntityGroupMUId);
+                    bool isUpdated = communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.MicrotingUUID);
 
                     if (isUpdated)
-                        sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.EntityGroupMUId);
+                        sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID);
 
                     sqlController.EntityGroupUpdateItems(entityGroup);
 
@@ -2289,19 +2289,91 @@ namespace eFormCore
 
         #region EntityItem
 
-        public EntityItem EntityItemCreate(int id, string name, string description, string entityItemUId, int entityItemGroup)
-        {
-            return new EntityItem(id, name, description, entityItemUId, "", Constants.WorkflowStates.Created);
+        public EntityItem EntitySearchItemCreate(string entitItemGroupId, string name, string description, string ownUUID) {
+            return EntityItemCreate(entitItemGroupId, name, description, ownUUID, 0);
         }
 
-        public void EntityItemUpdate(int id, string name, string description, string entityItemUId)
-        {
+        public EntityItem EntitySelectItemCreate(string entitItemGroupId, string name, int displayIndex, string ownUUID) {
+            return EntityItemCreate(entitItemGroupId, name, "", ownUUID, displayIndex);
+        }
 
+        private EntityItem EntityItemCreate(string entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
+        {
+            EntityGroup eg = sqlController.EntityGroupRead(entitItemGroupId);
+            EntityItem et = sqlController.EntityItemRead(entitItemGroupId, name, description);
+            if (et != null) {
+                string microtingUId;
+                if (eg.Type == Constants.FieldTypes.EntitySearch) {
+                    microtingUId = communicator.EntitySearchItemCreate(eg.MicrotingUUID, name, description, ownUUID);
+                } else {
+                    microtingUId = communicator.EntitySelectItemCreate(eg.MicrotingUUID, name, displayIndex, ownUUID);
+                }
+
+                if (microtingUId != null) {
+                    et = new EntityItem(name, description, ownUUID);
+                    return sqlController.EntityItemCreate(entitItemGroupId, et);
+                } else
+                {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        public void EntityItemUpdate(int id, string name, string description, string ownUUID, int displayIndex)
+        {
+            EntityItem et = sqlController.EntityItemRead(id);
+            if (et == null) {
+                throw new NullReferenceException("EntityItem not found with id " + id.ToString());
+            } else {
+                if (et.Name != name && et.Description != description && et.DisplayIndex != displayIndex)
+                {
+                    EntityGroup eg = sqlController.EntityGroupRead(et.EntityItemGroupId);
+                    bool result = false;
+                    if (eg.Type == Constants.FieldTypes.EntitySearch)
+                    {
+                        result = communicator.EntitySearchItemUpdate(eg.MicrotingUUID, et.MicrotingUId, name, description, ownUUID);
+                    } else {
+                        result = communicator.EntitySelectItemUpdate(eg.MicrotingUUID, et.MicrotingUId, name, displayIndex, ownUUID);
+                    }
+                    if (result) {
+                        et.DisplayIndex = displayIndex;
+                        et.Name = name;
+                        et.Description = description;
+
+                        sqlController.EntityItemUpdate(et);
+                    } else {
+                        throw new Exception("Unable to update entityItem with id " + id.ToString());
+                    }
+                }
+            }
         }
 
         public void EntityItemDelete(int id)
         {
-
+            EntityItem et = sqlController.EntityItemRead(id);
+            if (et == null)
+            {
+                throw new NullReferenceException("EntityItem not found with id " + id.ToString());
+            }
+            else
+            {
+                EntityGroup eg = sqlController.EntityGroupRead(et.EntityItemGroupId);
+                bool result = false;
+                if (eg.Type == Constants.FieldTypes.EntitySearch) {
+                    result = communicator.EntitySearchItemDelete(id.ToString());
+                } else {
+                    result = communicator.EntitySelectItemDelete(id.ToString());
+                }
+                if (result) {
+                    sqlController.EntityItemDelete(id);
+                }
+                else
+                {
+                    throw new Exception("Unable to update entityItem with id " + id.ToString());
+                }
+            }
         }
 
         #endregion

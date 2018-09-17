@@ -374,9 +374,9 @@ namespace eFormCommunicator
             }
         }
 
-        public string EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
+        public string EntitySelectItemCreate(string entitySelectGroupId, string name, int displayIndex, string id)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
+            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
 
             WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items.json?token=" + token + "&protocol=" + protocolEntitySelect +
                 "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
@@ -393,9 +393,9 @@ namespace eFormCommunicator
                 return null;
         }
 
-        public bool EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
+        public bool EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayIndex, string ownUUID)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayOrder, searchable_group_id = entitySelectGroupId } });
+            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = ownUUID, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
 
             WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + "?token=" + token + "&protocol=" + protocolEntitySelect +
                 "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
