@@ -4841,6 +4841,7 @@ namespace eFormSqlController
                 eI.name = entityItem.Name;
                 eI.description = entityItem.Description;
                 eI.display_index = entityItem.DisplayIndex;
+                eI.migrated_entity_group_id = true;
                 eI.synced = t.Bool(false);
 
                 db.entity_items.Add(eI);
