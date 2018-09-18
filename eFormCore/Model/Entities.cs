@@ -99,6 +99,17 @@ namespace eFormData
             WorkflowState = workflowState;
         }
 
+        public EntityItem(string name, string description, string entityItemUId, string workflowState, string microtingUId, int displayIndex)
+        {
+            Name = name;
+            Description = description;
+            EntityItemUId = entityItemUId;
+            WorkflowState = workflowState;
+            MicrotingUUID = microtingUId;
+            DisplayIndex = displayIndex;
+
+        }
+
         public EntityItem(int id, string name, string description, string entityItemUId, string microtingUId)
         {
             Id = id;
@@ -125,7 +136,7 @@ namespace eFormData
         public string WorkflowState { get; }
         public string MicrotingUUID { get; set; }
         public int DisplayIndex { get; set; }
-        public string EntityItemGroupId { get; set; }
+        public int EntityItemGroupId { get; set; }
     }
     #endregion
 }

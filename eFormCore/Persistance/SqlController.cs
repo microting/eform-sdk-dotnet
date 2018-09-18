@@ -3743,7 +3743,10 @@ namespace eFormSqlController
                 entity_items et = db.entity_items.FirstOrDefault(x => x.id == id);
                 if (et != null)
                 {
-                    return new EntityItem(et.name, et.description, et.microting_uid);
+                    EntityItem entityItem = new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid);
+                    entityItem.EntityItemGroupId = et.entity_group_id;
+                    entityItem.Id = et.id;
+                    return entityItem;
                 }
                 else
                 {
@@ -3781,7 +3784,7 @@ namespace eFormSqlController
                 eI.updated_at = DateTime.Now;
                 eI.entity_group_id = entityItemGroupId;
                 eI.entity_item_uid = entityItem.EntityItemUId;
-                eI.microting_uid = "";
+                eI.microting_uid = entityItem.MicrotingUUID;
                 eI.name = entityItem.Name;
                 eI.description = entityItem.Description;
                 eI.display_index = entityItem.DisplayIndex;

@@ -2310,9 +2310,7 @@ namespace eFormCore
                 }
 
                 if (microtingUId != null) {
-                    et = new EntityItem(name, description, ownUUID);
-                    et.MicrotingUUID = microtingUId;
-                    et.DisplayIndex = displayIndex;
+                    et = new EntityItem(name, description, ownUUID,Constants.WorkflowStates.Created, microtingUId, displayIndex);
                     return sqlController.EntityItemCreate(eg.Id, et);
                 } else
                 {
@@ -2329,7 +2327,7 @@ namespace eFormCore
             if (et == null) {
                 throw new NullReferenceException("EntityItem not found with id " + id.ToString());
             } else {
-                if (et.Name != name && et.Description != description && et.DisplayIndex != displayIndex)
+                if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex)
                 {
                     EntityGroup eg = sqlController.EntityGroupRead(et.EntityItemGroupId);
                     bool result = false;
