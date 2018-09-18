@@ -2289,19 +2289,19 @@ namespace eFormCore
 
         #region EntityItem
 
-        public EntityItem EntitySearchItemCreate(string entitItemGroupId, string name, string description, string ownUUID) {
+        public EntityItem EntitySearchItemCreate(int entitItemGroupId, string name, string description, string ownUUID) {
             return EntityItemCreate(entitItemGroupId, name, description, ownUUID, 0);
         }
 
-        public EntityItem EntitySelectItemCreate(string entitItemGroupId, string name, int displayIndex, string ownUUID) {
+        public EntityItem EntitySelectItemCreate(int entitItemGroupId, string name, int displayIndex, string ownUUID) {
             return EntityItemCreate(entitItemGroupId, name, "", ownUUID, displayIndex);
         }
 
-        private EntityItem EntityItemCreate(string entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
+        private EntityItem EntityItemCreate(int entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
         {
             EntityGroup eg = sqlController.EntityGroupRead(entitItemGroupId);
-            EntityItem et = sqlController.EntityItemRead(entitItemGroupId, name, description);
-            if (et != null) {
+            EntityItem et = sqlController.EntityItemRead(entitItemGroupId.ToString(), name, description);
+            if (et == null) {
                 string microtingUId;
                 if (eg.Type == Constants.FieldTypes.EntitySearch) {
                     microtingUId = communicator.EntitySearchItemCreate(eg.MicrotingUUID, name, description, ownUUID);
@@ -2311,7 +2311,9 @@ namespace eFormCore
 
                 if (microtingUId != null) {
                     et = new EntityItem(name, description, ownUUID);
-                    return sqlController.EntityItemCreate(entitItemGroupId, et);
+                    et.MicrotingUUID = microtingUId;
+                    et.DisplayIndex = displayIndex;
+                    return sqlController.EntityItemCreate(eg.MicrotingUUID, et);
                 } else
                 {
                     return null;
