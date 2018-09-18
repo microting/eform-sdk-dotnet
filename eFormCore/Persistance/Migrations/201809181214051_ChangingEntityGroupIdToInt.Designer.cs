@@ -7,13 +7,13 @@ namespace eFormSqlController.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddingMigrationBoolToEntityItems : IMigrationMetadata
+    public sealed partial class ChangingEntityGroupIdToInt : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddingMigrationBoolToEntityItems));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangingEntityGroupIdToInt));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809180905001_AddingMigrationBoolToEntityItems"; }
+            get { return "201809181214051_ChangingEntityGroupIdToInt"; }
         }
         
         string IMigrationMetadata.Source

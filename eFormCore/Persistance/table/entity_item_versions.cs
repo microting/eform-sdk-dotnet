@@ -18,13 +18,11 @@ namespace eFormSqlController
 
         public int? version { get; set; }
 
-
         public DateTime? created_at { get; set; }
-
 
         public DateTime? updated_at { get; set; }
 
-        public int entity_group_id { get; set; }
+        public int? entity_group_id { get; set; }
 
         [StringLength(50)]
         public string entity_item_uid { get; set; }

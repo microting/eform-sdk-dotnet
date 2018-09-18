@@ -7,9 +7,9 @@ namespace eFormSqlController.Migrations
     {
         public override void Up()
         {
-            DropForeignKey("dbo.check_lists", "tags_id", "dbo.tags");
-            DropIndex("dbo.check_lists", new[] { "tags_id" });
-            DropColumn("dbo.check_lists", "tags_id");
+            try { DropForeignKey("dbo.check_lists", "tags_id", "dbo.tags"); } catch { }
+            try { DropIndex("dbo.check_lists", new[] { "tags_id" }); } catch { }            
+            try { DropColumn("dbo.check_lists", "tags_id"); } catch { }            
         }
         
         public override void Down()
