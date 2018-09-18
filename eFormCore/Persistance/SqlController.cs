@@ -5219,6 +5219,7 @@ namespace eFormSqlController
             entityItemVer.updated_at = entityItem.updated_at;
             entityItemVer.entity_item_uid = entityItem.entity_item_uid;
             entityItemVer.microting_uid = entityItem.microting_uid;
+            entityItemVer.entity_group_id = entityItem.entity_group_id;
             entityItemVer.name = entityItem.name;
             entityItemVer.description = entityItem.description;
             entityItemVer.synced = entityItem.synced;
