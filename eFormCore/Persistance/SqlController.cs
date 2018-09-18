@@ -3564,22 +3564,22 @@ namespace eFormSqlController
                     {
                         if (sort == Constants.EntityItemSortParameters.Id)
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.id).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.name).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.name).ToList();
                         }
                     }
                     else
                     {
                         if (sort == Constants.EntityItemSortParameters.Id)
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
                         }
                     }
 
@@ -3675,48 +3675,48 @@ namespace eFormSqlController
             }
         }
 
-        public void EntityGroupUpdateItems(EntityGroup entityGroup)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<EntityItemUpdateInfo> rtnLst = new List<EntityItemUpdateInfo>();
-                    EntityGroup eGNew = entityGroup;
-                    EntityGroup eGFDb = EntityGroupRead(eGNew.MicrotingUUID);
+        //public void EntityGroupUpdateItems(EntityGroup entityGroup)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            List<EntityItemUpdateInfo> rtnLst = new List<EntityItemUpdateInfo>();
+        //            EntityGroup eGNew = entityGroup;
+        //            EntityGroup eGFDb = EntityGroupRead(eGNew.MicrotingUUID);
 
-                    //same, new or update
-                    foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
-                    {
-                        EntityItemCreateUpdate(entityGroup.MicrotingUUID, itemNew);
-                    }
+        //            //same, new or update
+        //            foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
+        //            {
+        //                EntityItemCreateUpdate(entityGroup.MicrotingUUID, itemNew);
+        //            }
 
-                    //delete
-                    bool stillInUse;
-                    foreach (EntityItem itemFDb in eGFDb.EntityGroupItemLst)
-                    {
-                        stillInUse = false;
-                        foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
-                        {
-                            if (itemNew.EntityItemUId == itemFDb.EntityItemUId)
-                            {
-                                stillInUse = true;
-                                break;
-                            }
-                        }
+        //            //delete
+        //            bool stillInUse;
+        //            foreach (EntityItem itemFDb in eGFDb.EntityGroupItemLst)
+        //            {
+        //                stillInUse = false;
+        //                foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
+        //                {
+        //                    if (itemNew.EntityItemUId == itemFDb.EntityItemUId)
+        //                    {
+        //                        stillInUse = true;
+        //                        break;
+        //                    }
+        //                }
 
-                        if (!stillInUse)
-                        {
-                            EntityItemDelete(entityGroup.MicrotingUUID, itemFDb.EntityItemUId);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntityGroupUpdateItems failed", ex);
-            }
-        }
+        //                if (!stillInUse)
+        //                {
+        //                    EntityItemDelete(entityGroup.MicrotingUUID, itemFDb.EntityItemUId);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("EntityGroupUpdateItems failed", ex);
+        //    }
+        //}
 
         public string EntityGroupDelete(string entityGroupMUId)
         {
@@ -3738,7 +3738,7 @@ namespace eFormSqlController
                     eG.version = eG.version + 1;
                     db.entity_group_versions.Add(MapEntityGroupVersions(eG));
 
-                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.microting_uid && x.workflow_state != Constants.WorkflowStates.Removed).ToList();
+                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                     if (lst != null)
                     {
                         foreach (entity_items item in lst)
@@ -3808,38 +3808,38 @@ namespace eFormSqlController
             }
         }
 
-        public void EntityItemSyncedProcessed(string entityGroupMUId, string entityItemId, string microting_uid, string workflowState)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    entity_items eItem = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItemId && x.entity_group_id == entityGroupMUId);
+        //public void EntityItemSyncedProcessed(string entityGroupMUId, string entityItemId, string microting_uid, string workflowState)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            entity_items eItem = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItemId && x.entity_group_id == id);
 
-                    if (eItem != null)
-                    {
-                        eItem.workflow_state = workflowState;
-                        eItem.updated_at = DateTime.Now;
-                        eItem.version = eItem.version + 1;
-                        eItem.synced = 1;
+        //            if (eItem != null)
+        //            {
+        //                eItem.workflow_state = workflowState;
+        //                eItem.updated_at = DateTime.Now;
+        //                eItem.version = eItem.version + 1;
+        //                eItem.synced = 1;
 
-                        if (workflowState == Constants.WorkflowStates.Created)
-                            eItem.microting_uid = microting_uid; //<<---
+        //                if (workflowState == Constants.WorkflowStates.Created)
+        //                    eItem.microting_uid = microting_uid; //<<---
 
-                        db.entity_item_versions.Add(MapEntityItemVersions(eItem));
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        //TODO log warning
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntityItemSyncedProcessed failed", ex);
-            }
-        }
+        //                db.entity_item_versions.Add(MapEntityItemVersions(eItem));
+        //                db.SaveChanges();
+        //            }
+        //            else
+        //            {
+        //                //TODO log warning
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("EntityItemSyncedProcessed failed", ex);
+        //    }
+        //}
         #endregion
         #endregion
 
@@ -4815,7 +4815,7 @@ namespace eFormSqlController
 
         #region EntityItem 
 
-        public EntityItem EntityItemRead(string entityItemGroupId, string name, string description) {
+        public EntityItem EntityItemRead(int entityItemGroupId, string name, string description) {
             using (var db = GetContext()) {
                 entity_items et = db.entity_items.SingleOrDefault(x => x.name == name && x.description == description && x.entity_group_id == entityItemGroupId);
                 if (et != null) {
@@ -4826,7 +4826,7 @@ namespace eFormSqlController
             }
         }
 
-        public EntityItem EntityItemCreate(string entityItemGroupId, EntityItem entityItem) {
+        public EntityItem EntityItemCreate(int entityItemGroupId, EntityItem entityItem) {
 
             using (var db = GetContext()) {
                 entity_items eI = new entity_items();
@@ -4870,32 +4870,32 @@ namespace eFormSqlController
             }
         }
 
-        public void EntityItemCreateUpdate(string entityGroupId, EntityItem entityItem)
-        {
-            using (var db = GetContext())
-            {
-                var match = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupId);
+        //public void EntityItemCreateUpdate(int entityGroupId, EntityItem entityItem)
+        //{
+        //    using (var db = GetContext())
+        //    {
+        //        var match = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupId);
 
-                if (match != null)
-                {
-                    if (match.name == entityItem.Name && match.description == entityItem.Description)
-                    {
-                        if (match.workflow_state == Constants.WorkflowStates.Removed)
-                        {
-                            EntityItemUpdate(entityItem);
-                        }
-                    }
-                    else
-                    {
-                        EntityItemUpdate(entityItem);
-                    }
-                }
-                else
-                {
-                    EntityItemCreate(entityGroupId,entityItem);
-                }
-            }
-        }
+        //        if (match != null)
+        //        {
+        //            if (match.name == entityItem.Name && match.description == entityItem.Description)
+        //            {
+        //                if (match.workflow_state == Constants.WorkflowStates.Removed)
+        //                {
+        //                    EntityItemUpdate(entityItem);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                EntityItemUpdate(entityItem);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            EntityItemCreate(entityGroupId,entityItem);
+        //        }
+        //    }
+        //}
 
         public void EntityItemDelete(int id) {
             using (var db = GetContext()) {
@@ -4916,30 +4916,30 @@ namespace eFormSqlController
             }
          }
 
-        public void EntityItemDelete(string entityGroupMUId, string entityItemUId)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    entity_items match = db.entity_items.Single(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId);
+        //public void EntityItemDelete(int entityGroupMUId, string entityItemUId)
+        //{
+        //    try
+        //    {
+        //        using (var db = GetContext())
+        //        {
+        //            entity_items match = db.entity_items.Single(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId);
 
-                    match.synced = t.Bool(false);
-                    match.updated_at = DateTime.Now;
-                    match.version = match.version + 1;
-                    match.workflow_state = Constants.WorkflowStates.Removed;
+        //            match.synced = t.Bool(false);
+        //            match.updated_at = DateTime.Now;
+        //            match.version = match.version + 1;
+        //            match.workflow_state = Constants.WorkflowStates.Removed;
 
-                    db.SaveChanges();
+        //            db.SaveChanges();
 
-                    db.entity_item_versions.Add(MapEntityItemVersions(match));
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntityItemUpdate failed", ex);
-            }
-        }
+        //            db.entity_item_versions.Add(MapEntityItemVersions(match));
+        //            db.SaveChanges();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("EntityItemUpdate failed", ex);
+        //    }
+        //}
         #endregion
 
         #region tags

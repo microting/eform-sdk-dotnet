@@ -2245,9 +2245,9 @@ namespace eFormCore
                     if (isUpdated)
                         sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID);
 
-                    sqlController.EntityGroupUpdateItems(entityGroup);
+                    //sqlController.EntityGroupUpdateItems(entityGroup);
 
-                    CoreHandleUpdateEntityItems();
+                    //CoreHandleUpdateEntityItems();
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2274,7 +2274,7 @@ namespace eFormCore
                     if (type != null)
                         communicator.EntityGroupDelete(type, entityGroupMUId);
 
-                    CoreHandleUpdateEntityItems();
+                    //CoreHandleUpdateEntityItems();
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2300,7 +2300,7 @@ namespace eFormCore
         private EntityItem EntityItemCreate(int entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
         {
             EntityGroup eg = sqlController.EntityGroupRead(entitItemGroupId);
-            EntityItem et = sqlController.EntityItemRead(entitItemGroupId.ToString(), name, description);
+            EntityItem et = sqlController.EntityItemRead(entitItemGroupId, name, description);
             if (et == null) {
                 string microtingUId;
                 if (eg.Type == Constants.FieldTypes.EntitySearch) {
@@ -2313,7 +2313,7 @@ namespace eFormCore
                     et = new EntityItem(name, description, ownUUID);
                     et.MicrotingUUID = microtingUId;
                     et.DisplayIndex = displayIndex;
-                    return sqlController.EntityItemCreate(eg.MicrotingUUID, et);
+                    return sqlController.EntityItemCreate(eg.Id, et);
                 } else
                 {
                     return null;
@@ -4022,126 +4022,126 @@ namespace eFormCore
             return true;
         }
 
-        private void CoreHandleUpdateEntityItems()
-        {
-            try
-            {
-                if (!updateIsRunningEntities)
-                {
-                    updateIsRunningEntities = true;
+        //private void CoreHandleUpdateEntityItems()
+        //{
+        //    try
+        //    {
+        //        if (!updateIsRunningEntities)
+        //        {
+        //            updateIsRunningEntities = true;
 
-                    #region update EntityItems
-                    bool more = true;
-                    entity_items eI;
-                    while (more)
-                    {
-                        eI = sqlController.EntityItemSyncedRead();
+        //            #region update EntityItems
+        //            bool more = true;
+        //            entity_items eI;
+        //            while (more)
+        //            {
+        //                eI = sqlController.EntityItemSyncedRead();
 
-                        if (eI != null)
-                        {
-                            log.LogEverything(t.GetMethodName("Core"), "Received Entity:" + eI.ToString());
+        //                if (eI != null)
+        //                {
+        //                    log.LogEverything(t.GetMethodName("Core"), "Received Entity:" + eI.ToString());
 
-                            try
-                            {
-                                var type = sqlController.EntityGroupRead(eI.entity_group_id);
+        //                    try
+        //                    {
+        //                        var type = sqlController.EntityGroupRead(eI.entity_group_id);
 
-                                if (type != null)
-                                {
-                                    #region EntitySearch
-                                    if (type.Type == Constants.FieldTypes.EntitySearch)
-                                    {
-                                        if (eI.workflow_state == Constants.WorkflowStates.Created)
-                                        {
-                                            string microtingUId = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
+        //                        if (type != null)
+        //                        {
+        //                            #region EntitySearch
+        //                            if (type.Type == Constants.FieldTypes.EntitySearch)
+        //                            {
+        //                                if (eI.workflow_state == Constants.WorkflowStates.Created)
+        //                                {
+        //                                    string microtingUId = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
 
-                                            if (microtingUId != null)
-                                            {
-                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
-                                                continue;
-                                            }
-                                        }
+        //                                    if (microtingUId != null)
+        //                                    {
+        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id.ToString(), eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
+        //                                        continue;
+        //                                    }
+        //                                }
 
-                                        if (eI.workflow_state == "updated")
-                                        {
-                                            if (communicator.EntitySearchItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
-                                            {
-                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
-                                                continue;
-                                            }
-                                        }
+        //                                if (eI.workflow_state == "updated")
+        //                                {
+        //                                    if (communicator.EntitySearchItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
+        //                                    {
+        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
+        //                                        continue;
+        //                                    }
+        //                                }
 
-                                        if (eI.workflow_state == Constants.WorkflowStates.Removed)
-                                        {
-                                            communicator.EntitySearchItemDelete(eI.microting_uid);
+        //                                if (eI.workflow_state == Constants.WorkflowStates.Removed)
+        //                                {
+        //                                    communicator.EntitySearchItemDelete(eI.microting_uid);
 
-                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
-                                            continue;
-                                        }
-                                    }
-                                    #endregion
+        //                                    sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
+        //                                    continue;
+        //                                }
+        //                            }
+        //                            #endregion
 
-                                    #region EntitySelect
-                                    if (type.Type == "EntitySelect")
-                                    {
-                                        if (eI.workflow_state == Constants.WorkflowStates.Created)
-                                        {
-                                            // TODO! el.displayOrder missing and remove int.Parse(eI.description)
-                                            string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.display_index, eI.entity_item_uid);
+        //                            #region EntitySelect
+        //                            if (type.Type == "EntitySelect")
+        //                            {
+        //                                if (eI.workflow_state == Constants.WorkflowStates.Created)
+        //                                {
+        //                                    // TODO! el.displayOrder missing and remove int.Parse(eI.description)
+        //                                    string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.display_index, eI.entity_item_uid);
 
-                                            if (microtingUId != null)
-                                            {
-                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
-                                                continue;
-                                            }
-                                        }
+        //                                    if (microtingUId != null)
+        //                                    {
+        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
+        //                                        continue;
+        //                                    }
+        //                                }
 
-                                        if (eI.workflow_state == "updated")
-                                        {
-                                            // TODO! el.displayOrder missing and remove int.Parse(eI.description)
-                                            if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.display_index, eI.entity_item_uid))
-                                            {
-                                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
-                                                continue;
-                                            }
-                                        }
+        //                                if (eI.workflow_state == "updated")
+        //                                {
+        //                                    // TODO! el.displayOrder missing and remove int.Parse(eI.description)
+        //                                    if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.display_index, eI.entity_item_uid))
+        //                                    {
+        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
+        //                                        continue;
+        //                                    }
+        //                                }
 
-                                        if (eI.workflow_state == Constants.WorkflowStates.Removed)
-                                        {
-                                            communicator.EntitySelectItemDelete(eI.microting_uid);
+        //                                if (eI.workflow_state == Constants.WorkflowStates.Removed)
+        //                                {
+        //                                    communicator.EntitySelectItemDelete(eI.microting_uid);
 
-                                            sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
-                                            continue;
-                                        }
-                                    }
-                                    #endregion
-                                }
+        //                                    sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
+        //                                    continue;
+        //                                }
+        //                            }
+        //                            #endregion
+        //                        }
 
-                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed_to_sync");
-                                log.LogWarning(t.GetMethodName("Core"), "EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
-                            }
-                            catch (Exception ex)
-                            {
-                                log.LogWarning(t.GetMethodName("Core"), "EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync. Exception:'" + ex.Message + "'");
-                                sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed to sync");
-                            }
-                        }
-                        else
-                            more = false;
-                    }
-                    #endregion
+        //                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed_to_sync");
+        //                        log.LogWarning(t.GetMethodName("Core"), "EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        log.LogWarning(t.GetMethodName("Core"), "EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync. Exception:'" + ex.Message + "'");
+        //                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed to sync");
+        //                    }
+        //                }
+        //                else
+        //                    more = false;
+        //            }
+        //            #endregion
 
-                    updateIsRunningEntities = false;
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "CoreHandleUpdateEntityItems failed", ex, true);
-            }
-        }
+        //            updateIsRunningEntities = false;
+        //        }
+        //    }
+        //    catch (ThreadAbortException)
+        //    {
+        //        log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.LogException(t.GetMethodName("Core"), "CoreHandleUpdateEntityItems failed", ex, true);
+        //    }
+        //}
         #endregion
 
 

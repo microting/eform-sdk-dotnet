@@ -142,8 +142,16 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
-    <Compile Include="Migrations\201808281004468_FixingModelChanges.cs" />
-    <Compile Include="Migrations\201808281004468_FixingModelChanges.Designer.cs">
+    <Compile Include="Persistance\Migrations\201809180856509_ChangingEntityGroupIdToInt.cs" />
+    <Compile Include="Persistance\Migrations\201809180856509_ChangingEntityGroupIdToInt.Designer.cs">
+      <DependentUpon>201809180856509_ChangingEntityGroupIdToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201809180905001_AddingMigrationBoolToEntityItems.cs" />
+    <Compile Include="Persistance\Migrations\201809180905001_AddingMigrationBoolToEntityItems.Designer.cs">
+      <DependentUpon>201809180905001_AddingMigrationBoolToEntityItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Migrations\201808281004468_FixingModelChanges.cs" />
+    <Compile Include="Persistance\Migrations\201808281004468_FixingModelChanges.Designer.cs">
       <DependentUpon>201808281004468_FixingModelChanges.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.cs" />
@@ -282,7 +290,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808281004468_FixingModelChanges.resx">
+    <EmbeddedResource Include="Persistance\Migrations\201809180856509_ChangingEntityGroupIdToInt.resx">
+      <DependentUpon>201809180856509_ChangingEntityGroupIdToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201809180905001_AddingMigrationBoolToEntityItems.resx">
+      <DependentUpon>201809180905001_AddingMigrationBoolToEntityItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistance\Migrations\201808281004468_FixingModelChanges.resx">
       <DependentUpon>201808281004468_FixingModelChanges.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201808241140436_RemoveTagsIdFromCheckLists.resx">

@@ -211,9 +211,9 @@ namespace eFormSqlController
                 .Property(e => e.updated_at)
                 .HasPrecision(0);
 
-            modelBuilder.Entity<entity_items>()
-                .Property(e => e.entity_group_id)
-                .IsUnicode(false);
+            //modelBuilder.Entity<entity_items>()
+            //    .Property(e => e.entity_group_id)
+            //    .IsUnicode(false);
 
             modelBuilder.Entity<entity_items>()
                 .Property(e => e.entity_item_uid)
@@ -611,9 +611,9 @@ namespace eFormSqlController
                 .Property(e => e.updated_at)
                 .HasPrecision(0);
 
-            modelBuilder.Entity<entity_item_versions>()
-                .Property(e => e.entity_group_id)
-                .IsUnicode(false);
+            //modelBuilder.Entity<entity_item_versions>()
+            //    .Property(e => e.entity_group_id)
+            //    .IsUnicode(false);
 
             modelBuilder.Entity<entity_item_versions>()
                 .Property(e => e.entity_item_uid)
