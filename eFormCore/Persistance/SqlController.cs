@@ -3720,7 +3720,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region EntityItem 
+        #region entityItem 
         public entity_items EntityItemRead(string microtingUId)
         {
             try
@@ -3749,21 +3749,6 @@ namespace eFormSqlController
                 {
                     throw new NullReferenceException("No EntityItem found for id " + id.ToString());
                 }
-            }
-        }
-
-        public entity_items EntityItemSyncedRead()
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    return db.entity_items.FirstOrDefault(x => x.synced == 0);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntityItemSyncedRead failed", ex);
             }
         }
 
