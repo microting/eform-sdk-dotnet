@@ -137,150 +137,6 @@ namespace eFormCore
             }
         }
 
-        //public string RetractEforms()
-        //{
-        //    string reply = "";
-
-        //    Communicator communicator = new Communicator(sqlController, log);
-        //    if (communicator == null)
-        //        return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
-
-        //    List<string> lstCaseMUIds = sqlController.UnitTest_FindAllActiveCases();
-        //    foreach (string mUId in lstCaseMUIds)
-        //    {
-        //        try
-        //        {
-        //            var aCase = sqlController.CaseReadByMUId(mUId);
-        //            if (aCase != null)
-        //            {
-        //                communicator.Delete(mUId, aCase.SiteUId);
-
-        //                try
-        //                {
-        //                    sqlController.CaseDelete(mUId);
-        //                }
-        //                catch
-        //                {
-        //                    sqlController.CaseDeleteReversed(mUId);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            reply += "EformDelete  :'" + mUId + "' failed, due to:" + ex.Message + Environment.NewLine;
-        //        }
-        //    }
-
-        //    return reply.Trim();
-        //}
-
-        //public string RetractEntities()
-        //{
-        //    string reply = "";
-
-        //    Communicator communicator = new Communicator(sqlController, log);
-        //    if (communicator == null)
-        //        return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
-
-        //    List<string> lstEntityMUIds = sqlController.UnitTest_EntitiesFindAllActive();
-        //    foreach (string mUId in lstEntityMUIds)
-        //    {
-        //        try
-        //        {
-        //            string type = sqlController.EntityGroupDelete(mUId);
-        //            if (type != null)
-        //                communicator.EntityGroupDelete(type, mUId);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            reply += "EntityDelete :'" + mUId + "' failed, due to:" + ex.Message + Environment.NewLine;
-        //        }
-        //    }
-
-        //    return reply.Trim();
-        //}
-
-        //public string DbClearData()
-        //{
-        //    try
-        //    {
-        //        RetractEforms();
-
-        //        sqlController.UnitTest_TruncateTable(typeof(cases).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(case_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(check_list_sites).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(check_list_site_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(check_list_values).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(check_list_value_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(field_values).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(field_value_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(uploaded_data).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(uploaded_data_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(a_interaction_case_list_versions).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(a_interaction_case_lists).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(a_interaction_case_versions).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(a_interaction_cases).Name);
-        //        //---
-
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(notifications).Name);
-
-        //        return "";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return t.PrintException(t.GetMethodName() + " failed", ex);
-        //    }
-        //}
-
-        //public string DbClearTemplat()
-        //{
-        //    try
-        //    {
-        //        RetractEntities();
-
-        //        sqlController.UnitTest_TruncateTable(typeof(entity_groups).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(entity_group_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(entity_items).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(entity_item_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(fields).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(field_versions).Name);
-        //        //---
-        //        sqlController.UnitTest_TruncateTable(typeof(check_lists).Name);
-        //        sqlController.UnitTest_TruncateTable(typeof(check_list_versions).Name);
-
-        //        return "";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return t.PrintException(t.GetMethodName() + " failed", ex);
-        //    }
-        //}
-
-        //public string DbClear()
-        //{
-        //    string reply = "";
-
-        //    Communicator communicator = new Communicator(sqlController, log);
-        //    if (communicator == null)
-        //        return "Failed to create a communicator. Action canceled. Database maybe not configured correct";
-
-        //    reply += RetractEforms() + Environment.NewLine;
-        //    reply += RetractEntities() + Environment.NewLine;
-        //    reply += DbClearData() + Environment.NewLine;
-        //    reply += DbClearTemplat() + Environment.NewLine;
-
-        //    return reply.TrimEnd();
-        //}
-
         public string DbSetup(string token)
         {
             try
@@ -289,16 +145,12 @@ namespace eFormCore
 
                 if (token == null)
                     token = sqlController.SettingRead(Settings.token);
-
-                //if (token.ToLower() == "unittest")
-                //    return DbSetupUnitTest();
-
+                
                 sqlController.SettingUpdate(Settings.token, token);
 
                 // configure db
                 DbSettingsReloadRemote();
 
-                //sqlController.UnitTest_TruncateTablesIfEmpty();
 
                 string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
                 string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
@@ -310,7 +162,6 @@ namespace eFormCore
                 #region add site's data to db
                 if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
                 {
-                    //sqlController.UnitTest_TruncateTable(typeof(sites).Name);
                     foreach (var item in communicator.SiteLoadAllFromRemote())
                     {
                         SiteName_Dto siteDto = sqlController.SiteRead(item.SiteUId);
@@ -320,7 +171,6 @@ namespace eFormCore
                         }
                     }
 
-                    //sqlController.UnitTest_TruncateTable(typeof(workers).Name);
                     foreach (var item in communicator.WorkerLoadAllFromRemote())
                     {
                         Worker_Dto workerDto = sqlController.WorkerRead(item.WorkerUId);
@@ -330,7 +180,6 @@ namespace eFormCore
                         }
                     }
 
-                    //sqlController.UnitTest_TruncateTable(typeof(site_workers).Name);
                     foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
                     {
                         Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
@@ -350,7 +199,6 @@ namespace eFormCore
 
                     int customerNo = communicator.OrganizationLoadAllFromRemote(token).CustomerNo;
 
-                    //sqlController.UnitTest_TruncateTable(typeof(units).Name);
                     foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
                     {
                         Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);

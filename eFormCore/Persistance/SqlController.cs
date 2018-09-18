@@ -3521,8 +3521,6 @@ namespace eFormSqlController
                     entity_groups eG = new entity_groups();
 
                     eG.created_at = DateTime.Now;
-                    //eG.id = xxx;
-                    //eG.microtingUId = xxx;
                     eG.name = name;
                     eG.type = entityType;
                     eG.updated_at = DateTime.Now;
@@ -3675,49 +3673,6 @@ namespace eFormSqlController
             }
         }
 
-        //public void EntityGroupUpdateItems(EntityGroup entityGroup)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            List<EntityItemUpdateInfo> rtnLst = new List<EntityItemUpdateInfo>();
-        //            EntityGroup eGNew = entityGroup;
-        //            EntityGroup eGFDb = EntityGroupRead(eGNew.MicrotingUUID);
-
-        //            //same, new or update
-        //            foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
-        //            {
-        //                EntityItemCreateUpdate(entityGroup.MicrotingUUID, itemNew);
-        //            }
-
-        //            //delete
-        //            bool stillInUse;
-        //            foreach (EntityItem itemFDb in eGFDb.EntityGroupItemLst)
-        //            {
-        //                stillInUse = false;
-        //                foreach (EntityItem itemNew in eGNew.EntityGroupItemLst)
-        //                {
-        //                    if (itemNew.EntityItemUId == itemFDb.EntityItemUId)
-        //                    {
-        //                        stillInUse = true;
-        //                        break;
-        //                    }
-        //                }
-
-        //                if (!stillInUse)
-        //                {
-        //                    EntityItemDelete(entityGroup.MicrotingUUID, itemFDb.EntityItemUId);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("EntityGroupUpdateItems failed", ex);
-        //    }
-        //}
-
         public string EntityGroupDelete(string entityGroupMUId)
         {
             try
@@ -3765,7 +3720,7 @@ namespace eFormSqlController
         }
         #endregion
 
-        #region entityItem
+        #region EntityItem 
         public entity_items EntityItemRead(string microtingUId)
         {
             try
@@ -3781,13 +3736,17 @@ namespace eFormSqlController
             }
         }
 
-        public EntityItem EntityItemRead(int id) {
+        public EntityItem EntityItemRead(int id)
+        {
             using (var db = GetContext())
             {
                 entity_items et = db.entity_items.FirstOrDefault(x => x.id == id);
-                if (et != null) {
+                if (et != null)
+                {
                     return new EntityItem(et.name, et.description, et.microting_uid);
-                } else {
+                }
+                else
+                {
                     throw new NullReferenceException("No EntityItem found for id " + id.ToString());
                 }
             }
@@ -3808,38 +3767,94 @@ namespace eFormSqlController
             }
         }
 
-        //public void EntityItemSyncedProcessed(string entityGroupMUId, string entityItemId, string microting_uid, string workflowState)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            entity_items eItem = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItemId && x.entity_group_id == id);
+        public EntityItem EntityItemRead(int entityItemGroupId, string name, string description)
+        {
+            using (var db = GetContext())
+            {
+                entity_items et = db.entity_items.SingleOrDefault(x => x.name == name && x.description == description && x.entity_group_id == entityItemGroupId);
+                if (et != null)
+                {
+                    return new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid, et.workflow_state);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
-        //            if (eItem != null)
-        //            {
-        //                eItem.workflow_state = workflowState;
-        //                eItem.updated_at = DateTime.Now;
-        //                eItem.version = eItem.version + 1;
-        //                eItem.synced = 1;
+        public EntityItem EntityItemCreate(int entityItemGroupId, EntityItem entityItem)
+        {
 
-        //                if (workflowState == Constants.WorkflowStates.Created)
-        //                    eItem.microting_uid = microting_uid; //<<---
+            using (var db = GetContext())
+            {
+                entity_items eI = new entity_items();
 
-        //                db.entity_item_versions.Add(MapEntityItemVersions(eItem));
-        //                db.SaveChanges();
-        //            }
-        //            else
-        //            {
-        //                //TODO log warning
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("EntityItemSyncedProcessed failed", ex);
-        //    }
-        //}
+                eI.workflow_state = Constants.WorkflowStates.Created;
+                eI.version = 1;
+                eI.created_at = DateTime.Now;
+                eI.updated_at = DateTime.Now;
+                eI.entity_group_id = entityItemGroupId;
+                eI.entity_item_uid = entityItem.EntityItemUId;
+                eI.microting_uid = "";
+                eI.name = entityItem.Name;
+                eI.description = entityItem.Description;
+                eI.display_index = entityItem.DisplayIndex;
+                eI.migrated_entity_group_id = true;
+                eI.synced = t.Bool(false);
+
+                db.entity_items.Add(eI);
+                db.SaveChanges();
+
+                db.entity_item_versions.Add(MapEntityItemVersions(eI));
+                db.SaveChanges();
+            }
+            return entityItem;
+        }
+
+        public void EntityItemUpdate(EntityItem entityItem)
+        {
+            using (var db = GetContext())
+            {
+                var match = db.entity_items.SingleOrDefault(x => x.id == entityItem.Id);
+                match.description = entityItem.Description;
+                match.name = entityItem.Name;
+                match.synced = t.Bool(false);
+                match.updated_at = DateTime.Now;
+                match.display_index = entityItem.DisplayIndex;
+                match.version = match.version + 1;
+                match.workflow_state = "updated";
+
+                db.SaveChanges();
+
+                db.entity_item_versions.Add(MapEntityItemVersions(match));
+                db.SaveChanges();
+            }
+        }
+
+        public void EntityItemDelete(int id)
+        {
+            using (var db = GetContext())
+            {
+                entity_items et = db.entity_items.SingleOrDefault(x => x.id == id);
+                if (et == null)
+                {
+                    throw new NullReferenceException("EntityItem not found with id " + id.ToString());
+                }
+                else
+                {
+                    et.synced = t.Bool(true);
+                    et.updated_at = DateTime.Now;
+                    et.version = et.version + 1;
+                    et.workflow_state = Constants.WorkflowStates.Removed;
+
+                    db.SaveChanges();
+
+                    db.entity_item_versions.Add(MapEntityItemVersions(et));
+                    db.SaveChanges();
+                }
+            }
+        }
         #endregion
         #endregion
 
@@ -4811,136 +4826,6 @@ namespace eFormSqlController
                 throw new Exception("GetConverter failed", ex);
             }
         }
-        #endregion
-
-        #region EntityItem 
-
-        public EntityItem EntityItemRead(int entityItemGroupId, string name, string description) {
-            using (var db = GetContext()) {
-                entity_items et = db.entity_items.SingleOrDefault(x => x.name == name && x.description == description && x.entity_group_id == entityItemGroupId);
-                if (et != null) {
-                    return new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid, et.workflow_state);
-                } else {
-                    return null;
-                }
-            }
-        }
-
-        public EntityItem EntityItemCreate(int entityItemGroupId, EntityItem entityItem) {
-
-            using (var db = GetContext()) {
-                entity_items eI = new entity_items();
-
-                eI.workflow_state = Constants.WorkflowStates.Created;
-                eI.version = 1;
-                eI.created_at = DateTime.Now;
-                eI.updated_at = DateTime.Now;
-                eI.entity_group_id = entityItemGroupId;
-                eI.entity_item_uid = entityItem.EntityItemUId;
-                eI.microting_uid = "";
-                eI.name = entityItem.Name;
-                eI.description = entityItem.Description;
-                eI.display_index = entityItem.DisplayIndex;
-                eI.migrated_entity_group_id = true;
-                eI.synced = t.Bool(false);
-
-                db.entity_items.Add(eI);
-                db.SaveChanges();
-
-                db.entity_item_versions.Add(MapEntityItemVersions(eI));
-                db.SaveChanges();
-            }
-            return entityItem;
-        }
-
-        public void EntityItemUpdate(EntityItem entityItem) {
-            using (var db = GetContext()) {
-                var match = db.entity_items.SingleOrDefault(x => x.id == entityItem.Id);
-                match.description = entityItem.Description;
-                match.name = entityItem.Name;
-                match.synced = t.Bool(false);
-                match.updated_at = DateTime.Now;
-                match.display_index = entityItem.DisplayIndex;
-                match.version = match.version + 1;
-                match.workflow_state = "updated";
-
-                db.SaveChanges();
-
-                db.entity_item_versions.Add(MapEntityItemVersions(match));
-                db.SaveChanges();
-            }
-        }
-
-        //public void EntityItemCreateUpdate(int entityGroupId, EntityItem entityItem)
-        //{
-        //    using (var db = GetContext())
-        //    {
-        //        var match = db.entity_items.SingleOrDefault(x => x.entity_item_uid == entityItem.EntityItemUId && x.entity_group_id == entityGroupId);
-
-        //        if (match != null)
-        //        {
-        //            if (match.name == entityItem.Name && match.description == entityItem.Description)
-        //            {
-        //                if (match.workflow_state == Constants.WorkflowStates.Removed)
-        //                {
-        //                    EntityItemUpdate(entityItem);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                EntityItemUpdate(entityItem);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            EntityItemCreate(entityGroupId,entityItem);
-        //        }
-        //    }
-        //}
-
-        public void EntityItemDelete(int id) {
-            using (var db = GetContext()) {
-                entity_items et = db.entity_items.SingleOrDefault(x => x.id == id);
-                if (et == null) {
-                    throw new NullReferenceException("EntityItem not found with id " + id.ToString());
-                } else {
-                    et.synced = t.Bool(true);
-                    et.updated_at = DateTime.Now;
-                    et.version = et.version + 1;
-                    et.workflow_state = Constants.WorkflowStates.Removed;
-
-                    db.SaveChanges();
-
-                    db.entity_item_versions.Add(MapEntityItemVersions(et));
-                    db.SaveChanges();
-                }
-            }
-         }
-
-        //public void EntityItemDelete(int entityGroupMUId, string entityItemUId)
-        //{
-        //    try
-        //    {
-        //        using (var db = GetContext())
-        //        {
-        //            entity_items match = db.entity_items.Single(x => x.entity_item_uid == entityItemUId && x.entity_group_id == entityGroupMUId);
-
-        //            match.synced = t.Bool(false);
-        //            match.updated_at = DateTime.Now;
-        //            match.version = match.version + 1;
-        //            match.workflow_state = Constants.WorkflowStates.Removed;
-
-        //            db.SaveChanges();
-
-        //            db.entity_item_versions.Add(MapEntityItemVersions(match));
-        //            db.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("EntityItemUpdate failed", ex);
-        //    }
-        //}
         #endregion
 
         #region tags
