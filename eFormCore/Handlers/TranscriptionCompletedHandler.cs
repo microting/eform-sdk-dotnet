@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using eFormShared;
 using eFormCommunicator;
+using Newtonsoft.Json.Linq;
 
 namespace eFormCore.Handlers
 {
@@ -30,9 +31,33 @@ namespace eFormCore.Handlers
             try
             {
                 field_values fv = sqlController.GetFieldValueByTranscriptionId(int.Parse(message.MicrotringUUID));
-                string result = communicator.SpeechToText(int.Parse(message.MicrotringUUID));
+                JToken result = communicator.SpeechToText(int.Parse(message.MicrotringUUID));
 
-                sqlController.FieldValueUpdate((int)fv.case_id, (int)fv.id, result);
+                sqlController.FieldValueUpdate((int)fv.case_id, (int)fv.id, result["text"].ToString());
+
+                #region download file
+                uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(int.Parse(message.MicrotringUUID));
+
+                if (ud.file_name.Contains("3gp"))
+                {
+                    log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
+                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
+                    string fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
+                    using (var client = new System.Net.WebClient())
+                    {
+                        try
+                        {
+                            log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Trying to donwload file from : " + urlStr);
+                            client.DownloadFile(urlStr, fileLocationPicture + ud.file_name.Replace(".3gp", ".wav"));
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Downloading and creating fil locally failed.", ex);
+                        }
+                    }
+                }
+                #endregion
+
                 sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
                 log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Transcription with id " + message.MicrotringUUID + " has been transcribed");

@@ -16,6 +16,7 @@ namespace eFormData
     [XmlInclude(typeof(EntitySelect))]
     [XmlInclude(typeof(None))]
     [XmlInclude(typeof(Number))]
+    [XmlInclude(typeof(NumberStepper))]
     [XmlInclude(typeof(MultiSelect))]
     [XmlInclude(typeof(Picture))]
     [XmlInclude(typeof(ShowPdf))]

@@ -666,17 +666,17 @@ namespace eFormCommunicator
 
         //---
 
-        public string EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string id)
+        public string EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string ownUUID)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchGroupId), entitySearchGroupId);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
-            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(ownUUID), ownUUID);
 
             try
             {
-                return http.EntitySelectItemCreate(entitySearchGroupId, name, displayOrder, id);
+                return http.EntitySelectItemCreate(entitySearchGroupId, name, displayOrder, ownUUID);
             }
             catch (Exception ex)
             {
@@ -684,18 +684,18 @@ namespace eFormCommunicator
             }
         }
 
-        public bool EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string id)
+        public bool EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string ownUUID)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchGroupId), entitySearchGroupId);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(entitySearchItemId), entitySearchItemId);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
-            log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(ownUUID), ownUUID);
 
             try
             {
-                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, id);
+                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
             }
             catch (Exception ex)
             {
@@ -770,7 +770,7 @@ namespace eFormCommunicator
             }
         }
 
-        public string SpeechToText(int requestId)
+        public JToken SpeechToText(int requestId)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(requestId), requestId);

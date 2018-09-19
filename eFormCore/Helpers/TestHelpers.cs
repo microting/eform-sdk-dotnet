@@ -315,7 +315,7 @@ namespace eFormCore.Helpers
             }
             
         }
-        public entity_items CreateEntityItem(string description, int displayIndex, string entityGroupId, string entityItemUId, string microtingUId, string name, short? synced, int version, string workflowState)
+        public entity_items CreateEntityItem(string description, int displayIndex, int entityGroupId, string entityItemUId, string microtingUId, string name, short? synced, int version, string workflowState)
         {
             entity_items eI = new entity_items();
             eI.created_at = DateTime.Now;

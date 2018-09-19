@@ -333,7 +333,7 @@ namespace eFormCommunicator
             throw new NotImplementedException();
         }
 
-        public string SpeechToText(int requestId)
+        public JToken SpeechToText(int requestId)
         {
             throw new NotImplementedException();
         }
