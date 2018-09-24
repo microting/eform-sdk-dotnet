@@ -1352,6 +1352,7 @@ namespace eFormSqlController
                     //replyElement.StartDate
                     replyElement.UnitId = (int)aCase.unit_id;
                     replyElement.MicrotingUId = aCase.microting_check_uid;
+                    replyElement.SiteId = (int)aCase.site_id;
 
                     foreach (check_lists checkList in aCase.check_list.children)
                     {
