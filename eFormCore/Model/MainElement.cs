@@ -276,7 +276,7 @@ namespace eFormData
         public DateTime DoneAt { get; set; }
         public int DoneById { get; set; }
         public int UnitId { get; set; }
-        public int SiteId { get; set; }
+        public int SiteMicrotingUUID { get; set; }
         #endregion
     }
     #endregion
