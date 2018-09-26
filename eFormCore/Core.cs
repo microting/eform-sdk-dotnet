@@ -2318,7 +2318,12 @@ namespace eFormCore
                     return null;
                 }
             } else {
-                return null;
+                if (et.WorkflowState == Constants.WorkflowStates.Removed)
+                {
+                    et.WorkflowState = Constants.WorkflowStates.Created;
+                    sqlController.EntityItemUpdate(et);
+                }
+                return et;
             }
         }
 

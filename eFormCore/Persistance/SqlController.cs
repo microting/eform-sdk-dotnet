@@ -3825,7 +3825,8 @@ namespace eFormSqlController
                 match.updated_at = DateTime.Now;
                 match.display_index = entityItem.DisplayIndex;
                 match.version = match.version + 1;
-                match.workflow_state = "updated";
+                match.entity_item_uid = entityItem.EntityItemUId;
+                match.workflow_state = entityItem.WorkflowState;
 
                 db.SaveChanges();
 
