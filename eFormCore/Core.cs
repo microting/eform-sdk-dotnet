@@ -1649,7 +1649,7 @@ namespace eFormCore
                         + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
                         + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
                         + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
-                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteId).SiteName + "</site_name>"
+                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteMicrotingUUID).SiteName + "</site_name>"
                         + Environment.NewLine + "<check_lists>"
 
                         + clsLst
@@ -2735,7 +2735,7 @@ namespace eFormCore
             }
         }
 
-        public SiteName_Dto Advanced_SiteItemRead(int siteId)
+        public SiteName_Dto Advanced_SiteItemRead(int microting_uuid)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2743,9 +2743,9 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(microting_uuid), microting_uuid);
 
-                    return sqlController.SiteRead(siteId);
+                    return sqlController.SiteRead(microting_uuid);
                 }
                 else
                     throw new Exception("Core is not running");
