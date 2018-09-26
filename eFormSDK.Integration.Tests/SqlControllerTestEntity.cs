@@ -3279,6 +3279,70 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(EG3Delete, Constants.FieldTypes.EntitySearch);
         }
 
+        [Test]
+        public void SQL_EntitySearchItemCreate_CreatesEntitySearchItem()
+        {
+            // Arrance
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            EntityItem eT = new EntityItem("Jon Doe", "", "", Constants.WorkflowStates.Created);
+
+            // Act
+            sut.EntityItemCreate(eG1.id, eT);
+
+            List<entity_items> items = DbContext.entity_items.ToList();
+
+            // Assert
+            Assert.AreEqual(1, items.Count());
+        }
+
+        [Test]
+        public void SQL_EntitySearchItemDelete_DeletesEntitySearchItem()
+        {
+            // Arrance
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+            entity_items et = testHelpers.CreateEntityItem("", 0, eG1.id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
+
+            // Act
+            sut.EntityItemDelete(et.id);
+            List<entity_items> items = DbContext.entity_items.ToList();
+
+            // Assert
+            Assert.AreEqual(1, items.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].workflow_state);
+        }
+
+
+        [Test]
+        public void SQL_EntitySelectItemCreate_CreatesEntitySelectItem()
+        {
+            // Arrance
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            EntityItem eT = new EntityItem("Jon Doe", "", "", Constants.WorkflowStates.Created);
+
+            // Act
+            sut.EntityItemCreate(eG1.id, eT);
+
+            List<entity_items> items = DbContext.entity_items.ToList();
+
+            // Assert
+            Assert.AreEqual(1, items.Count());
+        }
+
+        [Test]
+        public void SQL_EntitySelectItemDelete_DeletesEntitySelectItem()
+        {
+            // Arrance
+            entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+            entity_items et = testHelpers.CreateEntityItem("", 0, eG1.id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
+
+            // Act
+            sut.EntityItemDelete(et.id);
+            List<entity_items> items = DbContext.entity_items.ToList();
+
+            // Assert
+            Assert.AreEqual(1, items.Count());
+            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].workflow_state);
+        }
 
         #endregion
 

@@ -133,7 +133,7 @@ namespace eFormData
         public string Name { get; set; }
         public string Description { get; set; }
         public string EntityItemUId { get; set; }
-        public string WorkflowState { get; }
+        public string WorkflowState { get; set; }
         public string MicrotingUUID { get; set; }
         public int DisplayIndex { get; set; }
         public int EntityItemGroupId { get; set; }
