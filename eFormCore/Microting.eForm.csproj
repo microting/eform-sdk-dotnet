@@ -142,6 +142,10 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Migrations\201810011202189_AddingFolderStructure.cs" />
+    <Compile Include="Migrations\201810011202189_AddingFolderStructure.Designer.cs">
+      <DependentUpon>201810011202189_AddingFolderStructure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Folder.cs" />
     <Compile Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.cs" />
     <Compile Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.Designer.cs">
@@ -289,6 +293,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201810011202189_AddingFolderStructure.resx">
+      <DependentUpon>201810011202189_AddingFolderStructure.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.resx">
       <DependentUpon>201809181214051_ChangingEntityGroupIdToInt.cs</DependentUpon>
     </EmbeddedResource>
