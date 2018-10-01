@@ -3348,6 +3348,19 @@ namespace eFormSDK.Integration.Tests
 
         #region Entity Item
 
+        [Test]
+        public void SQL_EntityItem_EntityItemRead_ReadsItem()
+        {
+            //Arrance
+            entity_items eI = testHelpers.CreateEntityItem("An EntityItem", 1, 1, "entityItemUUid", "microtingUUid", "entityItem1", 0, 1, Constants.WorkflowStates.Created);
+            //Act
+            EntityItem entityItemMatch = sut.EntityItemRead(eI.id);
+            //Assert
+            Assert.NotNull(entityItemMatch);
+
+        }
+
+
         #endregion
 
         #endregion

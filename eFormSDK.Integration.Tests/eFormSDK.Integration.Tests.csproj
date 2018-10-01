@@ -114,11 +114,13 @@
     <Compile Include="CoreTesteFormQuickSyncXML.cs" />
     <Compile Include="CoreTestEntity.cs" />
     <Compile Include="CoreTestEvent.cs" />
+    <Compile Include="CoreTestFolders.cs" />
     <Compile Include="CoreTestSite.cs" />
     <Compile Include="CoreTestTag.cs" />
     <Compile Include="SqlControllerTestCheckListValue.cs" />
     <Compile Include="SqlControllerTestFieldValue.cs" />
     <Compile Include="SqlControllerTestField.cs" />
+    <Compile Include="SqlControllerTestFolders.cs" />
     <Compile Include="SqlControllerTestReplyElementy.cs" />
     <Compile Include="SqlControllerTestCheckListSite.cs" />
     <Compile Include="SqlControllerTesteForm.cs" />

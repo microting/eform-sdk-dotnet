@@ -364,6 +364,26 @@ namespace eFormCore.Helpers
             int i = random.Next(0, int.MaxValue);            
             return i;
         }
+        public folders CreateFolder(string workflow_state, int? version, DateTime? created_at, DateTime? updated_at, string microting_uuid, string name, string description,
+            int parent_id, int? display_order, short? update_status, short? no_click)
+        {
+            folders fo = new folders();
+            fo.workflow_state = workflow_state;
+            fo.version = version;
+            fo.created_at = created_at;
+            fo.updated_at = updated_at;
+            fo.microting_uuid = microting_uuid;
+            fo.name = name;
+            fo.description = description;
+            fo.parent_id = parent_id;
+            fo.display_order = display_order;
+            fo.update_status = update_status;
+            fo.no_click = no_click;
+
+            DbContext.folders.Add(fo);
+            DbContext.SaveChanges();
+            return fo;
+        }
         #endregion
 
 
