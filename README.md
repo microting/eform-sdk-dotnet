@@ -5,11 +5,11 @@
 
 A .NET SDK for integrating with the Microting eForm API v1.
 
-## Support Platforms
+## Supported Platforms
 
- - .NET Framework 4.5+
+ - .NET Framework 4.6.1
  - Windows 7 SP1
- - MS SQL 2008 R2
+ - MS SQL 2012 R2
 
 ## Setup
 
@@ -42,7 +42,7 @@ Several examples can be found in the Program.cs file:
 
 ## Development recommendations
 
-  - Visual Studio 2008
+  - Visual Studio 2017
   - MS SQL Server Management Studio
   
 ## Known bugs as of February 21st 2017
@@ -57,7 +57,7 @@ Several examples can be found in the Program.cs file:
 
 ## Upgrading Database
 
-You need to run Update-Database from within NuGet Package Manager with eFormSqlController set as *Default project*.	
+When calling Core.start or Core.StartSqlOnly the code will upgrade the database accordingly to internal migrations.
 	
 ## License
 
