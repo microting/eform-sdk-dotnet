@@ -448,6 +448,25 @@ namespace eFormCommunicator
         }
         #endregion
 
+        #region public Folder
+
+        public string FolderCreate(string name, string description, string parentMUUID, int displayOrder, short? noClick)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool FolderUpdate(string name, string description, string microtnigUUID, int displayOrder, short? noClick)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool FolderDelete(string microtingUUID)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region public PdfUpload
         public bool PdfUpload(string name, string hash)
         {
@@ -958,6 +977,7 @@ namespace eFormCommunicator
         {
             return true;
         }
+
+        }
         #endregion
     }
-}

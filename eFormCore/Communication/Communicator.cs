@@ -507,6 +507,8 @@ namespace eFormCommunicator
         #endregion
 
         #region public entity
+
+        #region EntityGroup
         public string EntityGroupCreate(string entityType, string name, string id)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
@@ -610,8 +612,9 @@ namespace eFormCommunicator
             }
         }
 
+        #endregion
         //---
-
+        #region EntitySearchItem
         public string EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
@@ -663,9 +666,9 @@ namespace eFormCommunicator
                 throw new Exception("EntitySearchItemDelete failed", ex);
             }
         }
-
+        #endregion
         //---
-
+        #region EntitySelectItem
         public string EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string ownUUID)
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
@@ -717,7 +720,7 @@ namespace eFormCommunicator
                 throw new Exception("EntitySearchItemDelete failed", ex);
             }
         }
-
+        #endregion
         //---
 
         public bool PdfUpload(string localPath, string hash)
@@ -750,6 +753,62 @@ namespace eFormCommunicator
             catch (Exception ex)
             {
                 throw new Exception(t.GetMethodName("Comminicator") + " failed", ex);
+            }
+        }
+        #endregion
+
+        #region public folders
+
+        public string FolderCreate(string name, string description, string parentMUUID, int displayOrder, short? noClick)
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(description), description);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(parentMUUID), parentMUUID);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(noClick), noClick);
+
+            try
+            {
+                return http.FolderCreate(name, description, parentMUUID, displayOrder, noClick);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FolderCreate failed", ex);
+            }
+        }
+
+        public bool FolderUpdate(string name, string description, string microtnigUUID, int displayOrder, short? noClick)
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(description), description);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtnigUUID), microtnigUUID);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(noClick), noClick);
+
+            try
+            {
+                return http.FolderUpdate(name, description, microtnigUUID, displayOrder, noClick);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FolderUpdate failed", ex);
+            }
+        }
+
+        public bool FolderDelete(string microtingUUID)
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtingUUID), microtingUUID);
+
+            try
+            {
+                return http.FolderDelete(microtingUUID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FolderDelete failed", ex);
             }
         }
         #endregion

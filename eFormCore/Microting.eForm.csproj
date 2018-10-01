@@ -142,6 +142,7 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
+    <Compile Include="Model\Folders.cs" />
     <Compile Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.cs" />
     <Compile Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.Designer.cs">
       <DependentUpon>201809181214051_ChangingEntityGroupIdToInt.cs</DependentUpon>
@@ -254,6 +255,8 @@
     <Compile Include="Persistance\table\field_values.cs" />
     <Compile Include="Persistance\table\field_value_versions.cs" />
     <Compile Include="Persistance\table\field_versions.cs" />
+    <Compile Include="Persistance\table\folders.cs" />
+    <Compile Include="Persistance\table\folder_versions.cs" />
     <Compile Include="Persistance\table\logs.cs" />
     <Compile Include="Persistance\table\log_exceptions.cs" />
     <Compile Include="Persistance\table\notifications.cs" />

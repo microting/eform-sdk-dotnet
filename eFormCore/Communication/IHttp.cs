@@ -36,6 +36,12 @@ namespace eFormCommunicator
 
         bool EntitySelectItemDelete(string entitySelectItemId);
 
+        string FolderCreate(string name, string description, string parentMUUID, int displayOrder, short? noClick);
+
+        bool FolderUpdate(string name, string description, string microtnigUUID, int displayOrder, short? noClick);
+
+        bool FolderDelete(string microtingUUID);
+
         bool PdfUpload(string name, string hash);
 
         string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);

@@ -2420,6 +2420,94 @@ namespace eFormCore
         #endregion
         #endregion
 
+        #region Folders
+
+
+        public Folders FolderSelectCreate(string name, int displayOrder)
+        {
+            return FolderCreate(name, "", displayOrder);
+        }
+
+        private Folders FolderCreate(string name, string description, int displayOrder)
+        {
+            Folders fo = sqlController.FolderRead(name, description);
+            if (fo == null)
+            {
+                string microtingUId;
+                if (microtingUId != null)
+                {
+                    fo = new Folders(name, description, Constants.WorkflowStates.Created, microtingUId, displayOrder);
+                    return sqlController.FolderCreate(fo);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if (fo.WorkflowState == Constants.WorkflowStates.Removed)
+                {
+                    fo.WorkflowState = Constants.WorkflowStates.Created;
+                    sqlController.FolderUpdate(fo);
+                }
+                return fo;
+            }
+        }
+
+        public void FolderUpdate(int id, string name, string description, int displayOrder)
+        {
+            Folders fo = sqlController.FolderRead(id);
+            if (fo == null)
+            {
+                throw new NullReferenceException("Folder not found with id " + id.ToString());
+            }
+            else
+            {
+                if (fo.Name != name || fo.Description != description || fo.DisplayOrder != displayOrder)
+                {
+                    bool result = false;
+                   
+                    if (result)
+                    {
+                        fo.DisplayOrder = displayOrder;
+                        fo.Name = name;
+                        fo.Description = description;
+
+                        sqlController.FolderUpdate(fo);
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to update folder with id " + id.ToString());
+                    }
+                }
+            }
+        }
+
+        public void FolderDelete(int id)
+        {
+            Folders fo = sqlController.FolderRead(id);
+            if (fo == null)
+            {
+                throw new NullReferenceException("Folder not found with id " + id.ToString());
+            }
+            else
+            {
+                bool result = false;
+                if (result)
+                {
+                    sqlController.FolderDelete(id);
+                }
+                else
+                {
+                    throw new Exception("Unable to update Folder with id " + id.ToString());
+                }
+            }
+        }
+
+
+        #endregion
+
         #region tags
         public List<Tag> GetAllTags(bool includeRemoved)
         {

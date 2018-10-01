@@ -19,6 +19,7 @@ namespace eFormSqlController
         DbSet<field_types> field_types { get; set; }
         DbSet<field_values> field_values { get; set; }
         DbSet<fields> fields { get; set; }
+        DbSet<folders> folders { get; set; }
         DbSet<log_exceptions> log_exceptions { get; set; }
         DbSet<logs> logs { get; set; }
         DbSet<notifications> notifications { get; set; }
@@ -38,6 +39,7 @@ namespace eFormSqlController
         DbSet<entity_item_versions> entity_item_versions { get; set; }
         DbSet<field_value_versions> field_value_versions { get; set; }
         DbSet<field_versions> field_versions { get; set; }
+        DbSet<folder_versions> folder_versions { get; set; }
         DbSet<site_versions> site_versions { get; set; }
         DbSet<unit_versions> unit_versions { get; set; }
         DbSet<worker_versions> worker_versions { get; set; }

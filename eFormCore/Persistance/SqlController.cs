@@ -3848,6 +3848,130 @@ namespace eFormSqlController
         #endregion
         #endregion
 
+        #region public folders
+
+
+        public folders FolderRead(string microtingUId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    return db.folders.Single(x => x.microting_uuid == microtingUId);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EntityItemRead failed", ex);
+            }
+        }
+
+        public Folders FolderRead(int id)
+        {
+            using (var db = GetContext())
+            {
+                folders fo = db.folders.FirstOrDefault(x => x.id == id);
+                if (fo != null)
+                {
+                    Folders folder = new Folders(fo.id, fo.name, fo.description, fo.microting_uuid);
+                    folder.Id = fo.id;
+                    return folder;
+                }
+                else
+                {
+                    throw new NullReferenceException("No Folder found for id " + id.ToString());
+                }
+            }
+        }
+
+        public Folders FolderRead(string name, string description)
+        {
+            using (var db = GetContext())
+            {
+                folders fo = db.folders.SingleOrDefault(x => x.name == name && x.description == description);
+                if (fo != null)
+                {
+                    return new Folders(fo.id, fo.name, fo.description, fo.microting_uuid, fo.workflow_state);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public Folders FolderCreate(Folders folder)
+        {
+
+            using (var db = GetContext())
+            {
+                folders fo = new folders();
+
+                fo.workflow_state = Constants.WorkflowStates.Created;
+                fo.version = 1;
+                fo.created_at = DateTime.Now;
+                fo.updated_at = DateTime.Now;
+                fo.microting_uuid = folder.MicrotingUUID;
+                fo.name = folder.Name;
+                fo.description = folder.Description;
+                fo.display_order = folder.DisplayOrder;
+                fo.update_status = t.Bool(false);
+
+                db.folders.Add(fo);
+                db.SaveChanges();
+
+                db.folder_versions.Add(MapFolderVersions(fo));
+                db.SaveChanges();
+            }
+            return folder;
+        }
+
+        public void FolderUpdate(Folders folder)
+        {
+            using (var db = GetContext())
+            {
+                var match = db.folders.SingleOrDefault(x => x.id == folder.Id);
+                match.description = folder.Description;
+                match.name = folder.Name;
+                match.update_status = t.Bool(false);
+                match.updated_at = DateTime.Now;
+                match.display_order = folder.DisplayOrder;
+                match.version = match.version + 1;
+                match.workflow_state = folder.WorkflowState;
+
+                db.SaveChanges();
+
+                db.folder_versions.Add(MapFolderVersions(match));
+                db.SaveChanges();
+            }
+        }
+
+        public void FolderDelete(int id)
+        {
+            using (var db = GetContext())
+            {
+                folders fo = db.folders.SingleOrDefault(x => x.id == id);
+                if (fo == null)
+                {
+                    throw new NullReferenceException("Folder not found with id " + id.ToString());
+                }
+                else
+                {
+                    fo.update_status = t.Bool(true);
+                    fo.updated_at = DateTime.Now;
+                    fo.version = fo.version + 1;
+                    fo.workflow_state = Constants.WorkflowStates.Removed;
+
+                    db.SaveChanges();
+
+                    db.folder_versions.Add(MapFolderVersions(fo));
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        #endregion
+
         #region public setting
         public bool SettingCreateDefaults()
         {
@@ -5233,6 +5357,28 @@ namespace eFormSqlController
             entityItemVer.entity_items_id = entityItem.id; //<<--
 
             return entityItemVer;
+        }
+
+        private folder_versions MapFolderVersions(folders folders)
+        {
+            folder_versions folderVer = new folder_versions();
+            folderVer.workflow_state = folders.workflow_state;
+            folderVer.version = folders.version;
+            folderVer.created_at = folders.created_at;
+            folderVer.updated_at = folders.updated_at;
+            folderVer.microting_uuid = folders.microting_uuid;
+            folderVer.name = folders.name;
+            folderVer.description = folders.description;
+            folderVer.update_status = folders.update_status;
+            folderVer.display_order = folders.display_order;
+            folderVer.no_click = folders.no_click;
+            folderVer.parent_id = folders.parent_id;
+
+
+
+            folderVer.folders_id = folders.id;
+
+            return folderVer;
         }
 
         private site_worker_versions MapSiteWorkerVersions(site_workers site_workers)
