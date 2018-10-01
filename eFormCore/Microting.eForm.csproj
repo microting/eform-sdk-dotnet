@@ -142,7 +142,7 @@
     <Compile Include="Messages\UnitActivated.cs" />
     <Compile Include="Messages\EformCompleted.cs" />
     <Compile Include="Messages\EformRetrieved.cs" />
-    <Compile Include="Model\Folders.cs" />
+    <Compile Include="Model\Folder.cs" />
     <Compile Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.cs" />
     <Compile Include="Persistance\Migrations\201809181214051_ChangingEntityGroupIdToInt.Designer.cs">
       <DependentUpon>201809181214051_ChangingEntityGroupIdToInt.cs</DependentUpon>

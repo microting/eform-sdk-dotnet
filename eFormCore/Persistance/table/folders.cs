@@ -15,7 +15,7 @@ namespace eFormSqlController
         [StringLength(255)]
         public string workflow_state { get; set; }
 
-        public int? version { get; set; }
+        public int version { get; set; }
 
         public DateTime? created_at { get; set; }
 
@@ -29,7 +29,7 @@ namespace eFormSqlController
 
         public int parent_id { get; set; }
 
-        public int? display_order { get; set; }
+        public int display_order { get; set; }
 
         public short? update_status { get; set; }
 

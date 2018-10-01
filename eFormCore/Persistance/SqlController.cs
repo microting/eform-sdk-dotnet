@@ -3866,32 +3866,33 @@ namespace eFormSqlController
             }
         }
 
-        public Folders FolderRead(int id)
+        public Folder FolderRead(int id)
         {
             using (var db = GetContext())
             {
                 folders fo = db.folders.FirstOrDefault(x => x.id == id);
                 if (fo != null)
                 {
-                    Folders folder = new Folders(fo.id, fo.name, fo.description, fo.microting_uuid);
+                    Folder folder = new Folder(fo.id, fo.name, fo.description, fo.microting_uuid);
                     folder.Id = fo.id;
                     return folder;
                 }
                 else
                 {
-                    throw new NullReferenceException("No Folder found for id " + id.ToString());
+                    return null;
+                    //throw new NullReferenceException("No Folder found for id " + id.ToString());
                 }
             }
         }
 
-        public Folders FolderRead(string name, string description)
+        public Folder FolderRead(string name, string description)
         {
             using (var db = GetContext())
             {
                 folders fo = db.folders.SingleOrDefault(x => x.name == name && x.description == description);
                 if (fo != null)
                 {
-                    return new Folders(fo.id, fo.name, fo.description, fo.microting_uuid, fo.workflow_state);
+                    return new Folder(fo.id, fo.name, fo.description, fo.microting_uuid, fo.workflow_state, fo.parent_id, fo.display_order);
                 }
                 else
                 {
@@ -3900,7 +3901,24 @@ namespace eFormSqlController
             }
         }
 
-        public Folders FolderCreate(Folders folder)
+        public Folder FolderRead(string name, string description, int parentId)
+        {
+            using (var db = GetContext())
+            {
+                folders fo = db.folders.SingleOrDefault(x => x.name == name && x.description == description && x.parent_id == parentId);
+                if (fo != null)
+                {
+                    return new Folder(fo.id, fo.name, fo.description, fo.microting_uuid, fo.workflow_state, fo.parent_id, fo.display_order);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+        }
+
+        public Folder FolderCreate(Folder folder)
         {
 
             using (var db = GetContext())
@@ -3926,7 +3944,7 @@ namespace eFormSqlController
             return folder;
         }
 
-        public void FolderUpdate(Folders folder)
+        public void FolderUpdate(Folder folder)
         {
             using (var db = GetContext())
             {

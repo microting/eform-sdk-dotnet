@@ -2422,22 +2422,34 @@ namespace eFormCore
 
         #region Folders
 
-
-        public Folders FolderSelectCreate(string name, int displayOrder)
+        private Folder FolderCreate(string name, string description, int displayOrder, int parentId)
         {
-            return FolderCreate(name, "", displayOrder);
-        }
-
-        private Folders FolderCreate(string name, string description, int displayOrder)
-        {
-            Folders fo = sqlController.FolderRead(name, description);
-            if (fo == null)
+            Folder parentFolder = sqlController.FolderRead(parentId);
+            Folder folder;
+            if (parentFolder != null)
+            {
+                folder = sqlController.FolderRead(name, description);
+            } else
+            {
+                folder = sqlController.FolderRead(name, description, parentId);
+            }
+            if (folder == null)
             {
                 string microtingUId;
+                if (parentFolder != null)
+                {
+                    microtingUId = communicator.FolderCreate(name, description, parentFolder.MicrotingUUID, displayOrder, 0);
+                }
+                else
+                {
+                    microtingUId = communicator.FolderCreate(name, description, "0", displayOrder, 0);
+                }
+
                 if (microtingUId != null)
                 {
-                    fo = new Folders(name, description, Constants.WorkflowStates.Created, microtingUId, displayOrder);
-                    return sqlController.FolderCreate(fo);
+                    folder = new Folder(name, description, Constants.WorkflowStates.Created, microtingUId, displayOrder);
+                    folder.ParentId = parentId;
+                    return sqlController.FolderCreate(folder);
                 }
                 else
                 {
@@ -2446,18 +2458,18 @@ namespace eFormCore
             }
             else
             {
-                if (fo.WorkflowState == Constants.WorkflowStates.Removed)
+                if (folder.WorkflowState == Constants.WorkflowStates.Removed)
                 {
-                    fo.WorkflowState = Constants.WorkflowStates.Created;
-                    sqlController.FolderUpdate(fo);
+                    folder.WorkflowState = Constants.WorkflowStates.Created;
+                    sqlController.FolderUpdate(folder);
                 }
-                return fo;
+                return folder;
             }
         }
 
         public void FolderUpdate(int id, string name, string description, int displayOrder)
         {
-            Folders fo = sqlController.FolderRead(id);
+            Folder fo = sqlController.FolderRead(id);
             if (fo == null)
             {
                 throw new NullReferenceException("Folder not found with id " + id.ToString());
@@ -2467,7 +2479,7 @@ namespace eFormCore
                 if (fo.Name != name || fo.Description != description || fo.DisplayOrder != displayOrder)
                 {
                     bool result = false;
-                   
+                    result = communicator.FolderUpdate(name, description, fo.MicrotingUUID, displayOrder, 0);
                     if (result)
                     {
                         fo.DisplayOrder = displayOrder;
@@ -2486,7 +2498,7 @@ namespace eFormCore
 
         public void FolderDelete(int id)
         {
-            Folders fo = sqlController.FolderRead(id);
+            Folder fo = sqlController.FolderRead(id);
             if (fo == null)
             {
                 throw new NullReferenceException("Folder not found with id " + id.ToString());
@@ -2494,17 +2506,17 @@ namespace eFormCore
             else
             {
                 bool result = false;
+                result = communicator.FolderDelete(id.ToString());
                 if (result)
                 {
                     sqlController.FolderDelete(id);
                 }
                 else
                 {
-                    throw new Exception("Unable to update Folder with id " + id.ToString());
+                    throw new Exception("Unable to delete Folder with id " + id.ToString());
                 }
             }
         }
-
 
         #endregion
 
