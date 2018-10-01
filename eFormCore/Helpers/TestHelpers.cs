@@ -364,8 +364,8 @@ namespace eFormCore.Helpers
             int i = random.Next(0, int.MaxValue);            
             return i;
         }
-        public folders CreateFolder(string workflow_state, int? version, DateTime? created_at, DateTime? updated_at, string microting_uuid, string name, string description,
-            int parent_id, int? display_order, short? update_status, short? no_click)
+        public folders CreateFolder(string workflow_state, int version, DateTime? created_at, DateTime? updated_at, string microting_uuid, string name, string description,
+            int parent_id, int display_order, short? update_status, short? no_click)
         {
             folders fo = new folders();
             fo.workflow_state = workflow_state;

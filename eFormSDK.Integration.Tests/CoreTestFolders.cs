@@ -53,7 +53,7 @@ namespace eFormSDK.Integration.Tests
             folders fo = testHelpers.CreateFolder(Constants.WorkflowStates.Created, 1, DateTime.Now, DateTime.Now, "microting_UUID", "folder1", "A folder", 1, 2, 1, 0);
             // Act
             //sut.EntitySelectItemCreate(eG1.id, "Jon Doe", 0, "");
-            sut.FolderCreate("folder1", 0);
+            
             List<folders> folders = DbContext.folders.ToList();
 
             // Assert
