@@ -6,52 +6,54 @@ using System.Threading.Tasks;
 
 namespace eFormData
 {
-    public class Folders
+    public class Folder
     {
-        public Folders()
+        public Folder()
         {
             Name = "";
             Description = "";
             MicrotingUUID = "";
         }
 
-        public Folders(string name, string description)
+        public Folder(string name, string description)
         {
             Name = name;
             Description = description;
         }
-        public Folders(string name, string description, string entityItemUId, string workflowState)
+        public Folder(string name, string description, string workflowState)
         {
             Name = name;
             Description = description;
             WorkflowState = workflowState;
         }
 
-        public Folders(string name, string description, string workflowState, string microtingUId, int displayOrder)
+        public Folder(string name, string description, string workflowState, string microtingUUId, int displayOrder)
         {
             Name = name;
             Description = description;
             WorkflowState = workflowState;
-            MicrotingUUID = microtingUId;
+            MicrotingUUID = microtingUUId;
             DisplayOrder = displayOrder;
 
         }
 
-        public Folders(int id, string name, string description, string microtingUId)
+        public Folder(int id, string name, string description, string microtingUUId)
         {
             Id = id;
             Name = name;
             Description = description;
-            MicrotingUUID = microtingUId;
+            MicrotingUUID = microtingUUId;
         }
 
-        public Folders(int id, string name, string description, string microtingUId, string workflowState)
+        public Folder(int id, string name, string description, string microtingUUId, string workflowState, int parentId, int displayOrder)
         {
             Id = id;
             Name = name;
             Description = description;
             WorkflowState = workflowState;
-            MicrotingUUID = microtingUId;
+            MicrotingUUID = microtingUUId;
+            ParentId = parentId;
+            DisplayOrder = displayOrder;
         }
 
         public int Id { get; set; }
@@ -60,6 +62,7 @@ namespace eFormData
         public string WorkflowState { get; set; }
         public string MicrotingUUID { get; set; }
         public int DisplayOrder { get; set; }
+        public int ParentId { get; set; }
     }
 }
 

@@ -390,6 +390,21 @@ namespace eFormCommunicator
         {
             return true;
         }
+
+        public string FolderCreate(string name, string description, string parentMUUID, int displayOrder, short? noClick)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool FolderUpdate(string name, string description, string microtnigUUID, int displayOrder, short? noClick)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool FolderDelete(string microtingUUID)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

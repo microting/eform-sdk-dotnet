@@ -49,6 +49,8 @@ namespace eFormSqlController
         public virtual DbSet<tag_versions> tag_versions { get; set; }
         public virtual DbSet<taggings> taggings { get; set; }
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
+        public virtual DbSet<folders> folders { get; set; }
+        public virtual DbSet<folder_versions> folder_versions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
