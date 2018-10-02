@@ -3316,7 +3316,7 @@ namespace eFormCore
             }
         }
 
-        public List<FieldValue> Advanced_FieldValueReadList(int id, int instances)
+        public List<FieldValue> Advanced_FieldValueReadList(int field_id, int num_of_values)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -3324,10 +3324,10 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
-                    log.LogVariable(t.GetMethodName("Core"), nameof(instances), instances);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(field_id), field_id);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(num_of_values), num_of_values);
 
-                    return sqlController.FieldValueReadList(id, instances);
+                    return sqlController.FieldValueReadList(field_id, num_of_values);
                 }
                 else
                     throw new Exception("Core is not running");

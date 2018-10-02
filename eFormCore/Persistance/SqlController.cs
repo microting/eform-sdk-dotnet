@@ -1646,16 +1646,16 @@ namespace eFormSqlController
             }
         }
 
-        public List<FieldValue> FieldValueReadList(int id, int instances)
+        public List<FieldValue> FieldValueReadList(int field_id, int num_of_values)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == id).OrderByDescending(z => z.created_at).ToList();
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == field_id).OrderByDescending(z => z.created_at).ToList();
 
-                    if (matches.Count() > instances)
-                        matches = matches.GetRange(0, instances);
+                    if (matches.Count() > num_of_values)
+                        matches = matches.GetRange(0, num_of_values);
 
                     List<FieldValue> rtnLst = new List<FieldValue>();
 
