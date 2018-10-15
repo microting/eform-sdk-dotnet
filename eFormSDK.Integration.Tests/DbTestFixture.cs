@@ -21,11 +21,12 @@ namespace eFormSDK.Integration.Tests
         const string dbName = "eformsdk-tests";
         
         protected MicrotingDbAnySql DbContext;
-       
+
         //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
         //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
+        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
 
-        protected string ConnectionString => string.Format(DbConfig.ConnectionString, dbName);
+        //protected string ConnectionString => string.Format(DbConfig.ConnectionString, dbName);
 
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
@@ -39,13 +40,13 @@ namespace eFormSDK.Integration.Tests
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
          
-            if (DbConfig.IsMSSQL)
+            if (ConnectionString.Contains("Convert Zero Datetime"))
             {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);               
+                dbContextOptionsBuilder.UseMySql(connectionStr);
             }
             else
             {
-                dbContextOptionsBuilder.UseMySql(connectionStr);              
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);          
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);            
@@ -159,7 +160,7 @@ namespace eFormSDK.Integration.Tests
                 try
                 {
                     string sqlCmd = string.Empty;
-                    if(!DbConfig.IsMSSQL)
+                    if(DbContext.Database.IsMySql())
                     {
                         sqlCmd = string.Format("DELETE FROM `{0}`.`{1}`", dbName, modelName);                       
                     }

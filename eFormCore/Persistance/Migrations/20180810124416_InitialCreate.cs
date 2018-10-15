@@ -1101,7 +1101,8 @@ namespace Microting.eForm.Migrations
                 column: "site_id");
 
             // MySQL Code - only for MySQL
-            if (!DbConfig.IsMSSQL)
+            //if (!DbConfig.IsMSSQL)
+            if (migrationBuilder.ActiveProvider == "Pomelo.EntityFrameworkCore.MySql")
             {
                 SetAutoIncrementforTables(migrationBuilder);
             }

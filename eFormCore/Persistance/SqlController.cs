@@ -60,13 +60,13 @@ namespace eFormSqlController
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
-            if (DbConfig.IsMSSQL)
+            if (connectionStr.Contains("Convert Zero Datetime"))
             {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);
+                dbContextOptionsBuilder.UseMySql(connectionStr);
             }
             else
             {
-                dbContextOptionsBuilder.UseMySql(connectionStr);
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);

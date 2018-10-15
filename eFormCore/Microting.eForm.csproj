@@ -54,7 +54,6 @@
     <Compile Include="Persistance\MicrotingDbMySql.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.Designer.cs" />
-    <Compile Include="Persistance\Migrations\MicrotingDbMsModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\cases.cs" />
     <Compile Include="Persistance\table\case_versions.cs" />
