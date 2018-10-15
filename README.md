@@ -55,9 +55,31 @@ Several examples can be found in the Program.cs file:
 
 [Changelog](changelog.md)
 
-## Upgrading Database
 
-When calling Core.start or Core.StartSqlOnly the code will upgrade the database accordingly to internal migrations.
+## Contributing
+
+1. Do a fork
+2. Clone your fork onto your own computer
+3. Checkout/create a new branch for your relevant issue
+4. Apply your changes and tests
+5. Commit your changes and push to github
+6. Create a pull-request
+
+### Pull requests
+
+To enable us to quickly review and accept your pull requests, always create one pull request per issue and link the issue in the pull request. Never merge multiple requests in one unless they have the same root cause. Be sure to follow our coding guidelines and keep code changes as small as possible. Avoid pure formatting changes to code that has not been modified otherwise. Pull requests should contain tests whenever possible.
+
+Pull-reuqsts that do not pass tests, will not be accepted.
+
+### Where to contribute
+
+Check out the [full issues list](https://github.com/microting/eform-sdk-dotnet/issues) for a list of all potential areas for contributions.
+
+To improve the chances to get a pull request merged you should select an issue that is labelled with the [https://github.com/microting/eform-sdk-dotnet/issues?q=is%3Aissue+is%3Aopen+label%3Ahelp_wanted](help-wanted) or [bug](https://github.com/microting/eform-sdk-dotnet/issues?q=is%3Aissue+is%3Aopen+label%3Abug) labels. If the issue you want to work on is not labelled with `help-wanted` or `bug`, you can start a conversation with the issue owner asking whether an external contribution will be considered.
+	
+### Suggestions
+
+We're also interested in your feedback for the future of Microting eForm SDK. You can submit a suggestion or feature request through the issue tracker. To make this process more effective, we're asking that these include more information to help define them more clearly.	
 	
 ## License
 
