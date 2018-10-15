@@ -7,6 +7,7 @@ namespace eFormSqlController
     public partial class site_workers
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [ForeignKey("site")]

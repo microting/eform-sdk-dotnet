@@ -11,6 +11,7 @@
     <Compile Include="Communication\Http.cs" />
     <Compile Include="Communication\HttpFake.cs" />
     <Compile Include="Communication\IHttp.cs" />
+    <Compile Include="DbConfig.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Dto\Classes.cs" />
@@ -48,8 +49,9 @@
     <Compile Include="Model\reply\Geolocation.cs" />
     <Compile Include="Model\reply\Response.cs" />
     <Compile Include="Persistance\MicrotingContextInterface.cs" />
-    <Compile Include="Persistance\MicrotingDbMs.cs" />
-    <Compile Include="Persistance\MicrotingDbMy.cs" />
+    <Compile Include="Persistance\MicrotingDbMSSQL.cs" />
+    <Compile Include="Persistance\MicrotingDbAnySql.cs" />
+    <Compile Include="Persistance\MicrotingDbMySql.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbMsModelSnapshot.cs" />
@@ -94,17 +96,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.3.24.6" />
-    <PackageReference Include="AWSSDK.SQS" Version="3.3.3.14" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.27" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.3.3.22" />
     <PackageReference Include="Castle.Core" Version="4.3.1" />
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.12" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Rebus" Version="4.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+    <PackageReference Include="Rebus" Version="4.2.2" />
     <PackageReference Include="Rebus.Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Rebus.SqlServer" Version="4.0.0" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />

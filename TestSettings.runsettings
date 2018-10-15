@@ -46,6 +46,10 @@
     <Parameter name="webAppUrl" value="http://localhost" />
     <Parameter name="webAppUserName" value="Admin" />
     <Parameter name="webAppPassword" value="Password" />
+    <!--<Parameter name="DbConnectionString" value="data source=localhost;Initial catalog={0};Integrated Security=True" />-->
+    <Parameter name="DbConnectionString" value="Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;" />
+    <!--<Parameter name="DatabaseType" value="MSSQL" />-->
+    <Parameter name="DatabaseType" value="MYSQL" />
   </TestRunParameters>
 
   <!-- Adapter Specific sections -->

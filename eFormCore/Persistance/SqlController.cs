@@ -8,14 +8,15 @@ using System.Linq;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.Configuration;
+using Microting.eForm;
 
 namespace eFormSqlController
 {
     public class SqlController : LogWriter
     {
         #region var
-        string connectionStr;
-        bool msSql = true;
+        string connectionStr;       
         Log log;
         Tools t = new Tools();
         List<Holder> converter;
@@ -27,12 +28,7 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
-            connectionStr = connectionString;
-
-            if (connectionStr.ToLower().Contains("uid=") || connectionStr.ToLower().Contains("pwd="))
-                msSql = false;
-            else
-                msSql = true;
+            connectionStr = connectionString.ToLower();          
 
             #region migrate if needed
             try
@@ -40,16 +36,17 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     //TODO! THIS part need to be redone in some form in EF Core!
+                   
                     db.Database.Migrate();
-                    //db.Database.CreateIfNotExists();
-                    //db.Database.Migrate();
-                    var match = db.settings.Count();
+                    db.Database.EnsureCreated();
+
+                   var match = db.settings.Count();
                 }
             }
             catch
             {
                 //TODO! THIS part need to be redone in some form in EF Core!
-                //MigrateDb();
+               // MigrateDb();
             }
             #endregion
 
@@ -58,27 +55,30 @@ namespace eFormSqlController
                 SettingCreateDefaults();
         }
 
-        private MicrotingDbMs GetContext()
+        private MicrotingDbAnySql GetContext()
         {
-            //if (msSql)
-            //{
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            dbContextOptionsBuilder.UseSqlServer(connectionStr);
+
+            if (DbConfig.IsMSSQL)
+            {
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);
+            }
+            else
+            {
+                dbContextOptionsBuilder.UseMySql(connectionStr);
+            }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbMs(dbContextOptionsBuilder.Options);
-            //}
-                
-            //else
-            //    return new MicrotingDbMy(connectionStr);
+            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);
+
         }
 
         public bool MigrateDb()
         {
             //var configuration = new Configuration();
             //configuration.TargetDatabase = new DbConnectionInfo(connectionStr, "System.Data.SqlClient");
-            //var migrator = new DbMigrator(configuration);           
-            
+            //var migrator = new DbMigrator(configuration);
+
             //migrator.Update();
             return true;
         }
@@ -2202,7 +2202,10 @@ namespace eFormSqlController
                         Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.id, null);
                         return rtrnCase;
                     }
-                    catch { }
+                    catch(Exception e1)
+                    {
+
+                    }
 
                     throw new Exception("CaseReadByMuuId failed");
                 }
@@ -4018,7 +4021,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    if (db.field_types.Count() != 19)
+                    if (db.field_types.Count() == 0)
                     {
                         #region prime FieldTypes
                         //UnitTest_TruncateTable(typeof(field_types).Name);
@@ -5345,7 +5348,7 @@ namespace eFormSqlController
             using (var db = GetContext())
             {
                 field_types fT = new field_types();
-                //fT.id = id;
+               // fT.id = id;
                 fT.field_type = fieldType;
                 fT.description = description;
 

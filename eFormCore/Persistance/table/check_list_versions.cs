@@ -7,6 +7,7 @@ namespace eFormSqlController
     public partial class check_list_versions
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         public int? check_list_id { get; set; }

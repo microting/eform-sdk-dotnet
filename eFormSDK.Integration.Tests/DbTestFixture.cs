@@ -8,14 +8,24 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm;
 
 namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
     public abstract class DbTestFixture
     {
-        protected MicrotingDbMs DbContext;
-        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+        // set true for MS SQL Server Database
+        // set false for MySQL Datbase
+      //  const bool IsMSSQL = true;//SQL Type
+        const string dbName = "eformsdk-tests";
+        
+        protected MicrotingDbAnySql DbContext;
+       
+        //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
+        //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
+
+        protected string ConnectionString => string.Format(DbConfig.ConnectionString, dbName);
 
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
@@ -24,15 +34,41 @@ namespace eFormSDK.Integration.Tests
         private static string directoryId = "__DIRECTORY_ID__";
         private static string applicationId = "__APPLICATION_ID__";
 
+        private MicrotingDbAnySql GetContext(string connectionStr)
+        {
+            
+            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+         
+            if (DbConfig.IsMSSQL)
+            {
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);               
+            }
+            else
+            {
+                dbContextOptionsBuilder.UseMySql(connectionStr);              
+            }
+            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);            
+
+        }
 
         [SetUp]
         public void Setup()
         {
 
-            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            dbContextOptionsBuilder.UseSqlServer(ConnectionString);
-            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
+            //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+            //if (IsMSSQL)
+            //{
+            //    dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            //}
+            //else
+            //{
+            //    dbContextOptionsBuilder.UseMySql(ConnectionString);
+            //}
+            DbContext = GetContext(ConnectionString);
+
+          //  DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
 
             //DbContext = new MicrotingDbMs(ConnectionString);
             DbContext.Database.SetCommandTimeout(300);
@@ -65,7 +101,7 @@ namespace eFormSDK.Integration.Tests
 
             DoSetup();
         }
-
+      
         [TearDown]
         public void TearDown()
         {
@@ -120,7 +156,23 @@ namespace eFormSDK.Integration.Tests
             foreach (var modelName in modelNames)
             {
                 //Console.WriteLine(modelName.Name);
-                DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + modelName + "]");
+                try
+                {
+                    string sqlCmd = string.Empty;
+                    if(!DbConfig.IsMSSQL)
+                    {
+                        sqlCmd = string.Format("DELETE FROM `{0}`.`{1}`", dbName, modelName);                       
+                    }
+                    else
+                    {
+                        sqlCmd = string.Format("DELETE FROM [{0}]", modelName);
+                    }
+                    DbContext.Database.ExecuteSqlCommand(sqlCmd);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             //TODO! THIS part need to be redone in some form in EF Core!
             //var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);

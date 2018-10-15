@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -8,12 +9,25 @@ namespace Microting.eForm.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //Setup for SQL Server Provider
+           
+            string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
+            object autoIDGenStrategyValue= SqlServerValueGenerationStrategy.IdentityColumn;
+
+            // Setup for MySQL Provider
+            if (migrationBuilder.ActiveProvider=="Pomelo.EntityFrameworkCore.MySql")
+            {
+               
+                autoIDGenStrategy = "MySQL:ValueGeneratedOnAdd";
+                autoIDGenStrategyValue = true;
+            }
+                     
             migrationBuilder.CreateTable(
                 name: "case_versions",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     case_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -51,7 +65,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     check_list_site_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -72,7 +86,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     check_list_value_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -94,7 +108,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     status = table.Column<string>(maxLength: 255, nullable: true),
@@ -115,7 +129,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     check_list_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -159,7 +173,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     entity_group_id = table.Column<int>(nullable: false),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -179,7 +193,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
@@ -198,13 +212,13 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     entity_items_id = table.Column<int>(nullable: false),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
-                    entity_group_id = table.Column<string>(nullable: true),
+                    entity_group_id = table.Column<int>(nullable: true),
                     entity_item_uid = table.Column<string>(maxLength: 50, nullable: true),
                     microting_uid = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
@@ -222,12 +236,12 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
-                    entity_group_id = table.Column<string>(nullable: true),
+                    entity_group_id = table.Column<int>(nullable: true),
                     entity_item_uid = table.Column<string>(maxLength: 50, nullable: true),
                     microting_uid = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
@@ -245,7 +259,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     field_type = table.Column<string>(maxLength: 255, nullable: true),
                     description = table.Column<string>(maxLength: 255, nullable: true)
                 },
@@ -259,7 +273,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     field_value_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -290,7 +304,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     field_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -338,7 +352,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: false),
                     level = table.Column<int>(nullable: false),
                     type = table.Column<string>(nullable: true),
@@ -354,7 +368,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: false),
                     level = table.Column<int>(nullable: false),
                     type = table.Column<string>(nullable: true),
@@ -370,7 +384,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
@@ -404,7 +418,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
                     name = table.Column<string>(maxLength: 255, nullable: true),
@@ -423,7 +437,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     site_id = table.Column<int>(nullable: true),
                     worker_id = table.Column<int>(nullable: true),
                     microting_uid = table.Column<int>(nullable: true),
@@ -443,7 +457,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
                     name = table.Column<string>(maxLength: 255, nullable: true),
@@ -461,7 +475,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
                     name = table.Column<string>(maxLength: 255, nullable: true),
@@ -480,7 +494,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     tag_id = table.Column<int>(nullable: true),
                     check_list_id = table.Column<int>(nullable: true),
                     tagger_id = table.Column<int>(nullable: true),
@@ -500,7 +514,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
                     name = table.Column<string>(maxLength: 255, nullable: true),
@@ -518,7 +532,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     microting_uid = table.Column<int>(nullable: true),
                     otp_code = table.Column<int>(nullable: true),
                     customer_no = table.Column<int>(nullable: true),
@@ -539,7 +553,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
@@ -565,7 +579,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     data_uploaded_id = table.Column<int>(nullable: true),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
@@ -592,7 +606,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
                     microting_uid = table.Column<int>(nullable: false),
@@ -613,7 +627,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     created_at = table.Column<DateTime>(nullable: true),
                     updated_at = table.Column<DateTime>(nullable: true),
                     microting_uid = table.Column<int>(nullable: false),
@@ -633,7 +647,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     microting_uid = table.Column<int>(nullable: true),
                     otp_code = table.Column<int>(nullable: true),
                     customer_no = table.Column<int>(nullable: true),
@@ -659,7 +673,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
@@ -716,7 +730,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     site_id = table.Column<int>(nullable: true),
                     worker_id = table.Column<int>(nullable: true),
                     microting_uid = table.Column<int>(nullable: true),
@@ -747,7 +761,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     status = table.Column<int>(nullable: true),
@@ -808,7 +822,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
@@ -840,7 +854,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
@@ -906,7 +920,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     tag_id = table.Column<int>(nullable: true),
                     check_list_id = table.Column<int>(nullable: true),
                     tagger_id = table.Column<int>(nullable: true),
@@ -937,7 +951,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                       .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     workflow_state = table.Column<string>(maxLength: 255, nullable: true),
                     version = table.Column<int>(nullable: true),
                     created_at = table.Column<DateTime>(nullable: true),
@@ -1085,6 +1099,72 @@ namespace Microting.eForm.Migrations
                 name: "IX_units_site_id",
                 table: "units",
                 column: "site_id");
+
+            // MySQL Code - only for MySQL
+            if (!DbConfig.IsMSSQL)
+            {
+                SetAutoIncrementforTables(migrationBuilder);
+            }
+
+        }
+        private void SetAutoIncrementforTables(MigrationBuilder migrationBuilder)
+        {
+            List<string> modelNames = new List<string>();
+            modelNames.Add("case_versions");
+            modelNames.Add("cases");
+            modelNames.Add("field_value_versions");
+            modelNames.Add("field_values");
+            modelNames.Add("field_versions");
+            modelNames.Add("fields");
+            modelNames.Add("check_list_site_versions");
+            modelNames.Add("check_list_sites");
+            modelNames.Add("check_list_value_versions");
+            modelNames.Add("check_list_values");
+            modelNames.Add("taggings");
+            modelNames.Add("tagging_versions");
+            modelNames.Add("tags");
+            modelNames.Add("tag_versions");
+            modelNames.Add("check_list_versions");
+            modelNames.Add("check_lists");
+            modelNames.Add("entity_group_versions");
+            modelNames.Add("entity_groups");
+            modelNames.Add("entity_item_versions");
+            modelNames.Add("entity_items");
+            modelNames.Add("log_exceptions");
+            modelNames.Add("logs");
+            modelNames.Add("notifications");
+            modelNames.Add("settings");
+            modelNames.Add("unit_versions");
+            modelNames.Add("units");
+            modelNames.Add("site_worker_versions");
+            modelNames.Add("site_workers");
+            modelNames.Add("worker_versions");
+            modelNames.Add("workers");
+            modelNames.Add("site_versions");
+            modelNames.Add("sites");
+            modelNames.Add("uploaded_data");
+            modelNames.Add("uploaded_data_versions");
+            modelNames.Add("field_types");
+
+          
+            migrationBuilder.Sql("SET foreign_key_checks = 0");
+
+            foreach (var modelName in modelNames)
+            {
+               
+                try
+                {                    
+
+                    string sqlTableAlterCmd = "ALTER TABLE `{0}` MODIFY COLUMN `id` int auto_increment";
+                    migrationBuilder.Sql(String.Format(sqlTableAlterCmd, modelName));
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            migrationBuilder.Sql("SET foreign_key_checks = 1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -7,6 +7,7 @@ namespace eFormSqlController
     public partial class check_list_sites
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [StringLength(255)]

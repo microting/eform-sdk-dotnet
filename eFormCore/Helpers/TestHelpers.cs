@@ -8,25 +8,54 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm;
 
 namespace eFormCore.Helpers
 {
     public class TestHelpers
     {
-        public MicrotingDbMs DbContext;
+        public MicrotingDbAnySql DbContext;
         private string returnXML;
         private string returnJSON;
-
+        //const bool IsMSSQL = false;//SQL Type
         public TestHelpers()
         {
-            string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-            //DbContextOptions dbo = new DbContextOptions();
-            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            dbContextOptionsBuilder.UseSqlServer(ConnectionString);
-            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
-        }
+            // set true for MS SQL Server Database
+            // set false for MySQL Datbase
 
+            const string databaseName = "eformsdk-tests";
+            //MicrotingDbMs DbContext;
+
+            //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
+            //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
+
+            // string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+
+            string ConnectionString = string.Format(DbConfig.ConnectionString, databaseName);
+
+            ////DbContextOptions dbo = new DbContextOptions();
+            //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            //dbContextOptionsBuilder.UseSqlServer(ConnectionString);
+            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+            DbContext = GetContext(ConnectionString);
+        }
+        private MicrotingDbAnySql GetContext(string connectionStr)
+        {
+
+            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+
+            if (DbConfig.IsMSSQL)
+            {
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);
+            }
+            else
+            {
+                dbContextOptionsBuilder.UseMySql(connectionStr);
+            }
+            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);
+
+        }
         #region helperMethods
         public workers CreateWorker(string email, string firstName, string lastName, int microtingUId)
         {
@@ -358,7 +387,6 @@ namespace eFormCore.Helpers
             cls.version = version;
             cls.workflow_state = workflowState;
             cls.microting_uid = microting_uid;
-
             DbContext.check_list_sites.Add(cls);
             DbContext.SaveChanges();
             return cls;
