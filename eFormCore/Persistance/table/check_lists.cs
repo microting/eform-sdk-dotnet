@@ -17,6 +17,7 @@ namespace eFormSqlController
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [StringLength(255)]

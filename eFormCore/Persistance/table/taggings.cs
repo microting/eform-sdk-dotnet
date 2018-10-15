@@ -7,6 +7,7 @@
     public partial class taggings
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [ForeignKey("tag")]

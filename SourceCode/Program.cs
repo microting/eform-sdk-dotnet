@@ -28,6 +28,7 @@ using eFormShared;
 using eFormSqlController;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microting.eForm;
 using Rebus.Activation;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
@@ -41,9 +42,14 @@ namespace SourceCode
     {
         static void Main(string[] args)
         {
+            // set true for MS SQL Server Database
+            // set false for MySQL Datbase
+         //   bool IsMSSQL = true;
+
             //MicrotingDbMs DbContext;
 
-            string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
+            //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
             //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
             //dbContextOptionsBuilder.UseSqlServer(ConnectionString);
             //DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
@@ -51,7 +57,7 @@ namespace SourceCode
             try
             {
                 #region pick database
-
+                 
                 string serverConnectionString = "";
 
                 Console.WriteLine("Enter database to use:");
@@ -60,13 +66,19 @@ namespace SourceCode
                 string databaseName = Console.ReadLine();
 
                 if (databaseName.ToUpper() != "")
-                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + databaseName + ";Integrated Security=True";
+                {
+                    serverConnectionString = string.Format(DbConfig.ConnectionString, databaseName);
+                }
+                  //  serverConnectionString = @"Data Source=localhost;Initial Catalog=" + databaseName + ";Integrated Security=True";
                 if (databaseName.ToUpper() == "T")
-                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
+                    serverConnectionString = string.Format(DbConfig.ConnectionString, "MicrotingTest");
+                //serverConnectionString = @"Data Source=locahost;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
                 if (databaseName.ToUpper() == "O")
-                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+                    serverConnectionString = string.Format(DbConfig.ConnectionString, "MicrotingOdense");
+              //  serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
                 if (serverConnectionString == "")
-                    serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + "MicrotingSourceCode" + ";Integrated Security=True";
+                    serverConnectionString = string.Format(DbConfig.ConnectionString, "MicrotingSourceCode");
+               // serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingSourceCode" + ";Integrated Security=True";
 
                 Console.WriteLine(serverConnectionString);
                 #endregion

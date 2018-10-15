@@ -7,6 +7,7 @@ namespace eFormSqlController
     public partial class field_versions
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         public int? field_id { get; set; }
