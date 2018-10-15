@@ -79,7 +79,11 @@ To improve the chances to get a pull request merged you should select an issue t
 	
 ### Suggestions
 
-We're also interested in your feedback for the future of Microting eForm SDK. You can submit a suggestion or feature request through the issue tracker. To make this process more effective, we're asking that these include more information to help define them more clearly.	
+We're also interested in your feedback for the future of Microting eForm SDK. You can submit a suggestion or feature request through the issue tracker. To make this process more effective, we're asking that these include more information to help define them more clearly.
+
+## Microting Open Source Code of Conduct
+
+This project has adopted the [Microting Open Source Code of Conduct](https://www.microting.com/microting-open-source-code-of-conduct/). Contact opencode@microting.com with any additional questions or comments.
 	
 ## License
 
