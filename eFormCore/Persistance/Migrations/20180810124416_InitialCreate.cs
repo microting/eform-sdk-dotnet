@@ -17,7 +17,7 @@ namespace Microting.eForm.Migrations
             // Setup for MySQL Provider
             if (migrationBuilder.ActiveProvider=="Pomelo.EntityFrameworkCore.MySql")
             {
-               
+                DbConfig.IsMySQL = true;
                 autoIDGenStrategy = "MySQL:ValueGeneratedOnAdd";
                 autoIDGenStrategyValue = true;
             }
@@ -224,6 +224,7 @@ namespace Microting.eForm.Migrations
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     synced = table.Column<short>(nullable: true),
+                    migrated_entity_group_id = table.Column<short>(nullable: true),
                     display_index = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -247,6 +248,7 @@ namespace Microting.eForm.Migrations
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     synced = table.Column<short>(nullable: true),
+                    migrated_entity_group_id = table.Column<short>(nullable: true),
                     display_index = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

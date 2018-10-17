@@ -17,26 +17,12 @@ namespace eFormCore.Helpers
         public MicrotingDbAnySql DbContext;
         private string returnXML;
         private string returnJSON;
-        //const bool IsMSSQL = false;//SQL Type
         public TestHelpers()
         {
-            // set true for MS SQL Server Database
-            // set false for MySQL Datbase
-
-            const string databaseName = "eformsdk-tests";
-            //MicrotingDbMs DbContext;
-
-            //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
-            //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
 
             string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            //string ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = eform; password = eform; Convert Zero Datetime = true;";
 
-            //string ConnectionString = string.Format(DbConfig.ConnectionString, databaseName);
-
-            ////DbContextOptions dbo = new DbContextOptions();
-            //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            //dbContextOptionsBuilder.UseSqlServer(ConnectionString);
-            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             DbContext = GetContext(ConnectionString);
         }
         private MicrotingDbAnySql GetContext(string connectionStr)
@@ -44,7 +30,7 @@ namespace eFormCore.Helpers
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
-            if (connectionStr.Contains("Convert Zero Datetime"))
+            if (connectionStr.ToLower().Contains("convert zero datetime"))
             {
                 dbContextOptionsBuilder.UseMySql(connectionStr);
             }

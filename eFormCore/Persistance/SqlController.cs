@@ -60,7 +60,7 @@ namespace eFormSqlController
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
-            if (connectionStr.Contains("Convert Zero Datetime"))
+            if (connectionStr.ToLower().Contains("convert zero datetime"))
             {
                 dbContextOptionsBuilder.UseMySql(connectionStr);
             }

@@ -15,17 +15,12 @@ namespace Microting.eForm.Migrations
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            bool isMSSQL = true;
-            string autoIDGenStrategy = isMSSQL ? "SqlServer:ValueGenerationStrategy" : "MySQL:ValueGeneratedOnAdd";
+            string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
             object autoIDGenStrategyValue = SqlServerValueGenerationStrategy.IdentityColumn;
-            if (isMSSQL)
-            {
-                autoIDGenStrategyValue = SqlServerValueGenerationStrategy.IdentityColumn;
-            }
-            else
+            if (DbConfig.IsMySQL)
             {
                 autoIDGenStrategyValue = true;
-
+                autoIDGenStrategy = "MySQL:ValueGeneratedOnAdd";
             }
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")

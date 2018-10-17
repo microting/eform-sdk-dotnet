@@ -15,18 +15,11 @@ namespace eFormSDK.Integration.Tests
     [TestFixture]
     public abstract class DbTestFixture
     {
-        // set true for MS SQL Server Database
-        // set false for MySQL Datbase
-      //  const bool IsMSSQL = true;//SQL Type
-        const string dbName = "eformsdk-tests";
-        
+
         protected MicrotingDbAnySql DbContext;
 
-        //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
-        //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
         protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-
-        //protected string ConnectionString => string.Format(DbConfig.ConnectionString, dbName);
+        //protected string ConnectionString => @"Server = localhost; port = 3306; Database = eformsdk-tests; user = eform; password = eform; Convert Zero Datetime = true;";
 
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
@@ -40,7 +33,7 @@ namespace eFormSDK.Integration.Tests
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
          
-            if (ConnectionString.Contains("Convert Zero Datetime"))
+            if (ConnectionString.ToLower().Contains("convert zero datetime"))
             {
                 dbContextOptionsBuilder.UseMySql(connectionStr);
             }
@@ -57,21 +50,9 @@ namespace eFormSDK.Integration.Tests
         public void Setup()
         {
 
-            //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            //if (IsMSSQL)
-            //{
-            //    dbContextOptionsBuilder.UseSqlServer(ConnectionString);
-            //}
-            //else
-            //{
-            //    dbContextOptionsBuilder.UseMySql(ConnectionString);
-            //}
             DbContext = GetContext(ConnectionString);
 
-          //  DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
 
-            //DbContext = new MicrotingDbMs(ConnectionString);
             DbContext.Database.SetCommandTimeout(300);
 
             try
@@ -84,21 +65,6 @@ namespace eFormSDK.Integration.Tests
                 core.StartSqlOnly(ConnectionString);
                 core.Close();
             }
-
-            //if (!userName.Contains("USER_NAME"))
-            //{
-            //    var credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(applicationId, password, directoryId, AzureEnvironment.AzureGlobalCloud);
-            //    var azure = Azure
-            //        .Configure()
-            //        .Authenticate(credentials)
-            //        .WithDefaultSubscription();
-
-            //    var sqlServer = azure.SqlServers.GetById(databaseServerId);
-            //    sqlServer.Databases.Define(databaseName: databaseName).Create();
-            //}
-            //DbContext.Database.CreateIfNotExists();
-
-            //DbContext.Database.Initialize(true);
 
             DoSetup();
         }
@@ -162,7 +128,7 @@ namespace eFormSDK.Integration.Tests
                     string sqlCmd = string.Empty;
                     if(DbContext.Database.IsMySql())
                     {
-                        sqlCmd = string.Format("DELETE FROM `{0}`.`{1}`", dbName, modelName);                       
+                        sqlCmd = string.Format("DELETE FROM `{0}`.`{1}`", "eformsdk-tests", modelName);                       
                     }
                     else
                     {

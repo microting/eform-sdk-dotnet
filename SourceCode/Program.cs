@@ -42,18 +42,6 @@ namespace SourceCode
     {
         static void Main(string[] args)
         {
-            // set true for MS SQL Server Database
-            // set false for MySQL Datbase
-         //   bool IsMSSQL = true;
-
-            //MicrotingDbMs DbContext;
-
-            //string mySQLConnStringFormat = "Server = localhost; port = 3306; Database = {0}; user = eform; password = eform; Convert Zero Datetime = true;";
-            //string msSQLConnStringFormat = @"data source=localhost;Initial catalog={0};Integrated Security=True";
-            //DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            //dbContextOptionsBuilder.UseSqlServer(ConnectionString);
-            //DbContext = new MicrotingDbMs(dbContextOptionsBuilder.Options);
-
             try
             {
                 #region pick database
@@ -66,19 +54,13 @@ namespace SourceCode
                 string databaseName = Console.ReadLine();
 
                 if (databaseName.ToUpper() != "")
-                {
-                    serverConnectionString = string.Format(DbConfig.ConnectionString, databaseName);
-                }
-                  //  serverConnectionString = @"Data Source=localhost;Initial Catalog=" + databaseName + ";Integrated Security=True";
+                    serverConnectionString = @"Data Source=localhost;Initial Catalog=" + databaseName + ";Integrated Security=True";
                 if (databaseName.ToUpper() == "T")
-                    serverConnectionString = string.Format(DbConfig.ConnectionString, "MicrotingTest");
-                //serverConnectionString = @"Data Source=locahost;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
+                    serverConnectionString = @"Data Source=locahost;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
                 if (databaseName.ToUpper() == "O")
-                    serverConnectionString = string.Format(DbConfig.ConnectionString, "MicrotingOdense");
-              //  serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
+                    serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
                 if (serverConnectionString == "")
-                    serverConnectionString = string.Format(DbConfig.ConnectionString, "MicrotingSourceCode");
-               // serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingSourceCode" + ";Integrated Security=True";
+                    serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingSourceCode" + ";Integrated Security=True";
 
                 Console.WriteLine(serverConnectionString);
                 #endregion
