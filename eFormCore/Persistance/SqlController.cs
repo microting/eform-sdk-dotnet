@@ -2621,7 +2621,7 @@ namespace eFormSqlController
                             {
                                 if (item.value != "" || item.value != null)
                                 {
-                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == int.parse(item.value));
+                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == int.Parse(item.value));
 
                                     if (match != null)
                                     {
