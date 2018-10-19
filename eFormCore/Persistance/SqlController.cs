@@ -1583,7 +1583,7 @@ namespace eFormSqlController
                                 if (match != null)
                                 {
                                     field_value.ValueReadable = match.name;
-                                    field_value.Value = match.entity_item_uid;
+                                    field_value.Value = match.id.ToString();
                                     field_value.MicrotingUuid = match.microting_uid;
                                 }
 
@@ -2621,7 +2621,7 @@ namespace eFormSqlController
                             {
                                 if (item.value != "" || item.value != null)
                                 {
-                                    entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == item.value);
+                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == Int.parse(item.value));
 
                                     if (match != null)
                                     {
