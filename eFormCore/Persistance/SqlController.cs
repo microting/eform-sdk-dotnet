@@ -3747,6 +3747,8 @@ namespace eFormSqlController
                     EntityItem entityItem = new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid);
                     entityItem.EntityItemGroupId = et.entity_group_id;
                     entityItem.Id = et.id;
+                    entityItem.DisplayIndex = et.display_index;
+                    entityItem.WorkflowState = et.workflow_state;
                     return entityItem;
                 }
                 else

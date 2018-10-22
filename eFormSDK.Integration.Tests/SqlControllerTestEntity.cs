@@ -3359,14 +3359,14 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(entityItemMatch);
             Assert.AreEqual(entityItemMatch.Description, eI.description);
             Assert.AreEqual(entityItemMatch.DisplayIndex, eI.display_index);
-            Assert.AreEqual(entityItemMatch, eI.created_at);
-            Assert.AreEqual(entityItemMatch.Description, eI.entity_group_id);
-            Assert.AreEqual(entityItemMatch.Description, eI.entity_item_uid);
-            Assert.AreEqual(entityItemMatch.Description, eI.microting_uid);
-            Assert.AreEqual(entityItemMatch.Description, eI.name);
-            Assert.AreEqual(entityItemMatch.Description, eI.updated_at);
-            Assert.AreEqual(entityItemMatch.Description, eI.workflow_state);
-            Assert.AreEqual(entityItemMatch.Description, eI.version);
+            //Assert.AreEqual(entityItemMatch.c, eI.created_at);
+            Assert.AreEqual(entityItemMatch.EntityItemGroupId, eI.entity_group_id);
+            Assert.AreEqual(entityItemMatch.EntityItemUId, eI.entity_item_uid);
+            Assert.AreEqual(entityItemMatch.MicrotingUUID, eI.microting_uid);
+            Assert.AreEqual(entityItemMatch.Name, eI.name);
+            //Assert.AreEqual(entityItemMatch.Description, eI.updated_at);
+            Assert.AreEqual(entityItemMatch.WorkflowState, eI.workflow_state);
+            //Assert.AreEqual(entityItemMatch.Description, eI.version);
 
         }
 
