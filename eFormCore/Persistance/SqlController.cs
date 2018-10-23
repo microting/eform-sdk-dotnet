@@ -1578,7 +1578,8 @@ namespace eFormSqlController
                         {
                             if (reply.value != "" || reply.value != null)
                             {
-                                entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
+                                int id = int.Parse(reply.value);
+                                entity_items match = db.entity_items.SingleOrDefault(x => x.id == id);
 
                                 if (match != null)
                                 {
@@ -2621,7 +2622,8 @@ namespace eFormSqlController
                             {
                                 if (item.value != "" || item.value != null)
                                 {
-                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == int.Parse(item.value));
+                                    int id = int.Parse(item.value);
+                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == id);
 
                                     if (match != null)
                                     {
@@ -2630,7 +2632,7 @@ namespace eFormSqlController
 
                                 }
                             }
-                            catch { }
+                            catch (Exception ex) { }
                         }
 
                         if (field_type.field_type == Constants.FieldTypes.SingleSelect)
