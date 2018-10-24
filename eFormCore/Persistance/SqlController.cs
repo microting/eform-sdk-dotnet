@@ -1045,6 +1045,12 @@ namespace eFormSqlController
                                     }
 
                                     fieldV.value = temp;
+                                    fields _field = db.fields.SingleOrDefault(x => x.id == field_id);
+                                    if (_field.field_type.field_type == Constants.FieldTypes.EntitySearch || _field.field_type.field_type == Constants.FieldTypes.EntitySelect)
+                                    {
+                                        int id = EntityItemRead(temp).id;
+                                        fieldV.value = id.ToString();
+                                    }
                                     #endregion
                                     //geo
                                     fieldV.latitude = t.Locate(dataItemStr, "<Latitude>", "</");
@@ -1166,7 +1172,7 @@ namespace eFormSqlController
 
                                     #region remove dataItem duplicate from TemplatDataItemLst
                                     int index = 0;
-                                    foreach (var field in TemplatFieldLst)
+                                    foreach (Field_Dto field in TemplatFieldLst)
                                     {
                                         if (fieldV.field_id == field.Id)
                                         {
@@ -1187,7 +1193,7 @@ namespace eFormSqlController
                     #region foreach (var field in TemplatFieldLst)
                     // We do this because even thought the user did not fill in information for a given field
                     // we need the field_value to be populated.
-                    foreach (var field in TemplatFieldLst)
+                    foreach (Field_Dto field in TemplatFieldLst)
                     {
                         //field_values fieldV = new field_values();
 
