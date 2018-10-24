@@ -1086,7 +1086,8 @@ namespace eFormSqlController
                                             {
                                                 if (fieldV.value != "" || fieldV.value != null)
                                                 {
-                                                    entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == fieldV.value);
+                                                    int id = int.Parse(fieldV.value);
+                                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == id);
 
                                                     if (match != null)
                                                     {
