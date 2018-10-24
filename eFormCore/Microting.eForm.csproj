@@ -49,9 +49,7 @@
     <Compile Include="Model\reply\Geolocation.cs" />
     <Compile Include="Model\reply\Response.cs" />
     <Compile Include="Persistance\MicrotingContextInterface.cs" />
-    <Compile Include="Persistance\MicrotingDbMSSQL.cs" />
     <Compile Include="Persistance\MicrotingDbAnySql.cs" />
-    <Compile Include="Persistance\MicrotingDbMySql.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.Designer.cs" />
     <Compile Include="Persistance\SqlController.cs" />

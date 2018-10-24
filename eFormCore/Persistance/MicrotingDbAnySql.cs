@@ -1,10 +1,6 @@
 namespace eFormSqlController
 {
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata;
-    using Microsoft.EntityFrameworkCore.Storage;
-    using MySql.Data.MySqlClient;
-    using System;
 
     public partial class MicrotingDbAnySql : DbContext
     {
@@ -51,6 +47,11 @@ namespace eFormSqlController
         public virtual DbSet<tag_versions> tag_versions { get; set; }
         public virtual DbSet<taggings> taggings { get; set; }
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
+
+        public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
+        {
+            get => base.Database;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
