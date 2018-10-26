@@ -1033,23 +1033,26 @@ namespace eFormSqlController
                                     fieldV.created_at = DateTime.Now;
                                     fieldV.updated_at = DateTime.Now;
                                     #region fieldV.value = t.Locate(xml, "<Value>", "</");
-                                    string temp = t.Locate(dataItemStr, "<Value>", "</");
+                                    string extractedValue = t.Locate(dataItemStr, "<Value>", "</");
 
-                                    if (temp.Length > 8)
+                                    if (extractedValue.Length > 8)
                                     {
-                                        if (temp.StartsWith(@"<![CDATA["))
+                                        if (extractedValue.StartsWith(@"<![CDATA["))
                                         {
-                                            temp = temp.Substring(9);
-                                            temp = temp.Substring(0, temp.Length - 3);
+                                            extractedValue = extractedValue.Substring(9);
+                                            extractedValue = extractedValue.Substring(0, extractedValue.Length - 3);
                                         }
                                     }
 
-                                    fieldV.value = temp;
+                                    fieldV.value = extractedValue;
                                     fields _field = db.fields.SingleOrDefault(x => x.id == field_id);
                                     if (_field.field_type.field_type == Constants.FieldTypes.EntitySearch || _field.field_type.field_type == Constants.FieldTypes.EntitySelect)
                                     {
-                                        int id = EntityItemRead(temp).id;
-                                        fieldV.value = id.ToString();
+                                        if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
+                                        {
+                                            int id = EntityItemRead(extractedValue).id;
+                                            fieldV.value = id.ToString();
+                                        }
                                     }
                                     #endregion
                                     //geo
