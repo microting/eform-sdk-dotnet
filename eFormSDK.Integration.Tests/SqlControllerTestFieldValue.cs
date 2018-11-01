@@ -160,21 +160,21 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match is FieldValue);
             Assert.AreEqual(field_Value1.accuracy, match.Accuracy);
             Assert.AreEqual(field_Value1.altitude, match.Altitude);
-            //Assert.AreEqual(field_Value1.case_id, match.case_id);
-            //Assert.AreEqual(field_Value1.check_list, match.check_list);
-            //Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
-            //Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
-            //Assert.AreEqual(field_Value1.created_at, match.created_at);
+            // Assert.AreEqual(field_Value1.case_id, match.case_id);
+            // Assert.AreEqual(field_Value1.check_list, match.check_list);
+            // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
+            // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
+            // Assert.AreEqual(field_Value1.created_at, match.created_at);
             Assert.AreEqual(field_Value1.date, match.Date);
-            //Assert.AreEqual(field_Value1.done_at, match.done_at);
+            // Assert.AreEqual(field_Value1.done_at, match.done_at);
             Assert.AreEqual(field_Value1.field, f1);
             Assert.AreEqual(field_Value1.field_id, match.FieldId);
             Assert.AreEqual(field_Value1.heading, match.Heading);
             Assert.AreEqual(field_Value1.id, match.Id);
             Assert.AreEqual(field_Value1.latitude, match.Latitude);
             Assert.AreEqual(field_Value1.longitude, match.Longitude);
-            //Assert.AreEqual(field_Value1.updated_at, match.updated_at);
-            //Assert.AreEqual("mappeFile1", match.UploadedData);
+            // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
+            // Assert.AreEqual("mappeFile1", match.UploadedData);
             Assert.AreEqual(field_Value1.uploaded_data.checksum, match.UploadedDataObj.Checksum);
             Assert.AreEqual(field_Value1.uploaded_data.current_file, match.UploadedDataObj.CurrentFile);
             Assert.AreEqual(field_Value1.uploaded_data.extension, match.UploadedDataObj.Extension);
@@ -183,11 +183,11 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(field_Value1.uploaded_data.id, match.UploadedDataObj.Id);
             Assert.AreEqual(field_Value1.uploaded_data.uploader_id, match.UploadedDataObj.UploaderId);
             Assert.AreEqual(field_Value1.uploaded_data.uploader_type, match.UploadedDataObj.UploaderType);
-            //Assert.AreEqual(field_Value1.user_id, match.user_id);
+            // Assert.AreEqual(field_Value1.user_id, match.user_id);
             Assert.AreEqual(field_Value1.value, match.Value);
-            //Assert.AreEqual(field_Value1.version, match.version);
-            //Assert.AreEqual(field_Value1.worker, match.worker);
-            //Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
+            // Assert.AreEqual(field_Value1.version, match.version);
+            // Assert.AreEqual(field_Value1.worker, match.worker);
+            // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
             #endregion
 
         }
@@ -331,27 +331,27 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match is FieldValue);
             Assert.AreEqual(field_Value1.accuracy, match.Accuracy);
             Assert.AreEqual(field_Value1.altitude, match.Altitude);
-            //Assert.AreEqual(field_Value1.case_id, match.case_id);
-            //Assert.AreEqual(field_Value1.check_list, match.check_list);
-            //Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
-            //Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
-            //Assert.AreEqual(field_Value1.created_at, match.created_at);
+            // Assert.AreEqual(field_Value1.case_id, match.case_id);
+            // Assert.AreEqual(field_Value1.check_list, match.check_list);
+            // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
+            // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
+            // Assert.AreEqual(field_Value1.created_at, match.created_at);
             Assert.AreEqual(field_Value1.date, match.Date);
-            //Assert.AreEqual(field_Value1.done_at, match.done_at);
+            // Assert.AreEqual(field_Value1.done_at, match.done_at);
             Assert.AreEqual(field_Value1.field, f1);
             Assert.AreEqual(field_Value1.field_id, match.FieldId);
             Assert.AreEqual(field_Value1.heading, match.Heading);
             Assert.AreEqual(field_Value1.id, match.Id);
             Assert.AreEqual(field_Value1.latitude, match.Latitude);
             Assert.AreEqual(field_Value1.longitude, match.Longitude);
-            //Assert.AreEqual(field_Value1.updated_at, match.updated_at);
+            // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
             Assert.AreEqual("mappeFile1", match.UploadedData);
-            //Assert.AreEqual(field_Value1.uploaded_data_id, match.UploadedDataObj);
-            //Assert.AreEqual(field_Value1.user_id, match.user_id);         
+            // Assert.AreEqual(field_Value1.uploaded_data_id, match.UploadedDataObj);
+            // Assert.AreEqual(field_Value1.user_id, match.user_id);         
             Assert.AreEqual(field_Value1.value, match.Value);
-            //Assert.AreEqual(field_Value1.version, match.version);
-            //Assert.AreEqual(field_Value1.worker, match.worker);
-            //Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
+            // Assert.AreEqual(field_Value1.version, match.version);
+            // Assert.AreEqual(field_Value1.worker, match.worker);
+            // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
 
             #endregion
         }

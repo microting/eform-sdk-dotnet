@@ -2097,10 +2097,10 @@ namespace eFormSDK.Integration.Tests
 
             //// Assert
             //#region Created
-            //Assert.NotNull(entityGroupSortByIdCreated);
-            //Assert.NotNull(entityGroupSortByIdNameCreated);
-            //Assert.NotNull(entityGroupSortByNameCreated);
-            //Assert.AreEqual(10, entityGroupSortByIdCreated.EntityGroupMUId.Count());
+            // Assert.NotNull(entityGroupSortByIdCreated);
+            // Assert.NotNull(entityGroupSortByIdNameCreated);
+            // Assert.NotNull(entityGroupSortByNameCreated);
+            // Assert.AreEqual(10, entityGroupSortByIdCreated.EntityGroupMUId.Count());
 
 
             //#endregion

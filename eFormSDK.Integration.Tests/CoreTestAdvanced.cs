@@ -54,7 +54,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeDb_ChangesDisplayIndex()
         {
 
-            //Arrance
+            // Arrange
             #region Tempalte1
 
             DateTime cl1_ca = DateTime.Now;
@@ -62,9 +62,9 @@ namespace eFormSDK.Integration.Tests
             check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
-            //Act
+            // Act
             bool match = sut.Advanced_TemplateDisplayIndexChangeDb(cl1.id, 5);
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.True(match);
 
@@ -73,7 +73,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeServer_ChangesDisplayIndex()
         {
 
-            ////Arrance
+            //// Arrange
             //#region Tempalte1
 
             //DateTime cl1_ca = DateTime.Now;
@@ -86,17 +86,17 @@ namespace eFormSDK.Integration.Tests
             //sites site = testHelpers.CreateSite("SiteName", 88);
 
             //#endregion
-            ////Act
+            //// Act
             //bool match = sut.Advanced_TemplateDisplayIndexChangeServer(cl1.id,(int)site.microting_uid, 5);
-            ////Assert
-            //Assert.NotNull(match);
-            //Assert.True(match);
+            //// Assert
+            // Assert.NotNull(match);
+            // Assert.True(match);
 
         }
         [Test]
         public void Core_AdvancedTemplate_Advanced_TemplateUpdateFieldIdsForColumns_ChangesIdsForColumns()
         {
-            //Arrance
+            // Arrange
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -261,10 +261,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            //Act
+            // Act
             bool match = sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.id, f1.id, f2.id, f3.id, f4.id, f5.id, f6.id, f7.id, f8.id, f9.id, f10.id);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.True(match);
 
@@ -508,7 +508,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_AdvancedTemplate_Advanced_ConsistencyCheckTemplates()
         {
-            //Arrance
+            // Arrange
 
             #region Arrance
             #region Template1
@@ -894,7 +894,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
 
-            //Act
+            // Act
             var removedcl2 = cl2.workflow_state = Constants.WorkflowStates.Removed;
             var removedcl3 = cl3.workflow_state = Constants.WorkflowStates.Removed;
             var removedcl4 = cl4.workflow_state = Constants.WorkflowStates.Removed;
@@ -905,7 +905,7 @@ namespace eFormSDK.Integration.Tests
             var removedcl9 = cl9.workflow_state = Constants.WorkflowStates.Removed;
             var removedcl10 = cl10.workflow_state = Constants.WorkflowStates.Removed;
             var removedcl11 = cl11.workflow_state = Constants.WorkflowStates.Removed;
-            //Assert
+            // Assert
             sut.Advanced_ConsistencyCheckTemplates();
 
 
@@ -919,7 +919,7 @@ namespace eFormSDK.Integration.Tests
         [Test]//mangler mock
         public void Core_SiteWorkers_Advanced_SiteWorkerCreate_CreatesWorker()
         {
-            //Arrance
+            // Arrange
             #region site
             string siteName = Guid.NewGuid().ToString();
             int siteMicrotingUid = testHelpers.GetRandomInt();
@@ -938,12 +938,12 @@ namespace eFormSDK.Integration.Tests
             Worker_Dto worker_Dto = new Worker_Dto(worker.microting_uid, worker.first_name, worker.last_name, worker.email, worker.created_at, worker.updated_at);
             #endregion
 
-            //Act
+            // Act
 
             var match = sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
 
 
-            //Assert
+            // Assert
 
             Assert.NotNull(match);
             Assert.AreEqual(match.SiteUId, siteName_Dto.SiteUId);
@@ -955,7 +955,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_SiteWorkers_Advanced_SiteWorkerRead_ReadsSiteWorker()
         {
-            //Arrance
+            // Arrange
             #region Arrance
 
             #region Checklist
@@ -1186,10 +1186,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #endregion
-            //Act
+            // Act
             var match = sut.Advanced_SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.MicrotingUId, site_workers.microting_uid);
             Assert.AreEqual(match.SiteUId, site_workers.site.microting_uid);
@@ -1202,7 +1202,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_SiteWorkers_Advanced_SiteWorkerDelete_MarksAsRemoved()
         {
 
-            //Arrance
+            // Arrange
             #region site
             string siteName = Guid.NewGuid().ToString();
             int siteMicrotingUid = testHelpers.GetRandomInt();
@@ -1224,7 +1224,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            //Act
+            // Act
 
             //var match = sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
             var match2 = sut.Advanced_SiteWorkerDelete(1);
@@ -1232,7 +1232,7 @@ namespace eFormSDK.Integration.Tests
 
 
 
-            //Assert
+            // Assert
 
             Assert.True(match2);
             Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].workflow_state);
@@ -1242,15 +1242,15 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_SiteWorkers_Advanced_WorkerDelete_MarksAsRemoved()
         {
-            //arrance
+            // Arrange
             workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 1);
 
 
-            //act
+            // Act
             var match = sut.Advanced_WorkerDelete(worker.microting_uid);
             var result = DbContext.workers.AsNoTracking().ToList();
             var result_versioned = DbContext.worker_versions.AsNoTracking().ToList();
-            //assert
+            // Assert
 
             Assert.True(match);
             Assert.AreEqual(1, result.Count());
@@ -1271,7 +1271,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Unit_Advanced_UnitRead_ReadsUnit()
         {
-            //Arrance
+            // Arrange
             #region Checklist
             DateTime cl_ca = DateTime.Now;
             DateTime cl_ua = DateTime.Now;
@@ -1493,11 +1493,11 @@ namespace eFormSDK.Integration.Tests
             units unit = testHelpers.CreateUnit(48, 49, site1, 348);
 
             #endregion
-            //Act
+            // Act
 
             Unit_Dto match = sut.Advanced_UnitRead((int) unit.microting_uid);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(unit.microting_uid, match.UnitUId);
             Assert.AreEqual(unit.customer_no, match.CustomerNo);
@@ -2025,7 +2025,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Advanced_DeleteUploadedData_DeletesData()
         {
-            //Arrance
+            // Arrange
             #region Template1
             DateTime cl_ca = DateTime.Now;
             DateTime cl_ua = DateTime.Now;
@@ -2210,16 +2210,16 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #endregion
-            //Act
+            // Act
             bool match = sut.Advanced_DeleteUploadedData(f2.id, ud1.id);
-            //Assert
+            // Assert
             Assert.True(match);
 
         }
         [Test]
         public void Core_Advanced_UpdateCaseFieldValue_UpdatesFieldValue()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -2604,7 +2604,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
 
-            //Act
+            // Act
             cases theCase = DbContext.cases.First();
             Assert.NotNull(theCase);
             check_lists theCheckList = DbContext.check_lists.First();
@@ -2633,7 +2633,7 @@ namespace eFormSDK.Integration.Tests
 
             var testThis = sut.Advanced_UpdateCaseFieldValue(aCase1.id);
 
-            //Assert
+            // Assert
             cases theCaseAfter = DbContext.cases.AsNoTracking().First();
 
             Assert.NotNull(theCaseAfter);

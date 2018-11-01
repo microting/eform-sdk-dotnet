@@ -80,7 +80,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dU.uploader_type, ud.UploaderType);
             Assert.AreEqual(dU.file_location, ud.FileLocation);
             Assert.AreEqual(dU.file_name, ud.FileName);
-            //Assert.AreEqual(dU.local, ud.);
+            // Assert.AreEqual(dU.local, ud.);
 
         }
 
@@ -224,7 +224,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
 
-            //Act
+            // Act
             sut.FileCaseFindMUId("url");
 
 
@@ -295,11 +295,11 @@ namespace eFormSDK.Integration.Tests
             DbContext.uploaded_data.Add(ud);
             DbContext.SaveChanges();
 
-            //Act
+            // Act
             sut.DeleteFile(ud.id);
             List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(ud);
             Assert.NotNull(uploadedDataResult);
             Assert.AreEqual(Constants.WorkflowStates.Removed, uploadedDataResult[0].workflow_state);

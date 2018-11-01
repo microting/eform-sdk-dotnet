@@ -49,7 +49,7 @@ namespace eFormSDK.Integration.Tests
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
         public void Core_eForm_QuickSyncEnabledeFormFromXML_ReturnseMainElement()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='utf-8'?>
                 <Main xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
@@ -107,10 +107,10 @@ namespace eFormSDK.Integration.Tests
                   <PushMessageTitle />
                   <PushMessageBody />
                 </Main>";
-            //Act
+            // Act
             MainElement match = sut.TemplateFromXml(xmlstring);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual("", match.CaseType);
             Assert.AreEqual(1, match.Repeated);
@@ -129,25 +129,25 @@ namespace eFormSDK.Integration.Tests
 
             CDataValue cd = new CDataValue();
 
-            //Assert.AreEqual(dE.Description, cd); TODO
+            // Assert.AreEqual(dE.Description, cd); TODO
             Assert.AreEqual(0, dE.DisplayOrder);
             Assert.AreEqual(false, dE.ReviewEnabled);
-            //Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync 
+            // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync 
             Assert.AreEqual(false, dE.ExtraFieldsEnabled);
-            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
+            // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
             Assert.AreEqual(false, dE.ApprovalEnabled);
 
             SingleSelect commentField = (SingleSelect)dE.DataItemList[0];
             Assert.AreEqual("Is everything OK:", commentField.Label);
-            //Assert.AreEqual(commentField.Description, cd);
+            // Assert.AreEqual(commentField.Description, cd);
             Assert.AreEqual(1, commentField.DisplayOrder);
-            //Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
-            //Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
-            //Assert.AreEqual(commentField.Split, false) //TODO no method Split
-            //Assert.AreEqual("", commentField.Value);
+            // Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
+            // Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
+            // Assert.AreEqual(commentField.Split, false) //TODO no method Split
+            // Assert.AreEqual("", commentField.Value);
             Assert.AreEqual(false, commentField.ReadOnly);
             Assert.AreEqual(false, commentField.Mandatory);
-            //Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
+            // Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
 
 
         }
@@ -156,7 +156,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Template_TemplateRead_ReturnsTemplateWithQuickSync()
         {
-            //Arrance
+            // Arrange
             #region Tempalte
 
             DateTime cl1_ca = DateTime.Now;
@@ -170,10 +170,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            //Act
+            // Act
             MainElement match = sut.TemplateRead(cl1.id);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.Id, cl1.id);
             Assert.AreEqual(match.CaseType, cl1.case_type);

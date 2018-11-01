@@ -50,14 +50,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Advanced_UnitRequestOtp_SetsNewOtp()
         {
-            //Arrance
+            // Arrange
             sites site = testHelpers.CreateSite("test site 1", 1313);
             units unit = testHelpers.CreateUnit(564646, 0, site, 0);
 
-            //Act
+            // Act
             sut.Advanced_UnitRequestOtp((int)unit.microting_uid);
 
-            //Assert
+            // Assert
             List<units> matches = DbContext.units.AsNoTracking().ToList();
 
             Assert.NotNull(matches);

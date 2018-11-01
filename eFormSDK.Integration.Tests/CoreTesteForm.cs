@@ -519,7 +519,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Template_TemplateValidation_ReturnsErrorLst()
         {
-            //Arrance
+            // Arrange
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
@@ -528,16 +528,16 @@ namespace eFormSDK.Integration.Tests
             MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, false, true, "type1", "MessageTitle",
                 "MessageBody", false, CElement.ElementList);
-            //Act
+            // Act
             var match = sut.TemplateValidation(main);
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.Count(), 0);
         }
         [Test]
         public void Core_Template_TemplateUploadData_ReturnsmainElement()
         {
-            //Arrance
+            // Arrange
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
@@ -546,9 +546,9 @@ namespace eFormSDK.Integration.Tests
             MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
                 "MessageBody", false, CElement.ElementList);
-            //Act
+            // Act
             var match = sut.TemplateUploadData(main);
-            //Assert
+            // Assert
             #region Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.CaseType, main.CaseType);
@@ -577,7 +577,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_Template_TemplateCreate_CreatesTemplate()
         {
 
-            //Arrance
+            // Arrange
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
@@ -586,9 +586,9 @@ namespace eFormSDK.Integration.Tests
             MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
                 "MessageBody", false, CElement.ElementList);
-            //Act
+            // Act
             var match = sut.TemplateCreate(main);
-            //Assert
+            // Assert
 
             Assert.NotNull(match);
             Assert.AreEqual(match, main.Id);
@@ -597,7 +597,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Template_TemplateRead_ReturnsTemplate()
         {
-            //Arrance
+            // Arrange
             #region Tempalte
 
             DateTime cl1_ca = DateTime.Now;
@@ -606,10 +606,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            //Act
+            // Act
             var match = sut.TemplateRead(cl1.id);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.Id, cl1.id);
             Assert.AreEqual(match.CaseType, cl1.case_type);
@@ -625,7 +625,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Template_TemplateDelete_SetsWorkflowStateToRemoved()
         {
-            //Arrance
+            // Arrange
             #region Tempalte1
 
             DateTime cl1_ca = DateTime.Now;
@@ -654,12 +654,12 @@ namespace eFormSDK.Integration.Tests
             check_lists cl4 = testHelpers.CreateTemplate(cl4_ca, cl4_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
-            //Act
+            // Act
             var deleteTemplate1 = sut.TemplateDelete(cl1.id);
             var deleteTemplate2 = sut.TemplateDelete(cl2.id);
             var deleteTemplate3 = sut.TemplateDelete(cl3.id);
             var deleteTemplate4 = sut.TemplateDelete(cl4.id);
-            //Assert
+            // Assert
             Assert.NotNull(deleteTemplate1);
             Assert.NotNull(deleteTemplate2);
             Assert.NotNull(deleteTemplate3);

@@ -50,7 +50,7 @@ namespace eFormSDK.Integration.Tests
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
         public void Core_eForm_LargeeFormFromXML_ReturnseMainElement()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             string xmlstring = @"
                 <Main>
@@ -11610,14 +11610,14 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
             #endregion
 
-            //Act
+            // Act
             MainElement mainelement = sut.TemplateFromXml(xmlstring);
             var match = sut.TemplateCreate(mainelement);
 
             List<check_lists> listOfCL = DbContext.check_lists.AsNoTracking().ToList();
             List<fields> listOfFields = DbContext.fields.ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(mainelement);
             Assert.NotNull(match);
             Assert.AreEqual(listOfCL.Count(), 15);

@@ -48,7 +48,7 @@ namespace eFormSDK.Integration.Tests
         [Test]//needs http mock done
         public void Core_Case_CaseCreate_CreatesCase()
         {
-            ////Arrance
+            //// Arrange
             //#region Template1
             //DateTime c1_Ca = DateTime.Now;
             //DateTime c1_Ua = DateTime.Now;
@@ -130,10 +130,10 @@ namespace eFormSDK.Integration.Tests
             //MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, DateTime.Now,
             //    DateTime.Now.AddDays(2), "Swahili", false, true, false, true, "type1", "MessageTitle",
             //    "MessageBody", CElement.ElementList);
-            ////Act
+            //// Act
             //var match = sut.CaseCreate(main, "", (int)site.microting_uid);
-            ////Assert
-            //Assert.NotNull(match);
+            //// Assert
+            // Assert.NotNull(match);
 
         }
 

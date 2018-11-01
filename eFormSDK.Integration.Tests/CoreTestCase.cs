@@ -91,7 +91,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_CaseRead_ReadsCase()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime c1_Ca = DateTime.Now;
@@ -317,11 +317,11 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
 
-            //Act
+            // Act
 
             var match = sut.CaseRead(aCase.microting_uid, aCase.microting_check_uid);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.CaseType, aCase.type);
 
@@ -542,7 +542,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_CaseUpdate_ReturnsTrue()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -926,7 +926,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
             List<string> FVPlist = new List<string>();
             FVPlist.Add(field_Value1.id + " |" + field_Value1.value);
             FVPlist.Add(field_Value2.id + " |" + field_Value2.value);
@@ -961,7 +961,7 @@ namespace eFormSDK.Integration.Tests
         [Test]//skal bruge communicator, mangler mock.
         public void Core_Case_CaseDelete_ReturnsTrue()
         {
-            ////Arrance
+            //// Arrange
             //#region Arrance
             //#region Template1
             //DateTime cl1_Ca = DateTime.Now;
@@ -1325,17 +1325,17 @@ namespace eFormSDK.Integration.Tests
 
             //#endregion
             //#endregion
-            ////Act
+            //// Act
             //var match = sut.CaseDelete(cl2.id,(int) cls1.site.microting_uid);
-            ////Assert
-            //Assert.NotNull(match);
-            //Assert.True(match);
+            //// Assert
+            // Assert.NotNull(match);
+            // Assert.True(match);
 
         }
         [Test]//skal bruge communicator, mangler mock.
         public void Core_Case_CaseDelete2_ReturnsTrue()
         {
-            ////Arrance
+            //// Arrange
             //#region Arrance
             //#region Template1
             //DateTime cl1_Ca = DateTime.Now;
@@ -1699,11 +1699,11 @@ namespace eFormSDK.Integration.Tests
 
             //#endregion
             //#endregion
-            ////Act
+            //// Act
             //var match = sut.CaseDelete(cl2.id, (int)cls1.site.microting_uid, Constants.WorkflowStates.Created);
-            ////Assert
-            //Assert.NotNull(match);
-            //Assert.True(match);
+            //// Assert
+            // Assert.NotNull(match);
+            // Assert.True(match);
 
         }
         [Test]
@@ -2451,7 +2451,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_Case_CaseIdLookUp_returnsId()
         {
 
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_ca = DateTime.Now;
@@ -2584,16 +2584,16 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #endregion
-            //Act
+            // Act
             var match = sut.CaseIdLookup(aCase1.microting_uid, aCase1.microting_check_uid);
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(aCase1.id, match);
         }
         [Test]
         public void Core_Case_CasesToExcel_returnsPathAndName()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -2986,20 +2986,20 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             //var match = sut.CasesToExcel(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 
-            ////Assert
-            //Assert.NotNull(match);
-            //Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.xlsx");
+            //// Assert
+            // Assert.NotNull(match);
+            // Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.xlsx");
 
 
         }
         [Test]
         public void Core_Case_CasesToCsv_returnsPathAndName()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -3392,20 +3392,20 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             //var match = sut.CasesToCsv(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 
-            //Assert
-            //Assert.NotNull(match);
-            //Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.csv");
+            // Assert
+            // Assert.NotNull(match);
+            // Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.csv");
 
 
         }
         [Test]
         public void Core_Case_CaseToJasperXml_ReturnsPath()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -3797,13 +3797,13 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
             string pdfPath = path + @"\output\dataFolder\reports\results\" + timeStamp + "_" + aCase2.id + ".xml";
             var match = sut.CaseToJasperXml(aCase2.id, timeStamp, pdfPath);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match, pdfPath);
 
@@ -3811,7 +3811,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_GetJasperPath_returnsPath()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -4203,11 +4203,11 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             var match = sut.GetJasperPath();
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match, path + @"\output\dataFolder\reports\");
 
@@ -4217,11 +4217,11 @@ namespace eFormSDK.Integration.Tests
         public void Core_Case_SetJasperPath_returnsTrue()
         {
 
-            //Arrance
+            // Arrange
 
-            //Act
+            // Act
             var match = sut.SetJasperPath(@"C:\local\gitgud");
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.True(match);
 
@@ -4229,7 +4229,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_GetPicturePath_returnsPath()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -4621,11 +4621,11 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             var match = sut.GetPicturePath();
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match, path + @"\output\dataFolder\picture\");
 
@@ -4634,11 +4634,11 @@ namespace eFormSDK.Integration.Tests
         public void Core_Case_SetPicturePath_returnsTrue()
         {
 
-            //Arrance
+            // Arrange
 
-            //Act
+            // Act
             var match = sut.SetPicturePath(@"C:\local");
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.True(match);
 
@@ -4646,7 +4646,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_GetPdfPath_returnsPath()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -5038,11 +5038,11 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             var match = sut.GetPdfPath();
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match, path + @"\output\dataFolder\pdf\");
 
@@ -5050,7 +5050,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_GetHttpServerAddress_returnsPath()
         {
-            //Arrance
+            // Arrange
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -5442,11 +5442,11 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             #endregion
-            //Act
+            // Act
 
             var match = sut.GetHttpServerAddress();
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match, "http://localhost:3000");
 
@@ -5455,22 +5455,22 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Case_SetHttpServerAddress_ReturnsTrue()
         {
-            //Arrance
+            // Arrange
 
-            //Act
+            // Act
             var match = sut.SetHttpServerAddress("facebook.com");
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.True(match);
         }
         [Test]//can't be done, because of Jaxml file.
         public void Core_Case_CaseToPdf_returns_Path()
         {
-            //Arrance
+            // Arrange
 
-            //Act
+            // Act
 
-            //Assert
+            // Assert
         }
 
         #endregion

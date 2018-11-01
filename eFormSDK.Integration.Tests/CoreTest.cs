@@ -59,13 +59,13 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
         {
-            //Arrance
+            // Arrange
             string microtingUuid = testHelperReturnXml.CreateMultiPictureXMLResult(true);
 
-            //Act
+            // Act
             sut.CheckStatusByMicrotingUid(microtingUuid);
 
-            //Assert
+            // Assert
             List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
             List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
             List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
@@ -110,10 +110,10 @@ namespace eFormSDK.Integration.Tests
             // Does nothing for web implementation
         }
         #endregion
-        //Arrance
+        // Arrange
 
-        //Act
+        // Act
 
-        //Assert
+        // Assert
     }
 }

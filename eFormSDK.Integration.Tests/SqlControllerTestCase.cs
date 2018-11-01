@@ -60,7 +60,7 @@ namespace eFormSDK.Integration.Tests
             string microtingCheckId = Guid.NewGuid().ToString();
         
 
-            //Act
+            // Act
             int matches = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
@@ -68,8 +68,8 @@ namespace eFormSDK.Integration.Tests
             // Assert
 
             Assert.NotNull(matches);
-            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[1].workflow_state);
-            //Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].workflow_state);
+            // Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[1].workflow_state);
+            // Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].workflow_state);
 
         }
 
@@ -176,7 +176,7 @@ namespace eFormSDK.Integration.Tests
               site1, 66, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
 
-            //Act
+            // Act
             //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.id, aCase1.id);
             List<cases> caseResults = DbContext.cases.AsNoTracking().Where(x => x.microting_uid == aCase1.microting_uid).ToList();
             Assert.NotNull(caseResults);

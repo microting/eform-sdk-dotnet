@@ -69,17 +69,17 @@ namespace eFormSDK.Integration.Tests
         [Test]//Using communicator, needs httpMock
         public void Core_Site_SiteCreate_ReturnSiteId()
         {
-            ////Arrance
+            //// Arrange
 
-            ////Act
+            //// Act
 
             //var site = sut.SiteCreate("site1", "René", "Madsen", "rm@rm.dk");
 
-            ////Assert
-            //Assert.NotNull(site);
-            //Assert.AreEqual(site.SiteName, "site1");
-            //Assert.AreEqual(site.FirstName, "René");
-            //Assert.AreEqual(site.LastName, "Madsen");
+            //// Assert
+            // Assert.NotNull(site);
+            // Assert.AreEqual(site.SiteName, "site1");
+            // Assert.AreEqual(site.FirstName, "René");
+            // Assert.AreEqual(site.LastName, "Madsen");
 
 
 
@@ -87,7 +87,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_Site_SiteRead_ReturnsFullSite()
         {
-            //Arrance
+            // Arrange
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -273,11 +273,11 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            //Act
+            // Act
 
             var match = sut.SiteRead((int)site.microting_uid);
 
-            //Assert
+            // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.SiteId, site.microting_uid);
             Assert.AreEqual(match.SiteName, site.name);
@@ -288,7 +288,7 @@ namespace eFormSDK.Integration.Tests
         public void Core_Site_SiteReadAll_ReturnsSites()
         {
 
-            //Arrance
+            // Arrange
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -473,10 +473,10 @@ namespace eFormSDK.Integration.Tests
             site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
-            //Act
+            // Act
             var matchNotRemoved = sut.SiteReadAll(false);
             var matchInclRemoved = sut.SiteReadAll(true);
-            //Assert
+            // Assert
             Assert.NotNull(matchInclRemoved);
             Assert.NotNull(matchNotRemoved);
 
@@ -490,21 +490,21 @@ namespace eFormSDK.Integration.Tests
         public void Core_Site_SiteReset_ReturnsSite()
         {
 
-            //Arrance
+            // Arrange
             #region site
             sites site = testHelpers.CreateSite("SiteName", 88);
 
             #endregion
-            //Act
+            // Act
            
-            //Assert
+            // Assert
 
         }
         [Test]//Using Communicatorn needs httpMock
         public void Core_Site_SiteUpdate_returnsTrue()
         {
-            //Arrance
-            //Arrance
+            // Arrange
+            // Arrange
             #region site
             string siteName = Guid.NewGuid().ToString();
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
@@ -535,13 +535,13 @@ namespace eFormSDK.Integration.Tests
 
 
             var match = sut.SiteUpdate((int)site.microting_uid, site.name, firstName, lastName, email);
-            //Assert
+            // Assert
             Assert.True(match);
         }
         [Test]//Using Communicatorn needs httpMock
         public void Core_Site_SiteDelete_ReturnsTrue()
         {
-            //Arrance
+            // Arrange
             #region site
             string siteName = Guid.NewGuid().ToString();
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
@@ -569,9 +569,9 @@ namespace eFormSDK.Integration.Tests
             #region unit
             units unit = testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
-            //Act
+            // Act
             var match = sut.SiteDelete((int)site.microting_uid);
-            //Assert
+            // Assert
             Assert.True(match);
             //#endregion
         }

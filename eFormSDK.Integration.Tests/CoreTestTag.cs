@@ -263,7 +263,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(tag1.id, result[0].tag_id);
             Assert.AreEqual(tag3.id, result[1].tag_id);
             Assert.AreEqual(cl1.id, result[0].check_list_id);
-            //Assert.True(true);
+            // Assert.True(true);
 
         }
         #endregion

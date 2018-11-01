@@ -49,7 +49,7 @@ namespace eFormSDK.Integration.Tests
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
         public void Core_eForm_SimpleCommenteFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -93,21 +93,21 @@ namespace eFormSDK.Integration.Tests
                         </Element>
                     </ElementList>
                 </Main>";
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual("", cl[0].case_type);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("CommentMain", cl[0].label);
-            //Assert.AreEqual("da", match.Language);
+            // Assert.AreEqual("da", match.Language);
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
             Assert.AreEqual(0, cl[0].display_index);
-            //Assert.AreEqual(1, match.ElementList.Count());
+            // Assert.AreEqual(1, match.ElementList.Count());
             //DataElement dE = (DataElement)cl[1];
             Assert.AreEqual(2, cl.Count);
             Assert.AreEqual("CommentDataElement", cl[1].label);
@@ -117,9 +117,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("CommentDataElementDescription", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index);
             Assert.AreEqual(0, cl[1].review_enabled); //False
-            //Assert.AreEqual(0, cl[1].manual_sync); //false TODO was null
+            // Assert.AreEqual(0, cl[1].manual_sync); //false TODO was null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //False
-            //Assert.AreEqual(0, cl[1].done_button_Disabled); //TODO no method
+            // Assert.AreEqual(0, cl[1].done_button_Disabled); //TODO no method
             Assert.AreEqual(0, cl[1].approval_enabled); //False
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -131,8 +131,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("CommentField", _fields[0].label);
             Assert.AreEqual("CommentFieldDescription", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
-            //Assert.AreEqual(1, _fields[0].multi); was null TODO
-            //Assert.AreEqual(0, _fields[0].geolocation_enabled); //False TODO was null
+            // Assert.AreEqual(1, _fields[0].multi); was null TODO
+            // Assert.AreEqual(0, _fields[0].geolocation_enabled); //False TODO was null
             Assert.AreEqual(0, _fields[0].split_screen); //TODO no method Split
             Assert.AreEqual("", _fields[0].default_value);
             Assert.AreEqual(0, _fields[0].read_only); //false
@@ -145,7 +145,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_SimplePictureFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -185,22 +185,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Picture test", cl[0].label);
-            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
-            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            // Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -208,9 +208,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -229,7 +229,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_SimpleDateFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -274,22 +274,22 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Date", cl[0].label);
-            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
-            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            // Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -297,9 +297,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -309,10 +309,10 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
             Assert.AreEqual("Select date", _fields[0].label);
             Assert.AreEqual("", _fields[0].description);
-            //Assert.AreEqual("2018-01-18", _fields.minvalue) //todo
-            //Assert.AreEqual("2028-01-18", _fields.maxvalue) //todo
+            // Assert.AreEqual("2018-01-18", _fields.minvalue) //todo
+            // Assert.AreEqual("2028-01-18", _fields.maxvalue) //todo
             Assert.AreEqual(0, _fields[0].display_index);
-            //Assert.AreEqual("", _fields[0].value); //TODO
+            // Assert.AreEqual("", _fields[0].value); //TODO
             Assert.AreEqual(0, _fields[0].mandatory); //false
             Assert.AreEqual(0, _fields[0].read_only); //false
             Assert.AreEqual(Constants.FieldColors.Grey, _fields[0].color);
@@ -322,7 +322,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_SimplePdfFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -363,23 +363,23 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             mainElement = sut.TemplateUploadData(mainElement);
             int eFormId = sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("ny pdf", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -387,9 +387,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -409,7 +409,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_SimpleFieldGroupsFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -486,17 +486,17 @@ namespace eFormSDK.Integration.Tests
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Tester grupper", cl[0].label);
-            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
-            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); //TODO
+            // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            // Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); //TODO
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(match.review, false); //TODO no method review
-            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            // Assert.AreEqual(match.review, false); //TODO no method review
+            // Assert.AreEqual(match.summary, false); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index);
 
 
@@ -505,9 +505,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index);
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
 
@@ -553,7 +553,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_SimplePictureAndSignatureFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -607,17 +607,17 @@ namespace eFormSDK.Integration.Tests
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Billede og signatur", cl[0].label);
-            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
-            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].Language); //todo
+            // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            // Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].Language); //todo
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(match.review, false); //TODO no method review
-            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            // Assert.AreEqual(match.review, false); //TODO no method review
+            // Assert.AreEqual(match.summary, false); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index);
 
 
@@ -626,9 +626,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index);
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -653,7 +653,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_OptionsWithMicrotingFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -933,17 +933,17 @@ namespace eFormSDK.Integration.Tests
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Muligheder med Microting eForm", cl[0].label);
-            //Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
-            //Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); todo
+            // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
+            // Assert.AreEqual("2028-04-25", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); todo
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(match.review, false); //TODO no method review
-            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            // Assert.AreEqual(match.review, false); //TODO no method review
+            // Assert.AreEqual(match.summary, false); //TODO no method summary
             Assert.AreEqual(76, cl[0].display_index);
 
             Assert.AreEqual(2, cl.Count());
@@ -951,9 +951,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Tryk her og prøv hvordan du indsamler data med Microting eForm.<br><br><br>God fornøjelse :-)", cl[1].description);
             Assert.AreEqual(76, cl[1].display_index);
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
+            // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(dE.DoneButtonDisabled, true); //TODO no method donebuttondisabled
+            // Assert.AreEqual(dE.DoneButtonDisabled, true); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -970,7 +970,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("START-STOP TID", _fields[1].label);
             Assert.AreEqual("Start-stop tid.<br><br>", _fields[1].description);
             Assert.AreEqual(1, _fields[1].display_index);
-            //Assert.AreEqual(0, _fields[1].stop_on_save);//false TODO
+            // Assert.AreEqual(0, _fields[1].stop_on_save);//false TODO
             Assert.AreEqual(0, _fields[1].mandatory); //false
 
             
@@ -1120,8 +1120,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("DATO", _fields[7].label);
             Assert.AreEqual("Vælg dato<br><br>Er Microting eForm integreret med ERP-system, kan valgt dato leveres direkte i ERP-system.<br>", _fields[7].description); 
             Assert.AreEqual(8, _fields[7].display_index);
-            //Assert.AreEqual("2016-06-09", d1.MinValue); TODO
-            //Assert.AreEqual("2026-06-09", d1.MaxValue); TODO
+            // Assert.AreEqual("2016-06-09", d1.MinValue); TODO
+            // Assert.AreEqual("2026-06-09", d1.MaxValue); TODO
             Assert.AreEqual(0, _fields[7].mandatory); //false
             Assert.AreEqual(0, _fields[7].read_only); //false
 
@@ -1129,8 +1129,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("INDTAST TAL", _fields[8].label);
             Assert.AreEqual("Indtast tal og opsæt evt. regler for mindste/højeste tilladte værdi.<br><br>Er Microting eForm integreret med ERP-system, sendes de indtastede værdier direkte til ERP-systemet.<br>", _fields[8].description); 
             Assert.AreEqual(9, _fields[8].display_index);
-            //Assert.AreEqual("", _fields[8].min_value); todo
-            //Assert.AreEqual("", _fields[8].max_value); todo
+            // Assert.AreEqual("", _fields[8].min_value); todo
+            // Assert.AreEqual("", _fields[8].max_value); todo
             Assert.AreEqual(0, _fields[8].decimal_count);
             Assert.AreEqual("", _fields[8].unit_name);      
             Assert.AreEqual(0, _fields[8].mandatory); //false
@@ -1139,9 +1139,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("SKRIV KORT KOMMENTAR", _fields[9].label);
             Assert.AreEqual("Skriv kort kommentar uden linieskift.", _fields[9].description); 
             Assert.AreEqual(10, _fields[9].display_index);
-            //Assert.AreEqual(0, _fields[9].multi); todo
+            // Assert.AreEqual(0, _fields[9].multi); todo
             Assert.AreEqual(0, _fields[9].geolocation_enabled); //false
-            //Assert.AreEqual(0, _fields[9].split_screen); todo
+            // Assert.AreEqual(0, _fields[9].split_screen); todo
             Assert.AreEqual("", _fields[9].default_value); 
             Assert.AreEqual(0, _fields[9].read_only); //false
             Assert.AreEqual(0, _fields[9].mandatory); //false
@@ -1156,8 +1156,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("SKRIV LANG KOMMENTAR", _fields[11].label);
             Assert.AreEqual("Skriv længere kommentar med mulighed for linieskift.", _fields[11].description);
             Assert.AreEqual(12, _fields[11].display_index);
-            //Assert.AreEqual(1, cc1.multi);
-            //Assert.AreEqual(false, cc1.geolocation);
+            // Assert.AreEqual(1, cc1.multi);
+            // Assert.AreEqual(false, cc1.geolocation);
             Assert.AreEqual("", _fields[11].default_value);
             Assert.AreEqual(0, _fields[11].read_only); //false
             Assert.AreEqual(0, _fields[11].mandatory); //false
@@ -1178,7 +1178,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_SimpleMultiSelectFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1269,29 +1269,29 @@ namespace eFormSDK.Integration.Tests
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Multiselect", cl[0].label);
-            //Assert.AreEqual("2017-01-22", match.StartDate); TODO
-            //Assert.AreEqual("2027-01-22", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].Language); todo
+            // Assert.AreEqual("2017-01-22", match.StartDate); TODO
+            // Assert.AreEqual("2027-01-22", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].Language); todo
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(match.review, false); //TODO no method review
-            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            // Assert.AreEqual(match.review, false); //TODO no method review
+            // Assert.AreEqual(match.summary, false); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index);
 
             Assert.AreEqual(2, cl.Count());
             
 
             Assert.AreEqual("Multiselect", cl[1].label);
-            //Assert.AreEqual(CDataValue, dE.Label); //TODO
+            // Assert.AreEqual(CDataValue, dE.Label); //TODO
             Assert.AreEqual(0, cl[1].display_index);
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(false, dE.manualSync) //TODO
+            // Assert.AreEqual(false, dE.manualSync) //TODO
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(false, dE.DoneButtondisabled); //TODO
+            // Assert.AreEqual(false, dE.DoneButtondisabled); //TODO
             Assert.AreEqual(0, cl[1].approval_enabled); //false
             Assert.AreEqual("", cl[1].description);
 
@@ -1306,22 +1306,22 @@ namespace eFormSDK.Integration.Tests
 
             List<eFormShared.KeyValuePair> kvp = sut.PairRead(_fields[0].key_value_pair_list);
             Assert.AreEqual("1", kvp[0].Key); 
-            //Assert.AreEqual(CData, kvp[0].Value); todo
+            // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvp[0].Selected); //false
             Assert.AreEqual("1", kvp[0].DisplayOrder);
 
             Assert.AreEqual("2", kvp[1].Key);
-            //Assert.AreEqual(CData, kvp[0].Value); todo
+            // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvp[1].Selected); //false
             Assert.AreEqual("2", kvp[1].DisplayOrder);
 
             Assert.AreEqual("3", kvp[2].Key);
-            //Assert.AreEqual(CData, kvp[0].Value); todo
+            // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvp[2].Selected); //false
             Assert.AreEqual("3", kvp[2].DisplayOrder);
 
             Assert.AreEqual("4", kvp[3].Key);
-            //Assert.AreEqual(CData, kvp[0].Value); todo
+            // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvp[3].Selected); //false
             Assert.AreEqual("4", kvp[3].DisplayOrder);
    
@@ -1333,12 +1333,12 @@ namespace eFormSDK.Integration.Tests
 
             List<eFormShared.KeyValuePair> kvpp1 = sut.PairRead(_fields[1].key_value_pair_list);
             Assert.AreEqual("1", kvpp1[0].Key);
-            //Assert.AreEqual(CData, kvp[0].Value); todo
+            // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvpp1[0].Selected); //false
             Assert.AreEqual("1", kvpp1[0].DisplayOrder);
 
             Assert.AreEqual("2", kvpp1[1].Key);
-            //Assert.AreEqual(CData, kvp[0].Value); todo
+            // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvpp1[1].Selected); //false
             Assert.AreEqual("2", kvpp1[1].DisplayOrder);
 
@@ -1442,29 +1442,29 @@ namespace eFormSDK.Integration.Tests
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Single Select", cl[0].label);
-            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
-            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); todo
+            // Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            // Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); todo
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(match.review, false); //TODO no method review
-            //Assert.AreEqual(cl[0].summary, false); //TODO no method summary
+            // Assert.AreEqual(match.review, false); //TODO no method review
+            // Assert.AreEqual(cl[0].summary, false); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index);
 
             Assert.AreEqual(2, cl.Count());
 
             Assert.AreEqual("Single Select", cl[1].label);
             Assert.AreEqual("", cl[1].description);
-            //Assert.AreEqual(CDataValue, dE.Label); //TODO
+            // Assert.AreEqual(CDataValue, dE.Label); //TODO
             Assert.AreEqual(0, cl[1].display_index);
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); //todo
+            // Assert.AreEqual(0, cl[1].manual_sync); //todo
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false;
-            //Assert.AreEqual(false, cl[0].donebuttondisabled); //TODO
+            // Assert.AreEqual(false, cl[0].donebuttondisabled); //TODO
             Assert.AreEqual(0, cl[0].approval_enabled); //false
 
 
@@ -1480,43 +1480,43 @@ namespace eFormSDK.Integration.Tests
 
             
             Assert.AreEqual("1", kvp[0].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[0].Selected);
             Assert.AreEqual("1", kvp[0].DisplayOrder);
 
             
             Assert.AreEqual("2", kvp[1].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[1].Selected);
             Assert.AreEqual("2", kvp[1].DisplayOrder);
 
             Assert.AreEqual("3", kvp[2].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[2].Selected);
             Assert.AreEqual("3", kvp[2].DisplayOrder);
 
             Assert.AreEqual("4", kvp[3].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[3].Selected);
             Assert.AreEqual("4", kvp[3].DisplayOrder);
 
             Assert.AreEqual("5", kvp[4].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[4].Selected);
             Assert.AreEqual("5", kvp[4].DisplayOrder);
 
             Assert.AreEqual("6", kvp[5].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[5].Selected);
             Assert.AreEqual("6", kvp[5].DisplayOrder);
 
             Assert.AreEqual("7", kvp[6].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[6].Selected);
             Assert.AreEqual("7", kvp[6].DisplayOrder);
 
             Assert.AreEqual("8", kvp[7].Key);
-            //Assert.AreEqual(CData, kP.Value); TODO
+            // Assert.AreEqual(CData, kP.Value); TODO
             Assert.AreEqual(false, kvp[7].Selected);
             Assert.AreEqual("8", kvp[7].DisplayOrder);
 
@@ -1573,22 +1573,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("comment", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -1596,9 +1596,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description);
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -1609,8 +1609,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Comment", _fields[0].label);
             Assert.AreEqual("", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
-            //Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
-            //Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
+            // Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
+            // Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
             Assert.AreEqual(0, _fields[0].split_screen); //false
             Assert.AreEqual("", _fields[0].default_value);
             Assert.AreEqual(0, _fields[0].read_only); //false
@@ -1667,22 +1667,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Single line", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -1690,9 +1690,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -1703,9 +1703,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Single line 1", _fields[0].label);
             Assert.AreEqual("Single line 1 description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
-            //Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
-            //Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
-            //Assert.AreEqual(0, _fields[0].split_screen); //false todo meant to be false but was null
+            // Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
+            // Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
+            // Assert.AreEqual(0, _fields[0].split_screen); //false todo meant to be false but was null
             Assert.AreEqual("", _fields[0].default_value);
             Assert.AreEqual(0, _fields[0].read_only); //false
             Assert.AreEqual(0, _fields[0].mandatory); //false
@@ -1762,22 +1762,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Number 1", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -1785,9 +1785,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description);
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -1851,22 +1851,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Info box", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -1874,9 +1874,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -1935,22 +1935,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("checkbox", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -1958,9 +1958,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -2021,22 +2021,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("TimerStartStop", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -2044,9 +2044,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
            
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -2057,7 +2057,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Timer Start Stop 1", _fields[0].label);
             Assert.AreEqual("Timer Start Stop 1 Description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
-            //Assert.AreEqual(0, _fields[0].stop_on_save); //todo meant to be false be was null
+            // Assert.AreEqual(0, _fields[0].stop_on_save); //todo meant to be false be was null
             Assert.AreEqual(0, _fields[0].mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Grey, _fields[0].color);
 
@@ -2106,22 +2106,22 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            //Act
+            // Act
             MainElement mainElement = sut.TemplateFromXml(xmlstring);
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("Save button", cl[0].label);
-            //Assert.AreEqual("2017-08-04", match.StartDate); TODO
-            //Assert.AreEqual("2027-08-04", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); TODO no method
+            // Assert.AreEqual("2017-08-04", match.StartDate); TODO
+            // Assert.AreEqual("2027-08-04", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); TODO no method
             Assert.AreEqual(0, cl[0].multi_approval);//false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(0, cl[0].review); //TODO no method review
-            //Assert.AreEqual(0, cl[0].summary); //TODO no method summary
+            // Assert.AreEqual(0, cl[0].review); //TODO no method review
+            // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index); //false
 
             Assert.AreEqual(2, cl.Count);
@@ -2129,9 +2129,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("", cl[1].description); 
             Assert.AreEqual(0, cl[1].display_index); //false
             Assert.AreEqual(0, cl[1].review_enabled); //false
-            //Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
+            // Assert.AreEqual(0, cl[1].manual_sync); // meant to be false but was Null
             Assert.AreEqual(0, cl[1].extra_fields_enabled); //false
-            //Assert.AreEqual(cl[1].doneButtonDisabled, true); //TODO no method donebuttondisabled
+            // Assert.AreEqual(cl[1].doneButtonDisabled, true); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -2142,7 +2142,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("Save button 1", _fields[0].label);
             Assert.AreEqual("Save button 1 Description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
-            //Assert.AreEqual(0, _fields[0].value); //todo meant to be false be was null
+            // Assert.AreEqual(0, _fields[0].value); //todo meant to be false be was null
             Assert.AreEqual(Constants.FieldColors.Grey, _fields[0].color);
 
         }
@@ -2150,7 +2150,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void Core_eForm_MultiLvleFormCreateInDB_ReturnseFormId()
         {
-            //Arrance
+            // Arrange
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -2255,17 +2255,17 @@ namespace eFormSDK.Integration.Tests
             int eFormId = sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
-            //Assert
+            // Assert
             Assert.NotNull(cl);
             Assert.AreEqual(1, cl[0].repeated);
             Assert.AreEqual("MultiLvlTest", cl[0].label);
-            //Assert.AreEqual("2018-05-08", match.StartDate); TODO
-            //Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            //Assert.AreEqual("da", cl[0].language); todo
+            // Assert.AreEqual("2018-05-08", match.StartDate); TODO
+            // Assert.AreEqual("2028-05-08", match.EndDate); TODO
+            // Assert.AreEqual("da", cl[0].language); todo
             Assert.AreEqual(0, cl[0].multi_approval); //false
             Assert.AreEqual(0, cl[0].fast_navigation); //false
-            //Assert.AreEqual(match.review, false); //TODO no method review
-            //Assert.AreEqual(match.summary, false); //TODO no method summary
+            // Assert.AreEqual(match.review, false); //TODO no method review
+            // Assert.AreEqual(match.summary, false); //TODO no method summary
             Assert.AreEqual(0, cl[0].display_index);
 
            
@@ -2281,9 +2281,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("1.1 lvl description", cl[2].description); 
             Assert.AreEqual(0, cl[2].display_index);
             Assert.AreEqual(0, cl[2].review_enabled); //false
-            //Assert.AreEqual(false, dE.manualSync) //TODO
+            // Assert.AreEqual(false, dE.manualSync) //TODO
             Assert.AreEqual(0, cl[2].extra_fields_enabled); //false
-            //Assert.AreEqual(false, dE.DoneButtondisabled); //todo
+            // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
             Assert.AreEqual(0, cl[2].approval_enabled); //false
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
@@ -2301,9 +2301,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("1.2 lvl description", cl[3].description); 
             Assert.AreEqual(1, cl[3].display_index);
             Assert.AreEqual(0, cl[3].review_enabled); //false
-            //Assert.AreEqual(false, dE2.manualsync)//TODO
+            // Assert.AreEqual(false, dE2.manualsync)//TODO
             Assert.AreEqual(0, cl[3].extra_fields_enabled); //false
-            //Assert.AreEqual(false, dE2.DoneButtonDisabled); //TODO
+            // Assert.AreEqual(false, dE2.DoneButtonDisabled); //TODO
             Assert.AreEqual(0, cl[3].approval_enabled); //false
 
             
@@ -2324,9 +2324,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("1.3.1 lvl description", cl[5].description);
             Assert.AreEqual(0, cl[5].display_index);
             Assert.AreEqual(0, cl[5].review_enabled); //false
-            //Assert.AreEqual(0, cl[5].manual_sync);//todo false
+            // Assert.AreEqual(0, cl[5].manual_sync);//todo false
             Assert.AreEqual(0, cl[5].extra_fields_enabled); //false
-            //Assert.AreEqual(0, cl[5].donebuttondisabled)//TODO
+            // Assert.AreEqual(0, cl[5].donebuttondisabled)//TODO
             Assert.AreEqual(0, cl[5].approval_enabled); //false
 
             Assert.AreEqual("1.3.1 lvl checkbox", _fields[2].label);
