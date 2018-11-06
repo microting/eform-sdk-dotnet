@@ -18,8 +18,8 @@ namespace eFormSDK.Integration.Tests
 
         protected MicrotingDbAnySql DbContext;
 
-        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-        //protected string ConnectionString => @"Server = localhost; port = 3306; Database = eformsdk-tests; user = eform; password = eform; Convert Zero Datetime = true;";
+        //protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+        protected string ConnectionString => @"Server = localhost; port = 3306; Database = eformsdk-tests; user = travis; Convert Zero Datetime = true;";
 
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";

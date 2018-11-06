@@ -20,8 +20,8 @@ namespace eFormCore.Helpers
         public TestHelpers()
         {
 
-            string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-            //string ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = eform; password = eform; Convert Zero Datetime = true;";
+            //string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            string ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = travis; Convert Zero Datetime = true;";
 
             DbContext = GetContext(ConnectionString);
         }

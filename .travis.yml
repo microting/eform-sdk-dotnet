@@ -1,11 +1,30 @@
 language: csharp
-solution: "./eFormSDK.sln"
+solution: eFormSDK.sln
+mono: none
+dotnet: 2.1.0
 services:
-- mysql
-install:
-- travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./eFormSDK.sln
+  - mysql
 script:
-- msbuild ./eFormSDK.sln
-- mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./UnitTest/bin/Debug/UnitTest.dll
-- echo "show databases;" | mysql -u root
-
+  - dotnet --info
+  - dotnet restore
+  - dotnet build ./eFormSDK.sln
+  - dotnet test ./eformSDK.Integration.Tests/bin/Debug/netcoreapp2.1/eFormSDK.Integration.Tests.dll
+  - echo "show databases;" | mysql -u travis
+#
+#matrix:
+#  include:
+#  - dotnet: 2.1.300
+#    mono:
+#      - latest
+#
+#    env: DOTNETCORE=2.1
+#    install:
+##    - travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./eFormSDK.sln
+#    - nuget restore eFormSDK.sln
+#    - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+#    script:
+##    - msbuild ./eFormSDK.sln
+#    - xbuild /p:Configuration=Release eFormSDK.sln
+#    - mono ./testrunner/NUnit.Runners.console.2.6.4/tools/nunit.console.exe ./eformSDK.Integration.Tests/bin/Debug/netcoreapp2.1/eFormSDK.Integration.Tests.dll
+#    - echo "show databases;" | mysql -u travis
+#
