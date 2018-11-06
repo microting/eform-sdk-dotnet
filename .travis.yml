@@ -1,7 +1,8 @@
 language: csharp
 solution: eFormSDK.sln
-mono: none
-dotnet: 2.1.0
+mono:
+  - latest
+dotnet: 2.0.0
 services:
   - mysql
 script:
