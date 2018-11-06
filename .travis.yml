@@ -2,14 +2,13 @@ language: csharp
 solution: eFormSDK.sln
 mono:
   - latest
-dotnet: 2.0.0
+dotnet: 2.1.0
 services:
   - mysql
 script:
   - dotnet --info
-  - dotnet restore
-  - dotnet build ./eFormSDK.sln
-  - dotnet test ./eformSDK.Integration.Tests/bin/Debug/netcoreapp2.1/eFormSDK.Integration.Tests.dll
+  - dotnet build eFormSDK.sln
+  - dotnet test eformSDK.Integration.Tests/bin/Debug/netcoreapp2.1/eFormSDK.Integration.Tests.dll
   - echo "show databases;" | mysql -u travis
 #
 #matrix:
