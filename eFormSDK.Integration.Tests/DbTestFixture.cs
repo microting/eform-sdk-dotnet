@@ -20,9 +20,6 @@ namespace eFormSDK.Integration.Tests
         protected MicrotingDbAnySql DbContext;
         protected string ConnectionString;
 
-        //
-
-
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
         private static string databaseName = "__DBNAME__";

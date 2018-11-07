@@ -32,7 +32,6 @@ namespace eFormCore.Helpers
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
             }
 
-
             DbContext = GetContext(ConnectionString);
         }
         private MicrotingDbAnySql GetContext(string connectionStr)
