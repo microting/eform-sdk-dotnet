@@ -109,22 +109,34 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            workers worker1 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            workers worker2 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            workers worker3 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            workers worker4 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
 
             #endregion
 
             #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
+            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            sites site2 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            sites site3 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            sites site4 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
 
             #endregion
 
             #region units
-            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+            units unit1 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site1, 348);
+            units unit2 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site2, 348);
+            units unit3 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site3, 348);
+            units unit4 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site4, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+            site_workers site_workers1 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site1, worker1);
+            site_workers site_workers2 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site2, worker2);
+            site_workers site_workers3 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site3, worker3);
+            site_workers site_workers4 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site4, worker4);
 
             #endregion
 
@@ -137,8 +149,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+                c1_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -148,8 +160,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
             cases aCase2 = testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+             c2_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
@@ -158,8 +170,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+              c3_da, worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case4
@@ -168,8 +180,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4 = testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+                c4_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
             #endregion
             #endregion
 
@@ -182,8 +194,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Removed_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1Removed = testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
-                c1Removed_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+                c1Removed_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1Removed_ua, 1, worker1, Constants.WorkflowStates.Removed);
 
             #endregion
 
@@ -193,8 +205,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Removed_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2Removed_ua = DateTime.Now.AddDays(-6);
             cases aCase2Removed = testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
-             c2Removed_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+             c2Removed_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2Removed_ua, 1, worker2, Constants.WorkflowStates.Removed);
             #endregion
 
             #region Case3Removed
@@ -203,8 +215,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Removed_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3Removed = testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
-              c3Removed_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+              c3Removed_da, worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3Removed_ua, 1, worker3, Constants.WorkflowStates.Removed);
             #endregion
 
             #region Case4Removed
@@ -213,8 +225,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Removed_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4Removed = testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
-                c4Removed_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
+                c4Removed_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4Removed_ua, 1, worker4, Constants.WorkflowStates.Removed);
             #endregion
 
             #endregion
@@ -228,8 +240,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Retracted_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1Retracted = testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
-                c1Retracted_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+                c1Retracted_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1Retracted_ua, 1, worker1, Constants.WorkflowStates.Retracted);
 
             #endregion
 
@@ -240,8 +252,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Retracted_ua = DateTime.Now.AddDays(-6);
 
             cases aCase2Retracted = testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
-             c2Retracted_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+             c2Retracted_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2Retracted_ua, 1, worker2, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region Case3Retracted
@@ -250,8 +262,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Retracted_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3Retracted = testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
-              c3Retracted_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+              c3Retracted_da, worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3Retracted_ua, 1, worker3, Constants.WorkflowStates.Retracted);
             #endregion
 
             #region Case4Retracted
@@ -260,8 +272,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Retracted_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4Retracted = testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
-                c4Retracted_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
+                c4Retracted_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4Retracted_ua, 1, worker4, Constants.WorkflowStates.Retracted);
             #endregion
 
             #endregion 
