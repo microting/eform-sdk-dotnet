@@ -698,22 +698,34 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            workers worker1 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            workers worker2 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            workers worker3 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            workers worker4 = testHelpers.CreateWorker(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
 
             #endregion
 
             #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
+            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            sites site2 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            sites site3 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
+            sites site4 = testHelpers.CreateSite(Guid.NewGuid().ToString(), testHelpers.GetRandomInt());
 
             #endregion
 
             #region units
-            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+            units unit1 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site1, 348);
+            units unit2 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site2, 348);
+            units unit3 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site3, 348);
+            units unit4 = testHelpers.CreateUnit(testHelpers.GetRandomInt(), testHelpers.GetRandomInt(), site4, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+            site_workers site_workers1 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site1, worker1);
+            site_workers site_workers2 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site2, worker2);
+            site_workers site_workers3 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site3, worker3);
+            site_workers site_workers4 = testHelpers.CreateSiteWorker(testHelpers.GetRandomInt(), site4, worker4);
 
             #endregion
 
@@ -726,8 +738,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1 = testHelpers.CreateCase("case1UId", cl2, c1_ca, "custom1",
-                c1_da, worker, "microtingCheckUId1", "microtingUId1",
-               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+                c1_da, worker1, "microtingCheckUId1", "microtingUId1",
+               site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -737,8 +749,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
             cases aCase2 = testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker, "microtingCheck2UId", "microting2UId",
-               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+             c2_da, worker2, "microtingCheck2UId", "microting2UId",
+               site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
@@ -747,8 +759,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
-               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+              c3_da, worker3, "microtingCheck3UId", "microtin3gUId",
+               site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case4
@@ -757,8 +769,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4 = testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker, "microtingCheck4UId", "microting4UId",
-               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+                c4_da, worker4, "microtingCheck4UId", "microting4UId",
+               site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
             #endregion
             #endregion
 
@@ -768,52 +780,52 @@ namespace eFormSDK.Integration.Tests
 
             #region UploadedData
             #region ud1
-            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", "hjgjghjhg", "File1", 1, worker,
+            uploaded_data ud1 = testHelpers.CreateUploadedData("checksum1", "File1", "no", "hjgjghjhg", "File1", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud2
-            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
+            uploaded_data ud2 = testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud3
-            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
+            uploaded_data ud3 = testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud4
-            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
+            uploaded_data ud4 = testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud5
-            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
+            uploaded_data ud5 = testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud6
-            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
+            uploaded_data ud6 = testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud7
-            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
+            uploaded_data ud7 = testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud8
-            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
+            uploaded_data ud8 = testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud9
-            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
+            uploaded_data ud9 = testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker1,
                 "local", 55, false);
             #endregion
 
             #region ud10
-            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
+            uploaded_data ud10 = testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker1,
                 "local", 55, false);
             #endregion
 
@@ -821,52 +833,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61234, worker1);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61234, worker1);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61234, worker1);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61234, worker1);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker1);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61234, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61234, worker1);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61234, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61234, worker1);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61234, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61234, worker1);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61234, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61234, worker1);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61234, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61234, worker1);
 
             #endregion
 

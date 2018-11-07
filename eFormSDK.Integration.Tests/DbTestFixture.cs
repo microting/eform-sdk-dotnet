@@ -90,6 +90,8 @@ namespace eFormSDK.Integration.Tests
 
         public void ClearDb()
         {
+
+            Console.WriteLine("ClearDb called.");
             List<string> modelNames = new List<string>();
             modelNames.Add("case_versions");
             modelNames.Add("cases");
@@ -202,8 +204,6 @@ namespace eFormSDK.Integration.Tests
             }
 
             DirectoryInfo diPic = new DirectoryInfo(picturePath);
-
-            Console.WriteLine($"diPic is {diPic.Name}");
 
             try
             {
