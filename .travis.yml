@@ -5,4 +5,4 @@ dotnet: 2.1
 script:
   - dotnet restore
   - dotnet build eFormSDK.sln
-  - dotnet test eFormSDK.sln
+  - dotnet test -v n eFormSDK.Integration.Tests/eFormSDK.Integration.Tests.csproj
