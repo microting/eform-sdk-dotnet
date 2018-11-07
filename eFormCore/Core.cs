@@ -44,6 +44,7 @@ using eFormCore.Installers;
 using Castle.MicroKernel.Registration;
 using Rebus.Bus;
 using eForm.Messages;
+using System.Runtime.InteropServices;
 
 namespace eFormCore
 {
@@ -3290,7 +3291,13 @@ namespace eFormCore
                     try
                     {
                         Directory.CreateDirectory(uD.file_location + "Deleted");
-                        File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted\" + uD.file_name);
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                            File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted\" + uD.file_name);
+                        }
+                        else
+                        {
+                            File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted/" + uD.file_name);
+                        }
                     }
                     catch (Exception exd)
                     {

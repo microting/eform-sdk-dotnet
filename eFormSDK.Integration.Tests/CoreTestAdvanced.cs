@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace eFormSDK.Integration.Tests
@@ -2158,10 +2159,20 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
+
+            string folderPath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                folderPath = @"\output\dataFolder\picture\";
+            } else
+            {
+                folderPath = @"/output/dataFolder/picture/";
+            }
+
             #region UploadedData
             #region ud1
-            uploaded_data ud1 = testHelpers.CreateUploadedData("", "File.jpg", "jpg", path + @"\output\dataFolder\picture\", "File.jpg", 1, worker,
-                Constants.UploaderTypes.System, 55, true);
+            uploaded_data ud1 = testHelpers.CreateUploadedData("", "File.jpg", "jpg", path + folderPath, "File.jpg", 1, worker,
+            Constants.UploaderTypes.System, 55, true);
             #endregion
 
             #region ud2
