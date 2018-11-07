@@ -128,7 +128,11 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("field_types");
 
 
-            foreach (var modelName in modelNames)
+            if (DbContext.Database.IsMySql()) {
+                DbContext.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS = 0");
+            }
+
+                foreach (var modelName in modelNames)
             {
                 //Console.WriteLine(modelName.Name);
                 try
@@ -136,7 +140,8 @@ namespace eFormSDK.Integration.Tests
                     string sqlCmd = string.Empty;
                     if(DbContext.Database.IsMySql())
                     {
-                        sqlCmd = string.Format("DELETE FROM `{0}`.`{1}`", "eformsdk-tests", modelName);                       
+                        sqlCmd = string.Format("SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName);
+                        //Console.WriteLine(string.Format("TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName));
                     }
                     else
                     {
@@ -149,48 +154,67 @@ namespace eFormSDK.Integration.Tests
                     Console.WriteLine(ex.Message);
                 }
             }
+
+            if (DbContext.Database.IsMySql()) {
+                DbContext.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS = 1");
+            }
             //TODO! THIS part need to be redone in some form in EF Core!
             //var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
 
-            //List<string> tables = new List<string>();
-            //foreach (var item in metadata)
-            //{
-            //    if (item.ToString().Contains("CodeFirstDatabaseSchema"))
-            //    {
-            //        tables.Add(item.ToString().Replace("CodeFirstDatabaseSchema.", ""));
-            //    }
-            //}
+                //List<string> tables = new List<string>();
+                //foreach (var item in metadata)
+                //{
+                //    if (item.ToString().Contains("CodeFirstDatabaseSchema"))
+                //    {
+                //        tables.Add(item.ToString().Replace("CodeFirstDatabaseSchema.", ""));
+                //    }
+                //}
 
-            //foreach (string tableName in tables)
-            //{
-            //    try
-            //    {
-            //        DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + tableName + "]");
-            //    }
-            //    catch 
-            //    { }
+                //foreach (string tableName in tables)
+                //{
+                //    try
+                //    {
+                //        DbContext.Database.ExecuteSqlCommand("DELETE FROM [" + tableName + "]");
+                //    }
+                //    catch 
+                //    { }
 
-            //}
+                //}
         }
         private string path;
-        
+
         public void ClearFile()
         {
+            Console.WriteLine("Going to ClearFiles:");
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
 
-            string picturePath =path + @"\output\dataFolder\picture\Deleted";
+            string picturePath;
 
-        DirectoryInfo diPic = new DirectoryInfo(picturePath);
 
-            try {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                picturePath = path + @"\output\dataFolder\picture\Deleted";
+            }
+            else
+            {
+                picturePath = path + @"/output/dataFolder/picture/Deleted";
+            }
+
+            DirectoryInfo diPic = new DirectoryInfo(picturePath);
+
+            Console.WriteLine($"diPic is {diPic.Name}");
+
+            try
+            {
                 foreach (FileInfo file in diPic.GetFiles())
                 {
+                    Console.WriteLine($"Deleting file {file.Name} ind {picturePath}");
                     file.Delete();
                 }
             }
             catch { }
-            
+
 
         }
         public virtual void DoSetup() { }
