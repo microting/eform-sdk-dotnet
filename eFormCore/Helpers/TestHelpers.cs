@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
+using System.Runtime.InteropServices;
 
 namespace eFormCore.Helpers
 {
@@ -19,9 +20,18 @@ namespace eFormCore.Helpers
         private string returnJSON;
         public TestHelpers()
         {
+        
+            string ConnectionString;
 
-            string ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-            //string ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = eform; password = eform; Convert Zero Datetime = true;";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            }
+            else
+            {
+                ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
+            }
+
 
             DbContext = GetContext(ConnectionString);
         }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
+using System.Runtime.InteropServices;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -17,9 +18,10 @@ namespace eFormSDK.Integration.Tests
     {
 
         protected MicrotingDbAnySql DbContext;
+        protected string ConnectionString;
 
-        protected string ConnectionString => @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-        //protected string ConnectionString => @"Server = localhost; port = 3306; Database = eformsdk-tests; user = eform; password = eform; Convert Zero Datetime = true;";
+        //
+
 
         private static string userName = "__USER_NAME__";
         private static string password = "__PASSWORD__";
@@ -49,6 +51,15 @@ namespace eFormSDK.Integration.Tests
         [SetUp]
         public void Setup()
         {
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+            }
+            else
+            {
+                ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
+            }
 
             DbContext = GetContext(ConnectionString);
 
