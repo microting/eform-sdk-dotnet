@@ -69,9 +69,17 @@ namespace eFormSDK.Integration.Tests
             }
             catch
             {
-                Core core = new Core();
-                core.StartSqlOnly(ConnectionString);
-                core.Close();
+                try
+                {
+                    Core core = new Core();
+                    core.StartSqlOnly(ConnectionString);
+                    core.Close();
+                } catch
+                {
+                    AdminTools adminTools = new AdminTools(ConnectionString);
+                    adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                }
+                
             }
 
             DoSetup();
@@ -130,20 +138,14 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("field_types");
 
 
-            if (DbContext.Database.IsMySql()) {
-                DbContext.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS = 0");
-            }
-
-                foreach (var modelName in modelNames)
+            foreach (var modelName in modelNames)
             {
-                //Console.WriteLine(modelName.Name);
                 try
                 {
                     string sqlCmd = string.Empty;
                     if(DbContext.Database.IsMySql())
                     {
                         sqlCmd = string.Format("SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName);
-                        //Console.WriteLine(string.Format("TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName));
                     }
                     else
                     {
@@ -157,9 +159,6 @@ namespace eFormSDK.Integration.Tests
                 }
             }
 
-            if (DbContext.Database.IsMySql()) {
-                DbContext.Database.ExecuteSqlCommand("SET FOREIGN_KEY_CHECKS = 1");
-            }
             //TODO! THIS part need to be redone in some form in EF Core!
             //var metadata = ((IObjectContextAdapter)DbContext).ObjectContext.MetadataWorkspace.GetItems(DataSpace.SSpace);
 
