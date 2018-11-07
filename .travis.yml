@@ -1,6 +1,7 @@
 language: csharp
 solution: eformSDK.sln
-mono: none
+mono:
+  - latest
 dotnet: 2.1
 script:
   - dotnet restore
