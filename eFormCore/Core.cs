@@ -2368,9 +2368,9 @@ namespace eFormCore
                 EntityGroup eg = sqlController.EntityGroupRead(et.EntityItemGroupId);
                 bool result = false;
                 if (eg.Type == Constants.FieldTypes.EntitySearch) {
-                    result = communicator.EntitySearchItemDelete(id.ToString());
+                    result = communicator.EntitySearchItemDelete(et.MicrotingUUID);
                 } else {
-                    result = communicator.EntitySelectItemDelete(id.ToString());
+                    result = communicator.EntitySelectItemDelete(et.MicrotingUUID);
                 }
                 if (result) {
                     sqlController.EntityItemDelete(id);
