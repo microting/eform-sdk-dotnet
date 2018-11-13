@@ -227,6 +227,8 @@ namespace eFormShared
         /// </summary>
         public int CheckListId { get; }
 
+        public string ParentName { get; set; }
+
         #endregion
     }
     #endregion

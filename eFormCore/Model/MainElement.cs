@@ -100,9 +100,16 @@ namespace eFormData
                 if (element.GetType() == typeof(DataElement))
                 {
                     DataElement dataE = (DataElement)element;
-                    foreach (var item in dataE.DataItemList)
+                    foreach (DataItem item in dataE.DataItemList)
                     {
                         dataItemLst.Add(item);
+                    }
+                    foreach (DataItemGroup item in dataE.DataItemGroupList)
+                    {
+                        foreach (DataItem subItem in item.DataItemList)
+                        {
+                            dataItemLst.Add(subItem);
+                        }
                     }
                 }
 
