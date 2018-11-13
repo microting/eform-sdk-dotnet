@@ -358,10 +358,17 @@ namespace eFormSqlController
                     MainElement mainElement = TemplateRead(templateId);
                     List<Field_Dto> fieldLst = new List<Field_Dto>();
 
-                    foreach (var dataItem in mainElement.DataItemGetAll())
+                    foreach (DataItem dataItem in mainElement.DataItemGetAll())
                     {
                         fields field = db.fields.Single(x => x.id == dataItem.Id);
                         Field_Dto fieldDto = new Field_Dto(field.id, field.label, field.description, (int)field.field_type_id, field.field_type.field_type, (int)field.check_list_id);
+                        if (field.parent_field_id != null)
+                        {
+                            fieldDto.ParentName = db.fields.Where(x => x.id == field.parent_field_id).First().label;
+                        } else
+                        {
+                            fieldDto.ParentName = field.check_list.label;
+                        }
                         fieldLst.Add(fieldDto);
                     }
 

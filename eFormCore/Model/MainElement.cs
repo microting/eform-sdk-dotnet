@@ -104,6 +104,13 @@ namespace eFormData
                     {
                         dataItemLst.Add(item);
                     }
+                    foreach(var item in dataE.DataItemGroupList)
+                    {
+                        foreach(var subItem in item.DataItemList)
+                        {
+                            dataItemLst.Add(subItem);
+                        }
+                    }
                 }
 
                 if (element.GetType() == typeof(GroupElement))
