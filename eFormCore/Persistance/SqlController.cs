@@ -1492,6 +1492,7 @@ namespace eFormSqlController
                         field.FieldType = fieldDb.field_type.field_type;
                         field.FieldValue = fieldDb.default_value;
                         field.EntityGroupId = fieldDb.entity_group_id;
+                        field.Color = fieldDb.color;
                         field.Id = fieldDb.id;
 
                         if (field.FieldType == "SingleSelect")
