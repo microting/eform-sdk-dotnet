@@ -2382,6 +2382,22 @@ namespace eFormCore
             }
         }
 
+        public EntityItem EntityItemRead(int id)
+        {
+            return sqlController.EntityItemRead(id);
+        }
+
+        public EntityItem EntityItemReadByMicrotingUUID(string microtingUUID)
+        {
+            EntityItem entityItem = new EntityItem();
+            entity_items et = sqlController.EntityItemRead(microtingUUID);
+            entityItem.Id = et.id;
+            entityItem.Name = et.name;
+            entityItem.Description = et.description;
+
+            return entityItem;
+        }
+
         #endregion
 
         public string PdfUpload(string localPath)
