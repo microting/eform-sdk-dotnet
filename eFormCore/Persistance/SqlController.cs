@@ -1371,7 +1371,7 @@ namespace eFormSqlController
                     replyElement.MicrotingUId = aCase.microting_check_uid;
                     replyElement.SiteMicrotingUUID = (int)aCase.site.microting_uid;
 
-                    foreach (check_lists checkList in aCase.check_list.children)
+                    foreach (check_lists checkList in aCase.check_list.children.OrderBy(x => x.display_index))
                     {
                         replyElement.ElementList.Add(SubChecks(checkList.id, aCase.id));
                     }
@@ -1395,7 +1395,7 @@ namespace eFormSqlController
                     if (checkList.children.Count() > 0)
                     {
                         List<Element> elementList = new List<Element>();
-                        foreach (check_lists subList in checkList.children)
+                        foreach (check_lists subList in checkList.children.OrderBy(x => x.display_index))
                         {
                             elementList.Add(SubChecks(subList.id, caseId));
                         }
@@ -1411,7 +1411,7 @@ namespace eFormSqlController
                             if (field.field_type.field_type == "FieldGroup")
                             {
                                 List<DataItem> dataItemSubList = new List<DataItem>();
-                                foreach (fields subField in field.children)
+                                foreach (fields subField in field.children.OrderBy(x => x.display_index))
                                 {
                                     Field _field = FieldRead(subField.id);
 
