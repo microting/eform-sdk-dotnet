@@ -20,12 +20,12 @@ namespace eFormSDK.Integration.Tests
         protected MicrotingDbAnySql DbContext;
         protected string ConnectionString;
 
-        private static string userName = "__USER_NAME__";
-        private static string password = "__PASSWORD__";
-        private static string databaseName = "__DBNAME__";
-        private static string databaseServerId = "__DB_SERVER_ID__";
-        private static string directoryId = "__DIRECTORY_ID__";
-        private static string applicationId = "__APPLICATION_ID__";
+//        private static string userName = "__USER_NAME__";
+//        private static string password = "__PASSWORD__";
+//        private static string databaseName = "__DBNAME__";
+//        private static string databaseServerId = "__DB_SERVER_ID__";
+//        private static string directoryId = "__DIRECTORY_ID__";
+//        private static string applicationId = "__APPLICATION_ID__";
 
         private MicrotingDbAnySql GetContext(string connectionStr)
         {

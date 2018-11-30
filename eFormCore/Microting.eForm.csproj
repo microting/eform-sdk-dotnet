@@ -105,6 +105,7 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
     <PackageReference Include="Rebus" Version="4.2.2" />
     <PackageReference Include="Rebus.Castle.Windsor" Version="4.1.0" />
+    <PackageReference Include="Rebus.MySql" Version="1.1.0" />
     <PackageReference Include="Rebus.SqlServer" Version="4.0.0" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />

@@ -2211,12 +2211,10 @@ namespace eFormSqlController
                         Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.id, null);
                         return rtrnCase;
                     }
-                    catch(Exception e1)
+                    catch(Exception ex1)
                     {
-
+                        throw new Exception("CaseReadByMuuId failed", ex1);
                     }
-
-                    throw new Exception("CaseReadByMuuId failed");
                 }
             }
             catch (Exception ex)
