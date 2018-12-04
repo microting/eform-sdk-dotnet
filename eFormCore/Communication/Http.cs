@@ -723,7 +723,7 @@ namespace eFormCommunicator
             }
             catch (Exception ex)
             {
-                throw new Exception("Unable to upload the file");
+                throw new Exception("Unable to upload the file", ex);
             }
         }
 
