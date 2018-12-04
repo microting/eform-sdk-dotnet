@@ -5,6 +5,10 @@
 	<EnableDefaultCompileItems>False</EnableDefaultCompileItems>
 	<EnableDefaultEmbeddedResourceItems>False</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="JasperExporter.jar" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminTools.cs" />
     <Compile Include="Communication\Communicator.cs" />
@@ -90,6 +94,11 @@
     <Compile Include="Persistance\table\worker_versions.cs" />
     <Compile Include="Services\Subscriber.cs" />
     <Compile Include="Tools.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JasperExporter.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
