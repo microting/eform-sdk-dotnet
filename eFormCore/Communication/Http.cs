@@ -788,23 +788,20 @@ namespace eFormCommunicator
                 httpRequest.CookieContainer = new CookieContainer();
                 httpRequest.AllowAutoRedirect = false;
 
-
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+                WebResponse response;
+                
                 string newUrl = "";
-                if (response.StatusCode == HttpStatusCode.Redirect ||
-                    response.StatusCode == HttpStatusCode.MovedPermanently)
-                {
-                    newUrl = response.Headers["Location"];
-                }
-
-                // Clean up the streams.
                 try
                 {
-                    response.Close();
+                    response = (HttpWebResponse) httpRequest.GetResponse();
                 }
-                catch
+                catch (WebException ex)
                 {
-
+                    if (ex.Message.Contains("302") || ex.Message.Contains("301"))
+                    {
+                        response = ex.Response;
+                        newUrl = response.Headers["Location"];
+                    }
                 }
                 return newUrl;
             }
@@ -821,22 +818,20 @@ namespace eFormCommunicator
                 httpRequest.CookieContainer = new CookieContainer();
                 httpRequest.AllowAutoRedirect = false;
 
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+                WebResponse response;
+                
                 string newUrl = "";
-                if (response.StatusCode == HttpStatusCode.Redirect ||
-                    response.StatusCode == HttpStatusCode.MovedPermanently)
-                {
-                    newUrl = response.Headers["Location"];
-                }
-
-                // Clean up the streams.
                 try
                 {
-                    response.Close();
+                    response = (HttpWebResponse) httpRequest.GetResponse();
                 }
-                catch
+                catch (WebException ex)
                 {
-
+                    if (ex.Message.Contains("302") || ex.Message.Contains("301"))
+                    {
+                        response = ex.Response;
+                        newUrl = response.Headers["Location"];
+                    }
                 }
 
                 return newUrl;
