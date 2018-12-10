@@ -1039,8 +1039,7 @@ namespace eFormCore
                 return null;
             }
         }
-
-
+        
         public List<Case> CaseReadAll(int? templateId, DateTime? start, DateTime? end)
         {
             return CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null);
@@ -1087,6 +1086,37 @@ namespace eFormCore
                     log.LogVariable(t.GetMethodName("Core"), nameof(sortParameter), sortParameter);
 
                     return sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return null;
+            }
+        }
+
+        public CaseList CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, 
+            string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    log.LogStandard(t.GetMethodName("Core"), "called");
+                    log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(start), start);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(end), end);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(descendingSort), descendingSort);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(sortParameter), sortParameter);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(pageIndex), pageIndex);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(pageSize), pageSize);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(searchKey), searchKey);
+
+                    return sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, pageIndex, pageSize);
                 }
                 else
                     throw new Exception("Core is not running");
