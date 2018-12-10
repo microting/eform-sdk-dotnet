@@ -2353,17 +2353,10 @@ namespace eFormSqlController
             }
         }
 
-        public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
-        {            
-            string methodName = t.GetMethodName("SQLController");
-            log.LogStandard(methodName, "called");
-            log.LogVariable(methodName, nameof(templatId), templatId);
-            log.LogVariable(methodName, nameof(start), start);
-            log.LogVariable(methodName, nameof(end), end);
-            log.LogVariable(methodName, nameof(workflowState), workflowState);
-            log.LogVariable(methodName, nameof(searchKey), searchKey);
-            log.LogVariable(methodName, nameof(descendingSort), descendingSort);
-            log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+        public CaseList CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState,
+            string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize)
+        {
+
             try
             {
                 using (var db = GetContext())
@@ -2522,8 +2515,13 @@ namespace eFormSqlController
                     //
 
                     List<Case> rtrnLst = new List<Case>();
+                    int numOfElements = 0;
+                    numOfElements = matches.Count();
+                    List<cases> dbCases = null;
+                    dbCases = matches.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+
                     #region cases -> Case
-                    foreach (var dbCase in matches)
+                    foreach (var dbCase in dbCases)
                     {
                         Case nCase = new Case();
                         nCase.CaseType = dbCase.type;
@@ -2558,13 +2556,42 @@ namespace eFormSqlController
                     }
                     #endregion
 
-                    return rtrnLst;
+                    CaseList caseList = new CaseList(numOfElements, pageSize, rtrnLst);
+
+
+                    return caseList;
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception("CaseReadFull failed", ex);
             }
+        }
+
+        public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
+        {
+            string methodName = t.GetMethodName("SQLController");
+            log.LogStandard(methodName, "called");
+            log.LogVariable(methodName, nameof(templatId), templatId);
+            log.LogVariable(methodName, nameof(start), start);
+            log.LogVariable(methodName, nameof(end), end);
+            log.LogVariable(methodName, nameof(workflowState), workflowState);
+            log.LogVariable(methodName, nameof(searchKey), searchKey);
+            log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+            log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+
+            CaseList cl = CaseReadAll(templatId, start, end, workflowState, searchKey, descendingSort, sortParameter, 0,
+                10000000);
+
+            List<Case> rtnCaseList = new List<Case>();
+
+            foreach (Case @case in cl.Cases)
+            {
+                rtnCaseList.Add(@case);
+            }
+
+            return rtnCaseList;
+
         }
 
         public List<Case_Dto> CaseFindCustomMatchs(string customString)
