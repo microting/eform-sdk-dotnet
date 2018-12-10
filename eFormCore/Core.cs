@@ -3544,7 +3544,7 @@ namespace eFormCore
             List<int> caseIds = new List<int>();
 
             List<Case> caseList = sqlController.CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null, false, "");
-            var template = sqlController.TemplateItemRead((int)templateId);
+            Template_Dto template = sqlController.TemplateItemRead((int)templateId);
 
             if (caseList.Count == 0)
                 return null;

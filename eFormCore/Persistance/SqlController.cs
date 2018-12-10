@@ -108,7 +108,7 @@ namespace eFormSqlController
                         t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", t.Bool(mainCl.quick_sync_enabled), new List<Element>());
 
                     //getting elements
-                    List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templateId).ToList();
+                    List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templateId).OrderBy(x => x.display_index).ToList();
                     foreach (check_lists cl in lst)
                     {
                         mainElement.ElementList.Add(GetElement(cl.id));
@@ -4782,7 +4782,7 @@ namespace eFormSqlController
                     Element element;
 
                     //getting element's possible element children
-                    List<check_lists> lstElement = db.check_lists.Where(x => x.parent_id == elementId).ToList();
+                    List<check_lists> lstElement = db.check_lists.Where(x => x.parent_id == elementId).OrderBy(x => x.display_index).ToList();
 
 
                     if (lstElement.Count > 0) //GroupElement
@@ -4819,7 +4819,7 @@ namespace eFormSqlController
                                 t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", t.Bool(cl.quick_sync_enabled), new List<DataItemGroup>(), new List<DataItem>());
 
                             //the actual DataItems
-                            List<fields> lstFields = db.fields.Where(x => x.check_list_id == elementId && x.parent_field_id == null).ToList();
+                            List<fields> lstFields = db.fields.Where(x => x.check_list_id == elementId && x.parent_field_id == null).OrderBy(x => x.display_index).ToList();
                             foreach (var field in lstFields)
                             {
                                 GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field.id);
