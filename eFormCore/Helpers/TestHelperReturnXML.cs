@@ -37,14 +37,24 @@ namespace eFormCore.Helpers
                 workers worker = testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
                 return "";
             }
-            else
+            
+            try
             {
                 sites site = testHelpers.DbContext.sites.First();
                 workers worker = testHelpers.DbContext.workers.First();
 
                 int id = t.GetRandomInt(6);
-                JObject result = JObject.FromObject(new JArray(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Created, person_type = "", site_id = site.microting_uid, user_id = worker.microting_uid }));
+                JObject result = JObject.FromObject(new JArray(new
+                {
+                    id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
+                    workflow_state = Constants.WorkflowStates.Created, person_type = "",
+                    site_id = site.microting_uid, user_id = worker.microting_uid
+                }));
                 return result.ToString();
+            }
+            catch
+            {
+                return "{}";
             }
         }
         #endregion
