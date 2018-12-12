@@ -139,8 +139,8 @@ namespace eFormCore
 
         public string DbSetup(string token)
         {
-            try
-            {
+//            try
+//            {
                 sqlController = new SqlController(connectionString);
 
                 if (token == null)
@@ -222,11 +222,11 @@ namespace eFormCore
                 sqlController.SettingUpdate(Settings.firstRunDone, "true");
 
                 return "";
-            }
-            catch (Exception ex)
-            {
-                return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
-            }
+//            }
+//            catch (Exception ex)
+//            {
+//                return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
+//            }
         }
 
         public string DbSettingsReloadRemote()

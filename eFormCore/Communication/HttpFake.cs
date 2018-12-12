@@ -210,7 +210,7 @@ namespace eFormCommunicator
 
         public string SiteLoadAllFromRemote()
         {
-            return "Not implemented!";
+            return "{}";
         }
         #endregion
 
@@ -252,7 +252,7 @@ namespace eFormCommunicator
 
         public string WorkerLoadAllFromRemote()
         {
-            return "Not implemented!";
+            return "{}";
         }
         #endregion
 
@@ -291,7 +291,7 @@ namespace eFormCommunicator
 
         public string UnitLoadAllFromRemote()
         {
-            return "Not implemented!";
+            return "{}";
         }
         #endregion
 
