@@ -2519,12 +2519,14 @@ namespace eFormSqlController
                     numOfElements = matches.Count();
                     List<cases> dbCases = null;
 
-                    if (pageIndex > 0)
+                    int offSet = (pageIndex * pageSize);
+                    if (numOfElements < pageSize)
                     {
-                        dbCases = matches.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-                    } else
+                        dbCases = matches.ToList();
+                    }
+                    else
                     {
-                        dbCases = matches.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        dbCases = matches.Skip(offSet).Take(pageSize).ToList();
                     }
                     
                     #region cases -> Case
@@ -3549,13 +3551,15 @@ namespace eFormSqlController
                     }
 
                     numOfElements = source.Count();
-                    if (pageIndex > 0)
+                    int offSet = (pageIndex * pageSize);
+                    if (numOfElements < pageSize)
                     {
-                        eG = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                        eG = source.ToList();
                     } else
                     {
-                        eG = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        eG = source.Skip(offSet).Take(pageSize).ToList();
                     }
+
                     foreach (entity_groups eg in eG)
                     {
                         EntityGroup g = new EntityGroup(eg.id, eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
