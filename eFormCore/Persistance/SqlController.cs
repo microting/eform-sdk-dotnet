@@ -2357,7 +2357,7 @@ namespace eFormSqlController
         }
 
         public CaseList CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState,
-            string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize)
+            string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize)
         {
                         
             try
@@ -2511,18 +2511,12 @@ namespace eFormSqlController
                     }
 
                     matches = sub_query.ToList();
-
-
-                    //Console.WriteLine(sub_query.ToString());
-                    //System.Diagnostics.Debug.WriteLine(sub_query.ToString());
-                    //
-
+                    
                     List<Case> rtrnLst = new List<Case>();
                     int numOfElements = 0;
                     numOfElements = matches.Count();
                     List<cases> dbCases = null;
 
-                    int offSet = (pageIndex * pageSize);
                     if (numOfElements < pageSize)
                     {
                         dbCases = matches.ToList();
@@ -3511,7 +3505,7 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
-        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
+        public EntityGroupList EntityGroupAll(string sort, string nameFilter, int offSet, int pageSize, string entityType, bool desc, string workflowState)
         {
 
             if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
@@ -3554,7 +3548,6 @@ namespace eFormSqlController
                     }
 
                     numOfElements = source.Count();
-                    int offSet = (pageIndex * pageSize);
                     if (numOfElements < pageSize)
                     {
                         eG = source.ToList();
@@ -3569,7 +3562,7 @@ namespace eFormSqlController
                         EntityGroup g = new EntityGroup(eg.id, eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
                         e_G.Add(g);
                     }
-                    return new EntityGroupList(numOfElements, pageIndex, e_G);
+                    return new EntityGroupList(numOfElements, offSet, e_G);
                 }
             }
             catch (Exception ex)
