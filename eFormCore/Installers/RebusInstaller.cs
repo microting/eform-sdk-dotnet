@@ -38,7 +38,8 @@ namespace eFormCore.Installers
             {
                 Configure.With(new CastleWindsorContainerAdapter(container))
                     .Logging(l => l.ColoredConsole())
-                    .Transport(t => t.UseSqlServer(connectionStringOrConnectionStringName: connectionString, tableName: "Rebus", inputQueueName: "eformsdk-input"))
+                    .Transport(t => t.UseSqlServer(connectionString: connectionString, inputQueueName: "eformsdk-input"))
+                    //.Transport(t => t.UseSqlServer(connectionStringOrConnectionStringName: connectionString, tableName: "Rebus", inputQueueName: "eformsdk-input"))
                     .Options(o =>
                     {
                         o.SetMaxParallelism(maxParallelism);
