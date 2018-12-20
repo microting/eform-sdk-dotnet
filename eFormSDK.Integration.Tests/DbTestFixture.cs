@@ -88,7 +88,6 @@ namespace eFormSDK.Integration.Tests
         public void ClearDb()
         {
 
-            Console.WriteLine("ClearDb called.");
             List<string> modelNames = new List<string>();
             modelNames.Add("case_versions");
             modelNames.Add("cases");
