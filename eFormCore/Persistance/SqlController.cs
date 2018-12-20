@@ -28,7 +28,7 @@ namespace eFormSqlController
         #region con
         public SqlController(string connectionString)
         {
-            connectionStr = connectionString.ToLower();          
+            connectionStr = connectionString;          
 
             #region migrate if needed
             try
