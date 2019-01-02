@@ -446,6 +446,8 @@ namespace eFormCore
                 xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
                 xmlString = xmlString.Replace("='ShowPDF'>", "='ShowPdf'>");
                 xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
+                xmlString = xmlString.Replace("=\"Single_Select\">", "=\"SingleSelect\">");
+                xmlString = xmlString.Replace("=\"Check_Box\">", "=\"CheckBox\">");
                 xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
                 string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
@@ -513,7 +515,25 @@ namespace eFormCore
             catch (Exception ex)
             {
                 log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return null;
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.InnerException != null) {
+                        if (ex.InnerException.InnerException.InnerException != null)
+                        {
+
+                            throw new Exception("Could not parse XML, got error: " + ex.InnerException.InnerException.InnerException.Message, ex);
+                        } else
+                        {
+                            throw new Exception("Could not parse XML, got error: " + ex.InnerException.InnerException.Message, ex);
+                        }
+                    } else
+                    {
+                        throw new Exception("Could not parse XML, got error: " + ex.InnerException.Message, ex);
+                    }
+                } else
+                {
+                    throw new Exception("Could not parse XML, got error: " + ex.Message, ex);
+                }
             }
         }
 
