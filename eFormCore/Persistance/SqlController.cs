@@ -1866,11 +1866,19 @@ namespace eFormSqlController
                                 }
                             }
                             break;
+                        case Constants.FieldTypes.Number:
+                            foreach (field_values item in matches)
+                            {
+                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                            }
+                            break;
                         #endregion
 
                         default:
                             foreach (field_values item in matches)
+                            {
                                 replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                            }
                             break;
                     }
 
