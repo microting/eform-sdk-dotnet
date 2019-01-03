@@ -1519,61 +1519,8 @@ namespace eFormCore
             }
         }
 
-        //public string CasesToExcel(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
-        //{
-        //    string methodName = t.GetMethodName("Core");
-        //    try
-        //    {
-        //        if (Running())
-        //        {
-        //            log.LogStandard(t.GetMethodName("Core"), "called");
-        //            log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId.ToString());
-        //            log.LogVariable(t.GetMethodName("Core"), nameof(start), start.ToString());
-        //            log.LogVariable(t.GetMethodName("Core"), nameof(end), end.ToString());
-        //            log.LogVariable(t.GetMethodName("Core"), nameof(pathAndName), pathAndName);
-        //            log.LogVariable(t.GetMethodName("Core"), nameof(customPathForUploadedData), customPathForUploadedData);
-
-        //            List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData);
-
-        //            if (dataSet == null)
-        //                return "";
-
-        //            using (var p = new ExcelPackage())
-        //            {
-        //                var ws = p.Workbook.Worksheets.Add("DataSet");
-
-        //                int colI = 0;
-        //                int rowI = 0;
-        //                foreach (var col in dataSet)
-        //                {
-        //                    colI++;
-        //                    rowI = 0;
-        //                    foreach (var cell in col)
-        //                    {
-        //                        rowI++;
-        //                        ws.Cells[rowI, colI].Value = cell;
-        //                    }
-        //                }
-
-        //                if (!pathAndName.Contains(".xlsx"))
-        //                    pathAndName = pathAndName + ".xlsx";
-
-        //                p.SaveAs(new FileInfo(pathAndName));
-        //            }
-
-        //            return Path.GetFullPath(pathAndName);
-        //        }
-        //        else
-        //            throw new Exception("Core is not running");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-        //        return null;
-        //    }
-        //}
-
-        public string CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        public string CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1587,7 +1534,7 @@ namespace eFormCore
                     log.LogVariable(t.GetMethodName("Core"), nameof(pathAndName), pathAndName);
                     log.LogVariable(t.GetMethodName("Core"), nameof(customPathForUploadedData), customPathForUploadedData);
 
-                    List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData);
+                    List<List<string>> dataSet = GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator);
 
                     if (dataSet == null)
                         return "";
@@ -1644,6 +1591,11 @@ namespace eFormCore
                 log.LogException(t.GetMethodName("Core"), "failed", ex, false);
                 return null;
             }
+        }
+
+        public string CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        {
+            return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "");
         }
 
         public string CaseToJasperXml(int caseId, string timeStamp, string customPathForUploadedData)
@@ -3458,7 +3410,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private List<List<string>> GenerateDataSetFromCases(int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData)
+        private List<List<string>> GenerateDataSetFromCases(int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator)
         {
             List<List<string>> dataSet = new List<List<string>>();
             List<string> colume1CaseIds = new List<string> { "Id" };
@@ -3534,7 +3486,7 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<eFormShared.KeyValuePair>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData);
+                        List<List<eFormShared.KeyValuePair>> result = sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator);
 
                         if (result.Count == 1)
                         {

@@ -194,8 +194,17 @@ namespace eFormCore
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
-        string CasesToCsv(int? templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData);
+        string CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData, string decimalSeparator, string thousandSeparator);
 
+
+        /// <summary>
+        /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
+        /// </summary>
+        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
+        /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
+        /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
+        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
+        string CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData);
         //---------------------------------------------------------------------------------------
 
         /// <summary>

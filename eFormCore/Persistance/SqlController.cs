@@ -1714,7 +1714,13 @@ namespace eFormSqlController
             }
         }
 
-        public List<List<eFormShared.KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData)
+        public List<List<eFormShared.KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds,
+            string customPathForUploadedData)
+        {
+            return FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, ".", "");
+        }
+
+        public List<List<eFormShared.KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
         {
             try
             {
