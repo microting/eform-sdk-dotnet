@@ -183,7 +183,11 @@ namespace eFormCommunicator
                 return content_to_microting.ToString();
             } else
             {
-                return "Not implemented!";
+                int id = t.GetRandomInt(6);
+                int unit_id = t.GetRandomInt(6);
+                int otp_code = t.GetRandomInt(6);
+                JObject content_to_microting = JObject.FromObject(new { name = name, id = id, unit_id = unit_id, otp_code = otp_code, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+                return content_to_microting.ToString();
             }
             
             //
@@ -196,16 +200,18 @@ namespace eFormCommunicator
 
         public string SiteDelete(int id)
         {
-            if (id == 1)
-            {
-                string name = "John Noname Doe";
-                JObject content_to_microting = JObject.FromObject(new { name = name, id = id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
-                return content_to_microting.ToString();
-            }
-            else
-            {
-                return "Not implemented!";
-            }
+            JObject content_to_microting = JObject.FromObject(new { name = "Some name", id = id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            return content_to_microting.ToString();
+            
+//            if (id == 1)
+//            {
+//                string name = "John Noname Doe";
+//                
+//            }
+//            else
+//            {
+//                return "Not implemented!";
+//            }
         }
 
         public string SiteLoadAllFromRemote()
@@ -217,16 +223,16 @@ namespace eFormCommunicator
         #region public Worker
         public string WorkerCreate(string firstName, string lastName, string email)
         {
-            if (firstName == "John Noname")
-            {
-                int id = t.GetRandomInt(6);
-                JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
-                return content_to_microting.ToString();
-            }
-            else
-            {
-                return "Not implemented!";
-            }
+            int id = t.GetRandomInt(6);
+            JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+            return content_to_microting.ToString();
+//            if (firstName == "John Noname")
+//            {
+//            }
+//            else
+//            {
+//                return "Not implemented!";
+//            }
         }
 
         public bool WorkerUpdate(int id, string firstName, string lastName, string email)
@@ -236,18 +242,18 @@ namespace eFormCommunicator
 
         public string WorkerDelete(int id)
         {
-            if (id == 1)
-            {
-                string firstName = "John Noname";
-                string lastName = "Doe";
-                string email = "jhd@invalid.invalid";
-                JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
-                return content_to_microting.ToString();
-            }
-            else
-            {
-                return "Not implemented!";
-            }
+            string firstName = "John Noname";
+            string lastName = "Doe";
+            string email = "jhd@invalid.invalid";
+            JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            return content_to_microting.ToString();
+//            if (id == 1)
+//            {
+//            }
+//            else
+//            {
+//                return "Not implemented!";
+//            }
         }
 
         public string WorkerLoadAllFromRemote()
@@ -266,15 +272,16 @@ namespace eFormCommunicator
 
         public string SiteWorkerDelete(int id)
         {
-            if (id == 1)
-            {
-                JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
-                return content_to_microting.ToString();
-            }
-            else
-            {
-                return "Not implemented!";
-            }
+            JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            return content_to_microting.ToString();
+//            if (id == 1)
+//            {
+//                
+//            }
+//            else
+//            {
+//                return "Not implemented!";
+//            }
         }
 
         public string SiteWorkerLoadAllFromRemote()
