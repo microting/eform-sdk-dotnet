@@ -9,6 +9,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Diagnostics;
 using Microting.eForm;
 
 namespace eFormSqlController
@@ -1869,7 +1870,36 @@ namespace eFormSqlController
                         case Constants.FieldTypes.Number:
                             foreach (field_values item in matches)
                             {
-                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                                //string value = item.value.Replace(".", decimalSeparator);
+                                if (thousandSeparator != null)
+                                {
+                                    switch (thousandSeparator)
+                                    {
+                                        case ".":
+                                        {
+                                            replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), String.Format("{0:#.##0.##}", item.value), false, ""));
+                                        }   
+                                        break;
+                                        case ",":
+                                        {
+                                            replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), String.Format("{0:#,##0.##}", item.value), false, ""));
+                                        }
+                                        break;
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (decimalSeparator != null)
+                                    {
+                                        string value = item.value.Replace(".", decimalSeparator);
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), value, false, ""));   
+                                    }
+                                    else
+                                    {
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                                    }                                    
+                                }
                             }
                             break;
                         #endregion
