@@ -9,7 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microting.eForm.Handlers
+namespace eFormCore.Handlers
 {
     class EformDeleteFromServerHandler : IHandleMessages<EformDeleteFromServer>
     {
