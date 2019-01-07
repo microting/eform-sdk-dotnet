@@ -1,10 +1,13 @@
+dist: xenial
 branches:
   only:
     - master
 language: csharp
 solution: eformSDK.sln
 mono: none
-dotnet: 2.1
+dotnet: 2.2
+services:
+- mysql
 script:
   - dotnet restore
   - dotnet build eFormSDK.sln
