@@ -5436,17 +5436,16 @@ namespace eFormSqlController
         {
             using (var db = GetContext())
             {
-                field_types fT = new field_types();
-               // fT.id = id;
-                fT.field_type = fieldType;
-                fT.description = description;
+                if (db.field_types.Where(x => x.field_type == fieldType).Count() == 0)
+                {
+                    field_types fT = new field_types();
+                    fT.field_type = fieldType;
+                    fT.description = description;
 
-                db.field_types.Add(fT);
-                //db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.field_types ON");
-                //db.field_types.s
-                db.SaveChanges();
-
-                //db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.field_types OFF");
+                    db.field_types.Add(fT);
+                    db.SaveChanges();
+    
+                }                
             }
         }
     }
