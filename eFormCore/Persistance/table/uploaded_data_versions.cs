@@ -17,9 +17,7 @@ namespace eFormSqlController
 
         public int? version { get; set; }
 
-
         public DateTime? created_at { get; set; }
-
 
         public DateTime? updated_at { get; set; }
 
@@ -42,7 +40,6 @@ namespace eFormSqlController
 
         [StringLength(255)]
         public string file_name { get; set; }
-
 
         public DateTime? expiration_date { get; set; }
 
