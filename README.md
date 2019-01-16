@@ -50,8 +50,8 @@ Several examples can be found in the Program.cs file:
 
 ## Development recommendations
 
-  - Visual Studio 2017
-  - MS SQL Server Management Studio
+  - Visual Studio 2017 / Rider
+  - MS SQL Server Management Studio / MySQL 5.5+
   
 ## Known bugs as of February 21st 2017
 
@@ -88,6 +88,13 @@ To improve the chances to get a pull request merged you should select an issue t
 ### Suggestions
 
 We're also interested in your feedback for the future of Microting eForm SDK. You can submit a suggestion or feature request through the issue tracker. To make this process more effective, we're asking that these include more information to help define them more clearly.
+
+## Adding new migrations
+
+Where MIGRATIONNAME is the name of the migration you want to create
+```powershell
+dotnet ef migrations add MIGRATIONNAME --project eFormCore/Microting.eForm.csproj --startup-project SourceCode/SourceCode.csproj --context MicrotingDbAnySQL
+```
 
 ## Microting Open Source Code of Conduct
 
