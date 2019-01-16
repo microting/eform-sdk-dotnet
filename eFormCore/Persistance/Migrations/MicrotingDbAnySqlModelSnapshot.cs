@@ -349,6 +349,8 @@ namespace Microting.eForm.Migrations
 
                     b.Property<short?>("multi_approval");
 
+                    b.Property<string>("original_id");
+
                     b.Property<int?>("parent_id");
 
                     b.Property<short?>("quick_sync_enabled");
@@ -424,6 +426,8 @@ namespace Microting.eForm.Migrations
                     b.Property<short?>("manual_sync");
 
                     b.Property<short?>("multi_approval");
+
+                    b.Property<string>("original_id");
 
                     b.Property<int?>("parent_id");
 
@@ -774,6 +778,8 @@ namespace Microting.eForm.Migrations
 
                     b.Property<short?>("optional");
 
+                    b.Property<string>("original_id");
+
                     b.Property<int?>("parent_field_id");
 
                     b.Property<string>("query_type")
@@ -861,6 +867,8 @@ namespace Microting.eForm.Migrations
                     b.Property<int?>("multi");
 
                     b.Property<short?>("optional");
+
+                    b.Property<string>("original_id");
 
                     b.Property<int?>("parent_field_id");
 

@@ -96,6 +96,8 @@ namespace eFormSqlController
 
         public int? entity_group_id { get; set; }
 
+        public string original_id { get; set; }
+
         public virtual field_types field_type { get; set; }
 
         public virtual check_lists check_list { get; set; }

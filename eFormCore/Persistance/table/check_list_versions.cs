@@ -76,5 +76,7 @@ namespace eFormSqlController
         public int? field_10 { get; set; }
 
         public short? quick_sync_enabled { get; set; }
+
+        public string original_id { get; set; }
     }
 }

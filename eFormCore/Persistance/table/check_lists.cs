@@ -85,6 +85,8 @@ namespace eFormSqlController
 
         public short? quick_sync_enabled { get; set; }
 
+        public string original_id { get; set; }
+
         public virtual ICollection<cases> cases { get; set; }
 
         public virtual ICollection<check_list_sites> check_list_sites { get; set; }

@@ -88,5 +88,7 @@ namespace eFormSqlController
         public string custom { get; set; }
 
         public int? entity_group_id { get; set; }
+
+        public string original_id { get; set; }
     }
 }
