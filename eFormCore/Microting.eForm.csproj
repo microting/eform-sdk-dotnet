@@ -56,6 +56,8 @@
     <Compile Include="Persistance\MicrotingDbAnySql.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.cs" />
     <Compile Include="Persistance\Migrations\20180810124416_InitialCreate.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190116110009_AddingOriginalId.cs" />
+    <Compile Include="Persistance\Migrations\20190116110009_AddingOriginalId.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\cases.cs" />
