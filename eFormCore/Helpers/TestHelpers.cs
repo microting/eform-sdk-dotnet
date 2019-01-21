@@ -23,14 +23,14 @@ namespace eFormCore.Helpers
         
             string ConnectionString;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-            }
-            else
-            {
+//            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+//            {
+//                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+//            }
+//            else
+//            {
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
-            }
+//            }
 
             DbContext = GetContext(ConnectionString);
         }
