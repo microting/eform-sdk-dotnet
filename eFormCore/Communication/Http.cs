@@ -404,23 +404,33 @@ namespace eFormCommunicator
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
-            string responseXml = PostToServerNoRedirect(request, content);
+			string newUrl = PostToServerGetRedirect(request, content);
 
-			if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-			{
-				WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect
-					+ "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-				request2.Method = "GET";
-				string responseXml2 = PostToServer(request2);
+			request = WebRequest.Create(newUrl + "?token=" + token);
+			request.Method = "GET";
 
-				if (responseXml2.Contains("workflow_state\": \"created"))
-					return true;
-				else
-					return false;
-			}
+			string responseXml = PostToServer(request);
+			if (responseXml.Contains("workflow_state\": \"created"))
+				return true;
 			else
-				throw new Exception("Unable to update EntitySelect, error was: " + responseXml);
-        }
+				return false;
+			//         string responseXml = PostToServerNoRedirect(request, content);
+
+			//if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
+			//{
+			//	WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect
+			//		+ "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
+			//	request2.Method = "GET";
+			//	string responseXml2 = PostToServer(request2);
+
+			//	if (responseXml2.Contains("workflow_state\": \"created"))
+			//		return true;
+			//	else
+			//		return false;
+			//}
+			//else
+			//	throw new Exception("Unable to update EntitySelect, error was: " + responseXml);
+		}
 
         public bool EntitySelectItemDelete(string entitySelectItemId)
         {
@@ -429,27 +439,38 @@ namespace eFormCommunicator
             request.Method = "DELETE";
             request.ContentType = "application/json; charset=utf-8";
 
-            string responseXml = PostToServerNoRedirect(request);
+            //string responseXml = PostToServerGetRedirect(request);
 
-            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            {
-                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request2.Method = "GET";
-                string responseXml2 = PostToServer(request2);
+			string newUrl = PostToServerGetRedirect(request);
 
-                if (responseXml2.Contains("workflow_state\": \"removed"))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
-        #endregion
+			request = WebRequest.Create(newUrl + "?token=" + token);
+			request.Method = "GET";
 
-        #region public PdfUpload
-        public bool PdfUpload(string name, string hash)
+			string responseXml = PostToServer(request);
+			if (responseXml.Contains("workflow_state\": \"removed"))
+				return true;
+			else
+				return false;
+
+			//if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
+			//{
+			//    WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
+			//        "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
+			//    request2.Method = "GET";
+			//    string responseXml2 = PostToServer(request2);
+
+			//    if (responseXml2.Contains("workflow_state\": \"removed"))
+			//        return true;
+			//    else
+			//        return false;
+			//}
+			//else
+			//    return false;
+		}
+		#endregion
+
+		#region public PdfUpload
+		public bool PdfUpload(string name, string hash)
         {
             try
             {
