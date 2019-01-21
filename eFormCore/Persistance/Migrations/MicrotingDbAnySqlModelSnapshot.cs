@@ -535,7 +535,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("microting_uid");
 
-                    b.Property<bool>("migrated_entity_group_id");
+                    //b.Property<bool>("migrated_entity_group_id");
 
                     b.Property<string>("name");
 
@@ -572,7 +572,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("microting_uid");
 
-                    b.Property<bool>("migrated_entity_group_id");
+                    //b.Property<bool>("migrated_entity_group_id");
 
                     b.Property<string>("name");
 

@@ -35,6 +35,6 @@ namespace eFormSqlController
 
         public int display_index { get; set; }
 
-        public bool migrated_entity_group_id { get; set; }
+        //public bool migrated_entity_group_id { get; set; }
     }
 }
