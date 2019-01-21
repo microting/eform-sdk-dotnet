@@ -1600,7 +1600,8 @@ namespace eFormSqlController
                         {
                             if (reply.value != "" || reply.value != null)
                             {
-                                entity_items match = db.entity_items.SingleOrDefault(x => x.microting_uid == reply.value);
+								int id = int.Parse(reply.value);
+                                entity_items match = db.entity_items.SingleOrDefault(x => x.id == id);
 
                                 if (match != null)
                                 {
