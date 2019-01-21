@@ -639,14 +639,14 @@ namespace eFormCommunicator
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(id), id);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(description), description);
 
-            try
-            {
-                return http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntitySearchItemUpdate failed", ex);
-            }
+            //try
+            //{
+            return http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("EntitySearchItemUpdate failed", ex);
+            //}
         }
 
         public bool EntitySearchItemDelete(string entitySearchItemId)
@@ -693,14 +693,14 @@ namespace eFormCommunicator
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(displayOrder), displayOrder);
             log.LogVariable(t.GetMethodName("Comminicator"), nameof(ownUUID), ownUUID);
 
-            try
-            {
-                return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("EntitySearchItemUpdate failed", ex);
-            }
+            //try
+            //{
+            return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("EntitySearchItemUpdate failed", ex);
+            //}
         }
 
         public bool EntitySelectItemDelete(string entitySearchItemId)

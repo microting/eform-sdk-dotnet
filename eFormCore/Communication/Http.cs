@@ -263,10 +263,10 @@ namespace eFormCommunicator
 
             string responseXml = PostToServer(request, content);
 
-            if (responseXml.Contains("workflowState=\"created"))
-                return true;
-            else
-                return false;
+			if (responseXml.Contains("workflowState=\"created"))
+				return true;
+			else
+				throw new Exception("Unable to update EntitySearch, error was: " + responseXml);
         }
 
         public bool EntitySearchItemDelete(string entitySearchItemId)
@@ -406,20 +406,20 @@ namespace eFormCommunicator
 
             string responseXml = PostToServerNoRedirect(request, content);
 
-            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            {
-                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect
-                    + "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request2.Method = "GET";
-                string responseXml2 = PostToServer(request2);
+			if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
+			{
+				WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect
+					+ "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
+				request2.Method = "GET";
+				string responseXml2 = PostToServer(request2);
 
-                if (responseXml2.Contains("workflow_state\": \"created"))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
+				if (responseXml2.Contains("workflow_state\": \"created"))
+					return true;
+				else
+					return false;
+			}
+			else
+				throw new Exception("Unable to update EntitySelect, error was: " + responseXml);
         }
 
         public bool EntitySelectItemDelete(string entitySelectItemId)
