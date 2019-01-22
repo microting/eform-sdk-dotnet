@@ -1062,7 +1062,16 @@ namespace eFormSqlController
                                         }
                                     }
 
+                                    if (f.field_type.field_type == eFormShared.Constants.FieldTypes.Number || 
+                                        f.field_type.field_type == eFormShared.Constants.FieldTypes.NumberStepper)
+                                    {
+                                        temp = temp.Replace(",", "|");
+                                        temp = temp.Replace(".", ",");
+                                    }
+                                    
                                     fieldV.value = temp;
+                                    
+                                    
                                     #endregion
                                     //geo
                                     fieldV.latitude = t.Locate(dataItemStr, "<Latitude>", "</");
@@ -1640,6 +1649,13 @@ namespace eFormSqlController
                         }
 
                         field_value.KeyValuePairList = PairRead(field.key_value_pair_list);
+                    }
+
+                    if (field_value.FieldType == Constants.FieldTypes.Number ||
+                        field_value.FieldType == Constants.FieldTypes.NumberStepper)
+                    {
+                        field_value.ValueReadable = reply.value.Replace(",", ".");
+                        field_value.Value = reply.value.Replace(",", ".");
                     }
                     #endregion
 
