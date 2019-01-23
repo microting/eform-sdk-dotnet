@@ -1888,7 +1888,7 @@ namespace eFormSqlController
                             foreach (field_values item in matches)
                             {
                                 //string value = item.value.Replace(".", decimalSeparator);
-                                if (thousandSeparator != null)
+                                if (!string.IsNullOrEmpty(thousandSeparator))
                                 {
                                     switch (thousandSeparator)
                                     {
@@ -1907,9 +1907,9 @@ namespace eFormSqlController
                                 }
                                 else
                                 {
-                                    if (decimalSeparator != null)
+                                    if (!string.IsNullOrEmpty(decimalSeparator))
                                     {
-                                        string value = item.value.Replace(".", decimalSeparator);
+                                        string value = item.value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);
                                         replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), value, false, ""));   
                                     }
                                     else
