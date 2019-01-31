@@ -1421,6 +1421,7 @@ namespace eFormSqlController
                             elementList.Add(SubChecks(subList.id, caseId));
                         }
                         GroupElement element = new GroupElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), elementList);
+                        element.OriginalId = checkList.original_id;
                         return element;
                     }
                     else
@@ -1448,6 +1449,7 @@ namespace eFormSqlController
                                 CDataValue description = new CDataValue();
                                 description.InderValue = field.description;
                                 FieldContainer fG = new FieldContainer(field.id, field.label, description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
+                                fG.OriginalId = field.original_id;
                                 dataItemList.Add(fG);
                             }
                             else
@@ -1463,6 +1465,7 @@ namespace eFormSqlController
                             }
                         }
                         DataElement dataElement = new DataElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), dataItemGroupList, dataItemList);
+                        dataElement.OriginalId = checkList.original_id;
                         //return dataElement;
                         return new CheckListValue(dataElement, CheckListValueStatusRead(caseId, checkList.id));
                     }
@@ -1560,6 +1563,7 @@ namespace eFormSqlController
                     field_value.DisplayOrder = t.Int(field.display_index);
                     field_value.Heading = reply.heading;
                     field_value.Id = reply.id;
+                    field_value.OriginalId = reply.field.original_id;
                     field_value.Label = field.label;
                     field_value.Latitude = reply.latitude;
                     field_value.Longitude = reply.longitude;
@@ -4345,6 +4349,7 @@ namespace eFormSqlController
                     cl.multi_approval = t.Bool(mainElement.MultiApproval);
                     cl.fast_navigation = t.Bool(mainElement.FastNavigation);
                     cl.download_entities = t.Bool(mainElement.DownloadEntities);
+                    cl.original_id = mainElement.Id;
 
                     db.check_lists.Add(cl);
                     db.SaveChanges();
@@ -4463,6 +4468,7 @@ namespace eFormSqlController
                     cl.extra_fields_enabled = t.Bool(dataElement.ExtraFieldsEnabled);
                     cl.done_button_enabled = t.Bool(dataElement.DoneButtonEnabled);
                     cl.approval_enabled = t.Bool(dataElement.ApprovalEnabled);
+                    cl.original_id = dataElement.Id.ToString();
                     //MultiApproval - used for mainElements
                     //FastNavigation - used for mainElements
                     //DownloadEntities - used for mainElements
@@ -4583,6 +4589,7 @@ namespace eFormSqlController
                     field.check_list_id = elementId;
                     field.field_type_id = fieldTypeId;
                     field.version = 1;
+                    field.original_id = dataItem.Id.ToString();
 
                     bool isSaved = false; // This is done, because we need to have the current field id, for giving it onto the child fields in a FieldGroup
 

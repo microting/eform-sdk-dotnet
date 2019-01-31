@@ -31,6 +31,7 @@ namespace eFormData
         public bool ExtraFieldsEnabled { get; set; }
         public string PinkBarText { get; set; }
         public bool QuickSyncEnabled { get; set; }
+        public string OriginalId { get; set; }
         #endregion
     }
 
@@ -118,6 +119,7 @@ namespace eFormData
         public CheckListValue(DataElement dataElement, string status)
         {
             Id = dataElement.Id;
+            OriginalId = dataElement.OriginalId;
             Label = dataElement.Label;
             DisplayOrder = dataElement.DisplayOrder;
             Description = new CDataValue();

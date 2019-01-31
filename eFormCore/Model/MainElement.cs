@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using eFormShared;
 
 namespace eFormData
 {
@@ -42,6 +43,7 @@ namespace eFormData
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
         public string MicrotingUId { get; set; }
+//        public string OriginalId { get; set; }
 
         [XmlIgnore]
         public string CaseType { get; set; }
@@ -275,6 +277,7 @@ namespace eFormData
             CaseType = coreElement.CaseType;
             ElementList = coreElement.ElementList;
             MicrotingUId = coreElement.MicrotingUId;
+//            OriginalId = coreElement.OriginalId;
         }
         #endregion
 
@@ -284,6 +287,7 @@ namespace eFormData
         public int DoneById { get; set; }
         public int UnitId { get; set; }
         public int SiteMicrotingUUID { get; set; }
+//        public string OriginalId { get; set; }
         #endregion
     }
     #endregion

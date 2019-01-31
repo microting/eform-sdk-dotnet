@@ -49,6 +49,7 @@ namespace eFormData
 
         [XmlIgnore]
         public bool Dummy { get; set; }
+        public string OriginalId { get; set; }
         #endregion
     }
 
