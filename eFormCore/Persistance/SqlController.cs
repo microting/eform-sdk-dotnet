@@ -4349,7 +4349,7 @@ namespace eFormSqlController
                     cl.multi_approval = t.Bool(mainElement.MultiApproval);
                     cl.fast_navigation = t.Bool(mainElement.FastNavigation);
                     cl.download_entities = t.Bool(mainElement.DownloadEntities);
-                    cl.original_id = mainElement.Id;
+                    cl.original_id = mainElement.Id.ToString();
 
                     db.check_lists.Add(cl);
                     db.SaveChanges();
