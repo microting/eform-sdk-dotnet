@@ -3168,7 +3168,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return null;
+                throw ex;
             }
         }
         #endregion

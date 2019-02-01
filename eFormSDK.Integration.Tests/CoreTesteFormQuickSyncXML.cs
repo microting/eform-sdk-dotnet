@@ -114,7 +114,7 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(match);
             Assert.AreEqual("", match.CaseType);
             Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual(1, match.Id);
+            Assert.AreEqual(35, match.Id);
             Assert.AreEqual("Lorem ipsum", match.Label);
             Assert.AreEqual("da", match.Language);
             Assert.AreEqual(false, match.MultiApproval);
