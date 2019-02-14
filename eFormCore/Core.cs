@@ -292,6 +292,7 @@ namespace eFormCore
 
         public bool Close()
         {
+            Console.WriteLine($"Core - {DateTime.Now.ToString()} - Close called");
             try
             {
                 if (coreAvailable && !coreStatChanging)
@@ -307,9 +308,14 @@ namespace eFormCore
                         {
                             if (subscriber != null)
                             {
+                                Console.WriteLine($"Core - {DateTime.Now.ToString()} - Subscriber requested to close connection");
                                 log.LogEverything(t.GetMethodName("Core"), "Subscriber requested to close connection");
                                 subscriber.Close();
+                                Console.WriteLine($"Core - {DateTime.Now.ToString()} - Subscriber closed");
                                 log.LogEverything(t.GetMethodName("Core"), "Subscriber closed");
+                                bus.Advanced.Workers.SetNumberOfWorkers(0);
+                                bus.Dispose();
+                                coreThreadRunning = false;
                             }
                         }
                         catch (Exception ex)
@@ -332,9 +338,11 @@ namespace eFormCore
                         updateIsRunningEntities = false;
 
                         log.LogStandard(t.GetMethodName("Core"), "Core closed");
+                        Console.WriteLine($"Core - {DateTime.Now.ToString()} - Core closed");
                         subscriber = null;
                         communicator = null;
                         sqlController = null;
+                        bus = null;
 
                         coreStatChanging = false;
                     }

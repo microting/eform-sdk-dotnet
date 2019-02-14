@@ -34,6 +34,7 @@ using Rebus.Config;
 using Rebus.Routing.TypeBased;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace SourceCode
@@ -53,14 +54,37 @@ namespace SourceCode
                 Console.WriteLine("  Enter name of database to be used");
                 string databaseName = Console.ReadLine();
 
-                if (databaseName.ToUpper() != "")
-                    serverConnectionString = @"Data Source=localhost;Initial Catalog=" + databaseName + ";Integrated Security=True";
-                if (databaseName.ToUpper() == "T")
-                    serverConnectionString = @"Data Source=locahost;Initial Catalog=" + "MicrotingTest" + ";Integrated Security=True";
-                if (databaseName.ToUpper() == "O")
-                    serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingOdense" + ";Integrated Security=True";
-                if (serverConnectionString == "")
-                    serverConnectionString = @"Data Source=localhost;Initial Catalog=" + "MicrotingSourceCode" + ";Integrated Security=True";
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    if (databaseName.ToUpper() != "")
+                        serverConnectionString = @"Server = localhost; port = 3306; Database = " + databaseName.TrimStart().TrimEnd() +
+                                                 "; user = root; Convert Zero Datetime = true;SslMode=none;";
+                    if (databaseName.ToUpper() == "T")
+                        serverConnectionString =
+                            @"Server=localhost;port=3306;Database=MicrotingTest;user=root;Convert Zero Datetime=true;SslMode=none;";
+                    if (databaseName.ToUpper() == "O")
+                        serverConnectionString =
+                            @"Server=localhost;port=3306;Database=MicrotingOdense;user=root;Convert Zero Datetime=true;SslMode=none;";
+                    if (serverConnectionString == "")
+                        serverConnectionString =
+                            @"Server=localhost;port=3306;Database=420_SDK;user=root;Convert Zero Datetime=true;SslMode=none;";
+                }
+                else
+                {
+                    if (databaseName.ToUpper() != "")
+                        serverConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=" + databaseName +
+                                                 ";Integrated Security=True";
+                    if (databaseName.ToUpper() == "T")
+                        serverConnectionString =
+                            @"Data Source=.\SQLEXPRESS;Initial Catalog=MicrotingTest;Integrated Security=True";
+                    if (databaseName.ToUpper() == "O")
+                        serverConnectionString =
+                            @"Data Source=.\SQLEXPRESS;Initial Catalog=MicrotingOdense;Integrated Security=True";
+                    if (serverConnectionString == "")
+                        serverConnectionString =
+                            @"Data Source=.\SQLEXPRESS;Initial Catalog=420_SDK;Integrated Security=True";
+                }
 
                 Console.WriteLine(serverConnectionString);
                 #endregion
@@ -89,17 +113,19 @@ namespace SourceCode
                 }
                 if (input == "I")
                 {
-                    var core = new Core();
-                    core.Start(serverConnectionString);
-                    #region keep core running
-                    while (true)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("Press any key to exit program,");
-                        Console.ReadLine();
-                        break;
-                    }
-                    #endregion
+                var core = new Core();
+                core.Start(serverConnectionString);
+                #region keep core running
+                while (true)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Press any key to exit program,");
+                    Console.ReadLine();
+                    break;
+                }
+
+                #endregion
+                core.Close();
                 }
 
 
