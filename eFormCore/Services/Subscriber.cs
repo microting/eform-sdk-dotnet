@@ -186,8 +186,12 @@ namespace eFormSubscriber
                                 sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
                             }
                         else
+                        {
+                            log.LogStandard(t.GetMethodName("Subscriber"), "No messages for us right now!");
                             while (lastCheckAdd15s > DateTime.Now)
                                 Thread.Sleep(500);
+                        }
+                            
                     }
                     catch (Exception ex)
                     {
@@ -203,7 +207,8 @@ namespace eFormSubscriber
                         lastExpection = DateTime.Now;
                     }
                 }
-
+                log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
+                sqsClient.Dispose();
                 //EventMsgClient("Subscriber closed", null);
                 keepSubscribed = false;
                 isActive = false;
