@@ -106,8 +106,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.3.31.11" />
-    <PackageReference Include="AWSSDK.SQS" Version="3.3.3.58" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.31.12" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.3.3.59" />
     <PackageReference Include="Castle.Core" Version="4.3.1" />
     <PackageReference Include="Castle.Windsor" Version="4.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
@@ -119,7 +119,7 @@
     <PackageReference Include="Rebus" Version="5.2.1" />
     <PackageReference Include="Rebus.Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Rebus.MySql" Version="1.1.1" />
-    <PackageReference Include="Rebus.SqlServer" Version="5.0.3" />
+    <PackageReference Include="Rebus.SqlServer" Version="5.0.5" />
     <PackageReference Include="SwiftClient" Version="1.2.2" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
