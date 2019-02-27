@@ -5516,7 +5516,6 @@ namespace eFormSqlController
         swiftEnabled,
         swiftUserName,
         swiftPassword,
-        swiftEndPoints,
-        swiftContainerPrefix
+        swiftEndPoints
     }
 }
