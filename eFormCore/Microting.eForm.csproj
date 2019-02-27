@@ -96,6 +96,7 @@
     <Compile Include="Persistance\table\workers.cs" />
     <Compile Include="Persistance\table\worker_versions.cs" />
     <Compile Include="Services\Subscriber.cs" />
+    <Compile Include="SwiftConsoleLog.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +120,7 @@
     <PackageReference Include="Rebus.Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Rebus.MySql" Version="1.1.1" />
     <PackageReference Include="Rebus.SqlServer" Version="5.0.3" />
+    <PackageReference Include="SwiftClient" Version="1.2.2" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />

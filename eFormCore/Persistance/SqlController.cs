@@ -4007,6 +4007,10 @@ namespace eFormSqlController
             SettingCreate(Settings.maxParallelism);
             SettingCreate(Settings.numberOfWorkers);
             SettingCreate(Settings.comSpeechToText);
+            SettingCreate(Settings.swiftEnabled);
+            SettingCreate(Settings.swiftUserName);
+            SettingCreate(Settings.swiftPassword);
+            SettingCreate(Settings.swiftEndPoints);
 
             return true;
         }
@@ -4041,6 +4045,10 @@ namespace eFormSqlController
                     case Settings.maxParallelism: id = 18; defaultValue = "1"; break;
                     case Settings.numberOfWorkers: id = 19; defaultValue = "1"; break;
                     case Settings.comSpeechToText: id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.swiftEnabled: id = 21; defaultValue = "false"; break;
+                    case Settings.swiftUserName: id = 22; defaultValue = "eformsdk"; break;
+                    case Settings.swiftPassword: id = 23; defaultValue = "eformsdktosecretpassword"; break;
+                    case Settings.swiftEndPoints: id = 24; defaultValue = "http://172.16.4.4:8080,http://172.16.4.5:8080"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -5504,6 +5512,11 @@ namespace eFormSqlController
         httpServerAddress,       
         maxParallelism,
         numberOfWorkers,
-        comSpeechToText
+        comSpeechToText,
+        swiftEnabled,
+        swiftUserName,
+        swiftPassword,
+        swiftEndPoints,
+        swiftContainerPrefix
     }
 }

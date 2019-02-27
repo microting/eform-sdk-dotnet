@@ -45,6 +45,8 @@ using Castle.MicroKernel.Registration;
 using Rebus.Bus;
 using eForm.Messages;
 using System.Runtime.InteropServices;
+using Microting.eForm;
+using SwiftClient;
 
 namespace eFormCore
 {
@@ -92,6 +94,12 @@ namespace eFormCore
         int sameExceptionCountTried = 0;
         int maxParallelism = 1;
         int numberOfWorkers = 1;
+        private bool _swiftEnabled = false;
+        private string _swiftUserName = "";
+        private string _swiftPassword = "";
+        List<string> _swiftEndpoints = new List<string>();
+        private Client _swiftClient;
+        private string _comOrganizationId;
         IBus bus;
 		#endregion
 
@@ -115,8 +123,37 @@ namespace eFormCore
                     {
                         maxParallelism = int.Parse(sqlController.SettingRead(Settings.maxParallelism));
                         numberOfWorkers = int.Parse(sqlController.SettingRead(Settings.numberOfWorkers));
+                        _comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
                     }
-                    catch { }                  
+                    catch { }
+
+				    try
+				    {
+				        _swiftEnabled = (sqlController.SettingRead(Settings.swiftEnabled) == "true");
+
+				    } catch {}
+
+				    if (_swiftEnabled)
+				    {
+				        _swiftUserName = sqlController.SettingRead(Settings.swiftUserName);
+				        _swiftPassword = sqlController.SettingRead(Settings.swiftPassword);
+				        foreach (var endpoint in sqlController.SettingRead(Settings.swiftEndPoints).Split(','))
+				        {
+				            _swiftEndpoints.Add(endpoint);
+				        }
+				        _swiftClient = new Client()
+				            .WithCredentials(new SwiftCredentials
+				            {
+				                Username = _swiftUserName,
+				                Password = _swiftPassword,
+				                Endpoints = _swiftEndpoints
+				            })
+				            .SetRetryCount(6)
+				            .SetRetryPerEndpointCount(2)
+				            .SetLogger(new SwiftConsoleLog());
+				        
+				        container.Register(Component.For<Client>().Instance(_swiftClient));
+				    }
 
                     container.Install(
 						new RebusHandlerInstaller()
@@ -3828,6 +3865,7 @@ namespace eFormCore
                     {
                         throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
+
                 }
                 #endregion
 
@@ -3856,6 +3894,22 @@ namespace eFormCore
 
                 sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, uploadedData.id);
 
+                if (_swiftEnabled)
+                {
+                    if (File.Exists(Path.Combine(fileLocationPicture, fileName)))
+                    {
+                        using (var fileStream = File.OpenRead(fileName))
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                fileStream.CopyTo(memoryStream);
+
+                                var resp = _swiftClient.PutObject(_comOrganizationId + "_uploaded_data", fileName, memoryStream);                                
+                            }
+                        }
+                    }
+                }
+                
                 return true;
             } else
             {
