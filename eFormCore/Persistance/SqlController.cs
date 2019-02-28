@@ -4240,7 +4240,13 @@ namespace eFormSqlController
 
                         db.logs.Add(newLog);
                         db.SaveChanges();
+                        
 
+                        var oldColor = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine("[DBG] " + logEntry.Message);
+                        Console.ForegroundColor = oldColor;
+                        
                         if (logEntry.Level < 0)
                             WriteLogExceptionEntry(logEntry);
 
@@ -4281,6 +4287,11 @@ namespace eFormSqlController
 
                     db.log_exceptions.Add(newLog);
                     db.SaveChanges();
+                                        
+                    var oldColor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("[ERR] " + logEntry.Message);
+                    Console.ForegroundColor = oldColor;
 
                     #region clean up of log exception table
                     int limit = t.Int(SettingRead(Settings.logLimit));

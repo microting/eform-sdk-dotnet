@@ -108,7 +108,6 @@ namespace eFormSubscriber
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Subscriber - failed {ex.Message}");
                 log.LogException(t.GetMethodName("Subscriber"), "failed", ex, false);
             }
         }
@@ -128,7 +127,8 @@ namespace eFormSubscriber
             if (sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
             #region amazon
             {
-                Console.WriteLine($"Subscriber - {DateTime.Now.ToString()} -  Starting up");
+                log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up");
+
                 #region setup
                 isActive = true;
                 keepSubscribed = true;
@@ -190,9 +190,6 @@ namespace eFormSubscriber
                         else
                         {
                             log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} -  No messages for us right now!");
-                            Console.WriteLine($"Subscriber - {DateTime.Now.ToString()} -  No messages for us right now!");
-//                            while (lastCheckAdd15s > DateTime.Now)
-//                                Thread.Sleep(500);
                         }
                             
                     }
@@ -211,7 +208,6 @@ namespace eFormSubscriber
                     }
                 }
                 log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
-                Console.WriteLine("Subscriber - --- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
                 sqsClient.Dispose();
                 //EventMsgClient("Subscriber closed", null);
                 keepSubscribed = false;

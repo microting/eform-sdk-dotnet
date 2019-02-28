@@ -330,7 +330,7 @@ namespace eFormCore
 
         public bool Close()
         {
-            Console.WriteLine($"Core - {DateTime.Now.ToString()} - Close called");
+            log.LogStandard(t.GetMethodName("Core"), "Close called");
             try
             {
                 if (coreAvailable && !coreStatChanging)
@@ -346,10 +346,8 @@ namespace eFormCore
                         {
                             if (subscriber != null)
                             {
-                                Console.WriteLine($"Core - {DateTime.Now.ToString()} - Subscriber requested to close connection");
                                 log.LogEverything(t.GetMethodName("Core"), "Subscriber requested to close connection");
                                 subscriber.Close();
-                                Console.WriteLine($"Core - {DateTime.Now.ToString()} - Subscriber closed");
                                 log.LogEverything(t.GetMethodName("Core"), "Subscriber closed");
                                 bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 bus.Dispose();
@@ -376,7 +374,6 @@ namespace eFormCore
                         updateIsRunningEntities = false;
 
                         log.LogStandard(t.GetMethodName("Core"), "Core closed");
-                        Console.WriteLine($"Core - {DateTime.Now.ToString()} - Core closed");
                         subscriber = null;
                         communicator = null;
                         sqlController = null;
@@ -4090,13 +4087,10 @@ namespace eFormCore
 
         public void FireHandleCaseCompleted(Case_Dto caseDto)
 		{
-			Console.ForegroundColor = ConsoleColor.DarkGreen;
-			Console.WriteLine($"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
+		    log.LogStandard(t.GetMethodName("Core"), $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
 			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
 			catch (Exception ex)
 			{
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"HandleCaseCompleted event's external logic suffered an Expection and Exception was: {ex.Message}");
 				log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection");
 				throw ex;
 			}
@@ -4122,13 +4116,11 @@ namespace eFormCore
 
 		public void FireHandleCaseRetrived(Case_Dto caseDto)
 		{
-			Console.ForegroundColor = ConsoleColor.DarkYellow;
-			Console.WriteLine($"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
+		    log.LogStandard(t.GetMethodName("Core"), $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
+
 			try { HandleCaseRetrived.Invoke(caseDto, EventArgs.Empty); }
 			catch (Exception ex)
 			{
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"FireHandleCaseRetrived event's external logic suffered an Expection and Exception was: {ex.Message}");
 				log.LogWarning(t.GetMethodName("Core"), "HandleCaseRetrived event's external logic suffered an Expection");
 				throw ex;
 			}
