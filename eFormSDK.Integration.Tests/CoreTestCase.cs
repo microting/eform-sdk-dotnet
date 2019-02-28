@@ -5040,7 +5040,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.GetSdkSetting(Settings.fileLocationJasper);
+            var match = sut.GetSdkSetting(Settings.fileLocationPdf);
 
             // Assert
             Assert.NotNull(match);
