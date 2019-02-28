@@ -4244,7 +4244,7 @@ namespace eFormSqlController
 
                         var oldColor = Console.ForegroundColor;
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine("[DBG] " + logEntry.Message);
+                        Console.WriteLine("[DBG] " + logEntry.Type + ": " + logEntry.Message);
                         Console.ForegroundColor = oldColor;
                         
                         if (logEntry.Level < 0)
@@ -4290,7 +4290,7 @@ namespace eFormSqlController
                                         
                     var oldColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("[ERR] " + logEntry.Message);
+                    Console.WriteLine("[ERR] " + logEntry.Type + ": " + logEntry.Message);
                     Console.ForegroundColor = oldColor;
 
                     #region clean up of log exception table

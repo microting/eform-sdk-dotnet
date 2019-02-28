@@ -435,7 +435,7 @@ namespace eFormShared
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);
 
-            return className + " - " + sf.GetMethod().Name;
+            return className + "." + sf.GetMethod().Name;
         }
     }
 }
