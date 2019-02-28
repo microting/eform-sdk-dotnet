@@ -3974,8 +3974,29 @@ namespace eFormCore
             {
                 throw new FileNotFoundException();
             }
-        }      
+        }
 
+        public async Task<bool> PutFilToStorageSystem(String filePath, string fileName)
+        {
+            if (_swiftEnabled)
+            {
+                var fileStream = new FileStream(filePath, FileMode.Open);
+                SwiftResponse rsp = await _swiftClient.PutObject(_comOrganizationId + "_uploaded_data", fileName, fileStream);
+                if (rsp.IsSuccess)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("Could not get file " + fileName);
+                }
+            }
+            else
+            {
+                throw new FileNotFoundException();
+            }
+        }
+        
         public bool CheckStatusByMicrotingUid(string microtingUid)
         {
             List<Case_Dto> lstCase = new List<Case_Dto>();
