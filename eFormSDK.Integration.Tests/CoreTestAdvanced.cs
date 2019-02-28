@@ -40,9 +40,9 @@ namespace eFormSDK.Integration.Tests
             sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
-            sut.SetPicturePath(path + @"\output\dataFolder\picture\");
-            sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
-            sut.SetJasperPath(path + @"\output\dataFolder\reports\");
+            sut.SetSdkSetting(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SetSdkSetting(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SetSdkSetting(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
             testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
         }

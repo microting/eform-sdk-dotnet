@@ -45,6 +45,7 @@ using Castle.MicroKernel.Registration;
 using Rebus.Bus;
 using eForm.Messages;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Microting.eForm;
 using SwiftClient;
 
@@ -127,33 +128,7 @@ namespace eFormCore
                     }
                     catch { }
 
-				    try
-				    {
-				        _swiftEnabled = (sqlController.SettingRead(Settings.swiftEnabled) == "true");
-
-				    } catch {}
-
-				    if (_swiftEnabled)
-				    {
-				        _swiftUserName = sqlController.SettingRead(Settings.swiftUserName);
-				        _swiftPassword = sqlController.SettingRead(Settings.swiftPassword);
-				        foreach (var endpoint in sqlController.SettingRead(Settings.swiftEndPoints).Split(','))
-				        {
-				            _swiftEndpoints.Add(endpoint);
-				        }
-				        _swiftClient = new Client()
-				            .WithCredentials(new SwiftCredentials
-				            {
-				                Username = _swiftUserName,
-				                Password = _swiftPassword,
-				                Endpoints = _swiftEndpoints
-				            })
-				            .SetRetryCount(6)
-				            .SetRetryPerEndpointCount(2)
-				            .SetLogger(new SwiftConsoleLog());
-				        
-				        container.Register(Component.For<Client>().Instance(_swiftClient));
-				    }
+				    
 
                     container.Install(
 						new RebusHandlerInstaller()
@@ -252,7 +227,33 @@ namespace eFormCore
                     container.Register(Component.For<Log>().Instance(log));
                     container.Register(Component.For<Core>().Instance(this));
 
+                    try
+				    {
+				        _swiftEnabled = (sqlController.SettingRead(Settings.swiftEnabled) == "true");
 
+				    } catch {}
+
+				    if (_swiftEnabled)
+				    {
+				        _swiftUserName = sqlController.SettingRead(Settings.swiftUserName);
+				        _swiftPassword = sqlController.SettingRead(Settings.swiftPassword);
+				        foreach (var endpoint in sqlController.SettingRead(Settings.swiftEndPoints).Split(','))
+				        {
+				            _swiftEndpoints.Add(endpoint);
+				        }
+				        _swiftClient = new Client()
+				            .WithCredentials(new SwiftCredentials
+				            {
+				                Username = _swiftUserName,
+				                Password = _swiftPassword,
+				                Endpoints = _swiftEndpoints
+				            })
+				            .SetRetryCount(6)
+				            .SetRetryPerEndpointCount(2)
+				            .SetLogger(new SwiftConsoleLog());
+				        
+				        container.Register(Component.For<Client>().Instance(_swiftClient));
+				    }
 
 
 
@@ -1739,14 +1740,176 @@ namespace eFormCore
         }
 
         #region settings
-        #region httpServerAddress
-        public string GetHttpServerAddress()
+//        #region httpServerAddress
+//        public string GetHttpServerAddress()
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            log.LogStandard(t.GetMethodName("Core"), "called");
+//            try
+//            {
+//                return sqlController.SettingRead(Settings.httpServerAddress);
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                return "N/A";
+//            }
+//        }
+//
+//        public bool SetHttpServerAddress(string serverAddress)
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            try
+//            {
+//                if (Running())
+//                {
+//                    log.LogStandard(t.GetMethodName("Core"), "called");
+//                    log.LogVariable(t.GetMethodName("Core"), nameof(serverAddress), serverAddress);
+//
+//                    sqlController.SettingUpdate(Settings.httpServerAddress, serverAddress);
+//                    return true;
+//                }
+//                else
+//                    throw new Exception("Core is not running");
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                throw new Exception("failed", ex);
+//            }
+//        }
+//        #endregion
+//
+//        #region fileLocationPicture
+//        public string GetPicturePath()
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            log.LogStandard(t.GetMethodName("Core"), "called");
+//            try
+//            {
+//                return sqlController.SettingRead(Settings.fileLocationPicture);
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                return "N/A";
+//            }
+//        }
+//
+//        public bool SetPicturePath(string fileLocationPicture)
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            try
+//            {
+//                if (Running())
+//                {
+//                    log.LogStandard(t.GetMethodName("Core"), "called");
+//                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPicture), fileLocationPicture);
+//
+//                    sqlController.SettingUpdate(Settings.fileLocationPicture, fileLocationPicture);
+//                    return true;
+//                }
+//                else
+//                    throw new Exception("Core is not running");
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                throw new Exception("failed", ex);
+//            }
+//        }
+//        #endregion
+//
+//        #region fileLocationPdf
+//        public string GetPdfPath()
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            log.LogStandard(t.GetMethodName("Core"), "called");
+//            try
+//            {
+//                return sqlController.SettingRead(Settings.fileLocationPdf);
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                return "N/A";
+//            }
+//        }
+//
+//        public bool SetPdfPath(string fileLocationPdf)
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            try
+//            {
+//                if (Running())
+//                {
+//                    log.LogStandard(t.GetMethodName("Core"), "called");
+//                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPdf), fileLocationPdf);
+//
+//                    sqlController.SettingUpdate(Settings.fileLocationPdf, fileLocationPdf);
+//                    return true;
+//                }
+//                else
+//                    throw new Exception("Core is not running");
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                throw new Exception("failed", ex);
+//            }
+//        }
+//        #endregion
+//
+//        #region fileLocationJasper
+//        public string GetJasperPath()
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            log.LogStandard(t.GetMethodName("Core"), "called");
+//            try
+//            {
+//                return sqlController.SettingRead(Settings.fileLocationJasper);
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                return "N/A";
+//            }
+//        }
+//
+//        public bool SetJasperPath(string fileLocationJasper)
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            try
+//            {
+//                if (Running())
+//                {
+//                    log.LogStandard(t.GetMethodName("Core"), "called");
+//                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationJasper), fileLocationJasper);
+//
+//                    sqlController.SettingUpdate(Settings.fileLocationJasper, fileLocationJasper);
+//                    return true;
+//                }
+//                else
+//                    throw new Exception("Core is not running");
+//            }
+//            catch (Exception ex)
+//            {
+//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//                throw new Exception("failed", ex);
+//            }
+//        }
+//        #endregion
+//        
+        #endregion
+        #region sdkSettings
+        
+        public string GetSdkSetting(Settings settingName)
         {
             string methodName = t.GetMethodName("Core");
             log.LogStandard(t.GetMethodName("Core"), "called");
             try
             {
-                return sqlController.SettingRead(Settings.httpServerAddress);
+                return sqlController.SettingRead(settingName);
             }
             catch (Exception ex)
             {
@@ -1755,7 +1918,7 @@ namespace eFormCore
             }
         }
 
-        public bool SetHttpServerAddress(string serverAddress)
+        public bool SetSdkSetting(Settings settingName, string settingValue)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1763,9 +1926,9 @@ namespace eFormCore
                 if (Running())
                 {
                     log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(serverAddress), serverAddress);
+                    log.LogVariable(t.GetMethodName("Core"), nameof(settingValue), settingValue);
 
-                    sqlController.SettingUpdate(Settings.httpServerAddress, serverAddress);
+                    sqlController.SettingUpdate(settingName, settingValue);
                     return true;
                 }
                 else
@@ -1777,127 +1940,6 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
-
-        #region fileLocationPicture
-        public string GetPicturePath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationPicture);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public bool SetPicturePath(string fileLocationPicture)
-        {
-            string methodName = t.GetMethodName("Core");
-            try
-            {
-                if (Running())
-                {
-                    log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPicture), fileLocationPicture);
-
-                    sqlController.SettingUpdate(Settings.fileLocationPicture, fileLocationPicture);
-                    return true;
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                throw new Exception("failed", ex);
-            }
-        }
-        #endregion
-
-        #region fileLocationPdf
-        public string GetPdfPath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationPdf);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public bool SetPdfPath(string fileLocationPdf)
-        {
-            string methodName = t.GetMethodName("Core");
-            try
-            {
-                if (Running())
-                {
-                    log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPdf), fileLocationPdf);
-
-                    sqlController.SettingUpdate(Settings.fileLocationPdf, fileLocationPdf);
-                    return true;
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                throw new Exception("failed", ex);
-            }
-        }
-        #endregion
-
-        #region fileLocationJasper
-        public string GetJasperPath()
-        {
-            string methodName = t.GetMethodName("Core");
-            log.LogStandard(t.GetMethodName("Core"), "called");
-            try
-            {
-                return sqlController.SettingRead(Settings.fileLocationJasper);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                return "N/A";
-            }
-        }
-
-        public bool SetJasperPath(string fileLocationJasper)
-        {
-            string methodName = t.GetMethodName("Core");
-            try
-            {
-                if (Running())
-                {
-                    log.LogStandard(t.GetMethodName("Core"), "called");
-                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationJasper), fileLocationJasper);
-
-                    sqlController.SettingUpdate(Settings.fileLocationJasper, fileLocationJasper);
-                    return true;
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                throw new Exception("failed", ex);
-            }
-        }
-        #endregion
         #endregion
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
@@ -3837,7 +3879,7 @@ namespace eFormCore
             coreThreadRunning = false;
         }
 
-        public bool downloadUploadedData(int uploadedDataId)
+        public bool DownloadUploadedData(int uploadedDataId)
         {
             uploaded_data uploadedData = sqlController.GetUploadedData(uploadedDataId);
 
@@ -3917,89 +3959,25 @@ namespace eFormCore
             }
         }
 
-        //private void CoreHandleUpdateFiles()
-        //{
-        //    try
-        //    {
-        //        if (!updateIsRunningFiles)
-        //        {
-        //            updateIsRunningFiles = true;
-
-        //            #region update files
-        //            UploadedData ud = null;
-        //            string urlStr = "";
-        //            bool oneFound = true;
-        //            while (oneFound)
-        //            {
-        //                ud = sqlController.FileRead();
-        //                if (ud != null)
-        //                    urlStr = ud.FileLocation;
-        //                else
-        //                    break;
-
-        //                log.LogEverything(t.GetMethodName("Core"), "Received file:" + ud.ToString());
-
-        //                #region finding file name and creating folder if needed
-        //                FileInfo file = new FileInfo(fileLocationPicture);
-        //                file.Directory.Create(); // If the directory already exists, this method does nothing.
-
-        //                int index = urlStr.LastIndexOf("/") + 1;
-        //                string fileName = ud.Id.ToString() + "_" + urlStr.Remove(0, index);
-        //                #endregion
-
-        //                #region download file
-        //                using (var client = new WebClient())
-        //                {
-        //                    try
-        //                    {
-        //                        client.DownloadFile(urlStr, fileLocationPicture + fileName);
-        //                    }
-        //                    catch (Exception ex)
-        //                    {
-        //                        throw new Exception("Downloading and creating fil locally failed.", ex);
-        //                    }
-        //                }
-        //                #endregion
-
-        //                #region finding checkSum
-        //                string chechSum = "";
-        //                using (var md5 = MD5.Create())
-        //                {
-        //                    using (var stream = File.OpenRead(fileLocationPicture + fileName))
-        //                    {
-        //                        byte[] grr = md5.ComputeHash(stream);
-        //                        chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
-        //                    }
-        //                }
-        //                #endregion
-
-        //                #region checks checkSum
-        //                if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
-        //                    log.LogWarning(t.GetMethodName("Core"), "Download of '" + urlStr + "' failed. Check sum did not match");
-        //                #endregion
-
-        //                Case_Dto dto = sqlController.FileCaseFindMUId(urlStr);
-        //                File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, fileLocationPicture + fileName);
-        //                try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
-        //                catch { log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
-        //                log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
-
-        //                sqlController.FileProcessed(urlStr, chechSum, fileLocationPicture, fileName, ud.Id);
-        //            }
-        //            #endregion
-
-        //            updateIsRunningFiles = false;
-        //        }
-        //    }
-        //    catch (ThreadAbortException)
-        //    {
-        //        log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.LogException(t.GetMethodName("Core"), "failed", ex, true);
-        //    }
-        //}
+        public async Task<Stream> GetFileFromStorageSystem(string fileName)
+        {
+            if (_swiftEnabled)
+            {
+                SwiftResponse rsp = await _swiftClient.GetObject(_comOrganizationId + "_uploaded_data", fileName);
+                if (rsp.IsSuccess)
+                {
+                    return rsp.Stream;
+                }
+                else
+                {
+                    throw new Exception("Could not get file " + fileName);
+                }
+            }
+            else
+            {
+                throw new FileNotFoundException();
+            }
+        }      
 
         public bool CheckStatusByMicrotingUid(string microtingUid)
         {
@@ -4099,128 +4077,7 @@ namespace eFormCore
                 }
             }
             return true;
-        }
-
-        //private void CoreHandleUpdateEntityItems()
-        //{
-        //    try
-        //    {
-        //        if (!updateIsRunningEntities)
-        //        {
-        //            updateIsRunningEntities = true;
-
-        //            #region update EntityItems
-        //            bool more = true;
-        //            entity_items eI;
-        //            while (more)
-        //            {
-        //                eI = sqlController.EntityItemSyncedRead();
-
-        //                if (eI != null)
-        //                {
-        //                    log.LogEverything(t.GetMethodName("Core"), "Received Entity:" + eI.ToString());
-
-        //                    try
-        //                    {
-        //                        var type = sqlController.EntityGroupRead(eI.entity_group_id);
-
-        //                        if (type != null)
-        //                        {
-        //                            #region EntitySearch
-        //                            if (type.Type == Constants.FieldTypes.EntitySearch)
-        //                            {
-        //                                if (eI.workflow_state == Constants.WorkflowStates.Created)
-        //                                {
-        //                                    string microtingUId = communicator.EntitySearchItemCreate(eI.entity_group_id.ToString(), eI.name, eI.description, eI.entity_item_uid);
-
-        //                                    if (microtingUId != null)
-        //                                    {
-        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id.ToString(), eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
-        //                                        continue;
-        //                                    }
-        //                                }
-
-        //                                if (eI.workflow_state == "updated")
-        //                                {
-        //                                    if (communicator.EntitySearchItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.description, eI.entity_item_uid))
-        //                                    {
-        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
-        //                                        continue;
-        //                                    }
-        //                                }
-
-        //                                if (eI.workflow_state == Constants.WorkflowStates.Removed)
-        //                                {
-        //                                    communicator.EntitySearchItemDelete(eI.microting_uid);
-
-        //                                    sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
-        //                                    continue;
-        //                                }
-        //                            }
-        //                            #endregion
-
-        //                            #region EntitySelect
-        //                            if (type.Type == "EntitySelect")
-        //                            {
-        //                                if (eI.workflow_state == Constants.WorkflowStates.Created)
-        //                                {
-        //                                    // TODO! el.displayOrder missing and remove int.Parse(eI.description)
-        //                                    string microtingUId = communicator.EntitySelectItemCreate(eI.entity_group_id.ToString(), eI.name, eI.display_index, eI.entity_item_uid);
-
-        //                                    if (microtingUId != null)
-        //                                    {
-        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, microtingUId, Constants.WorkflowStates.Created);
-        //                                        continue;
-        //                                    }
-        //                                }
-
-        //                                if (eI.workflow_state == "updated")
-        //                                {
-        //                                    // TODO! el.displayOrder missing and remove int.Parse(eI.description)
-        //                                    if (communicator.EntitySelectItemUpdate(eI.entity_group_id.ToString(), eI.microting_uid, eI.name, eI.display_index, eI.entity_item_uid))
-        //                                    {
-        //                                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "updated");
-        //                                        continue;
-        //                                    }
-        //                                }
-
-        //                                if (eI.workflow_state == Constants.WorkflowStates.Removed)
-        //                                {
-        //                                    communicator.EntitySelectItemDelete(eI.microting_uid);
-
-        //                                    sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, Constants.WorkflowStates.Removed);
-        //                                    continue;
-        //                                }
-        //                            }
-        //                            #endregion
-        //                        }
-
-        //                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed_to_sync");
-        //                        log.LogWarning(t.GetMethodName("Core"), "EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync");
-        //                    }
-        //                    catch (Exception ex)
-        //                    {
-        //                        log.LogWarning(t.GetMethodName("Core"), "EntityItem entity_group_id:'" + eI.entity_group_id + "', entity_item_uid:'" + eI.entity_item_uid + "', microting:'" + eI.microting_uid + "', workflow_state:'" + eI.workflow_state + "',  failed to sync. Exception:'" + ex.Message + "'");
-        //                        sqlController.EntityItemSyncedProcessed(eI.entity_group_id, eI.entity_item_uid, eI.microting_uid, "failed to sync");
-        //                    }
-        //                }
-        //                else
-        //                    more = false;
-        //            }
-        //            #endregion
-
-        //            updateIsRunningEntities = false;
-        //        }
-        //    }
-        //    catch (ThreadAbortException)
-        //    {
-        //        log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.LogException(t.GetMethodName("Core"), "CoreHandleUpdateEntityItems failed", ex, true);
-        //    }
-        //}
+        }        
         #endregion
 
 

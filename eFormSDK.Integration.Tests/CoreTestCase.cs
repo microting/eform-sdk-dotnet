@@ -39,9 +39,9 @@ namespace eFormSDK.Integration.Tests
             sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
-            sut.SetPicturePath(path + @"\output\dataFolder\picture\");
-            sut.SetPdfPath(path + @"\output\dataFolder\pdf\");
-            sut.SetJasperPath(path + @"\output\dataFolder\reports\");
+            sut.SetSdkSetting(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
+            sut.SetSdkSetting(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
+            sut.SetSdkSetting(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
             testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
         }
@@ -4205,7 +4205,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.GetJasperPath();
+            var match = sut.GetSdkSetting(Settings.fileLocationJasper);
 
             // Assert
             Assert.NotNull(match);
@@ -4220,7 +4220,7 @@ namespace eFormSDK.Integration.Tests
             // Arrange
 
             // Act
-            var match = sut.SetJasperPath(@"C:\local\gitgud");
+            var match = sut.SetSdkSetting(Settings.fileLocationJasper, @"C:\local\gitgud");
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -4623,7 +4623,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.GetPicturePath();
+            var match = sut.GetSdkSetting(Settings.fileLocationPicture);
 
             // Assert
             Assert.NotNull(match);
@@ -4637,7 +4637,7 @@ namespace eFormSDK.Integration.Tests
             // Arrange
 
             // Act
-            var match = sut.SetPicturePath(@"C:\local");
+            var match = sut.SetSdkSetting(Settings.fileLocationPicture, @"C:\local");
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -5040,7 +5040,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.GetPdfPath();
+            var match = sut.GetSdkSetting(Settings.fileLocationJasper);
 
             // Assert
             Assert.NotNull(match);
@@ -5444,7 +5444,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.GetHttpServerAddress();
+            var match = sut.GetSdkSetting(Settings.httpServerAddress);
 
             // Assert
             Assert.NotNull(match);
@@ -5458,7 +5458,7 @@ namespace eFormSDK.Integration.Tests
             // Arrange
 
             // Act
-            var match = sut.SetHttpServerAddress("facebook.com");
+            var match = sut.SetSdkSetting(Settings.httpServerAddress, "facebook.com");
             // Assert
             Assert.NotNull(match);
             Assert.True(match);

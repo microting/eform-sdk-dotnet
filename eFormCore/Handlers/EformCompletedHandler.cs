@@ -95,7 +95,7 @@ namespace eFormCore.Handlers
 
                                 foreach (int uploadedDataid in uploadedDataIds)
                                 {
-                                    if (core.downloadUploadedData(uploadedDataid))
+                                    if (core.DownloadUploadedData(uploadedDataid))
                                     {
                                         core.TranscribeUploadedData(uploadedDataid);
                                     } else
