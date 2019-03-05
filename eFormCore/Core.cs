@@ -229,7 +229,7 @@ namespace eFormCore
 
                     try
 				    {
-				        _swiftEnabled = (sqlController.SettingRead(Settings.swiftEnabled) == "true");
+				        _swiftEnabled = (sqlController.SettingRead(Settings.swiftEnabled).ToLower() == "true");
 
 				    } catch {}
 
@@ -3971,7 +3971,7 @@ namespace eFormCore
                 }
             }
             else
-            {
+            {_swiftEnabled
                 throw new FileNotFoundException();
             }
         }
