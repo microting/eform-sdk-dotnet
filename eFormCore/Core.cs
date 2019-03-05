@@ -3971,7 +3971,7 @@ namespace eFormCore
                 }
             }
             else
-            {_swiftEnabled
+            {
                 throw new FileNotFoundException();
             }
         }
