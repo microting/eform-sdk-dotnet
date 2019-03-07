@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2014 microting
+Copyright (c) 2007 - 2019 microting
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,9 @@ using eForm.Messages;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microting.eForm;
-using SwiftClient;
+using OpenStack.NetCoreSwiftClient;
+using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
+
 
 namespace eFormCore
 {
@@ -98,9 +100,10 @@ namespace eFormCore
         private bool _swiftEnabled = false;
         private string _swiftUserName = "";
         private string _swiftPassword = "";
-        List<string> _swiftEndpoints = new List<string>();
-        private Client _swiftClient;
-        private string _comOrganizationId;
+        private string _swiftEndpoint = "";
+        private string _keystoneEndpoint = "";
+        private SwiftClientService _swiftClient;
+        private string _customerNo;
         IBus bus;
 		#endregion
 
@@ -124,7 +127,6 @@ namespace eFormCore
                     {
                         maxParallelism = int.Parse(sqlController.SettingRead(Settings.maxParallelism));
                         numberOfWorkers = int.Parse(sqlController.SettingRead(Settings.numberOfWorkers));
-                        _comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
                     }
                     catch { }
 
@@ -226,6 +228,13 @@ namespace eFormCore
                     container.Register(Component.For<Communicator>().Instance(communicator));
                     container.Register(Component.For<Log>().Instance(log));
                     container.Register(Component.For<Core>().Instance(this));
+                    
+                    
+                    try
+                    {
+                        _customerNo = sqlController.SettingRead(Settings.customerNo);
+                    }
+                    catch { }
 
                     try
 				    {
@@ -237,22 +246,21 @@ namespace eFormCore
 				    {
 				        _swiftUserName = sqlController.SettingRead(Settings.swiftUserName);
 				        _swiftPassword = sqlController.SettingRead(Settings.swiftPassword);
-				        foreach (var endpoint in sqlController.SettingRead(Settings.swiftEndPoints).Split(','))
-				        {
-				            _swiftEndpoints.Add(endpoint);
-				        }
-				        _swiftClient = new Client()
-				            .WithCredentials(new SwiftCredentials
+				        _swiftEndpoint = sqlController.SettingRead(Settings.swiftEndPoint);
+				        _keystoneEndpoint = sqlController.SettingRead(Settings.keystoneEndPoint);
+
+				        _swiftClient = new SwiftClientService(
+				            new SwiftClientConfig
 				            {
-				                Username = _swiftUserName,
-				                Password = _swiftPassword,
-				                Endpoints = _swiftEndpoints
-				            })
-				            .SetRetryCount(6)
-				            .SetRetryPerEndpointCount(2)
-				            .SetLogger(new SwiftConsoleLog());
+				                AuthUrl = _keystoneEndpoint,
+				                Domain = "",
+				                Name = _swiftUserName,
+				                ObjectStoreUrl = _swiftEndpoint,
+				                Password = _swiftPassword
+				            });
+				        _swiftClient.AuthenticateAsync();
 				        
-				        container.Register(Component.For<Client>().Instance(_swiftClient));
+				        container.Register(Component.For<SwiftClientService>().Instance(_swiftClient));
 				    }
 
 
@@ -3935,7 +3943,8 @@ namespace eFormCore
 
                 if (_swiftEnabled)
                 {
-                    if (File.Exists(Path.Combine(fileLocationPicture, fileName)))
+                    string filePath = Path.Combine(fileLocationPicture, fileName);
+                    if (File.Exists(filePath))
                     {
                         using (var fileStream = File.OpenRead(fileName))
                         {
@@ -3943,7 +3952,8 @@ namespace eFormCore
                             {
                                 fileStream.CopyTo(memoryStream);
 
-                                var resp = _swiftClient.PutObject(_comOrganizationId + "_uploaded_data", fileName, memoryStream);                                
+                                //var resp = _swiftClient.PutObject(_comOrganizationId + "_uploaded_data", fileName, memoryStream);
+                                PutFilToStorageSystem(filePath, fileName, 0);
                             }
                         }
                     }
@@ -3960,10 +3970,10 @@ namespace eFormCore
         {
             if (_swiftEnabled)
             {
-                SwiftResponse rsp = await _swiftClient.GetObject(_comOrganizationId + "_uploaded_data", fileName);
+                SwiftObjectGetResponse rsp = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
                 if (rsp.IsSuccess)
                 {
-                    return rsp.Stream;
+                    return rsp.ObjectStreamContent;
                 }
                 else
                 {
@@ -3976,25 +3986,31 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> PutFilToStorageSystem(String filePath, string fileName)
+        public async Task<bool> PutFilToStorageSystem(String filePath, string fileName, int tryCount)
         {
             if (_swiftEnabled)
             {
                 var fileStream = new FileStream(filePath, FileMode.Open);
-                SwiftResponse rsp = await _swiftClient.PutObject(_comOrganizationId + "_uploaded_data", fileName, fileStream);
-                if (rsp.IsSuccess)
+
+                SwiftBaseResponse response = _swiftClient
+                    .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+
+                if (!response.IsSuccess)
                 {
-                    return true;
-                }
-                else
-                {
-                    throw new Exception("Could not get file " + fileName);
+                    response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
+                    if (response.IsSuccess)
+                    {
+                        response = _swiftClient
+                            .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+                        if (!response.IsSuccess)
+                        {
+                            throw new Exception("Could not get file " + fileName);
+                        }
+                    }
+
                 }
             }
-            else
-            {
-                throw new FileNotFoundException();
-            }
+            return true;
         }
         
         public bool CheckStatusByMicrotingUid(string microtingUid)

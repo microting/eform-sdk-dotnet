@@ -1,4 +1,28 @@
-﻿using eFormShared;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2019 microting
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using eFormShared;
 using eFormData;
 //using eFormSqlController.Migrations;
 
@@ -4010,7 +4034,9 @@ namespace eFormSqlController
             SettingCreate(Settings.swiftEnabled);
             SettingCreate(Settings.swiftUserName);
             SettingCreate(Settings.swiftPassword);
-            SettingCreate(Settings.swiftEndPoints);
+            SettingCreate(Settings.swiftEndPoint);
+            SettingCreate(Settings.keystoneEndPoint);
+            SettingCreate(Settings.customerNo);
 
             return true;
         }
@@ -4048,7 +4074,9 @@ namespace eFormSqlController
                     case Settings.swiftEnabled: id = 21; defaultValue = "false"; break;
                     case Settings.swiftUserName: id = 22; defaultValue = "eformsdk"; break;
                     case Settings.swiftPassword: id = 23; defaultValue = "eformsdktosecretpassword"; break;
-                    case Settings.swiftEndPoints: id = 24; defaultValue = "http://172.16.4.4:8080,http://172.16.4.5:8080"; break;
+                    case Settings.swiftEndPoint: id = 24; defaultValue = "http://172.16.4.4:8080/swift/v1"; break;
+                    case Settings.keystoneEndPoint: id = 25; defaultValue = "http://172.16.4.4:5000/v2.0"; break;
+                    case Settings.customerNo: id = 26; defaultValue = "0"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
