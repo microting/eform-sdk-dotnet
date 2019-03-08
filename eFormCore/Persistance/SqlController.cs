@@ -5516,7 +5516,7 @@ namespace eFormSqlController
         {
             using (var db = GetContext())
             {
-                if (db.field_types.Where(x => x.field_type == fieldType).Count() == 0)
+                if (db.field_types.Count(x => x.field_type == fieldType) == 0)
                 {
                     field_types fT = new field_types();
                     fT.field_type = fieldType;
