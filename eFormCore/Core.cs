@@ -258,7 +258,15 @@ namespace eFormCore
 				                ObjectStoreUrl = _swiftEndpoint,
 				                Password = _swiftPassword
 				            });
-				        _swiftClient.AuthenticateAsync();
+				        try
+				        {
+				            _swiftClient.AuthenticateAsync();
+				        }
+				        catch (Exception ex)
+				        {
+				            log.LogWarning(t.GetMethodName("Core"), ex.Message);
+				        }
+				        
 				        
 				        container.Register(Component.For<SwiftClientService>().Instance(_swiftClient));
 				    }
@@ -3966,17 +3974,22 @@ namespace eFormCore
             }
         }
 
-        public async Task<Stream> GetFileFromStorageSystem(string fileName)
+        public async Task<SwiftObjectGetResponse> GetFileFromStorageSystem(string fileName)
         {
             if (_swiftEnabled)
             {
-                SwiftObjectGetResponse rsp = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
-                if (rsp.IsSuccess)
+                SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
+                if (response.IsSuccess)
                 {
-                    return rsp.ObjectStreamContent;
+                    return response;
                 }
                 else
                 {
+                    if (response.Reason == "Unauthorized")
+                    {
+                        log.LogWarning(t.GetMethodName("Core"), "Check swift cridentials : Unauthorized");
+                        throw new UnauthorizedAccessException();
+                    }
                     throw new Exception("Could not get file " + fileName);
                 }
             }
@@ -3997,6 +4010,11 @@ namespace eFormCore
 
                 if (!response.IsSuccess)
                 {
+                    if (response.Reason == "Unauthorized")
+                    {
+                        log.LogWarning(t.GetMethodName("Core"), "Check swift cridentials : Unauthorized");
+                        throw new UnauthorizedAccessException();
+                    }
                     response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
                     if (response.IsSuccess)
                     {
