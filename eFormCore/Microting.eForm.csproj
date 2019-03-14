@@ -62,6 +62,8 @@
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\answers.cs" />
     <Compile Include="Persistance\table\answer_values.cs" />
+    <Compile Include="Persistance\table\answer_value_versions.cs" />
+    <Compile Include="Persistance\table\answer_versions.cs" />
     <Compile Include="Persistance\table\base_entity.cs" />
     <Compile Include="Persistance\table\cases.cs" />
     <Compile Include="Persistance\table\case_versions.cs" />
