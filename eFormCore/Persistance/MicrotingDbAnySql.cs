@@ -37,6 +37,10 @@ namespace eFormSqlController
            
         }
        
+        public virtual DbSet<answer_values> answer_values { get; set; }
+        public virtual DbSet<answer_value_versions> answer_value_versions { get; set; }
+        public virtual DbSet<answers> answers { get; set; }
+        public virtual DbSet<answer_versions> answer_versions { get; set; }
         public virtual DbSet<case_versions> case_versions { get; set; }
         public virtual DbSet<cases> cases { get; set; }
         public virtual DbSet<check_list_site_versions> check_list_site_versions { get; set; }
@@ -54,14 +58,26 @@ namespace eFormSqlController
         public virtual DbSet<field_values> field_values { get; set; }
         public virtual DbSet<field_versions> field_versions { get; set; }
         public virtual DbSet<fields> fields { get; set; }
+        public virtual DbSet<languages> languages { get; set; }
+        public virtual DbSet<language_versions> language_versions { get; set; }
         public virtual DbSet<log_exceptions> log_exceptions { get; set; }
         public virtual DbSet<logs> logs { get; set; }
         public virtual DbSet<notifications> notifications { get; set; }
+        public virtual DbSet<options> options { get; set; }
+        public virtual DbSet<option_versions> option_versions { get; set; }
+        public virtual DbSet<question_sets> question_sets { get; set; }
+        public virtual DbSet<question_set_versions> question_set_versions { get; set; }
+        public virtual DbSet<questions> questions { get; set; }
+        public virtual DbSet<question_versions> question_versions { get; set; }
         public virtual DbSet<settings> settings { get; set; }
+        public virtual DbSet<site_survey_configurations> site_survey_configuraions { get; set; }
+        public virtual DbSet<site_survey_configuration_versions> site_survey_configuraion_versions { get; set; }
         public virtual DbSet<site_versions> site_versions { get; set; }
         public virtual DbSet<site_worker_versions> site_worker_versions { get; set; }
         public virtual DbSet<site_workers> site_workers { get; set; }
         public virtual DbSet<sites> sites { get; set; }
+        public virtual DbSet<survey_configurations> survey_configurations { get; set; }
+        public virtual DbSet<survey_configuration_versions> survey_configuration_versions { get; set; }
         public virtual DbSet<unit_versions> unit_versions { get; set; }
         public virtual DbSet<units> units { get; set; }
         public virtual DbSet<uploaded_data> uploaded_data { get; set; }

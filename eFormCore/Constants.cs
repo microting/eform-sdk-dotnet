@@ -158,5 +158,10 @@ namespace eFormShared
 
 
         }
+        public static class QuestionTypes
+        {
+            public const string Number = "Number";
+            public const string Text = "Text";
+        }
     }
 }
