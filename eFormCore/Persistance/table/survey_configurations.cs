@@ -22,10 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+
 namespace eFormSqlController
 {
     public partial class survey_configurations : base_entity
     {
+        public DateTime start { get; set; }
         
+        public DateTime stop { get; set; }
+        
+        public int timeToLive { get; set; }
+        
+        public string name { get; set; }
+        
+        public int timeOut { get; set; }
     }
 }

@@ -26,6 +26,14 @@ namespace eFormSqlController
 {
     public partial class question_sets : base_entity
     {
+        public string name { get; set; }
         
+        public bool hasChild { get; set; }
+        
+        public bool posiblyDeployed { get; set; }
+        
+        public int parentId { get; set; }
+        
+        public bool share { get; set; }
     }
 }

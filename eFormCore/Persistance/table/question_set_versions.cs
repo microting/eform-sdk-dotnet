@@ -22,10 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace eFormSqlController
 {
     public partial class question_set_versions : base_entity
     {
         
+        public string name { get; set; }
+        
+        public bool hasChild { get; set; }
+        
+        public bool posiblyDeployed { get; set; }
+        
+        public int parentId { get; set; }
+        
+        public bool share { get; set; }
+        
+        [ForeignKey("question_set")]
+        public int questionSetId { get; set; }
     }
 }
