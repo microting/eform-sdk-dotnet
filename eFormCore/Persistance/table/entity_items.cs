@@ -28,20 +28,20 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class entity_items
+    public partial class entity_items : base_entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-
-        [StringLength(255)]
-        public string workflow_state { get; set; }
-
-        public int? version { get; set; }
-
-        public DateTime? created_at { get; set; }
-
-        public DateTime? updated_at { get; set; }
+//        [Key]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+//        public int id { get; set; }
+//
+//        [StringLength(255)]
+//        public string workflow_state { get; set; }
+//
+//        public int? version { get; set; }
+//
+//        public DateTime? created_at { get; set; }
+//
+//        public DateTime? updated_at { get; set; }
         
         // TODO! Change this to be int and create migration to handle the move.
         public int entity_group_id { get; set; }

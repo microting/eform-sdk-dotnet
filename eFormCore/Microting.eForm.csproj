@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -60,6 +60,9 @@
     <Compile Include="Persistance\Migrations\20190116110009_AddingOriginalId.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
+    <Compile Include="Persistance\table\answers.cs" />
+    <Compile Include="Persistance\table\answer_values.cs" />
+    <Compile Include="Persistance\table\base_entity.cs" />
     <Compile Include="Persistance\table\cases.cs" />
     <Compile Include="Persistance\table\case_versions.cs" />
     <Compile Include="Persistance\table\check_lists.cs" />

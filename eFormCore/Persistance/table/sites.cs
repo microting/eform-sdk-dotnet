@@ -29,7 +29,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class sites
+    public partial class sites : base_entity
     {
         public sites()
         {
@@ -39,23 +39,23 @@ namespace eFormSqlController
             this.check_list_sites = new HashSet<check_list_sites>();
         }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-
-        public DateTime? created_at { get; set; }
-
-        public DateTime? updated_at { get; set; }
+//        [Key]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+//        public int id { get; set; }
+//
+//        public DateTime? created_at { get; set; }
+//
+//        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
         public string name { get; set; }
 
         public int? microting_uid { get; set; }
 
-        public int? version { get; set; }
-
-        [StringLength(255)]
-        public string workflow_state { get; set; }
+//        public int? version { get; set; }
+//
+//        [StringLength(255)]
+//        public string workflow_state { get; set; }
 
         public virtual ICollection<cases> cases { get; set; }
 
