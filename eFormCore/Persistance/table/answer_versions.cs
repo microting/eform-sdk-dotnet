@@ -23,9 +23,11 @@ SOFTWARE.
 */
 
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace eFormSqlController
 {
-    public class answer_versions : base_entity
+    public partial class answer_versions : base_entity
     {
         public int unitId { get; set; }
         
@@ -45,6 +47,7 @@ namespace eFormSqlController
         
         public string timeZone { get; set; }
         
+        [ForeignKey("answer")]
         public int answerId { get; set; }
     }
 }

@@ -24,8 +24,10 @@ SOFTWARE.
 
 namespace eFormSqlController
 {
-    public partial class site_survey_configuration_versions : base_entity
+    public partial class languages : base_entity
     {
+        public string name { get; set; }
         
+        public string description { get; set; }
     }
 }

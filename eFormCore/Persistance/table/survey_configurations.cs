@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace eFormSqlController
 {
-    public class survey_configurations : base_entity
+    public partial class survey_configurations : base_entity
     {
         
     }

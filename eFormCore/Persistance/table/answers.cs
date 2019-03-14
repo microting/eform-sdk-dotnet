@@ -22,18 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace eFormSqlController
 {
-    public class answers : base_entity
+    public partial class answers : base_entity
     {
+        
+        [ForeignKey("unit")]
         public int unitId { get; set; }
         
+        [ForeignKey("site")]
         public int siteId { get; set; }
         
         public int answerDuration { get; set; }
         
+        [ForeignKey("language")]
         public int languageId { get; set; }
         
+        [ForeignKey("survey_configuration")]
         public int surveyConfigurationId { get; set; }
         
         public int finishedAt { get; set; }

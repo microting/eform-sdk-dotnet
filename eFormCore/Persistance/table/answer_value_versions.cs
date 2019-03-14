@@ -23,9 +23,11 @@ SOFTWARE.
 */
 
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace eFormSqlController
 {
-    public class answer_value_versions : base_entity
+    public partial class answer_value_versions : base_entity
     {
         public int answerId { get; set; }
         
@@ -35,6 +37,7 @@ namespace eFormSqlController
         
         public int value { get; set; }
         
+        [ForeignKey("answer_value")]
         public int answerValueId { get; set; }
     }
 }

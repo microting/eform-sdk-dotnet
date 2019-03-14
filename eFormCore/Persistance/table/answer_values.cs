@@ -22,14 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace eFormSqlController
 {
-    public class answer_values : base_entity
+    public partial class answer_values : base_entity
     {
+        [ForeignKey("answer")]
         public int answerId { get; set; }
         
+        [ForeignKey("question")]
         public int questionId { get; set; }
         
+        [ForeignKey("options")]
         public int optionsId { get; set; }
         
         public int value { get; set; }

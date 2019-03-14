@@ -22,10 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace eFormSqlController
 {
-    public partial class site_survey_configuration_versions : base_entity
+    public partial class language_versions : base_entity
     {
+        public string name { get; set; }
         
+        public string description { get; set; }
+        
+        [ForeignKey("language")]
+        public int languageId { get; set; }
     }
 }
