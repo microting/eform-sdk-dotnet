@@ -3914,10 +3914,12 @@ namespace eFormCore
                 {
                     try
                     {
+                        log.LogStandard(t.GetMethodName("Core"), $"Downloading file to #{fileLocationPicture}/#{fileName}");
                         client.DownloadFile(urlStr, fileLocationPicture + fileName);
                     }
                     catch (Exception ex)
                     {
+                        log.LogWarning(t.GetMethodName("Core"), "We got an error " + ex.Message);
                         throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
 
@@ -3952,6 +3954,7 @@ namespace eFormCore
                 if (_swiftEnabled)
                 {
                     string filePath = Path.Combine(fileLocationPicture, fileName);
+                    log.LogStandard(t.GetMethodName("Core"), "filePath is " + filePath);
                     if (File.Exists(filePath))
                     {
                         using (var fileStream = File.OpenRead(fileName))
@@ -3960,10 +3963,13 @@ namespace eFormCore
                             {
                                 fileStream.CopyTo(memoryStream);
 
-                                //var resp = _swiftClient.PutObject(_comOrganizationId + "_uploaded_data", fileName, memoryStream);
                                 PutFilToStorageSystem(filePath, fileName, 0);
                             }
                         }
+                    }
+                    else
+                    {
+                        
                     }
                 }
                 
@@ -3978,6 +3984,7 @@ namespace eFormCore
         {
             if (_swiftEnabled)
             {
+                log.LogStandard(t.GetMethodName("Core"), $"Trying to get file #{fileName} from #{_customerNo}_uploaded_data");
                 SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
                 if (response.IsSuccess)
                 {
@@ -4005,6 +4012,7 @@ namespace eFormCore
             {
                 var fileStream = new FileStream(filePath, FileMode.Open);
 
+                log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file #{fileName} to #{_customerNo}_uploaded_data");
                 SwiftBaseResponse response = _swiftClient
                     .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
 
