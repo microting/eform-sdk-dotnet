@@ -4016,7 +4016,7 @@ namespace eFormCore
                     {
                         if (response.Reason == "Unauthorized")
                         {
-                            log.LogWarning(t.GetMethodName("Core"), "Check swift cridentials : Unauthorized");
+                            log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
                             throw new UnauthorizedAccessException();
                         }
 
