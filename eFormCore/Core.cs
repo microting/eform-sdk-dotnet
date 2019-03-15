@@ -3957,7 +3957,7 @@ namespace eFormCore
                     log.LogStandard(t.GetMethodName("Core"), "filePath is " + filePath);
                     if (File.Exists(filePath))
                     {
-                        using (var fileStream = File.OpenRead(fileName))
+                        using (var fileStream = File.OpenRead(filePath))
                         {
                             using (var memoryStream = new MemoryStream())
                             {
@@ -3984,7 +3984,7 @@ namespace eFormCore
         {
             if (_swiftEnabled)
             {
-                log.LogStandard(t.GetMethodName("Core"), $"Trying to get file #{fileName} from #{_customerNo}_uploaded_data");
+                log.LogStandard(t.GetMethodName("Core"), $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
                 SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
                 if (response.IsSuccess)
                 {
@@ -4012,7 +4012,7 @@ namespace eFormCore
             {
                 var fileStream = new FileStream(filePath, FileMode.Open);
 
-                log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file #{fileName} to #{_customerNo}_uploaded_data");
+                log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
                 SwiftBaseResponse response = _swiftClient
                     .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
 
