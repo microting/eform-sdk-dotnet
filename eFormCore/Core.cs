@@ -3953,23 +3953,16 @@ namespace eFormCore
 
                 if (_swiftEnabled)
                 {
+                    log.LogStandard(t.GetMethodName("Core"), $"Swift enabled, so trying to upload file {fileName}");
                     string filePath = Path.Combine(fileLocationPicture, fileName);
-                    log.LogStandard(t.GetMethodName("Core"), "filePath is " + filePath);
                     if (File.Exists(filePath))
                     {
-                        using (var fileStream = File.OpenRead(filePath))
-                        {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                fileStream.CopyTo(memoryStream);
-
-                                PutFilToStorageSystem(filePath, fileName, 0);
-                            }
-                        }
+                        log.LogStandard(t.GetMethodName("Core"), $"File exists at path {filePath}");
+                        PutFilToStorageSystem(filePath, fileName, 0);
                     }
                     else
                     {
-                        
+                        log.LogWarning(t.GetMethodName("Core"), $"File could not be found at filepath {filePath}");
                     }
                 }
                 
@@ -4006,37 +3999,44 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> PutFilToStorageSystem(String filePath, string fileName, int tryCount)
+        public void PutFilToStorageSystem(String filePath, string fileName, int tryCount)
         {
             if (_swiftEnabled)
             {
-                var fileStream = new FileStream(filePath, FileMode.Open);
-
+                
                 log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
-                SwiftBaseResponse response = _swiftClient
-                    .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
-
-                if (!response.IsSuccess)
+                try
                 {
-                    if (response.Reason == "Unauthorized")
+                    var fileStream = new FileStream(filePath, FileMode.Open);
+
+                    SwiftBaseResponse response = _swiftClient
+                        .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+
+                    if (!response.IsSuccess)
                     {
-                        log.LogWarning(t.GetMethodName("Core"), "Check swift cridentials : Unauthorized");
-                        throw new UnauthorizedAccessException();
-                    }
-                    response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
-                    if (response.IsSuccess)
-                    {
-                        response = _swiftClient
-                            .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
-                        if (!response.IsSuccess)
+                        if (response.Reason == "Unauthorized")
                         {
-                            throw new Exception("Could not get file " + fileName);
+                            log.LogWarning(t.GetMethodName("Core"), "Check swift cridentials : Unauthorized");
+                            throw new UnauthorizedAccessException();
+                        }
+
+                        response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
+                        if (response.IsSuccess)
+                        {
+                            response = _swiftClient
+                                .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+                            if (!response.IsSuccess)
+                            {
+                                throw new Exception("Could not get file " + fileName);
+                            }
                         }
                     }
-
                 }
+                catch (FileNotFoundException ex)
+                {
+                    log.LogCritical(t.GetMethodName("Core"), $"File not found at {filePath}");
+                }                
             }
-            return true;
         }
         
         public bool CheckStatusByMicrotingUid(string microtingUid)
