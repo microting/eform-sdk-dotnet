@@ -3987,10 +3987,12 @@ namespace eFormCore
                 {
                     if (response.Reason == "Unauthorized")
                     {
-                        Log.LogWarning(t.GetMethodName("Core"), "Check swift cridentials : Unauthorized");
+                        Log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
                         throw new UnauthorizedAccessException();
                     }
-                    throw new Exception("Could not get file " + fileName);
+                    
+                    Log.LogCritical(t.GetMethodName("Core"), $"Could not get file {fileName}, reason is {response.Reason}");
+                    throw new Exception($"Could not get file {fileName}");
                 }
             }
             else
@@ -4019,7 +4021,9 @@ namespace eFormCore
                             Log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
                             throw new UnauthorizedAccessException();
                         }
-
+                        
+                        Log.LogWarning(t.GetMethodName("Core"), $"Something went wrong, message was {response.Reason}");
+                        
                         response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
                         if (response.IsSuccess)
                         {
@@ -4027,7 +4031,7 @@ namespace eFormCore
                                 .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
                             if (!response.IsSuccess)
                             {
-                                throw new Exception("Could not get file " + fileName);
+                                throw new Exception($"Could not upload file {fileName}");
                             }
                         }
                     }
