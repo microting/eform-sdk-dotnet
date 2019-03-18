@@ -58,17 +58,16 @@ namespace eFormSDK.Integration.Tests
             }
             catch
             {
-                try
-                {
-                    Core core = new Core();
-                    core.StartSqlOnly(ConnectionString);
-                    core.Close();
-                } catch
-                {
-                    AdminTools adminTools = new AdminTools(ConnectionString);
-                    adminTools.DbSetup("abc1234567890abc1234567890abcdef");
-                }
-                
+            }
+            try
+            {
+                Core core = new Core();
+                core.StartSqlOnly(ConnectionString);
+                core.Close();
+            } catch
+            {
+                AdminTools adminTools = new AdminTools(ConnectionString);
+                adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
 
             DoSetup();
@@ -126,6 +125,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("field_types");
             modelNames.Add("survey_configurations");
             modelNames.Add("survey_configuration_versions");
+            modelNames.Add("site_survey_configurations");
+            modelNames.Add("site_survey_configuration_versions");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");

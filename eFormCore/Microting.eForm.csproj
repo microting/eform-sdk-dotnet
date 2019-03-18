@@ -60,6 +60,8 @@
     <Compile Include="Persistance\Migrations\20190116110009_AddingOriginalId.Designer.cs" />
     <Compile Include="Persistance\Migrations\20190315092242_AddingModelseForInsight.cs" />
     <Compile Include="Persistance\Migrations\20190315092242_AddingModelseForInsight.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190318122928_FixingNamingOfSurveyConfigurationSites.cs" />
+    <Compile Include="Persistance\Migrations\20190318122928_FixingNamingOfSurveyConfigurationSites.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\answers.cs" />

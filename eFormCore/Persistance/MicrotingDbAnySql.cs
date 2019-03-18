@@ -70,8 +70,8 @@ namespace eFormSqlController
         public virtual DbSet<questions> questions { get; set; }
         public virtual DbSet<question_versions> question_versions { get; set; }
         public virtual DbSet<settings> settings { get; set; }
-        public virtual DbSet<site_survey_configurations> site_survey_configuraions { get; set; }
-        public virtual DbSet<site_survey_configuration_versions> site_survey_configuraion_versions { get; set; }
+        public virtual DbSet<site_survey_configurations> site_survey_configurations { get; set; }
+        public virtual DbSet<site_survey_configuration_versions> site_survey_configuration_versions { get; set; }
         public virtual DbSet<site_versions> site_versions { get; set; }
         public virtual DbSet<site_worker_versions> site_worker_versions { get; set; }
         public virtual DbSet<site_workers> site_workers { get; set; }
