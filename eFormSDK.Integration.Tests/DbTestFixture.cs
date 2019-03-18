@@ -131,6 +131,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
             modelNames.Add("question_set_versions");
+            modelNames.Add("questions");
+            modelNames.Add("question_versions");
 
             foreach (var modelName in modelNames)
             {
