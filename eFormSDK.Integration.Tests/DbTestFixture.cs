@@ -124,7 +124,12 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
             modelNames.Add("field_types");
-
+            modelNames.Add("survey_configurations");
+            modelNames.Add("survey_configuration_versions");
+            modelNames.Add("languages");
+            modelNames.Add("language_versions");
+            modelNames.Add("question_sets");
+            modelNames.Add("question_set_versions");
 
             foreach (var modelName in modelNames)
             {
