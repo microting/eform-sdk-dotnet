@@ -2621,6 +2621,7 @@ namespace eFormSqlController
                     }
                     else
                     {
+                        offSet = offSet * pageSize;
                         dbCases = matches.Skip(offSet).Take(pageSize).ToList();
                     }
 
