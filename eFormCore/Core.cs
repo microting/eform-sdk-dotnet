@@ -3958,7 +3958,16 @@ namespace eFormCore
                     if (File.Exists(filePath))
                     {
                         Log.LogStandard(t.GetMethodName("Core"), $"File exists at path {filePath}");
-                        PutFilToStorageSystem(filePath, fileName, 0);
+                        try
+                        {
+                            PutFilToStorageSystem(filePath, fileName, 0);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Log.LogStandard(t.GetMethodName("Core"), "Trying to reauthenticate before putting file again");
+                            _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+                            PutFilToStorageSystem(filePath, fileName, 0);                                                        
+                        }                        
                     }
                     else
                     {
