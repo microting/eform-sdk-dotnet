@@ -305,7 +305,7 @@ namespace eFormCommunicator
         #region public Organization
         public string OrganizationLoadAllFromRemote()
         {
-            int id = t.GetRandomInt(6);
+//            int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { my_organization = new
             { aws_endpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
                 aws_id = "3T98EGIO4Y9H8W2",
@@ -314,7 +314,7 @@ namespace eFormCommunicator
                 customer_no = "342345",
                 cvr_no = 234234,
                 ean_no = 235234,
-                id = id,
+                id = 64856189,
                 name = "John Doe corporation Ltd.",
                 payment_overdue = false,
                 payment_status = "OK",

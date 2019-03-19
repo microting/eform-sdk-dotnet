@@ -127,13 +127,13 @@ namespace eFormSDK.Integration.Tests
 
 
             // Assert
-            Assert.AreEqual(match1, "XXX");
-            Assert.AreEqual(match2, "XXX");
-            Assert.AreEqual(match3, "XXX");
-            Assert.AreEqual(match4, "https://xxxxxx.xxxxxx.com");
+            Assert.AreEqual(match1, "3T98EGIO4Y9H8W2");
+            Assert.AreEqual(match2, "https://sqs.eu-central-1.amazonaws.com/564456879978/");
+            Assert.AreEqual(match3, "098u34098uergijt3098w");
+            Assert.AreEqual(match4, "http://srv05.microting.com");
             Assert.AreEqual(match5, "https://basic.microting.com");
-            Assert.AreEqual(match6, "https://xxxxxx.xxxxxx.com");
-            Assert.AreEqual(match7, "0");
+            Assert.AreEqual(match6, "https://srv16.microting.com");
+            Assert.AreEqual(match7, "64856189");
             Assert.AreEqual(match8, path + @"\output\dataFolder\reports\");
             Assert.AreEqual(match9, path + @"\output\dataFolder\pdf\");
             Assert.AreEqual(match10, path + @"\output\dataFolder\picture\");
@@ -143,7 +143,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match14, "4");
             Assert.AreEqual(match15, "25000");
             Assert.AreEqual(match16, "abc1234567890abc1234567890abcdef");
-            Assert.AreEqual(match17, "0");
+            Assert.AreEqual(match17, "55");
 
 
         }
@@ -206,13 +206,13 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match[6].value, path + @"\output\dataFolder\reports\");
             Assert.AreEqual(match[7].value, "abc1234567890abc1234567890abcdef");
             Assert.AreEqual(match[8].value, "https://basic.microting.com");
-            Assert.AreEqual(match[9].value, "https://xxxxxx.xxxxxx.com");
-            Assert.AreEqual(match[10].value, "https://xxxxxx.xxxxxx.com");
-            Assert.AreEqual(match[11].value, "0");
-            Assert.AreEqual(match[12].value, "XXX");
-            Assert.AreEqual(match[13].value, "XXX");
-            Assert.AreEqual(match[14].value, "XXX");
-            Assert.AreEqual(match[15].value, "0");
+            Assert.AreEqual(match[9].value, "http://srv05.microting.com");
+            Assert.AreEqual(match[10].value, "https://srv16.microting.com");
+            Assert.AreEqual(match[11].value, "64856189");
+            Assert.AreEqual(match[12].value, "3T98EGIO4Y9H8W2");
+            Assert.AreEqual(match[13].value, "098u34098uergijt3098w");
+            Assert.AreEqual(match[14].value, "https://sqs.eu-central-1.amazonaws.com/564456879978/");
+            Assert.AreEqual(match[15].value, "55");
             Assert.AreEqual(match[16].value, "http://localhost:3000");
             #endregion
 
