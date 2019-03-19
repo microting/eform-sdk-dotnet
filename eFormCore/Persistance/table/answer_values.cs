@@ -39,5 +39,9 @@ namespace eFormSqlController
         
         public int value { get; set; }
         
+        public virtual answers Answer { get; set; }
+        public virtual questions Question { get; set; }
+        public virtual options Option { get; set; }
+        
     }
 }

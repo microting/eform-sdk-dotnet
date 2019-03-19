@@ -34,5 +34,7 @@ namespace eFormSqlController
         
         [ForeignKey("site_survey_configuration")]
         public int siteSurveyConfigurationId { get; set; }
+        
+        public virtual site_survey_configurations SiteSurveyConfiguration { get; set; }
     }
 }

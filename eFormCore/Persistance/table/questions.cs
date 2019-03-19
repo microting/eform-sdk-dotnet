@@ -26,6 +26,7 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.AccessControl;
 using eFormShared;
 
 namespace eFormSqlController
@@ -65,6 +66,7 @@ namespace eFormSqlController
         
         public bool validDisplay { get; set; }
 
+        public virtual question_sets QuestionSet { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
             workflow_state = Constants.WorkflowStates.Created;

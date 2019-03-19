@@ -63,5 +63,7 @@ namespace eFormSqlController
         [ForeignKey("question")]
         public int questionId { get; set; }
         
+        public virtual questions Question { get; set; }
+        
     }
 }

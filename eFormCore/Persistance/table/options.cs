@@ -43,6 +43,8 @@ namespace eFormSqlController
         public int questionId { get; set; }
         
         public int optionsIndex { get; set; }
+        
+        public virtual questions Question { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {

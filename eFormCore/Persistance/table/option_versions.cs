@@ -42,5 +42,7 @@ namespace eFormSqlController
         
         [ForeignKey("option")]
         public int optionId { get; set; }
+        
+        public virtual options Option { get; set; }
     }
 }
