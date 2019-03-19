@@ -1997,19 +1997,19 @@ namespace eFormCore
                         }                        
                     }
 
-                    string locaT = _sqlController.SettingRead(Settings.fileLocationJasper) + "templates\\" + jasperTemplate + "\\compact\\" + jasperTemplate + ".jrxml";
+                    string locaT = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact", jasperTemplate + ".jrxml");                    
                     if (!File.Exists(locaT))
                     {
                         throw new FileNotFoundException("jrxml template was not found at " + locaT);
                     }
-                    string locaC = _sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".xml";
-                    locaC = locaC.Replace("\\", "/");
+                    string locaC = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results", timeStamp + "_" + caseId + ".xml");
+//                    locaC = locaC.Replace("\\", "/");
 
                     if (!File.Exists(locaC))
                     {
                         throw new FileNotFoundException("Case result xml was not found at " + locaC);
                     }
-                    string locaR = _sqlController.SettingRead(Settings.fileLocationJasper) + "results\\" + timeStamp + "_" + caseId + ".pdf";
+                    string locaR = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results", timeStamp + "_" + caseId + ".pdf");
 
                     string command =
                         "-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar " + locaJ +
