@@ -30,7 +30,7 @@ namespace eFormSqlController
     {
         public int siteId { get; set; }
         
-        public int surveyConfigId { get; set; }
+        public int surveyConfigurationId { get; set; }
         
         [ForeignKey("site_survey_configuration")]
         public int siteSurveyConfigurationId { get; set; }

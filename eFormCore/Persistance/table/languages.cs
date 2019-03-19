@@ -22,6 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Linq;
+using eFormShared;
+
 namespace eFormSqlController
 {
     public partial class languages : base_entity
@@ -29,5 +33,79 @@ namespace eFormSqlController
         public string name { get; set; }
         
         public string description { get; set; }
+
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            created_at = DateTime.Now;
+            updated_at = DateTime.Now;
+            version = 1;
+            workflow_state = Constants.WorkflowStates.Created;
+
+            dbContext.languages.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.language_versions.Add(MapVersions(this));
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            languages languages = dbContext.languages.FirstOrDefault(x => x.id == id);
+
+            if (languages == null)
+            {
+                throw new NullReferenceException($"Could not find language wit ID: {id}");
+            }
+
+            languages.name = name;
+            languages.description = description;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                languages.version += 1;
+                languages.updated_at = DateTime.Now;
+
+                dbContext.language_versions.Add(MapVersions(languages));
+                dbContext.SaveChanges();
+            }
+
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            languages language = dbContext.languages.FirstOrDefault(x => x.id == id);
+
+            if (language == null)
+            {
+                throw new NullReferenceException($"Could not find language with ID: {id}");
+            }
+
+            language.workflow_state = Constants.WorkflowStates.Removed;
+            
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                language.version += 1;
+                language.updated_at = DateTime.Now;
+
+                dbContext.language_versions.Add(MapVersions(language));
+                dbContext.SaveChanges();
+            }
+        }
+        
+        private language_versions MapVersions(languages language)
+        {
+            language_versions languageVersions = new language_versions();
+
+            languageVersions.languageId = language.id;
+            languageVersions.name = language.name;
+            languageVersions.description = language.description;
+            languageVersions.version = language.version;
+            languageVersions.created_at = language.created_at;
+            languageVersions.updated_at = language.updated_at;
+            languageVersions.workflow_state = language.workflow_state;
+
+            
+            return languageVersions;
+        }
     }
 }
