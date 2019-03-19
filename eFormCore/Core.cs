@@ -2611,9 +2611,12 @@ namespace eFormCore
                     if (uploadedData != null)
                     {
                         string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
-                        if (audioFileExtenstions.Any(uploadedData.extension.Contains)) {
+                        if (audioFileExtenstions.Any(uploadedData.extension.Contains))
+                        {
 
-                            int requestId = SpeechToText(uploadedData.file_location + @"\" + uploadedData.file_name);
+                            string filePath = Path.Combine(uploadedData.file_location, uploadedData.file_name);
+                            Log.LogStandard(methodName, $"filePath is {filePath}");
+                            int requestId = SpeechToText(filePath);
                             uploadedData.transcription_id = requestId;
 
                             _sqlController.UpdateUploadedData(uploadedData);
@@ -3958,7 +3961,16 @@ namespace eFormCore
                     if (File.Exists(filePath))
                     {
                         Log.LogStandard(t.GetMethodName("Core"), $"File exists at path {filePath}");
-                        PutFilToStorageSystem(filePath, fileName, 0);
+                        try
+                        {
+                            PutFilToStorageSystem(filePath, fileName, 0);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Log.LogStandard(t.GetMethodName("Core"), "Trying to reauthenticate before putting file again");
+                            _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+                            PutFilToStorageSystem(filePath, fileName, 0);                                                        
+                        }                        
                     }
                     else
                     {
