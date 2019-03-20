@@ -1732,10 +1732,10 @@ namespace eFormCore
                     #endregion
 
                     //place in settings allocated placement
-                    string fullPath = _sqlController.SettingRead(Settings.fileLocationJasper) + @"results\" + timeStamp + "_" + caseId + ".xml";
+                    string fullPath = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results", timeStamp + "_" + caseId + ".xml");
                     //string path = sqlController.SettingRead(Settings.fileLocationJasper) + "results/" + DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss") + "_" + caseId + ".xml";
                     string path = _sqlController.SettingRead(Settings.fileLocationJasper);
-                    Directory.CreateDirectory(path + @"results\");
+                    Directory.CreateDirectory(Path.Combine(path, "results"));
                     File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
                     //string path = Path.GetFullPath(locaR);
