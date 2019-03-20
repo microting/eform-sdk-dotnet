@@ -48,11 +48,22 @@ namespace eFormSqlController
         
         public int finishedAt { get; set; }
         
+        [ForeignKey("question_set")]
         public int questionSetId { get; set; }
         
         public bool UTCAdjusted { get; set; }
         
         public string timeZone { get; set; }
+        
+        public virtual sites site { get; set; }
+
+        public virtual units unit { get; set; }
+        
+        public virtual languages language { get; set; }
+        
+        public virtual survey_configurations survey_configuration { get; set; }
+        
+        public virtual question_sets question_set { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {

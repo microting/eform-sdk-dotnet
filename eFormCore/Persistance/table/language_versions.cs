@@ -34,5 +34,7 @@ namespace eFormSqlController
         
         [ForeignKey("language")]
         public int languageId { get; set; }
+        
+        public virtual languages Language { get; set; }
     }
 }

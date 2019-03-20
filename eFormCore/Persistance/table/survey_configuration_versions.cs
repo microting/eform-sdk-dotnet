@@ -41,5 +41,7 @@ namespace eFormSqlController
         
         [ForeignKey("survey_configuration")]
         public int surveyConfigurationId { get; set; }
+        
+        public virtual survey_configurations SurveyConfiguration { get; set; }
     }
 }

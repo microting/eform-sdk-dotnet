@@ -37,6 +37,8 @@ namespace eFormSqlController
         [ForeignKey("survey_configuration")]
         public int surveyConfigurationId { get; set; }
 
+        public virtual sites Site { get; set; }
+        public virtual survey_configurations SurveyConfiguration { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
             workflow_state = Constants.WorkflowStates.Created;

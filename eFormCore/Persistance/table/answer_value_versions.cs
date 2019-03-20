@@ -39,5 +39,7 @@ namespace eFormSqlController
         
         [ForeignKey("answer_value")]
         public int answerValueId { get; set; }
+        
+        public virtual answer_values AnswerValue { get; set; }
     }
 }
