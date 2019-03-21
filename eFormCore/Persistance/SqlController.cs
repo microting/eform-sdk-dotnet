@@ -34,6 +34,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Microting.eForm;
 
 namespace eFormSqlController
@@ -4056,9 +4057,42 @@ namespace eFormSqlController
                     case Settings.logLevel: id = 2; defaultValue = "4"; break;
                     case Settings.logLimit: id = 3; defaultValue = "25000"; break;
                     case Settings.knownSitesDone: id = 4; defaultValue = "false"; break;
-                    case Settings.fileLocationPicture: id = 5; defaultValue = @"output\dataFolder\picture\"; break;
-                    case Settings.fileLocationPdf: id = 6; defaultValue = @"output\dataFolder\pdf\"; break;
-                    case Settings.fileLocationJasper: id = 7; defaultValue = @"output\dataFolder\reports\"; break;
+                    case Settings.fileLocationPicture:
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        {
+                            id = 5;
+                            defaultValue = "output/dataFolder/picture/";
+                        }
+                        else
+                        {
+                            id = 5; 
+                            defaultValue = @"output\dataFolder\picture\";
+                        } 
+                        break;
+                    case Settings.fileLocationPdf:
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        {                            
+                            id = 6;
+                            defaultValue = "output/dataFolder/pdf/";
+                        }
+                        else
+                        {
+                            id = 6; 
+                            defaultValue = @"output\dataFolder\pdf\";
+                        } 
+                        break;
+                    case Settings.fileLocationJasper:
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        {
+                            id = 7;
+                            defaultValue = "output/dataFolder/reports/";
+                        }
+                        else
+                        {
+                            id = 7; 
+                            defaultValue = @"output\dataFolder\reports\";
+                        } 
+                        break;
                     case Settings.token: id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
                     case Settings.comAddressBasic: id = 9; defaultValue = "https://basic.microting.com"; break;
                     case Settings.comAddressApi: id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
