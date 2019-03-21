@@ -389,6 +389,623 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
             Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
         }
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedValidDisplayTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = true;
+            question.backButtonEnabled = false;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedBackButtonEnabledTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = false;
+            question.backButtonEnabled = true;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = false;
+            question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+               
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_ValidDisplayBackButtonEnabledTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = true;
+            question.backButtonEnabled = true;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+               
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_ValidDisplayImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = true;
+            question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+               
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_BackButtonEnabledImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = false;
+            question.backButtonEnabled = true;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                       
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedValidDisplayBackButtonEnabledTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = true;
+            question.backButtonEnabled = true;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+               
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedValidDisplayImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = true;
+            question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+               
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedBackButtonEnabledImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = false;
+            question.backButtonEnabled = true;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                       
+        [Test]
+        public void question_Create_DoesCreate_QuestionSetTrue_ValidDisplayBackButtonEnabledImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = true;
+            questionSet.hasChild = true;
+            questionSet.posiblyDeployed = true;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = true;
+            question.backButtonEnabled = true;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
             
         #endregion
         
@@ -612,6 +1229,555 @@ namespace eFormSDK.Integration.Tests
             question.prioritised = false;
             question.validDisplay = false;
             question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedValidDisplayTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = true;
+            question.backButtonEnabled = false;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedBackButtonEnabledTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = false;
+            question.backButtonEnabled = true;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = false;
+            question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_ValidDisplayBackButtonEnabledTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = true;
+            question.backButtonEnabled = true;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                        [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_ValidDisplayImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = true;
+            question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_BackButtonEnabledImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = false;
+            question.backButtonEnabled = true;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                        [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedValidDisplayBackButtonEnabledTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = true;
+            question.backButtonEnabled = true;
+            question.image = false;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedValidDisplayImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = true;
+            question.validDisplay = true;
+            question.backButtonEnabled = false;
+            question.image = true;
+
+            // Act
+            question.Create(DbContext);
+
+            questions dbQuestion = DbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            // Assert
+            Assert.NotNull(dbQuestion);
+            Assert.NotNull(dbQuestionVersion);
+            
+            Assert.AreEqual(dbQuestion.type , question.type);
+            Assert.AreEqual(dbQuestion.image , question.image);
+            Assert.AreEqual(dbQuestion.maximum , question.maximum);
+            Assert.AreEqual(dbQuestion.minimum , question.minimum);
+            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
+            Assert.AreEqual(dbQuestion.refId , question.refId);
+            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
+            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
+            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
+            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
+            Assert.AreEqual(dbQuestion.questionType , question.questionType);
+            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
+            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
+            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
+            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
+            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+        }
+                                [Test]
+        public void question_Create_DoesCreate_QuestionSetFalse_ValidDisplayBackButtonEnabledImageTrue()
+        {
+            // Arrange
+            string name = Guid.NewGuid().ToString();
+            question_sets questionSet = new question_sets();
+            questionSet.name = name;
+            questionSet.share = false;
+            questionSet.hasChild = false;
+            questionSet.posiblyDeployed = false;
+            questionSet.Create(DbContext);
+
+            Random rnd = new Random();
+            string type = Guid.NewGuid().ToString();
+            string questionType = Guid.NewGuid().ToString();
+            string imagePosition = Guid.NewGuid().ToString();
+            string fontSize = Guid.NewGuid().ToString();
+            questions question = new questions();
+            question.type = type;
+            question.questionType = questionType;
+            question.imagePostion = imagePosition;
+            question.fontSize = fontSize;
+            question.questionSetId = questionSet.id;
+            question.maximum = rnd.Next(1, 255);
+            question.minimum = rnd.Next(1, 255);
+            question.refId = rnd.Next(1, 255);
+            question.maxDuration = rnd.Next(1, 255);
+            question.minDuration = rnd.Next(1, 255);
+            question.questionIndex = rnd.Next(1, 255);
+            question.continuousQuestionId = rnd.Next(1, 255);
+            question.prioritised = false;
+            question.validDisplay = true;
+            question.backButtonEnabled = true;
             question.image = true;
 
             // Act
