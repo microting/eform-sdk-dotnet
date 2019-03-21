@@ -1957,6 +1957,16 @@ namespace eFormCore
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
+            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf");
+        }
+
+        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType)
+        {
+            if (fileType != "pdf" || fileType != "docx" || fileType != "pptx")
+            {
+                throw new ArgumentException($"Filetypes allowed are only: pdf, docx, pptx, currently specified was {fileType}");    
+            }            
+            
             string methodName = t.GetMethodName("Core");
             try
             {
@@ -1978,45 +1988,36 @@ namespace eFormCore
                     // Redirect the output stream of the child process.
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
-                    string locaJ;
-                    string exepath = AppDomain.CurrentDomain.BaseDirectory;
-                    Log.LogStandard(t.GetMethodName("Core"), "exepath is " + exepath);
-                    if (File.Exists(exepath + "\\bin\\JasperExporter.jar"))
+                    string exePath = AppDomain.CurrentDomain.BaseDirectory;
+                    Log.LogStandard(t.GetMethodName("Core"), "exepath is " + exePath);
+                    string _localJasperExporter = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils",
+                        "JasperExporter.jar");
+                    if (!File.Exists(_localJasperExporter))
                     {
-                        locaJ = exepath + "\\bin\\JasperExporter.jar";
-                    }
-                    else
-                    {
-                        if(File.Exists(exepath + "\\JasperExpoter.jar"))
+                        using (WebClient webClient = new WebClient())
                         {
-                            locaJ = exepath + "\\JasperExporter.jar";
+                            webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/v1.0.0/JasperExporter.jar", _localJasperExporter);
                         }
-                        else
-                        {
-                            locaJ = _sqlController.SettingRead(Settings.fileLocationJasper) + "utils\\JasperExporter.jar";
-                        }                        
                     }
 
-                    string locaT = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact", jasperTemplate + ".jrxml");                    
-                    if (!File.Exists(locaT))
+                    string _templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
+                        $"{jasperTemplate}.jrxml");                    
+                    if (!File.Exists(_templateFile))
                     {
-                        throw new FileNotFoundException("jrxml template was not found at " + locaT);
+                        throw new FileNotFoundException($"jrxml template was not found at {_templateFile}");
                     }
-                    string locaC = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results", timeStamp + "_" + caseId + ".xml");
-//                    locaC = locaC.Replace("\\", "/");
+                    string _dataSourceXML = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                        $"{timeStamp}_{caseId}.xml");
 
-                    if (!File.Exists(locaC))
+                    if (!File.Exists(_dataSourceXML))
                     {
-                        throw new FileNotFoundException("Case result xml was not found at " + locaC);
+                        throw new FileNotFoundException("Case result xml was not found at " + _dataSourceXML);
                     }
-                    string locaR = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results", timeStamp + "_" + caseId + ".pdf");
+                    string _resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                        $"{timeStamp}_{caseId}.{fileType}");
 
                     string command =
-                        "-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar " + locaJ +
-                        " -template=\"" + locaT + "\"" +
-                        " -type=\"pdf\"" +
-                        " -uri=\"" + locaC + "\"" +
-                        " -outputFile=\"" + locaR + "\"";
+                        $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {_localJasperExporter} -template=\"{_templateFile}\" -type=\"{fileType}\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
 
                     Log.LogVariable(t.GetMethodName("Core"), nameof(command), command);
                     p.StartInfo.FileName = "java.exe";
@@ -2037,7 +2038,7 @@ namespace eFormCore
                     #endregion
 
                     //return path
-                    string path = Path.GetFullPath(locaR);
+                    string path = Path.GetFullPath(_resultDocument);
                     Log.LogVariable(t.GetMethodName("Core"), nameof(path), path);
                     return path;
                 }

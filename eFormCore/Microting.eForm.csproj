@@ -119,11 +119,6 @@
     <Compile Include="Services\Subscriber.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="JasperExporter.jar">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="3.3.32.2" />
