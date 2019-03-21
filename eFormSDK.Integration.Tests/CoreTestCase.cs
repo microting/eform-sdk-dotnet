@@ -3801,7 +3801,7 @@ namespace eFormSDK.Integration.Tests
 
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
             string pdfPath = path + @"\output\dataFolder\reports\results\" + timeStamp + "_" + aCase2.id + ".xml";
-            var match = sut.CaseToJasperXml(aCase2.id, timeStamp, pdfPath);
+            var match = sut.CaseToJasperXml(aCase2.id, timeStamp, pdfPath, "");
 
             // Assert
             Assert.NotNull(match);

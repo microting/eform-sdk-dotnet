@@ -1681,7 +1681,7 @@ namespace eFormCore
             return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "");
         }
 
-        public string CaseToJasperXml(int caseId, string timeStamp, string customPathForUploadedData)
+        public string CaseToJasperXml(int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1727,6 +1727,7 @@ namespace eFormCore
 
                         + Environment.NewLine + "</fields>"
                         + Environment.NewLine + "</C" + reply.Id + ">"
+                        + customXMLContent
                         + Environment.NewLine + "</root>";
                     Log.LogVariable(t.GetMethodName("Core"), nameof(jasperXml), jasperXml);
                     #endregion
@@ -1957,10 +1958,10 @@ namespace eFormCore
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
-            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf");
+            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", "");
         }
 
-        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType)
+        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXMLContent)
         {
             if (fileType != "pdf" || fileType != "docx" || fileType != "pptx")
             {
@@ -1980,7 +1981,7 @@ namespace eFormCore
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
 
-                    CaseToJasperXml(caseId, timeStamp, customPathForUploadedData);
+                    CaseToJasperXml(caseId, timeStamp, customPathForUploadedData, customXMLContent);
 
                     #region run jar
                     // Start the child process.
