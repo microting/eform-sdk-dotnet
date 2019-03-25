@@ -1963,7 +1963,7 @@ namespace eFormCore
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXMLContent)
         {
-            if (fileType != "pdf" || fileType != "docx" || fileType != "pptx")
+            if (fileType != "pdf" && fileType != "docx" && fileType != "pptx")
             {
                 throw new ArgumentException($"Filetypes allowed are only: pdf, docx, pptx, currently specified was {fileType}");    
             }            
