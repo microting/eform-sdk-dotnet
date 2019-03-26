@@ -1997,6 +1997,7 @@ namespace eFormCore
                     {
                         using (WebClient webClient = new WebClient())
                         {
+                            Directory.CreateDirectory(Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils"));
                             webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/v1.0.0/JasperExporter.jar", _localJasperExporter);
                         }
                     }
@@ -2021,7 +2022,15 @@ namespace eFormCore
                         $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {_localJasperExporter} -template=\"{_templateFile}\" -type=\"{fileType}\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
 
                     Log.LogVariable(t.GetMethodName("Core"), nameof(command), command);
-                    p.StartInfo.FileName = "java.exe";
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        p.StartInfo.FileName = "java.exe";
+                    }
+                    else
+                    {
+                        p.StartInfo.FileName = "java";
+                    }
+
                     p.StartInfo.Arguments = command;
                     p.StartInfo.Verb = "runas";
                     p.Start();
