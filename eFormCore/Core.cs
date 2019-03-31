@@ -3974,13 +3974,13 @@ namespace eFormCore
                         Log.LogStandard(t.GetMethodName("Core"), $"File exists at path {filePath}");
                         try
                         {
-                            PutFilToStorageSystem(filePath, fileName, 0);
+                            PutFileToStorageSystem(filePath, fileName);
                         }
                         catch (UnauthorizedAccessException)
                         {
                             Log.LogStandard(t.GetMethodName("Core"), "Trying to reauthenticate before putting file again");
                             _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
-                            PutFilToStorageSystem(filePath, fileName, 0);                                                        
+                            PutFileToStorageSystem(filePath, fileName);                                                        
                         }                        
                     }
                     else
@@ -3998,9 +3998,22 @@ namespace eFormCore
 
         public async Task<SwiftObjectGetResponse> GetFileFromStorageSystem(string fileName)
         {
-            if (_swiftEnabled)
+            try
             {
-                _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+                return await GetFileFromStorageSystem(fileName, 0);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                _swiftClient.AuthenticateAsyncV2(_swiftEndpoint, _swiftUserName, _swiftPassword);
+                
+                return await GetFileFromStorageSystem(fileName, 0);
+            }
+        }
+
+        private async Task<SwiftObjectGetResponse> GetFileFromStorageSystem(string fileName, int retries)
+        {
+            if (_swiftEnabled)
+            {                
                 Log.LogStandard(t.GetMethodName("Core"), $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
                 SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
                 if (response.IsSuccess)
@@ -4025,11 +4038,24 @@ namespace eFormCore
             }
         }
 
-        public void PutFilToStorageSystem(String filePath, string fileName, int tryCount)
+        public void PutFileToStorageSystem(string filePath, string fileName)
+        {
+            try
+            {
+                PutFileToStorageSystem(filePath, fileName, 0);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                _swiftClient.AuthenticateAsyncV2(_swiftEndpoint, _swiftUserName, _swiftPassword);
+                PutFileToStorageSystem(filePath, fileName, 0);
+            }
+            
+        }
+
+        private void PutFileToStorageSystem(String filePath, string fileName, int tryCount)
         {
             if (_swiftEnabled)
-            {
-                _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+            {                
                 Log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
                 try
                 {
