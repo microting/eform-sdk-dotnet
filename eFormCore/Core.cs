@@ -4004,7 +4004,7 @@ namespace eFormCore
             }
             catch (UnauthorizedAccessException)
             {
-                _swiftClient.AuthenticateAsyncV2(_swiftEndpoint, _swiftUserName, _swiftPassword);
+                _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
                 
                 return await GetFileFromStorageSystem(fileName, 0);
             }
@@ -4046,7 +4046,7 @@ namespace eFormCore
             }
             catch (UnauthorizedAccessException)
             {
-                _swiftClient.AuthenticateAsyncV2(_swiftEndpoint, _swiftUserName, _swiftPassword);
+                _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
                 PutFileToStorageSystem(filePath, fileName, 0);
             }
             
