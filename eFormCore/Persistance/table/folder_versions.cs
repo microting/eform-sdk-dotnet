@@ -33,5 +33,7 @@ namespace eFormSqlController
         public string description { get; set; }
 
         public int? microting_uid { get; set; }
+        
+        public int? parent_id { get; set; }
     }
 }
