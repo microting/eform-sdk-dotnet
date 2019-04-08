@@ -81,6 +81,8 @@ namespace eFormSqlController
         DbSet<tag_versions> tag_versions { get; set; }
         DbSet<taggings> taggings { get; set; }
         DbSet<tagging_versions> tagging_versions { get; set; }
+        DbSet<folders> folders { get; set; }
+        DbSet<folder_versions> folder_versoions { get; set; }
 
         int SaveChanges();
         Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase

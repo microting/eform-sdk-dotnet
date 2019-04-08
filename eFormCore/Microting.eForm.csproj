@@ -86,6 +86,8 @@
     <Compile Include="Persistance\table\field_values.cs" />
     <Compile Include="Persistance\table\field_value_versions.cs" />
     <Compile Include="Persistance\table\field_versions.cs" />
+    <Compile Include="Persistance\table\folders.cs" />
+    <Compile Include="Persistance\table\folder_versions.cs" />
     <Compile Include="Persistance\table\languages.cs" />
     <Compile Include="Persistance\table\language_versions.cs" />
     <Compile Include="Persistance\table\logs.cs" />

@@ -941,6 +941,34 @@ namespace eFormShared
     }
     #endregion
 
+    #region Folder_Dto
+
+    public class Folder_Dto
+    {
+        #region con
+
+        public Folder_Dto(int id, string name, string description, int? parentId)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            ParentId = parentId;
+        }
+        #endregion
+        
+        #region var
+        public int Id { get; }
+        
+        public string Name { get; }
+        
+        public string Description { get; }
+        
+        public int? ParentId { get; }
+        #endregion
+    }
+    #endregion
+    
+    
     #region KeyValuePair
     [Serializable()]
     public class KeyValuePair
