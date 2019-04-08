@@ -947,12 +947,14 @@ namespace eFormShared
     {
         #region con
 
-        public Folder_Dto(int id, string name, string description, int? parentId)
+        public Folder_Dto(int id, string name, string description, int? parentId, DateTime? createdAt, DateTime? updatedAt)
         {
             Id = id;
             Name = name;
             Description = description;
             ParentId = parentId;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
         }
         #endregion
         
@@ -964,6 +966,16 @@ namespace eFormShared
         public string Description { get; }
         
         public int? ParentId { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? CreatedAt { get; }
+
+        /// <summary>
+        ///...
+        /// </summary>
+        public DateTime? UpdatedAt { get; }
         #endregion
     }
     #endregion

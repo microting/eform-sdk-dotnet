@@ -4022,7 +4022,7 @@ namespace eFormSqlController
 
                 foreach (folders folder in matches)
                 {
-                    Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id);
+                    Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at);
                     folderDtos.Add(folderDto);
                 }
             }
@@ -4041,7 +4041,7 @@ namespace eFormSqlController
                     throw new NullReferenceException($"Could not find area with id: {id}");
                 }
 
-                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id);
+                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at);
                 return folderDto;
             }
         }

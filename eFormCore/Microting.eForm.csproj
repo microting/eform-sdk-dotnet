@@ -62,6 +62,12 @@
     <Compile Include="Persistance\Migrations\20190315092242_AddingModelseForInsight.Designer.cs" />
     <Compile Include="Persistance\Migrations\20190318122928_FixingNamingOfSurveyConfigurationSites.cs" />
     <Compile Include="Persistance\Migrations\20190318122928_FixingNamingOfSurveyConfigurationSites.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190319130214_AddingMissingForeignKeys.cs" />
+    <Compile Include="Persistance\Migrations\20190319130214_AddingMissingForeignKeys.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190408081151_AddingFolders.cs" />
+    <Compile Include="Persistance\Migrations\20190408081151_AddingFolders.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190408084408_AddingMissingParentId.cs" />
+    <Compile Include="Persistance\Migrations\20190408084408_AddingMissingParentId.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\answers.cs" />
