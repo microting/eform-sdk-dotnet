@@ -2536,6 +2536,105 @@ namespace eFormCore
             }
         }
         #endregion
+        
+        #region folder
+
+        public List<Folder_Dto> FolderGetAll(bool includeRemoved)
+        {
+            try
+            {
+                if (Running())
+                {
+                    List<Folder_Dto> folderDtos = _sqlController.FolderGetAll(includeRemoved);
+
+                    return folderDtos;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "FolderGetAll failed", ex, false);
+                throw new Exception("FolderGetAll failed", ex);
+            }
+        }
+
+        public Folder_Dto FolderRead(int id)
+        {
+            try
+            {
+                if (Running())
+                {
+                    Folder_Dto folderDto = _sqlController.FolderRead(id);
+
+                    return folderDto;
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "FolderRead failed", ex, false);
+                throw new Exception("FolderRead failed", ex);
+            }
+        }
+
+
+        public void FolderCreate(string name, string description, int? parent_id)
+        {
+            try
+            {
+                if (Running())
+                {
+                    _sqlController.FolderCreate(name, description, parent_id);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "FolderCreate failed", ex, false);
+                throw new Exception("FolderCreate failed", ex);
+            }
+        }
+
+        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        {
+            try
+            {
+                if (Running())
+                {
+                    _sqlController.FolderUpdate(id, name, description, parent_id);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "FolderUpdate failed", ex, false);
+                throw new Exception("FolderUpdate failed", ex);
+            }
+        }
+
+        public void FolderDelete(int id)
+        {
+            try
+            {
+                if (Running())
+                {
+                    _sqlController.FolderDelete(id);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "FolderDelete failed", ex, false);
+                throw new Exception("FolderDelete failed", ex);
+            }
+        }
+        #endregion
+        
         #endregion
 
         #region tags

@@ -35,6 +35,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Microting.eForm;
 
 namespace eFormSqlController
@@ -4009,6 +4010,93 @@ namespace eFormSqlController
         #endregion
         #endregion
 
+        #region folders
+
+        public List<Folder_Dto> FolderGetAll(bool includeRemoved)
+        {
+            List<Folder_Dto> folderDtos = new List<Folder_Dto>();
+            using (var db = GetContext())
+            {
+                List<folders> matches = null;
+                matches = includeRemoved ? db.folders.ToList() : db.folders.Where(x => x.workflow_state == Constants.WorkflowStates.Created).ToList();
+
+                foreach (folders folder in matches)
+                {
+                    Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id);
+                    folderDtos.Add(folderDto);
+                }
+            }
+
+            return folderDtos;
+        }
+
+        public Folder_Dto FolderRead(int id)
+        {
+            using (var db = GetContext())
+            {
+                folders folder = db.folders.SingleOrDefault(x => x.id == id);
+
+                if (folder == null)
+                {
+                    throw new NullReferenceException($"Could not find area with id: {id}");
+                }
+
+                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id);
+                return folderDto;
+            }
+        }
+
+        public async Task<int> FolderCreate(string name, string description, int? parent_id)
+        {
+            folders folder = new folders
+            {
+                name = name,
+                description = description,
+                parent_id = parent_id
+            };
+
+            folder.Save(GetContext());
+            
+            return folder.id;
+        }
+
+        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        {
+            using (var db = GetContext())
+            {
+                folders folder = db.folders.SingleOrDefault(x => x.id == id);
+
+                if (folder == null)
+                {
+                    throw new NullReferenceException($"Could not find area with id: {id}");
+                }
+
+                folder.name = name;
+                folder.description = description;
+                folder.parent_id = parent_id;
+
+                folder.Update(db);
+            }
+        }
+
+        public void FolderDelete(int id)
+        {
+            using (var db = GetContext())
+            {
+                folders folder = db.folders.SingleOrDefault(x => x.id == id);
+
+                if (folder == null)
+                {
+                    throw new NullReferenceException($"Could not find area with id: {id}");
+                }
+
+                folder.Delete(db);
+            }
+        }
+        
+        #endregion
+        
+        
         #region public setting
         public bool SettingCreateDefaults()
         {

@@ -52,7 +52,7 @@ namespace eFormSqlController
 
         public virtual ICollection<folders> children { get; set; }
 
-        public async Task Save(MicrotingDbAnySql _dbContext)
+        public void Save(MicrotingDbAnySql _dbContext)
         {
             folders folder = new folders
             {
@@ -70,11 +70,13 @@ namespace eFormSqlController
 
             _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
             _dbContext.SaveChanges();
+
+            id = folder.id;
         }
 
-        public async Task Update(MicrotingDbAnySql _dbContext)
+        public void Update(MicrotingDbAnySql _dbContext)
         {
-            folders folder = await _dbContext.folders.FirstOrDefaultAsync(x => x.id == id);
+            folders folder = _dbContext.folders.FirstOrDefaultAsync(x => x.id == id).Result;
 
             if (folder == null)
             {
@@ -95,9 +97,9 @@ namespace eFormSqlController
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql _dbContext)
+        public void Delete(MicrotingDbAnySql _dbContext)
         {
-            folders folder = await _dbContext.folders.SingleOrDefaultAsync(x => x.id == id);
+            folders folder = _dbContext.folders.SingleOrDefaultAsync(x => x.id == id).Result;
 
             if (folder == null)
             {
