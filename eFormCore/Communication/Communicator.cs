@@ -497,27 +497,31 @@ namespace eFormCommunicator
         public List<Folder_Dto> FolderLoadAllFromRemote()
         {
             log.LogEverything(t.GetMethodName("Comminicator"), "called");
-            
-            var parsedData = JRaw.Parse(http.FolderLoadAllFromRemote());
+
+            string rawData = http.FolderLoadAllFromRemote();
             
             List<Folder_Dto> list = new List<Folder_Dto>();
-
-            foreach (JToken item in parsedData)
+            if (!string.IsNullOrEmpty(rawData))
             {
-                int microtingUUID = int.Parse(item["id"].ToString());
-                string name = item["name"].ToString();
-                string description = item["description"].ToString();
-                int? parentId = null;
-                try
+                var parsedData = JRaw.Parse(rawData);
+
+                foreach (JToken item in parsedData)
                 {
-                    parentId = int.Parse(item["parent_id"].ToString());
-                } catch {}
+                    int microtingUUID = int.Parse(item["id"].ToString());
+                    string name = item["name"].ToString();
+                    string description = item["description"].ToString();
+                    int? parentId = null;
+                    try
+                    {
+                        parentId = int.Parse(item["parent_id"].ToString());
+                    } catch {}
                 
                 
-                Folder_Dto folderDto = new Folder_Dto(null, name, description, parentId, null, null, microtingUUID);
+                    Folder_Dto folderDto = new Folder_Dto(null, name, description, parentId, null, null, microtingUUID);
                 
-                list.Add(folderDto);
-            }
+                    list.Add(folderDto);
+                }
+            }            
 
             return list;
         }
