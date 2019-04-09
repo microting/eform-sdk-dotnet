@@ -146,7 +146,16 @@ namespace eFormCommunicator
                 WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/" + elementId + "?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&download=false&delete=true" + "&sdk_ver=" + dllVersion);
                 request.Method = "GET";
 
-                return PostToServer(request);
+                string result = PostToServer(request);
+
+                if (result.Contains("No database connection information was found"))
+                {
+                    Thread.Sleep(5000);
+                    result = PostToServer(request);
+                }
+
+                return result;
+
             }
             catch (Exception ex)
             {

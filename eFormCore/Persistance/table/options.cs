@@ -50,6 +50,8 @@ namespace eFormSqlController
         {
             workflow_state = Constants.WorkflowStates.Created;
             version = 1;
+            
+            questionId = questionId;
             created_at = DateTime.Now;
             updated_at = DateTime.Now;
 

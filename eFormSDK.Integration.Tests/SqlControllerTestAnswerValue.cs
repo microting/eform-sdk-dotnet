@@ -107,6 +107,7 @@ namespace eFormSDK.Integration.Tests
             question.validDisplay = false;
             question.backButtonEnabled = false;
             question.image = false;
+            question.Create(DbContext);
             #endregion
             
             #region Option
@@ -216,6 +217,7 @@ namespace eFormSDK.Integration.Tests
             question.validDisplay = false;
             question.backButtonEnabled = false;
             question.image = false;
+            question.Create(DbContext);
             #endregion
             
             #region Option
@@ -385,6 +387,7 @@ namespace eFormSDK.Integration.Tests
             question.validDisplay = false;
             question.backButtonEnabled = false;
             question.image = false;
+            question.Create(DbContext);
             #endregion
             
             #region Option

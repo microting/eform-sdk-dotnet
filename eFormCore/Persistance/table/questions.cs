@@ -79,6 +79,8 @@ namespace eFormSqlController
 
             dbContext.question_versions.Add(MapVersions(this));
             dbContext.SaveChanges();
+
+            id = id;
         }
 
         public void Update(MicrotingDbAnySql dbContext)
