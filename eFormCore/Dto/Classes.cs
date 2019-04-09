@@ -947,7 +947,7 @@ namespace eFormShared
     {
         #region con
 
-        public Folder_Dto(int id, string name, string description, int? parentId, DateTime? createdAt, DateTime? updatedAt)
+        public Folder_Dto(int? id, string name, string description, int? parentId, DateTime? createdAt, DateTime? updatedAt,int? microtingUId)
         {
             Id = id;
             Name = name;
@@ -955,11 +955,12 @@ namespace eFormShared
             ParentId = parentId;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
+            MicrotingUId = microtingUId;
         }
         #endregion
         
         #region var
-        public int Id { get; }
+        public int? Id { get; }
         
         public string Name { get; }
         
@@ -976,6 +977,10 @@ namespace eFormShared
         ///...
         /// </summary>
         public DateTime? UpdatedAt { get; }
+        /// <summary>
+        ///...
+        /// </summary>
+        public int? MicrotingUId { get; }
         #endregion
     }
     #endregion

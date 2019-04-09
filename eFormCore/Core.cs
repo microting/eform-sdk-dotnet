@@ -2586,7 +2586,9 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    _sqlController.FolderCreate(name, description, parent_id);
+                    int id = _communicator.FolderCreate(name, description, parent_id);
+                    int result = _sqlController.FolderCreate(name, description, parent_id, id).Result;
+
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2604,6 +2606,8 @@ namespace eFormCore
             {
                 if (Running())
                 {
+                    Folder_Dto folder = FolderRead(id);
+                    _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, parent_id);
                     _sqlController.FolderUpdate(id, name, description, parent_id);
                 }
                 else
@@ -2622,6 +2626,8 @@ namespace eFormCore
             {
                 if (Running())
                 {
+                    Folder_Dto folder = FolderRead(id);
+                    _communicator.FolderDelete((int)folder.MicrotingUId);
                     _sqlController.FolderDelete(id);
                 }
                 else

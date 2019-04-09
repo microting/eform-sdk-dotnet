@@ -696,6 +696,71 @@ namespace eFormCommunicator
 
             return PostToServer(request);
         }
+
+        #endregion
+        
+        #region folder
+        
+        
+
+        public string FolderLoadAllFromRemote()
+        {
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/folders?token=" + token + "&sdk_ver=" + dllVersion);
+            request.Method = "GET";
+
+            return PostToServer(request);
+        }
+        
+        public string FolderCreate(string name, string description, int? parent_id)
+        {
+            JObject content_to_microting = JObject.FromObject(new { name = name, description = description, parent_id = parent_id });
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/folders?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
+            request.Method = "POST";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            string response = PostToServer(request);
+
+            return response;
+        }
+
+        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        {
+            
+            JObject content_to_microting = JObject.FromObject(new { name = name, description = description, parent_id = parent_id });
+            WebRequest request = WebRequest.Create(addressBasic + "/v1/folders/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
+            request.Method = "PUT";
+            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            request.ContentType = "application/json; charset=utf-8";
+            request.ContentLength = content.Length;
+
+            string newUrl = PostToServerGetRedirect(request, content);
+        }
+
+        public void FolderDelete(int id)
+        {            
+            try
+            {
+                WebRequest request = WebRequest.Create(addressBasic + "/v1/folders/" + id + "?token=" + token + "&sdk_ver=" + dllVersion);
+                request.Method = "DELETE";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                string newUrl = PostToServerGetRedirect(request);
+
+                request = WebRequest.Create(newUrl + "?token=" + token);
+                request.Method = "GET";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FolderDelete failed", ex);
+            }
+        }
         #endregion
 
         #region public Unit

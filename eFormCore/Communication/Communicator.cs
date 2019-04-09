@@ -491,6 +491,58 @@ namespace eFormCommunicator
         }
 
         #endregion
+        
+        #region folder
+
+        public List<Folder_Dto> FolderLoadAllFromRemote()
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            
+            var parsedData = JRaw.Parse(http.FolderLoadAllFromRemote());
+            
+            List<Folder_Dto> list = new List<Folder_Dto>();
+
+            foreach (JToken item in parsedData)
+            {
+                int microtingUUID = int.Parse(item["id"].ToString());
+                string name = item["name"].ToString();
+                string description = item["description"].ToString();
+                int? parentId = null;
+                try
+                {
+                    parentId = int.Parse(item["parent_id"].ToString());
+                } catch {}
+                
+                
+                Folder_Dto folderDto = new Folder_Dto(null, name, description, parentId, null, null, microtingUUID);
+                
+                list.Add(folderDto);
+            }
+
+            return list;
+        }
+        
+        public int FolderCreate(string name, string description, int? parentId)
+        {
+            var parsedData = JRaw.Parse(http.FolderCreate(name, description, parentId));
+
+            int microtingUUID  = int.Parse(parsedData["id"].ToString());
+
+            return microtingUUID;
+        }
+
+        public void FolderUpdate(int id, string name, string description, int? parentId)
+        {
+            http.FolderUpdate(id, name, description, parentId);
+        }
+
+        public void FolderDelete(int id)
+        {
+            http.FolderDelete(id);
+        }
+        
+        #endregion
+        
         #endregion
 
         #region speech2text

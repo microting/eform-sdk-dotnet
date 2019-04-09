@@ -239,6 +239,18 @@ namespace eFormCore
 
                         }
                     }
+
+                    foreach (Folder_Dto folderDto in communicator.FolderLoadAllFromRemote())
+                    {
+                        Folder_Dto folder = sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+
+                        if (folder == null)
+                        {
+                            sqlController.FolderCreate(folderDto.Name, folderDto.Description, folderDto.ParentId,
+                                (int)folderDto.MicrotingUId);
+                        }
+                    }
+                    
                     sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 }
                 #endregion

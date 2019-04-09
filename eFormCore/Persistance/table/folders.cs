@@ -61,6 +61,7 @@ namespace eFormSqlController
                 parent_id = parent_id,
                 created_at = DateTime.Now,
                 updated_at = DateTime.Now,
+                microting_uid = microting_uid,
                 version = 1,
                 workflow_state = Constants.WorkflowStates.Created
             };
@@ -129,6 +130,7 @@ namespace eFormSqlController
                 created_at = folder.created_at,
                 updated_at = folder.updated_at,
                 workflow_state = folder.workflow_state,
+                microting_uid = folder.microting_uid,
                 version = folder.version
             };
 

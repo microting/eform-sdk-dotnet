@@ -283,10 +283,34 @@ namespace eFormCommunicator
 //                return "Not implemented!";
 //            }
         }
+        #endregion
 
+        #region folder
+        
+        
         public string SiteWorkerLoadAllFromRemote()
         {
             return testHelperReturnXml.CreateSiteUnitWorkersForFullLoaed(false);
+        }
+
+        public string FolderLoadAllFromRemote()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string FolderCreate(string name, string description, int? parent_id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FolderDelete(int id)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

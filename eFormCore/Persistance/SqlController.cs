@@ -4022,12 +4022,28 @@ namespace eFormSqlController
 
                 foreach (folders folder in matches)
                 {
-                    Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at);
+                    Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
                     folderDtos.Add(folderDto);
                 }
             }
 
             return folderDtos;
+        }
+
+        public Folder_Dto FolderReadByMicrotingUUID(int microting_uid)
+        {
+            using (var db = GetContext())
+            {
+                folders folder = db.folders.SingleOrDefault(x => x.microting_uid == microting_uid);
+
+                if (folder == null)
+                {
+                    return null;
+                }
+
+                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
+                return folderDto;
+            }
         }
 
         public Folder_Dto FolderRead(int id)
@@ -4041,18 +4057,19 @@ namespace eFormSqlController
                     throw new NullReferenceException($"Could not find area with id: {id}");
                 }
 
-                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at);
+                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
                 return folderDto;
             }
         }
 
-        public async Task<int> FolderCreate(string name, string description, int? parent_id)
+        public async Task<int> FolderCreate(string name, string description, int? parent_id, int microtingUUID)
         {
             folders folder = new folders
             {
                 name = name,
                 description = description,
-                parent_id = parent_id
+                parent_id = parent_id,
+                microting_uid = microtingUUID
             };
 
             folder.Save(GetContext());

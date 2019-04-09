@@ -86,6 +86,14 @@ namespace eFormCommunicator
 
         string SiteWorkerLoadAllFromRemote();
 
+        string FolderLoadAllFromRemote();
+
+        string FolderCreate(string name, string description, int? parent_id);
+
+        void FolderUpdate(int id, string name, string description, int? parent_id);
+
+        void FolderDelete(int id);
+
         int UnitRequestOtp(int id);
 
         string UnitLoadAllFromRemote();
