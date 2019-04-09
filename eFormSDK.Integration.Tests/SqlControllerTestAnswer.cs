@@ -37,7 +37,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void answers_Create_DoesCreate_UTCAdjustedTrue()
+        public void SQL_answers_Create_DoesCreate_UTCAdjustedTrue()
         {
             // Arrange
             Random rnd = new Random();
@@ -94,8 +94,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
             Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
         }
-                [Test]
-        public void answers_Create_DoesCreate_UTCAdjustedFalse()
+        
+        [Test]
+        public void SQL_answers_Create_DoesCreate_UTCAdjustedFalse()
         {
             // Arrange
             Random rnd = new Random();
@@ -154,7 +155,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void answers_Update_DoesUpdate_UTCAdjustedTrue()
+        public void SQL_answers_Update_DoesUpdate_UTCAdjustedTrue()
         {
             // Arrange
             Random rnd = new Random();
@@ -249,8 +250,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
             Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
         }
-                [Test]
-        public void answers_Update_DoesUpdate_UTCAdjustedFalse()
+        
+        [Test]
+        public void SQL_answers_Update_DoesUpdate_UTCAdjustedFalse()
         {
             // Arrange
             Random rnd = new Random();
@@ -344,8 +346,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
             Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
         }
-                [Test]
-        public void answers_Delete_DoesDelete_UTCAdjustedTrue()
+        
+        [Test]
+        public void SQL_answers_Delete_DoesDelete_UTCAdjustedTrue()
         {
             // Arrange
             Random rnd = new Random();
@@ -405,8 +408,9 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
             Assert.AreEqual(Constants.WorkflowStates.Removed, answer.workflow_state);
         }
-                [Test]
-        public void answers_Delete_DoesDelete_UTCAdjustedFalse()
+        
+        [Test]
+        public void SQL_answers_Delete_DoesDelete_UTCAdjustedFalse()
         {
             // Arrange
             Random rnd = new Random();

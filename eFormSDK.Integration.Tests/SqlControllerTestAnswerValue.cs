@@ -38,7 +38,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void answerValues_Create_DoesCreate()
+        public void SQL_answerValues_Create_DoesCreate()
         {
             // Arrange
             Random rnd = new Random();
@@ -147,7 +147,7 @@ namespace eFormSDK.Integration.Tests
         }
        
         [Test]
-        public void answerValues_Update_DoesUpdate()
+        public void SQL_answerValues_Update_DoesUpdate()
         {
             // Arrange
             Random rnd = new Random();
@@ -315,8 +315,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswerValue.value, answerValue.value);
         }
 
-                [Test]
-        public void answerValues_Delete_DoesDelete()
+        [Test]
+        public void SQL_answerValues_Delete_DoesDelete()
         {
             // Arrange
             Random rnd = new Random();
