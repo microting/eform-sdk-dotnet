@@ -295,22 +295,22 @@ namespace eFormCommunicator
 
         public string FolderLoadAllFromRemote()
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         public string FolderCreate(string name, string description, int? parent_id)
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         public void FolderUpdate(int id, string name, string description, int? parent_id)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void FolderDelete(int id)
         {
-            throw new NotImplementedException();
+            
         }
         #endregion
 
