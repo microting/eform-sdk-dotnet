@@ -732,7 +732,6 @@ namespace eFormCommunicator
 
         public void FolderUpdate(int id, string name, string description, int? parent_id)
         {
-            
             JObject content_to_microting = JObject.FromObject(new { name = name, description = description, parent_id = parent_id });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/folders/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
             request.Method = "PUT";

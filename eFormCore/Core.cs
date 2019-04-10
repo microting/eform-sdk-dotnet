@@ -2586,7 +2586,12 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    int id = _communicator.FolderCreate(name, description, parent_id);
+                    int apiParentId = 0;
+                    if (parent_id != null)
+                    {
+                        apiParentId = (int)FolderRead((int) parent_id).MicrotingUId;
+                    }
+                    int id = _communicator.FolderCreate(name, description, apiParentId);
                     int result = _sqlController.FolderCreate(name, description, parent_id, id).Result;
 
                 }
@@ -2607,7 +2612,12 @@ namespace eFormCore
                 if (Running())
                 {
                     Folder_Dto folder = FolderRead(id);
-                    _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, parent_id);
+                    int apiParentId = 0;
+                    if (parent_id != null)
+                    {
+                        apiParentId = (int)FolderRead((int) parent_id).MicrotingUId;
+                    }
+                    _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId);
                     _sqlController.FolderUpdate(id, name, description, parent_id);
                 }
                 else
