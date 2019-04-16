@@ -21,7 +21,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using eFormShared;
 namespace eFormSqlController
 {
     using System;
@@ -101,5 +104,121 @@ namespace eFormSqlController
         public virtual units unit { get; set; }
 
         public virtual workers worker { get; set; }
+        
+            
+        public void Create(MicrotingDbAnySql dbContext) 
+        {
+            workflow_state = Constants.WorkflowStates.Created;
+            version = 1;
+            created_at = DateTime.Now;
+            updated_at = DateTime.Now;
+
+            dbContext.cases.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.case_versions.Add(MapCaseVersions(this));
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            cases cases = dbContext.cases.FirstOrDefault(x => x.id == id);
+
+            if (cases == null)
+            {
+                throw new NullReferenceException($"Could not find case with ID: {id}");
+            }
+
+            cases.custom = custom;
+            cases.status = status;
+            cases.done_at = done_at;
+            cases.site_id = site_id;
+            cases.unit_id = unit_id;
+            cases.case_uid = case_uid;
+            cases.check_list = check_list;
+            cases.check_list_id = check_list_id;
+            cases.field_value_1 = field_value_1;
+            cases.field_value_2 = field_value_2;
+            cases.field_value_3 = field_value_3;
+            cases.field_value_4 = field_value_4;
+            cases.field_value_5 = field_value_5;
+            cases.field_value_6 = field_value_6;
+            cases.field_value_7 = field_value_7;
+            cases.field_value_8 = field_value_8;
+            cases.field_value_9 = field_value_9;
+            cases.field_value_10 = field_value_10;
+            cases.microting_uid = microting_uid;
+            cases.done_by_user_id = done_by_user_id;
+            cases.microting_check_uid = microting_check_uid;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                cases.version += 1;
+                cases.updated_at = DateTime.Now;
+
+                dbContext.case_versions.Add(MapCaseVersions(cases));
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            cases cases = dbContext.cases.FirstOrDefault(x => x.id == id);
+
+            if (cases == null)
+            {
+                throw new NullReferenceException($"Could not find case with ID: {id}");
+            }
+
+            cases.workflow_state = Constants.WorkflowStates.Removed;
+           
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                cases.version += 1;
+                cases.updated_at = DateTime.Now;
+
+                dbContext.case_versions.Add(MapCaseVersions(cases));
+                dbContext.SaveChanges();
+            }
+            
+        }
+        
+        
+        
+        
+        
+        private case_versions MapCaseVersions(cases aCase)
+        {
+            case_versions caseVer = new case_versions();
+            caseVer.status = aCase.status;
+            caseVer.done_at = aCase.done_at;
+            caseVer.updated_at = aCase.updated_at;
+            caseVer.done_by_user_id = aCase.done_by_user_id;
+            caseVer.workflow_state = aCase.workflow_state;
+            caseVer.version = aCase.version;
+            caseVer.microting_check_uid = aCase.microting_check_uid;
+            caseVer.unit_id = aCase.unit_id;
+
+            caseVer.type = aCase.type;
+            caseVer.created_at = aCase.created_at;
+            caseVer.check_list_id = aCase.check_list_id;
+            caseVer.microting_uid = aCase.microting_uid;
+            caseVer.site_id = aCase.site_id;
+            caseVer.field_value_1 = aCase.field_value_1;
+            caseVer.field_value_2 = aCase.field_value_2;
+            caseVer.field_value_3 = aCase.field_value_3;
+            caseVer.field_value_4 = aCase.field_value_4;
+            caseVer.field_value_5 = aCase.field_value_5;
+            caseVer.field_value_6 = aCase.field_value_6;
+            caseVer.field_value_7 = aCase.field_value_7;
+            caseVer.field_value_8 = aCase.field_value_8;
+            caseVer.field_value_9 = aCase.field_value_9;
+            caseVer.field_value_10 = aCase.field_value_10;
+
+            caseVer.case_id = aCase.id; //<<--
+
+            return caseVer;
+        }
     }
+
 }

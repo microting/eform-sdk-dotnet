@@ -22,6 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Linq;
+using eFormShared;
+
 namespace eFormSqlController
 {
     using System;
@@ -60,5 +63,87 @@ namespace eFormSqlController
         public int display_index { get; set; }
 
         //public bool migrated_entity_group_id { get; set; }
+
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            
+            workflow_state = Constants.WorkflowStates.Created;
+            version = 1;
+            created_at = DateTime.Now;
+            updated_at = DateTime.Now;
+
+            dbContext.entity_items.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.entity_item_versions.Add(MapEntityItemVersions(this));
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.id == id);
+
+            if (entityItems == null)
+            {
+                throw new NullReferenceException($"Could not find Entity Item with ID: {id}");
+            }
+
+            entityItems.entity_group_id = entity_group_id;
+            entityItems.microting_uid = microting_uid;
+            entityItems.name = name;
+            entityItems.description = description;
+            entityItems.synced = synced;
+            entityItems.display_index = display_index;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                entityItems.updated_at = DateTime.Now;
+                entityItems.version += 1;
+
+                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItems));
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.id == id);
+
+            if (entityItems == null)
+            {
+                throw new NullReferenceException($"Could not find Entity Item with ID: {id}");
+            }
+
+            entityItems.workflow_state = Constants.WorkflowStates.Removed;
+            
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                entityItems.updated_at = DateTime.Now;
+                entityItems.version += 1;
+
+                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItems));
+                dbContext.SaveChanges();
+            }
+        }
+        
+        private entity_item_versions MapEntityItemVersions(entity_items entityItem)
+        {
+            entity_item_versions entityItemVer = new entity_item_versions();
+            entityItemVer.workflow_state = entityItem.workflow_state;
+            entityItemVer.version = entityItem.version;
+            entityItemVer.created_at = entityItem.created_at;
+            entityItemVer.updated_at = entityItem.updated_at;
+            entityItemVer.entity_item_uid = entityItem.entity_item_uid;
+            entityItemVer.microting_uid = entityItem.microting_uid;
+            entityItemVer.entity_group_id = entityItem.entity_group_id;
+            entityItemVer.name = entityItem.name;
+            entityItemVer.description = entityItem.description;
+            entityItemVer.synced = entityItem.synced;
+            entityItemVer.display_index = entityItem.display_index;
+
+            entityItemVer.entity_items_id = entityItem.id; //<<--
+
+            return entityItemVer;
+        }
     }
 }
