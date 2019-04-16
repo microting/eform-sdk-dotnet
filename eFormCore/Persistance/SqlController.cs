@@ -354,7 +354,7 @@ namespace eFormSqlController
                             hasCases = true;
 
                         #region loadtags
-                        List<taggings> tagging_matches = checkList.taggings.ToList();
+                        List<taggings> tagging_matches = checkList.taggings.Where(x => x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                         List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
                         foreach (taggings tagging in tagging_matches)
                         {
@@ -528,29 +528,19 @@ namespace eFormSqlController
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    check_lists check_list = db.check_lists.Single(x => x.id == templateId);
+                    check_lists checkList = db.check_lists.Single(x => x.id == templateId);
 
-                    if (check_list != null)
+                    if (checkList != null)
                     {
                         // Delete all not wanted taggings first
-                        List<taggings> cl_taggings = check_list.taggings.Where(x => !tagIds.Contains((int)x.tag_id)).ToList();
+                        List<taggings> clTaggings = checkList.taggings.Where(x => !tagIds.Contains((int)x.tag_id)).ToList();
                         int index = 0;
-                        foreach (taggings tagging in cl_taggings)
+                        foreach (taggings tagging in clTaggings)
                         {
-                            taggings current_tagging = db.taggings.Single(x => x.id == tagging.id);
-                            if (current_tagging != null)
+                            taggings currentTagging = db.taggings.Single(x => x.id == tagging.id);
+                            if (currentTagging != null)
                             {
-                                current_tagging.version = check_list.version + 1;
-                                current_tagging.updated_at = DateTime.Now;
-
-                                current_tagging.workflow_state = Constants.WorkflowStates.Removed;
-
-                                db.taggings.Add(current_tagging);
-                                db.SaveChanges();
-
-                                db.tagging_versions.Add(MapTaggingVersions(current_tagging));
-                                db.SaveChanges();
-                                //tagIds.Remove(tagging.id); // TODO write tests to ensure this works. 9 may 2018
+                                currentTagging.Delete(db);
                             }
                         }
 
@@ -561,9 +551,9 @@ namespace eFormSqlController
                             if (tag != null)
                             {
 
-                                taggings current_tagging = db.taggings.SingleOrDefault(x => x.tag_id == tag.id && x.check_list_id == templateId);
+                                taggings currentTagging = db.taggings.SingleOrDefault(x => x.tag_id == tag.id && x.check_list_id == templateId);
 
-                                if (current_tagging == null)
+                                if (currentTagging == null)
                                 {
                                     taggings tagging = new taggings();
                                     tagging.check_list_id = templateId;
@@ -573,21 +563,12 @@ namespace eFormSqlController
                                     tagging.workflow_state = Constants.WorkflowStates.Created;
                                     tagging.version = 1;
 
-                                    db.taggings.Add(tagging);
-                                    db.SaveChanges();
-
-                                    db.tagging_versions.Add(MapTaggingVersions(tagging));
-                                    db.SaveChanges();
+                                    tagging.Save(db);
                                 } else {
-                                    if (current_tagging.workflow_state != Constants.WorkflowStates.Created)
+                                    if (currentTagging.workflow_state != Constants.WorkflowStates.Created)
                                     {
-                                        current_tagging.version = check_list.version + 1;
-                                        current_tagging.updated_at = DateTime.Now;
-
-                                        current_tagging.workflow_state = Constants.WorkflowStates.Created;
-
-                                        db.tagging_versions.Add(MapTaggingVersions(current_tagging));
-                                        db.SaveChanges();
+                                        currentTagging.workflow_state = Constants.WorkflowStates.Created;
+                                        currentTagging.Update(db);
                                     }                                    
                                 }                                
                             }
@@ -5636,19 +5617,7 @@ namespace eFormSqlController
             return tagVer;
         }
 
-        private tagging_versions MapTaggingVersions(taggings taggings)
-        {
-            tagging_versions taggingVer = new tagging_versions();
-            taggingVer.workflow_state = taggings.workflow_state;
-            taggingVer.version = taggings.version;
-            taggingVer.created_at = taggings.created_at;
-            taggingVer.updated_at = taggings.updated_at;
-            taggingVer.check_list_id = taggings.check_list_id;
-            taggingVer.tag_id = taggings.tag_id;
-            taggingVer.tagger_id = taggings.tagger_id;
-
-            return taggingVer;
-        }
+        
         #endregion
         #endregion       
 

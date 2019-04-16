@@ -22,18 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using eFormShared;
+
 namespace eFormSqlController
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class taggings : base_entity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
-
         [ForeignKey("tag")]
         public int? tag_id { get; set; }
 
@@ -42,17 +41,82 @@ namespace eFormSqlController
 
         public int? tagger_id { get; set; } // this will refer to some user id.
 
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
         public virtual tags tag { get; set; }
 
         public virtual check_lists check_list { get; set; }
+
+        public void Save(MicrotingDbAnySql dbContext)
+        {
+            taggings tagging = new taggings
+            {
+                check_list_id = check_list_id,
+                tag_id = tag_id,
+                created_at = DateTime.Now,
+                updated_at = DateTime.Now,
+                tagger_id = tagger_id,
+                version = 1,
+                workflow_state = Constants.WorkflowStates.Created
+            };
+            
+            dbContext.taggings.Add(tagging);
+            dbContext.SaveChanges();
+
+            dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            taggings tagging = dbContext.taggings.FirstOrDefault(x => x.id == id);
+
+            if (tagging == null)
+            {
+                throw new NullReferenceException($"Could not find tagging with id: {id}");
+            }
+
+            tagging.workflow_state = workflow_state;
+            tagging.updated_at = DateTime.Now;
+            tagging.tagger_id = tagger_id;
+            tagging.version += 1;
+
+            dbContext.SaveChanges();
+
+            dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
+            dbContext.SaveChanges();
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            taggings tagging = dbContext.taggings.FirstOrDefault(x => x.id == id);
+
+            if (tagging == null)
+            {
+                throw new NullReferenceException($"Could not find tagging with id: {id}");
+            }
+
+            tagging.workflow_state = Constants.WorkflowStates.Removed;
+            tagging.updated_at = DateTime.Now;
+            tagging.version += 1;
+
+            dbContext.SaveChanges();
+
+            dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
+            dbContext.SaveChanges();
+        }
+        
+        private tagging_versions MapTaggingVersions(taggings tagging)
+        {
+            tagging_versions taggingVer = new tagging_versions();
+            taggingVer.workflow_state = tagging.workflow_state;
+            taggingVer.version = tagging.version;
+            taggingVer.created_at = tagging.created_at;
+            taggingVer.updated_at = tagging.updated_at;
+            taggingVer.check_list_id = tagging.check_list_id;
+            taggingVer.tag_id = tagging.tag_id;
+            taggingVer.tagger_id = tagging.tagger_id;
+            taggingVer.tagging_id = tagging.id;
+
+            return taggingVer;
+        }
     }
 }
