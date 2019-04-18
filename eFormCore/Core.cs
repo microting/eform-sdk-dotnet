@@ -1496,6 +1496,29 @@ namespace eFormCore
             }
         }
 
+        public Case_Dto CaseLookup(string microtingUId, string checkUId)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    Log.LogStandard(t.GetMethodName("Core"), "called");
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(checkUId), checkUId);
+
+                    return _sqlController.CaseLookup(microtingUId, checkUId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                return null;
+            }
+        }
+
         public Case_Dto CaseLookupMUId(string microtingUId)
         {
             string methodName = t.GetMethodName("Core");
