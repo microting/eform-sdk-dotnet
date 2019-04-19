@@ -2261,6 +2261,23 @@ namespace eFormSqlController
         #endregion
 
         #region public (post)case
+
+        public Case_Dto CaseLookup(string microtingUId, string checkUId)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
+                    return CaseReadByCaseId(aCase.id);
+                }
+            } catch  (Exception ex)
+            {
+                throw new Exception("CaseReadByMuuId failed", ex);
+            }
+        }
+        
+        
         public Case_Dto CaseReadByMUId(string microtingUId)
         {
             try
