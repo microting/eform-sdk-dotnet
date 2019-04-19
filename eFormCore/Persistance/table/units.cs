@@ -22,6 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Linq;
+using eFormShared;
+
 namespace eFormSqlController
 {
     using System;
@@ -53,5 +56,84 @@ namespace eFormSqlController
         public int? site_id { get; set; }
 
         public virtual sites site { get; set; }
+        
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            workflow_state = Constants.WorkflowStates.Created;
+            version = 1;
+            created_at = DateTime.Now;
+            updated_at = DateTime.Now;
+
+            dbContext.units.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.unit_versions.Add(MapUnitVersions(this));
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            units unit = dbContext.units.FirstOrDefault(x => x.id == id);
+
+            if (unit == null)
+            {
+                throw new NullReferenceException($"Could not find Unit with ID: {id}");
+            }
+
+            unit.site_id = site_id;
+            unit.microting_uid = microting_uid;
+            unit.otp_code = otp_code;
+            unit.customer_no = customer_no;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                unit.version += 1;
+                unit.updated_at = DateTime.Now;
+
+                dbContext.unit_versions.Add(MapUnitVersions(unit));
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            
+            units unit = dbContext.units.FirstOrDefault(x => x.id == id);
+
+            if (unit == null)
+            {
+                throw new NullReferenceException($"Could not find Unit with ID: {id}");
+            }
+
+            unit.workflow_state = Constants.WorkflowStates.Removed;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                unit.version += 1;
+                unit.updated_at = DateTime.Now;
+
+                dbContext.unit_versions.Add(MapUnitVersions(unit));
+                dbContext.SaveChanges();
+            }
+        }
+
+        
+        
+        private unit_versions MapUnitVersions(units units)
+        {
+            unit_versions unitVer = new unit_versions();
+            unitVer.workflow_state = units.workflow_state;
+            unitVer.version = units.version;
+            unitVer.created_at = units.created_at;
+            unitVer.updated_at = units.updated_at;
+            unitVer.microting_uid = units.microting_uid;
+            unitVer.site_id = units.site_id;
+            unitVer.customer_no = units.customer_no;
+            unitVer.otp_code = units.otp_code;
+
+            unitVer.unit_id = units.id; //<<--
+
+            return unitVer;
+        }
     }
 }

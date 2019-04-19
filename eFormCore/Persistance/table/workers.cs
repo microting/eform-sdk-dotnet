@@ -22,6 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Linq;
+using eFormShared;
+
 namespace eFormSqlController
 {
     using System;
@@ -60,6 +63,83 @@ namespace eFormSqlController
         public string full_name()
         {
             return this.first_name + " " + this.last_name;
+        }
+        
+        
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            workflow_state = Constants.WorkflowStates.Created;
+            version = 1;
+            created_at = DateTime.Now;
+            updated_at = DateTime.Now;
+
+            dbContext.workers.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.worker_versions.Add(MapWorkerVersions(this));
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            workers worker = dbContext.workers.FirstOrDefault(x => x.id == id);
+
+            if (worker == null)
+            {
+                throw new NullReferenceException($"Could not find Worker with ID: {id}");
+            }
+
+            worker.microting_uid = microting_uid;
+            worker.first_name = first_name;
+            worker.last_name = last_name;
+            worker.email = email;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                worker.version += 1;
+                worker.updated_at = DateTime.Now;
+
+                dbContext.worker_versions.Add(MapWorkerVersions(worker));
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            workers worker = dbContext.workers.FirstOrDefault(x => x.id == id);
+
+            if (worker == null)
+            {
+                throw new NullReferenceException($"Could not find Worker with ID: {id}");
+            }
+
+            worker.workflow_state = Constants.WorkflowStates.Removed;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                worker.version += 1;
+                worker.updated_at = DateTime.Now;
+
+                dbContext.worker_versions.Add(MapWorkerVersions(worker));
+                dbContext.SaveChanges();
+            }
+        }
+
+        
+        private worker_versions MapWorkerVersions(workers workers)
+        {
+            worker_versions workerVer = new worker_versions();
+            workerVer.workflow_state = workers.workflow_state;
+            workerVer.version = workers.version;
+            workerVer.created_at = workers.created_at;
+            workerVer.updated_at = workers.updated_at;
+            workerVer.microting_uid = workers.microting_uid;
+            workerVer.first_name = workers.first_name;
+            workerVer.last_name = workers.last_name;
+
+            workerVer.worker_id = workers.id; //<<--
+
+            return workerVer;
         }
     }
 }

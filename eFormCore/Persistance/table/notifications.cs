@@ -54,5 +54,8 @@ namespace eFormSqlController
         public string exception { get; set; }
 
         public string stacktrace { get; set; }
+        
+        
+        
     }
 }

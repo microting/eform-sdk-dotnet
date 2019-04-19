@@ -22,6 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Linq;
+using eFormShared;
+using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
+
 namespace eFormSqlController
 {
     using System;
@@ -64,5 +68,89 @@ namespace eFormSqlController
         public virtual ICollection<site_workers> site_workers { get; set; }
 
         public virtual ICollection<check_list_sites> check_list_sites { get; set; }
+
+
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            workflow_state = Constants.WorkflowStates.Created;
+            version = 1;
+            created_at = DateTime.Now;
+            updated_at = DateTime.Now;
+
+            dbContext.sites.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.site_versions.Add(MapSiteVersions(this));
+            dbContext.SaveChanges();
+            
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            sites site = dbContext.sites.FirstOrDefault(x => x.id == id);
+
+            if (site == null)
+            {
+                throw new NullReferenceException($"Could not find Site with id: {id}");
+
+            }
+
+            site.name = name;
+            site.microting_uid = microting_uid;
+
+
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                site.version += 1;
+                site.updated_at = DateTime.Now;
+
+
+                dbContext.site_versions.Add(MapSiteVersions(site));
+                dbContext.SaveChanges();
+
+            }
+           
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            sites site = dbContext.sites.FirstOrDefault(x => x.id == id);
+
+            if (site == null)
+            {
+                throw new NullReferenceException($"Could not find Site with id: {id}");
+
+            }
+
+            site.workflow_state = Constants.WorkflowStates.Removed;
+            
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                site.version += 1;
+                site.updated_at = DateTime.Now;
+
+
+                dbContext.site_versions.Add(MapSiteVersions(site));
+                dbContext.SaveChanges();
+
+            }
+        }
+        
+        
+        private site_versions MapSiteVersions(sites site)
+        {
+            site_versions siteVer = new site_versions();
+            siteVer.workflow_state = site.workflow_state;
+            siteVer.version = site.version;
+            siteVer.created_at = site.created_at;
+            siteVer.updated_at = site.updated_at;
+            siteVer.microting_uid = site.microting_uid;
+            siteVer.name = site.name;
+
+            siteVer.site_id = site.id; //<<--
+
+            return siteVer;
+        }
     }
 }
