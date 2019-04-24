@@ -2021,7 +2021,7 @@ namespace eFormCore
                         using (WebClient webClient = new WebClient())
                         {
                             Directory.CreateDirectory(Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils"));
-                            webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/v1.0.0/JasperExporter.jar", _localJasperExporter);
+                            webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar", _localJasperExporter);
                         }
                     }
 
