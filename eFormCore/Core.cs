@@ -3893,6 +3893,55 @@ namespace eFormCore
 
             return errorLst;
         }
+
+        private string GetJasperFieldValue(Field field, FieldValue answer, string customPathForUploadedData)
+        {
+            string jasperFieldXml = "";
+            string latitude = answer.Latitude;
+            string longitude = answer.Longitude;
+            string altitude = answer.Altitude;
+            string heading = answer.Heading;
+            string gps = "latitude=\"" + latitude + "\" longitude=\"" +
+                         longitude + "\" altitude=\"" + altitude + "\" heading=\"" +
+                         heading + "\"";
+            switch (field.FieldType)
+            {
+                case Constants.FieldTypes.Picture:
+                case Constants.FieldTypes.Signature:
+                    if (answer.UploadedDataObj != null)
+                    {
+                        if (customPathForUploadedData != null)
+                        {
+                            jasperFieldXml +=
+                                Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
+                                answer.Id + "\" " + gps + "><![CDATA[" + customPathForUploadedData +
+                                answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
+                        }
+                        else
+                        {
+                            jasperFieldXml +=
+                                Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
+                                answer.Id + "\" " + gps + "><![CDATA[" + answer.UploadedDataObj.FileName +
+                                "]]></F" + field.Id + "_value>";
+                        }
+                    }
+                    else
+                    {
+                        //jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">NO FILE</F" + field.Id + "_value>";
+                    }
+                    break;
+                default:
+                {
+                    jasperFieldXml += Environment.NewLine + "<F" + field.Id +
+                                      "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
+                                      (answer.ValueReadable ?? string.Empty) + "]]></F" + field.Id +
+                                      "_value>";
+                    break;
+                }
+            }
+
+            return jasperFieldXml;
+        }
         
         private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst, string customPathForUploadedData)
 
@@ -3910,7 +3959,6 @@ namespace eFormCore
 
                     foreach (var item in dataE.DataItemList)
                     {
-
                         jasperFieldXml += Environment.NewLine + "<F" + item.Id + " name=\"" + item.Label + "\" parent=\"" + item.Label + "\">";
 
                         if (item is Field)
@@ -3918,31 +3966,7 @@ namespace eFormCore
                             Field field = (Field)item;
                             foreach (FieldValue answer in field.FieldValues)
                             {
-                                switch (field.FieldType)
-                                {
-                                    case Constants.FieldTypes.Picture:
-                                    case Constants.FieldTypes.Signature:
-                                        if (answer.UploadedDataObj != null)
-                                        {
-
-                                            if (customPathForUploadedData != null)
-                                            {
-                                                jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + customPathForUploadedData + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
-                                            }
-                                            else
-                                            {
-                                                jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
-                                            }
-                                        }
-                                        else
-                                        {
-                                            //jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">NO FILE</F" + field.Id + "_value>";
-                                        }
-                                        break;
-                                    default:
-                                        jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + (answer.ValueReadable ?? string.Empty) + "]]></F" + field.Id + "_value>";
-                                        break;
-                                }
+                                jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData);
                             }
                         } else if (item is FieldContainer)
                         {
@@ -3952,34 +3976,9 @@ namespace eFormCore
                             {
                                 jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + dataE.Label + "\">";
                                 foreach (FieldValue answer in field.FieldValues)
-                                {
-                                    switch (field.FieldType)
-                                    {
-                                        case Constants.FieldTypes.Picture:
-                                        case Constants.FieldTypes.Signature:
-                                            if (answer.UploadedDataObj != null)
-                                            {
-
-                                                if (customPathForUploadedData != null)
-                                                {
-                                                    jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + customPathForUploadedData + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
-                                                }
-                                                else
-                                                {
-                                                    jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
-                                                }
-                                            }
-                                            else
-                                            {
-                                                //jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">NO FILE</F" + field.Id + "_value>";
-                                            }
-                                            break;
-                                        default:
-                                            jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\"><![CDATA[" + (answer.ValueReadable ?? string.Empty) + "]]></F" + field.Id + "_value>";
-                                            break;
-                                    }
+                                {                                    
+                                    jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData);
                                 }
-
 
                                 jasperFieldXml += Environment.NewLine + "</F" + field.Id + ">";
                             }
