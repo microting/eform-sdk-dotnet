@@ -1674,8 +1674,16 @@ namespace eFormSqlController
                     if (field_value.FieldType == Constants.FieldTypes.Number ||
                         field_value.FieldType == Constants.FieldTypes.NumberStepper)
                     {
-                        field_value.ValueReadable = reply.value.Replace(",", ".");
-                        field_value.Value = reply.value.Replace(",", ".");
+                        if (reply.value != null)
+                        {
+                            field_value.ValueReadable = reply.value.Replace(",", ".");
+                            field_value.Value = reply.value.Replace(",", ".");
+                        }
+                        else
+                        {
+                            field_value.ValueReadable = "";
+                            field_value.Value = "";
+                        }
                     }
                     #endregion
 
