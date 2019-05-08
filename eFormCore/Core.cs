@@ -79,8 +79,8 @@ namespace eFormCore
         private readonly object _lockMain = new object();
         object _lockEventMessage = new object();
 
-        private bool _updateIsRunningFiles = false;
-        private bool _updateIsRunningNotifications = false;
+//        private bool _updateIsRunningFiles = false;
+//        private bool _updateIsRunningNotifications = false;
         private bool _updateIsRunningEntities = false;
 
         private bool _coreThreadRunning = false;
@@ -385,8 +385,6 @@ namespace eFormCore
                                 FatalExpection("Failed to close Core correct after 60 secs", new Exception());
                         }
 
-                        _updateIsRunningFiles = false;
-                        _updateIsRunningNotifications = false;
                         _updateIsRunningEntities = false;
 
                         Log.LogStandard(t.GetMethodName("Core"), "Core closed");
@@ -2615,7 +2613,7 @@ namespace eFormCore
                         apiParentId = (int)FolderRead((int) parent_id).MicrotingUId;
                     }
                     int id = _communicator.FolderCreate(name, description, apiParentId);
-                    int result = _sqlController.FolderCreate(name, description, parent_id, id).Result;
+                    int result = _sqlController.FolderCreate(name, description, parent_id, id);
 
                 }
                 else
@@ -4233,6 +4231,7 @@ namespace eFormCore
                 catch (FileNotFoundException ex)
                 {
                     Log.LogCritical(t.GetMethodName("Core"), $"File not found at {filePath}");
+                    Log.LogCritical(t.GetMethodName("Core"), ex.Message);
                 }                
             }
         }

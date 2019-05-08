@@ -40,12 +40,12 @@ namespace eFormCore.Helpers
     public class TestHelpers
     {
         public MicrotingDbAnySql DbContext;
-        private string returnXML;
-        private string returnJSON;
+//        private string returnXML;
+//        private string returnJSON;
         public TestHelpers()
         {
         
-            string ConnectionString;
+            string connectionString;
 
 //            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 //            {
@@ -53,10 +53,10 @@ namespace eFormCore.Helpers
 //            }
 //            else
 //            {
-                ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
+                connectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 //            }
 
-            DbContext = GetContext(ConnectionString);
+            DbContext = GetContext(connectionString);
         }
         private MicrotingDbAnySql GetContext(string connectionStr)
         {

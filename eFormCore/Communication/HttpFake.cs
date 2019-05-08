@@ -42,16 +42,16 @@ namespace eFormCommunicator
     public class HttpFake : IHttp
     {
         #region var
-        private string protocolXml = "6";
+//        private string protocolXml = "6";
 
-        private string token = "";
-        private string addressApi = "";
-        private string addressBasic = "";
-        private string addressPdfUpload = "";
+        private readonly string _token = "";
+//        private string addressApi = "";
+//        private string addressBasic = "";
+//        private string addressPdfUpload = "";
 
-        private string dllVersion = "";
-        private TestHelpers testHelpers = new TestHelpers();
-        private TestHelperReturnXML testHelperReturnXml = new TestHelperReturnXML();
+//        private string dllVersion = "";
+//        private TestHelpers _testHelpers = new TestHelpers();
+        private readonly TestHelperReturnXML _testHelperReturnXml = new TestHelperReturnXML();
 
 
         Tools t = new Tools();
@@ -82,7 +82,7 @@ namespace eFormCommunicator
         {
             if (microtingUuid == "MultiPictureTestInMultipleChecks")
             {
-                return testHelperReturnXml.CreateMultiPictureXMLResult(false);
+                return _testHelperReturnXml.CreateMultiPictureXMLResult(false);
             } else
             {
                 return "failed";
@@ -290,7 +290,7 @@ namespace eFormCommunicator
         
         public string SiteWorkerLoadAllFromRemote()
         {
-            return testHelperReturnXml.CreateSiteUnitWorkersForFullLoaed(false);
+            return _testHelperReturnXml.CreateSiteUnitWorkersForFullLoaed(false);
         }
 
         public string FolderLoadAllFromRemote()
@@ -345,14 +345,14 @@ namespace eFormCommunicator
                 unit_license_number = 55,
                 updated_at = "2018-01-12T01:01:10Z",
                 workflow_state = "new",
-                token = token,
+                token = _token,
                 token_expires = "2034-01-12T01:01:10Z",
                 com_address = "http://srv05.microting.com",
                 com_address_basic = "https://basic.microting.com",
                 com_address_pdf_upload = "https://srv16.microting.com",
                 com_speech_to_text = "https://srv16.microting.com",
                 subscriber_address = "notification.microting.com",
-                subscriber_token = token,
+                subscriber_token = _token,
                 subscriber_name = "john_doen_corporation_ltd" } });
             return content_to_microting.ToString();
         }

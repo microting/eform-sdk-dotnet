@@ -534,7 +534,7 @@ namespace eFormSqlController
                     {
                         // Delete all not wanted taggings first
                         List<taggings> clTaggings = checkList.taggings.Where(x => !tagIds.Contains((int)x.tag_id)).ToList();
-                        int index = 0;
+//                        int index = 0;
                         foreach (taggings tagging in clTaggings)
                         {
                             taggings currentTagging = db.taggings.Single(x => x.id == tagging.id);
@@ -2130,7 +2130,7 @@ namespace eFormSqlController
 
                         return CaseReadByCaseId(aCase.id);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         return null;
                     }
@@ -2138,11 +2138,12 @@ namespace eFormSqlController
             }
             catch (Exception ex)
             {
+//                Log.LogCritical(t.GetMethodName("Core"), ex.Message);
                 throw new Exception("FileRead failed", ex);
             }
         }
 
-        public void FileProcessed(string urlString, string chechSum, string fileLocation, string fileName, int id)
+        public void FileProcessed(string urlString, string checkSum, string fileLocation, string fileName, int id)
         {
             try
             {
@@ -2150,7 +2151,7 @@ namespace eFormSqlController
                 {
                     uploaded_data uD = db.uploaded_data.Single(x => x.id == id);
 
-                    uD.checksum = chechSum;
+                    uD.checksum = checkSum;
                     uD.file_location = fileLocation;
                     uD.file_name = fileName;
                     uD.local = 1;
@@ -4068,7 +4069,7 @@ namespace eFormSqlController
             }
         }
 
-        public async Task<int> FolderCreate(string name, string description, int? parent_id, int microtingUUID)
+        public int FolderCreate(string name, string description, int? parent_id, int microtingUUID)
         {
             folders folder = new folders
             {
