@@ -28,7 +28,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class field_value_versions : base_entity
+    public partial class field_value_versions : BaseEntity
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

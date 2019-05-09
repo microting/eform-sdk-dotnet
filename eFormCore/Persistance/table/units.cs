@@ -31,7 +31,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class units : base_entity
+    public partial class units : BaseEntity
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

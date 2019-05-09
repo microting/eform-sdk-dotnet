@@ -28,7 +28,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class check_list_site_versions : base_entity
+    public partial class check_list_site_versions : BaseEntity
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

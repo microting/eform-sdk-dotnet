@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eFormSqlController
 {
-    public partial class option_versions : base_entity
+    public partial class option_versions : BaseEntity
     {
         public int nextQuestionId { get; set; }
         

@@ -32,7 +32,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class tags : base_entity
+    public partial class tags : BaseEntity
     {
         public tags()
         {

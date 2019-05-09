@@ -29,7 +29,7 @@ using eFormShared;
 
 namespace eFormSqlController
 {
-    public partial class options : base_entity
+    public partial class options : BaseEntity
     {
         public int nextQuestionId { get; set; }
         

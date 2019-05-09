@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eFormSqlController
 {
-    public partial class language_versions : base_entity
+    public partial class language_versions : BaseEntity
     {
         public string name { get; set; }
         

@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eFormSqlController
 {
-    public partial class site_survey_configuration_versions : base_entity
+    public partial class site_survey_configuration_versions : BaseEntity
     {
         public int siteId { get; set; }
         

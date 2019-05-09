@@ -27,7 +27,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eFormSqlController
 {
-    public partial class survey_configuration_versions : base_entity
+    public partial class survey_configuration_versions : BaseEntity
     {
         public DateTime start { get; set; }
         

@@ -32,7 +32,7 @@ namespace eFormSqlController
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class check_lists : base_entity
+    public partial class check_lists : BaseEntity
     {
         public check_lists()
         {

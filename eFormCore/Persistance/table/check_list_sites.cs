@@ -33,7 +33,7 @@ namespace eFormSqlController
     using System.Linq;
     using eFormShared;
 
-    public partial class check_list_sites : base_entity
+    public partial class check_list_sites : BaseEntity
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -31,7 +31,7 @@ using eFormShared;
 
 namespace eFormSqlController
 {
-    public partial class questions : base_entity
+    public partial class questions : BaseEntity
     {
         [ForeignKey("question_set")]
         public int questionSetId { get; set; }

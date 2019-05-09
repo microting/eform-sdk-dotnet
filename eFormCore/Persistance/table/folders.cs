@@ -32,7 +32,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eFormSqlController
 {
-    public class folders : base_entity
+    public class folders : BaseEntity
     {
         public folders()
         {            

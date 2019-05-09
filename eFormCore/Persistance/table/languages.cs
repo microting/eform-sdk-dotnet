@@ -28,7 +28,7 @@ using eFormShared;
 
 namespace eFormSqlController
 {
-    public partial class languages : base_entity
+    public partial class languages : BaseEntity
     {
         public string name { get; set; }
         

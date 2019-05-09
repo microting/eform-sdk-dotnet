@@ -29,7 +29,7 @@ using System.Runtime.CompilerServices;
 
 namespace eFormSqlController
 {
-    public partial class answers : base_entity
+    public partial class answers : BaseEntity
     {
         
         [ForeignKey("unit")]

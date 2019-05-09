@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace eFormSqlController
 {
-    public class folder_versions : base_entity
+    public class folder_versions : BaseEntity
     {        
         public int? folder_id { get; set; }              
 

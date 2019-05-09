@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace eFormSqlController
 {
-    public partial class survey_configurations : base_entity
+    public partial class survey_configurations : BaseEntity
     {
         public DateTime start { get; set; }
         

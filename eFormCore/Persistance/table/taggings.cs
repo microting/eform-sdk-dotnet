@@ -31,7 +31,7 @@ namespace eFormSqlController
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class taggings : base_entity
+    public partial class taggings : BaseEntity
     {
         [ForeignKey("tag")]
         public int? tag_id { get; set; }

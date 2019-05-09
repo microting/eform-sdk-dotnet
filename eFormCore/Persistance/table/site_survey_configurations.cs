@@ -29,7 +29,7 @@ using eFormShared;
 
 namespace eFormSqlController
 {
-    public partial class site_survey_configurations : base_entity
+    public partial class site_survey_configurations : BaseEntity
     {
         [ForeignKey("site")]
         public int siteId { get; set; }

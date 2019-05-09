@@ -30,7 +30,7 @@ using Rebus.Topic;
 
 namespace eFormSqlController
 {
-    public partial class answer_values : base_entity
+    public partial class answer_values : BaseEntity
     {
         [ForeignKey("answer")]
         public int answerId { get; set; }
