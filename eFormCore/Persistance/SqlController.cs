@@ -1937,12 +1937,21 @@ namespace eFormSqlController
                                 {
                                     if (!string.IsNullOrEmpty(decimalSeparator))
                                     {
-                                        string value = item.value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);
+                                        string value = "";
+                                        if (item.value != null)
+                                        {
+                                            value = item.value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
+                                        }
                                         replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), value, false, ""));   
                                     }
                                     else
                                     {
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                                        string value = "";
+                                        if (item.value != null)
+                                        {
+                                            value = item.value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
+                                        }
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), value, false, ""));
                                     }                                    
                                 }
                             }
