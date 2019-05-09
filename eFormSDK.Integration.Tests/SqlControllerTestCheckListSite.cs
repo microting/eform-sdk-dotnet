@@ -47,7 +47,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            sut.CheckListSitesCreate(cl1.id, (int)site.microting_uid, "ServerMicrotingUid");
+            sut.CheckListSitesCreate(cl1.Id, (int)site.microting_uid, "ServerMicrotingUid");
             List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -78,8 +78,8 @@ namespace eFormSDK.Integration.Tests
             check_list_sites cls2 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
 
             // Act
-            List<string> matches = sut.CheckListSitesRead(cl1.id, (int)site1.microting_uid, Constants.WorkflowStates.NotRemoved);
-            List<string> matches2 = sut.CheckListSitesRead(cl1.id, (int)site1.microting_uid, null);
+            List<string> matches = sut.CheckListSitesRead(cl1.Id, (int)site1.microting_uid, Constants.WorkflowStates.NotRemoved);
+            List<string> matches2 = sut.CheckListSitesRead(cl1.Id, (int)site1.microting_uid, null);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 

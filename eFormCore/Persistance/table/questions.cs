@@ -80,16 +80,16 @@ namespace eFormSqlController
             dbContext.question_versions.Add(MapVersions(this));
             dbContext.SaveChanges();
 
-            id = id;
+            Id = Id;
         }
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            questions question = dbContext.questions.FirstOrDefault(x => x.id == id);
+            questions question = dbContext.questions.FirstOrDefault(x => x.Id == Id);
 
             if (question == null)
             {
-                throw new NullReferenceException($"Could no find question with ID: {id}");
+                throw new NullReferenceException($"Could no find question with Id: {Id}");
             }
 
             question.type = type;
@@ -121,11 +121,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            questions question = dbContext.questions.FirstOrDefault(x => x.id == id);
+            questions question = dbContext.questions.FirstOrDefault(x => x.Id == Id);
 
             if (question == null)
             {
-                throw new NullReferenceException($"Could no find question with ID: {id}");
+                throw new NullReferenceException($"Could no find question with Id: {Id}");
             }
 
             question.workflow_state = Constants.WorkflowStates.Removed;
@@ -152,7 +152,7 @@ namespace eFormSqlController
             questionVersion.prioritised = question.prioritised;
             questionVersion.refId = question.refId;
             questionVersion.fontSize = question.fontSize;
-            questionVersion.questionId = question.id;
+            questionVersion.questionId = question.Id;
             questionVersion.maxDuration = question.maxDuration;
             questionVersion.minDuration = question.minDuration;
             questionVersion.imagePostion = question.imagePostion;

@@ -163,16 +163,16 @@ namespace eFormSDK.Integration.Tests
 
 
 
-            tagIds1.Add(tag1.id);
-            tagIds2.Add(tag2.id);
-            tagIds3.Add(tag3.id);
-            tagIds4.Add(tag3.id);
-            tagIds4.Add(tag4.id);
+            tagIds1.Add(tag1.Id);
+            tagIds2.Add(tag2.Id);
+            tagIds3.Add(tag3.Id);
+            tagIds4.Add(tag3.Id);
+            tagIds4.Add(tag4.Id);
 
-            sut.TemplateSetTags(cl1.id, tagIds1);
-            sut.TemplateSetTags(cl2.id, tagIds2);
-            sut.TemplateSetTags(cl3.id, tagIds2);
-            sut.TemplateSetTags(cl4.id, tagIds4);
+            sut.TemplateSetTags(cl1.Id, tagIds1);
+            sut.TemplateSetTags(cl2.Id, tagIds2);
+            sut.TemplateSetTags(cl3.Id, tagIds2);
+            sut.TemplateSetTags(cl4.Id, tagIds4);
 
             #endregion
 
@@ -607,11 +607,11 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            var match = sut.TemplateRead(cl1.id);
+            var match = sut.TemplateRead(cl1.Id);
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.Id, cl1.id);
+            Assert.AreEqual(match.Id, cl1.Id);
             Assert.AreEqual(match.CaseType, cl1.case_type);
             Assert.AreEqual(match.FastNavigation, false);
             Assert.AreEqual(match.Label, cl1.label);
@@ -655,10 +655,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var deleteTemplate1 = sut.TemplateDelete(cl1.id);
-            var deleteTemplate2 = sut.TemplateDelete(cl2.id);
-            var deleteTemplate3 = sut.TemplateDelete(cl3.id);
-            var deleteTemplate4 = sut.TemplateDelete(cl4.id);
+            var deleteTemplate1 = sut.TemplateDelete(cl1.Id);
+            var deleteTemplate2 = sut.TemplateDelete(cl2.Id);
+            var deleteTemplate3 = sut.TemplateDelete(cl3.Id);
+            var deleteTemplate4 = sut.TemplateDelete(cl4.Id);
             // Assert
             Assert.NotNull(deleteTemplate1);
             Assert.NotNull(deleteTemplate2);
@@ -842,10 +842,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.TemplateItemRead(Template1.id);
-            var match2 = sut.TemplateItemRead(Template2.id);
-            var match3 = sut.TemplateItemRead(Template3.id);
-            var match4 = sut.TemplateItemRead(Template4.id);
+            var match1 = sut.TemplateItemRead(Template1.Id);
+            var match2 = sut.TemplateItemRead(Template2.Id);
+            var match3 = sut.TemplateItemRead(Template3.Id);
+            var match4 = sut.TemplateItemRead(Template4.Id);
 
 
             // Assert
@@ -855,7 +855,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match1.Label, "Label1");
             Assert.AreEqual(match1.CreatedAt.ToString(), Template1.created_at.ToString());
             Assert.AreEqual(match1.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match1.Id, Template1.id);
+            Assert.AreEqual(match1.Id, Template1.Id);
             Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.updated_at.ToString());
             #endregion
 
@@ -865,7 +865,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match2.Label, "Label2");
             Assert.AreEqual(match2.CreatedAt.ToString(), Template2.created_at.ToString());
             Assert.AreEqual(match2.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match2.Id, Template2.id);
+            Assert.AreEqual(match2.Id, Template2.Id);
             Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.updated_at.ToString());
             #endregion
 
@@ -875,7 +875,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match3.Label, "Label3");
             Assert.AreEqual(match3.CreatedAt.ToString(), Template3.created_at.ToString());
             Assert.AreEqual(match3.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match3.Id, Template3.id);
+            Assert.AreEqual(match3.Id, Template3.Id);
             Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.updated_at.ToString());
             #endregion
 
@@ -885,7 +885,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match4.Label, "Label4");
             Assert.AreEqual(match4.CreatedAt.ToString(), Template4.created_at.ToString());
             Assert.AreEqual(match4.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match4.Id, Template4.id);
+            Assert.AreEqual(match4.Id, Template4.Id);
             Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.updated_at.ToString());
             #endregion
         }

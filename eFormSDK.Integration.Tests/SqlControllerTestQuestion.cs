@@ -38,7 +38,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -100,7 +100,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -164,7 +164,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -226,7 +226,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -288,7 +288,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -350,7 +350,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -411,7 +411,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -472,7 +472,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -533,7 +533,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -595,7 +595,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -657,7 +657,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -719,7 +719,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -781,7 +781,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -843,7 +843,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -905,7 +905,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -967,7 +967,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1032,7 +1032,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1094,7 +1094,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1156,7 +1156,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1218,7 +1218,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1279,7 +1279,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1340,7 +1340,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1401,7 +1401,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1462,7 +1462,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1523,7 +1523,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1584,7 +1584,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1645,7 +1645,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1706,7 +1706,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1767,7 +1767,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1833,7 +1833,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1857,7 +1857,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = newQuestionType;
             question.imagePostion = newImagePosition;
             question.fontSize = newFontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1918,7 +1918,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -1943,7 +1943,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = newQuestionType;
             question.imagePostion = newImagePosition;
             question.fontSize = newFontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -2006,7 +2006,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2030,7 +2030,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2091,7 +2091,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2115,7 +2115,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2176,7 +2176,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2200,7 +2200,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2261,7 +2261,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2285,7 +2285,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2345,7 +2345,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2369,7 +2369,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2429,7 +2429,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2453,7 +2453,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2513,7 +2513,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2537,7 +2537,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2597,7 +2597,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2621,7 +2621,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2681,7 +2681,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2705,7 +2705,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2765,7 +2765,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2789,7 +2789,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2849,7 +2849,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2873,7 +2873,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2933,7 +2933,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -2957,7 +2957,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3017,7 +3017,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3041,7 +3041,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3106,7 +3106,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3130,7 +3130,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3192,7 +3192,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3216,7 +3216,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3278,7 +3278,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3302,7 +3302,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3364,7 +3364,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3388,7 +3388,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3449,7 +3449,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3473,7 +3473,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3534,7 +3534,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3558,7 +3558,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3619,7 +3619,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3643,7 +3643,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3704,7 +3704,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3728,7 +3728,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3789,7 +3789,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3813,7 +3813,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3874,7 +3874,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3898,7 +3898,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3959,7 +3959,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -3983,7 +3983,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -4045,7 +4045,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -4069,7 +4069,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -4129,7 +4129,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = questionType;
                     question.imagePostion = imagePosition;
                     question.fontSize = fontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -4153,7 +4153,7 @@ namespace eFormSDK.Integration.Tests
                     question.questionType = newQuestionType;
                     question.imagePostion = newImagePosition;
                     question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.id;
+                    question.questionSetId = questionSet.Id;
                     question.maximum = rnd.Next(1, 255);
                     question.minimum = rnd.Next(1, 255);
                     question.refId = rnd.Next(1, 255);
@@ -4219,7 +4219,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4284,7 +4284,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4351,7 +4351,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4416,7 +4416,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4481,7 +4481,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4547,7 +4547,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4615,7 +4615,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4680,7 +4680,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4744,7 +4744,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -4808,7 +4808,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);

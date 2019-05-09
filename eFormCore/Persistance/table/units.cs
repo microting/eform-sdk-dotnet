@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 
         public int? microting_uid { get; set; }
 
@@ -73,11 +73,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            units unit = dbContext.units.FirstOrDefault(x => x.id == id);
+            units unit = dbContext.units.FirstOrDefault(x => x.Id == Id);
 
             if (unit == null)
             {
-                throw new NullReferenceException($"Could not find Unit with ID: {id}");
+                throw new NullReferenceException($"Could not find Unit with Id: {Id}");
             }
 
             unit.site_id = site_id;
@@ -98,11 +98,11 @@ namespace eFormSqlController
         public void Delete(MicrotingDbAnySql dbContext)
         {
             
-            units unit = dbContext.units.FirstOrDefault(x => x.id == id);
+            units unit = dbContext.units.FirstOrDefault(x => x.Id == Id);
 
             if (unit == null)
             {
-                throw new NullReferenceException($"Could not find Unit with ID: {id}");
+                throw new NullReferenceException($"Could not find Unit with Id: {Id}");
             }
 
             unit.workflow_state = Constants.WorkflowStates.Removed;
@@ -131,7 +131,7 @@ namespace eFormSqlController
             unitVer.customer_no = units.customer_no;
             unitVer.otp_code = units.otp_code;
 
-            unitVer.unit_id = units.id; //<<--
+            unitVer.unit_id = units.Id; //<<--
 
             return unitVer;
         }

@@ -71,13 +71,13 @@ namespace eFormSDK.Integration.Tests
             
             #region Answer
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             answer.Create(DbContext);
@@ -95,7 +95,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -114,7 +114,7 @@ namespace eFormSDK.Integration.Tests
             
             options option = new options();
             option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.id;
+            option.questionId = question.Id;
             option.weight = rnd.Next(1, 255);
             option.optionsIndex = rnd.Next(1, 255);
             option.nextQuestionId = rnd.Next(1, 255);
@@ -123,13 +123,13 @@ namespace eFormSDK.Integration.Tests
             #endregion
             
             answer_values answerValue = new answer_values();
-            answerValue.questionId = question.id;
+            answerValue.questionId = question.Id;
             answerValue.value = rnd.Next(1, 255);
             answerValue.Answer = answer;
             answerValue.Option = option;
-            answerValue.answerId = answer.id;
+            answerValue.answerId = answer.Id;
             answerValue.Question = question;
-            answerValue.optionsId = option.id;
+            answerValue.optionsId = option.Id;
             
             // Act
             answerValue.Create(DbContext);
@@ -181,13 +181,13 @@ namespace eFormSDK.Integration.Tests
             
             #region Answer
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             answer.Create(DbContext);
@@ -205,7 +205,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -224,7 +224,7 @@ namespace eFormSDK.Integration.Tests
             
             options option = new options();
             option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.id;
+            option.questionId = question.Id;
             option.weight = rnd.Next(1, 255);
             option.optionsIndex = rnd.Next(1, 255);
             option.nextQuestionId = rnd.Next(1, 255);
@@ -234,13 +234,13 @@ namespace eFormSDK.Integration.Tests
             
             #region Answer2
             answers answer2 = new answers();
-            answer2.siteId = site1.id;
-            answer2.questionSetId = questionSet.id;
-            answer2.surveyConfigurationId = surveyConfiguration.id;
-            answer2.unitId = unit1.id;
+            answer2.siteId = site1.Id;
+            answer2.questionSetId = questionSet.Id;
+            answer2.surveyConfigurationId = surveyConfiguration.Id;
+            answer2.unitId = unit1.Id;
             answer2.timeZone = Guid.NewGuid().ToString();
             answer2.finishedAt = rnd.Next(1, 255);
-            answer2.languageId = language.id;
+            answer2.languageId = language.Id;
             answer2.answerDuration = rnd.Next(1, 255);
             answer2.UTCAdjusted = true;
             answer2.Create(DbContext);
@@ -258,7 +258,7 @@ namespace eFormSDK.Integration.Tests
             question2.questionType = questionType2;
             question2.imagePostion = imagePosition2;
             question2.fontSize = fontSize2;
-            question2.questionSetId = questionSet.id;
+            question2.questionSetId = questionSet.Id;
             question2.maximum = rnd.Next(1, 255);
             question2.minimum = rnd.Next(1, 255);
             question2.refId = rnd.Next(1, 255);
@@ -276,7 +276,7 @@ namespace eFormSDK.Integration.Tests
             
             options option2 = new options();
             option2.weightValue = rnd.Next(1, 255);
-            option2.questionId = question.id;
+            option2.questionId = question.Id;
             option2.weight = rnd.Next(1, 255);
             option2.optionsIndex = rnd.Next(1, 255);
             option2.nextQuestionId = rnd.Next(1, 255);
@@ -284,23 +284,23 @@ namespace eFormSDK.Integration.Tests
             option2.Create(DbContext);
             #endregion
             answer_values answerValue = new answer_values();
-            answerValue.questionId = question.id;
+            answerValue.questionId = question.Id;
             answerValue.value = rnd.Next(1, 255);
             answerValue.Answer = answer;
             answerValue.Option = option;
-            answerValue.answerId = answer.id;
+            answerValue.answerId = answer.Id;
             answerValue.Question = question;
-            answerValue.optionsId = option.id;
+            answerValue.optionsId = option.Id;
             
             answerValue.Create(DbContext);
             // Act
-            answerValue.questionId = question2.id;
+            answerValue.questionId = question2.Id;
             answerValue.value = rnd.Next(1, 255);
             answerValue.Answer = answer2;
             answerValue.Option = option2;
-            answerValue.answerId = answer2.id;
+            answerValue.answerId = answer2.Id;
             answerValue.Question = question2;
-            answerValue.optionsId = option2.id;
+            answerValue.optionsId = option2.Id;
             
             answerValue.Update(DbContext);
             
@@ -351,13 +351,13 @@ namespace eFormSDK.Integration.Tests
             
             #region Answer
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             answer.Create(DbContext);
@@ -375,7 +375,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -394,7 +394,7 @@ namespace eFormSDK.Integration.Tests
             
             options option = new options();
             option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.id;
+            option.questionId = question.Id;
             option.weight = rnd.Next(1, 255);
             option.optionsIndex = rnd.Next(1, 255);
             option.nextQuestionId = rnd.Next(1, 255);
@@ -403,13 +403,13 @@ namespace eFormSDK.Integration.Tests
             #endregion
             
             answer_values answerValue = new answer_values();
-            answerValue.questionId = question.id;
+            answerValue.questionId = question.Id;
             answerValue.value = rnd.Next(1, 255);
             answerValue.Answer = answer;
             answerValue.Option = option;
-            answerValue.answerId = answer.id;
+            answerValue.answerId = answer.Id;
             answerValue.Question = question;
-            answerValue.optionsId = option.id;
+            answerValue.optionsId = option.Id;
             answerValue.Create(DbContext);
 
             // Act

@@ -50,11 +50,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            languages languages = dbContext.languages.FirstOrDefault(x => x.id == id);
+            languages languages = dbContext.languages.FirstOrDefault(x => x.Id == Id);
 
             if (languages == null)
             {
-                throw new NullReferenceException($"Could not find language wit ID: {id}");
+                throw new NullReferenceException($"Could not find language wit Id: {Id}");
             }
 
             languages.name = name;
@@ -73,11 +73,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            languages language = dbContext.languages.FirstOrDefault(x => x.id == id);
+            languages language = dbContext.languages.FirstOrDefault(x => x.Id == Id);
 
             if (language == null)
             {
-                throw new NullReferenceException($"Could not find language with ID: {id}");
+                throw new NullReferenceException($"Could not find language with Id: {Id}");
             }
 
             language.workflow_state = Constants.WorkflowStates.Removed;
@@ -96,7 +96,7 @@ namespace eFormSqlController
         {
             language_versions languageVersions = new language_versions();
 
-            languageVersions.languageId = language.id;
+            languageVersions.languageId = language.Id;
             languageVersions.name = language.name;
             languageVersions.description = language.description;
             languageVersions.version = language.version;

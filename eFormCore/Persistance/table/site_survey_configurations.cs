@@ -56,11 +56,11 @@ namespace eFormSqlController
         public void Update(MicrotingDbAnySql dbContext)
         {
             site_survey_configurations siteSurveyConfiguration =
-                dbContext.site_survey_configurations.FirstOrDefault(x => x.id == id);
+                dbContext.site_survey_configurations.FirstOrDefault(x => x.Id == Id);
 
             if (siteSurveyConfiguration == null)
             {
-                throw new NullReferenceException($"Could not find site survey configuration with ID: {id}");
+                throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
             }
 
             siteSurveyConfiguration.siteId = siteId;
@@ -80,11 +80,11 @@ namespace eFormSqlController
         {
             
             site_survey_configurations siteSurveyConfiguration =
-                dbContext.site_survey_configurations.FirstOrDefault(x => x.id == id);
+                dbContext.site_survey_configurations.FirstOrDefault(x => x.Id == Id);
 
             if (siteSurveyConfiguration == null)
             {
-                throw new NullReferenceException($"Could not find site survey configuration with ID: {id}");
+                throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
             }
 
             siteSurveyConfiguration.workflow_state = Constants.WorkflowStates.Removed;
@@ -105,7 +105,7 @@ namespace eFormSqlController
 
             siteSurveyConfigurationVersion.surveyConfigurationId = siteSurveyConfiguration.surveyConfigurationId;
             siteSurveyConfigurationVersion.siteId = siteSurveyConfiguration.siteId;
-            siteSurveyConfigurationVersion.siteSurveyConfigurationId = siteSurveyConfiguration.id;
+            siteSurveyConfigurationVersion.siteSurveyConfigurationId = siteSurveyConfiguration.Id;
             siteSurveyConfigurationVersion.created_at = siteSurveyConfiguration.created_at;
             siteSurveyConfigurationVersion.updated_at = siteSurveyConfiguration.updated_at;
             siteSurveyConfigurationVersion.workflow_state = siteSurveyConfiguration.workflow_state;

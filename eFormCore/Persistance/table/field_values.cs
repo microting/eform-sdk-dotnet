@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -109,11 +109,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            field_values fieldValues = dbContext.field_values.FirstOrDefault(x => x.id == id);
+            field_values fieldValues = dbContext.field_values.FirstOrDefault(x => x.Id == Id);
 
             if (fieldValues == null)
             {
-                throw new NullReferenceException($"Could not find Field Value with ID: {id}");
+                throw new NullReferenceException($"Could not find Field Value with Id: {Id}");
             }
 
             fieldValues.done_at = done_at;
@@ -144,11 +144,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            field_values fieldValues = dbContext.field_values.FirstOrDefault(x => x.id == id);
+            field_values fieldValues = dbContext.field_values.FirstOrDefault(x => x.Id == Id);
 
             if (fieldValues == null)
             {
-                throw new NullReferenceException($"Could not find Field Value with ID: {id}");
+                throw new NullReferenceException($"Could not find Field Value with Id: {Id}");
             }
 
             fieldValues.workflow_state = Constants.WorkflowStates.Removed;
@@ -187,7 +187,7 @@ namespace eFormSqlController
             fvv.check_list_duplicate_id = fieldValue.check_list_duplicate_id;
             fvv.done_at = fieldValue.done_at;
 
-            fvv.field_value_id = fieldValue.id; //<<--
+            fvv.field_value_id = fieldValue.Id; //<<--
 
             return fvv;
         }

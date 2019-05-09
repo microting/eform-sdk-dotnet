@@ -41,7 +41,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -61,7 +61,7 @@ namespace eFormSDK.Integration.Tests
             
             options option = new options();
             option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.id;
+            option.questionId = question.Id;
             option.weight = rnd.Next(1, 255);
             option.optionsIndex = rnd.Next(1, 255);
             option.nextQuestionId = rnd.Next(1, 255);
@@ -112,7 +112,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -136,7 +136,7 @@ namespace eFormSDK.Integration.Tests
             question2.questionType = questionType2;
             question2.imagePostion = imagePosition2;
             question2.fontSize = fontSize2;
-            question2.questionSetId = questionSet.id;
+            question2.questionSetId = questionSet.Id;
             question2.maximum = rnd.Next(1, 255);
             question2.minimum = rnd.Next(1, 255);
             question2.refId = rnd.Next(1, 255);
@@ -155,7 +155,7 @@ namespace eFormSDK.Integration.Tests
             
             options option = new options();
             option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.id;
+            option.questionId = question.Id;
             option.weight = rnd.Next(1, 255);
             option.optionsIndex = rnd.Next(1, 255);
             option.nextQuestionId = rnd.Next(1, 255);
@@ -168,7 +168,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             
             option.weightValue = rnd.Next(1, 550);
-            option.questionId = question2.id;
+            option.questionId = question2.Id;
             option.weight = rnd.Next(1, 550);
             option.optionsIndex = rnd.Next(1, 550);
             option.nextQuestionId = rnd.Next(1, 550);
@@ -216,7 +216,7 @@ namespace eFormSDK.Integration.Tests
             question.questionType = questionType;
             question.imagePostion = imagePosition;
             question.fontSize = fontSize;
-            question.questionSetId = questionSet.id;
+            question.questionSetId = questionSet.Id;
             question.maximum = rnd.Next(1, 255);
             question.minimum = rnd.Next(1, 255);
             question.refId = rnd.Next(1, 255);
@@ -236,7 +236,7 @@ namespace eFormSDK.Integration.Tests
             
             options option = new options();
             option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.id;
+            option.questionId = question.Id;
             option.weight = rnd.Next(1, 255);
             option.optionsIndex = rnd.Next(1, 255);
             option.nextQuestionId = rnd.Next(1, 255);

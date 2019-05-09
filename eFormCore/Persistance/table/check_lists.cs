@@ -45,7 +45,7 @@ namespace eFormSqlController
 //
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -142,11 +142,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            check_lists checkList = dbContext.check_lists.FirstOrDefault(x => x.id == id);
+            check_lists checkList = dbContext.check_lists.FirstOrDefault(x => x.Id == Id);
 
             if (checkList == null)
             {
-                throw new NullReferenceException($"Could not find Checklist with ID: {id}");
+                throw new NullReferenceException($"Could not find Checklist with Id: {Id}");
             }
 
             checkList.label = label;
@@ -190,11 +190,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            check_lists checkList = dbContext.check_lists.FirstOrDefault(x => x.id == id);
+            check_lists checkList = dbContext.check_lists.FirstOrDefault(x => x.Id == Id);
 
             if (checkList == null)
             {
-                throw new NullReferenceException($"Could not find Checklist with ID: {id}");
+                throw new NullReferenceException($"Could not find Checklist with Id: {Id}");
             }
 
             checkList.workflow_state = Constants.WorkflowStates.Removed;
@@ -244,7 +244,7 @@ namespace eFormSqlController
             clv.field_9 = checkList.field_9;
             clv.field_10 = checkList.field_10;
 
-            clv.check_list_id = checkList.id; //<<--
+            clv.check_list_id = checkList.Id; //<<--
 
             return clv;
         }

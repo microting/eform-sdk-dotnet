@@ -64,11 +64,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            options option = dbContext.options.FirstOrDefault(x => x.id == id);
+            options option = dbContext.options.FirstOrDefault(x => x.Id == Id);
 
             if (option == null)
             {
-                throw new NullReferenceException($"Could not find option with ID: {id}");
+                throw new NullReferenceException($"Could not find option with Id: {Id}");
             }
 
             option.questionId = questionId;
@@ -91,11 +91,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            options option = dbContext.options.FirstOrDefault(x => x.id == id);
+            options option = dbContext.options.FirstOrDefault(x => x.Id == Id);
 
             if (option == null)
             {
-                throw new NullReferenceException($"Could not find option with ID: {id}");
+                throw new NullReferenceException($"Could not find option with Id: {Id}");
             }
 
             option.workflow_state = Constants.WorkflowStates.Removed;
@@ -120,7 +120,7 @@ namespace eFormSqlController
             optionVersions.nextQuestionId = option.nextQuestionId;
             optionVersions.continuousOptionId = option.continuousOptionId;
             optionVersions.optionsIndex = option.optionsIndex;
-            optionVersions.optionId = option.id;
+            optionVersions.optionId = option.Id;
 
             return optionVersions;
 

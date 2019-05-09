@@ -64,7 +64,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            bool match = sut.Advanced_TemplateDisplayIndexChangeDb(cl1.id, 5);
+            bool match = sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5);
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -88,7 +88,7 @@ namespace eFormSDK.Integration.Tests
 
             //#endregion
             //// Act
-            //bool match = sut.Advanced_TemplateDisplayIndexChangeServer(cl1.id,(int)site.microting_uid, 5);
+            //bool match = sut.Advanced_TemplateDisplayIndexChangeServer(cl1.Id,(int)site.microting_uid, 5);
             //// Assert
             // Assert.NotNull(match);
             // Assert.True(match);
@@ -263,7 +263,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            bool match = sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.id, f1.id, f2.id, f3.id, f4.id, f5.id, f6.id, f7.id, f8.id, f9.id, f10.id);
+            bool match = sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.Id, f1.Id, f2.Id, f3.Id, f4.Id, f5.Id, f6.Id, f7.Id, f8.Id, f9.Id, f10.Id);
 
             // Assert
             Assert.NotNull(match);
@@ -435,10 +435,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.Advanced_TemplateFieldReadAll(Template1.id);
-            var match2 = sut.Advanced_TemplateFieldReadAll(Template2.id);
-            var match3 = sut.Advanced_TemplateFieldReadAll(Template3.id);
-            var match4 = sut.Advanced_TemplateFieldReadAll(Template4.id);
+            var match1 = sut.Advanced_TemplateFieldReadAll(Template1.Id);
+            var match2 = sut.Advanced_TemplateFieldReadAll(Template2.Id);
+            var match3 = sut.Advanced_TemplateFieldReadAll(Template3.Id);
+            var match4 = sut.Advanced_TemplateFieldReadAll(Template4.Id);
 
             // Assert
             #region template1
@@ -446,12 +446,12 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match1[0].Description, Field1.description);
             Assert.AreEqual(match1[0].FieldType, "Picture");
             Assert.AreEqual(match1[0].Label, Field1.label);
-            Assert.AreEqual(match1[0].Id, Field1.id);
+            Assert.AreEqual(match1[0].Id, Field1.Id);
 
             Assert.AreEqual(match1[1].Description, Field2.description);
             Assert.AreEqual(match1[1].FieldType, "Comment");
             Assert.AreEqual(match1[1].Label, Field2.label);
-            Assert.AreEqual(match1[1].Id, Field2.id);
+            Assert.AreEqual(match1[1].Id, Field2.Id);
             #endregion
 
             #region template2
@@ -459,17 +459,17 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match2[0].Description, Field3.description);
             Assert.AreEqual(match2[0].FieldType, "Picture");
             Assert.AreEqual(match2[0].Label, Field3.label);
-            Assert.AreEqual(match2[0].Id, Field3.id);
+            Assert.AreEqual(match2[0].Id, Field3.Id);
 
             Assert.AreEqual(match2[1].Description, Field4.description);
             Assert.AreEqual(match2[1].FieldType, "Picture");
             Assert.AreEqual(match2[1].Label, Field4.label);
-            Assert.AreEqual(match2[1].Id, Field4.id);
+            Assert.AreEqual(match2[1].Id, Field4.Id);
 
             Assert.AreEqual(match2[2].Description, Field5.description);
             Assert.AreEqual(match2[2].FieldType, "Comment");
             Assert.AreEqual(match2[2].Label, Field5.label);
-            Assert.AreEqual(match2[2].Id, Field5.id);
+            Assert.AreEqual(match2[2].Id, Field5.Id);
             #endregion
 
             #region template3
@@ -477,12 +477,12 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match3[0].Description, Field6.description);
             Assert.AreEqual(match3[0].FieldType, "Comment");
             Assert.AreEqual(match3[0].Label, Field6.label);
-            Assert.AreEqual(match3[0].Id, Field6.id);
+            Assert.AreEqual(match3[0].Id, Field6.Id);
 
             Assert.AreEqual(match3[1].Description, Field7.description);
             Assert.AreEqual(match3[1].FieldType, "Comment");
             Assert.AreEqual(match3[1].Label, Field7.label);
-            Assert.AreEqual(match3[1].Id, Field7.id);
+            Assert.AreEqual(match3[1].Id, Field7.Id);
             #endregion
 
             #region template4
@@ -490,17 +490,17 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match4[0].Description, Field8.description);
             Assert.AreEqual(match4[0].FieldType, "Comment");
             Assert.AreEqual(match4[0].Label, Field8.label);
-            Assert.AreEqual(match4[0].Id, Field8.id);
+            Assert.AreEqual(match4[0].Id, Field8.Id);
 
             Assert.AreEqual(match4[1].Description, Field9.description);
             Assert.AreEqual(match4[1].FieldType, "Comment");
             Assert.AreEqual(match4[1].Label, Field9.label);
-            Assert.AreEqual(match4[1].Id, Field9.id);
+            Assert.AreEqual(match4[1].Id, Field9.Id);
 
             Assert.AreEqual(match4[2].Description, Field10.description);
             Assert.AreEqual(match4[2].FieldType, "Comment");
             Assert.AreEqual(match4[2].Label, Field10.label);
-            Assert.AreEqual(match4[2].Id, Field10.id);
+            Assert.AreEqual(match4[2].Id, Field10.Id);
             #endregion
 
 
@@ -842,52 +842,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -1188,7 +1188,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.Advanced_SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
+            var match = sut.Advanced_SiteWorkerRead(site_workers.microting_uid, site1.Id, worker1.Id);
 
             // Assert
             Assert.NotNull(match);
@@ -1869,11 +1869,11 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            Field match = sut.Advanced_FieldRead(f1.id);
+            Field match = sut.Advanced_FieldRead(f1.Id);
 
             // Assert
 
-            Assert.AreEqual(f1.id, match.Id);
+            Assert.AreEqual(f1.Id, match.Id);
 
         }
         [Test]
@@ -2009,7 +2009,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            List<FieldValue> match = sut.Advanced_FieldValueReadList(f1.id, 5);
+            List<FieldValue> match = sut.Advanced_FieldValueReadList(f1.Id, 5);
 
             // Assert
 
@@ -2222,7 +2222,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            bool match = sut.Advanced_DeleteUploadedData(f2.id, ud1.id);
+            bool match = sut.Advanced_DeleteUploadedData(f2.Id, ud1.Id);
             // Assert
             Assert.True(match);
 
@@ -2562,52 +2562,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -2620,16 +2620,16 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(theCase);
             check_lists theCheckList = DbContext.check_lists.First();
 
-            theCheckList.field_1 = f1.id;
-            theCheckList.field_2 = f2.id;
-            theCheckList.field_3 = f3.id;
-            theCheckList.field_4 = f4.id;
-            theCheckList.field_5 = f5.id;
-            theCheckList.field_6 = f6.id;
-            theCheckList.field_7 = f7.id;
-            theCheckList.field_8 = f8.id;
-            theCheckList.field_9 = f9.id;
-            theCheckList.field_10 = f10.id;
+            theCheckList.field_1 = f1.Id;
+            theCheckList.field_2 = f2.Id;
+            theCheckList.field_3 = f3.Id;
+            theCheckList.field_4 = f4.Id;
+            theCheckList.field_5 = f5.Id;
+            theCheckList.field_6 = f6.Id;
+            theCheckList.field_7 = f7.Id;
+            theCheckList.field_8 = f8.Id;
+            theCheckList.field_9 = f9.Id;
+            theCheckList.field_10 = f10.Id;
 
             Assert.AreEqual(null, theCase.field_value_1);
             Assert.AreEqual(null, theCase.field_value_2);
@@ -2642,7 +2642,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(null, theCase.field_value_9);
             Assert.AreEqual(null, theCase.field_value_10);
 
-            var testThis = sut.Advanced_UpdateCaseFieldValue(aCase1.id);
+            var testThis = sut.Advanced_UpdateCaseFieldValue(aCase1.Id);
 
             // Assert
             cases theCaseAfter = DbContext.cases.AsNoTracking().First();

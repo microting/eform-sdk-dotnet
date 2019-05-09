@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -81,11 +81,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.id == id);
+            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.Id == Id);
 
             if (entityItems == null)
             {
-                throw new NullReferenceException($"Could not find Entity Item with ID: {id}");
+                throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
             }
 
             entityItems.entity_group_id = entity_group_id;
@@ -107,11 +107,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.id == id);
+            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.Id == Id);
 
             if (entityItems == null)
             {
-                throw new NullReferenceException($"Could not find Entity Item with ID: {id}");
+                throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
             }
 
             entityItems.workflow_state = Constants.WorkflowStates.Removed;
@@ -141,7 +141,7 @@ namespace eFormSqlController
             entityItemVer.synced = entityItem.synced;
             entityItemVer.display_index = entityItem.display_index;
 
-            entityItemVer.entity_items_id = entityItem.id; //<<--
+            entityItemVer.entity_items_id = entityItem.Id; //<<--
 
             return entityItemVer;
         }

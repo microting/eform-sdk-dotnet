@@ -69,15 +69,15 @@ namespace eFormSDK.Integration.Tests
             aCase.microting_uid = "microting_uid";
             aCase.microting_check_uid = "microting_check_uid";
             aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
+            aCase.check_list_id = cl.Id;
+            aCase.site_id = site.Id;
 
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDeleteResult(aCase.id);
-            Case_Dto theCase = sut.CaseLookupCaseId(aCase.id);
+            sut.CaseDeleteResult(aCase.Id);
+            Case_Dto theCase = sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
             Assert.NotNull(theCase);
@@ -189,8 +189,8 @@ namespace eFormSDK.Integration.Tests
             check_list_values check_List_Values = testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
             //    new check_list_values();
 
-            //check_List_Values.case_id = aCase.id;
-            //check_List_Values.check_list_id = cl2.id;
+            //check_List_Values.case_id = aCase.Id;
+            //check_List_Values.check_list_id = cl2.Id;
             //check_List_Values.created_at = DateTime.Now;
             //check_List_Values.status = "completed";
             //check_List_Values.updated_at = DateTime.Now;
@@ -207,14 +207,14 @@ namespace eFormSDK.Integration.Tests
             #region fv1
             field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
             //    new field_values();
-            //field_Values1.case_id = aCase.id;
+            //field_Values1.case_id = aCase.Id;
             //field_Values1.check_list = cl2;
-            //field_Values1.check_list_id = cl2.id;
+            //field_Values1.check_list_id = cl2.Id;
             //field_Values1.created_at = DateTime.Now;
             //field_Values1.date = DateTime.Now;
             //field_Values1.done_at = DateTime.Now;
             //field_Values1.field = f1;
-            //field_Values1.field_id = f1.id;
+            //field_Values1.field_id = f1.Id;
             //field_Values1.updated_at = DateTime.Now;
             //field_Values1.user_id = null;
             //field_Values1.value = "tomt1";
@@ -229,14 +229,14 @@ namespace eFormSDK.Integration.Tests
             #region fv2
             field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
             //    new field_values();
-            //field_Values2.case_id = aCase.id;
+            //field_Values2.case_id = aCase.Id;
             //field_Values2.check_list = cl2;
-            //field_Values2.check_list_id = cl2.id;
+            //field_Values2.check_list_id = cl2.Id;
             //field_Values2.created_at = DateTime.Now;
             //field_Values2.date = DateTime.Now;
             //field_Values2.done_at = DateTime.Now;
             //field_Values2.field = f2;
-            //field_Values2.field_id = f2.id;
+            //field_Values2.field_id = f2.Id;
             //field_Values2.updated_at = DateTime.Now;
             //field_Values2.user_id = null;
             //field_Values2.value = "tomt2";
@@ -251,14 +251,14 @@ namespace eFormSDK.Integration.Tests
             #region fv3
             field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
             //    new field_values();
-            //field_Values3.case_id = aCase.id;
+            //field_Values3.case_id = aCase.Id;
             //field_Values3.check_list = cl2;
-            //field_Values3.check_list_id = cl2.id;
+            //field_Values3.check_list_id = cl2.Id;
             //field_Values3.created_at = DateTime.Now;
             //field_Values3.date = DateTime.Now;
             //field_Values3.done_at = DateTime.Now;
             //field_Values3.field = f3;
-            //field_Values3.field_id = f3.id;
+            //field_Values3.field_id = f3.Id;
             //field_Values3.updated_at = DateTime.Now;
             //field_Values3.user_id = null;
             //field_Values3.value = "tomt3";
@@ -273,14 +273,14 @@ namespace eFormSDK.Integration.Tests
             #region fv4
             field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
             //    new field_values();
-            //field_Values4.case_id = aCase.id;
+            //field_Values4.case_id = aCase.Id;
             //field_Values4.check_list = cl2;
-            //field_Values4.check_list_id = cl2.id;
+            //field_Values4.check_list_id = cl2.Id;
             //field_Values4.created_at = DateTime.Now;
             //field_Values4.date = DateTime.Now;
             //field_Values4.done_at = DateTime.Now;
             //field_Values4.field = f4;
-            //field_Values4.field_id = f4.id;
+            //field_Values4.field_id = f4.Id;
             //field_Values4.updated_at = DateTime.Now;
             //field_Values4.user_id = null;
             //field_Values4.value = "tomt4";
@@ -295,14 +295,14 @@ namespace eFormSDK.Integration.Tests
             #region fv5
             field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
             //    new field_values();
-            //field_Values5.case_id = aCase.id;
+            //field_Values5.case_id = aCase.Id;
             //field_Values5.check_list = cl2;
-            //field_Values5.check_list_id = cl2.id;
+            //field_Values5.check_list_id = cl2.Id;
             //field_Values5.created_at = DateTime.Now;
             //field_Values5.date = DateTime.Now;
             //field_Values5.done_at = DateTime.Now;
             //field_Values5.field = f5;
-            //field_Values5.field_id = f5.id;
+            //field_Values5.field_id = f5.Id;
             //field_Values5.updated_at = DateTime.Now;
             //field_Values5.user_id = null;
             //field_Values5.value = "tomt5";
@@ -431,11 +431,11 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByCaseId(aCase.id);
+            var match = sut.CaseReadByCaseId(aCase.Id);
 
             // Assert
 
-            Assert.AreEqual(aCase.id, match.CaseId);
+            Assert.AreEqual(aCase.Id, match.CaseId);
         }
         [Test]
         public void Core_Case_CaseReadFirstId()
@@ -536,9 +536,9 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFirstId(aCase.check_list.id, aCase.workflow_state);
+            var match = sut.CaseReadFirstId(aCase.check_list.Id, aCase.workflow_state);
             // Assert
-            Assert.AreEqual(aCase.id, match);
+            Assert.AreEqual(aCase.Id, match);
         }
         [Test]
         public void Core_Case_CaseUpdate_ReturnsTrue()
@@ -875,52 +875,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -929,16 +929,16 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
             List<string> FVPlist = new List<string>();
-            FVPlist.Add(field_Value1.id + " |" + field_Value1.value);
-            FVPlist.Add(field_Value2.id + " |" + field_Value2.value);
-            FVPlist.Add(field_Value3.id + " |" + field_Value3.value);
-            FVPlist.Add(field_Value4.id + " |" + field_Value4.value);
-            FVPlist.Add(field_Value5.id + " |" + field_Value5.value);
-            FVPlist.Add(field_Value6.id + " |" + field_Value6.value);
-            FVPlist.Add(field_Value7.id + " |" + field_Value7.value);
-            FVPlist.Add(field_Value8.id + " |" + field_Value8.value);
-            FVPlist.Add(field_Value9.id + " |" + field_Value9.value);
-            FVPlist.Add(field_Value10.id + " |" + field_Value10.value);
+            FVPlist.Add(field_Value1.Id + " |" + field_Value1.value);
+            FVPlist.Add(field_Value2.Id + " |" + field_Value2.value);
+            FVPlist.Add(field_Value3.Id + " |" + field_Value3.value);
+            FVPlist.Add(field_Value4.Id + " |" + field_Value4.value);
+            FVPlist.Add(field_Value5.Id + " |" + field_Value5.value);
+            FVPlist.Add(field_Value6.Id + " |" + field_Value6.value);
+            FVPlist.Add(field_Value7.Id + " |" + field_Value7.value);
+            FVPlist.Add(field_Value8.Id + " |" + field_Value8.value);
+            FVPlist.Add(field_Value9.Id + " |" + field_Value9.value);
+            FVPlist.Add(field_Value10.Id + " |" + field_Value10.value);
             //FVPlist.ToList();
 
             List<string> CLVlist = new List<string>();
@@ -954,7 +954,7 @@ namespace eFormSDK.Integration.Tests
             CLVlist.Add(clv10.check_list_id + " |" + clv10.status);
             //CLVlist.ToList();
 
-            var match = sut.CaseUpdate(aCase1.id, FVPlist, CLVlist);
+            var match = sut.CaseUpdate(aCase1.Id, FVPlist, CLVlist);
 
             Assert.NotNull(match);
             Assert.True(match);
@@ -1266,52 +1266,52 @@ namespace eFormSDK.Integration.Tests
 
             //#region Field Values
             //#region fv1
-            //field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            //field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             //#endregion
 
             //#region fv2
-            //field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            //field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             //#endregion
 
             //#region fv3
-            //field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            //field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             //#endregion
 
             //#region fv4
-            //field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            //field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             //#endregion
 
             //#region fv5
-            //field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            //field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             //#endregion
 
             //#region fv6
-            //field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            //field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             //#endregion
 
             //#region fv7
-            //field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            //field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             //#endregion
 
             //#region fv8
-            //field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            //field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             //#endregion
 
             //#region fv9
-            //field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            //field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             //#endregion
 
             //#region fv10
-            //field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            //field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             //#endregion
 
@@ -1327,7 +1327,7 @@ namespace eFormSDK.Integration.Tests
             //#endregion
             //#endregion
             //// Act
-            //var match = sut.CaseDelete(cl2.id,(int) cls1.site.microting_uid);
+            //var match = sut.CaseDelete(cl2.Id,(int) cls1.site.microting_uid);
             //// Assert
             // Assert.NotNull(match);
             // Assert.True(match);
@@ -1640,52 +1640,52 @@ namespace eFormSDK.Integration.Tests
 
             //#region Field Values
             //#region fv1
-            //field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            //field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             //#endregion
 
             //#region fv2
-            //field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            //field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             //#endregion
 
             //#region fv3
-            //field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            //field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             //#endregion
 
             //#region fv4
-            //field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            //field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             //#endregion
 
             //#region fv5
-            //field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            //field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             //#endregion
 
             //#region fv6
-            //field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            //field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             //#endregion
 
             //#region fv7
-            //field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            //field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             //#endregion
 
             //#region fv8
-            //field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            //field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             //#endregion
 
             //#region fv9
-            //field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            //field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             //#endregion
 
             //#region fv10
-            //field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            //field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             //#endregion
 
@@ -1701,7 +1701,7 @@ namespace eFormSDK.Integration.Tests
             //#endregion
             //#endregion
             //// Act
-            //var match = sut.CaseDelete(cl2.id, (int)cls1.site.microting_uid, Constants.WorkflowStates.Created);
+            //var match = sut.CaseDelete(cl2.Id, (int)cls1.site.microting_uid, Constants.WorkflowStates.Created);
             //// Assert
             // Assert.NotNull(match);
             // Assert.True(match);
@@ -1947,52 +1947,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61234, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61234, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61234, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61234, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61234, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61234, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61234, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61234, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61234, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61234, worker);
 
             #endregion
 
@@ -2004,16 +2004,16 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(theCase);
             check_lists theCheckList = DbContext.check_lists.First();
 
-            theCheckList.field_1 = f1.id;
-            theCheckList.field_2 = f2.id;
-            theCheckList.field_3 = f3.id;
-            theCheckList.field_4 = f4.id;
-            theCheckList.field_5 = f5.id;
-            theCheckList.field_6 = f6.id;
-            theCheckList.field_7 = f7.id;
-            theCheckList.field_8 = f8.id;
-            theCheckList.field_9 = f9.id;
-            theCheckList.field_10 = f10.id;
+            theCheckList.field_1 = f1.Id;
+            theCheckList.field_2 = f2.Id;
+            theCheckList.field_3 = f3.Id;
+            theCheckList.field_4 = f4.Id;
+            theCheckList.field_5 = f5.Id;
+            theCheckList.field_6 = f6.Id;
+            theCheckList.field_7 = f7.Id;
+            theCheckList.field_8 = f8.Id;
+            theCheckList.field_9 = f9.Id;
+            theCheckList.field_10 = f10.Id;
 
             Assert.AreEqual(null, theCase.field_value_1);
             Assert.AreEqual(null, theCase.field_value_2);
@@ -2026,7 +2026,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(null, theCase.field_value_9);
             Assert.AreEqual(null, theCase.field_value_10);
 
-            var testThis = sut.CaseUpdateFieldValues(aCase1.id);
+            var testThis = sut.CaseUpdateFieldValues(aCase1.Id);
 
             // Assert
             cases theCaseAfter = DbContext.cases.AsNoTracking().First();
@@ -2191,27 +2191,27 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
@@ -2333,11 +2333,11 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseLookupCaseId(aCase.id);
+            var match = sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
 
-            Assert.AreEqual(aCase.id, match.CaseId);
+            Assert.AreEqual(aCase.Id, match.CaseId);
         }
         [Test]
         public void Core_Case_CaseLookupCaseUId_Returns_lstDto()
@@ -2589,7 +2589,7 @@ namespace eFormSDK.Integration.Tests
             var match = sut.CaseIdLookup(aCase1.microting_uid, aCase1.microting_check_uid);
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(aCase1.id, match);
+            Assert.AreEqual(aCase1.Id, match);
         }
         
         #region Core_Case_CasesToExcel_returnsPathAndName
@@ -2928,52 +2928,52 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region Field Values
 //            #region fv1
-//            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+//            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 //
 //            #endregion
 //
 //            #region fv2
-//            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+//            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 //
 //            #endregion
 //
 //            #region fv3
-//            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+//            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 //
 //            #endregion
 //
 //            #region fv4
-//            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+//            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 //
 //            #endregion
 //
 //            #region fv5
-//            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+//            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 //
 //            #endregion
 //
 //            #region fv6
-//            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+//            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 //
 //            #endregion
 //
 //            #region fv7
-//            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+//            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 //
 //            #endregion
 //
 //            #region fv8
-//            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+//            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 //
 //            #endregion
 //
 //            #region fv9
-//            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+//            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 //
 //            #endregion
 //
 //            #region fv10
-//            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+//            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 //
 //            #endregion
 //
@@ -3336,52 +3336,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -3742,52 +3742,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -3806,8 +3806,8 @@ namespace eFormSDK.Integration.Tests
 
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
-                $"{timeStamp}_{aCase2.id}.xml");
-            var match = sut.CaseToJasperXml(aCase2.id, timeStamp, pdfPath, "");
+                $"{timeStamp}_{aCase2.Id}.xml");
+            var match = sut.CaseToJasperXml(aCase2.Id, timeStamp, pdfPath, "");
 
             // Assert
             Assert.NotNull(match);
@@ -4149,52 +4149,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -4567,52 +4567,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -4984,52 +4984,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 
@@ -5388,52 +5388,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61230, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61231, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61232, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61233, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61235, worker);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61236, worker);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61237, worker);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61238, worker);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61239, worker);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
 
             #endregion
 

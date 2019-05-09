@@ -53,8 +53,8 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite("SiteName1", 88);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.siteId = site1.id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.id;
+            siteSurveyConfiguration.siteId = site1.Id;
+            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.Id;
             // Act
             siteSurveyConfiguration.Create(DbContext);
 
@@ -66,8 +66,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
 
-            Assert.AreEqual(site1.id, dbSiteSurveyConfiguration.siteId);
-            Assert.AreEqual(surveyConfiguration.id, siteSurveyConfiguration.surveyConfigurationId);
+            Assert.AreEqual(site1.Id, dbSiteSurveyConfiguration.siteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.surveyConfigurationId);
         }
         [Test]
         public void siteSurveyConfiguration_Update_DoesUpdate()
@@ -87,8 +87,8 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite("SiteName1", 88);
             
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.siteId = site1.id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.id;
+            siteSurveyConfiguration.siteId = site1.Id;
+            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.Id;
             siteSurveyConfiguration.Create(DbContext);
             // Act
             sites site2 = testHelpers.CreateSite("siteName2", 666);
@@ -100,8 +100,8 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration2.timeToLive = rnd.Next(1, 255);
             surveyConfiguration2.Create(DbContext);
 
-            siteSurveyConfiguration.siteId = site2.id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration2.id;
+            siteSurveyConfiguration.siteId = site2.Id;
+            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration2.Id;
             
             siteSurveyConfiguration.Update(DbContext);
             site_survey_configurations dbSiteSurveyConfiguration =
@@ -112,8 +112,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
 
-            Assert.AreEqual(site2.id, dbSiteSurveyConfiguration.siteId);
-            Assert.AreEqual(surveyConfiguration2.id, siteSurveyConfiguration.surveyConfigurationId);
+            Assert.AreEqual(site2.Id, dbSiteSurveyConfiguration.siteId);
+            Assert.AreEqual(surveyConfiguration2.Id, siteSurveyConfiguration.surveyConfigurationId);
         }
         [Test]
         public void siteSurveyConfiguration_Delete_DoesDelete()
@@ -133,8 +133,8 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite("SiteName1", 88);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.siteId = site1.id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.id;
+            siteSurveyConfiguration.siteId = site1.Id;
+            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.Id;
             siteSurveyConfiguration.Create(DbContext);
             // Act
             siteSurveyConfiguration.Delete(DbContext);
@@ -146,8 +146,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
 
-            Assert.AreEqual(site1.id, dbSiteSurveyConfiguration.siteId);
-            Assert.AreEqual(surveyConfiguration.id, siteSurveyConfiguration.surveyConfigurationId);
+            Assert.AreEqual(site1.Id, dbSiteSurveyConfiguration.siteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.surveyConfigurationId);
             Assert.AreEqual(Constants.WorkflowStates.Removed, siteSurveyConfiguration.workflow_state);
         }
     }

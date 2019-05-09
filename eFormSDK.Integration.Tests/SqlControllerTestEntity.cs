@@ -2679,9 +2679,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var updateEG1 = sut.EntityGroupUpdate(eG1.id, eG1.microting_uid);
-            var updateEG1removed = sut.EntityGroupUpdate(eG1Removed.id, eG1Removed.microting_uid);
-            var updateEG1retracted = sut.EntityGroupUpdate(eG1Retracted.id, eG1Retracted.microting_uid);
+            var updateEG1 = sut.EntityGroupUpdate(eG1.Id, eG1.microting_uid);
+            var updateEG1removed = sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.microting_uid);
+            var updateEG1retracted = sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.microting_uid);
 
 
 
@@ -3287,7 +3287,7 @@ namespace eFormSDK.Integration.Tests
             EntityItem eT = new EntityItem("Jon Doe", "", "", Constants.WorkflowStates.Created);
 
             // Act
-            sut.EntityItemCreate(eG1.id, eT);
+            sut.EntityItemCreate(eG1.Id, eT);
 
             List<entity_items> items = DbContext.entity_items.ToList();
 
@@ -3300,10 +3300,10 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            entity_items et = testHelpers.CreateEntityItem("", 0, eG1.id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
+            entity_items et = testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
 
             // Act
-            sut.EntityItemDelete(et.id);
+            sut.EntityItemDelete(et.Id);
             List<entity_items> items = DbContext.entity_items.ToList();
 
             // Assert
@@ -3320,7 +3320,7 @@ namespace eFormSDK.Integration.Tests
             EntityItem eT = new EntityItem("Jon Doe", "", "", Constants.WorkflowStates.Created);
 
             // Act
-            sut.EntityItemCreate(eG1.id, eT);
+            sut.EntityItemCreate(eG1.Id, eT);
 
             List<entity_items> items = DbContext.entity_items.ToList();
 
@@ -3333,10 +3333,10 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            entity_items et = testHelpers.CreateEntityItem("", 0, eG1.id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
+            entity_items et = testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
 
             // Act
-            sut.EntityItemDelete(et.id);
+            sut.EntityItemDelete(et.Id);
             List<entity_items> items = DbContext.entity_items.ToList();
 
             // Assert

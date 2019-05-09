@@ -117,11 +117,11 @@ namespace eFormCore.Helpers
                     <Checks>
                         <Check worker='John Doe' worker_id='{worker.microting_uid}' date='2018-04-25 14:29:21 +0200' unit_id='{unit.microting_uid}' id='7'>
                             <ElementList>
-                                <Id>{cl2.id}</Id>
+                                <Id>{cl2.Id}</Id>
                                 <Status>approved</Status>
                                 <DataItemList>
                                     <DataItem>
-                                        <Id>{f1.id}</Id>
+                                        <Id>{f1.Id}</Id>
                                         <Geolocation>
                                             <Latitude></Latitude>
                                             <Longitude></Longitude>
@@ -140,11 +140,11 @@ namespace eFormCore.Helpers
                         </Check>
                         <Check worker='John Doe' worker_id='{worker.microting_uid}' date='2018-04-25 14:29:52 +0200' unit_id='{unit.microting_uid}' id='12'>
                             <ElementList>
-                                <Id>{cl2.id}</Id>
+                                <Id>{cl2.Id}</Id>
                                 <Status>approved</Status>
                                 <DataItemList>
                                     <DataItem>
-                                        <Id>{f1.id}</Id>
+                                        <Id>{f1.Id}</Id>
                                         <Geolocation>
                                             <Latitude></Latitude>
                                             <Longitude></Longitude>
@@ -158,7 +158,7 @@ namespace eFormCore.Helpers
                                         <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
                                     </DataItem>
                                     <DataItem>
-                                        <Id>{f1.id}</Id>
+                                        <Id>{f1.Id}</Id>
                                         <Geolocation>
                                             <Latitude></Latitude>
                                             <Longitude></Longitude>
@@ -177,11 +177,11 @@ namespace eFormCore.Helpers
                         </Check>
                         <Check worker='John Doe' worker_id='{worker.microting_uid}' date='2018-04-25 14:39:43 +0200' unit_id='{unit.microting_uid}' id='17'>
                             <ElementList>
-                                <Id>{cl2.id}</Id>
+                                <Id>{cl2.Id}</Id>
                                 <Status>approved</Status>
                                 <DataItemList>
                                     <DataItem>
-                                        <Id>{f1.id}</Id>
+                                        <Id>{f1.Id}</Id>
                                         <Geolocation>
                                             <Latitude></Latitude>
                                             <Longitude></Longitude>
@@ -195,7 +195,7 @@ namespace eFormCore.Helpers
                                         <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
                                     </DataItem>
                                     <DataItem>
-                                        <Id>{f1.id}</Id>
+                                        <Id>{f1.Id}</Id>
                                         <Geolocation>
                                             <Latitude></Latitude>
                                             <Longitude></Longitude>

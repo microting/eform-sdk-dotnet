@@ -126,7 +126,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             //Comment commentField = (Comment)dE.DataItemList[0];
             Assert.AreEqual("CommentField", _fields[0].label);
             Assert.AreEqual("CommentFieldDescription", _fields[0].description);
@@ -217,7 +217,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Take two pictures", _fields[0].label);
             Assert.AreEqual("", _fields[0].description); 
             Assert.AreEqual(0, _fields[0].display_index);
@@ -306,7 +306,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Select date", _fields[0].label);
             Assert.AreEqual("", _fields[0].description);
             // Assert.AreEqual("2018-01-18", _fields.minvalue) //todo
@@ -396,7 +396,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("bla", _fields[0].label);
             Assert.AreEqual("", _fields[0].description); 
             Assert.AreEqual(0, _fields[0].display_index);
@@ -513,7 +513,7 @@ namespace eFormSDK.Integration.Tests
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
 
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
 
             Assert.AreEqual("Gruppe efter tjekboks", _fields[0].label);
             Assert.AreEqual("", _fields[0].description); 
@@ -633,7 +633,7 @@ namespace eFormSDK.Integration.Tests
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
 
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Tag et billede", _fields[0].label);
             Assert.AreEqual("", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -958,7 +958,7 @@ namespace eFormSDK.Integration.Tests
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
 
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
 
 
             Assert.AreEqual("GEM", _fields[0].label);
@@ -1298,7 +1298,7 @@ namespace eFormSDK.Integration.Tests
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
 
             
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Flere valg", _fields[0].label);
             Assert.AreEqual("sfsfs", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -1470,7 +1470,7 @@ namespace eFormSDK.Integration.Tests
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
 
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Single Select 1", _fields[0].label);
             Assert.AreEqual("Single Select 1 description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -1605,7 +1605,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Comment", _fields[0].label);
             Assert.AreEqual("", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -1699,7 +1699,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Single line 1", _fields[0].label);
             Assert.AreEqual("Single line 1 description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -1794,7 +1794,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Number 1", _fields[0].label);
             Assert.AreEqual("Number 1 description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -1883,7 +1883,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Info box 1", _fields[0].label);
             Assert.AreEqual("Info box 1 description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -1967,7 +1967,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Checkbox 1", _fields[0].label);
             Assert.AreEqual("Checkbox 1 description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -2053,7 +2053,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Timer Start Stop 1", _fields[0].label);
             Assert.AreEqual("Timer Start Stop 1 Description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -2138,7 +2138,7 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
-            Assert.AreEqual(cl[1].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[1].Id, _fields[0].check_list_id);
             Assert.AreEqual("Save button 1", _fields[0].label);
             Assert.AreEqual("Save button 1 Description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);
@@ -2288,7 +2288,7 @@ namespace eFormSDK.Integration.Tests
 
             List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
 
-            Assert.AreEqual(cl[2].id, _fields[0].check_list_id);
+            Assert.AreEqual(cl[2].Id, _fields[0].check_list_id);
             Assert.AreEqual("1.1 lvl checkbox", _fields[0].label);
             Assert.AreEqual("1.1 lvl cehckbox description", _fields[0].description);
             Assert.AreEqual(0, _fields[0].display_index);

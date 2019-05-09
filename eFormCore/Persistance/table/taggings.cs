@@ -39,7 +39,7 @@ namespace eFormSqlController
         [ForeignKey("check_list")]
         public int? check_list_id { get; set; }
 
-        public int? tagger_id { get; set; } // this will refer to some user id.
+        public int? tagger_id { get; set; } // this will refer to some user Id.
 
         public virtual tags tag { get; set; }
 
@@ -67,11 +67,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            taggings tagging = dbContext.taggings.FirstOrDefault(x => x.id == id);
+            taggings tagging = dbContext.taggings.FirstOrDefault(x => x.Id == Id);
 
             if (tagging == null)
             {
-                throw new NullReferenceException($"Could not find tagging with id: {id}");
+                throw new NullReferenceException($"Could not find tagging with Id: {Id}");
             }
 
             tagging.workflow_state = workflow_state;
@@ -87,11 +87,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            taggings tagging = dbContext.taggings.FirstOrDefault(x => x.id == id);
+            taggings tagging = dbContext.taggings.FirstOrDefault(x => x.Id == Id);
 
             if (tagging == null)
             {
-                throw new NullReferenceException($"Could not find tagging with id: {id}");
+                throw new NullReferenceException($"Could not find tagging with Id: {Id}");
             }
 
             tagging.workflow_state = Constants.WorkflowStates.Removed;
@@ -114,7 +114,7 @@ namespace eFormSqlController
             taggingVer.check_list_id = tagging.check_list_id;
             taggingVer.tag_id = tagging.tag_id;
             taggingVer.tagger_id = tagging.tagger_id;
-            taggingVer.tagging_id = tagging.id;
+            taggingVer.tagging_id = tagging.Id;
 
             return taggingVer;
         }

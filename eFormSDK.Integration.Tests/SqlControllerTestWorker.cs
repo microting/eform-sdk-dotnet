@@ -559,7 +559,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.WorkerNameRead((int)worker1.id);
+            var match = sut.WorkerNameRead((int)worker1.Id);
 
             // Assert
 

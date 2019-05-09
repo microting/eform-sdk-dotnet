@@ -169,27 +169,27 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
@@ -197,7 +197,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
             // Act
-            var match = sut.CheckListValueStatusRead(aCase.id, cl2.id);
+            var match = sut.CheckListValueStatusRead(aCase.Id, cl2.Id);
             // Assert
 
             Assert.AreEqual(check_List_Values.status, "checked");
@@ -335,27 +335,27 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
@@ -364,10 +364,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            sut.CheckListValueStatusUpdate(aCase.id, cl2.id, "not_approved");
+            sut.CheckListValueStatusUpdate(aCase.Id, cl2.Id, "not_approved");
 
             // Assert
-            var newValue = DbContext.check_list_values.AsNoTracking().SingleOrDefault(x => x.id == check_List_Values.id);
+            var newValue = DbContext.check_list_values.AsNoTracking().SingleOrDefault(x => x.Id == check_List_Values.Id);
 
             Assert.AreEqual(newValue.status, "not_approved");
 

@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -89,11 +89,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            uploaded_data uploadedData = dbContext.uploaded_data.FirstOrDefault(x => x.id == id);
+            uploaded_data uploadedData = dbContext.uploaded_data.FirstOrDefault(x => x.Id == Id);
 
             if (uploadedData == null)
             {
-                throw new NullReferenceException($"Could not find Uploaded Data with ID: {id}");
+                throw new NullReferenceException($"Could not find Uploaded Data with Id: {Id}");
             }
 
             uploadedData.uploader_id = uploader_id;
@@ -120,11 +120,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            uploaded_data uploadedData = dbContext.uploaded_data.FirstOrDefault(x => x.id == id);
+            uploaded_data uploadedData = dbContext.uploaded_data.FirstOrDefault(x => x.Id == Id);
 
             if (uploadedData == null)
             {
-                throw new NullReferenceException($"Could not find Uploaded Data with ID: {id}");
+                throw new NullReferenceException($"Could not find Uploaded Data with Id: {Id}");
             }
 
             uploadedData.workflow_state = Constants.WorkflowStates.Removed;
@@ -160,7 +160,7 @@ namespace eFormSqlController
             udv.file_location = uploadedData.file_location;
             udv.file_name = uploadedData.file_name;
 
-            udv.data_uploaded_id = uploadedData.id; //<<--
+            udv.data_uploaded_id = uploadedData.Id; //<<--
 
             return udv;
         }

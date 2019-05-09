@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -76,11 +76,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            check_list_values clv = dbContext.check_list_values.FirstOrDefault(x => x.id == id);
+            check_list_values clv = dbContext.check_list_values.FirstOrDefault(x => x.Id == Id);
 
             if (clv == null)
             {
-                throw new NullReferenceException($"Could not find Check List Value with ID: {id}");
+                throw new NullReferenceException($"Could not find Check List Value with Id: {Id}");
             }
 
             clv.status = status;
@@ -102,11 +102,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            check_list_values clv = dbContext.check_list_values.FirstOrDefault(x => x.id == id);
+            check_list_values clv = dbContext.check_list_values.FirstOrDefault(x => x.Id == Id);
 
             if (clv == null)
             {
-                throw new NullReferenceException($"Could not find Check List Value with ID: {id}");
+                throw new NullReferenceException($"Could not find Check List Value with Id: {Id}");
             }
 
             clv.workflow_state = Constants.WorkflowStates.Removed;
@@ -135,7 +135,7 @@ namespace eFormSqlController
             clvv.workflow_state = checkListValue.workflow_state;
             clvv.check_list_duplicate_id = checkListValue.check_list_duplicate_id;
 
-            clvv.check_list_value_id = checkListValue.id; //<<--
+            clvv.check_list_value_id = checkListValue.Id; //<<--
 
             return clvv;
         }

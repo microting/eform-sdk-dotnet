@@ -57,11 +57,11 @@ namespace eFormSqlController
         public void Update(MicrotingDbAnySql dbContext)
         {
             survey_configurations surveyConfigurations =
-                dbContext.survey_configurations.FirstOrDefault(x => x.id == id);
+                dbContext.survey_configurations.FirstOrDefault(x => x.Id == Id);
 
             if (surveyConfigurations == null)
             {
-                throw new NullReferenceException($"Could not find survey configuration with ID: {id}");
+                throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
             }
 
             surveyConfigurations.name = name;
@@ -84,11 +84,11 @@ namespace eFormSqlController
         public void Delete(MicrotingDbAnySql dbContext)
         {
             survey_configurations surveyConfigurations =
-                dbContext.survey_configurations.FirstOrDefault(x => x.id == id);
+                dbContext.survey_configurations.FirstOrDefault(x => x.Id == Id);
 
             if (surveyConfigurations == null)
             {
-                throw new NullReferenceException($"Could not find survey configuration with ID: {id}");
+                throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
             }
 
             surveyConfigurations.workflow_state = eFormShared.Constants.WorkflowStates.Removed;
@@ -108,7 +108,7 @@ namespace eFormSqlController
         {
             survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions();
 
-            surveyConfigurationVersions.surveyConfigurationId = surveyConfiguration.id;
+            surveyConfigurationVersions.surveyConfigurationId = surveyConfiguration.Id;
             surveyConfigurationVersions.name = surveyConfiguration.name;
             surveyConfigurationVersions.stop = surveyConfiguration.stop;
             surveyConfigurationVersions.start = surveyConfiguration.start;

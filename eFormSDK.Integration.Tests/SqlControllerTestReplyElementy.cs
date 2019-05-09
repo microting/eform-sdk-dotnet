@@ -199,11 +199,11 @@ namespace eFormSDK.Integration.Tests
 
             #region chckl_id
 
-            Assert.AreEqual(f1.check_list_id, cl2.id);
-            Assert.AreEqual(f2.check_list_id, cl2.id);
-            Assert.AreEqual(f3.check_list_id, cl2.id);
-            Assert.AreEqual(f4.check_list_id, cl2.id);
-            Assert.AreEqual(f5.check_list_id, cl2.id);
+            Assert.AreEqual(f1.check_list_id, cl2.Id);
+            Assert.AreEqual(f2.check_list_id, cl2.Id);
+            Assert.AreEqual(f3.check_list_id, cl2.Id);
+            Assert.AreEqual(f4.check_list_id, cl2.Id);
+            Assert.AreEqual(f5.check_list_id, cl2.Id);
 
 
             #endregion

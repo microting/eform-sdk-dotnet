@@ -37,7 +37,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -81,11 +81,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            check_list_sites checkListSites = dbContext.check_list_sites.FirstOrDefault(x => x.id == id);
+            check_list_sites checkListSites = dbContext.check_list_sites.FirstOrDefault(x => x.Id == Id);
 
             if (checkListSites == null)
             {
-                throw  new NullReferenceException($"Could not find Check List Site with ID: {id}");
+                throw  new NullReferenceException($"Could not find Check List Site with Id: {Id}");
             }
 
             checkListSites.site_id = site_id;
@@ -107,11 +107,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            check_list_sites checkListSites = dbContext.check_list_sites.FirstOrDefault(x => x.id == id);
+            check_list_sites checkListSites = dbContext.check_list_sites.FirstOrDefault(x => x.Id == Id);
 
             if (checkListSites == null)
             {
-                throw  new NullReferenceException($"Could not find Check List Site with ID: {id}");
+                throw  new NullReferenceException($"Could not find Check List Site with Id: {Id}");
             }
 
             checkListSites.workflow_state = Constants.WorkflowStates.Removed;
@@ -139,7 +139,7 @@ namespace eFormSqlController
             checkListSiteVer.version = checkListSite.version;
             checkListSiteVer.workflow_state = checkListSite.workflow_state;
 
-            checkListSiteVer.check_list_site_id = checkListSite.id; //<<--
+            checkListSiteVer.check_list_site_id = checkListSite.Id; //<<--
 
             return checkListSiteVer;
         }

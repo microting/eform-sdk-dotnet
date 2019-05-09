@@ -163,7 +163,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_ua = DateTime.Now;
             check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
             //cl1.quick_sync_enabled = 1;
-            check_lists cl_ud = DbContext.check_lists.Single(x => x.id == cl1.id);
+            check_lists cl_ud = DbContext.check_lists.Single(x => x.Id == cl1.Id);
             //DbContext.check_lists.Add(cl1);
             cl_ud.quick_sync_enabled = 1;
             DbContext.SaveChanges();
@@ -171,11 +171,11 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            MainElement match = sut.TemplateRead(cl1.id);
+            MainElement match = sut.TemplateRead(cl1.Id);
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.Id, cl1.id);
+            Assert.AreEqual(match.Id, cl1.Id);
             Assert.AreEqual(match.CaseType, cl1.case_type);
             Assert.AreEqual(match.FastNavigation, false);
             Assert.AreEqual(match.Label, cl1.label);

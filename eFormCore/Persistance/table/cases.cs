@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -122,11 +122,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            cases cases = dbContext.cases.FirstOrDefault(x => x.id == id);
+            cases cases = dbContext.cases.FirstOrDefault(x => x.Id == Id);
 
             if (cases == null)
             {
-                throw new NullReferenceException($"Could not find case with ID: {id}");
+                throw new NullReferenceException($"Could not find case with Id: {Id}");
             }
 
             cases.custom = custom;
@@ -163,11 +163,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            cases cases = dbContext.cases.FirstOrDefault(x => x.id == id);
+            cases cases = dbContext.cases.FirstOrDefault(x => x.Id == Id);
 
             if (cases == null)
             {
-                throw new NullReferenceException($"Could not find case with ID: {id}");
+                throw new NullReferenceException($"Could not find case with Id: {Id}");
             }
 
             cases.workflow_state = Constants.WorkflowStates.Removed;
@@ -215,7 +215,7 @@ namespace eFormSqlController
             caseVer.field_value_9 = aCase.field_value_9;
             caseVer.field_value_10 = aCase.field_value_10;
 
-            caseVer.case_id = aCase.id; //<<--
+            caseVer.case_id = aCase.Id; //<<--
 
             return caseVer;
         }

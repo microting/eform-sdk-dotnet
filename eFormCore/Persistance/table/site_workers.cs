@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 
         [ForeignKey("site")]
         public int? site_id { get; set; }
@@ -74,11 +74,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            site_workers siteWorkers = dbContext.site_workers.FirstOrDefault(x => x.id == id);
+            site_workers siteWorkers = dbContext.site_workers.FirstOrDefault(x => x.Id == Id);
 
             if (siteWorkers == null)
             {
-                throw new NullReferenceException($"Could not find site worker tish ID: {id}");
+                throw new NullReferenceException($"Could not find site worker tish Id: {Id}");
             }
 
             siteWorkers.site_id = site_id;
@@ -97,11 +97,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            site_workers siteWorkers = dbContext.site_workers.FirstOrDefault(x => x.id == id);
+            site_workers siteWorkers = dbContext.site_workers.FirstOrDefault(x => x.Id == Id);
 
             if (siteWorkers == null)
             {
-                throw new NullReferenceException($"Could not find site worker tish ID: {id}");
+                throw new NullReferenceException($"Could not find site worker tish Id: {Id}");
             }
 
             siteWorkers.workflow_state = Constants.WorkflowStates.Removed;
@@ -128,7 +128,7 @@ namespace eFormSqlController
             siteWorkerVer.site_id = site_workers.site_id;
             siteWorkerVer.worker_id = site_workers.worker_id;
 
-            siteWorkerVer.site_worker_id = site_workers.id; //<<--
+            siteWorkerVer.site_worker_id = site_workers.Id; //<<--
 
             return siteWorkerVer;
         }

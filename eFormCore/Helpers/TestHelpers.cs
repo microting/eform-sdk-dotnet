@@ -114,7 +114,7 @@ namespace eFormCore.Helpers
             unit.microting_uid = microtingUId;
             unit.otp_code = otpCode;
             unit.site = site;
-            unit.site_id = site.id;
+            unit.site_id = site.Id;
             unit.created_at = DateTime.Now;
             unit.customer_no = customerNo;
             unit.updated_at = DateTime.Now;
@@ -134,9 +134,9 @@ namespace eFormCore.Helpers
             site_workers.updated_at = DateTime.Now;
             site_workers.version = 63;
             site_workers.site = site;
-            site_workers.site_id = site.id;
+            site_workers.site_id = site.Id;
             site_workers.worker = worker;
-            site_workers.worker_id = worker.id;
+            site_workers.worker_id = worker.Id;
             site_workers.workflow_state = Constants.WorkflowStates.Created;
 
             DbContext.site_workers.Add(site_workers);
@@ -174,7 +174,7 @@ namespace eFormCore.Helpers
             cl2.case_type = caseType;
             cl2.display_index = displayIndex;
             cl2.repeated = repeated;
-            cl2.parent_id = parentId.id;
+            cl2.parent_id = parentId.Id;
 
             DbContext.check_lists.Add(cl2);
             DbContext.SaveChanges();
@@ -184,11 +184,11 @@ namespace eFormCore.Helpers
         {
 
             fields f = new fields();
-            f.field_type_id = ft.id;
+            f.field_type_id = ft.Id;
 
             f.barcode_enabled = barcodeEnabled;
             f.barcode_type = barcodeType;
-            f.check_list_id = checkList.id;
+            f.check_list_id = checkList.Id;
             f.color = color;
             f.created_at = DateTime.Now;
             f.custom = custom;
@@ -231,19 +231,19 @@ namespace eFormCore.Helpers
 
             aCase.case_uid = caseUId;
             aCase.check_list = checkList;
-            aCase.check_list_id = checkList.id;
+            aCase.check_list_id = checkList.Id;
             aCase.created_at = created_at;
             aCase.custom = custom;
             aCase.done_at = done_at;
-            aCase.done_by_user_id = worker.id;
+            aCase.done_by_user_id = worker.Id;
             aCase.microting_check_uid = microtingCheckId;
             aCase.microting_uid = microtingUId;
             aCase.site = site;
-            aCase.site_id = site.id;
+            aCase.site_id = site.Id;
             aCase.status = status;
             aCase.type = caseType;
             aCase.unit = unit;
-            aCase.unit_id = unit.id;
+            aCase.unit_id = unit.Id;
             aCase.updated_at = updated_at;
             aCase.version = version;
             aCase.worker = worker;
@@ -256,14 +256,14 @@ namespace eFormCore.Helpers
         public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id, int? userId, string value, int? version, workers worker)
         {
             field_values fv = new field_values();
-            fv.case_id = aCase.id;
+            fv.case_id = aCase.Id;
             fv.check_list = checkList;
-            fv.check_list_id = checkList.id;
+            fv.check_list_id = checkList.Id;
             fv.created_at = DateTime.Now;
             fv.date = DateTime.Now;
             fv.done_at = DateTime.Now;
             fv.field = f;
-            fv.field_id = f.id;
+            fv.field_id = f.Id;
             fv.updated_at = DateTime.Now;
             if (ud_id != null)
             {
@@ -283,8 +283,8 @@ namespace eFormCore.Helpers
         {
             check_list_values CLV = new check_list_values();
 
-            CLV.case_id = aCase.id;
-            CLV.check_list_id = checkList.id;
+            CLV.case_id = aCase.Id;
+            CLV.check_list_id = checkList.Id;
             CLV.created_at = DateTime.Now;
             CLV.status = status;
             CLV.updated_at = DateTime.Now;
@@ -310,7 +310,7 @@ namespace eFormCore.Helpers
             UD.file_name = fileName;
             UD.local = local;
             UD.updated_at = DateTime.Now;
-            UD.uploader_id = worker.id;
+            UD.uploader_id = worker.Id;
             UD.uploader_type = uploaderType;
             UD.version = version;
             UD.workflow_state = Constants.WorkflowStates.Created;
@@ -347,7 +347,7 @@ namespace eFormCore.Helpers
                 entity_groups eG = new entity_groups();
 
                 eG.created_at = DateTime.Now;
-                //eG.id = xxx;
+                //eG.Id = xxx;
                 eG.microting_uid = microtingUId;
                 eG.name = name;
                 eG.type = entityType;

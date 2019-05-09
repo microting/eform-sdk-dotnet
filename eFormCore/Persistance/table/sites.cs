@@ -45,7 +45,7 @@ namespace eFormSqlController
 
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        public DateTime? created_at { get; set; }
 //
@@ -87,11 +87,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            sites site = dbContext.sites.FirstOrDefault(x => x.id == id);
+            sites site = dbContext.sites.FirstOrDefault(x => x.Id == Id);
 
             if (site == null)
             {
-                throw new NullReferenceException($"Could not find Site with id: {id}");
+                throw new NullReferenceException($"Could not find Site with Id: {Id}");
 
             }
 
@@ -115,11 +115,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            sites site = dbContext.sites.FirstOrDefault(x => x.id == id);
+            sites site = dbContext.sites.FirstOrDefault(x => x.Id == Id);
 
             if (site == null)
             {
-                throw new NullReferenceException($"Could not find Site with id: {id}");
+                throw new NullReferenceException($"Could not find Site with Id: {Id}");
 
             }
 
@@ -148,7 +148,7 @@ namespace eFormSqlController
             siteVer.microting_uid = site.microting_uid;
             siteVer.name = site.name;
 
-            siteVer.site_id = site.id; //<<--
+            siteVer.site_id = site.Id; //<<--
 
             return siteVer;
         }

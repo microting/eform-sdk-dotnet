@@ -523,7 +523,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            Site_Worker_Dto match = sut.SiteWorkerRead(site_workers.microting_uid, site1.id, worker1.id);
+            Site_Worker_Dto match = sut.SiteWorkerRead(site_workers.microting_uid, site1.Id, worker1.Id);
 
             // Assert
 
@@ -774,7 +774,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteWorkerUpdate((int)site_workers.microting_uid, site1.id, worker1.id);
+            var match = sut.SiteWorkerUpdate((int)site_workers.microting_uid, site1.Id, worker1.Id);
 
             // Assert
 

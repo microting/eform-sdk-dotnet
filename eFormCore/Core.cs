@@ -1060,8 +1060,8 @@ namespace eFormCore
                     }
                     #endregion
 
-                    int id = aCase.id;
-                    Log.LogEverything(t.GetMethodName("Core"), "aCase.id:" + aCase.id.ToString() + ", found");
+                    int id = aCase.Id;
+                    Log.LogEverything(t.GetMethodName("Core"), "aCase.Id:" + aCase.Id.ToString() + ", found");
 
                     ReplyElement replyElement = _sqlController.CheckRead(microtingUId, checkUId);
                     return replyElement;
@@ -1608,8 +1608,8 @@ namespace eFormCore
                         return -1;
                     }
                     #endregion
-                    int id = aCase.id;
-                    Log.LogEverything(t.GetMethodName("Core"), "aCase.id:" + aCase.id.ToString() + ", found");
+                    int id = aCase.Id;
+                    Log.LogEverything(t.GetMethodName("Core"), "aCase.Id:" + aCase.Id.ToString() + ", found");
 
                     return id;
                 }
@@ -3461,7 +3461,7 @@ namespace eFormCore
                 uD.Extension = ud.extension;
                 uD.FileLocation = ud.file_location;
                 uD.FileName = ud.file_name;
-                uD.Id = ud.id;
+                uD.Id = ud.Id;
                 uD.UploaderId = ud.uploader_id;
                 uD.UploaderType = ud.uploader_type;
                 return uD;
@@ -4055,7 +4055,7 @@ namespace eFormCore
                 file.Directory.Create(); // If the directory already exists, this method does nothing.
 
                 int index = urlStr.LastIndexOf("/") + 1;
-                string fileName = uploadedData.id.ToString() + "_" + urlStr.Remove(0, index);
+                string fileName = uploadedData.Id.ToString() + "_" + urlStr.Remove(0, index);
                 #endregion
 
                 #region download file
@@ -4098,7 +4098,7 @@ namespace eFormCore
                 catch { Log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
                 Log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
 
-                _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.id);
+                _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id);
 
                 if (_swiftEnabled)
                 {
@@ -4309,7 +4309,7 @@ namespace eFormCore
 
                                 _sqlController.CaseRetract(microtingUid, check.Id);
                                 Log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseRetract(...)");
-                                // TODO add case.id
+                                // TODO add case.Id
                                 Case_Dto cDto = _sqlController.CaseReadByMUId(microtingUid);
 								//InteractionCaseUpdate(cDto);
 								FireHandleCaseCompleted(cDto);

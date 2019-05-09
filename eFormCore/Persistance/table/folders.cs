@@ -72,16 +72,16 @@ namespace eFormSqlController
             _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
             _dbContext.SaveChanges();
 
-            id = folder.id;
+            Id = folder.Id;
         }
 
         public void Update(MicrotingDbAnySql _dbContext)
         {
-            folders folder = _dbContext.folders.FirstOrDefaultAsync(x => x.id == id).Result;
+            folders folder = _dbContext.folders.FirstOrDefaultAsync(x => x.Id == Id).Result;
 
             if (folder == null)
             {
-                throw new NullReferenceException($"Could not find area with id: {id}");
+                throw new NullReferenceException($"Could not find area with Id: {Id}");
             }
 
             folder.name = name;
@@ -100,11 +100,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql _dbContext)
         {
-            folders folder = _dbContext.folders.SingleOrDefaultAsync(x => x.id == id).Result;
+            folders folder = _dbContext.folders.SingleOrDefaultAsync(x => x.Id == Id).Result;
 
             if (folder == null)
             {
-                throw new NullReferenceException($"Could not find area with id: {id}");
+                throw new NullReferenceException($"Could not find area with Id: {Id}");
             }
             
             folder.workflow_state = Constants.WorkflowStates.Removed;
@@ -126,7 +126,7 @@ namespace eFormSqlController
                 name = folder.name,
                 description = folder.description,
                 parent_id = folder.parent_id,
-                folder_id = folder.id,
+                folder_id = folder.Id,
                 created_at = folder.created_at,
                 updated_at = folder.updated_at,
                 workflow_state = folder.workflow_state,

@@ -42,7 +42,7 @@ namespace eFormSqlController
 
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        public DateTime? created_at { get; set; }
 //
@@ -78,11 +78,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            tags tag = dbContext.tags.FirstOrDefault(x => x.id == id);
+            tags tag = dbContext.tags.FirstOrDefault(x => x.Id == Id);
 
             if (tag == null)
             {
-                throw new NullReferenceException($"Could not find Tag with id: {id}");
+                throw new NullReferenceException($"Could not find Tag with Id: {Id}");
             }
 
             tag.name = name;
@@ -101,11 +101,11 @@ namespace eFormSqlController
         public void Delete(MicrotingDbAnySql dbContext)
         {
             
-            tags tag = dbContext.tags.FirstOrDefault(x => x.id == id);
+            tags tag = dbContext.tags.FirstOrDefault(x => x.Id == Id);
 
             if (tag == null)
             {
-                throw new NullReferenceException($"Could not find Tag with id: {id}");
+                throw new NullReferenceException($"Could not find Tag with Id: {Id}");
             }
 
             tag.workflow_state = Constants.WorkflowStates.Removed;

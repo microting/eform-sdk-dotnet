@@ -42,7 +42,7 @@ namespace eFormSqlController
 //
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -153,11 +153,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            fields field = dbContext.fields.FirstOrDefault(x => x.id == id);
+            fields field = dbContext.fields.FirstOrDefault(x => x.Id == Id);
 
             if (field == null)
             {
-                throw new NullReferenceException($"Could not find Field with ID: {id}");
+                throw new NullReferenceException($"Could not find Field with Id: {Id}");
             }
 
             field.parent_field_id = parent_field_id;
@@ -206,11 +206,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            fields field = dbContext.fields.FirstOrDefault(x => x.id == id);
+            fields field = dbContext.fields.FirstOrDefault(x => x.Id == Id);
 
             if (field == null)
             {
-                throw new NullReferenceException($"Could not find Field with ID: {id}");
+                throw new NullReferenceException($"Could not find Field with Id: {Id}");
             }
 
             field.workflow_state = Constants.WorkflowStates.Removed;
@@ -264,7 +264,7 @@ namespace eFormSqlController
             fv.barcode_enabled = field.barcode_enabled;
             fv.barcode_type = field.barcode_type;
 
-            fv.field_id = field.id; //<<--
+            fv.field_id = field.Id; //<<--
 
             return fv;
         }

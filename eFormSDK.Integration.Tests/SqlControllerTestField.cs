@@ -105,11 +105,11 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            Field match = sut.FieldRead(f1.id);
+            Field match = sut.FieldRead(f1.Id);
 
             // Assert
 
-            Assert.AreEqual(f1.id, match.Id);
+            Assert.AreEqual(f1.Id, match.Id);
 
 
         }

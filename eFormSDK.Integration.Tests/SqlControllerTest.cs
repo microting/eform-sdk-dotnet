@@ -71,7 +71,7 @@ namespace eFormSDK.Integration.Tests
             cl2.case_type = "CheckList";
             cl2.display_index = 1;
             cl2.repeated = 1;
-            cl2.parent_id = cl1.id;
+            cl2.parent_id = cl1.Id;
 
             DbContext.check_lists.Add(cl2);
             DbContext.SaveChanges();
@@ -80,13 +80,13 @@ namespace eFormSDK.Integration.Tests
 
             #region Fields
             /*
-            field_types ft = DbContext.field_types.Where(x => x.id == 9).First();
+            field_types ft = DbContext.field_types.Where(x => x.Id == 9).First();
 
             fields f1 = new fields();
             f1.field_type = ft;
             f1.label = "Comment field";
             f1.description = "";
-            f1.check_list_id = cl2.id;
+            f1.check_list_id = cl2.Id;
 
             DbContext.fields.Add(f1);
             DbContext.SaveChanges();
@@ -129,7 +129,7 @@ namespace eFormSDK.Integration.Tests
             unit.microting_uid = 48;
             unit.otp_code = 49;
             unit.site = site;
-            unit.site_id = site.id;
+            unit.site_id = site.Id;
             unit.created_at = DateTime.Now;
             unit.customer_no = 348;
             unit.updated_at = DateTime.Now;
@@ -148,9 +148,9 @@ namespace eFormSDK.Integration.Tests
              site_workers.updated_at = DateTime.Now;
              site_workers.version = 63;
              site_workers.site = site;
-             site_workers.site_id = site.id;
+             site_workers.site_id = site.Id;
              site_workers.worker = worker;
-             site_workers.worker_id = worker.id;
+             site_workers.worker_id = worker.Id;
              site_workers.workflow_state = Constants.WorkflowStates.Created;
              DbContext.site_workers.Add(site_workers);
              DbContext.SaveChanges();
@@ -190,7 +190,7 @@ namespace eFormSDK.Integration.Tests
             aCase.case_uid = caseUId;
             aCase.workflow_state = Constants.WorkflowStates.Created;
             aCase.version = 1;
-            aCase.site_id = site.id;
+            aCase.site_id = site.Id;
 
             aCase.custom = custom;
 
@@ -203,8 +203,8 @@ namespace eFormSDK.Integration.Tests
             /*
             check_list_values check_List_Values = new check_list_values();
 
-            check_List_Values.case_id = aCase.id;
-            check_List_Values.check_list_id = cl2.id;
+            check_List_Values.case_id = aCase.Id;
+            check_List_Values.check_list_id = cl2.Id;
             check_List_Values.created_at = DateTime.Now;
             check_List_Values.status = "completed";
             check_List_Values.updated_at = DateTime.Now;
@@ -220,14 +220,14 @@ namespace eFormSDK.Integration.Tests
             #region Field Values
             /*
             field_values field_Values1 = new field_values();
-            field_Values1.case_id = aCase.id;
+            field_Values1.case_id = aCase.Id;
             field_Values1.check_list = cl2;
-            field_Values1.check_list_id = cl2.id;
+            field_Values1.check_list_id = cl2.Id;
             field_Values1.created_at = DateTime.Now;
             field_Values1.date = DateTime.Now;
             field_Values1.done_at = DateTime.Now;
             field_Values1.field = f1;
-            field_Values1.field_id = f1.id;
+            field_Values1.field_id = f1.Id;
             field_Values1.updated_at = DateTime.Now;
             field_Values1.user_id = null;
             field_Values1.value = "tomt1";
@@ -239,14 +239,14 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             field_values field_Values2 = new field_values();
-            field_Values2.case_id = aCase.id;
+            field_Values2.case_id = aCase.Id;
             field_Values2.check_list = cl2;
-            field_Values2.check_list_id = cl2.id;
+            field_Values2.check_list_id = cl2.Id;
             field_Values2.created_at = DateTime.Now;
             field_Values2.date = DateTime.Now;
             field_Values2.done_at = DateTime.Now;
             field_Values2.field = f2;
-            field_Values2.field_id = f2.id;
+            field_Values2.field_id = f2.Id;
             field_Values2.updated_at = DateTime.Now;
             field_Values2.user_id = null;
             field_Values2.value = "tomt2";
@@ -258,14 +258,14 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             field_values field_Values3 = new field_values();
-            field_Values3.case_id = aCase.id;
+            field_Values3.case_id = aCase.Id;
             field_Values3.check_list = cl2;
-            field_Values3.check_list_id = cl2.id;
+            field_Values3.check_list_id = cl2.Id;
             field_Values3.created_at = DateTime.Now;
             field_Values3.date = DateTime.Now;
             field_Values3.done_at = DateTime.Now;
             field_Values3.field = f3;
-            field_Values3.field_id = f3.id;
+            field_Values3.field_id = f3.Id;
             field_Values3.updated_at = DateTime.Now;
             field_Values3.user_id = null;
             field_Values3.value = "tomt3";
@@ -277,14 +277,14 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             field_values field_Values4 = new field_values();
-            field_Values4.case_id = aCase.id;
+            field_Values4.case_id = aCase.Id;
             field_Values4.check_list = cl2;
-            field_Values4.check_list_id = cl2.id;
+            field_Values4.check_list_id = cl2.Id;
             field_Values4.created_at = DateTime.Now;
             field_Values4.date = DateTime.Now;
             field_Values4.done_at = DateTime.Now;
             field_Values4.field = f4;
-            field_Values4.field_id = f4.id;
+            field_Values4.field_id = f4.Id;
             field_Values4.updated_at = DateTime.Now;
             field_Values4.user_id = null;
             field_Values4.value = "tomt4";
@@ -296,14 +296,14 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             field_values field_Values5 = new field_values();
-            field_Values5.case_id = aCase.id;
+            field_Values5.case_id = aCase.Id;
             field_Values5.check_list = cl2;
-            field_Values5.check_list_id = cl2.id;
+            field_Values5.check_list_id = cl2.Id;
             field_Values5.created_at = DateTime.Now;
             field_Values5.date = DateTime.Now;
             field_Values5.done_at = DateTime.Now;
             field_Values5.field = f5;
-            field_Values5.field_id = f5.id;
+            field_Values5.field_id = f5.Id;
             field_Values5.updated_at = DateTime.Now;
             field_Values5.user_id = null;
             field_Values5.value = "tomt5";
@@ -359,7 +359,7 @@ namespace eFormSDK.Integration.Tests
         //    cl2.case_type = "CheckList";
         //    cl2.display_index = 1;
         //    cl2.repeated = 1;
-        //    cl2.parent_id = cl1.id;
+        //    cl2.parent_id = cl1.Id;
 
         //    DbContext.check_lists.Add(cl2);
         //    DbContext.SaveChanges();
@@ -379,7 +379,7 @@ namespace eFormSDK.Integration.Tests
 
         //    //f1.barcode_enabled = 1;
         //    //f1.barcode_type = "barcode";
-        //    //f1.check_list_id = cl2.id;
+        //    //f1.check_list_id = cl2.Id;
         //    //f1.color = "e2f4fb";
         //    //f1.created_at = DateTime.Now;
         //    //f1.custom = "custom";
@@ -426,7 +426,7 @@ namespace eFormSDK.Integration.Tests
 
         //    //f2.barcode_enabled = 1;
         //    //f2.barcode_type = "barcode";
-        //    //f2.check_list_id = cl2.id;
+        //    //f2.check_list_id = cl2.Id;
         //    //f2.color = "f5eafa";
         //    //f2.default_value = "";
         //    //f2.description = "showPDf Description";
@@ -471,7 +471,7 @@ namespace eFormSDK.Integration.Tests
 
         //    //f3.barcode_enabled = 0;
         //    //f3.barcode_type = "barcode";
-        //    //f3.check_list_id = cl2.id;
+        //    //f3.check_list_id = cl2.Id;
         //    //f3.color = "f0f8db";
         //    //f3.created_at = DateTime.Now;
         //    //f3.custom = "custom";
@@ -521,7 +521,7 @@ namespace eFormSDK.Integration.Tests
 
         //    //f4.barcode_enabled = 1;
         //    //f4.barcode_type = "barcode";
-        //    //f4.check_list_id = cl2.id;
+        //    //f4.check_list_id = cl2.Id;
         //    //f4.color = "fff6df";
         //    //f4.created_at = DateTime.Now;
         //    //f4.custom = "custom";
@@ -569,7 +569,7 @@ namespace eFormSDK.Integration.Tests
         //    //f5.field_type = ft5;
         //    //f5.barcode_enabled = 0;
         //    //f5.barcode_type = "barcode";
-        //    //f5.check_list_id = cl2.id;
+        //    //f5.check_list_id = cl2.Id;
         //    //f5.color = "ffe4e4";
         //    //f5.created_at = DateTime.Now;
         //    //f5.custom = "custom";
@@ -719,7 +719,7 @@ namespace eFormSDK.Integration.Tests
             unit.microting_uid = microtingUId;
             unit.otp_code = otpCode;
             unit.site = site;
-            unit.site_id = site.id;
+            unit.site_id = site.Id;
             unit.created_at = DateTime.Now;
             unit.customer_no = customerNo;
             unit.updated_at = DateTime.Now;
@@ -739,9 +739,9 @@ namespace eFormSDK.Integration.Tests
             site_workers.updated_at = DateTime.Now;
             site_workers.version = 63;
             site_workers.site = site;
-            site_workers.site_id = site.id;
+            site_workers.site_id = site.Id;
             site_workers.worker = worker;
-            site_workers.worker_id = worker.id;
+            site_workers.worker_id = worker.Id;
             site_workers.workflow_state = Constants.WorkflowStates.Created;
             DbContext.site_workers.Add(site_workers);
             DbContext.SaveChanges();
@@ -775,7 +775,7 @@ namespace eFormSDK.Integration.Tests
             cl2.case_type = caseType;
             cl2.display_index = displayIndex;
             cl2.repeated = repeated;
-            cl2.parent_id = parentId.id;
+            cl2.parent_id = parentId.Id;
 
             DbContext.check_lists.Add(cl2);
             DbContext.SaveChanges();
@@ -789,7 +789,7 @@ namespace eFormSDK.Integration.Tests
 
             f.barcode_enabled = barcodeEnabled;
             f.barcode_type = barcodeType;
-            f.check_list_id = checkList.id;
+            f.check_list_id = checkList.Id;
             f.color = color;
             f.created_at = DateTime.Now;
             f.custom = custom;
@@ -832,21 +832,21 @@ namespace eFormSDK.Integration.Tests
 
             aCase.case_uid = caseUId;
             aCase.check_list = checkList;
-            aCase.check_list_id = checkList.id;
+            aCase.check_list_id = checkList.Id;
             aCase.created_at = created_at;
             aCase.custom = custom;
             if (done_at != null)
             {
                 aCase.done_at = done_at;
             }
-            aCase.done_by_user_id = worker.id;
+            aCase.done_by_user_id = worker.Id;
             aCase.microting_check_uid = microtingCheckId;
             aCase.microting_uid = microtingUId;
             aCase.site = site;
-            aCase.site_id = site.id;
+            aCase.site_id = site.Id;
             aCase.status = status;
             aCase.type = caseType;
-            aCase.unit_id = unit.id;
+            aCase.unit_id = unit.Id;
             aCase.updated_at = updated_at;
             aCase.version = version;
             aCase.worker = worker;
@@ -859,14 +859,14 @@ namespace eFormSDK.Integration.Tests
         public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id, int? userId, string value, int? version, workers worker)
         {
             field_values fv = new field_values();
-            fv.case_id = aCase.id;
+            fv.case_id = aCase.Id;
             fv.check_list = checkList;
-            fv.check_list_id = checkList.id;
+            fv.check_list_id = checkList.Id;
             fv.created_at = DateTime.Now;
             fv.date = DateTime.Now;
             fv.done_at = DateTime.Now;
             fv.field = f;
-            fv.field_id = f.id;
+            fv.field_id = f.Id;
             fv.updated_at = DateTime.Now;
             if (ud_id != null)
             {
@@ -886,8 +886,8 @@ namespace eFormSDK.Integration.Tests
         {
             check_list_values CLV = new check_list_values();
 
-            CLV.case_id = aCase.id;
-            CLV.check_list_id = checkList.id;
+            CLV.case_id = aCase.Id;
+            CLV.check_list_id = checkList.Id;
             CLV.created_at = DateTime.Now;
             CLV.status = status;
             CLV.updated_at = DateTime.Now;
@@ -913,7 +913,7 @@ namespace eFormSDK.Integration.Tests
             UD.file_name = fileName;
             UD.local = local;
             UD.updated_at = DateTime.Now;
-            UD.uploader_id = worker.id;
+            UD.uploader_id = worker.Id;
             UD.uploader_type = uploaderType;
             UD.version = version;
             UD.workflow_state = Constants.WorkflowStates.Created;

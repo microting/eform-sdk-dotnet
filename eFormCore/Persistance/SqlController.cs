@@ -117,8 +117,8 @@ namespace eFormSqlController
         {
             try
             {
-                int id = EformCreateDb(mainElement);
-                return id;
+                int Id = EformCreateDb(mainElement);
+                return Id;
             }
             catch (Exception ex)
             {
@@ -135,19 +135,19 @@ namespace eFormSqlController
                     MainElement mainElement = null;
                     GetConverter();
 
-                    check_lists mainCl = db.check_lists.SingleOrDefault(x => x.id == templateId && (x.parent_id == null || x.parent_id == 0));
+                    check_lists mainCl = db.check_lists.SingleOrDefault(x => x.Id == templateId && (x.parent_id == null || x.parent_id == 0));
 
                     if (mainCl == null)
                         return null;
 
-                    mainElement = new MainElement(mainCl.id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                    mainElement = new MainElement(mainCl.Id, mainCl.label, t.Int(mainCl.display_index), mainCl.folder_name, t.Int(mainCl.repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
                         t.Bool(mainCl.multi_approval), t.Bool(mainCl.fast_navigation), t.Bool(mainCl.download_entities), t.Bool(mainCl.manual_sync), mainCl.case_type, "", "", t.Bool(mainCl.quick_sync_enabled), new List<Element>());
 
                     //getting elements
                     List<check_lists> lst = db.check_lists.Where(x => x.parent_id == templateId).ToList();
                     foreach (check_lists cl in lst)
                     {
-                        mainElement.ElementList.Add(GetElement(cl.id));
+                        mainElement.ElementList.Add(GetElement(cl.Id));
                     }
 
                     //return
@@ -166,7 +166,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
+                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == templateId);
 
                     if (checkList == null)
                         return null;
@@ -192,45 +192,45 @@ namespace eFormSqlController
                     Field_Dto fd9 = null;
                     Field_Dto fd10 = null;
 
-                    fields f1 = db.fields.SingleOrDefault(x => x.id == checkList.field_1);
+                    fields f1 = db.fields.SingleOrDefault(x => x.Id == checkList.field_1);
                     if (f1 != null)
-                        fd1 = new Field_Dto(f1.id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type, (int)f1.check_list_id);
+                        fd1 = new Field_Dto(f1.Id, f1.label, f1.description, (int)f1.field_type_id, f1.field_type.field_type, (int)f1.check_list_id);
 
-                    fields f2 = db.fields.SingleOrDefault(x => x.id == checkList.field_2);
+                    fields f2 = db.fields.SingleOrDefault(x => x.Id == checkList.field_2);
                     if (f2 != null)
-                        fd2 = new Field_Dto(f2.id, f2.label, f2.description, (int)f2.field_type_id, f2.field_type.field_type, (int)f2.check_list_id);
+                        fd2 = new Field_Dto(f2.Id, f2.label, f2.description, (int)f2.field_type_id, f2.field_type.field_type, (int)f2.check_list_id);
 
-                    fields f3 = db.fields.SingleOrDefault(x => x.id == checkList.field_3);
+                    fields f3 = db.fields.SingleOrDefault(x => x.Id == checkList.field_3);
                     if (f3 != null)
-                        fd3 = new Field_Dto(f3.id, f3.label, f3.description, (int)f3.field_type_id, f3.field_type.field_type, (int)f3.check_list_id);
+                        fd3 = new Field_Dto(f3.Id, f3.label, f3.description, (int)f3.field_type_id, f3.field_type.field_type, (int)f3.check_list_id);
 
-                    fields f4 = db.fields.SingleOrDefault(x => x.id == checkList.field_4);
+                    fields f4 = db.fields.SingleOrDefault(x => x.Id == checkList.field_4);
                     if (f4 != null)
-                        fd4 = new Field_Dto(f4.id, f4.label, f4.description, (int)f4.field_type_id, f4.field_type.field_type, (int)f4.check_list_id);
+                        fd4 = new Field_Dto(f4.Id, f4.label, f4.description, (int)f4.field_type_id, f4.field_type.field_type, (int)f4.check_list_id);
 
-                    fields f5 = db.fields.SingleOrDefault(x => x.id == checkList.field_5);
+                    fields f5 = db.fields.SingleOrDefault(x => x.Id == checkList.field_5);
                     if (f5 != null)
-                        fd5 = new Field_Dto(f5.id, f5.label, f5.description, (int)f5.field_type_id, f5.field_type.field_type, (int)f5.check_list_id);
+                        fd5 = new Field_Dto(f5.Id, f5.label, f5.description, (int)f5.field_type_id, f5.field_type.field_type, (int)f5.check_list_id);
 
-                    fields f6 = db.fields.SingleOrDefault(x => x.id == checkList.field_6);
+                    fields f6 = db.fields.SingleOrDefault(x => x.Id == checkList.field_6);
                     if (f6 != null)
-                        fd6 = new Field_Dto(f6.id, f6.label, f6.description, (int)f6.field_type_id, f6.field_type.field_type, (int)f6.check_list_id);
+                        fd6 = new Field_Dto(f6.Id, f6.label, f6.description, (int)f6.field_type_id, f6.field_type.field_type, (int)f6.check_list_id);
 
-                    fields f7 = db.fields.SingleOrDefault(x => x.id == checkList.field_7);
+                    fields f7 = db.fields.SingleOrDefault(x => x.Id == checkList.field_7);
                     if (f7 != null)
-                        fd7 = new Field_Dto(f7.id, f7.label, f7.description, (int)f7.field_type_id, f7.field_type.field_type, (int)f7.check_list_id);
+                        fd7 = new Field_Dto(f7.Id, f7.label, f7.description, (int)f7.field_type_id, f7.field_type.field_type, (int)f7.check_list_id);
 
-                    fields f8 = db.fields.SingleOrDefault(x => x.id == checkList.field_8);
+                    fields f8 = db.fields.SingleOrDefault(x => x.Id == checkList.field_8);
                     if (f8 != null)
-                        fd8 = new Field_Dto(f8.id, f8.label, f8.description, (int)f8.field_type_id, f8.field_type.field_type, (int)f8.check_list_id);
+                        fd8 = new Field_Dto(f8.Id, f8.label, f8.description, (int)f8.field_type_id, f8.field_type.field_type, (int)f8.check_list_id);
 
-                    fields f9 = db.fields.SingleOrDefault(x => x.id == checkList.field_9);
+                    fields f9 = db.fields.SingleOrDefault(x => x.Id == checkList.field_9);
                     if (f9 != null)
-                        fd9 = new Field_Dto(f9.id, f9.label, f9.description, (int)f9.field_type_id, f9.field_type.field_type, (int)f9.check_list_id);
+                        fd9 = new Field_Dto(f9.Id, f9.label, f9.description, (int)f9.field_type_id, f9.field_type.field_type, (int)f9.check_list_id);
 
-                    fields f10 = db.fields.SingleOrDefault(x => x.id == checkList.field_10);
+                    fields f10 = db.fields.SingleOrDefault(x => x.Id == checkList.field_10);
                     if (f10 != null)
-                        fd10 = new Field_Dto(f10.id, f10.label, f10.description, (int)f10.field_type_id, f10.field_type.field_type, (int)f10.check_list_id);
+                        fd10 = new Field_Dto(f10.Id, f10.label, f10.description, (int)f10.field_type_id, f10.field_type.field_type, (int)f10.check_list_id);
                     #endregion
 
                     #region loadtags
@@ -243,7 +243,7 @@ namespace eFormSqlController
                     }
                     #endregion
 
-                    Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10, check_list_tags);
+                    Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, fd1, fd2, fd3, fd4, fd5, fd6, fd7, fd8, fd9, fd10, check_list_tags);
                     return templateDto;
                 }
             }
@@ -284,7 +284,7 @@ namespace eFormSqlController
                         List<int?> check_list_ids = db.taggings.Where(x => tagIds.Contains((int)x.tag_id)).Select(x => x.check_list_id).ToList();
                         if (check_list_ids != null)
                         {
-                            sub_query = sub_query.Where(x => check_list_ids.Contains(x.id));
+                            sub_query = sub_query.Where(x => check_list_ids.Contains(x.Id));
                         }
                         
                     }
@@ -318,9 +318,9 @@ namespace eFormSqlController
                             break;
                         default:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.Id);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.Id);
                             break;
                     }
 
@@ -344,8 +344,8 @@ namespace eFormSqlController
                                 sites.Add(site);
                             } catch (Exception innerEx)
                             {
-                                log.LogException(methodName, "could not add the site to the sites for site.id : " + check_list_site.site.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
-                                throw new Exception("Error adding site to sites for site.id : " + check_list_site.site.id.ToString(), innerEx);
+                                log.LogException(methodName, "could not add the site to the sites for site.Id : " + check_list_site.site.Id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                                throw new Exception("Error adding site to sites for site.Id : " + check_list_site.site.Id.ToString(), innerEx);
                             }
                             
                         }
@@ -364,13 +364,13 @@ namespace eFormSqlController
                         #endregion
                         try
                         {
-                            Template_Dto templateDto = new Template_Dto(checkList.id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, check_list_tags);
+                            Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.created_at, checkList.updated_at, checkList.label, checkList.description, (int)checkList.repeated, checkList.folder_name, checkList.workflow_state, sites, hasCases, checkList.display_index, check_list_tags);
                             templateList.Add(templateDto);
                         }
                         catch (Exception innerEx)
                         {
-                            log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
-                            throw new Exception("Error adding template to templateList for templateId : " + checkList.id.ToString(), innerEx);
+                            log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.Id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                            throw new Exception("Error adding template to templateList for templateId : " + checkList.Id.ToString(), innerEx);
                         }
                     }
                     return templateList;
@@ -396,11 +396,11 @@ namespace eFormSqlController
 
                     foreach (DataItem dataItem in mainElement.DataItemGetAll())
                     {
-                        fields field = db.fields.Single(x => x.id == dataItem.Id);
-                        Field_Dto fieldDto = new Field_Dto(field.id, field.label, field.description, (int)field.field_type_id, field.field_type.field_type, (int)field.check_list_id);
+                        fields field = db.fields.Single(x => x.Id == dataItem.Id);
+                        Field_Dto fieldDto = new Field_Dto(field.Id, field.label, field.description, (int)field.field_type_id, field.field_type.field_type, (int)field.check_list_id);
                         if (field.parent_field_id != null)
                         {
-                            fieldDto.ParentName = db.fields.Where(x => x.id == field.parent_field_id).First().label;
+                            fieldDto.ParentName = db.fields.Where(x => x.Id == field.parent_field_id).First().label;
                         }
                         else
                         {
@@ -426,7 +426,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
+                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == templateId);
 
                     if (checkList == null)
                         return false;
@@ -453,7 +453,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.id == templateId);
+                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == templateId);
 
                     if (checkList == null)
                         return false;
@@ -493,7 +493,7 @@ namespace eFormSqlController
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    check_lists check_list = db.check_lists.Single(x => x.id == templateId);
+                    check_lists check_list = db.check_lists.Single(x => x.Id == templateId);
 
                     if (check_list != null)
                     {
@@ -528,7 +528,7 @@ namespace eFormSqlController
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    check_lists checkList = db.check_lists.Single(x => x.id == templateId);
+                    check_lists checkList = db.check_lists.Single(x => x.Id == templateId);
 
                     if (checkList != null)
                     {
@@ -537,7 +537,7 @@ namespace eFormSqlController
 //                        int index = 0;
                         foreach (taggings tagging in clTaggings)
                         {
-                            taggings currentTagging = db.taggings.Single(x => x.id == tagging.id);
+                            taggings currentTagging = db.taggings.Single(x => x.Id == tagging.Id);
                             if (currentTagging != null)
                             {
                                 currentTagging.Delete(db);
@@ -545,19 +545,19 @@ namespace eFormSqlController
                         }
 
                         // set all new taggings
-                        foreach (int id in tagIds)
+                        foreach (int Id in tagIds)
                         {
-                            tags tag = db.tags.Single(x => x.id == id);
+                            tags tag = db.tags.Single(x => x.Id == Id);
                             if (tag != null)
                             {
 
-                                taggings currentTagging = db.taggings.SingleOrDefault(x => x.tag_id == tag.id && x.check_list_id == templateId);
+                                taggings currentTagging = db.taggings.SingleOrDefault(x => x.tag_id == tag.Id && x.check_list_id == templateId);
 
                                 if (currentTagging == null)
                                 {
                                     taggings tagging = new taggings();
                                     tagging.check_list_id = templateId;
-                                    tagging.tag_id = tag.id;
+                                    tagging.tag_id = tag.Id;
                                     tagging.created_at = DateTime.Now;
                                     tagging.updated_at = tagging.created_at;
                                     tagging.workflow_state = Constants.WorkflowStates.Created;
@@ -596,7 +596,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
+                    int siteId = db.sites.Single(x => x.microting_uid == siteUId).Id;
 
                     check_list_sites cLS = new check_list_sites();
                     cLS.check_list_id = checkListId;
@@ -628,7 +628,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     sites site = db.sites.Single(x => x.microting_uid == microtingUid);
-                    IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.id && x.check_list_id == templateId);
+                    IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.site_id == site.Id && x.check_list_id == templateId);
                     if (workflowState == Constants.WorkflowStates.NotRemoved)
                         sub_query = sub_query.Where(x => x.workflow_state != Constants.WorkflowStates.Removed);
 
@@ -647,8 +647,8 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    string caseType = db.check_lists.Single(x => x.id == checkListId).case_type;
-                    int siteId = db.sites.Single(x => x.microting_uid == siteUId).id;
+                    string caseType = db.check_lists.Single(x => x.Id == checkListId).case_type;
+                    int siteId = db.sites.Single(x => x.microting_uid == siteUId).Id;
 
                     cases aCase = null;
                     // Lets see if we have an existing case with the same parameters in the db first.
@@ -697,7 +697,7 @@ namespace eFormSqlController
                         db.SaveChanges();
                     }
 
-                    return aCase.id;
+                    return aCase.Id;
                 }
             }
             catch (Exception ex)
@@ -761,8 +761,8 @@ namespace eFormSqlController
                     if (caseStd == null)
                         caseStd = db.cases.Single(x => x.microting_uid == microtingUId);
 
-                    int userId = db.workers.Single(x => x.microting_uid == workerMicrotingUId).id;
-                    int unitId = db.units.Single(x => x.microting_uid == unitMicrotingUid).id;
+                    int userId = db.workers.Single(x => x.microting_uid == workerMicrotingUId).Id;
+                    int unitId = db.units.Single(x => x.microting_uid == unitMicrotingUid).Id;
 
                     caseStd.status = 100;
                     caseStd.done_at = doneAt;
@@ -867,7 +867,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.SingleOrDefault(x => x.id == caseId);
+                    cases aCase = db.cases.SingleOrDefault(x => x.Id == caseId);
 
                     if (aCase != null)
                     {
@@ -927,20 +927,20 @@ namespace eFormSqlController
                 {
                     int elementId;
                     int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
-                    int userId = db.workers.Single(x => x.microting_uid == userUId).id;
+                    int userId = db.workers.Single(x => x.microting_uid == userUId).Id;
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<Field_Dto> TemplatFieldLst = null;
                     cases responseCase = null;
                     List<int?> case_fields = new List<int?>();
-                    List<int> fieldTypeIds = db.field_types.Where(x => x.field_type == Constants.FieldTypes.Picture || x.field_type == Constants.FieldTypes.Signature || x.field_type == Constants.FieldTypes.Audio).Select(x => x.id).ToList();
+                    List<int> fieldTypeIds = db.field_types.Where(x => x.field_type == Constants.FieldTypes.Picture || x.field_type == Constants.FieldTypes.Signature || x.field_type == Constants.FieldTypes.Audio).Select(x => x.Id).ToList();
 
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.microting_uid == response.Value);
                         int caseId = CaseCreate((int)cLS.check_list_id, (int)cLS.site.microting_uid, response.Value, response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
-                        responseCase = db.cases.Single(x => x.id == caseId);
+                        responseCase = db.cases.Single(x => x.Id == caseId);
                     }
-                    catch //already created case id retrived
+                    catch //already created case Id retrived
                     {
                         responseCase = db.cases.Single(x => x.microting_uid == response.Value);
                     }
@@ -966,7 +966,7 @@ namespace eFormSqlController
                         #region foreach element
 
                         int cl_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
-                        int case_id = responseCase.id;
+                        int case_id = responseCase.Id;
 
                         check_list_values clv = null;
                         clv = db.check_list_values.SingleOrDefault(x => x.check_list_id == cl_id && x.case_id == case_id);
@@ -977,7 +977,7 @@ namespace eFormSqlController
                             clv.created_at = DateTime.Now;
                             clv.updated_at = DateTime.Now;
                             clv.check_list_id = int.Parse(t.Locate(elementStr, "<Id>", "</"));
-                            clv.case_id = responseCase.id;
+                            clv.case_id = responseCase.Id;
                             clv.status = t.Locate(elementStr, "<Status>", "</");
                             clv.version = 1;
                             clv.user_id = userId;
@@ -993,7 +993,7 @@ namespace eFormSqlController
                         
 
                         #region foreach (string dataItemStr in dataItems)
-                        elementId = clv.id;
+                        elementId = clv.Id;
                         List<string> dataItems = t.LocateList(elementStr, "<DataItem>", "</DataItem>");
 
                         if (dataItems != null)
@@ -1004,7 +1004,7 @@ namespace eFormSqlController
 
                                 int field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
 
-                                fields f = db.fields.Single(x => x.id == field_id);
+                                fields f = db.fields.Single(x => x.Id == field_id);
                                 field_values fieldV = null;
 
 
@@ -1049,8 +1049,8 @@ namespace eFormSqlController
                                         db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
                                         db.SaveChanges();
                                         //}
-                                        fieldV.uploaded_data_id = dU.id;
-                                        uploadedDataIds.Add(dU.id);
+                                        fieldV.uploaded_data_id = dU.Id;
+                                        uploadedDataIds.Add(dU.Id);
 
                                     }
                                     #endregion
@@ -1077,13 +1077,13 @@ namespace eFormSqlController
                                     }
                                     
                                     fieldV.value = extractedValue;                                    
-                                    fields _field = db.fields.SingleOrDefault(x => x.id == field_id);
+                                    fields _field = db.fields.SingleOrDefault(x => x.Id == field_id);
                                     if (_field.field_type.field_type == Constants.FieldTypes.EntitySearch || _field.field_type.field_type == Constants.FieldTypes.EntitySelect)
                                     {
                                         if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
                                         {
-                                            int id = EntityItemRead(extractedValue).id;
-                                            fieldV.value = id.ToString();
+                                            int Id = EntityItemRead(extractedValue).Id;
+                                            fieldV.value = Id.ToString();
                                         }
                                     }
                                     
@@ -1098,7 +1098,7 @@ namespace eFormSqlController
                                     //
                                     fieldV.workflow_state = Constants.WorkflowStates.Created;
                                     fieldV.version = 1;
-                                    fieldV.case_id = responseCase.id;
+                                    fieldV.case_id = responseCase.Id;
                                     fieldV.field_id = field_id;
                                     fieldV.user_id = userId;
                                     fieldV.check_list_id = clv.check_list_id;
@@ -1113,7 +1113,7 @@ namespace eFormSqlController
                                     #region update case field_values
                                     if (case_fields.Contains(fieldV.field_id))
                                     {
-                                        field_types field_type = db.fields.First(x => x.id == fieldV.field_id).field_type;
+                                        field_types field_type = db.fields.First(x => x.Id == fieldV.field_id).field_type;
                                         string new_value = fieldV.value;
 
                                         if (field_type.field_type == Constants.FieldTypes.EntitySearch || field_type.field_type == Constants.FieldTypes.EntitySelect)
@@ -1122,8 +1122,8 @@ namespace eFormSqlController
                                             {
                                                 if (fieldV.value != "" || fieldV.value != null)
                                                 {
-                                                    int id = int.Parse(fieldV.value);
-                                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == id);
+                                                    int Id = int.Parse(fieldV.value);
+                                                    entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
                                                     
                                                     if (match != null)
                                                     {
@@ -1237,7 +1237,7 @@ namespace eFormSqlController
 
                         field_values fieldV = null;
 
-                        fieldV = db.field_values.SingleOrDefault(x => x.field_id == field.Id && x.case_id == responseCase.id && x.check_list_id == field.CheckListId && x.user_id == userId);
+                        fieldV = db.field_values.SingleOrDefault(x => x.field_id == field.Id && x.case_id == responseCase.Id && x.check_list_id == field.CheckListId && x.user_id == userId);
 
                         if (fieldV == null)
                         {
@@ -1257,7 +1257,7 @@ namespace eFormSqlController
                             //
                             fieldV.workflow_state = Constants.WorkflowStates.Created;
                             fieldV.version = 1;
-                            fieldV.case_id = responseCase.id;
+                            fieldV.case_id = responseCase.Id;
                             fieldV.field_id = field.Id;
                             fieldV.user_id = userId;
                             fieldV.check_list_id = field.CheckListId;
@@ -1288,7 +1288,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases match = db.cases.SingleOrDefault(x => x.id == caseId);
+                    cases match = db.cases.SingleOrDefault(x => x.Id == caseId);
 
 
                     if (match != null)
@@ -1377,7 +1377,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
-                    var mainCheckList = db.check_lists.Single(x => x.id == aCase.check_list_id);
+                    var mainCheckList = db.check_lists.Single(x => x.Id == aCase.check_list_id);
 
                     ReplyElement replyElement = new ReplyElement();
 
@@ -1401,7 +1401,7 @@ namespace eFormSqlController
 
                     foreach (check_lists checkList in aCase.check_list.children.OrderBy(x => x.display_index))
                     {
-                        replyElement.ElementList.Add(SubChecks(checkList.id, aCase.id));
+                        replyElement.ElementList.Add(SubChecks(checkList.Id, aCase.Id));
                     }
                     return replyElement;
                 }
@@ -1418,16 +1418,16 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    var checkList = db.check_lists.Single(x => x.id == parentId);
+                    var checkList = db.check_lists.Single(x => x.Id == parentId);
                     //Element element = new Element();
                     if (checkList.children.Count() > 0)
                     {
                         List<Element> elementList = new List<Element>();
                         foreach (check_lists subList in checkList.children.OrderBy(x => x.display_index))
                         {
-                            elementList.Add(SubChecks(subList.id, caseId));
+                            elementList.Add(SubChecks(subList.Id, caseId));
                         }
-                        GroupElement element = new GroupElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), elementList);
+                        GroupElement element = new GroupElement(checkList.Id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), elementList);
                         element.OriginalId = checkList.original_id;
                         return element;
                     }
@@ -1442,7 +1442,7 @@ namespace eFormSqlController
                                 List<DataItem> dataItemSubList = new List<DataItem>();
                                 foreach (fields subField in field.children.OrderBy(x => x.display_index))
                                 {
-                                    Field _field = FieldRead(subField.id);
+                                    Field _field = FieldRead(subField.Id);
 
                                     _field.FieldValues = new List<FieldValue>();
                                     foreach (field_values fieldValue in subField.field_values.Where(x => x.case_id == caseId).ToList())
@@ -1455,13 +1455,13 @@ namespace eFormSqlController
 
                                 CDataValue description = new CDataValue();
                                 description.InderValue = field.description;
-                                FieldContainer fG = new FieldContainer(field.id, field.label, description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
+                                FieldContainer fG = new FieldContainer(field.Id, field.label, description, field.color, (int)field.display_index, field.default_value, dataItemSubList);
                                 fG.OriginalId = field.original_id;
                                 dataItemList.Add(fG);
                             }
                             else
                             {
-                                Field _field = FieldRead(field.id);
+                                Field _field = FieldRead(field.Id);
                                 _field.FieldValues = new List<FieldValue>();
                                 foreach (field_values fieldValue in field.field_values.Where(x => x.case_id == caseId).ToList())
                                 {
@@ -1471,10 +1471,10 @@ namespace eFormSqlController
                                 dataItemList.Add(_field);
                             }
                         }
-                        DataElement dataElement = new DataElement(checkList.id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), dataItemGroupList, dataItemList);
+                        DataElement dataElement = new DataElement(checkList.Id, checkList.label, (int)checkList.display_index, checkList.description, t.Bool(checkList.approval_enabled), t.Bool(checkList.review_enabled), t.Bool(checkList.done_button_enabled), t.Bool(checkList.extra_fields_enabled), "", t.Bool(checkList.quick_sync_enabled), dataItemGroupList, dataItemList);
                         dataElement.OriginalId = checkList.original_id;
                         //return dataElement;
-                        return new CheckListValue(dataElement, CheckListValueStatusRead(caseId, checkList.id));
+                        return new CheckListValue(dataElement, CheckListValueStatusRead(caseId, checkList.Id));
                     }
                     //return element;
                 }
@@ -1492,7 +1492,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     var aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
-                    int caseId = aCase.id;
+                    int caseId = aCase.Id;
 
                     List<field_values> lst = db.field_values.Where(x => x.case_id == caseId).ToList();
                     return lst;
@@ -1504,7 +1504,7 @@ namespace eFormSqlController
             }
         }
 
-        public Field FieldRead(int id)
+        public Field FieldRead(int Id)
         {
 
             string methodName = t.GetMethodName("SQLController");
@@ -1512,7 +1512,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    fields fieldDb = db.fields.SingleOrDefault(x => x.id == id);
+                    fields fieldDb = db.fields.SingleOrDefault(x => x.Id == Id);
 
                     if (fieldDb != null)
                     {
@@ -1524,7 +1524,7 @@ namespace eFormSqlController
                         field.FieldValue = fieldDb.default_value;
                         field.EntityGroupId = fieldDb.entity_group_id;
                         field.Color = fieldDb.color;
-                        field.Id = fieldDb.id;
+                        field.Id = fieldDb.Id;
 
                         if (field.FieldType == "SingleSelect")
                         {
@@ -1556,7 +1556,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
 
-                    fields field = db.fields.Single(x => x.id == reply.field_id);
+                    fields field = db.fields.Single(x => x.Id == reply.field_id);
                     FieldValue field_value = new FieldValue();
                     field_value.Accuracy = reply.accuracy;
                     field_value.Altitude = reply.altitude;
@@ -1569,7 +1569,7 @@ namespace eFormSqlController
                     field_value.Description.InderValue = field.description;
                     field_value.DisplayOrder = t.Int(field.display_index);
                     field_value.Heading = reply.heading;
-                    field_value.Id = reply.id;
+                    field_value.Id = reply.Id;
                     field_value.OriginalId = reply.field.original_id;
                     field_value.Label = field.label;
                     field_value.Latitude = reply.latitude;
@@ -1591,7 +1591,7 @@ namespace eFormSqlController
                                 {
                                     uploadedDataId = (int)fV.uploaded_data_id;
 
-                                    uploadedData = db.uploaded_data.Single(x => x.id == uploadedDataId);
+                                    uploadedData = db.uploaded_data.Single(x => x.Id == uploadedDataId);
 
                                     if (uploadedData.file_name != null)
                                         locations += uploadedData.file_location + uploadedData.file_name + Environment.NewLine;
@@ -1612,7 +1612,7 @@ namespace eFormSqlController
                                 uploadedDataObj.UploaderType = uploadedData.uploader_type;
                                 uploadedDataObj.FileLocation = uploadedData.file_location;
                                 uploadedDataObj.FileName = uploadedData.file_name;
-                                uploadedDataObj.Id = uploadedData.id;
+                                uploadedDataObj.Id = uploadedData.Id;
                                 field_value.UploadedDataObj = uploadedDataObj;
                                 field_value.UploadedData = "";
                             }
@@ -1629,13 +1629,13 @@ namespace eFormSqlController
                         {
                             if (reply.value != "" || reply.value != null)
                             {
-								int id = int.Parse(reply.value);
-                                entity_items match = db.entity_items.SingleOrDefault(x => x.id == id);
+								int Id = int.Parse(reply.value);
+                                entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
 
                                 if (match != null)
                                 {
                                     field_value.ValueReadable = match.name;
-                                    field_value.Value = match.id.ToString();
+                                    field_value.Value = match.Id.ToString();
                                     field_value.MicrotingUuid = match.microting_uid;
                                 }
 
@@ -1696,14 +1696,14 @@ namespace eFormSqlController
             }
         }
 
-        public FieldValue FieldValueRead(int id)
+        public FieldValue FieldValueRead(int Id)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    field_values reply = db.field_values.Single(x => x.id == id);
-                    //fields field = db.fields.Single(x => x.id == reply.field_id);
+                    field_values reply = db.field_values.Single(x => x.Id == Id);
+                    //fields field = db.fields.Single(x => x.Id == reply.field_id);
                     return FieldValueRead(reply, true);
                 }
             }
@@ -1713,13 +1713,13 @@ namespace eFormSqlController
             }
         }
 
-        public List<FieldValue> FieldValueReadList(int id, int instances)
+        public List<FieldValue> FieldValueReadList(int Id, int instances)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == id).OrderByDescending(z => z.created_at).ToList();
+                    List<field_values> matches = db.field_values.Where(x => x.field_id == Id).OrderByDescending(z => z.created_at).ToList();
 
                     if (matches.Count() > instances)
                         matches = matches.GetRange(0, instances);
@@ -1727,7 +1727,7 @@ namespace eFormSqlController
                     List<FieldValue> rtnLst = new List<FieldValue>();
 
                     foreach (var item in matches)
-                        rtnLst.Add(FieldValueRead(item.id));
+                        rtnLst.Add(FieldValueRead(item.Id));
 
                     return rtnLst;
                 }
@@ -1744,7 +1744,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    field_values fieldMatch = db.field_values.Single(x => x.id == fieldValueId);
+                    field_values fieldMatch = db.field_values.Single(x => x.Id == fieldValueId);
 
                     fieldMatch.value = value;
                     fieldMatch.updated_at = DateTime.Now;
@@ -1772,7 +1772,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    fields matchField = db.fields.Single(x => x.id == fieldId);
+                    fields matchField = db.fields.Single(x => x.Id == fieldId);
 
                     List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && caseIds.Contains((int)x.case_id)).ToList();
 
@@ -1892,7 +1892,7 @@ namespace eFormSqlController
                                     {
                                         if (item.value != "" || item.value != null)
                                         {
-                                            entity_items match = db.entity_items.SingleOrDefault(x => x.id.ToString() == item.value);
+                                            entity_items match = db.entity_items.SingleOrDefault(x => x.Id.ToString() == item.value);
 
                                             if (match != null)
                                             {
@@ -2112,7 +2112,7 @@ namespace eFormSqlController
                         ud.UploaderType = dU.uploader_type;
                         ud.FileLocation = dU.file_location;
                         ud.FileName = dU.file_name;
-                        ud.Id = dU.id;
+                        ud.Id = dU.Id;
                         return ud;
                     }
                     else
@@ -2134,10 +2134,10 @@ namespace eFormSqlController
                     try
                     {
                         uploaded_data dU = db.uploaded_data.Where(x => x.file_location == urlString).First();
-                        field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.id);
-                        cases aCase = db.cases.Single(x => x.id == fV.case_id);
+                        field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.Id);
+                        cases aCase = db.cases.Single(x => x.Id == fV.case_id);
 
-                        return CaseReadByCaseId(aCase.id);
+                        return CaseReadByCaseId(aCase.Id);
                     }
                     catch
                     {
@@ -2152,13 +2152,13 @@ namespace eFormSqlController
             }
         }
 
-        public void FileProcessed(string urlString, string checkSum, string fileLocation, string fileName, int id)
+        public void FileProcessed(string urlString, string checkSum, string fileLocation, string fileName, int Id)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.uploaded_data.Single(x => x.id == id);
+                    uploaded_data uD = db.uploaded_data.Single(x => x.Id == Id);
 
                     uD.checksum = checkSum;
                     uD.file_location = fileLocation;
@@ -2177,13 +2177,13 @@ namespace eFormSqlController
             }
         }
 
-        public uploaded_data GetUploadedData(int id)
+        public uploaded_data GetUploadedData(int Id)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    return db.uploaded_data.SingleOrDefault(x => x.id == id);
+                    return db.uploaded_data.SingleOrDefault(x => x.Id == Id);
                 }
             }
             catch (Exception ex)
@@ -2198,7 +2198,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.uploaded_data.Single(x => x.id == uploadedData.id);
+                    uploaded_data uD = db.uploaded_data.Single(x => x.Id == uploadedData.Id);
                     uD.transcription_id = uploadedData.transcription_id;
                     uD.updated_at = DateTime.Now;
                     uD.version = uploadedData.version + 1;
@@ -2225,7 +2225,7 @@ namespace eFormSqlController
                     uploaded_data ud = GetUploaded_DataByTranscriptionId(transcriptionId);
                     if (ud != null)
                     {
-                        return db.field_values.SingleOrDefault(x => x.uploaded_data_id == ud.id);
+                        return db.field_values.SingleOrDefault(x => x.uploaded_data_id == ud.Id);
                     } else
                     {
                         return null;
@@ -2254,13 +2254,13 @@ namespace eFormSqlController
             }
         }
 
-        public bool DeleteFile(int id)
+        public bool DeleteFile(int Id)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.uploaded_data.Single(x => x.id == id);
+                    uploaded_data uD = db.uploaded_data.Single(x => x.Id == Id);
 
                     uD.workflow_state = Constants.WorkflowStates.Removed;
                     uD.updated_at = DateTime.Now;
@@ -2287,7 +2287,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     cases aCase = db.cases.Single(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
-                    return CaseReadByCaseId(aCase.id);
+                    return CaseReadByCaseId(aCase.Id);
                 }
             } catch  (Exception ex)
             {
@@ -2305,14 +2305,14 @@ namespace eFormSqlController
                     try
                     {
                         cases aCase = db.cases.Single(x => x.microting_uid == microtingUId);
-                        return CaseReadByCaseId(aCase.id);
+                        return CaseReadByCaseId(aCase.Id);
                     }
                     catch { }
 
                     try
                     {
                         check_list_sites cls = db.check_list_sites.Single(x => x.microting_uid == microtingUId);
-                        check_lists cL = db.check_lists.Single(x => x.id == cls.check_list_id);
+                        check_lists cL = db.check_lists.Single(x => x.Id == cls.check_list_id);
 
                         #region string stat = aCase.workflow_state ...
                         string stat = "";
@@ -2323,8 +2323,8 @@ namespace eFormSqlController
                             stat = "Deleted";
                         #endregion
 
-                        int remoteSiteId = (int)db.sites.Single(x => x.id == (int)cls.site_id).microting_uid;
-                        Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.id, null);
+                        int remoteSiteId = (int)db.sites.Single(x => x.Id == (int)cls.site_id).microting_uid;
+                        Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.case_type, "ReversedCase", cls.microting_uid, cls.last_check_id, null, cL.Id, null);
                         return rtrnCase;
                     }
                     catch(Exception ex1)
@@ -2345,8 +2345,8 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.Single(x => x.id == caseId);
-                    check_lists cL = db.check_lists.Single(x => x.id == aCase.check_list_id);
+                    cases aCase = db.cases.Single(x => x.Id == caseId);
+                    check_lists cL = db.check_lists.Single(x => x.Id == aCase.check_list_id);
 
                     #region string stat = aCase.workflow_state ...
                     string stat = "";
@@ -2363,8 +2363,8 @@ namespace eFormSqlController
                         stat = "Deleted";
                     #endregion
 
-                    int remoteSiteId = (int)db.sites.Single(x => x.id == (int)aCase.site_id).microting_uid;
-                    Case_Dto cDto = new Case_Dto(aCase.id, stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, aCase.custom, cL.id, aCase.workflow_state);
+                    int remoteSiteId = (int)db.sites.Single(x => x.Id == (int)aCase.site_id).microting_uid;
+                    Case_Dto cDto = new Case_Dto(aCase.Id, stat, remoteSiteId, cL.case_type, aCase.case_uid, aCase.microting_uid, aCase.microting_check_uid, aCase.custom, cL.Id, aCase.workflow_state);
                     return cDto;
                 }
             }
@@ -2390,7 +2390,7 @@ namespace eFormSqlController
                     List<Case_Dto> lstDto = new List<Case_Dto>();
 
                     foreach (cases aCase in matches)
-                        lstDto.Add(CaseReadByCaseId(aCase.id));
+                        lstDto.Add(CaseReadByCaseId(aCase.Id));
 
                     return lstDto;
                 }
@@ -2408,13 +2408,13 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     cases match = db.cases.SingleOrDefault(x => x.microting_uid == microtingUId && x.microting_check_uid == checkUId);
-                    match.site_id = db.sites.SingleOrDefault(x => x.id == match.site_id).microting_uid;
+                    match.site_id = db.sites.SingleOrDefault(x => x.Id == match.site_id).microting_uid;
 
                     if (match.unit_id != null)
-                        match.unit_id = db.units.SingleOrDefault(x => x.id == match.unit_id).microting_uid;
+                        match.unit_id = db.units.SingleOrDefault(x => x.Id == match.unit_id).microting_uid;
 
                     if (match.done_by_user_id != null)
-                        match.done_by_user_id = db.workers.SingleOrDefault(x => x.id == match.done_by_user_id).microting_uid;
+                        match.done_by_user_id = db.workers.SingleOrDefault(x => x.Id == match.done_by_user_id).microting_uid;
                     return match;
                 }
             }
@@ -2459,7 +2459,7 @@ namespace eFormSqlController
 
                     try
                     {
-                        return sub_query.First().id;
+                        return sub_query.First().Id;
                     } catch (Exception ex)
                     {
                         throw new Exception("CaseReadFirstId failed", ex);
@@ -2517,16 +2517,16 @@ namespace eFormSqlController
                     }
                     if (searchKey != null && searchKey != "")
                     {
-                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.id.ToString().Contains(searchKey) || x.site.name.Contains(searchKey) || x.worker.first_name.Contains(searchKey) || x.worker.last_name.Contains(searchKey));
+                        sub_query = sub_query.Where(x => x.field_value_1.Contains(searchKey) || x.field_value_2.Contains(searchKey) || x.field_value_3.Contains(searchKey) || x.field_value_4.Contains(searchKey) || x.field_value_5.Contains(searchKey) || x.field_value_6.Contains(searchKey) || x.field_value_7.Contains(searchKey) || x.field_value_8.Contains(searchKey) || x.field_value_9.Contains(searchKey) || x.field_value_10.Contains(searchKey) || x.Id.ToString().Contains(searchKey) || x.site.name.Contains(searchKey) || x.worker.first_name.Contains(searchKey) || x.worker.last_name.Contains(searchKey));
                     }
 
                     switch (sortParameter)
                     {
                         case Constants.CaseSortParameters.CreatedAt:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.Id);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.Id);
                             break;
                         case Constants.CaseSortParameters.DoneAt:
                             if (descendingSort)
@@ -2620,9 +2620,9 @@ namespace eFormSqlController
                             break;
                         default:
                             if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.id);
+                                sub_query = sub_query.OrderByDescending(x => x.Id);
                             else
-                                sub_query = sub_query.OrderBy(x => x.id);
+                                sub_query = sub_query.OrderBy(x => x.Id);
                             break;
                     }
 
@@ -2653,7 +2653,7 @@ namespace eFormSqlController
                         nCase.CreatedAt = dbCase.created_at;
                         nCase.Custom = dbCase.custom;
                         nCase.DoneAt = dbCase.done_at;
-                        nCase.Id = dbCase.id;
+                        nCase.Id = dbCase.Id;
                         nCase.MicrotingUId = dbCase.microting_uid;
                         nCase.SiteId = dbCase.site.microting_uid;
                         nCase.SiteName = dbCase.site.name;
@@ -2728,7 +2728,7 @@ namespace eFormSqlController
                     List<cases> lstMatchs = db.cases.Where(x => x.custom == customString && x.workflow_state == Constants.WorkflowStates.Created).ToList();
 
                     foreach (cases match in lstMatchs)
-                        foundCasesThatMatch.Add(CaseReadByCaseId(match.id));
+                        foundCasesThatMatch.Add(CaseReadByCaseId(match.Id));
 
                     return foundCasesThatMatch;
                 }
@@ -2745,7 +2745,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    cases lstMatchs = db.cases.SingleOrDefault(x => x.id == caseId);
+                    cases lstMatchs = db.cases.SingleOrDefault(x => x.Id == caseId);
 
                     if (lstMatchs == null)
                         return false;
@@ -2777,7 +2777,7 @@ namespace eFormSqlController
                     lstMatchs.field_value_9 = null;
                     lstMatchs.field_value_10 = null;
 
-                    List<field_values> field_values = db.field_values.Where(x => x.case_id == lstMatchs.id && case_fields.Contains(x.field_id)).ToList();
+                    List<field_values> field_values = db.field_values.Where(x => x.case_id == lstMatchs.Id && case_fields.Contains(x.field_id)).ToList();
 
                     foreach (field_values item in field_values)
                     {
@@ -2790,7 +2790,7 @@ namespace eFormSqlController
                             {
                                 if (item.value != "" || item.value != null)
                                 {
-                                    entity_items match = db.entity_items.SingleOrDefault(x => x.id == int.Parse(item.value));
+                                    entity_items match = db.entity_items.SingleOrDefault(x => x.Id == int.Parse(item.value));
 
                                     if (match != null)
                                     {
@@ -2996,7 +2996,7 @@ namespace eFormSqlController
                     db.site_versions.Add(MapSiteVersions(site));
                     db.SaveChanges();
 
-                    return site.id;
+                    return site.Id;
                 }
             }
             catch (Exception ex)
@@ -3038,9 +3038,9 @@ namespace eFormSqlController
                     if (site == null)
                         return null;
 
-                    site_workers site_worker = db.site_workers.Where(x => x.site_id == site.id).ToList().First();
-                    workers worker = db.workers.Single(x => x.id == site_worker.worker_id);
-                    List<units> units = db.units.Where(x => x.site_id == site.id).ToList();
+                    site_workers site_worker = db.site_workers.Where(x => x.site_id == site.Id).ToList().First();
+                    workers worker = db.workers.Single(x => x.Id == site_worker.worker_id);
+                    List<units> units = db.units.Where(x => x.site_id == site.Id).ToList();
 
                     if (units.Count() > 0 && worker != null)
                     {
@@ -3197,7 +3197,7 @@ namespace eFormSqlController
                     db.worker_versions.Add(MapWorkerVersions(worker));
                     db.SaveChanges();
 
-                    return worker.id;
+                    return worker.Id;
                 }
             }
             catch (Exception ex)
@@ -3214,7 +3214,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.id == workerId && x.workflow_state == Constants.WorkflowStates.Created);
+                    workers worker = db.workers.SingleOrDefault(x => x.Id == workerId && x.workflow_state == Constants.WorkflowStates.Created);
 
                     if (worker == null)
                         return null;
@@ -3331,8 +3331,8 @@ namespace eFormSqlController
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
-                    int localWorkerId = db.workers.Single(x => x.microting_uid == workerUId).id;
+                    int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).Id;
+                    int localWorkerId = db.workers.Single(x => x.microting_uid == workerUId).Id;
 
                     site_workers site_worker = new site_workers();
                     site_worker.workflow_state = Constants.WorkflowStates.Created;
@@ -3350,7 +3350,7 @@ namespace eFormSqlController
                     db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
                     db.SaveChanges();
 
-                    return site_worker.id;
+                    return site_worker.Id;
                 }
             }
             catch (Exception ex)
@@ -3373,7 +3373,7 @@ namespace eFormSqlController
                     {
                         sites site = db.sites.Single(x => x.microting_uid == siteId);
                         workers worker = db.workers.Single(x => x.microting_uid == workerId);
-                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == site.id && x.worker_id == worker.id);
+                        site_worker = db.site_workers.SingleOrDefault(x => x.site_id == site.Id && x.worker_id == worker.Id);
                     }
                     else
                     {
@@ -3496,7 +3496,7 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
-                    int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).id;
+                    int localSiteId = db.sites.Single(x => x.microting_uid == siteUId).Id;
 
                     units unit = new units();
                     unit.workflow_state = Constants.WorkflowStates.Created;
@@ -3515,7 +3515,7 @@ namespace eFormSqlController
                     db.unit_versions.Add(MapUnitVersions(unit));
                     db.SaveChanges();
 
-                    return unit.id;
+                    return unit.Id;
                 }
             }
             catch (Exception ex)
@@ -3640,16 +3640,16 @@ namespace eFormSqlController
                     var source = db.entity_groups.Where(x => x.type == entityType);
                     if (nameFilter != "")
                         source = source.Where(x => x.name.Contains(nameFilter));
-                    if (sort == "id")
+                    if (sort == "Id")
                         if (desc)
-                            source = source.OrderByDescending(x => x.id);
+                            source = source.OrderByDescending(x => x.Id);
                         else
-                            source = source.OrderBy(x => x.id);
+                            source = source.OrderBy(x => x.Id);
                     else
                         if (desc)
                         source = source.OrderByDescending(x => x.name);
                     else
-                        source = source.OrderBy(x => x.id);
+                        source = source.OrderBy(x => x.Id);
 
                     switch (workflowState)
                     {
@@ -3676,7 +3676,7 @@ namespace eFormSqlController
 
                     foreach (entity_groups eg in eG)
                     {
-                        EntityGroup g = new EntityGroup(eg.id, eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
+                        EntityGroup g = new EntityGroup(eg.Id, eg.name, eg.type, eg.microting_uid, new List<EntityItem>(), eg.workflow_state, eg.created_at, eg.updated_at);
                         e_G.Add(g);
                     }
                     return new EntityGroupList(numOfElements, offSet, e_G);
@@ -3712,7 +3712,7 @@ namespace eFormSqlController
                     db.entity_group_versions.Add(MapEntityGroupVersions(eG));
                     db.SaveChanges();
 
-                    return new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, new List<EntityItem>(), eG.workflow_state, eG.created_at, eG.updated_at);
+                    return new EntityGroup(eG.Id, eG.name, eG.type, eG.microting_uid, new List<EntityItem>(), eG.workflow_state, eG.created_at, eG.updated_at);
                 }
             }
             catch (Exception ex)
@@ -3733,7 +3733,7 @@ namespace eFormSqlController
                         return null;
 
                     List<EntityItem> lst = new List<EntityItem>();
-                    EntityGroup rtnEG = new EntityGroup(eG.id, eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state, eG.created_at, eG.updated_at);
+                    EntityGroup rtnEG = new EntityGroup(eG.Id, eG.name, eG.type, eG.microting_uid, lst, eG.workflow_state, eG.created_at, eG.updated_at);
 
                     List<entity_items> eILst = null;
 
@@ -3741,29 +3741,29 @@ namespace eFormSqlController
                     {
                         if (sort == Constants.EntityItemSortParameters.Id)
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.id).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.Id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.name).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.Id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.name).ToList();
                         }
                     }
                     else
                     {
                         if (sort == Constants.EntityItemSortParameters.Id)
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.id).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.Id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.Id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
+                            eILst = db.entity_items.Where(x => x.entity_group_id == eG.Id && x.workflow_state != Constants.WorkflowStates.Removed && x.workflow_state != Constants.WorkflowStates.FailedToSync && x.name.Contains(nameFilter)).OrderBy(x => x.name).ToList();
                         }
                     }
 
                     if (eILst.Count > 0)
                         foreach (entity_items item in eILst)
                         {
-                            EntityItem eI = new EntityItem(item.id, item.name, item.description, item.entity_item_uid, item.microting_uid, item.workflow_state);
+                            EntityItem eI = new EntityItem(item.Id, item.name, item.description, item.entity_item_uid, item.microting_uid, item.workflow_state);
                             lst.Add(eI);
                         }
 
@@ -3776,22 +3776,22 @@ namespace eFormSqlController
             }
         }
 
-        public EntityGroup EntityGroupRead(int id) 
+        public EntityGroup EntityGroupRead(int Id) 
         {
             using (var db = GetContext()) {
-                entity_groups eg = db.entity_groups.SingleOrDefault(x => x.id == id);
+                entity_groups eg = db.entity_groups.SingleOrDefault(x => x.Id == Id);
                 if (eg != null) {
                     List<EntityItem> egl = new List<EntityItem>();
-                    return new EntityGroup(eg.id, eg.name, eg.type, eg.microting_uid, egl);
+                    return new EntityGroup(eg.Id, eg.name, eg.type, eg.microting_uid, egl);
                 } else {
-                    throw new NullReferenceException("No EntityGroup found by id " + id.ToString());
+                    throw new NullReferenceException("No EntityGroup found by Id " + Id.ToString());
                 }
             }
         }
 
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
-            return EntityGroupReadSorted(entityGroupMUId, "id", "");
+            return EntityGroupReadSorted(entityGroupMUId, "Id", "");
         }
 
         public bool EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
@@ -3800,7 +3800,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.id == entityGroupId);
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.Id == entityGroupId);
 
                     if (eG == null)
                         return false;
@@ -3872,7 +3872,7 @@ namespace eFormSqlController
                     eG.version = eG.version + 1;
                     db.entity_group_versions.Add(MapEntityGroupVersions(eG));
 
-                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.id && x.workflow_state != Constants.WorkflowStates.Removed).ToList();
+                    List<entity_items> lst = db.entity_items.Where(x => x.entity_group_id == eG.Id && x.workflow_state != Constants.WorkflowStates.Removed).ToList();
                     if (lst != null)
                     {
                         foreach (entity_items item in lst)
@@ -3915,21 +3915,21 @@ namespace eFormSqlController
             }
         }
 
-        public EntityItem EntityItemRead(int id)
+        public EntityItem EntityItemRead(int Id)
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.FirstOrDefault(x => x.id == id);
+                entity_items et = db.entity_items.FirstOrDefault(x => x.Id == Id);
                 if (et != null)
                 {
-                    EntityItem entityItem = new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid);
+                    EntityItem entityItem = new EntityItem(et.Id, et.name, et.description, et.entity_item_uid, et.microting_uid);
                     entityItem.EntityItemGroupId = et.entity_group_id;
-                    entityItem.Id = et.id;
+                    entityItem.Id = et.Id;
                     return entityItem;
                 }
                 else
                 {
-                    throw new NullReferenceException("No EntityItem found for id " + id.ToString());
+                    throw new NullReferenceException("No EntityItem found for Id " + Id.ToString());
                 }
             }
         }
@@ -3941,7 +3941,7 @@ namespace eFormSqlController
                 entity_items et = db.entity_items.SingleOrDefault(x => x.name == name && x.description == description && x.entity_group_id == entityItemGroupId);
                 if (et != null)
                 {
-                    return new EntityItem(et.id, et.name, et.description, et.entity_item_uid, et.microting_uid, et.workflow_state);
+                    return new EntityItem(et.Id, et.name, et.description, et.entity_item_uid, et.microting_uid, et.workflow_state);
                 }
                 else
                 {
@@ -3983,7 +3983,7 @@ namespace eFormSqlController
         {
             using (var db = GetContext())
             {
-                var match = db.entity_items.SingleOrDefault(x => x.id == entityItem.Id);
+                var match = db.entity_items.SingleOrDefault(x => x.Id == entityItem.Id);
                 match.description = entityItem.Description;
                 match.name = entityItem.Name;
                 match.synced = t.Bool(false);
@@ -4000,14 +4000,14 @@ namespace eFormSqlController
             }
         }
 
-        public void EntityItemDelete(int id)
+        public void EntityItemDelete(int Id)
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.SingleOrDefault(x => x.id == id);
+                entity_items et = db.entity_items.SingleOrDefault(x => x.Id == Id);
                 if (et == null)
                 {
-                    throw new NullReferenceException("EntityItem not found with id " + id.ToString());
+                    throw new NullReferenceException("EntityItem not found with Id " + Id.ToString());
                 }
                 else
                 {
@@ -4038,7 +4038,7 @@ namespace eFormSqlController
 
                 foreach (folders folder in matches)
                 {
-                    Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
+                    Folder_Dto folderDto = new Folder_Dto(folder.Id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
                     folderDtos.Add(folderDto);
                 }
             }
@@ -4057,23 +4057,23 @@ namespace eFormSqlController
                     return null;
                 }
 
-                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
+                Folder_Dto folderDto = new Folder_Dto(folder.Id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
                 return folderDto;
             }
         }
 
-        public Folder_Dto FolderRead(int id)
+        public Folder_Dto FolderRead(int Id)
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.id == id);
+                folders folder = db.folders.SingleOrDefault(x => x.Id == Id);
 
                 if (folder == null)
                 {
-                    throw new NullReferenceException($"Could not find area with id: {id}");
+                    throw new NullReferenceException($"Could not find area with Id: {Id}");
                 }
 
-                Folder_Dto folderDto = new Folder_Dto(folder.id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
+                Folder_Dto folderDto = new Folder_Dto(folder.Id, folder.name, folder.description, folder.parent_id, folder.created_at, folder.updated_at, folder.microting_uid);
                 return folderDto;
             }
         }
@@ -4090,18 +4090,18 @@ namespace eFormSqlController
 
             folder.Save(GetContext());
             
-            return folder.id;
+            return folder.Id;
         }
 
-        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        public void FolderUpdate(int Id, string name, string description, int? parent_id)
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.id == id);
+                folders folder = db.folders.SingleOrDefault(x => x.Id == Id);
 
                 if (folder == null)
                 {
-                    throw new NullReferenceException($"Could not find area with id: {id}");
+                    throw new NullReferenceException($"Could not find area with Id: {Id}");
                 }
 
                 folder.name = name;
@@ -4112,15 +4112,15 @@ namespace eFormSqlController
             }
         }
 
-        public void FolderDelete(int id)
+        public void FolderDelete(int Id)
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.id == id);
+                folders folder = db.folders.SingleOrDefault(x => x.Id == Id);
 
                 if (folder == null)
                 {
-                    throw new NullReferenceException($"Could not find area with id: {id}");
+                    throw new NullReferenceException($"Could not find area with Id: {Id}");
                 }
 
                 folder.Delete(db);
@@ -4169,84 +4169,84 @@ namespace eFormSqlController
             using (var db = GetContext())
             {
                 //key point
-                #region id = settings.name
-                int id = -1;
+                #region Id = settings.name
+                int Id = -1;
                 string defaultValue = "default";
                 switch (name)
                 {
-                    case Settings.firstRunDone: id = 1; defaultValue = "false"; break;
-                    case Settings.logLevel: id = 2; defaultValue = "4"; break;
-                    case Settings.logLimit: id = 3; defaultValue = "25000"; break;
-                    case Settings.knownSitesDone: id = 4; defaultValue = "false"; break;
+                    case Settings.firstRunDone: Id = 1; defaultValue = "false"; break;
+                    case Settings.logLevel: Id = 2; defaultValue = "4"; break;
+                    case Settings.logLimit: Id = 3; defaultValue = "25000"; break;
+                    case Settings.knownSitesDone: Id = 4; defaultValue = "false"; break;
                     case Settings.fileLocationPicture:
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                         {
-                            id = 5;
+                            Id = 5;
                             defaultValue = "output/dataFolder/picture/";
                         }
                         else
                         {
-                            id = 5; 
+                            Id = 5; 
                             defaultValue = @"output\dataFolder\picture\";
                         } 
                         break;
                     case Settings.fileLocationPdf:
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                         {                            
-                            id = 6;
+                            Id = 6;
                             defaultValue = "output/dataFolder/pdf/";
                         }
                         else
                         {
-                            id = 6; 
+                            Id = 6; 
                             defaultValue = @"output\dataFolder\pdf\";
                         } 
                         break;
                     case Settings.fileLocationJasper:
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                         {
-                            id = 7;
+                            Id = 7;
                             defaultValue = "output/dataFolder/reports/";
                         }
                         else
                         {
-                            id = 7; 
+                            Id = 7; 
                             defaultValue = @"output\dataFolder\reports\";
                         } 
                         break;
-                    case Settings.token: id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
-                    case Settings.comAddressBasic: id = 9; defaultValue = "https://basic.microting.com"; break;
-                    case Settings.comAddressApi: id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                    case Settings.comAddressPdfUpload: id = 11; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                    case Settings.comOrganizationId: id = 12; defaultValue = "0"; break;
-                    case Settings.awsAccessKeyId: id = 13; defaultValue = "XXX"; break;
-                    case Settings.awsSecretAccessKey: id = 14; defaultValue = "XXX"; break;
-                    case Settings.awsEndPoint: id = 15; defaultValue = "XXX"; break;
-                    case Settings.unitLicenseNumber: id = 16; defaultValue = "0"; break;
-                    case Settings.httpServerAddress: id = 17; defaultValue = "http://localhost:3000"; break;
-                    case Settings.maxParallelism: id = 18; defaultValue = "1"; break;
-                    case Settings.numberOfWorkers: id = 19; defaultValue = "1"; break;
-                    case Settings.comSpeechToText: id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                    case Settings.swiftEnabled: id = 21; defaultValue = "false"; break;
-                    case Settings.swiftUserName: id = 22; defaultValue = "eformsdk"; break;
-                    case Settings.swiftPassword: id = 23; defaultValue = "eformsdktosecretpassword"; break;
-                    case Settings.swiftEndPoint: id = 24; defaultValue = "http://172.16.4.4:8080/swift/v1"; break;
-                    case Settings.keystoneEndPoint: id = 25; defaultValue = "http://172.16.4.4:5000/v2.0"; break;
-                    case Settings.customerNo: id = 26; defaultValue = "0"; break;
+                    case Settings.token: Id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
+                    case Settings.comAddressBasic: Id = 9; defaultValue = "https://basic.microting.com"; break;
+                    case Settings.comAddressApi: Id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.comAddressPdfUpload: Id = 11; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.comOrganizationId: Id = 12; defaultValue = "0"; break;
+                    case Settings.awsAccessKeyId: Id = 13; defaultValue = "XXX"; break;
+                    case Settings.awsSecretAccessKey: Id = 14; defaultValue = "XXX"; break;
+                    case Settings.awsEndPoint: Id = 15; defaultValue = "XXX"; break;
+                    case Settings.unitLicenseNumber: Id = 16; defaultValue = "0"; break;
+                    case Settings.httpServerAddress: Id = 17; defaultValue = "http://localhost:3000"; break;
+                    case Settings.maxParallelism: Id = 18; defaultValue = "1"; break;
+                    case Settings.numberOfWorkers: Id = 19; defaultValue = "1"; break;
+                    case Settings.comSpeechToText: Id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                    case Settings.swiftEnabled: Id = 21; defaultValue = "false"; break;
+                    case Settings.swiftUserName: Id = 22; defaultValue = "eformsdk"; break;
+                    case Settings.swiftPassword: Id = 23; defaultValue = "eformsdktosecretpassword"; break;
+                    case Settings.swiftEndPoint: Id = 24; defaultValue = "http://172.16.4.4:8080/swift/v1"; break;
+                    case Settings.keystoneEndPoint: Id = 25; defaultValue = "http://172.16.4.4:5000/v2.0"; break;
+                    case Settings.customerNo: Id = 26; defaultValue = "0"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
                 }
                 #endregion
 
-                settings matchId = db.settings.SingleOrDefault(x => x.id == id);
+                settings matchId = db.settings.SingleOrDefault(x => x.id == Id);
                 settings matchName = db.settings.SingleOrDefault(x => x.name == name.ToString());
 
                 if (matchName == null)
                 {
                     if (matchId != null)
                     {
-                        #region there is already a setting with that id but different name
+                        #region there is already a setting with that Id but different name
                         //the old setting data is copied, and new is added
                         settings newSettingBasedOnOld = new settings();
                         newSettingBasedOnOld.id = (db.settings.Select(x => (int?)x.id).Max() ?? 0) + 1;
@@ -4265,7 +4265,7 @@ namespace eFormSqlController
                     {
                         //its a new setting
                         settings newSetting = new settings();
-                        newSetting.id = id;
+                        newSetting.id = Id;
                         newSetting.name = name.ToString();
                         newSetting.value = defaultValue;
 
@@ -4560,7 +4560,7 @@ namespace eFormSqlController
                     db.check_list_versions.Add(MapCheckListVersions(cl));
                     db.SaveChanges();
 
-                    int mainId = cl.id;
+                    int mainId = cl.Id;
                     mainElement.Id = mainId;
                     #endregion
 
@@ -4633,7 +4633,7 @@ namespace eFormSqlController
                     db.check_list_versions.Add(MapCheckListVersions(cl));
                     db.SaveChanges();
 
-                    CreateElementList(cl.id, groupElement.ElementList);
+                    CreateElementList(cl.Id, groupElement.ElementList);
                 }
             }
             catch (Exception ex)
@@ -4689,8 +4689,8 @@ namespace eFormSqlController
                     //        //CDataValue description = new CDataValue();
                     //        //description.InderValue = dataItemGroup.Description;
                     //        //FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
-                    //        //CreateDataItemGroup(cl.id, fg);
-                    //        CreateDataItemGroup(cl.id, (FieldGroup)dataItemGroup);
+                    //        //CreateDataItemGroup(cl.Id, fg);
+                    //        CreateDataItemGroup(cl.Id, (FieldGroup)dataItemGroup);
                     //    }
                     //}
 
@@ -4698,7 +4698,7 @@ namespace eFormSqlController
                     {
                         foreach (DataItem dataItem in dataElement.DataItemList)
                         {
-                            CreateDataItem(null, cl.id, dataItem);
+                            CreateDataItem(null, cl.Id, dataItem);
                         }
                     }
                 }
@@ -4746,7 +4746,7 @@ namespace eFormSqlController
                     {
                         foreach (DataItem dataItem in fieldGroup.DataItemList)
                         {
-                            CreateDataItem(field.id, elementId, dataItem);
+                            CreateDataItem(field.Id, elementId, dataItem);
                         }
                     }
                 }
@@ -4794,7 +4794,7 @@ namespace eFormSqlController
                     field.version = 1;
                     field.original_id = dataItem.Id.ToString();
 
-                    bool isSaved = false; // This is done, because we need to have the current field id, for giving it onto the child fields in a FieldGroup
+                    bool isSaved = false; // This is done, because we need to have the current field Id, for giving it onto the child fields in a FieldGroup
 
                     #region dataItem type
                     //KEY POINT - mapping
@@ -4921,7 +4921,7 @@ namespace eFormSqlController
                             {
                                 foreach (DataItem data_item in fg.DataItemList)
                                 {
-                                    CreateDataItem(field.id, elementId, data_item);
+                                    CreateDataItem(field.Id, elementId, data_item);
                                 }
                             }
                             //CreateDataItemGroup(elementId, (FieldGroup)dataItem);
@@ -4970,20 +4970,20 @@ namespace eFormSqlController
                         //the actual DataElement
                         try
                         {
-                            check_lists cl = db.check_lists.Single(x => x.id == elementId);
-                            GroupElement gElement = new GroupElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
+                            check_lists cl = db.check_lists.Single(x => x.Id == elementId);
+                            GroupElement gElement = new GroupElement(cl.Id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
                                 t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", t.Bool(cl.quick_sync_enabled), lst);
 
                             //the actual Elements
                             foreach (var subElement in lstElement)
                             {
-                                lst.Add(GetElement(subElement.id));
+                                lst.Add(GetElement(subElement.Id));
                             }
                             element = gElement;
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("Failed to find check_list with id:" + elementId, ex);
+                            throw new Exception("Failed to find check_list with Id:" + elementId, ex);
                         }
                     }
                     else //DataElement
@@ -4991,21 +4991,21 @@ namespace eFormSqlController
                         //the actual DataElement
                         try
                         {
-                            check_lists cl = db.check_lists.Single(x => x.id == elementId);
-                            DataElement dElement = new DataElement(cl.id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
+                            check_lists cl = db.check_lists.Single(x => x.Id == elementId);
+                            DataElement dElement = new DataElement(cl.Id, cl.label, t.Int(cl.display_index), cl.description, t.Bool(cl.approval_enabled), t.Bool(cl.review_enabled),
                                 t.Bool(cl.done_button_enabled), t.Bool(cl.extra_fields_enabled), "", t.Bool(cl.quick_sync_enabled), new List<DataItemGroup>(), new List<DataItem>());
 
                             //the actual DataItems
                             List<fields> lstFields = db.fields.Where(x => x.check_list_id == elementId && x.parent_field_id == null).ToList();
                             foreach (var field in lstFields)
                             {
-                                GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field.id);
+                                GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field.Id);
                             }
                             element = dElement;
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("Failed to find check_list with id:" + elementId, ex);
+                            throw new Exception("Failed to find check_list with Id:" + elementId, ex);
                         }
                     }
                     return element;
@@ -5023,92 +5023,92 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    fields f = db.fields.Single(x => x.id == dataItemId);
+                    fields f = db.fields.Single(x => x.Id == dataItemId);
                     string fieldTypeStr = Find(t.Int(f.field_type_id));
 
                     //KEY POINT - mapping
                     switch (fieldTypeStr)
                     {
                         case Constants.FieldTypes.Audio:
-                            lstDataItem.Add(new Audio(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Audio(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.multi)));
                             break;
 
                         case Constants.FieldTypes.CheckBox:
-                            lstDataItem.Add(new CheckBox(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new CheckBox(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.default_value), t.Bool(f.selected)));
                             break;
 
                         case Constants.FieldTypes.Comment:
-                            lstDataItem.Add(new Comment(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Comment(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value, t.Int(f.max_length), t.Bool(f.split_screen)));
                             break;
 
                         case Constants.FieldTypes.Date:
-                            lstDataItem.Add(new Date(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Date(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 DateTime.Parse(f.min_value), DateTime.Parse(f.max_value), f.default_value));
                             break;
 
                         case Constants.FieldTypes.None:
-                            lstDataItem.Add(new None(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
+                            lstDataItem.Add(new None(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
                             break;
 
                         case Constants.FieldTypes.Number:
-                            lstDataItem.Add(new Number(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Number(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.min_value, f.max_value, int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
                             break;
 
                         case Constants.FieldTypes.NumberStepper:
-                            lstDataItem.Add(new NumberStepper(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new NumberStepper(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.min_value, f.max_value, int.Parse(f.default_value), t.Int(f.decimal_count), f.unit_name));
                             break;
 
                         case Constants.FieldTypes.MultiSelect:
-                            lstDataItem.Add(new MultiSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new MultiSelect(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 PairRead(f.key_value_pair_list)));
                             break;
 
                         case Constants.FieldTypes.Picture:
-                            lstDataItem.Add(new Picture(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Picture(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.multi), t.Bool(f.geolocation_enabled)));
                             break;
 
                         case Constants.FieldTypes.SaveButton:
-                            lstDataItem.Add(new SaveButton(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new SaveButton(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value));
                             break;
 
                         case Constants.FieldTypes.ShowPdf:
-                            lstDataItem.Add(new ShowPdf(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new ShowPdf(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value));
                             break;
 
                         case Constants.FieldTypes.Signature:
-                            lstDataItem.Add(new Signature(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
+                            lstDataItem.Add(new Signature(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy)));
                             break;
 
                         case Constants.FieldTypes.SingleSelect:
-                            lstDataItem.Add(new SingleSelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new SingleSelect(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 PairRead(f.key_value_pair_list)));
                             break;
 
                         case Constants.FieldTypes.Text:
-                            lstDataItem.Add(new Text(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Text(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 f.default_value, t.Int(f.max_length), t.Bool(f.geolocation_enabled), t.Bool(f.geolocation_forced), t.Bool(f.geolocation_hidden), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
                         case Constants.FieldTypes.Timer:
-                            lstDataItem.Add(new Timer(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new Timer(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Bool(f.stop_on_save)));
                             break;
 
                         case Constants.FieldTypes.EntitySearch:
-                            lstDataItem.Add(new EntitySearch(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new EntitySearch(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id), t.Bool(f.is_num), f.query_type, t.Int(f.min_value), t.Bool(f.barcode_enabled), f.barcode_type));
                             break;
 
                         case Constants.FieldTypes.EntitySelect:
-                            lstDataItem.Add(new EntitySelect(t.Int(f.id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
+                            lstDataItem.Add(new EntitySelect(t.Int(f.Id), t.Bool(f.mandatory), t.Bool(f.read_only), f.label, f.description, f.color, t.Int(f.display_index), t.Bool(f.dummy),
                                 t.Int(f.default_value), t.Int(f.entity_group_id)));
                             break;
 
@@ -5116,13 +5116,13 @@ namespace eFormSqlController
                             List<DataItem> lst = new List<DataItem>();
                             //CDataValue description = new CDataValue();
                             //description.InderValue = f.description;
-                            lstDataItemGroup.Add(new FieldGroup(f.id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
-                            //lstDataItemGroup.Add(new DataItemGroup(f.id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
+                            lstDataItemGroup.Add(new FieldGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
+                            //lstDataItemGroup.Add(new DataItemGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                             //the actual DataItems
-                            List<fields> lstFields = db.fields.Where(x => x.parent_field_id == f.id).ToList();
+                            List<fields> lstFields = db.fields.Where(x => x.parent_field_id == f.Id).ToList();
                             foreach (var field in lstFields)
-                                GetDataItem(lst, null, field.id); //null, due to FieldGroup, CANT have fieldGroups under them
+                                GetDataItem(lst, null, field.Id); //null, due to FieldGroup, CANT have fieldGroups under them
                             break;
 
                         default:
@@ -5148,7 +5148,7 @@ namespace eFormSqlController
 
                     foreach (var fieldType in lstFieldType)
                     {
-                        converter.Add(new Holder(fieldType.id, fieldType.field_type));
+                        converter.Add(new Holder(fieldType.Id, fieldType.field_type));
                     }
                 }
             }
@@ -5175,7 +5175,7 @@ namespace eFormSqlController
 
                     foreach (tags tag in matches)
                     {
-                        Tag t = new Tag(tag.id, tag.name, tag.taggings_count);
+                        Tag t = new Tag(tag.Id, tag.name, tag.taggings_count);
                         tags.Add(t);
                     }
                 }
@@ -5205,7 +5205,7 @@ namespace eFormSqlController
 
                         db.tag_versions.Add(MapTagVersions(tag));
                         db.SaveChanges();
-                        return tag.id;
+                        return tag.Id;
                     } else
                     {
                         tag.workflow_state = Constants.WorkflowStates.Created;
@@ -5214,7 +5214,7 @@ namespace eFormSqlController
 
                         db.tag_versions.Add(MapTagVersions(tag));
                         db.SaveChanges();
-                        return tag.id;
+                        return tag.Id;
                     }                    
                 }
                 //return ;
@@ -5231,7 +5231,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    tags tag = db.tags.SingleOrDefault(x => x.id == tagId);
+                    tags tag = db.tags.SingleOrDefault(x => x.Id == tagId);
                     if (tag != null)                    
                     {
                         tag.workflow_state = Constants.WorkflowStates.Removed;
@@ -5367,7 +5367,7 @@ namespace eFormSqlController
             caseVer.field_value_9 = aCase.field_value_9;
             caseVer.field_value_10 = aCase.field_value_10;
 
-            caseVer.case_id = aCase.id; //<<--
+            caseVer.case_id = aCase.Id; //<<--
 
             return caseVer;
         }
@@ -5406,7 +5406,7 @@ namespace eFormSqlController
             clv.field_9 = checkList.field_9;
             clv.field_10 = checkList.field_10;
 
-            clv.check_list_id = checkList.id; //<<--
+            clv.check_list_id = checkList.Id; //<<--
 
             return clv;
         }
@@ -5424,7 +5424,7 @@ namespace eFormSqlController
             clvv.workflow_state = checkListValue.workflow_state;
             clvv.check_list_duplicate_id = checkListValue.check_list_duplicate_id;
 
-            clvv.check_list_value_id = checkListValue.id; //<<--
+            clvv.check_list_value_id = checkListValue.Id; //<<--
 
             return clvv;
         }
@@ -5466,7 +5466,7 @@ namespace eFormSqlController
             fv.barcode_enabled = field.barcode_enabled;
             fv.barcode_type = field.barcode_type;
 
-            fv.field_id = field.id; //<<--
+            fv.field_id = field.Id; //<<--
 
             return fv;
         }
@@ -5494,7 +5494,7 @@ namespace eFormSqlController
             fvv.check_list_duplicate_id = fieldValue.check_list_duplicate_id;
             fvv.done_at = fieldValue.done_at;
 
-            fvv.field_value_id = fieldValue.id; //<<--
+            fvv.field_value_id = fieldValue.Id; //<<--
 
             return fvv;
         }
@@ -5517,7 +5517,7 @@ namespace eFormSqlController
             udv.file_location = uploadedData.file_location;
             udv.file_name = uploadedData.file_name;
 
-            udv.data_uploaded_id = uploadedData.id; //<<--
+            udv.data_uploaded_id = uploadedData.Id; //<<--
 
             return udv;
         }
@@ -5534,7 +5534,7 @@ namespace eFormSqlController
             checkListSiteVer.version = checkListSite.version;
             checkListSiteVer.workflow_state = checkListSite.workflow_state;
 
-            checkListSiteVer.check_list_site_id = checkListSite.id; //<<--
+            checkListSiteVer.check_list_site_id = checkListSite.Id; //<<--
 
             return checkListSiteVer;
         }
@@ -5543,7 +5543,7 @@ namespace eFormSqlController
         {
             entity_group_versions entityGroupVer = new entity_group_versions();
             entityGroupVer.created_at = entityGroup.created_at;
-            entityGroupVer.entity_group_id = entityGroup.id;
+            entityGroupVer.entity_group_id = entityGroup.Id;
             entityGroupVer.microting_uid = entityGroup.microting_uid;
             entityGroupVer.name = entityGroup.name;
             entityGroupVer.type = entityGroup.type;
@@ -5551,7 +5551,7 @@ namespace eFormSqlController
             entityGroupVer.version = entityGroup.version;
             entityGroupVer.workflow_state = entityGroup.workflow_state;
 
-            entityGroupVer.entity_group_id = entityGroup.id; //<<--
+            entityGroupVer.entity_group_id = entityGroup.Id; //<<--
 
             return entityGroupVer;
         }
@@ -5571,7 +5571,7 @@ namespace eFormSqlController
             entityItemVer.synced = entityItem.synced;
             entityItemVer.display_index = entityItem.display_index;
 
-            entityItemVer.entity_items_id = entityItem.id; //<<--
+            entityItemVer.entity_items_id = entityItem.Id; //<<--
 
             return entityItemVer;
         }
@@ -5587,7 +5587,7 @@ namespace eFormSqlController
             siteWorkerVer.site_id = site_workers.site_id;
             siteWorkerVer.worker_id = site_workers.worker_id;
 
-            siteWorkerVer.site_worker_id = site_workers.id; //<<--
+            siteWorkerVer.site_worker_id = site_workers.Id; //<<--
 
             return siteWorkerVer;
         }
@@ -5602,7 +5602,7 @@ namespace eFormSqlController
             siteVer.microting_uid = site.microting_uid;
             siteVer.name = site.name;
 
-            siteVer.site_id = site.id; //<<--
+            siteVer.site_id = site.Id; //<<--
 
             return siteVer;
         }
@@ -5619,7 +5619,7 @@ namespace eFormSqlController
             unitVer.customer_no = units.customer_no;
             unitVer.otp_code = units.otp_code;
 
-            unitVer.unit_id = units.id; //<<--
+            unitVer.unit_id = units.Id; //<<--
 
             return unitVer;
         }
@@ -5635,7 +5635,7 @@ namespace eFormSqlController
             workerVer.first_name = workers.first_name;
             workerVer.last_name = workers.last_name;
 
-            workerVer.worker_id = workers.id; //<<--
+            workerVer.worker_id = workers.Id; //<<--
 
             return workerVer;
         }
@@ -5656,7 +5656,7 @@ namespace eFormSqlController
         #endregion
         #endregion       
 
-        private void FieldTypeAdd(int id, string fieldType, string description)
+        private void FieldTypeAdd(int Id, string fieldType, string description)
         {
             using (var db = GetContext())
             {

@@ -57,11 +57,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            question_sets questionSet = dbContext.question_sets.FirstOrDefault(x => x.id == id);
+            question_sets questionSet = dbContext.question_sets.FirstOrDefault(x => x.Id == Id);
 
             if (questionSet == null)
             {
-                throw new NullReferenceException($"Could not find question set with ID: {id}");
+                throw new NullReferenceException($"Could not find question set with Id: {Id}");
             }
 
             questionSet.name = name;
@@ -82,11 +82,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            question_sets questionSet = dbContext.question_sets.FirstOrDefault(x => x.id == id);
+            question_sets questionSet = dbContext.question_sets.FirstOrDefault(x => x.Id == Id);
 
             if (questionSet == null)
             {
-                throw new NullReferenceException($"Could not find question set with ID: {id}");
+                throw new NullReferenceException($"Could not find question set with Id: {Id}");
             }
 
             questionSet.workflow_state = Constants.WorkflowStates.Removed;
@@ -106,7 +106,7 @@ namespace eFormSqlController
         {
             question_set_versions questionSetVersions = new question_set_versions();
 
-            questionSetVersions.questionSetId = questionSet.id;
+            questionSetVersions.questionSetId = questionSet.Id;
             questionSetVersions.name = questionSet.name;
             questionSetVersions.share = questionSet.share;
             questionSetVersions.hasChild = questionSet.hasChild;

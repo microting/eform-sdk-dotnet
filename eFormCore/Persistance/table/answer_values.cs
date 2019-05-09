@@ -63,11 +63,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            answer_values answerValue = dbContext.answer_values.FirstOrDefault(x => x.id == id);
+            answer_values answerValue = dbContext.answer_values.FirstOrDefault(x => x.Id == Id);
 
             if (answerValue == null)
             {
-                throw new NullReferenceException($"Could not find answer value with id: {id}");
+                throw new NullReferenceException($"Could not find answer value with Id: {Id}");
             }
 
             answerValue.value = value;
@@ -87,11 +87,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            answer_values answerValue = dbContext.answer_values.FirstOrDefault(x => x.id == id);
+            answer_values answerValue = dbContext.answer_values.FirstOrDefault(x => x.Id == Id);
 
             if (answerValue == null)
             {
-                throw new NullReferenceException($"Could not find answer value with id: {id}");
+                throw new NullReferenceException($"Could not find answer value with Id: {Id}");
             }
 
             answerValue.workflow_state = Constants.WorkflowStates.Removed;
@@ -113,7 +113,7 @@ namespace eFormSqlController
             answerValueVersion.value = answerValue.value;
             answerValueVersion.optionsId = answerValue.optionsId;
             answerValueVersion.answerId = answerValue.answerId;
-            answerValueVersion.answerValueId = answerValue.id;
+            answerValueVersion.answerValueId = answerValue.Id;
             
 
             return answerValueVersion;

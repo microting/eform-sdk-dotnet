@@ -61,7 +61,7 @@ namespace eFormSDK.Integration.Tests
         
 
             // Act
-            int matches = sut.CaseCreate(cl1.id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
+            int matches = sut.CaseCreate(cl1.Id, (int)site1.microting_uid, microtingUId, microtingCheckId, "", "", c1_ca);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -86,7 +86,7 @@ namespace eFormSDK.Integration.Tests
             string lastCheckUid1 = Guid.NewGuid().ToString();
 
             
-            //check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1.id, site1.id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
+            //check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1.Id, site1.Id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1,cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
 
             //cases case1 = CreateCase
@@ -123,8 +123,8 @@ namespace eFormSDK.Integration.Tests
             aCase.microting_uid = "microting_uid";
             aCase.microting_check_uid = "microting_check_uid";
             aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
+            aCase.check_list_id = cl.Id;
+            aCase.site_id = site.Id;
             aCase.status = 66;
 
             DbContext.cases.Add(aCase);
@@ -177,7 +177,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.id, aCase1.id);
+            //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.Id, aCase1.Id);
             List<cases> caseResults = DbContext.cases.AsNoTracking().Where(x => x.microting_uid == aCase1.microting_uid).ToList();
             Assert.NotNull(caseResults);
             Assert.AreEqual(1, caseResults.Count());
@@ -221,8 +221,8 @@ namespace eFormSDK.Integration.Tests
             aCase.microting_uid = "microting_uid";
             aCase.microting_check_uid = "microting_check_uid";
             aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
+            aCase.check_list_id = cl.Id;
+            aCase.site_id = site.Id;
 
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
@@ -263,8 +263,8 @@ namespace eFormSDK.Integration.Tests
             aCase.microting_uid = "microting_uid";
             aCase.microting_check_uid = "microting_check_uid";
             aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
+            aCase.check_list_id = cl.Id;
+            aCase.site_id = site.Id;
 
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
@@ -303,14 +303,14 @@ namespace eFormSDK.Integration.Tests
             aCase.microting_uid = "microting_uid";
             aCase.microting_check_uid = "microting_check_uid";
             aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.check_list_id = cl.id;
-            aCase.site_id = site.id;
+            aCase.check_list_id = cl.Id;
+            aCase.site_id = site.Id;
 
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDeleteResult(aCase.id);
+            sut.CaseDeleteResult(aCase.Id);
             //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
@@ -424,7 +424,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             var match = sut.CaseReadFirstId(aCase.check_list_id, Constants.WorkflowStates.NotRemoved);
             // Assert
-            Assert.AreEqual(aCase.id, match);
+            Assert.AreEqual(aCase.Id, match);
         }
 
         [Test]
@@ -833,52 +833,52 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.id, null, "tomt1", 61234, worker1);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61234, worker1);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.id, null, "tomt2", 61234, worker1);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61234, worker1);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.id, null, "tomt3", 61234, worker1);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61234, worker1);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.id, null, "tomt4", 61234, worker1);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61234, worker1);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.id, null, "tomt5", 61234, worker1);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker1);
 
             #endregion
 
             #region fv6
-            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.id, null, "tomt6", 61234, worker1);
+            field_values field_Value6 = testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61234, worker1);
 
             #endregion
 
             #region fv7
-            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.id, null, "tomt7", 61234, worker1);
+            field_values field_Value7 = testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61234, worker1);
 
             #endregion
 
             #region fv8
-            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.id, null, "tomt8", 61234, worker1);
+            field_values field_Value8 = testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61234, worker1);
 
             #endregion
 
             #region fv9
-            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.id, null, "tomt9", 61234, worker1);
+            field_values field_Value9 = testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61234, worker1);
 
             #endregion
 
             #region fv10
-            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.id, null, "tomt10", 61234, worker1);
+            field_values field_Value10 = testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61234, worker1);
 
             #endregion
 
@@ -890,16 +890,16 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(theCase);
             check_lists theCheckList = DbContext.check_lists.First();
 
-            theCheckList.field_1 = f1.id;
-            theCheckList.field_2 = f2.id;
-            theCheckList.field_3 = f3.id;
-            theCheckList.field_4 = f4.id;
-            theCheckList.field_5 = f5.id;
-            theCheckList.field_6 = f6.id;
-            theCheckList.field_7 = f7.id;
-            theCheckList.field_8 = f8.id;
-            theCheckList.field_9 = f9.id;
-            theCheckList.field_10 = f10.id;
+            theCheckList.field_1 = f1.Id;
+            theCheckList.field_2 = f2.Id;
+            theCheckList.field_3 = f3.Id;
+            theCheckList.field_4 = f4.Id;
+            theCheckList.field_5 = f5.Id;
+            theCheckList.field_6 = f6.Id;
+            theCheckList.field_7 = f7.Id;
+            theCheckList.field_8 = f8.Id;
+            theCheckList.field_9 = f9.Id;
+            theCheckList.field_10 = f10.Id;
 
             Assert.AreEqual(null, theCase.field_value_1);
             Assert.AreEqual(null, theCase.field_value_2);
@@ -912,7 +912,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(null, theCase.field_value_9);
             Assert.AreEqual(null, theCase.field_value_10);
 
-            var testThis = sut.CaseUpdateFieldValues(aCase1.id);
+            var testThis = sut.CaseUpdateFieldValues(aCase1.Id);
 
             // Assert
             cases theCaseAfter = DbContext.cases.AsNoTracking().First();
@@ -1078,27 +1078,27 @@ namespace eFormSDK.Integration.Tests
 
             #region Field Values
             #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.id, null, "tomt1", 61234, worker);
+            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
 
             #endregion
 
             #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.id, null, "tomt2", 61234, worker);
+            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
 
             #endregion
 
             #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.id, null, "tomt3", 61234, worker);
+            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
 
             #endregion
 
             #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.id, null, "tomt4", 61234, worker);
+            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
 
             #endregion
 
             #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.id, null, "tomt5", 61234, worker);
+            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
             #endregion
 
@@ -1220,11 +1220,11 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByCaseId(aCase.id);
+            var match = sut.CaseReadByCaseId(aCase.Id);
 
             // Assert
 
-            Assert.AreEqual(aCase.id, match.CaseId);
+            Assert.AreEqual(aCase.Id, match.CaseId);
         }
 
         [Test]

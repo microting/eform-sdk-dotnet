@@ -36,7 +36,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        public DateTime? created_at { get; set; }
 //
@@ -82,11 +82,11 @@ namespace eFormSqlController
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            workers worker = dbContext.workers.FirstOrDefault(x => x.id == id);
+            workers worker = dbContext.workers.FirstOrDefault(x => x.Id == Id);
 
             if (worker == null)
             {
-                throw new NullReferenceException($"Could not find Worker with ID: {id}");
+                throw new NullReferenceException($"Could not find Worker with Id: {Id}");
             }
 
             worker.microting_uid = microting_uid;
@@ -106,11 +106,11 @@ namespace eFormSqlController
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            workers worker = dbContext.workers.FirstOrDefault(x => x.id == id);
+            workers worker = dbContext.workers.FirstOrDefault(x => x.Id == Id);
 
             if (worker == null)
             {
-                throw new NullReferenceException($"Could not find Worker with ID: {id}");
+                throw new NullReferenceException($"Could not find Worker with Id: {Id}");
             }
 
             worker.workflow_state = Constants.WorkflowStates.Removed;
@@ -137,7 +137,7 @@ namespace eFormSqlController
             workerVer.first_name = workers.first_name;
             workerVer.last_name = workers.last_name;
 
-            workerVer.worker_id = workers.id; //<<--
+            workerVer.worker_id = workers.Id; //<<--
 
             return workerVer;
         }

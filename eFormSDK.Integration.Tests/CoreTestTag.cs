@@ -76,7 +76,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.TagDelete(tag.id);
+            sut.TagDelete(tag.Id);
 
             // Assert
             var result = DbContext.tags.AsNoTracking().ToList();
@@ -181,16 +181,16 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             List<int> tags = new List<int>();
-            tags.Add(tag.id);
-            sut.TemplateSetTags(cl1.id, tags);
+            tags.Add(tag.Id);
+            sut.TemplateSetTags(cl1.Id, tags);
 
 
             // Assert
             List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
 
             Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(tag.id, result[0].tag_id);
-            Assert.AreEqual(cl1.id, result[0].check_list_id);
+            Assert.AreEqual(tag.Id, result[0].tag_id);
+            Assert.AreEqual(cl1.Id, result[0].check_list_id);
             Assert.True(true);
         }
 
@@ -251,18 +251,18 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             List<int> tags = new List<int>();
-            tags.Add(tag1.id);
-            tags.Add(tag3.id);
-            sut.TemplateSetTags(cl1.id, tags);
-            sut.TemplateSetTags(cl1.id, tags);
+            tags.Add(tag1.Id);
+            tags.Add(tag3.Id);
+            sut.TemplateSetTags(cl1.Id, tags);
+            sut.TemplateSetTags(cl1.Id, tags);
 
             //// Assert
             List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
 
             Assert.AreEqual(2, result.Count());
-            Assert.AreEqual(tag1.id, result[0].tag_id);
-            Assert.AreEqual(tag3.id, result[1].tag_id);
-            Assert.AreEqual(cl1.id, result[0].check_list_id);
+            Assert.AreEqual(tag1.Id, result[0].tag_id);
+            Assert.AreEqual(tag3.Id, result[1].tag_id);
+            Assert.AreEqual(cl1.Id, result[0].check_list_id);
             // Assert.True(true);
 
         }

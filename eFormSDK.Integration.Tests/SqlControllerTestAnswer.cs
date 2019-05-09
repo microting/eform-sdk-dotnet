@@ -66,13 +66,13 @@ namespace eFormSDK.Integration.Tests
 
             
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             // Act
@@ -125,13 +125,13 @@ namespace eFormSDK.Integration.Tests
 
             
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = false;
             // Act
@@ -210,25 +210,25 @@ namespace eFormSDK.Integration.Tests
 
             
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = false;
             answer.Create(DbContext);
             // Act
 
-            answer.siteId = site2.id;
-            answer.questionSetId = questionSet2.id;
-            answer.surveyConfigurationId = surveyConfiguration2.id;
-            answer.unitId = unit2.id;
+            answer.siteId = site2.Id;
+            answer.questionSetId = questionSet2.Id;
+            answer.surveyConfigurationId = surveyConfiguration2.Id;
+            answer.unitId = unit2.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             
@@ -307,25 +307,25 @@ namespace eFormSDK.Integration.Tests
 
             
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             answer.Create(DbContext);
             // Act
 
-            answer.siteId = site2.id;
-            answer.questionSetId = questionSet2.id;
-            answer.surveyConfigurationId = surveyConfiguration2.id;
-            answer.unitId = unit2.id;
+            answer.siteId = site2.Id;
+            answer.questionSetId = questionSet2.Id;
+            answer.surveyConfigurationId = surveyConfiguration2.Id;
+            answer.unitId = unit2.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = false;
             
@@ -377,13 +377,13 @@ namespace eFormSDK.Integration.Tests
 
             
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = true;
             answer.Create(DbContext);
@@ -439,13 +439,13 @@ namespace eFormSDK.Integration.Tests
 
             
             answers answer = new answers();
-            answer.siteId = site1.id;
-            answer.questionSetId = questionSet.id;
-            answer.surveyConfigurationId = surveyConfiguration.id;
-            answer.unitId = unit1.id;
+            answer.siteId = site1.Id;
+            answer.questionSetId = questionSet.Id;
+            answer.surveyConfigurationId = surveyConfiguration.Id;
+            answer.unitId = unit1.Id;
             answer.timeZone = Guid.NewGuid().ToString();
             answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.id;
+            answer.languageId = language.Id;
             answer.answerDuration = rnd.Next(1, 255);
             answer.UTCAdjusted = false;
             answer.Create(DbContext);

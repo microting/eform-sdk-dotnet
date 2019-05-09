@@ -8,7 +8,7 @@ namespace eFormSqlController
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public int Id { get; set; }
                 
         public int? version { get; set; }
 

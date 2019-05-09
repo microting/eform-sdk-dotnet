@@ -35,7 +35,7 @@ namespace eFormSqlController
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
+//        public int Id { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -71,11 +71,11 @@ namespace eFormSqlController
         
         public void Update(MicrotingDbAnySql dbContext)
         {
-            entity_groups entityGroups = dbContext.entity_groups.FirstOrDefault(x => x.id == id);
+            entity_groups entityGroups = dbContext.entity_groups.FirstOrDefault(x => x.Id == Id);
 
             if (entityGroups == null)
             {
-                throw new NullReferenceException($"Could not find Entity Group with ID: {id}");
+                throw new NullReferenceException($"Could not find Entity Group with Id: {Id}");
             }
 
             entityGroups.microting_uid = microting_uid;
@@ -95,11 +95,11 @@ namespace eFormSqlController
         public void Delete(MicrotingDbAnySql dbContext)
         {
             
-            entity_groups entityGroups = dbContext.entity_groups.FirstOrDefault(x => x.id == id);
+            entity_groups entityGroups = dbContext.entity_groups.FirstOrDefault(x => x.Id == Id);
 
             if (entityGroups == null)
             {
-                throw new NullReferenceException($"Could not find Entity Group with ID: {id}");
+                throw new NullReferenceException($"Could not find Entity Group with Id: {Id}");
             }
 
             entityGroups.workflow_state = Constants.WorkflowStates.Removed;
@@ -121,7 +121,7 @@ namespace eFormSqlController
         {
             entity_group_versions entityGroupVer = new entity_group_versions();
             entityGroupVer.created_at = entityGroup.created_at;
-            entityGroupVer.entity_group_id = entityGroup.id;
+            entityGroupVer.entity_group_id = entityGroup.Id;
             entityGroupVer.microting_uid = entityGroup.microting_uid;
             entityGroupVer.name = entityGroup.name;
             entityGroupVer.type = entityGroup.type;
@@ -129,7 +129,7 @@ namespace eFormSqlController
             entityGroupVer.version = entityGroup.version;
             entityGroupVer.workflow_state = entityGroup.workflow_state;
 
-            entityGroupVer.entity_group_id = entityGroup.id; //<<--
+            entityGroupVer.entity_group_id = entityGroup.Id; //<<--
 
             return entityGroupVer;
         }

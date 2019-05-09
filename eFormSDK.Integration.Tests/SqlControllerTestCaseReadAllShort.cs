@@ -357,9 +357,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            sut.TemplateDelete(cl1.id);
+            sut.TemplateDelete(cl1.Id);
 
-            Template_Dto clResult = sut.TemplateItemRead(cl1.id);
+            Template_Dto clResult = sut.TemplateItemRead(cl1.Id);
 
             // Assert
 
@@ -400,7 +400,7 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.NotNull(templateId);
             Assert.IsNull(cl1.parent_id);
-            Assert.AreEqual(cl1.id, templateId);
+            Assert.AreEqual(cl1.Id, templateId);
             Assert.AreEqual(cl1.label, "label1");
             Assert.AreEqual(cl1.folder_name, "folderWithList");
             Assert.AreEqual(cl1.case_type, "type1");
@@ -591,10 +591,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.TemplateItemRead(Template1.id);
-            var match2 = sut.TemplateItemRead(Template2.id);
-            var match3 = sut.TemplateItemRead(Template3.id);
-            var match4 = sut.TemplateItemRead(Template4.id);
+            var match1 = sut.TemplateItemRead(Template1.Id);
+            var match2 = sut.TemplateItemRead(Template2.Id);
+            var match3 = sut.TemplateItemRead(Template3.Id);
+            var match4 = sut.TemplateItemRead(Template4.Id);
 
 
             // Assert
@@ -604,7 +604,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match1.Label, "Label1");
             Assert.AreEqual(match1.CreatedAt.ToString(), Template1.created_at.ToString());
             Assert.AreEqual(match1.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match1.Id, Template1.id);
+            Assert.AreEqual(match1.Id, Template1.Id);
             Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.updated_at.ToString());
             #endregion
 
@@ -614,7 +614,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match2.Label, "Label2");
             Assert.AreEqual(match2.CreatedAt.ToString(), Template2.created_at.ToString());
             Assert.AreEqual(match2.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match2.Id, Template2.id);
+            Assert.AreEqual(match2.Id, Template2.Id);
             Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.updated_at.ToString());
             #endregion
 
@@ -624,7 +624,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match3.Label, "Label3");
             Assert.AreEqual(match3.CreatedAt.ToString(), Template3.created_at.ToString());
             Assert.AreEqual(match3.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match3.Id, Template3.id);
+            Assert.AreEqual(match3.Id, Template3.Id);
             Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.updated_at.ToString());
             #endregion
 
@@ -634,7 +634,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match4.Label, "Label4");
             Assert.AreEqual(match4.CreatedAt.ToString(), Template4.created_at.ToString());
             Assert.AreEqual(match4.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match4.Id, Template4.id);
+            Assert.AreEqual(match4.Id, Template4.Id);
             Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.updated_at.ToString());
             #endregion
 
@@ -809,10 +809,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.TemplateFieldReadAll(Template1.id);
-            var match2 = sut.TemplateFieldReadAll(Template2.id);
-            var match3 = sut.TemplateFieldReadAll(Template3.id);
-            var match4 = sut.TemplateFieldReadAll(Template4.id);
+            var match1 = sut.TemplateFieldReadAll(Template1.Id);
+            var match2 = sut.TemplateFieldReadAll(Template2.Id);
+            var match3 = sut.TemplateFieldReadAll(Template3.Id);
+            var match4 = sut.TemplateFieldReadAll(Template4.Id);
 
             // Assert
             #region template1
@@ -820,12 +820,12 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match1[0].Description, Field1.description);
             Assert.AreEqual(match1[0].FieldType, "Picture");
             Assert.AreEqual(match1[0].Label, Field1.label);
-            Assert.AreEqual(match1[0].Id, Field1.id);
+            Assert.AreEqual(match1[0].Id, Field1.Id);
 
             Assert.AreEqual(match1[1].Description, Field2.description);
             Assert.AreEqual(match1[1].FieldType, "Comment");
             Assert.AreEqual(match1[1].Label, Field2.label);
-            Assert.AreEqual(match1[1].Id, Field2.id);
+            Assert.AreEqual(match1[1].Id, Field2.Id);
             #endregion
 
             #region template2
@@ -833,17 +833,17 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match2[0].Description, Field3.description);
             Assert.AreEqual(match2[0].FieldType, "Picture");
             Assert.AreEqual(match2[0].Label, Field3.label);
-            Assert.AreEqual(match2[0].Id, Field3.id);
+            Assert.AreEqual(match2[0].Id, Field3.Id);
 
             Assert.AreEqual(match2[1].Description, Field4.description);
             Assert.AreEqual(match2[1].FieldType, "Picture");
             Assert.AreEqual(match2[1].Label, Field4.label);
-            Assert.AreEqual(match2[1].Id, Field4.id);
+            Assert.AreEqual(match2[1].Id, Field4.Id);
 
             Assert.AreEqual(match2[2].Description, Field5.description);
             Assert.AreEqual(match2[2].FieldType, "Comment");
             Assert.AreEqual(match2[2].Label, Field5.label);
-            Assert.AreEqual(match2[2].Id, Field5.id);
+            Assert.AreEqual(match2[2].Id, Field5.Id);
             #endregion
 
             #region template3
@@ -851,12 +851,12 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match3[0].Description, Field6.description);
             Assert.AreEqual(match3[0].FieldType, "Comment");
             Assert.AreEqual(match3[0].Label, Field6.label);
-            Assert.AreEqual(match3[0].Id, Field6.id);
+            Assert.AreEqual(match3[0].Id, Field6.Id);
 
             Assert.AreEqual(match3[1].Description, Field7.description);
             Assert.AreEqual(match3[1].FieldType, "Comment");
             Assert.AreEqual(match3[1].Label, Field7.label);
-            Assert.AreEqual(match3[1].Id, Field7.id);
+            Assert.AreEqual(match3[1].Id, Field7.Id);
             #endregion
 
             #region template4
@@ -864,17 +864,17 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match4[0].Description, Field8.description);
             Assert.AreEqual(match4[0].FieldType, "Comment");
             Assert.AreEqual(match4[0].Label, Field8.label);
-            Assert.AreEqual(match4[0].Id, Field8.id);
+            Assert.AreEqual(match4[0].Id, Field8.Id);
 
             Assert.AreEqual(match4[1].Description, Field9.description);
             Assert.AreEqual(match4[1].FieldType, "Comment");
             Assert.AreEqual(match4[1].Label, Field9.label);
-            Assert.AreEqual(match4[1].Id, Field9.id);
+            Assert.AreEqual(match4[1].Id, Field9.Id);
 
             Assert.AreEqual(match4[2].Description, Field10.description);
             Assert.AreEqual(match4[2].FieldType, "Comment");
             Assert.AreEqual(match4[2].Label, Field10.label);
-            Assert.AreEqual(match4[2].Id, Field10.id);
+            Assert.AreEqual(match4[2].Id, Field10.Id);
             #endregion
 
         }
@@ -919,10 +919,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match1 = sut.TemplateDisplayIndexChange(Template1.id, 5);
-            var match2 = sut.TemplateDisplayIndexChange(Template2.id, 1);
-            var match3 = sut.TemplateDisplayIndexChange(Template3.id, 2);
-            var match4 = sut.TemplateDisplayIndexChange(Template4.id, 3);
+            var match1 = sut.TemplateDisplayIndexChange(Template1.Id, 5);
+            var match2 = sut.TemplateDisplayIndexChange(Template2.Id, 1);
+            var match3 = sut.TemplateDisplayIndexChange(Template3.Id, 2);
+            var match4 = sut.TemplateDisplayIndexChange(Template4.Id, 3);
             // Assert
             Assert.NotNull(match1);
             Assert.NotNull(match2);
@@ -1130,17 +1130,17 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
             List<int> taglist = new List<int>();
-            taglist.Add(tag1.id);
-            taglist.Add(tag2.id);
-            taglist.Add(tag3.id);
-            taglist.Add(tag4.id);
-            taglist.Add(tag5.id);
-            taglist.Add(tag6.id);
+            taglist.Add(tag1.Id);
+            taglist.Add(tag2.Id);
+            taglist.Add(tag3.Id);
+            taglist.Add(tag4.Id);
+            taglist.Add(tag5.Id);
+            taglist.Add(tag6.Id);
 
-            var match1 = sut.TemplateSetTags(Template1.id, taglist);
-            var match2 = sut.TemplateSetTags(Template2.id, taglist);
-            var match3 = sut.TemplateSetTags(Template3.id, taglist);
-            var match4 = sut.TemplateSetTags(Template4.id, taglist);
+            var match1 = sut.TemplateSetTags(Template1.Id, taglist);
+            var match2 = sut.TemplateSetTags(Template2.Id, taglist);
+            var match3 = sut.TemplateSetTags(Template3.Id, taglist);
+            var match4 = sut.TemplateSetTags(Template4.Id, taglist);
 
             // Assert
 
@@ -1322,10 +1322,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.TemplateUpdateFieldIdsForColumns(Template1.id, Field1.id, Field2.id, Field3.id, Field4.id, Field5.id, Field6.id, Field7.id, Field8.id, Field9.id, Field10.id);
-            var match2 = sut.TemplateUpdateFieldIdsForColumns(Template2.id, Field1.id, Field2.id, Field3.id, Field4.id, Field5.id, Field6.id, Field7.id, Field8.id, Field9.id, Field10.id);
-            var match3 = sut.TemplateUpdateFieldIdsForColumns(Template3.id, Field1.id, Field2.id, Field3.id, Field4.id, Field5.id, Field6.id, Field7.id, Field8.id, Field9.id, Field10.id);
-            var match4 = sut.TemplateUpdateFieldIdsForColumns(Template4.id, Field1.id, Field2.id, Field3.id, Field4.id, Field5.id, Field6.id, Field7.id, Field8.id, Field9.id, Field10.id);
+            var match1 = sut.TemplateUpdateFieldIdsForColumns(Template1.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match2 = sut.TemplateUpdateFieldIdsForColumns(Template2.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match3 = sut.TemplateUpdateFieldIdsForColumns(Template3.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match4 = sut.TemplateUpdateFieldIdsForColumns(Template4.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
 
             // Assert
             Assert.NotNull(match1);

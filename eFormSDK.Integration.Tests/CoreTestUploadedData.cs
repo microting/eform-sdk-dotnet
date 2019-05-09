@@ -76,11 +76,11 @@ namespace eFormSDK.Integration.Tests
             DbContext.uploaded_data.Add(dU);
             DbContext.SaveChanges();
 
-            UploadedData ud = sut.Advanced_UploadedDataRead(dU.id);
+            UploadedData ud = sut.Advanced_UploadedDataRead(dU.Id);
 
             // Assert
             Assert.NotNull(ud);
-            Assert.AreEqual(ud.Id, dU.id);
+            Assert.AreEqual(ud.Id, dU.Id);
             Assert.AreEqual(ud.Extension, dU.extension);
             Assert.AreEqual(ud.UploaderId, dU.uploader_id);
             Assert.AreEqual(ud.UploaderType, dU.uploader_type);
