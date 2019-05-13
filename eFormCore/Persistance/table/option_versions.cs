@@ -28,20 +28,20 @@ namespace eFormSqlController
 {
     public partial class option_versions : BaseEntity
     {
-        public int nextQuestionId { get; set; }
+        public int NextQuestionId { get; set; }
         
-        public int weight { get; set; }
+        public int Weight { get; set; }
         
-        public int weightValue { get; set; }
+        public int WeightValue { get; set; }
         
-        public int continuousOptionId { get; set; }
+        public int ContinuousOptionId { get; set; }
         
-        public int questionId { get; set; }
+        public int QuestionId { get; set; }
         
-        public int optionsIndex { get; set; }
+        public int OptionsIndex { get; set; }
         
         [ForeignKey("option")]
-        public int optionId { get; set; }
+        public int OptionId { get; set; }
         
         public virtual options Option { get; set; }
     }

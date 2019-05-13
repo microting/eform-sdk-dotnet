@@ -42,76 +42,76 @@ namespace eFormSqlController
 //
 //        public int? version { get; set; }
 
-        public int? status { get; set; }
+        public int? Status { get; set; }
 
 //        public DateTime? created_at { get; set; }
 //
 //        public DateTime? updated_at { get; set; }
 
 
-        public DateTime? done_at { get; set; }
+        public DateTime? DoneAt { get; set; }
 
         [ForeignKey("site")]
-        public int? site_id { get; set; }
+        public int? SiteId { get; set; }
 
         [ForeignKey("unit")]
-        public int? unit_id { get; set; }
+        public int? UnitId { get; set; }
 
         [ForeignKey("worker")]
-        public int? done_by_user_id { get; set; }
+        public int? DoneByUserId { get; set; }
 
         [ForeignKey("check_list")]
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
         [StringLength(255)]
-        public string type { get; set; }
+        public string Type { get; set; }
 
         [StringLength(255)]
-        public string microting_uid { get; set; }
+        public string MicrotingUid { get; set; }
 
         [StringLength(255)]
-        public string microting_check_uid { get; set; }
+        public string MicrotingCheckUid { get; set; }
 
         [StringLength(255)]
-        public string case_uid { get; set; }
+        public string CaseUid { get; set; }
 
-        public string custom { get; set; }
+        public string Custom { get; set; }
 
-        public string field_value_1 { get; set; }
+        public string FieldValue1 { get; set; }
 
-        public string field_value_2 { get; set; }
+        public string FieldValue2 { get; set; }
 
-        public string field_value_3 { get; set; }
+        public string FieldValue3 { get; set; }
 
-        public string field_value_4 { get; set; }
+        public string FieldValue4 { get; set; }
 
-        public string field_value_5 { get; set; }
+        public string FieldValue5 { get; set; }
 
-        public string field_value_6 { get; set; }
+        public string FieldValue6 { get; set; }
 
-        public string field_value_7 { get; set; }
+        public string FieldValue7 { get; set; }
 
-        public string field_value_8 { get; set; }
+        public string FieldValue8 { get; set; }
 
-        public string field_value_9 { get; set; }
+        public string FieldValue9 { get; set; }
 
-        public string field_value_10 { get; set; }
+        public string FieldValue10 { get; set; }
 
-        public virtual check_lists check_list { get; set; }
+        public virtual check_lists CheckList { get; set; }
 
-        public virtual sites site { get; set; }
+        public virtual sites Site { get; set; }
 
-        public virtual units unit { get; set; }
+        public virtual units Unit { get; set; }
 
-        public virtual workers worker { get; set; }
+        public virtual workers Worker { get; set; }
         
             
         public void Create(MicrotingDbAnySql dbContext) 
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.cases.Add(this);
             dbContext.SaveChanges();
@@ -129,32 +129,32 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find case with Id: {Id}");
             }
 
-            cases.custom = custom;
-            cases.status = status;
-            cases.done_at = done_at;
-            cases.site_id = site_id;
-            cases.unit_id = unit_id;
-            cases.case_uid = case_uid;
-            cases.check_list = check_list;
-            cases.check_list_id = check_list_id;
-            cases.field_value_1 = field_value_1;
-            cases.field_value_2 = field_value_2;
-            cases.field_value_3 = field_value_3;
-            cases.field_value_4 = field_value_4;
-            cases.field_value_5 = field_value_5;
-            cases.field_value_6 = field_value_6;
-            cases.field_value_7 = field_value_7;
-            cases.field_value_8 = field_value_8;
-            cases.field_value_9 = field_value_9;
-            cases.field_value_10 = field_value_10;
-            cases.microting_uid = microting_uid;
-            cases.done_by_user_id = done_by_user_id;
-            cases.microting_check_uid = microting_check_uid;
+            cases.Custom = Custom;
+            cases.Status = Status;
+            cases.DoneAt = DoneAt;
+            cases.SiteId = SiteId;
+            cases.UnitId = UnitId;
+            cases.CaseUid = CaseUid;
+            cases.CheckList = CheckList;
+            cases.CheckListId = CheckListId;
+            cases.FieldValue1 = FieldValue1;
+            cases.FieldValue2 = FieldValue2;
+            cases.FieldValue3 = FieldValue3;
+            cases.FieldValue4 = FieldValue4;
+            cases.FieldValue5 = FieldValue5;
+            cases.FieldValue6 = FieldValue6;
+            cases.FieldValue7 = FieldValue7;
+            cases.FieldValue8 = FieldValue8;
+            cases.FieldValue9 = FieldValue9;
+            cases.FieldValue10 = FieldValue10;
+            cases.MicrotingUid = MicrotingUid;
+            cases.DoneByUserId = DoneByUserId;
+            cases.MicrotingCheckUid = MicrotingCheckUid;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                cases.version += 1;
-                cases.updated_at = DateTime.Now;
+                cases.Version += 1;
+                cases.UpdatedAt = DateTime.Now;
 
                 dbContext.case_versions.Add(MapCaseVersions(cases));
                 dbContext.SaveChanges();
@@ -170,12 +170,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find case with Id: {Id}");
             }
 
-            cases.workflow_state = Constants.WorkflowStates.Removed;
+            cases.WorkflowState = Constants.WorkflowStates.Removed;
            
             if (dbContext.ChangeTracker.HasChanges())
             {
-                cases.version += 1;
-                cases.updated_at = DateTime.Now;
+                cases.Version += 1;
+                cases.UpdatedAt = DateTime.Now;
 
                 dbContext.case_versions.Add(MapCaseVersions(cases));
                 dbContext.SaveChanges();
@@ -190,32 +190,32 @@ namespace eFormSqlController
         private case_versions MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
-            caseVer.status = aCase.status;
-            caseVer.done_at = aCase.done_at;
-            caseVer.updated_at = aCase.updated_at;
-            caseVer.done_by_user_id = aCase.done_by_user_id;
-            caseVer.workflow_state = aCase.workflow_state;
-            caseVer.version = aCase.version;
-            caseVer.microting_check_uid = aCase.microting_check_uid;
-            caseVer.unit_id = aCase.unit_id;
+            caseVer.Status = aCase.Status;
+            caseVer.DoneAt = aCase.DoneAt;
+            caseVer.UpdatedAt = aCase.UpdatedAt;
+            caseVer.DoneByUserId = aCase.DoneByUserId;
+            caseVer.WorkflowState = aCase.WorkflowState;
+            caseVer.Version = aCase.Version;
+            caseVer.MicrotingCheckUid = aCase.MicrotingCheckUid;
+            caseVer.UnitId = aCase.UnitId;
 
-            caseVer.type = aCase.type;
-            caseVer.created_at = aCase.created_at;
-            caseVer.check_list_id = aCase.check_list_id;
-            caseVer.microting_uid = aCase.microting_uid;
-            caseVer.site_id = aCase.site_id;
-            caseVer.field_value_1 = aCase.field_value_1;
-            caseVer.field_value_2 = aCase.field_value_2;
-            caseVer.field_value_3 = aCase.field_value_3;
-            caseVer.field_value_4 = aCase.field_value_4;
-            caseVer.field_value_5 = aCase.field_value_5;
-            caseVer.field_value_6 = aCase.field_value_6;
-            caseVer.field_value_7 = aCase.field_value_7;
-            caseVer.field_value_8 = aCase.field_value_8;
-            caseVer.field_value_9 = aCase.field_value_9;
-            caseVer.field_value_10 = aCase.field_value_10;
+            caseVer.Type = aCase.Type;
+            caseVer.CreatedAt = aCase.CreatedAt;
+            caseVer.CheckListId = aCase.CheckListId;
+            caseVer.MicrotingUid = aCase.MicrotingUid;
+            caseVer.SiteId = aCase.SiteId;
+            caseVer.FieldValue1 = aCase.FieldValue1;
+            caseVer.FieldValue2 = aCase.FieldValue2;
+            caseVer.FieldValue3 = aCase.FieldValue3;
+            caseVer.FieldValue4 = aCase.FieldValue4;
+            caseVer.FieldValue5 = aCase.FieldValue5;
+            caseVer.FieldValue6 = aCase.FieldValue6;
+            caseVer.FieldValue7 = aCase.FieldValue7;
+            caseVer.FieldValue8 = aCase.FieldValue8;
+            caseVer.FieldValue9 = aCase.FieldValue9;
+            caseVer.FieldValue10 = aCase.FieldValue10;
 
-            caseVer.case_id = aCase.Id; //<<--
+            caseVer.CaseId = aCase.Id; //<<--
 
             return caseVer;
         }

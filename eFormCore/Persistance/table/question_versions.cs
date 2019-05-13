@@ -28,40 +28,40 @@ namespace eFormSqlController
 {
     public partial class question_versions : BaseEntity
     {
-        public int questionSetId { get; set; }
+        public int QuestionSetId { get; set; }
         
-        public string questionType { get; set; }
+        public string QuestionType { get; set; }
         
-        public int minimum { get; set; }
+        public int Minimum { get; set; }
         
-        public int maximum { get; set; }
+        public int Maximum { get; set; }
         
-        public string type { get; set; }
+        public string Type { get; set; }
         
-        public int refId { get; set; }
+        public int RefId { get; set; }
         
-        public int questionIndex { get; set; }
+        public int QuestionIndex { get; set; }
         
-        public bool image { get; set; }
+        public bool Image { get; set; }
         
-        public int continuousQuestionId { get; set; }
+        public int ContinuousQuestionId { get; set; }
         
-        public string imagePostion { get; set; }
+        public string ImagePosition { get; set; }
         
-        public bool prioritised { get; set; }
+        public bool Prioritised { get; set; }
         
-        public bool backButtonEnabled { get; set; }
+        public bool BackButtonEnabled { get; set; }
         
-        public string fontSize { get; set; }
+        public string FontSize { get; set; }
         
-        public int minDuration { get; set; }
+        public int MinDuration { get; set; }
         
-        public int maxDuration { get; set; }
+        public int MaxDuration { get; set; }
         
-        public bool validDisplay { get; set; }
+        public bool ValidDisplay { get; set; }
         
         [ForeignKey("question")]
-        public int questionId { get; set; }
+        public int QuestionId { get; set; }
         
         public virtual questions Question { get; set; }
         

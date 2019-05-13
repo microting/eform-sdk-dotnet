@@ -42,7 +42,7 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int microting_uid { get; set; }
+        public int MicrotingUid { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -50,28 +50,28 @@ namespace eFormSqlController
 //        public int? version { get; set; }
 
         [StringLength(255)]
-        public string first_name { get; set; }
+        public string FirstName { get; set; }
 
         [StringLength(255)]
-        public string last_name { get; set; }
+        public string LastName { get; set; }
 
         [StringLength(255)]
-        public string email { get; set; }
+        public string Email { get; set; }
 
-        public virtual ICollection<site_workers> site_workers { get; set; }
+        public virtual ICollection<site_workers> SiteWorkers { get; set; }
 
         public string full_name()
         {
-            return this.first_name + " " + this.last_name;
+            return this.FirstName + " " + this.LastName;
         }
         
         
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.workers.Add(this);
             dbContext.SaveChanges();
@@ -89,15 +89,15 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Worker with Id: {Id}");
             }
 
-            worker.microting_uid = microting_uid;
-            worker.first_name = first_name;
-            worker.last_name = last_name;
-            worker.email = email;
+            worker.MicrotingUid = MicrotingUid;
+            worker.FirstName = FirstName;
+            worker.LastName = LastName;
+            worker.Email = Email;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                worker.version += 1;
-                worker.updated_at = DateTime.Now;
+                worker.Version += 1;
+                worker.UpdatedAt = DateTime.Now;
 
                 dbContext.worker_versions.Add(MapWorkerVersions(worker));
                 dbContext.SaveChanges();
@@ -113,12 +113,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Worker with Id: {Id}");
             }
 
-            worker.workflow_state = Constants.WorkflowStates.Removed;
+            worker.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                worker.version += 1;
-                worker.updated_at = DateTime.Now;
+                worker.Version += 1;
+                worker.UpdatedAt = DateTime.Now;
 
                 dbContext.worker_versions.Add(MapWorkerVersions(worker));
                 dbContext.SaveChanges();
@@ -129,15 +129,15 @@ namespace eFormSqlController
         private worker_versions MapWorkerVersions(workers workers)
         {
             worker_versions workerVer = new worker_versions();
-            workerVer.workflow_state = workers.workflow_state;
-            workerVer.version = workers.version;
-            workerVer.created_at = workers.created_at;
-            workerVer.updated_at = workers.updated_at;
-            workerVer.microting_uid = workers.microting_uid;
-            workerVer.first_name = workers.first_name;
-            workerVer.last_name = workers.last_name;
+            workerVer.WorkflowState = workers.WorkflowState;
+            workerVer.Version = workers.Version;
+            workerVer.CreatedAt = workers.CreatedAt;
+            workerVer.UpdatedAt = workers.UpdatedAt;
+            workerVer.MicrotingUid = workers.MicrotingUid;
+            workerVer.FirstName = workers.FirstName;
+            workerVer.LastName = workers.LastName;
 
-            workerVer.worker_id = workers.Id; //<<--
+            workerVer.WorkerId = workers.Id; //<<--
 
             return workerVer;
         }

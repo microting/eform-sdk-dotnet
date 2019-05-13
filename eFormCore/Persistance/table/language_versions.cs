@@ -28,12 +28,12 @@ namespace eFormSqlController
 {
     public partial class language_versions : BaseEntity
     {
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public string description { get; set; }
+        public string Description { get; set; }
         
         [ForeignKey("language")]
-        public int languageId { get; set; }
+        public int LanguageId { get; set; }
         
         public virtual languages Language { get; set; }
     }

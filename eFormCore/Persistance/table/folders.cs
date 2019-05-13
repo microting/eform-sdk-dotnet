@@ -36,34 +36,34 @@ namespace eFormSqlController
     {
         public folders()
         {            
-            this.children = new HashSet<folders>();
+            this.Children = new HashSet<folders>();
             
         }
         
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public int? microting_uid { get; set; }
+        public int? MicrotingUid { get; set; }
         
-        public int? parent_id { get; set; }
+        public int? ParentId { get; set; }
 
-        public virtual folders parent { get; set; }
+        public virtual folders Parent { get; set; }
 
-        public virtual ICollection<folders> children { get; set; }
+        public virtual ICollection<folders> Children { get; set; }
 
         public void Save(MicrotingDbAnySql _dbContext)
         {
             folders folder = new folders
             {
-                name = name,
-                description = description,
-                parent_id = parent_id,
-                created_at = DateTime.Now,
-                updated_at = DateTime.Now,
-                microting_uid = microting_uid,
-                version = 1,
-                workflow_state = Constants.WorkflowStates.Created
+                Name = Name,
+                Description = Description,
+                ParentId = ParentId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                MicrotingUid = MicrotingUid,
+                Version = 1,
+                WorkflowState = Constants.WorkflowStates.Created
             };
 
             _dbContext.folders.Add(folder);
@@ -84,14 +84,14 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find area with Id: {Id}");
             }
 
-            folder.name = name;
-            folder.description = description;
-            folder.parent_id = parent_id;
+            folder.Name = Name;
+            folder.Description = Description;
+            folder.ParentId = ParentId;
 
             if (_dbContext.ChangeTracker.HasChanges())
             {
-                folder.updated_at = DateTime.Now;
-                folder.version += 1;
+                folder.UpdatedAt = DateTime.Now;
+                folder.Version += 1;
 
                 _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
                 _dbContext.SaveChanges();
@@ -107,12 +107,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find area with Id: {Id}");
             }
             
-            folder.workflow_state = Constants.WorkflowStates.Removed;
+            folder.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (_dbContext.ChangeTracker.HasChanges())
             {
-                folder.updated_at = DateTime.Now;
-                folder.version += 1;
+                folder.UpdatedAt = DateTime.Now;
+                folder.Version += 1;
 
                 _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
                 _dbContext.SaveChanges();
@@ -123,15 +123,15 @@ namespace eFormSqlController
         {
             folder_versions folderVersions = new folder_versions
             {
-                name = folder.name,
-                description = folder.description,
-                parent_id = folder.parent_id,
-                folder_id = folder.Id,
-                created_at = folder.created_at,
-                updated_at = folder.updated_at,
-                workflow_state = folder.workflow_state,
-                microting_uid = folder.microting_uid,
-                version = folder.version
+                Name = folder.Name,
+                Description = folder.Description,
+                ParentId = folder.ParentId,
+                FolderId = folder.Id,
+                CreatedAt = folder.CreatedAt,
+                UpdatedAt = folder.UpdatedAt,
+                WorkflowState = folder.WorkflowState,
+                MicrotingUid = folder.MicrotingUid,
+                Version = folder.Version
             };
 
             return folderVersions;

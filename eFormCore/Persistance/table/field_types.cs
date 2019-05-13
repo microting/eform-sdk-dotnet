@@ -34,9 +34,9 @@ namespace eFormSqlController
         public int Id { get; set; }
 
         [StringLength(255)]
-        public string field_type { get; set; }
+        public string FieldType { get; set; }
 
         [StringLength(255)]
-        public string description { get; set; }
+        public string Description { get; set; }
     }
 }

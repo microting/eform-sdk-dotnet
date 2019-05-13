@@ -43,11 +43,11 @@ namespace eFormSDK.Integration.Tests
             
             survey_configurations surveyConfigurations = new survey_configurations();
 
-            surveyConfigurations.name = Guid.NewGuid().ToString();
-            surveyConfigurations.stop = DateTime.Now;
-            surveyConfigurations.start = DateTime.Now;
-            surveyConfigurations.timeOut = rnd.Next(1, 255);
-            surveyConfigurations.timeToLive = rnd.Next(1, 255);
+            surveyConfigurations.Name = Guid.NewGuid().ToString();
+            surveyConfigurations.Stop = DateTime.Now;
+            surveyConfigurations.Start = DateTime.Now;
+            surveyConfigurations.TimeOut = rnd.Next(1, 255);
+            surveyConfigurations.TimeToLive = rnd.Next(1, 255);
             
             // Act
             surveyConfigurations.Create(DbContext);
@@ -59,11 +59,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSurveyConfigurations);
             Assert.NotNull(dbSurveyConfigurationVersions);
             
-            Assert.AreEqual(surveyConfigurations.name, dbSurveyConfigurations.name);
-            Assert.AreEqual(surveyConfigurations.stop.ToString(), dbSurveyConfigurations.stop.ToString());
-            Assert.AreEqual(surveyConfigurations.start.ToString(), dbSurveyConfigurations.start.ToString());
-            Assert.AreEqual(surveyConfigurations.timeOut, dbSurveyConfigurations.timeOut);
-            Assert.AreEqual(surveyConfigurations.timeToLive, dbSurveyConfigurations.timeToLive);
+            Assert.AreEqual(surveyConfigurations.Name, dbSurveyConfigurations.Name);
+            Assert.AreEqual(surveyConfigurations.Stop.ToString(), dbSurveyConfigurations.Stop.ToString());
+            Assert.AreEqual(surveyConfigurations.Start.ToString(), dbSurveyConfigurations.Start.ToString());
+            Assert.AreEqual(surveyConfigurations.TimeOut, dbSurveyConfigurations.TimeOut);
+            Assert.AreEqual(surveyConfigurations.TimeToLive, dbSurveyConfigurations.TimeToLive);
 
         }     
         [Test]
@@ -75,17 +75,17 @@ namespace eFormSDK.Integration.Tests
             survey_configurations surveyConfiguration = new survey_configurations();
 
             string oldName = Guid.NewGuid().ToString();
-            surveyConfiguration.name = oldName;
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = oldName;
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
 
             surveyConfiguration.Create(DbContext);
             // Act
             
             string newName = Guid.NewGuid().ToString();
-            surveyConfiguration.name = newName;
+            surveyConfiguration.Name = newName;
             surveyConfiguration.Update(DbContext);
 
             survey_configurations dbSurveyConfigurations = DbContext.survey_configurations.AsNoTracking().First();
@@ -95,12 +95,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSurveyConfigurations);
             Assert.NotNull(dbSurveyConfigurationVersions);
             
-            Assert.AreNotEqual(oldName, dbSurveyConfigurations.name);
-            Assert.AreEqual(newName, dbSurveyConfigurations.name);
-            Assert.AreEqual(surveyConfiguration.stop.ToString(), dbSurveyConfigurations.stop.ToString());
-            Assert.AreEqual(surveyConfiguration.start.ToString(), dbSurveyConfigurations.start.ToString());
-            Assert.AreEqual(surveyConfiguration.timeOut, dbSurveyConfigurations.timeOut);
-            Assert.AreEqual(surveyConfiguration.timeToLive, dbSurveyConfigurations.timeToLive);
+            Assert.AreNotEqual(oldName, dbSurveyConfigurations.Name);
+            Assert.AreEqual(newName, dbSurveyConfigurations.Name);
+            Assert.AreEqual(surveyConfiguration.Stop.ToString(), dbSurveyConfigurations.Stop.ToString());
+            Assert.AreEqual(surveyConfiguration.Start.ToString(), dbSurveyConfigurations.Start.ToString());
+            Assert.AreEqual(surveyConfiguration.TimeOut, dbSurveyConfigurations.TimeOut);
+            Assert.AreEqual(surveyConfiguration.TimeToLive, dbSurveyConfigurations.TimeToLive);
 
         }
         [Test]
@@ -112,11 +112,11 @@ namespace eFormSDK.Integration.Tests
             survey_configurations surveyConfiguration = new survey_configurations();
 
             string oldName = Guid.NewGuid().ToString();
-            surveyConfiguration.name = oldName;
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = oldName;
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
 
             surveyConfiguration.Create(DbContext);
             // Act
@@ -130,12 +130,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSurveyConfigurations);
             Assert.NotNull(dbSurveyConfigurationVersions);
             
-            Assert.AreEqual(oldName, dbSurveyConfigurations.name);
-            Assert.AreEqual(surveyConfiguration.stop.ToString(), dbSurveyConfigurations.stop.ToString());
-            Assert.AreEqual(surveyConfiguration.start.ToString(), dbSurveyConfigurations.start.ToString());
-            Assert.AreEqual(surveyConfiguration.timeOut, dbSurveyConfigurations.timeOut);
-            Assert.AreEqual(surveyConfiguration.timeToLive, dbSurveyConfigurations.timeToLive);
-            Assert.AreEqual(surveyConfiguration.workflow_state, eFormShared.Constants.WorkflowStates.Removed);
+            Assert.AreEqual(oldName, dbSurveyConfigurations.Name);
+            Assert.AreEqual(surveyConfiguration.Stop.ToString(), dbSurveyConfigurations.Stop.ToString());
+            Assert.AreEqual(surveyConfiguration.Start.ToString(), dbSurveyConfigurations.Start.ToString());
+            Assert.AreEqual(surveyConfiguration.TimeOut, dbSurveyConfigurations.TimeOut);
+            Assert.AreEqual(surveyConfiguration.TimeToLive, dbSurveyConfigurations.TimeToLive);
+            Assert.AreEqual(surveyConfiguration.WorkflowState, eFormShared.Constants.WorkflowStates.Removed);
 
         }   
     }

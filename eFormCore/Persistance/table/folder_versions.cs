@@ -26,14 +26,14 @@ namespace eFormSqlController
 {
     public class folder_versions : BaseEntity
     {        
-        public int? folder_id { get; set; }              
+        public int? FolderId { get; set; }              
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public int? microting_uid { get; set; }
+        public int? MicrotingUid { get; set; }
         
-        public int? parent_id { get; set; }
+        public int? ParentId { get; set; }
     }
 }

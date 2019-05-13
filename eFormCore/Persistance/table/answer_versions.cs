@@ -29,25 +29,25 @@ namespace eFormSqlController
 {
     public partial class answer_versions : BaseEntity
     {
-        public int unitId { get; set; }
+        public int UnitId { get; set; }
         
-        public int siteId { get; set; }
+        public int SiteId { get; set; }
         
-        public int answerDuration { get; set; }
+        public int AnswerDuration { get; set; }
         
         public int languageId { get; set; }
         
-        public int surveyConfigurationId { get; set; }
+        public int SurveyConfigurationId { get; set; }
         
-        public int finishedAt { get; set; }
+        public int FinishedAt { get; set; }
         
-        public int questionSetId { get; set; }
+        public int QuestionSetId { get; set; }
         
-        public bool UTCAdjusted { get; set; }
+        public bool UtcAdjusted { get; set; }
         
-        public string timeZone { get; set; }
+        public string TimeZone { get; set; }
         
         [ForeignKey("answer")]
-        public int answerId { get; set; }
+        public int AnswerId { get; set; }
     }
 }

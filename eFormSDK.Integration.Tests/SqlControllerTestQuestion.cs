@@ -22,10 +22,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -34,22 +34,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -60,22 +60,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
         
         [Test]
@@ -84,10 +84,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -96,22 +96,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -122,22 +122,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                 
         #region QuestionSet True
@@ -148,10 +148,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -160,22 +160,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -186,22 +186,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -210,10 +210,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -222,22 +222,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -248,22 +248,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -272,10 +272,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -284,22 +284,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -310,22 +310,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -334,10 +334,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -346,22 +346,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -372,22 +372,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
         [Test]
         public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedValidDisplayTrue()
@@ -395,10 +395,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -407,22 +407,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -433,22 +433,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
         [Test]
         public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedBackButtonEnabledTrue()
@@ -456,10 +456,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -468,22 +468,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -494,22 +494,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
         [Test]
         public void question_Create_DoesCreate_QuestionSetTrue_PrioritisedImageTrue()
@@ -517,10 +517,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -529,22 +529,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -555,22 +555,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -579,10 +579,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -591,22 +591,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -617,22 +617,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -641,10 +641,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -653,22 +653,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -679,22 +679,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -703,10 +703,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -715,22 +715,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -741,22 +741,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                        
         [Test]
@@ -765,10 +765,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -777,22 +777,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -803,22 +803,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -827,10 +827,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -839,22 +839,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -865,22 +865,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                
         [Test]
@@ -889,10 +889,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -901,22 +901,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -927,22 +927,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                        
         [Test]
@@ -951,10 +951,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -963,22 +963,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -989,22 +989,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
             
         #endregion
@@ -1016,10 +1016,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1028,22 +1028,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1054,22 +1054,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
              
         [Test]
@@ -1078,10 +1078,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1090,22 +1090,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1116,22 +1116,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
              
         [Test]
@@ -1140,10 +1140,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1152,22 +1152,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1178,22 +1178,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
              
         [Test]
@@ -1202,10 +1202,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1214,22 +1214,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -1240,22 +1240,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedValidDisplayTrue()
@@ -1263,10 +1263,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1275,22 +1275,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1301,22 +1301,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedBackButtonEnabledTrue()
@@ -1324,10 +1324,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1336,22 +1336,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1362,22 +1362,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedImageTrue()
@@ -1385,10 +1385,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1397,22 +1397,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -1423,22 +1423,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_ValidDisplayBackButtonEnabledTrue()
@@ -1446,10 +1446,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1458,22 +1458,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1484,22 +1484,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                         [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_ValidDisplayImageTrue()
@@ -1507,10 +1507,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1519,22 +1519,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -1545,22 +1545,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_BackButtonEnabledImageTrue()
@@ -1568,10 +1568,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1580,22 +1580,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -1606,22 +1606,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                         [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedValidDisplayBackButtonEnabledTrue()
@@ -1629,10 +1629,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1641,22 +1641,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = false;
 
             // Act
             question.Create(DbContext);
@@ -1667,22 +1667,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_PrioritisedValidDisplayImageTrue()
@@ -1690,10 +1690,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1702,22 +1702,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -1728,22 +1728,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
                                 [Test]
         public void question_Create_DoesCreate_QuestionSetFalse_ValidDisplayBackButtonEnabledImageTrue()
@@ -1751,10 +1751,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1763,22 +1763,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = true;
 
             // Act
             question.Create(DbContext);
@@ -1789,22 +1789,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
         #endregion
         #endregion
@@ -1817,10 +1817,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1829,22 +1829,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -1853,22 +1853,22 @@ namespace eFormSDK.Integration.Tests
             string newImagePosition = Guid.NewGuid().ToString();
             string newFontSize = Guid.NewGuid().ToString();
 
-            question.type = newType;
-            question.questionType = newQuestionType;
-            question.imagePostion = newImagePosition;
-            question.fontSize = newFontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = newType;
+            question.QuestionType = newQuestionType;
+            question.ImagePosition = newImagePosition;
+            question.FontSize = newFontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = true;
             
             question.Update(DbContext);
             
@@ -1878,22 +1878,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
         
         [Test]
@@ -1902,10 +1902,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -1914,22 +1914,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = true;
             question.Create(DbContext);
 
             // Act
@@ -1939,22 +1939,22 @@ namespace eFormSDK.Integration.Tests
             string newImagePosition = Guid.NewGuid().ToString();
             string newFontSize = Guid.NewGuid().ToString();
 
-            question.type = newType;
-            question.questionType = newQuestionType;
-            question.imagePostion = newImagePosition;
-            question.fontSize = newFontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = newType;
+            question.QuestionType = newQuestionType;
+            question.ImagePosition = newImagePosition;
+            question.FontSize = newFontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             
             question.Update(DbContext);
             
@@ -1964,22 +1964,22 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
         }
 
         #region QuestionSet_true
@@ -1990,10 +1990,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2002,22 +2002,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2026,22 +2026,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2051,22 +2051,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                 
                 [Test]
@@ -2075,10 +2075,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2087,22 +2087,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2111,22 +2111,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2136,22 +2136,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                 
                 [Test]
@@ -2160,10 +2160,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2172,22 +2172,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2196,22 +2196,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2221,22 +2221,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                 
                 [Test]
@@ -2245,10 +2245,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2257,22 +2257,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2281,22 +2281,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -2306,22 +2306,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedValidDisplayTrue()
@@ -2329,10 +2329,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2341,22 +2341,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2365,22 +2365,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2390,22 +2390,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedBackButtonEnabledTrue()
@@ -2413,10 +2413,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2425,22 +2425,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2449,22 +2449,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2474,22 +2474,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedImageTrue()
@@ -2497,10 +2497,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2509,22 +2509,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2533,22 +2533,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -2558,22 +2558,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_ValidDisplayBackButtonEnabledTrue()
@@ -2581,10 +2581,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2593,22 +2593,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2617,22 +2617,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2642,22 +2642,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                [Test]
                 public void question_Update_DoesUpdate_ValidDisplayImageTrue()
@@ -2665,10 +2665,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2677,22 +2677,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2701,22 +2701,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = false;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = false;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -2726,22 +2726,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_BackButtonEnabledImageTrue()
@@ -2749,10 +2749,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2761,22 +2761,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2785,22 +2785,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -2810,22 +2810,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedValidDisplayBacbButtonEnabledTrue()
@@ -2833,10 +2833,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2845,22 +2845,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2869,22 +2869,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -2894,22 +2894,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedBackButtonEnabledImageTrue()
@@ -2917,10 +2917,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -2929,22 +2929,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -2953,22 +2953,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -2978,22 +2978,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_ValidDisplayBackButtonEnabledImageTrue()
@@ -3001,10 +3001,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = true;
-                    questionSet.hasChild = true;
-                    questionSet.posiblyDeployed = true;
+                    questionSet.Name = name;
+                    questionSet.Share = true;
+                    questionSet.HasChild = true;
+                    questionSet.PosiblyDeployed = true;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -3013,22 +3013,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3037,22 +3037,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = true;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = true;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -3062,22 +3062,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
         #endregion
 
@@ -3089,10 +3089,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3102,22 +3102,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3126,22 +3126,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -3151,22 +3151,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                 
                 [Test]
@@ -3175,10 +3175,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3188,22 +3188,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3212,22 +3212,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -3237,22 +3237,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                 
                 [Test]
@@ -3261,10 +3261,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3274,22 +3274,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3298,22 +3298,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -3323,22 +3323,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                 
                 [Test]
@@ -3347,10 +3347,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3360,22 +3360,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3384,22 +3384,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -3409,22 +3409,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedValidDisplayTrue_QSFalse()
@@ -3432,10 +3432,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3445,22 +3445,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3469,22 +3469,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -3494,22 +3494,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedBackButtonEnabledTrue_QSFalse()
@@ -3517,10 +3517,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3530,22 +3530,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3554,22 +3554,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -3579,22 +3579,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedImageTrue_QSFalse()
@@ -3602,10 +3602,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3615,22 +3615,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3639,22 +3639,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -3664,22 +3664,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_ValidDisplayBackButtonEnabledTrue_QSFalse()
@@ -3687,10 +3687,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3700,22 +3700,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3724,22 +3724,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -3749,22 +3749,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                [Test]
                 public void question_Update_DoesUpdate_ValidDisplayImageTrue_QSFalse()
@@ -3772,10 +3772,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3785,22 +3785,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3809,22 +3809,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = false;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = false;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -3834,22 +3834,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_BackButtonEnabledImageTrue_QSFalse()
@@ -3857,10 +3857,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3870,22 +3870,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3894,22 +3894,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -3919,22 +3919,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedValidDisplayBacbButtonEnabledTrue_QSFalse()
@@ -3942,10 +3942,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -3955,22 +3955,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -3979,22 +3979,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = true;
-                    question.image = false;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = true;
+                    question.Image = false;
                     
                     question.Update(DbContext);
                     
@@ -4004,22 +4004,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_PrioritisedBackButtonEnabledImageTrue_QSFalse()
@@ -4028,10 +4028,10 @@ namespace eFormSDK.Integration.Tests
 
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
 
         
@@ -4041,22 +4041,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -4065,22 +4065,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = true;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = true;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = true;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = true;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -4090,22 +4090,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
                                 [Test]
                 public void question_Update_DoesUpdate_ValidDisplayBackButtonEnabledImageTrue_QSFalse()
@@ -4113,10 +4113,10 @@ namespace eFormSDK.Integration.Tests
                     // Arrange
                     string name = Guid.NewGuid().ToString();
                     question_sets questionSet = new question_sets();
-                    questionSet.name = name;
-                    questionSet.share = false;
-                    questionSet.hasChild = false;
-                    questionSet.posiblyDeployed = false;
+                    questionSet.Name = name;
+                    questionSet.Share = false;
+                    questionSet.HasChild = false;
+                    questionSet.PosiblyDeployed = false;
                     questionSet.Create(DbContext);
         
                     Random rnd = new Random();
@@ -4125,22 +4125,22 @@ namespace eFormSDK.Integration.Tests
                     string imagePosition = Guid.NewGuid().ToString();
                     string fontSize = Guid.NewGuid().ToString();
                     questions question = new questions();
-                    question.type = type;
-                    question.questionType = questionType;
-                    question.imagePostion = imagePosition;
-                    question.fontSize = fontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = false;
-                    question.backButtonEnabled = false;
-                    question.image = false;
+                    question.Type = type;
+                    question.QuestionType = questionType;
+                    question.ImagePosition = imagePosition;
+                    question.FontSize = fontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = false;
+                    question.BackButtonEnabled = false;
+                    question.Image = false;
                     question.Create(DbContext);
         
                     // Act
@@ -4149,22 +4149,22 @@ namespace eFormSDK.Integration.Tests
                     string newImagePosition = Guid.NewGuid().ToString();
                     string newFontSize = Guid.NewGuid().ToString();
         
-                    question.type = newType;
-                    question.questionType = newQuestionType;
-                    question.imagePostion = newImagePosition;
-                    question.fontSize = newFontSize;
-                    question.questionSetId = questionSet.Id;
-                    question.maximum = rnd.Next(1, 255);
-                    question.minimum = rnd.Next(1, 255);
-                    question.refId = rnd.Next(1, 255);
-                    question.maxDuration = rnd.Next(1, 255);
-                    question.minDuration = rnd.Next(1, 255);
-                    question.questionIndex = rnd.Next(1, 255);
-                    question.continuousQuestionId = rnd.Next(1, 255);
-                    question.prioritised = false;
-                    question.validDisplay = true;
-                    question.backButtonEnabled = true;
-                    question.image = true;
+                    question.Type = newType;
+                    question.QuestionType = newQuestionType;
+                    question.ImagePosition = newImagePosition;
+                    question.FontSize = newFontSize;
+                    question.QuestionSetId = questionSet.Id;
+                    question.Maximum = rnd.Next(1, 255);
+                    question.Minimum = rnd.Next(1, 255);
+                    question.RefId = rnd.Next(1, 255);
+                    question.MaxDuration = rnd.Next(1, 255);
+                    question.MinDuration = rnd.Next(1, 255);
+                    question.QuestionIndex = rnd.Next(1, 255);
+                    question.ContinuousQuestionId = rnd.Next(1, 255);
+                    question.Prioritised = false;
+                    question.ValidDisplay = true;
+                    question.BackButtonEnabled = true;
+                    question.Image = true;
                     
                     question.Update(DbContext);
                     
@@ -4174,22 +4174,22 @@ namespace eFormSDK.Integration.Tests
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
                     
-                    Assert.AreEqual(dbQuestion.type , question.type);
-                    Assert.AreEqual(dbQuestion.image , question.image);
-                    Assert.AreEqual(dbQuestion.maximum , question.maximum);
-                    Assert.AreEqual(dbQuestion.minimum , question.minimum);
-                    Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-                    Assert.AreEqual(dbQuestion.refId , question.refId);
-                    Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-                    Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-                    Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-                    Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-                    Assert.AreEqual(dbQuestion.questionType , question.questionType);
-                    Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-                    Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-                    Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-                    Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-                    Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
+                    Assert.AreEqual(dbQuestion.Type , question.Type);
+                    Assert.AreEqual(dbQuestion.Image , question.Image);
+                    Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+                    Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+                    Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+                    Assert.AreEqual(dbQuestion.RefId , question.RefId);
+                    Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+                    Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+                    Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+                    Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+                    Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+                    Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+                    Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+                    Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+                    Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+                    Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
                 }
         #endregion
 
@@ -4203,10 +4203,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4215,22 +4215,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4243,23 +4243,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
         
         [Test]
@@ -4268,10 +4268,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4280,22 +4280,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = true;
-            question.backButtonEnabled = true;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = true;
+            question.Image = true;
             question.Create(DbContext);
 
             // Act
@@ -4308,23 +4308,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
         
                 #region QuestionSet True
@@ -4335,10 +4335,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4347,22 +4347,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4375,23 +4375,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
                
         [Test]
@@ -4400,10 +4400,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4412,22 +4412,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4440,23 +4440,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
                
         [Test]
@@ -4465,10 +4465,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4477,22 +4477,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4506,23 +4506,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
                
         [Test]
@@ -4531,10 +4531,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4543,22 +4543,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = true;
             question.Create(DbContext);
 
             // Act
@@ -4571,23 +4571,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
             
         #endregion
@@ -4599,10 +4599,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4611,22 +4611,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = true;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = true;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4639,23 +4639,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
              
         [Test]
@@ -4664,10 +4664,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4676,22 +4676,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = true;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = true;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4703,23 +4703,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
              
         [Test]
@@ -4728,10 +4728,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4740,22 +4740,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = true;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = true;
+            question.Image = false;
             question.Create(DbContext);
 
             // Act
@@ -4767,23 +4767,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
              
         [Test]
@@ -4792,10 +4792,10 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             Random rnd = new Random();
@@ -4804,22 +4804,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = true;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = true;
             question.Create(DbContext);
 
             // Act
@@ -4831,23 +4831,23 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
             
-            Assert.AreEqual(dbQuestion.type , question.type);
-            Assert.AreEqual(dbQuestion.image , question.image);
-            Assert.AreEqual(dbQuestion.maximum , question.maximum);
-            Assert.AreEqual(dbQuestion.minimum , question.minimum);
-            Assert.AreEqual(dbQuestion.prioritised , question.prioritised);
-            Assert.AreEqual(dbQuestion.refId , question.refId);
-            Assert.AreEqual(dbQuestion.fontSize , question.fontSize);
-            Assert.AreEqual(dbQuestion.maxDuration , question.maxDuration);
-            Assert.AreEqual(dbQuestion.minDuration , question.minDuration);
-            Assert.AreEqual(dbQuestion.imagePostion , question.imagePostion);
-            Assert.AreEqual(dbQuestion.questionType , question.questionType);
-            Assert.AreEqual(dbQuestion.validDisplay , question.validDisplay);
-            Assert.AreEqual(dbQuestion.questionIndex , question.questionIndex);
-            Assert.AreEqual(dbQuestion.questionSetId , question.questionSetId);
-            Assert.AreEqual(dbQuestion.backButtonEnabled , question.backButtonEnabled);
-            Assert.AreEqual(dbQuestion.continuousQuestionId , question.continuousQuestionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.workflow_state);
+            Assert.AreEqual(dbQuestion.Type , question.Type);
+            Assert.AreEqual(dbQuestion.Image , question.Image);
+            Assert.AreEqual(dbQuestion.Maximum , question.Maximum);
+            Assert.AreEqual(dbQuestion.Minimum , question.Minimum);
+            Assert.AreEqual(dbQuestion.Prioritised , question.Prioritised);
+            Assert.AreEqual(dbQuestion.RefId , question.RefId);
+            Assert.AreEqual(dbQuestion.FontSize , question.FontSize);
+            Assert.AreEqual(dbQuestion.MaxDuration , question.MaxDuration);
+            Assert.AreEqual(dbQuestion.MinDuration , question.MinDuration);
+            Assert.AreEqual(dbQuestion.ImagePosition , question.ImagePosition);
+            Assert.AreEqual(dbQuestion.QuestionType , question.QuestionType);
+            Assert.AreEqual(dbQuestion.ValidDisplay , question.ValidDisplay);
+            Assert.AreEqual(dbQuestion.QuestionIndex , question.QuestionIndex);
+            Assert.AreEqual(dbQuestion.QuestionSetId , question.QuestionSetId);
+            Assert.AreEqual(dbQuestion.BackButtonEnabled , question.BackButtonEnabled);
+            Assert.AreEqual(dbQuestion.ContinuousQuestionId , question.ContinuousQuestionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbQuestion.WorkflowState);
         }
         #endregion
 

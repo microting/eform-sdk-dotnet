@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -67,7 +67,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
             #endregion
@@ -75,7 +75,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, DbContext.field_types.Where(x => x.field_type == "number").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
             #endregion
@@ -84,7 +84,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
             #endregion
@@ -92,7 +92,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, DbContext.field_types.Where(x => x.field_type == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
        
             #endregion
@@ -165,7 +165,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            ReplyElement match = sut.CheckRead(aCase.microting_uid, aCase.microting_check_uid);
+            ReplyElement match = sut.CheckRead(aCase.MicrotingUid, aCase.MicrotingCheckUid);
 
             // Assert
             #region Assert
@@ -184,36 +184,36 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Barcode
-            Assert.AreEqual(f1.barcode_enabled, 1);
-            Assert.AreEqual(f2.barcode_enabled, 1);
-            Assert.AreEqual(f3.barcode_enabled, 0);
-            Assert.AreEqual(f4.barcode_enabled, 1);
-            Assert.AreEqual(f5.barcode_enabled, 0);
+            Assert.AreEqual(f1.BarcodeEnabled, 1);
+            Assert.AreEqual(f2.BarcodeEnabled, 1);
+            Assert.AreEqual(f3.BarcodeEnabled, 0);
+            Assert.AreEqual(f4.BarcodeEnabled, 1);
+            Assert.AreEqual(f5.BarcodeEnabled, 0);
 
-            Assert.AreEqual(f1.barcode_type, "barcode");
-            Assert.AreEqual(f2.barcode_type, "barcode");
-            Assert.AreEqual(f3.barcode_type, "barcode");
-            Assert.AreEqual(f4.barcode_type, "barcode");
-            Assert.AreEqual(f5.barcode_type, "barcode");
+            Assert.AreEqual(f1.BarcodeType, "barcode");
+            Assert.AreEqual(f2.BarcodeType, "barcode");
+            Assert.AreEqual(f3.BarcodeType, "barcode");
+            Assert.AreEqual(f4.BarcodeType, "barcode");
+            Assert.AreEqual(f5.BarcodeType, "barcode");
             #endregion
 
             #region chckl_id
 
-            Assert.AreEqual(f1.check_list_id, cl2.Id);
-            Assert.AreEqual(f2.check_list_id, cl2.Id);
-            Assert.AreEqual(f3.check_list_id, cl2.Id);
-            Assert.AreEqual(f4.check_list_id, cl2.Id);
-            Assert.AreEqual(f5.check_list_id, cl2.Id);
+            Assert.AreEqual(f1.CheckListId, cl2.Id);
+            Assert.AreEqual(f2.CheckListId, cl2.Id);
+            Assert.AreEqual(f3.CheckListId, cl2.Id);
+            Assert.AreEqual(f4.CheckListId, cl2.Id);
+            Assert.AreEqual(f5.CheckListId, cl2.Id);
 
 
             #endregion
 
             #region Color
-            Assert.AreEqual(f1.color, _f1.FieldValues[0].Color);
-            Assert.AreEqual(f2.color, _f2.FieldValues[0].Color);
-            Assert.AreEqual(f3.color, _f3.FieldValues[0].Color);
-            Assert.AreEqual(f4.color, _f4.FieldValues[0].Color);
-            Assert.AreEqual(f5.color, _f5.FieldValues[0].Color);
+            Assert.AreEqual(f1.Color, _f1.FieldValues[0].Color);
+            Assert.AreEqual(f2.Color, _f2.FieldValues[0].Color);
+            Assert.AreEqual(f3.Color, _f3.FieldValues[0].Color);
+            Assert.AreEqual(f4.Color, _f4.FieldValues[0].Color);
+            Assert.AreEqual(f5.Color, _f5.FieldValues[0].Color);
             #endregion
 
             #region custom
@@ -221,20 +221,20 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Decimal_Count
-            Assert.AreEqual(f1.decimal_count, null);
-            Assert.AreEqual(f2.decimal_count, null);
-            Assert.AreEqual(f3.decimal_count, 3);
-            Assert.AreEqual(f4.decimal_count, null);
-            Assert.AreEqual(f5.decimal_count, null);
+            Assert.AreEqual(f1.DecimalCount, null);
+            Assert.AreEqual(f2.DecimalCount, null);
+            Assert.AreEqual(f3.DecimalCount, 3);
+            Assert.AreEqual(f4.DecimalCount, null);
+            Assert.AreEqual(f5.DecimalCount, null);
 
             #endregion
 
             #region Default_value
-            Assert.AreEqual(f1.default_value, "");
-            Assert.AreEqual(f2.default_value, "");
-            Assert.AreEqual(f3.default_value, "");
-            Assert.AreEqual(f4.default_value, "");
-            Assert.AreEqual(f5.default_value, "");
+            Assert.AreEqual(f1.DefaultValue, "");
+            Assert.AreEqual(f2.DefaultValue, "");
+            Assert.AreEqual(f3.DefaultValue, "");
+            Assert.AreEqual(f4.DefaultValue, "");
+            Assert.AreEqual(f5.DefaultValue, "");
             #endregion
 
             #region Description
@@ -244,171 +244,171 @@ namespace eFormSDK.Integration.Tests
             CDataValue f4desc = (CDataValue)_f4.Description;
             CDataValue f5desc = (CDataValue)_f5.Description;
 
-            Assert.AreEqual(f1.description, f1desc.InderValue);
-            Assert.AreEqual(f2.description, f2desc.InderValue);
-            Assert.AreEqual(f3.description, f3desc.InderValue);
-            Assert.AreEqual(f4.description, f4desc.InderValue);
-            Assert.AreEqual(f5.description, f5desc.InderValue);
+            Assert.AreEqual(f1.Description, f1desc.InderValue);
+            Assert.AreEqual(f2.Description, f2desc.InderValue);
+            Assert.AreEqual(f3.Description, f3desc.InderValue);
+            Assert.AreEqual(f4.Description, f4desc.InderValue);
+            Assert.AreEqual(f5.Description, f5desc.InderValue);
             #endregion
 
             #region Displayindex
-            Assert.AreEqual(f1.display_index, _f1.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f2.display_index, _f2.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f3.display_index, _f3.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f4.display_index, _f4.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f5.display_index, _f5.FieldValues[0].DisplayOrder);
+            Assert.AreEqual(f1.DisplayIndex, _f1.FieldValues[0].DisplayOrder);
+            Assert.AreEqual(f2.DisplayIndex, _f2.FieldValues[0].DisplayOrder);
+            Assert.AreEqual(f3.DisplayIndex, _f3.FieldValues[0].DisplayOrder);
+            Assert.AreEqual(f4.DisplayIndex, _f4.FieldValues[0].DisplayOrder);
+            Assert.AreEqual(f5.DisplayIndex, _f5.FieldValues[0].DisplayOrder);
             #endregion
 
             #region Dummy
-            Assert.AreEqual(f1.dummy, 1);
-            Assert.AreEqual(f2.dummy, 1);
-            Assert.AreEqual(f3.dummy, 0);
-            Assert.AreEqual(f4.dummy, 0);
-            Assert.AreEqual(f5.dummy, 0);
+            Assert.AreEqual(f1.Dummy, 1);
+            Assert.AreEqual(f2.Dummy, 1);
+            Assert.AreEqual(f3.Dummy, 0);
+            Assert.AreEqual(f4.Dummy, 0);
+            Assert.AreEqual(f5.Dummy, 0);
             #endregion
 
             #region geolocation
             #region enabled
-            Assert.AreEqual(f1.geolocation_enabled, 0);
-            Assert.AreEqual(f2.geolocation_enabled, 0);
-            Assert.AreEqual(f3.geolocation_enabled, 0);
-            Assert.AreEqual(f4.geolocation_enabled, 0);
-            Assert.AreEqual(f5.geolocation_enabled, 1);
+            Assert.AreEqual(f1.GeolocationEnabled, 0);
+            Assert.AreEqual(f2.GeolocationEnabled, 0);
+            Assert.AreEqual(f3.GeolocationEnabled, 0);
+            Assert.AreEqual(f4.GeolocationEnabled, 0);
+            Assert.AreEqual(f5.GeolocationEnabled, 1);
             #endregion
             #region forced
-            Assert.AreEqual(f1.geolocation_forced, 0);
-            Assert.AreEqual(f2.geolocation_forced, 1);
-            Assert.AreEqual(f3.geolocation_forced, 0);
-            Assert.AreEqual(f4.geolocation_forced, 0);
-            Assert.AreEqual(f5.geolocation_forced, 0);
+            Assert.AreEqual(f1.GeolocationForced, 0);
+            Assert.AreEqual(f2.GeolocationForced, 1);
+            Assert.AreEqual(f3.GeolocationForced, 0);
+            Assert.AreEqual(f4.GeolocationForced, 0);
+            Assert.AreEqual(f5.GeolocationForced, 0);
             #endregion
             #region hidden
-            Assert.AreEqual(f1.geolocation_hidden, 1);
-            Assert.AreEqual(f2.geolocation_hidden, 0);
-            Assert.AreEqual(f3.geolocation_hidden, 1);
-            Assert.AreEqual(f4.geolocation_hidden, 1);
-            Assert.AreEqual(f5.geolocation_hidden, 1);
+            Assert.AreEqual(f1.GeolocationHidden, 1);
+            Assert.AreEqual(f2.GeolocationHidden, 0);
+            Assert.AreEqual(f3.GeolocationHidden, 1);
+            Assert.AreEqual(f4.GeolocationHidden, 1);
+            Assert.AreEqual(f5.GeolocationHidden, 1);
             #endregion
 
             #endregion
 
             #region isNum
-            Assert.AreEqual(f1.is_num, 0);
-            Assert.AreEqual(f2.is_num, 0);
-            Assert.AreEqual(f3.is_num, 0);
-            Assert.AreEqual(f4.is_num, 0);
-            Assert.AreEqual(f5.is_num, 0);
+            Assert.AreEqual(f1.IsNum, 0);
+            Assert.AreEqual(f2.IsNum, 0);
+            Assert.AreEqual(f3.IsNum, 0);
+            Assert.AreEqual(f4.IsNum, 0);
+            Assert.AreEqual(f5.IsNum, 0);
 
 
             #endregion
 
             #region Label
-            Assert.AreEqual(f1.label, _f1.Label);
-            Assert.AreEqual(f2.label, _f2.Label);
-            Assert.AreEqual(f3.label, _f3.Label);
-            Assert.AreEqual(f4.label, _f4.Label);
-            Assert.AreEqual(f5.label, _f5.Label);
+            Assert.AreEqual(f1.Label, _f1.Label);
+            Assert.AreEqual(f2.Label, _f2.Label);
+            Assert.AreEqual(f3.Label, _f3.Label);
+            Assert.AreEqual(f4.Label, _f4.Label);
+            Assert.AreEqual(f5.Label, _f5.Label);
             #endregion
 
             #region Mandatory
-            Assert.AreEqual(f1.mandatory, 1);
-            Assert.AreEqual(f2.mandatory, 0);
-            Assert.AreEqual(f3.mandatory, 1);
-            Assert.AreEqual(f4.mandatory, 1);
-            Assert.AreEqual(f5.mandatory, 1);
+            Assert.AreEqual(f1.Mandatory, 1);
+            Assert.AreEqual(f2.Mandatory, 0);
+            Assert.AreEqual(f3.Mandatory, 1);
+            Assert.AreEqual(f4.Mandatory, 1);
+            Assert.AreEqual(f5.Mandatory, 1);
             #endregion
 
             #region maxLength
-            Assert.AreEqual(f1.max_length, 55);
-            Assert.AreEqual(f2.max_length, 5);
-            Assert.AreEqual(f3.max_length, 8);
-            Assert.AreEqual(f4.max_length, 666);
-            Assert.AreEqual(f5.max_length, 69);
+            Assert.AreEqual(f1.MaxLength, 55);
+            Assert.AreEqual(f2.MaxLength, 5);
+            Assert.AreEqual(f3.MaxLength, 8);
+            Assert.AreEqual(f4.MaxLength, 666);
+            Assert.AreEqual(f5.MaxLength, 69);
 
             #endregion
 
             #region min/max_Value
             #region max
-            Assert.AreEqual(f1.max_value, "55");
-            Assert.AreEqual(f2.max_value, "5");
-            Assert.AreEqual(f3.max_value, "4865");
-            Assert.AreEqual(f4.max_value, "41153");
-            Assert.AreEqual(f5.max_value, "69");
+            Assert.AreEqual(f1.MaxValue, "55");
+            Assert.AreEqual(f2.MaxValue, "5");
+            Assert.AreEqual(f3.MaxValue, "4865");
+            Assert.AreEqual(f4.MaxValue, "41153");
+            Assert.AreEqual(f5.MaxValue, "69");
             #endregion
             #region min
-            Assert.AreEqual(f1.min_value, "0");
-            Assert.AreEqual(f2.min_value, "0");
-            Assert.AreEqual(f3.min_value, "0");
-            Assert.AreEqual(f4.min_value, "0");
-            Assert.AreEqual(f5.min_value, "1");
+            Assert.AreEqual(f1.MinValue, "0");
+            Assert.AreEqual(f2.MinValue, "0");
+            Assert.AreEqual(f3.MinValue, "0");
+            Assert.AreEqual(f4.MinValue, "0");
+            Assert.AreEqual(f5.MinValue, "1");
             #endregion
             #endregion
 
             #region Multi
-            Assert.AreEqual(f1.multi, 0);
-            Assert.AreEqual(f2.multi, 0);
-            Assert.AreEqual(f3.multi, 0);
-            Assert.AreEqual(f4.multi, 0);
-            Assert.AreEqual(f5.multi, 0);
+            Assert.AreEqual(f1.Multi, 0);
+            Assert.AreEqual(f2.Multi, 0);
+            Assert.AreEqual(f3.Multi, 0);
+            Assert.AreEqual(f4.Multi, 0);
+            Assert.AreEqual(f5.Multi, 0);
             #endregion
 
             #region Optional
-            Assert.AreEqual(f1.optional, 0);
-            Assert.AreEqual(f2.optional, 0);
-            Assert.AreEqual(f3.optional, 1);
-            Assert.AreEqual(f4.optional, 1);
-            Assert.AreEqual(f5.optional, 1);
+            Assert.AreEqual(f1.Optional, 0);
+            Assert.AreEqual(f2.Optional, 0);
+            Assert.AreEqual(f3.Optional, 1);
+            Assert.AreEqual(f4.Optional, 1);
+            Assert.AreEqual(f5.Optional, 1);
 
             #endregion
 
             #region Query_Type
-            Assert.AreEqual(f1.query_type, null);
-            Assert.AreEqual(f2.query_type, null);
-            Assert.AreEqual(f3.query_type, null);
-            Assert.AreEqual(f4.query_type, null);
-            Assert.AreEqual(f5.query_type, null);
+            Assert.AreEqual(f1.QueryType, null);
+            Assert.AreEqual(f2.QueryType, null);
+            Assert.AreEqual(f3.QueryType, null);
+            Assert.AreEqual(f4.QueryType, null);
+            Assert.AreEqual(f5.QueryType, null);
 
             #endregion
 
             #region Read_Only
-            Assert.AreEqual(f1.read_only, 1);
-            Assert.AreEqual(f2.read_only, 0);
-            Assert.AreEqual(f3.read_only, 1);
-            Assert.AreEqual(f4.read_only, 0);
-            Assert.AreEqual(f5.read_only, 0);
+            Assert.AreEqual(f1.ReadOnly, 1);
+            Assert.AreEqual(f2.ReadOnly, 0);
+            Assert.AreEqual(f3.ReadOnly, 1);
+            Assert.AreEqual(f4.ReadOnly, 0);
+            Assert.AreEqual(f5.ReadOnly, 0);
             #endregion
 
             #region Selected
-            Assert.AreEqual(f1.selected, 0);
-            Assert.AreEqual(f2.selected, 0);
-            Assert.AreEqual(f3.selected, 0);
-            Assert.AreEqual(f4.selected, 1);
-            Assert.AreEqual(f5.selected, 1);
+            Assert.AreEqual(f1.Selected, 0);
+            Assert.AreEqual(f2.Selected, 0);
+            Assert.AreEqual(f3.Selected, 0);
+            Assert.AreEqual(f4.Selected, 1);
+            Assert.AreEqual(f5.Selected, 1);
             #endregion
 
             #region Split_Screen
-            Assert.AreEqual(f1.split_screen, 0);
-            Assert.AreEqual(f2.split_screen, 0);
-            Assert.AreEqual(f3.split_screen, 0);
-            Assert.AreEqual(f4.split_screen, 0);
-            Assert.AreEqual(f5.split_screen, 0);
+            Assert.AreEqual(f1.SplitScreen, 0);
+            Assert.AreEqual(f2.SplitScreen, 0);
+            Assert.AreEqual(f3.SplitScreen, 0);
+            Assert.AreEqual(f4.SplitScreen, 0);
+            Assert.AreEqual(f5.SplitScreen, 0);
 
             #endregion
 
             #region Stop_On_Save
-            Assert.AreEqual(f1.stop_on_save, 0);
-            Assert.AreEqual(f2.stop_on_save, 0);
-            Assert.AreEqual(f3.stop_on_save, 0);
-            Assert.AreEqual(f4.stop_on_save, 0);
-            Assert.AreEqual(f5.stop_on_save, 0);
+            Assert.AreEqual(f1.StopOnSave, 0);
+            Assert.AreEqual(f2.StopOnSave, 0);
+            Assert.AreEqual(f3.StopOnSave, 0);
+            Assert.AreEqual(f4.StopOnSave, 0);
+            Assert.AreEqual(f5.StopOnSave, 0);
             #endregion
 
             #region Unit_Name
-            Assert.AreEqual(f1.unit_name, "");
-            Assert.AreEqual(f2.unit_name, "");
-            Assert.AreEqual(f3.unit_name, "");
-            Assert.AreEqual(f4.unit_name, "");
-            Assert.AreEqual(f5.unit_name, "");
+            Assert.AreEqual(f1.UnitName, "");
+            Assert.AreEqual(f2.UnitName, "");
+            Assert.AreEqual(f3.UnitName, "");
+            Assert.AreEqual(f4.UnitName, "");
+            Assert.AreEqual(f5.UnitName, "");
             #endregion
 
             #region Values
@@ -427,11 +427,11 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Version
-            Assert.AreEqual(f1.version, 49);
-            Assert.AreEqual(f2.version, 9);
-            Assert.AreEqual(f3.version, 1);
-            Assert.AreEqual(f4.version, 1);
-            Assert.AreEqual(f5.version, 1);
+            Assert.AreEqual(f1.Version, 49);
+            Assert.AreEqual(f2.Version, 9);
+            Assert.AreEqual(f3.Version, 1);
+            Assert.AreEqual(f4.Version, 1);
+            Assert.AreEqual(f5.Version, 1);
             #endregion
 
             #endregion

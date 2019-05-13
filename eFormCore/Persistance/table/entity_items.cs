@@ -47,30 +47,30 @@ namespace eFormSqlController
 //        public DateTime? updated_at { get; set; }
         
         // TODO! Change this to be int and create migration to handle the move.
-        public int entity_group_id { get; set; }
+        public int EntityGroupId { get; set; }
 
         [StringLength(50)]
-        public string entity_item_uid { get; set; }
+        public string EntityItemUid { get; set; }
 
-        public string microting_uid { get; set; }
+        public string MicrotingUid { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public short? synced { get; set; }
+        public short? Synced { get; set; }
 
-        public int display_index { get; set; }
+        public int DisplayIndex { get; set; }
 
         //public bool migrated_entity_group_id { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {
             
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.entity_items.Add(this);
             dbContext.SaveChanges();
@@ -88,17 +88,17 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
             }
 
-            entityItems.entity_group_id = entity_group_id;
-            entityItems.microting_uid = microting_uid;
-            entityItems.name = name;
-            entityItems.description = description;
-            entityItems.synced = synced;
-            entityItems.display_index = display_index;
+            entityItems.EntityGroupId = EntityGroupId;
+            entityItems.MicrotingUid = MicrotingUid;
+            entityItems.Name = Name;
+            entityItems.Description = Description;
+            entityItems.Synced = Synced;
+            entityItems.DisplayIndex = DisplayIndex;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                entityItems.updated_at = DateTime.Now;
-                entityItems.version += 1;
+                entityItems.UpdatedAt = DateTime.Now;
+                entityItems.Version += 1;
 
                 dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItems));
                 dbContext.SaveChanges();
@@ -114,12 +114,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
             }
 
-            entityItems.workflow_state = Constants.WorkflowStates.Removed;
+            entityItems.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                entityItems.updated_at = DateTime.Now;
-                entityItems.version += 1;
+                entityItems.UpdatedAt = DateTime.Now;
+                entityItems.Version += 1;
 
                 dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItems));
                 dbContext.SaveChanges();
@@ -129,19 +129,19 @@ namespace eFormSqlController
         private entity_item_versions MapEntityItemVersions(entity_items entityItem)
         {
             entity_item_versions entityItemVer = new entity_item_versions();
-            entityItemVer.workflow_state = entityItem.workflow_state;
-            entityItemVer.version = entityItem.version;
-            entityItemVer.created_at = entityItem.created_at;
-            entityItemVer.updated_at = entityItem.updated_at;
-            entityItemVer.entity_item_uid = entityItem.entity_item_uid;
-            entityItemVer.microting_uid = entityItem.microting_uid;
-            entityItemVer.entity_group_id = entityItem.entity_group_id;
-            entityItemVer.name = entityItem.name;
-            entityItemVer.description = entityItem.description;
-            entityItemVer.synced = entityItem.synced;
-            entityItemVer.display_index = entityItem.display_index;
+            entityItemVer.WorkflowState = entityItem.WorkflowState;
+            entityItemVer.Version = entityItem.Version;
+            entityItemVer.CreatedAt = entityItem.CreatedAt;
+            entityItemVer.UpdatedAt = entityItem.UpdatedAt;
+            entityItemVer.EntityItemUid = entityItem.EntityItemUid;
+            entityItemVer.MicrotingUid = entityItem.MicrotingUid;
+            entityItemVer.EntityGroupId = entityItem.EntityGroupId;
+            entityItemVer.Name = entityItem.Name;
+            entityItemVer.Description = entityItem.Description;
+            entityItemVer.Synced = entityItem.Synced;
+            entityItemVer.DisplayIndex = entityItem.DisplayIndex;
 
-            entityItemVer.entity_items_id = entityItem.Id; //<<--
+            entityItemVer.EntityItemsId = entityItem.Id; //<<--
 
             return entityItemVer;
         }

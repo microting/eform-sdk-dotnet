@@ -22,10 +22,10 @@ namespace eFormSDK.Integration.Tests
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             #endregion
@@ -37,22 +37,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             
             question.Create(DbContext);
             #endregion
@@ -60,12 +60,12 @@ namespace eFormSDK.Integration.Tests
             #region Option
             
             options option = new options();
-            option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.Id;
-            option.weight = rnd.Next(1, 255);
-            option.optionsIndex = rnd.Next(1, 255);
-            option.nextQuestionId = rnd.Next(1, 255);
-            option.continuousOptionId = rnd.Next(1, 255);
+            option.WeightValue = rnd.Next(1, 255);
+            option.QuestionId = question.Id;
+            option.Weight = rnd.Next(1, 255);
+            option.OptionsIndex = rnd.Next(1, 255);
+            option.NextQuestionId = rnd.Next(1, 255);
+            option.ContinuousOptionId = rnd.Next(1, 255);
 
             #endregion
 
@@ -78,12 +78,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbOption);
             Assert.NotNull(dbVersions);
             
-            Assert.AreEqual(option.weightValue , dbOption.weightValue);
-            Assert.AreEqual(option.weight , dbOption.weight);
-            Assert.AreEqual(option.questionId , dbOption.questionId);
-            Assert.AreEqual(option.optionsIndex , dbOption.optionsIndex);
-            Assert.AreEqual(option.nextQuestionId , dbOption.nextQuestionId);
-            Assert.AreEqual(option.continuousOptionId , dbOption.continuousOptionId);
+            Assert.AreEqual(option.WeightValue , dbOption.WeightValue);
+            Assert.AreEqual(option.Weight , dbOption.Weight);
+            Assert.AreEqual(option.QuestionId , dbOption.QuestionId);
+            Assert.AreEqual(option.OptionsIndex , dbOption.OptionsIndex);
+            Assert.AreEqual(option.NextQuestionId , dbOption.NextQuestionId);
+            Assert.AreEqual(option.ContinuousOptionId , dbOption.ContinuousOptionId);
 
         }
                 [Test]
@@ -93,10 +93,10 @@ namespace eFormSDK.Integration.Tests
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             #endregion
@@ -108,22 +108,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             question.Create(DbContext);
             #endregion
             #region Question2
@@ -132,34 +132,34 @@ namespace eFormSDK.Integration.Tests
             string imagePosition2 = Guid.NewGuid().ToString();
             string fontSize2 = Guid.NewGuid().ToString();
             questions question2 = new questions();
-            question2.type = type2;
-            question2.questionType = questionType2;
-            question2.imagePostion = imagePosition2;
-            question2.fontSize = fontSize2;
-            question2.questionSetId = questionSet.Id;
-            question2.maximum = rnd.Next(1, 255);
-            question2.minimum = rnd.Next(1, 255);
-            question2.refId = rnd.Next(1, 255);
-            question2.maxDuration = rnd.Next(1, 255);
-            question2.minDuration = rnd.Next(1, 255);
-            question2.questionIndex = rnd.Next(1, 255);
-            question2.continuousQuestionId = rnd.Next(1, 255);
-            question2.prioritised = false;
-            question2.validDisplay = false;
-            question2.backButtonEnabled = false;
-            question2.image = false;
+            question2.Type = type2;
+            question2.QuestionType = questionType2;
+            question2.ImagePosition = imagePosition2;
+            question2.FontSize = fontSize2;
+            question2.QuestionSetId = questionSet.Id;
+            question2.Maximum = rnd.Next(1, 255);
+            question2.Minimum = rnd.Next(1, 255);
+            question2.RefId = rnd.Next(1, 255);
+            question2.MaxDuration = rnd.Next(1, 255);
+            question2.MinDuration = rnd.Next(1, 255);
+            question2.QuestionIndex = rnd.Next(1, 255);
+            question2.ContinuousQuestionId = rnd.Next(1, 255);
+            question2.Prioritised = false;
+            question2.ValidDisplay = false;
+            question2.BackButtonEnabled = false;
+            question2.Image = false;
             
             question2.Create(DbContext);
             #endregion
             #region Option
             
             options option = new options();
-            option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.Id;
-            option.weight = rnd.Next(1, 255);
-            option.optionsIndex = rnd.Next(1, 255);
-            option.nextQuestionId = rnd.Next(1, 255);
-            option.continuousOptionId = rnd.Next(1, 255);
+            option.WeightValue = rnd.Next(1, 255);
+            option.QuestionId = question.Id;
+            option.Weight = rnd.Next(1, 255);
+            option.OptionsIndex = rnd.Next(1, 255);
+            option.NextQuestionId = rnd.Next(1, 255);
+            option.ContinuousOptionId = rnd.Next(1, 255);
 
             option.Create(DbContext);
 
@@ -167,12 +167,12 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             
-            option.weightValue = rnd.Next(1, 550);
-            option.questionId = question2.Id;
-            option.weight = rnd.Next(1, 550);
-            option.optionsIndex = rnd.Next(1, 550);
-            option.nextQuestionId = rnd.Next(1, 550);
-            option.continuousOptionId = rnd.Next(1, 550);
+            option.WeightValue = rnd.Next(1, 550);
+            option.QuestionId = question2.Id;
+            option.Weight = rnd.Next(1, 550);
+            option.OptionsIndex = rnd.Next(1, 550);
+            option.NextQuestionId = rnd.Next(1, 550);
+            option.ContinuousOptionId = rnd.Next(1, 550);
 
             option.Update(DbContext);
             
@@ -182,12 +182,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbOption);
             Assert.NotNull(dbVersions);
             
-            Assert.AreEqual(option.weightValue , dbOption.weightValue);
-            Assert.AreEqual(option.weight , dbOption.weight);
-            Assert.AreEqual(option.questionId , dbOption.questionId);
-            Assert.AreEqual(option.optionsIndex , dbOption.optionsIndex);
-            Assert.AreEqual(option.nextQuestionId , dbOption.nextQuestionId);
-            Assert.AreEqual(option.continuousOptionId , dbOption.continuousOptionId);
+            Assert.AreEqual(option.WeightValue , dbOption.WeightValue);
+            Assert.AreEqual(option.Weight , dbOption.Weight);
+            Assert.AreEqual(option.QuestionId , dbOption.QuestionId);
+            Assert.AreEqual(option.OptionsIndex , dbOption.OptionsIndex);
+            Assert.AreEqual(option.NextQuestionId , dbOption.NextQuestionId);
+            Assert.AreEqual(option.ContinuousOptionId , dbOption.ContinuousOptionId);
 
         }
                 [Test]
@@ -197,10 +197,10 @@ namespace eFormSDK.Integration.Tests
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             #endregion
@@ -212,22 +212,22 @@ namespace eFormSDK.Integration.Tests
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
             questions question = new questions();
-            question.type = type;
-            question.questionType = questionType;
-            question.imagePostion = imagePosition;
-            question.fontSize = fontSize;
-            question.questionSetId = questionSet.Id;
-            question.maximum = rnd.Next(1, 255);
-            question.minimum = rnd.Next(1, 255);
-            question.refId = rnd.Next(1, 255);
-            question.maxDuration = rnd.Next(1, 255);
-            question.minDuration = rnd.Next(1, 255);
-            question.questionIndex = rnd.Next(1, 255);
-            question.continuousQuestionId = rnd.Next(1, 255);
-            question.prioritised = false;
-            question.validDisplay = false;
-            question.backButtonEnabled = false;
-            question.image = false;
+            question.Type = type;
+            question.QuestionType = questionType;
+            question.ImagePosition = imagePosition;
+            question.FontSize = fontSize;
+            question.QuestionSetId = questionSet.Id;
+            question.Maximum = rnd.Next(1, 255);
+            question.Minimum = rnd.Next(1, 255);
+            question.RefId = rnd.Next(1, 255);
+            question.MaxDuration = rnd.Next(1, 255);
+            question.MinDuration = rnd.Next(1, 255);
+            question.QuestionIndex = rnd.Next(1, 255);
+            question.ContinuousQuestionId = rnd.Next(1, 255);
+            question.Prioritised = false;
+            question.ValidDisplay = false;
+            question.BackButtonEnabled = false;
+            question.Image = false;
             
             question.Create(DbContext);
             #endregion
@@ -235,12 +235,12 @@ namespace eFormSDK.Integration.Tests
             #region Option
             
             options option = new options();
-            option.weightValue = rnd.Next(1, 255);
-            option.questionId = question.Id;
-            option.weight = rnd.Next(1, 255);
-            option.optionsIndex = rnd.Next(1, 255);
-            option.nextQuestionId = rnd.Next(1, 255);
-            option.continuousOptionId = rnd.Next(1, 255);
+            option.WeightValue = rnd.Next(1, 255);
+            option.QuestionId = question.Id;
+            option.Weight = rnd.Next(1, 255);
+            option.OptionsIndex = rnd.Next(1, 255);
+            option.NextQuestionId = rnd.Next(1, 255);
+            option.ContinuousOptionId = rnd.Next(1, 255);
             option.Create(DbContext);
 
             #endregion
@@ -255,13 +255,13 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbOption);
             Assert.NotNull(dbVersions);
             
-            Assert.AreEqual(option.weightValue , dbOption.weightValue);
-            Assert.AreEqual(option.weight , dbOption.weight);
-            Assert.AreEqual(option.questionId , dbOption.questionId);
-            Assert.AreEqual(option.optionsIndex , dbOption.optionsIndex);
-            Assert.AreEqual(option.nextQuestionId , dbOption.nextQuestionId);
-            Assert.AreEqual(option.continuousOptionId , dbOption.continuousOptionId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, dbOption.workflow_state);
+            Assert.AreEqual(option.WeightValue , dbOption.WeightValue);
+            Assert.AreEqual(option.Weight , dbOption.Weight);
+            Assert.AreEqual(option.QuestionId , dbOption.QuestionId);
+            Assert.AreEqual(option.OptionsIndex , dbOption.OptionsIndex);
+            Assert.AreEqual(option.NextQuestionId , dbOption.NextQuestionId);
+            Assert.AreEqual(option.ContinuousOptionId , dbOption.ContinuousOptionId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, dbOption.WorkflowState);
 
         }
     }

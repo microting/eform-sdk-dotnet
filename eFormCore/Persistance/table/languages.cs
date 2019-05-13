@@ -30,16 +30,16 @@ namespace eFormSqlController
 {
     public partial class languages : BaseEntity
     {
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public string description { get; set; }
+        public string Description { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
-            version = 1;
-            workflow_state = Constants.WorkflowStates.Created;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
+            WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.languages.Add(this);
             dbContext.SaveChanges();
@@ -57,13 +57,13 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find language wit Id: {Id}");
             }
 
-            languages.name = name;
-            languages.description = description;
+            languages.Name = Name;
+            languages.Description = Description;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                languages.version += 1;
-                languages.updated_at = DateTime.Now;
+                languages.Version += 1;
+                languages.UpdatedAt = DateTime.Now;
 
                 dbContext.language_versions.Add(MapVersions(languages));
                 dbContext.SaveChanges();
@@ -80,12 +80,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find language with Id: {Id}");
             }
 
-            language.workflow_state = Constants.WorkflowStates.Removed;
+            language.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                language.version += 1;
-                language.updated_at = DateTime.Now;
+                language.Version += 1;
+                language.UpdatedAt = DateTime.Now;
 
                 dbContext.language_versions.Add(MapVersions(language));
                 dbContext.SaveChanges();
@@ -96,13 +96,13 @@ namespace eFormSqlController
         {
             language_versions languageVersions = new language_versions();
 
-            languageVersions.languageId = language.Id;
-            languageVersions.name = language.name;
-            languageVersions.description = language.description;
-            languageVersions.version = language.version;
-            languageVersions.created_at = language.created_at;
-            languageVersions.updated_at = language.updated_at;
-            languageVersions.workflow_state = language.workflow_state;
+            languageVersions.LanguageId = language.Id;
+            languageVersions.Name = language.Name;
+            languageVersions.Description = language.Description;
+            languageVersions.Version = language.Version;
+            languageVersions.CreatedAt = language.CreatedAt;
+            languageVersions.UpdatedAt = language.UpdatedAt;
+            languageVersions.WorkflowState = language.WorkflowState;
 
             
             return languageVersions;

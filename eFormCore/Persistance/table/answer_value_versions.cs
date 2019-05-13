@@ -29,16 +29,16 @@ namespace eFormSqlController
 {
     public partial class answer_value_versions : BaseEntity
     {
-        public int answerId { get; set; }
+        public int AnswerId { get; set; }
         
-        public int questionId { get; set; }
+        public int QuestionId { get; set; }
         
-        public int optionsId { get; set; }
+        public int OptionsId { get; set; }
         
-        public int value { get; set; }
+        public int Value { get; set; }
         
         [ForeignKey("answer_value")]
-        public int answerValueId { get; set; }
+        public int AnswerValueId { get; set; }
         
         public virtual answer_values AnswerValue { get; set; }
     }

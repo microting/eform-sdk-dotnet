@@ -684,14 +684,14 @@ namespace eFormSDK.Integration.Tests
         public workers CreateWorker(string email, string firstName, string lastName, int microtingUId)
         {
             workers worker = new workers();
-            worker.first_name = firstName;
-            worker.last_name = lastName;
-            worker.email = email;
-            worker.created_at = DateTime.Now;
-            worker.updated_at = DateTime.Now;
-            worker.microting_uid = microtingUId;
-            worker.workflow_state = Constants.WorkflowStates.Created;
-            worker.version = 69;
+            worker.FirstName = firstName;
+            worker.LastName = lastName;
+            worker.Email = email;
+            worker.CreatedAt = DateTime.Now;
+            worker.UpdatedAt = DateTime.Now;
+            worker.MicrotingUid = microtingUId;
+            worker.WorkflowState = Constants.WorkflowStates.Created;
+            worker.Version = 69;
             DbContext.workers.Add(worker);
             DbContext.SaveChanges();
 
@@ -701,12 +701,12 @@ namespace eFormSDK.Integration.Tests
         {
 
             sites site = new sites();
-            site.name = name;
-            site.microting_uid = microtingUId;
-            site.updated_at = DateTime.Now;
-            site.created_at = DateTime.Now;
-            site.version = 64;
-            site.workflow_state = Constants.WorkflowStates.Created;
+            site.Name = name;
+            site.MicrotingUid = microtingUId;
+            site.UpdatedAt = DateTime.Now;
+            site.CreatedAt = DateTime.Now;
+            site.Version = 64;
+            site.WorkflowState = Constants.WorkflowStates.Created;
             DbContext.sites.Add(site);
             DbContext.SaveChanges();
 
@@ -716,15 +716,15 @@ namespace eFormSDK.Integration.Tests
         {
 
             units unit = new units();
-            unit.microting_uid = microtingUId;
-            unit.otp_code = otpCode;
-            unit.site = site;
-            unit.site_id = site.Id;
-            unit.created_at = DateTime.Now;
-            unit.customer_no = customerNo;
-            unit.updated_at = DateTime.Now;
-            unit.version = 9;
-            unit.workflow_state = Constants.WorkflowStates.Created;
+            unit.MicrotingUid = microtingUId;
+            unit.OtpCode = otpCode;
+            unit.Site = site;
+            unit.SiteId = site.Id;
+            unit.CreatedAt = DateTime.Now;
+            unit.CustomerNo = customerNo;
+            unit.UpdatedAt = DateTime.Now;
+            unit.Version = 9;
+            unit.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.units.Add(unit);
             DbContext.SaveChanges();
@@ -734,15 +734,15 @@ namespace eFormSDK.Integration.Tests
         public site_workers CreateSiteWorker(int microtingUId, sites site, workers worker)
         {
             site_workers site_workers = new site_workers();
-            site_workers.created_at = DateTime.Now;
-            site_workers.microting_uid = microtingUId;
-            site_workers.updated_at = DateTime.Now;
-            site_workers.version = 63;
-            site_workers.site = site;
-            site_workers.site_id = site.Id;
-            site_workers.worker = worker;
-            site_workers.worker_id = worker.Id;
-            site_workers.workflow_state = Constants.WorkflowStates.Created;
+            site_workers.CreatedAt = DateTime.Now;
+            site_workers.MicrotingUid = microtingUId;
+            site_workers.UpdatedAt = DateTime.Now;
+            site_workers.Version = 63;
+            site_workers.Site = site;
+            site_workers.SiteId = site.Id;
+            site_workers.Worker = worker;
+            site_workers.WorkerId = worker.Id;
+            site_workers.WorkflowState = Constants.WorkflowStates.Created;
             DbContext.site_workers.Add(site_workers);
             DbContext.SaveChanges();
             return site_workers;
@@ -750,15 +750,15 @@ namespace eFormSDK.Integration.Tests
         public check_lists CreateTemplate(string label, string description, string caseType, string folderName, int displayIndex, int repeated)
         {
             check_lists cl1 = new check_lists();
-            cl1.created_at = DateTime.Now;
-            cl1.updated_at = DateTime.Now;
-            cl1.label = label;
-            cl1.description = description;
-            cl1.workflow_state = Constants.WorkflowStates.Created;
-            cl1.case_type = caseType;
-            cl1.folder_name = folderName;
-            cl1.display_index = displayIndex;
-            cl1.repeated = repeated;
+            cl1.CreatedAt = DateTime.Now;
+            cl1.UpdatedAt = DateTime.Now;
+            cl1.Label = label;
+            cl1.Description = description;
+            cl1.WorkflowState = Constants.WorkflowStates.Created;
+            cl1.CaseType = caseType;
+            cl1.FolderName = folderName;
+            cl1.DisplayIndex = displayIndex;
+            cl1.Repeated = repeated;
 
             DbContext.check_lists.Add(cl1);
             DbContext.SaveChanges();
@@ -767,15 +767,15 @@ namespace eFormSDK.Integration.Tests
         public check_lists CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, check_lists parentId)
         {
             check_lists cl2 = new check_lists();
-            cl2.created_at = DateTime.Now;
-            cl2.updated_at = DateTime.Now;
-            cl2.label = label;
-            cl2.description = description;
-            cl2.workflow_state = Constants.WorkflowStates.Created;
-            cl2.case_type = caseType;
-            cl2.display_index = displayIndex;
-            cl2.repeated = repeated;
-            cl2.parent_id = parentId.Id;
+            cl2.CreatedAt = DateTime.Now;
+            cl2.UpdatedAt = DateTime.Now;
+            cl2.Label = label;
+            cl2.Description = description;
+            cl2.WorkflowState = Constants.WorkflowStates.Created;
+            cl2.CaseType = caseType;
+            cl2.DisplayIndex = displayIndex;
+            cl2.Repeated = repeated;
+            cl2.ParentId = parentId.Id;
 
             DbContext.check_lists.Add(cl2);
             DbContext.SaveChanges();
@@ -785,39 +785,39 @@ namespace eFormSDK.Integration.Tests
         {
 
             fields f = new fields();
-            f.field_type = ft;
+            f.FieldType = ft;
 
-            f.barcode_enabled = barcodeEnabled;
-            f.barcode_type = barcodeType;
-            f.check_list_id = checkList.Id;
-            f.color = color;
-            f.created_at = DateTime.Now;
-            f.custom = custom;
-            f.decimal_count = decimalCount;
-            f.default_value = defaultValue;
-            f.description = description;
-            f.display_index = displayIndex;
-            f.dummy = dummy;
-            f.geolocation_enabled = geolocationEnabled;
-            f.geolocation_forced = geolocationForced;
-            f.geolocation_hidden = geolocationHidden;
-            f.is_num = isNum;
-            f.label = label;
-            f.mandatory = mandatory;
-            f.max_length = maxLength;
-            f.max_value = maxValue;
-            f.min_value = minValue;
-            f.multi = multi;
-            f.optional = optional;
-            f.query_type = queryType;
-            f.read_only = readOnly;
-            f.selected = selected;
-            f.split_screen = splitScreen;
-            f.stop_on_save = stopOnSave;
-            f.unit_name = unitName;
-            f.updated_at = DateTime.Now;
-            f.version = version;
-            f.workflow_state = Constants.WorkflowStates.Created;
+            f.BarcodeEnabled = barcodeEnabled;
+            f.BarcodeType = barcodeType;
+            f.CheckListId = checkList.Id;
+            f.Color = color;
+            f.CreatedAt = DateTime.Now;
+            f.Custom = custom;
+            f.DecimalCount = decimalCount;
+            f.DefaultValue = defaultValue;
+            f.Description = description;
+            f.DisplayIndex = displayIndex;
+            f.Dummy = dummy;
+            f.GeolocationEnabled = geolocationEnabled;
+            f.GeolocationForced = geolocationForced;
+            f.GeolocationHidden = geolocationHidden;
+            f.IsNum = isNum;
+            f.Label = label;
+            f.Mandatory = mandatory;
+            f.MaxLength = maxLength;
+            f.MaxValue = maxValue;
+            f.MinValue = minValue;
+            f.Multi = multi;
+            f.Optional = optional;
+            f.QueryType = queryType;
+            f.ReadOnly = readOnly;
+            f.Selected = selected;
+            f.SplitScreen = splitScreen;
+            f.StopOnSave = stopOnSave;
+            f.UnitName = unitName;
+            f.UpdatedAt = DateTime.Now;
+            f.Version = version;
+            f.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.fields.Add(f);
             DbContext.SaveChanges();
@@ -830,27 +830,27 @@ namespace eFormSDK.Integration.Tests
 
             cases aCase = new cases();
 
-            aCase.case_uid = caseUId;
-            aCase.check_list = checkList;
-            aCase.check_list_id = checkList.Id;
-            aCase.created_at = created_at;
-            aCase.custom = custom;
+            aCase.CaseUid = caseUId;
+            aCase.CheckList = checkList;
+            aCase.CheckListId = checkList.Id;
+            aCase.CreatedAt = created_at;
+            aCase.Custom = custom;
             if (done_at != null)
             {
-                aCase.done_at = done_at;
+                aCase.DoneAt = done_at;
             }
-            aCase.done_by_user_id = worker.Id;
-            aCase.microting_check_uid = microtingCheckId;
-            aCase.microting_uid = microtingUId;
-            aCase.site = site;
-            aCase.site_id = site.Id;
-            aCase.status = status;
-            aCase.type = caseType;
-            aCase.unit_id = unit.Id;
-            aCase.updated_at = updated_at;
-            aCase.version = version;
-            aCase.worker = worker;
-            aCase.workflow_state = WorkFlowState;
+            aCase.DoneByUserId = worker.Id;
+            aCase.MicrotingCheckUid = microtingCheckId;
+            aCase.MicrotingUid = microtingUId;
+            aCase.Site = site;
+            aCase.SiteId = site.Id;
+            aCase.Status = status;
+            aCase.Type = caseType;
+            aCase.UnitId = unit.Id;
+            aCase.UpdatedAt = updated_at;
+            aCase.Version = version;
+            aCase.Worker = worker;
+            aCase.WorkflowState = WorkFlowState;
             DbContext.cases.Add(aCase);
             DbContext.SaveChanges();
 
@@ -862,21 +862,21 @@ namespace eFormSDK.Integration.Tests
             fv.case_id = aCase.Id;
             fv.check_list = checkList;
             fv.check_list_id = checkList.Id;
-            fv.created_at = DateTime.Now;
+            fv.CreatedAt = DateTime.Now;
             fv.date = DateTime.Now;
             fv.done_at = DateTime.Now;
             fv.field = f;
             fv.field_id = f.Id;
-            fv.updated_at = DateTime.Now;
+            fv.UpdatedAt = DateTime.Now;
             if (ud_id != null)
             {
                 fv.uploaded_data_id = ud_id;
             }
             fv.user_id = userId;
             fv.value = value;
-            fv.version = version;
+            fv.Version = version;
             fv.worker = worker;
-            fv.workflow_state = Constants.WorkflowStates.Created;
+            fv.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.field_values.Add(fv);
             DbContext.SaveChanges();
@@ -886,14 +886,14 @@ namespace eFormSDK.Integration.Tests
         {
             check_list_values CLV = new check_list_values();
 
-            CLV.case_id = aCase.Id;
-            CLV.check_list_id = checkList.Id;
-            CLV.created_at = DateTime.Now;
-            CLV.status = status;
-            CLV.updated_at = DateTime.Now;
-            CLV.user_id = userId;
-            CLV.version = version;
-            CLV.workflow_state = Constants.WorkflowStates.Created;
+            CLV.CaseId = aCase.Id;
+            CLV.CheckListId = checkList.Id;
+            CLV.CreatedAt = DateTime.Now;
+            CLV.Status = status;
+            CLV.UpdatedAt = DateTime.Now;
+            CLV.UserId = userId;
+            CLV.Version = version;
+            CLV.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.check_list_values.Add(CLV);
             DbContext.SaveChanges();
@@ -904,19 +904,19 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data UD = new uploaded_data();
 
-            UD.checksum = checkSum;
-            UD.created_at = DateTime.Now;
-            UD.current_file = currentFile;
-            UD.expiration_date = DateTime.Now.AddYears(1);
-            UD.extension = extension;
-            UD.file_location = fileLocation;
-            UD.file_name = fileName;
-            UD.local = local;
-            UD.updated_at = DateTime.Now;
-            UD.uploader_id = worker.Id;
-            UD.uploader_type = uploaderType;
-            UD.version = version;
-            UD.workflow_state = Constants.WorkflowStates.Created;
+            UD.Checksum = checkSum;
+            UD.CreatedAt = DateTime.Now;
+            UD.CurrentFile = currentFile;
+            UD.ExpirationDate = DateTime.Now.AddYears(1);
+            UD.Extension = extension;
+            UD.FileLocation = fileLocation;
+            UD.FileName = fileName;
+            UD.Local = local;
+            UD.UpdatedAt = DateTime.Now;
+            UD.UploaderId = worker.Id;
+            UD.UploaderType = uploaderType;
+            UD.Version = version;
+            UD.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.uploaded_data.Add(UD);
             DbContext.SaveChanges();
@@ -926,13 +926,13 @@ namespace eFormSDK.Integration.Tests
         public check_list_sites CreateCheckListSite(int checkListId, int siteId, string microtingUId, string workflowState, string lastCheckUid)
         {
             check_list_sites cls = new check_list_sites();
-            cls.site_id = siteId;
-            cls.check_list_id = checkListId;
-            cls.microting_uid = microtingUId;
-            cls.last_check_id = lastCheckUid;
-            cls.created_at = DateTime.Now;
-            cls.updated_at = DateTime.Now;
-            cls.workflow_state = workflowState;
+            cls.SiteId = siteId;
+            cls.CheckListId = checkListId;
+            cls.MicrotingUid = microtingUId;
+            cls.LastCheckId = lastCheckUid;
+            cls.CreatedAt = DateTime.Now;
+            cls.UpdatedAt = DateTime.Now;
+            cls.WorkflowState = workflowState;
 
             DbContext.check_list_sites.Add(cls);
             DbContext.SaveChanges();

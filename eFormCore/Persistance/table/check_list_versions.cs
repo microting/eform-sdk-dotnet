@@ -34,7 +34,7 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -45,62 +45,62 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public string label { get; set; }
+        public string Label { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public string custom { get; set; }
+        public string Custom { get; set; }
 
-        public int? parent_id { get; set; }
+        public int? ParentId { get; set; }
 
-        public int? repeated { get; set; }
+        public int? Repeated { get; set; }
 
-        public int? display_index { get; set; }
-
-        [StringLength(255)]
-        public string case_type { get; set; }
+        public int? DisplayIndex { get; set; }
 
         [StringLength(255)]
-        public string folder_name { get; set; }
+        public string CaseType { get; set; }
 
-        public short? review_enabled { get; set; }
+        [StringLength(255)]
+        public string FolderName { get; set; }
 
-        public short? manual_sync { get; set; }
+        public short? ReviewEnabled { get; set; }
 
-        public short? extra_fields_enabled { get; set; }
+        public short? ManualSync { get; set; }
 
-        public short? done_button_enabled { get; set; }
+        public short? ExtraFieldsEnabled { get; set; }
 
-        public short? approval_enabled { get; set; }
+        public short? DoneButtonEnabled { get; set; }
 
-        public short? multi_approval { get; set; }
+        public short? ApprovalEnabled { get; set; }
 
-        public short? fast_navigation { get; set; }
+        public short? MultiApproval { get; set; }
 
-        public short? download_entities { get; set; }
+        public short? FastNavigation { get; set; }
 
-        public int? field_1 { get; set; }
+        public short? DownloadEntities { get; set; }
 
-        public int? field_2 { get; set; }
+        public int? Field1 { get; set; }
 
-        public int? field_3 { get; set; }
+        public int? Field2 { get; set; }
 
-        public int? field_4 { get; set; }
+        public int? Field3 { get; set; }
 
-        public int? field_5 { get; set; }
+        public int? Field4 { get; set; }
 
-        public int? field_6 { get; set; }
+        public int? Field5 { get; set; }
 
-        public int? field_7 { get; set; }
+        public int? Field6 { get; set; }
 
-        public int? field_8 { get; set; }
+        public int? Field7 { get; set; }
 
-        public int? field_9 { get; set; }
+        public int? Field8 { get; set; }
 
-        public int? field_10 { get; set; }
+        public int? Field9 { get; set; }
 
-        public short? quick_sync_enabled { get; set; }
+        public int? Field10 { get; set; }
 
-        public string original_id { get; set; }
+        public short? QuickSyncEnabled { get; set; }
+
+        public string OriginalId { get; set; }
     }
 }

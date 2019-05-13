@@ -28,12 +28,12 @@ namespace eFormSqlController
 {
     public partial class site_survey_configuration_versions : BaseEntity
     {
-        public int siteId { get; set; }
+        public int SiteId { get; set; }
         
-        public int surveyConfigurationId { get; set; }
+        public int SurveyConfigurationId { get; set; }
         
         [ForeignKey("site_survey_configuration")]
-        public int siteSurveyConfigurationId { get; set; }
+        public int SiteSurveyConfigurationId { get; set; }
         
         public virtual site_survey_configurations SiteSurveyConfiguration { get; set; }
     }

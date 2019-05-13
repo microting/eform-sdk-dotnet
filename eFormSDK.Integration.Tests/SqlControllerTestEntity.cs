@@ -2679,9 +2679,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var updateEG1 = sut.EntityGroupUpdate(eG1.Id, eG1.microting_uid);
-            var updateEG1removed = sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.microting_uid);
-            var updateEG1retracted = sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.microting_uid);
+            var updateEG1 = sut.EntityGroupUpdate(eG1.Id, eG1.MicrotingUid);
+            var updateEG1removed = sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.MicrotingUid);
+            var updateEG1retracted = sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.MicrotingUid);
 
 
 
@@ -2970,9 +2970,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
             // Act
-            var EG1nameUpdate = sut.EntityGroupUpdateName(eG1.name, eG1.microting_uid);
-            var EG2nameUpdate = sut.EntityGroupUpdateName(eG2.name, eG2.microting_uid);
-            var EG3nameUpdate = sut.EntityGroupUpdateName(eG3.name, eG3.microting_uid);
+            var EG1nameUpdate = sut.EntityGroupUpdateName(eG1.Name, eG1.MicrotingUid);
+            var EG2nameUpdate = sut.EntityGroupUpdateName(eG2.Name, eG2.MicrotingUid);
+            var EG3nameUpdate = sut.EntityGroupUpdateName(eG3.Name, eG3.MicrotingUid);
 
             // Assert
             Assert.True(EG1nameUpdate);
@@ -3270,9 +3270,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
             // Act
-            var EG1Delete = sut.EntityGroupDelete(eG1.microting_uid);
-            var EG2Delete = sut.EntityGroupDelete(eG2.microting_uid);
-            var EG3Delete = sut.EntityGroupDelete(eG3.microting_uid);
+            var EG1Delete = sut.EntityGroupDelete(eG1.MicrotingUid);
+            var EG2Delete = sut.EntityGroupDelete(eG2.MicrotingUid);
+            var EG3Delete = sut.EntityGroupDelete(eG3.MicrotingUid);
             // Assert
             Assert.AreEqual(EG1Delete, Constants.FieldTypes.EntitySearch);
             Assert.AreEqual(EG2Delete, Constants.FieldTypes.EntitySearch);
@@ -3308,7 +3308,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].WorkflowState);
         }
 
 
@@ -3341,7 +3341,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].WorkflowState);
         }
 
         #endregion

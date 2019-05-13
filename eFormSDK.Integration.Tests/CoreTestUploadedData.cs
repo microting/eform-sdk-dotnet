@@ -60,18 +60,18 @@ namespace eFormSDK.Integration.Tests
             // Act
             uploaded_data dU = new uploaded_data();
 
-            dU.created_at = DateTime.Now;
-            dU.updated_at = DateTime.Now;
-            dU.extension = extension;
-            dU.uploader_id = uploaderId;
-            dU.uploader_type = Constants.UploaderTypes.System;
-            dU.workflow_state = Constants.WorkflowStates.PreCreated;
-            dU.version = 1;
-            dU.local = 0;
-            dU.file_location = fileLocation;
-            dU.file_name = fileName;
-            dU.current_file = currentFile;
-            dU.checksum = checksum;
+            dU.CreatedAt = DateTime.Now;
+            dU.UpdatedAt = DateTime.Now;
+            dU.Extension = extension;
+            dU.UploaderId = uploaderId;
+            dU.UploaderType = Constants.UploaderTypes.System;
+            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
+            dU.Version = 1;
+            dU.Local = 0;
+            dU.FileLocation = fileLocation;
+            dU.FileName = fileName;
+            dU.CurrentFile = currentFile;
+            dU.Checksum = checksum;
 
             DbContext.uploaded_data.Add(dU);
             DbContext.SaveChanges();
@@ -81,13 +81,13 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.NotNull(ud);
             Assert.AreEqual(ud.Id, dU.Id);
-            Assert.AreEqual(ud.Extension, dU.extension);
-            Assert.AreEqual(ud.UploaderId, dU.uploader_id);
-            Assert.AreEqual(ud.UploaderType, dU.uploader_type);
-            Assert.AreEqual(ud.FileLocation, dU.file_location);
-            Assert.AreEqual(ud.FileName, dU.file_name);
-            Assert.AreEqual(ud.CurrentFile, dU.current_file);
-            Assert.AreEqual(ud.Checksum, dU.checksum);
+            Assert.AreEqual(ud.Extension, dU.Extension);
+            Assert.AreEqual(ud.UploaderId, dU.UploaderId);
+            Assert.AreEqual(ud.UploaderType, dU.UploaderType);
+            Assert.AreEqual(ud.FileLocation, dU.FileLocation);
+            Assert.AreEqual(ud.FileName, dU.FileName);
+            Assert.AreEqual(ud.CurrentFile, dU.CurrentFile);
+            Assert.AreEqual(ud.Checksum, dU.Checksum);
 
         }
         #endregion

@@ -62,7 +62,7 @@ namespace eFormCore.Handlers
                 #region download file
                 uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(int.Parse(message.MicrotringUUID));
 
-                if (ud.file_name.Contains("3gp"))
+                if (ud.FileName.Contains("3gp"))
                 {
                     log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
                     string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
@@ -72,7 +72,7 @@ namespace eFormCore.Handlers
                         try
                         {
                             log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Trying to donwload file from : " + urlStr);
-                            client.DownloadFile(urlStr, fileLocationPicture + ud.file_name.Replace(".3gp", ".wav"));
+                            client.DownloadFile(urlStr, fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"));
                         }
                         catch (Exception ex)
                         {

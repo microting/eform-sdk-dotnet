@@ -34,7 +34,7 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int entity_group_id { get; set; }
+        public int EntityGroupId { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -45,11 +45,11 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public string microting_uid { get; set; }
+        public string MicrotingUid { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [StringLength(50)]
-        public string type { get; set; }
+        public string Type { get; set; }
     }
 }

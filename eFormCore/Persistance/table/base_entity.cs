@@ -10,14 +10,14 @@ namespace eFormSqlController
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
                 
-        public int? version { get; set; }
+        public int? Version { get; set; }
 
         [StringLength(255)]
-        public string workflow_state { get; set; }
+        public string WorkflowState { get; set; }
 
-        public DateTime? created_at { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public DateTime? updated_at { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }

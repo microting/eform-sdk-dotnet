@@ -32,28 +32,28 @@ namespace eFormSqlController
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [StringLength(255)]
-        public string workflow_state { get; set; }
+        public string WorkflowState { get; set; }
 
-        public DateTime? created_at { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public DateTime? updated_at { get; set; }
-
-        [StringLength(255)]
-        public string microting_uid { get; set; }
-
-        public string transmission { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [StringLength(255)]
-        public string notification_uid { get; set; }
+        public string MicrotingUid { get; set; }
 
-        public string activity { get; set; }
+        public string Transmission { get; set; }
 
-        public string exception { get; set; }
+        [StringLength(255)]
+        public string NotificationUid { get; set; }
 
-        public string stacktrace { get; set; }
+        public string Activity { get; set; }
+
+        public string Exception { get; set; }
+
+        public string Stacktrace { get; set; }
         
         
         

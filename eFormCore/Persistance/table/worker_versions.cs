@@ -38,7 +38,7 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int microting_uid { get; set; }
+        public int MicrotingUid { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -46,14 +46,14 @@ namespace eFormSqlController
 //        public int? version { get; set; }
 
         [StringLength(255)]
-        public string first_name { get; set; }
+        public string FirstName { get; set; }
 
         [StringLength(255)]
-        public string last_name { get; set; }
+        public string LastName { get; set; }
 
         [StringLength(255)]
-        public string email { get; set; }
+        public string Email { get; set; }
 
-        public int? worker_id { get; set; }
+        public int? WorkerId { get; set; }
     }
 }

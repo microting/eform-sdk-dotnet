@@ -46,39 +46,39 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? uploader_id { get; set; }
+        public int? UploaderId { get; set; }
 
         [StringLength(255)]
-        public string checksum { get; set; }
+        public string Checksum { get; set; }
 
         [StringLength(255)]
-        public string extension { get; set; }
+        public string Extension { get; set; }
 
         [StringLength(255)]
-        public string current_file { get; set; }
+        public string CurrentFile { get; set; }
 
         [StringLength(255)]
-        public string uploader_type { get; set; }
+        public string UploaderType { get; set; }
 
         [StringLength(255)]
-        public string file_location { get; set; }
+        public string FileLocation { get; set; }
 
         [StringLength(255)]
-        public string file_name { get; set; }
+        public string FileName { get; set; }
 
-        public DateTime? expiration_date { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
-        public short? local { get; set; }
+        public short? Local { get; set; }
 
-        public int? transcription_id { get; set; }
+        public int? TranscriptionId { get; set; }
         
         
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.uploaded_data.Add(this);
             dbContext.SaveChanges();
@@ -96,22 +96,22 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Uploaded Data with Id: {Id}");
             }
 
-            uploadedData.uploader_id = uploader_id;
-            uploadedData.uploader_type = uploader_type;
-            uploadedData.checksum = checksum;
-            uploadedData.extension = extension;
-            uploadedData.local = local;
-            uploadedData.file_name = file_name;
-            uploadedData.current_file = current_file;
-            uploadedData.file_location = file_location;
-            uploadedData.expiration_date = expiration_date;
-            uploadedData.transcription_id = transcription_id;
+            uploadedData.UploaderId = UploaderId;
+            uploadedData.UploaderType = UploaderType;
+            uploadedData.Checksum = Checksum;
+            uploadedData.Extension = Extension;
+            uploadedData.Local = Local;
+            uploadedData.FileName = FileName;
+            uploadedData.CurrentFile = CurrentFile;
+            uploadedData.FileLocation = FileLocation;
+            uploadedData.ExpirationDate = ExpirationDate;
+            uploadedData.TranscriptionId = TranscriptionId;
 
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                uploadedData.version += 1;
-                uploadedData.updated_at = DateTime.Now;
+                uploadedData.Version += 1;
+                uploadedData.UpdatedAt = DateTime.Now;
 
                 dbContext.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
                 dbContext.SaveChanges();
@@ -127,13 +127,13 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Uploaded Data with Id: {Id}");
             }
 
-            uploadedData.workflow_state = Constants.WorkflowStates.Removed;
+            uploadedData.WorkflowState = Constants.WorkflowStates.Removed;
 
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                uploadedData.version += 1;
-                uploadedData.updated_at = DateTime.Now;
+                uploadedData.Version += 1;
+                uploadedData.UpdatedAt = DateTime.Now;
 
                 dbContext.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
                 dbContext.SaveChanges();
@@ -146,21 +146,21 @@ namespace eFormSqlController
         {
             uploaded_data_versions udv = new uploaded_data_versions();
 
-            udv.created_at = uploadedData.created_at;
-            udv.updated_at = uploadedData.updated_at;
-            udv.checksum = uploadedData.checksum;
-            udv.extension = uploadedData.extension;
-            udv.current_file = uploadedData.current_file;
-            udv.uploader_id = uploadedData.uploader_id;
-            udv.uploader_type = uploadedData.uploader_type;
-            udv.workflow_state = uploadedData.workflow_state;
-            udv.expiration_date = uploadedData.expiration_date;
-            udv.version = uploadedData.version;
-            udv.local = uploadedData.local;
-            udv.file_location = uploadedData.file_location;
-            udv.file_name = uploadedData.file_name;
+            udv.CreatedAt = uploadedData.CreatedAt;
+            udv.UpdatedAt = uploadedData.UpdatedAt;
+            udv.Checksum = uploadedData.Checksum;
+            udv.Extension = uploadedData.Extension;
+            udv.CurrentFile = uploadedData.CurrentFile;
+            udv.UploaderId = uploadedData.UploaderId;
+            udv.UploaderType = uploadedData.UploaderType;
+            udv.WorkflowState = uploadedData.WorkflowState;
+            udv.ExpirationDate = uploadedData.ExpirationDate;
+            udv.Version = uploadedData.Version;
+            udv.Local = uploadedData.Local;
+            udv.FileLocation = uploadedData.FileLocation;
+            udv.FileName = uploadedData.FileName;
 
-            udv.data_uploaded_id = uploadedData.Id; //<<--
+            udv.DataUploadedId = uploadedData.Id; //<<--
 
             return udv;
         }

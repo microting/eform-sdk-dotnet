@@ -47,7 +47,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            sut.CheckListSitesCreate(cl1.Id, (int)site.microting_uid, "ServerMicrotingUid");
+            sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, "ServerMicrotingUid");
             List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -55,8 +55,8 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(checkListSiteResult);
             Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].workflow_state);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].WorkflowState);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].WorkflowState);
 
         }
 
@@ -78,8 +78,8 @@ namespace eFormSDK.Integration.Tests
             check_list_sites cls2 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
 
             // Act
-            List<string> matches = sut.CheckListSitesRead(cl1.Id, (int)site1.microting_uid, Constants.WorkflowStates.NotRemoved);
-            List<string> matches2 = sut.CheckListSitesRead(cl1.Id, (int)site1.microting_uid, null);
+            List<string> matches = sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
+            List<string> matches2 = sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -88,9 +88,9 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(matches);
             Assert.AreEqual(2, matches.Count);
             Assert.AreEqual(2, matches2.Count);
-            Assert.AreEqual(cls1.microting_uid, matches[0]);
-            Assert.AreEqual(cls1.microting_uid, matches2[0]);
-            Assert.AreEqual(cls2.microting_uid, matches2[1]);
+            Assert.AreEqual(cls1.MicrotingUid, matches[0]);
+            Assert.AreEqual(cls1.MicrotingUid, matches2[0]);
+            Assert.AreEqual(cls2.MicrotingUid, matches2[1]);
         }
 
 
@@ -110,14 +110,14 @@ namespace eFormSDK.Integration.Tests
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
 
             // Act
-            sut.CaseDeleteReversed(cls1.microting_uid);
+            sut.CaseDeleteReversed(cls1.MicrotingUid);
             List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
 
             // Assert
 
             Assert.NotNull(checkListSiteResult);
             Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].WorkflowState);
 
         }
 

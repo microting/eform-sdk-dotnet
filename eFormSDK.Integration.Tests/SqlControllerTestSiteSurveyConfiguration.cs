@@ -43,18 +43,18 @@ namespace eFormSDK.Integration.Tests
             
             survey_configurations surveyConfiguration = new survey_configurations();
 
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             sites site1 = testHelpers.CreateSite("SiteName1", 88);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.siteId = site1.Id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.Id;
+            siteSurveyConfiguration.SiteId = site1.Id;
+            siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
             // Act
             siteSurveyConfiguration.Create(DbContext);
 
@@ -66,8 +66,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
 
-            Assert.AreEqual(site1.Id, dbSiteSurveyConfiguration.siteId);
-            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.surveyConfigurationId);
+            Assert.AreEqual(site1.Id, dbSiteSurveyConfiguration.SiteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.SurveyConfigurationId);
         }
         [Test]
         public void siteSurveyConfiguration_Update_DoesUpdate()
@@ -77,31 +77,31 @@ namespace eFormSDK.Integration.Tests
             
             survey_configurations surveyConfiguration = new survey_configurations();
 
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             sites site1 = testHelpers.CreateSite("SiteName1", 88);
             
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.siteId = site1.Id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.Id;
+            siteSurveyConfiguration.SiteId = site1.Id;
+            siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
             siteSurveyConfiguration.Create(DbContext);
             // Act
             sites site2 = testHelpers.CreateSite("siteName2", 666);
             survey_configurations surveyConfiguration2 = new survey_configurations();
-            surveyConfiguration2.name = Guid.NewGuid().ToString();
-            surveyConfiguration2.stop = DateTime.Now;
-            surveyConfiguration2.start = DateTime.Now;
-            surveyConfiguration2.timeOut = rnd.Next(1, 255);
-            surveyConfiguration2.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration2.Name = Guid.NewGuid().ToString();
+            surveyConfiguration2.Stop = DateTime.Now;
+            surveyConfiguration2.Start = DateTime.Now;
+            surveyConfiguration2.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration2.Create(DbContext);
 
-            siteSurveyConfiguration.siteId = site2.Id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration2.Id;
+            siteSurveyConfiguration.SiteId = site2.Id;
+            siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration2.Id;
             
             siteSurveyConfiguration.Update(DbContext);
             site_survey_configurations dbSiteSurveyConfiguration =
@@ -112,8 +112,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
 
-            Assert.AreEqual(site2.Id, dbSiteSurveyConfiguration.siteId);
-            Assert.AreEqual(surveyConfiguration2.Id, siteSurveyConfiguration.surveyConfigurationId);
+            Assert.AreEqual(site2.Id, dbSiteSurveyConfiguration.SiteId);
+            Assert.AreEqual(surveyConfiguration2.Id, siteSurveyConfiguration.SurveyConfigurationId);
         }
         [Test]
         public void siteSurveyConfiguration_Delete_DoesDelete()
@@ -123,18 +123,18 @@ namespace eFormSDK.Integration.Tests
             
             survey_configurations surveyConfiguration = new survey_configurations();
 
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             sites site1 = testHelpers.CreateSite("SiteName1", 88);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.siteId = site1.Id;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfiguration.Id;
+            siteSurveyConfiguration.SiteId = site1.Id;
+            siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
             siteSurveyConfiguration.Create(DbContext);
             // Act
             siteSurveyConfiguration.Delete(DbContext);
@@ -146,9 +146,9 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
 
-            Assert.AreEqual(site1.Id, dbSiteSurveyConfiguration.siteId);
-            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.surveyConfigurationId);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, siteSurveyConfiguration.workflow_state);
+            Assert.AreEqual(site1.Id, dbSiteSurveyConfiguration.SiteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.SurveyConfigurationId);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, siteSurveyConfiguration.WorkflowState);
         }
     }
 }

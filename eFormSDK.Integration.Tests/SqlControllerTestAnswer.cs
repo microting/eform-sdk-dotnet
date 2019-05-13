@@ -44,37 +44,37 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
             language.Create(DbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             
             answers answer = new answers();
-            answer.siteId = site1.Id;
-            answer.questionSetId = questionSet.Id;
-            answer.surveyConfigurationId = surveyConfiguration.Id;
-            answer.unitId = unit1.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = true;
+            answer.SiteId = site1.Id;
+            answer.QuestionSetId = questionSet.Id;
+            answer.SurveyConfigurationId = surveyConfiguration.Id;
+            answer.UnitId = unit1.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = true;
             // Act
             answer.Create(DbContext);
 
@@ -84,15 +84,15 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
             
-            Assert.AreEqual(dbAnswer.siteId, answer.siteId);
-            Assert.AreEqual(dbAnswer.questionSetId, answer.questionSetId);
-            Assert.AreEqual(dbAnswer.surveyConfigurationId, answer.surveyConfigurationId);
-            Assert.AreEqual(dbAnswer.unitId, answer.unitId);
-            Assert.AreEqual(dbAnswer.timeZone, answer.timeZone);
-            Assert.AreEqual(dbAnswer.finishedAt, answer.finishedAt);
-            Assert.AreEqual(dbAnswer.languageId, answer.languageId);
-            Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
-            Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
+            Assert.AreEqual(dbAnswer.SiteId, answer.SiteId);
+            Assert.AreEqual(dbAnswer.QuestionSetId, answer.QuestionSetId);
+            Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
+            Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
+            Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
+            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
+            Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
+            Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
         }
         
         [Test]
@@ -103,37 +103,37 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
             language.Create(DbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             
             answers answer = new answers();
-            answer.siteId = site1.Id;
-            answer.questionSetId = questionSet.Id;
-            answer.surveyConfigurationId = surveyConfiguration.Id;
-            answer.unitId = unit1.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = false;
+            answer.SiteId = site1.Id;
+            answer.QuestionSetId = questionSet.Id;
+            answer.SurveyConfigurationId = surveyConfiguration.Id;
+            answer.UnitId = unit1.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = false;
             // Act
             answer.Create(DbContext);
 
@@ -143,15 +143,15 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
             
-            Assert.AreEqual(dbAnswer.siteId, answer.siteId);
-            Assert.AreEqual(dbAnswer.questionSetId, answer.questionSetId);
-            Assert.AreEqual(dbAnswer.surveyConfigurationId, answer.surveyConfigurationId);
-            Assert.AreEqual(dbAnswer.unitId, answer.unitId);
-            Assert.AreEqual(dbAnswer.timeZone, answer.timeZone);
-            Assert.AreEqual(dbAnswer.finishedAt, answer.finishedAt);
-            Assert.AreEqual(dbAnswer.languageId, answer.languageId);
-            Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
-            Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
+            Assert.AreEqual(dbAnswer.SiteId, answer.SiteId);
+            Assert.AreEqual(dbAnswer.QuestionSetId, answer.QuestionSetId);
+            Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
+            Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
+            Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
+            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
+            Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
+            Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
         }
         
         [Test]
@@ -167,70 +167,70 @@ namespace eFormSDK.Integration.Tests
             units unit2 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
            
             languages language = new languages();
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
             language.Create(DbContext);
             languages language2 = new languages();
-            language2.name = Guid.NewGuid().ToString();
-            language2.description = Guid.NewGuid().ToString();
+            language2.Name = Guid.NewGuid().ToString();
+            language2.Description = Guid.NewGuid().ToString();
             language2.Create(DbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             survey_configurations surveyConfiguration2 = new survey_configurations();
-            surveyConfiguration2.name = Guid.NewGuid().ToString();
-            surveyConfiguration2.stop = DateTime.Now;
-            surveyConfiguration2.start = DateTime.Now;
-            surveyConfiguration2.timeOut = rnd.Next(1, 255);
-            surveyConfiguration2.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration2.Name = Guid.NewGuid().ToString();
+            surveyConfiguration2.Stop = DateTime.Now;
+            surveyConfiguration2.Start = DateTime.Now;
+            surveyConfiguration2.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration2.Create(DbContext);
 
             
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
             
             string name2 = Guid.NewGuid().ToString();
             question_sets questionSet2 = new question_sets();
-            questionSet2.name = name2;
-            questionSet2.share = false;
-            questionSet2.hasChild = false;
-            questionSet2.posiblyDeployed = false;
+            questionSet2.Name = name2;
+            questionSet2.Share = false;
+            questionSet2.HasChild = false;
+            questionSet2.PosiblyDeployed = false;
             questionSet2.Create(DbContext);
 
             
             answers answer = new answers();
-            answer.siteId = site1.Id;
-            answer.questionSetId = questionSet.Id;
-            answer.surveyConfigurationId = surveyConfiguration.Id;
-            answer.unitId = unit1.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = false;
+            answer.SiteId = site1.Id;
+            answer.QuestionSetId = questionSet.Id;
+            answer.SurveyConfigurationId = surveyConfiguration.Id;
+            answer.UnitId = unit1.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = false;
             answer.Create(DbContext);
             // Act
 
-            answer.siteId = site2.Id;
-            answer.questionSetId = questionSet2.Id;
-            answer.surveyConfigurationId = surveyConfiguration2.Id;
-            answer.unitId = unit2.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = true;
+            answer.SiteId = site2.Id;
+            answer.QuestionSetId = questionSet2.Id;
+            answer.SurveyConfigurationId = surveyConfiguration2.Id;
+            answer.UnitId = unit2.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = true;
             
             answer.Update(DbContext);
             
@@ -240,15 +240,15 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
             
-            Assert.AreEqual(dbAnswer.siteId, answer.siteId);
-            Assert.AreEqual(dbAnswer.questionSetId, answer.questionSetId);
-            Assert.AreEqual(dbAnswer.surveyConfigurationId, answer.surveyConfigurationId);
-            Assert.AreEqual(dbAnswer.unitId, answer.unitId);
-            Assert.AreEqual(dbAnswer.timeZone, answer.timeZone);
-            Assert.AreEqual(dbAnswer.finishedAt, answer.finishedAt);
-            Assert.AreEqual(dbAnswer.languageId, answer.languageId);
-            Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
-            Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
+            Assert.AreEqual(dbAnswer.SiteId, answer.SiteId);
+            Assert.AreEqual(dbAnswer.QuestionSetId, answer.QuestionSetId);
+            Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
+            Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
+            Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
+            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
+            Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
+            Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
         }
         
         [Test]
@@ -264,70 +264,70 @@ namespace eFormSDK.Integration.Tests
             units unit2 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
            
             languages language = new languages();
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
             language.Create(DbContext);
             languages language2 = new languages();
-            language2.name = Guid.NewGuid().ToString();
-            language2.description = Guid.NewGuid().ToString();
+            language2.Name = Guid.NewGuid().ToString();
+            language2.Description = Guid.NewGuid().ToString();
             language2.Create(DbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             survey_configurations surveyConfiguration2 = new survey_configurations();
-            surveyConfiguration2.name = Guid.NewGuid().ToString();
-            surveyConfiguration2.stop = DateTime.Now;
-            surveyConfiguration2.start = DateTime.Now;
-            surveyConfiguration2.timeOut = rnd.Next(1, 255);
-            surveyConfiguration2.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration2.Name = Guid.NewGuid().ToString();
+            surveyConfiguration2.Stop = DateTime.Now;
+            surveyConfiguration2.Start = DateTime.Now;
+            surveyConfiguration2.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration2.Create(DbContext);
 
             
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
             
             string name2 = Guid.NewGuid().ToString();
             question_sets questionSet2 = new question_sets();
-            questionSet2.name = name2;
-            questionSet2.share = false;
-            questionSet2.hasChild = false;
-            questionSet2.posiblyDeployed = false;
+            questionSet2.Name = name2;
+            questionSet2.Share = false;
+            questionSet2.HasChild = false;
+            questionSet2.PosiblyDeployed = false;
             questionSet2.Create(DbContext);
 
             
             answers answer = new answers();
-            answer.siteId = site1.Id;
-            answer.questionSetId = questionSet.Id;
-            answer.surveyConfigurationId = surveyConfiguration.Id;
-            answer.unitId = unit1.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = true;
+            answer.SiteId = site1.Id;
+            answer.QuestionSetId = questionSet.Id;
+            answer.SurveyConfigurationId = surveyConfiguration.Id;
+            answer.UnitId = unit1.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = true;
             answer.Create(DbContext);
             // Act
 
-            answer.siteId = site2.Id;
-            answer.questionSetId = questionSet2.Id;
-            answer.surveyConfigurationId = surveyConfiguration2.Id;
-            answer.unitId = unit2.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = false;
+            answer.SiteId = site2.Id;
+            answer.QuestionSetId = questionSet2.Id;
+            answer.SurveyConfigurationId = surveyConfiguration2.Id;
+            answer.UnitId = unit2.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = false;
             
             answer.Update(DbContext);
             answers dbAnswer = DbContext.answers.AsNoTracking().First();
@@ -336,15 +336,15 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
             
-            Assert.AreEqual(dbAnswer.siteId, answer.siteId);
-            Assert.AreEqual(dbAnswer.questionSetId, answer.questionSetId);
-            Assert.AreEqual(dbAnswer.surveyConfigurationId, answer.surveyConfigurationId);
-            Assert.AreEqual(dbAnswer.unitId, answer.unitId);
-            Assert.AreEqual(dbAnswer.timeZone, answer.timeZone);
-            Assert.AreEqual(dbAnswer.finishedAt, answer.finishedAt);
-            Assert.AreEqual(dbAnswer.languageId, answer.languageId);
-            Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
-            Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
+            Assert.AreEqual(dbAnswer.SiteId, answer.SiteId);
+            Assert.AreEqual(dbAnswer.QuestionSetId, answer.QuestionSetId);
+            Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
+            Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
+            Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
+            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
+            Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
+            Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
         }
         
         [Test]
@@ -355,37 +355,37 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
             language.Create(DbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             
             answers answer = new answers();
-            answer.siteId = site1.Id;
-            answer.questionSetId = questionSet.Id;
-            answer.surveyConfigurationId = surveyConfiguration.Id;
-            answer.unitId = unit1.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = true;
+            answer.SiteId = site1.Id;
+            answer.QuestionSetId = questionSet.Id;
+            answer.SurveyConfigurationId = surveyConfiguration.Id;
+            answer.UnitId = unit1.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = true;
             answer.Create(DbContext);
             // Act
 
@@ -397,16 +397,16 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
             
-            Assert.AreEqual(dbAnswer.siteId, answer.siteId);
-            Assert.AreEqual(dbAnswer.questionSetId, answer.questionSetId);
-            Assert.AreEqual(dbAnswer.surveyConfigurationId, answer.surveyConfigurationId);
-            Assert.AreEqual(dbAnswer.unitId, answer.unitId);
-            Assert.AreEqual(dbAnswer.timeZone, answer.timeZone);
-            Assert.AreEqual(dbAnswer.finishedAt, answer.finishedAt);
-            Assert.AreEqual(dbAnswer.languageId, answer.languageId);
-            Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
-            Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, answer.workflow_state);
+            Assert.AreEqual(dbAnswer.SiteId, answer.SiteId);
+            Assert.AreEqual(dbAnswer.QuestionSetId, answer.QuestionSetId);
+            Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
+            Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
+            Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
+            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
+            Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
+            Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, answer.WorkflowState);
         }
         
         [Test]
@@ -417,37 +417,37 @@ namespace eFormSDK.Integration.Tests
             sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
             language.Create(DbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.name = Guid.NewGuid().ToString();
-            surveyConfiguration.stop = DateTime.Now;
-            surveyConfiguration.start = DateTime.Now;
-            surveyConfiguration.timeOut = rnd.Next(1, 255);
-            surveyConfiguration.timeToLive = rnd.Next(1, 255);
+            surveyConfiguration.Name = Guid.NewGuid().ToString();
+            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.Now;
+            surveyConfiguration.TimeOut = rnd.Next(1, 255);
+            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             surveyConfiguration.Create(DbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             questionSet.Create(DbContext);
 
             
             answers answer = new answers();
-            answer.siteId = site1.Id;
-            answer.questionSetId = questionSet.Id;
-            answer.surveyConfigurationId = surveyConfiguration.Id;
-            answer.unitId = unit1.Id;
-            answer.timeZone = Guid.NewGuid().ToString();
-            answer.finishedAt = rnd.Next(1, 255);
-            answer.languageId = language.Id;
-            answer.answerDuration = rnd.Next(1, 255);
-            answer.UTCAdjusted = false;
+            answer.SiteId = site1.Id;
+            answer.QuestionSetId = questionSet.Id;
+            answer.SurveyConfigurationId = surveyConfiguration.Id;
+            answer.UnitId = unit1.Id;
+            answer.TimeZone = Guid.NewGuid().ToString();
+            answer.FinishedAt = rnd.Next(1, 255);
+            answer.LanguageId = language.Id;
+            answer.AnswerDuration = rnd.Next(1, 255);
+            answer.UtcAdjusted = false;
             answer.Create(DbContext);
             // Act
 
@@ -459,16 +459,16 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
             
-            Assert.AreEqual(dbAnswer.siteId, answer.siteId);
-            Assert.AreEqual(dbAnswer.questionSetId, answer.questionSetId);
-            Assert.AreEqual(dbAnswer.surveyConfigurationId, answer.surveyConfigurationId);
-            Assert.AreEqual(dbAnswer.unitId, answer.unitId);
-            Assert.AreEqual(dbAnswer.timeZone, answer.timeZone);
-            Assert.AreEqual(dbAnswer.finishedAt, answer.finishedAt);
-            Assert.AreEqual(dbAnswer.languageId, answer.languageId);
-            Assert.AreEqual(dbAnswer.answerDuration, answer.answerDuration);
-            Assert.AreEqual(dbAnswer.UTCAdjusted, answer.UTCAdjusted);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, answer.workflow_state);
+            Assert.AreEqual(dbAnswer.SiteId, answer.SiteId);
+            Assert.AreEqual(dbAnswer.QuestionSetId, answer.QuestionSetId);
+            Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
+            Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
+            Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
+            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
+            Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
+            Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, answer.WorkflowState);
         }
         
         

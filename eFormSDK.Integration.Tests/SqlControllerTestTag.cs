@@ -51,7 +51,7 @@ namespace eFormSDK.Integration.Tests
             // Assert
             var tag = DbContext.tags.ToList();
 
-            Assert.AreEqual(tag[0].name, tagName);
+            Assert.AreEqual(tag[0].Name, tagName);
             Assert.AreEqual(1, tag.Count());
         }
 
@@ -61,8 +61,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             string tagName = "Tag1";
             tags tag = new tags();
-            tag.name = tagName;
-            tag.workflow_state = Constants.WorkflowStates.Created;
+            tag.Name = tagName;
+            tag.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
@@ -73,9 +73,9 @@ namespace eFormSDK.Integration.Tests
             // Assert
             var result = DbContext.tags.AsNoTracking().ToList();
 
-            Assert.AreEqual(result[0].name, tagName);
+            Assert.AreEqual(result[0].Name, tagName);
             Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             string tagName = "Tag1";
             tags tag = new tags();
-            tag.name = tagName;
-            tag.workflow_state = Constants.WorkflowStates.Removed;
+            tag.Name = tagName;
+            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
@@ -96,9 +96,9 @@ namespace eFormSDK.Integration.Tests
             // Assert
             var result = DbContext.tags.AsNoTracking().ToList();
 
-            Assert.AreEqual(result[0].name, tagName);
+            Assert.AreEqual(result[0].Name, tagName);
             Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, result[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, result[0].WorkflowState);
         }
 
         [Test]
@@ -107,8 +107,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             string tagName1 = "Tag1";
             tags tag = new tags();
-            tag.name = tagName1;
-            tag.workflow_state = Constants.WorkflowStates.Removed;
+            tag.Name = tagName1;
+            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
@@ -116,16 +116,16 @@ namespace eFormSDK.Integration.Tests
             string tagName2 = "Tag2";
             tag = new tags();
 
-            tag.name = tagName2;
-            tag.workflow_state = Constants.WorkflowStates.Removed;
+            tag.Name = tagName2;
+            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
             string tagName3 = "Tag3";
             tag = new tags();
 
-            tag.name = tagName3;
-            tag.workflow_state = Constants.WorkflowStates.Removed;
+            tag.Name = tagName3;
+            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
@@ -150,23 +150,23 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             check_lists cl1 = new check_lists();
-            cl1.created_at = DateTime.Now;
-            cl1.updated_at = DateTime.Now;
-            cl1.label = "A";
-            cl1.description = "D";
-            cl1.workflow_state = Constants.WorkflowStates.Created;
-            cl1.case_type = "CheckList";
-            cl1.folder_name = "Template1FolderName";
-            cl1.display_index = 1;
-            cl1.repeated = 1;
+            cl1.CreatedAt = DateTime.Now;
+            cl1.UpdatedAt = DateTime.Now;
+            cl1.Label = "A";
+            cl1.Description = "D";
+            cl1.WorkflowState = Constants.WorkflowStates.Created;
+            cl1.CaseType = "CheckList";
+            cl1.FolderName = "Template1FolderName";
+            cl1.DisplayIndex = 1;
+            cl1.Repeated = 1;
 
             DbContext.check_lists.Add(cl1);
             DbContext.SaveChanges();
 
             string tagName1 = "Tag1";
             tags tag = new tags();
-            tag.name = tagName1;
-            tag.workflow_state = Constants.WorkflowStates.Created;
+            tag.Name = tagName1;
+            tag.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
@@ -181,8 +181,8 @@ namespace eFormSDK.Integration.Tests
             List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
 
             Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(tag.Id, result[0].tag_id);
-            Assert.AreEqual(cl1.Id, result[0].check_list_id);
+            Assert.AreEqual(tag.Id, result[0].TagId);
+            Assert.AreEqual(cl1.Id, result[0].CheckListId);
             Assert.True(true);
         }
         #endregion

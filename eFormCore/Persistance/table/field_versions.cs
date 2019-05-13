@@ -34,7 +34,7 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? field_id { get; set; }
+        public int? FieldId { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -45,74 +45,74 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? parent_field_id { get; set; }
+        public int? ParentFieldId { get; set; }
 
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
-        public int? field_type_id { get; set; }
+        public int? FieldTypeId { get; set; }
 
-        public short? mandatory { get; set; }
+        public short? Mandatory { get; set; }
 
-        public short? read_only { get; set; }
+        public short? ReadOnly { get; set; }
 
-        public string label { get; set; }
+        public string Label { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
         [StringLength(255)]
-        public string color { get; set; }
+        public string Color { get; set; }
 
-        public int? display_index { get; set; }
+        public int? DisplayIndex { get; set; }
 
-        public short? dummy { get; set; }
+        public short? Dummy { get; set; }
         
-        public string default_value { get; set; }
+        public string DefaultValue { get; set; }
 
         [StringLength(255)]
-        public string unit_name { get; set; }
+        public string UnitName { get; set; }
 
         [StringLength(255)]
-        public string min_value { get; set; }
+        public string MinValue { get; set; }
 
         [StringLength(255)]
-        public string max_value { get; set; }
+        public string MaxValue { get; set; }
 
-        public int? max_length { get; set; }
+        public int? MaxLength { get; set; }
 
-        public int? decimal_count { get; set; }
+        public int? DecimalCount { get; set; }
 
-        public int? multi { get; set; }
+        public int? Multi { get; set; }
 
-        public short? optional { get; set; }
+        public short? Optional { get; set; }
 
-        public short? selected { get; set; }
+        public short? Selected { get; set; }
 
-        public short? split_screen { get; set; }
+        public short? SplitScreen { get; set; }
 
-        public short? geolocation_enabled { get; set; }
+        public short? GeolocationEnabled { get; set; }
 
-        public short? geolocation_forced { get; set; }
+        public short? GeolocationForced { get; set; }
 
-        public short? geolocation_hidden { get; set; }
+        public short? GeolocationHidden { get; set; }
 
-        public short? stop_on_save { get; set; }
+        public short? StopOnSave { get; set; }
 
-        public short? is_num { get; set; }
+        public short? IsNum { get; set; }
 
-        public short? barcode_enabled { get; set; }
-
-        [StringLength(255)]
-        public string barcode_type { get; set; }
+        public short? BarcodeEnabled { get; set; }
 
         [StringLength(255)]
-        public string query_type { get; set; }
+        public string BarcodeType { get; set; }
 
-        public string key_value_pair_list { get; set; }
+        [StringLength(255)]
+        public string QueryType { get; set; }
 
-        public string custom { get; set; }
+        public string KeyValuePairList { get; set; }
 
-        public int? entity_group_id { get; set; }
+        public string Custom { get; set; }
 
-        public string original_id { get; set; }
+        public int? EntityGroupId { get; set; }
+
+        public string OriginalId { get; set; }
     }
 }

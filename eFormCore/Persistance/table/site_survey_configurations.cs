@@ -32,19 +32,19 @@ namespace eFormSqlController
     public partial class site_survey_configurations : BaseEntity
     {
         [ForeignKey("site")]
-        public int siteId { get; set; }
+        public int SiteId { get; set; }
 
         [ForeignKey("survey_configuration")]
-        public int surveyConfigurationId { get; set; }
+        public int SurveyConfigurationId { get; set; }
 
         public virtual sites Site { get; set; }
         public virtual survey_configurations SurveyConfiguration { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
-            version = 1;
+            WorkflowState = Constants.WorkflowStates.Created;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
 
             dbContext.site_survey_configurations.Add(this);
             dbContext.SaveChanges();
@@ -63,13 +63,13 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
             }
 
-            siteSurveyConfiguration.siteId = siteId;
-            siteSurveyConfiguration.surveyConfigurationId = surveyConfigurationId;
+            siteSurveyConfiguration.SiteId = SiteId;
+            siteSurveyConfiguration.SurveyConfigurationId = SurveyConfigurationId;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                version += 1;
-                updated_at = DateTime.Now;
+                Version += 1;
+                UpdatedAt = DateTime.Now;
 
                 dbContext.site_survey_configuration_versions.Add(MapVersions(siteSurveyConfiguration));
                 dbContext.SaveChanges();
@@ -87,12 +87,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
             }
 
-            siteSurveyConfiguration.workflow_state = Constants.WorkflowStates.Removed;
+            siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                version += 1;
-                updated_at = DateTime.Now;
+                Version += 1;
+                UpdatedAt = DateTime.Now;
 
                 dbContext.site_survey_configuration_versions.Add(MapVersions(siteSurveyConfiguration));
                 dbContext.SaveChanges();
@@ -103,13 +103,13 @@ namespace eFormSqlController
         {
             site_survey_configuration_versions siteSurveyConfigurationVersion = new site_survey_configuration_versions();
 
-            siteSurveyConfigurationVersion.surveyConfigurationId = siteSurveyConfiguration.surveyConfigurationId;
-            siteSurveyConfigurationVersion.siteId = siteSurveyConfiguration.siteId;
-            siteSurveyConfigurationVersion.siteSurveyConfigurationId = siteSurveyConfiguration.Id;
-            siteSurveyConfigurationVersion.created_at = siteSurveyConfiguration.created_at;
-            siteSurveyConfigurationVersion.updated_at = siteSurveyConfiguration.updated_at;
-            siteSurveyConfigurationVersion.workflow_state = siteSurveyConfiguration.workflow_state;
-            siteSurveyConfigurationVersion.version = siteSurveyConfiguration.version;
+            siteSurveyConfigurationVersion.SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId;
+            siteSurveyConfigurationVersion.SiteId = siteSurveyConfiguration.SiteId;
+            siteSurveyConfigurationVersion.SiteSurveyConfigurationId = siteSurveyConfiguration.Id;
+            siteSurveyConfigurationVersion.CreatedAt = siteSurveyConfiguration.CreatedAt;
+            siteSurveyConfigurationVersion.UpdatedAt = siteSurveyConfiguration.UpdatedAt;
+            siteSurveyConfigurationVersion.WorkflowState = siteSurveyConfiguration.WorkflowState;
+            siteSurveyConfigurationVersion.Version = siteSurveyConfiguration.Version;
 
             return siteSurveyConfigurationVersion;
         }

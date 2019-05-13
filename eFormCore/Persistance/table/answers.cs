@@ -33,44 +33,44 @@ namespace eFormSqlController
     {
         
         [ForeignKey("unit")]
-        public int unitId { get; set; }
+        public int UnitId { get; set; }
         
         [ForeignKey("site")]
-        public int siteId { get; set; }
+        public int SiteId { get; set; }
         
-        public int answerDuration { get; set; }
+        public int AnswerDuration { get; set; }
         
         [ForeignKey("language")]
-        public int languageId { get; set; }
+        public int LanguageId { get; set; }
         
         [ForeignKey("survey_configuration")]
-        public int surveyConfigurationId { get; set; }
+        public int SurveyConfigurationId { get; set; }
         
-        public int finishedAt { get; set; }
+        public int FinishedAt { get; set; }
         
         [ForeignKey("question_set")]
-        public int questionSetId { get; set; }
+        public int QuestionSetId { get; set; }
         
-        public bool UTCAdjusted { get; set; }
+        public bool UtcAdjusted { get; set; }
         
-        public string timeZone { get; set; }
+        public string TimeZone { get; set; }
         
-        public virtual sites site { get; set; }
+        public virtual sites Site { get; set; }
 
-        public virtual units unit { get; set; }
+        public virtual units Unit { get; set; }
         
-        public virtual languages language { get; set; }
+        public virtual languages Language { get; set; }
         
-        public virtual survey_configurations survey_configuration { get; set; }
+        public virtual survey_configurations SurveyConfiguration { get; set; }
         
-        public virtual question_sets question_set { get; set; }
+        public virtual question_sets QuestionSet { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
-            version = 1;
-            workflow_state = eFormShared.Constants.WorkflowStates.Created;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
+            WorkflowState = eFormShared.Constants.WorkflowStates.Created;
             dbContext.answers.Add(this);
             dbContext.SaveChanges();
 
@@ -87,20 +87,20 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find answer with Id: {Id}");
             }
 
-            answer.siteId = siteId;
-            answer.unitId = unitId;
-            answer.timeZone = timeZone;
-            answer.finishedAt = finishedAt;
-            answer.languageId = languageId;
-            answer.answerDuration = answerDuration;
-            answer.questionSetId = questionSetId;
-            answer.surveyConfigurationId = surveyConfigurationId;
-            answer.UTCAdjusted = UTCAdjusted;
+            answer.SiteId = SiteId;
+            answer.UnitId = UnitId;
+            answer.TimeZone = TimeZone;
+            answer.FinishedAt = FinishedAt;
+            answer.LanguageId = LanguageId;
+            answer.AnswerDuration = AnswerDuration;
+            answer.QuestionSetId = QuestionSetId;
+            answer.SurveyConfigurationId = SurveyConfigurationId;
+            answer.UtcAdjusted = UtcAdjusted;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                answer.updated_at = DateTime.Now;
-                answer.version += 1;
+                answer.UpdatedAt = DateTime.Now;
+                answer.Version += 1;
 
                 dbContext.answer_versions.Add(MapVersions(answer));
                 dbContext.SaveChanges();
@@ -116,12 +116,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find answer with Id: {Id}");
             }
 
-            answer.workflow_state = eFormShared.Constants.WorkflowStates.Removed;
+            answer.WorkflowState = eFormShared.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                answer.updated_at = DateTime.Now;
-                answer.version += 1;
+                answer.UpdatedAt = DateTime.Now;
+                answer.Version += 1;
 
                 dbContext.answer_versions.Add(MapVersions(answer));
                 dbContext.SaveChanges();
@@ -132,20 +132,20 @@ namespace eFormSqlController
         {
             answer_versions answerVersion = new answer_versions();
 
-            answerVersion.siteId = answer.siteId;
-            answerVersion.unitId = answer.unitId;
-            answerVersion.answerId = answer.Id;
-            answerVersion.timeZone = answer.timeZone;
-            answerVersion.finishedAt = answer.finishedAt;
-            answerVersion.languageId = answer.languageId;
-            answerVersion.answerDuration = answer.answerDuration;
-            answerVersion.questionSetId = answer.questionSetId;
-            answerVersion.surveyConfigurationId = answer.surveyConfigurationId;
-            answerVersion.UTCAdjusted = answer.UTCAdjusted;
-            answerVersion.updated_at = answer.updated_at;
-            answerVersion.created_at = answer.created_at;
-            answerVersion.version = answer.version;
-            answerVersion.workflow_state = answer.workflow_state;
+            answerVersion.SiteId = answer.SiteId;
+            answerVersion.UnitId = answer.UnitId;
+            answerVersion.AnswerId = answer.Id;
+            answerVersion.TimeZone = answer.TimeZone;
+            answerVersion.FinishedAt = answer.FinishedAt;
+            answerVersion.languageId = answer.LanguageId;
+            answerVersion.AnswerDuration = answer.AnswerDuration;
+            answerVersion.QuestionSetId = answer.QuestionSetId;
+            answerVersion.SurveyConfigurationId = answer.SurveyConfigurationId;
+            answerVersion.UtcAdjusted = answer.UtcAdjusted;
+            answerVersion.UpdatedAt = answer.UpdatedAt;
+            answerVersion.CreatedAt = answer.CreatedAt;
+            answerVersion.Version = answer.Version;
+            answerVersion.WorkflowState = answer.WorkflowState;
             
             return answerVersion;
         }

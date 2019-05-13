@@ -34,7 +34,7 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? check_list_value_id { get; set; }
+        public int? CheckListValueId { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -42,18 +42,18 @@ namespace eFormSqlController
 //        public int? version { get; set; }
 
         [StringLength(255)]
-        public string status { get; set; }
+        public string Status { get; set; }
 
 //        public DateTime? created_at { get; set; }
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? user_id { get; set; }
+        public int? UserId { get; set; }
 
-        public int? case_id { get; set; }
+        public int? CaseId { get; set; }
 
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
-        public int? check_list_duplicate_id { get; set; }
+        public int? CheckListDuplicateId { get; set; }
     }
 }

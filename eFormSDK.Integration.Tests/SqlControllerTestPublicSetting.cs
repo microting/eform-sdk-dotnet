@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.Tests
             var match = DbContext.settings.AsNoTracking().ToList();
 
             // Assert
-            Assert.AreEqual(match[7].value, "player");
+            Assert.AreEqual(match[7].Value, "player");
         }
 
 
@@ -177,62 +177,62 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(match);
             #region Name
 
-            Assert.AreEqual(match[0].name, "firstRunDone");
-            Assert.AreEqual(match[1].name, "logLevel");
-            Assert.AreEqual(match[2].name, "logLimit");
-            Assert.AreEqual(match[3].name, "knownSitesDone");
-            Assert.AreEqual(match[4].name, "fileLocationPicture");
-            Assert.AreEqual(match[5].name, "fileLocationPdf");
-            Assert.AreEqual(match[6].name, "fileLocationJasper");
-            Assert.AreEqual(match[7].name, "token");
-            Assert.AreEqual(match[8].name, "comAddressBasic");
-            Assert.AreEqual(match[9].name, "comAddressApi");
-            Assert.AreEqual(match[10].name, "comAddressPdfUpload");
-            Assert.AreEqual(match[11].name, "comOrganizationId");
-            Assert.AreEqual(match[12].name, "awsAccessKeyId");
-            Assert.AreEqual(match[13].name, "awsSecretAccessKey");
-            Assert.AreEqual(match[14].name, "awsEndPoint");
-            Assert.AreEqual(match[15].name, "unitLicenseNumber");
-            Assert.AreEqual(match[16].name, "httpServerAddress");
+            Assert.AreEqual(match[0].Name, "firstRunDone");
+            Assert.AreEqual(match[1].Name, "logLevel");
+            Assert.AreEqual(match[2].Name, "logLimit");
+            Assert.AreEqual(match[3].Name, "knownSitesDone");
+            Assert.AreEqual(match[4].Name, "fileLocationPicture");
+            Assert.AreEqual(match[5].Name, "fileLocationPdf");
+            Assert.AreEqual(match[6].Name, "fileLocationJasper");
+            Assert.AreEqual(match[7].Name, "token");
+            Assert.AreEqual(match[8].Name, "comAddressBasic");
+            Assert.AreEqual(match[9].Name, "comAddressApi");
+            Assert.AreEqual(match[10].Name, "comAddressPdfUpload");
+            Assert.AreEqual(match[11].Name, "comOrganizationId");
+            Assert.AreEqual(match[12].Name, "awsAccessKeyId");
+            Assert.AreEqual(match[13].Name, "awsSecretAccessKey");
+            Assert.AreEqual(match[14].Name, "awsEndPoint");
+            Assert.AreEqual(match[15].Name, "unitLicenseNumber");
+            Assert.AreEqual(match[16].Name, "httpServerAddress");
             #endregion
 
             #region Value
-            Assert.AreEqual(match[0].value, "true");
-            Assert.AreEqual(match[1].value, "4");
-            Assert.AreEqual(match[2].value, "25000");
-            Assert.AreEqual(match[3].value, "true");
-            Assert.AreEqual(match[4].value, path + @"\output\dataFolder\picture\");
-            Assert.AreEqual(match[5].value, path + @"\output\dataFolder\pdf\");
-            Assert.AreEqual(match[6].value, path + @"\output\dataFolder\reports\");
-            Assert.AreEqual(match[7].value, "abc1234567890abc1234567890abcdef");
-            Assert.AreEqual(match[8].value, "https://basic.microting.com");
-            Assert.AreEqual(match[9].value, "http://srv05.microting.com");
-            Assert.AreEqual(match[10].value, "https://srv16.microting.com");
-            Assert.AreEqual(match[11].value, "64856189");
-            Assert.AreEqual(match[12].value, "3T98EGIO4Y9H8W2");
-            Assert.AreEqual(match[13].value, "098u34098uergijt3098w");
-            Assert.AreEqual(match[14].value, "https://sqs.eu-central-1.amazonaws.com/564456879978/");
-            Assert.AreEqual(match[15].value, "55");
-            Assert.AreEqual(match[16].value, "http://localhost:3000");
+            Assert.AreEqual(match[0].Value, "true");
+            Assert.AreEqual(match[1].Value, "4");
+            Assert.AreEqual(match[2].Value, "25000");
+            Assert.AreEqual(match[3].Value, "true");
+            Assert.AreEqual(match[4].Value, path + @"\output\dataFolder\picture\");
+            Assert.AreEqual(match[5].Value, path + @"\output\dataFolder\pdf\");
+            Assert.AreEqual(match[6].Value, path + @"\output\dataFolder\reports\");
+            Assert.AreEqual(match[7].Value, "abc1234567890abc1234567890abcdef");
+            Assert.AreEqual(match[8].Value, "https://basic.microting.com");
+            Assert.AreEqual(match[9].Value, "http://srv05.microting.com");
+            Assert.AreEqual(match[10].Value, "https://srv16.microting.com");
+            Assert.AreEqual(match[11].Value, "64856189");
+            Assert.AreEqual(match[12].Value, "3T98EGIO4Y9H8W2");
+            Assert.AreEqual(match[13].Value, "098u34098uergijt3098w");
+            Assert.AreEqual(match[14].Value, "https://sqs.eu-central-1.amazonaws.com/564456879978/");
+            Assert.AreEqual(match[15].Value, "55");
+            Assert.AreEqual(match[16].Value, "http://localhost:3000");
             #endregion
 
             #region ID's
-            Assert.AreEqual(match[0].id, 1);
-            Assert.AreEqual(match[1].id, 2);
-            Assert.AreEqual(match[2].id, 3);
-            Assert.AreEqual(match[3].id, 4);
-            Assert.AreEqual(match[4].id, 5);
-            Assert.AreEqual(match[5].id, 6);
-            Assert.AreEqual(match[6].id, 7);
-            Assert.AreEqual(match[7].id, 8);
-            Assert.AreEqual(match[8].id, 9);
-            Assert.AreEqual(match[9].id, 10);
-            Assert.AreEqual(match[10].id, 11);
-            Assert.AreEqual(match[11].id, 12);
-            Assert.AreEqual(match[12].id, 13);
-            Assert.AreEqual(match[13].id, 14);
-            Assert.AreEqual(match[14].id, 15);
-            Assert.AreEqual(match[15].id, 16);
+            Assert.AreEqual(match[0].Id, 1);
+            Assert.AreEqual(match[1].Id, 2);
+            Assert.AreEqual(match[2].Id, 3);
+            Assert.AreEqual(match[3].Id, 4);
+            Assert.AreEqual(match[4].Id, 5);
+            Assert.AreEqual(match[5].Id, 6);
+            Assert.AreEqual(match[6].Id, 7);
+            Assert.AreEqual(match[7].Id, 8);
+            Assert.AreEqual(match[8].Id, 9);
+            Assert.AreEqual(match[9].Id, 10);
+            Assert.AreEqual(match[10].Id, 11);
+            Assert.AreEqual(match[11].Id, 12);
+            Assert.AreEqual(match[12].Id, 13);
+            Assert.AreEqual(match[13].Id, 14);
+            Assert.AreEqual(match[14].Id, 15);
+            Assert.AreEqual(match[15].Id, 16);
 
             #endregion
 

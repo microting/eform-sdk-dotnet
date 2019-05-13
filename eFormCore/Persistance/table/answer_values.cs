@@ -33,15 +33,15 @@ namespace eFormSqlController
     public partial class answer_values : BaseEntity
     {
         [ForeignKey("answer")]
-        public int answerId { get; set; }
+        public int AnswerId { get; set; }
         
         [ForeignKey("question")]
-        public int questionId { get; set; }
+        public int QuestionId { get; set; }
         
         [ForeignKey("options")]
-        public int optionsId { get; set; }
+        public int OptionsId { get; set; }
         
-        public int value { get; set; }
+        public int Value { get; set; }
         
         public virtual answers Answer { get; set; }
         public virtual questions Question { get; set; }
@@ -49,10 +49,10 @@ namespace eFormSqlController
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.answer_values.Add(this);
             dbContext.SaveChanges();
@@ -70,15 +70,15 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find answer value with Id: {Id}");
             }
 
-            answerValue.value = value;
-            answerValue.answerId = answerId;
-            answerValue.optionsId = optionsId;
-            answerValue.questionId = questionId;
+            answerValue.Value = Value;
+            answerValue.AnswerId = AnswerId;
+            answerValue.OptionsId = OptionsId;
+            answerValue.QuestionId = QuestionId;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                answerValue.version += 1;
-                answerValue.updated_at = DateTime.Now;
+                answerValue.Version += 1;
+                answerValue.UpdatedAt = DateTime.Now;
 
                 dbContext.answer_value_versions.Add(MapVersions(answerValue));
                 dbContext.SaveChanges();
@@ -94,12 +94,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find answer value with Id: {Id}");
             }
 
-            answerValue.workflow_state = Constants.WorkflowStates.Removed;
+            answerValue.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                answerValue.version += 1;
-                answerValue.updated_at = DateTime.Now;
+                answerValue.Version += 1;
+                answerValue.UpdatedAt = DateTime.Now;
 
                 dbContext.answer_value_versions.Add(MapVersions(answerValue));
                 dbContext.SaveChanges();
@@ -109,11 +109,11 @@ namespace eFormSqlController
         {
             answer_value_versions answerValueVersion = new answer_value_versions();
 
-            answerValueVersion.questionId = answerValue.questionId;
-            answerValueVersion.value = answerValue.value;
-            answerValueVersion.optionsId = answerValue.optionsId;
-            answerValueVersion.answerId = answerValue.answerId;
-            answerValueVersion.answerValueId = answerValue.Id;
+            answerValueVersion.QuestionId = answerValue.QuestionId;
+            answerValueVersion.Value = answerValue.Value;
+            answerValueVersion.OptionsId = answerValue.OptionsId;
+            answerValueVersion.AnswerId = answerValue.AnswerId;
+            answerValueVersion.AnswerValueId = answerValue.Id;
             
 
             return answerValueVersion;

@@ -30,23 +30,23 @@ namespace eFormSqlController
 {
     public partial class question_sets : BaseEntity
     {
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public bool hasChild { get; set; }
+        public bool HasChild { get; set; }
         
-        public bool posiblyDeployed { get; set; }
+        public bool PosiblyDeployed { get; set; }
         
-        public int parentId { get; set; }
+        public int ParentId { get; set; }
         
-        public bool share { get; set; }
+        public bool Share { get; set; }
 
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
-            version = 1;
+            WorkflowState = Constants.WorkflowStates.Created;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
 
             dbContext.question_sets.Add(this);
             dbContext.SaveChanges();
@@ -64,15 +64,15 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find question set with Id: {Id}");
             }
 
-            questionSet.name = name;
-            questionSet.share = share;
-            questionSet.hasChild = hasChild;
-            questionSet.posiblyDeployed = posiblyDeployed;
+            questionSet.Name = Name;
+            questionSet.Share = Share;
+            questionSet.HasChild = HasChild;
+            questionSet.PosiblyDeployed = PosiblyDeployed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                updated_at = DateTime.Now;
-                version += 1;
+                UpdatedAt = DateTime.Now;
+                Version += 1;
 
                 dbContext.question_set_versions.Add(MapVersions(questionSet));
                 dbContext.SaveChanges();
@@ -89,12 +89,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find question set with Id: {Id}");
             }
 
-            questionSet.workflow_state = Constants.WorkflowStates.Removed;
+            questionSet.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                updated_at = DateTime.Now;
-                version += 1;
+                UpdatedAt = DateTime.Now;
+                Version += 1;
 
                 dbContext.question_set_versions.Add(MapVersions(questionSet));
                 dbContext.SaveChanges();
@@ -106,15 +106,15 @@ namespace eFormSqlController
         {
             question_set_versions questionSetVersions = new question_set_versions();
 
-            questionSetVersions.questionSetId = questionSet.Id;
-            questionSetVersions.name = questionSet.name;
-            questionSetVersions.share = questionSet.share;
-            questionSetVersions.hasChild = questionSet.hasChild;
-            questionSetVersions.posiblyDeployed = questionSet.posiblyDeployed;
-            questionSetVersions.version = questionSet.version;
-            questionSetVersions.created_at = questionSet.created_at;
-            questionSetVersions.updated_at = questionSet.updated_at;
-            questionSetVersions.workflow_state = questionSet.workflow_state;
+            questionSetVersions.QuestionSetId = questionSet.Id;
+            questionSetVersions.Name = questionSet.Name;
+            questionSetVersions.Share = questionSet.Share;
+            questionSetVersions.HasChild = questionSet.HasChild;
+            questionSetVersions.PossiblyDeployed = questionSet.PosiblyDeployed;
+            questionSetVersions.Version = questionSet.Version;
+            questionSetVersions.CreatedAt = questionSet.CreatedAt;
+            questionSetVersions.UpdatedAt = questionSet.UpdatedAt;
+            questionSetVersions.WorkflowState = questionSet.WorkflowState;
 
             
             return questionSetVersions;

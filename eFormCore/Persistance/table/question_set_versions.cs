@@ -29,18 +29,18 @@ namespace eFormSqlController
     public partial class question_set_versions : BaseEntity
     {
         
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public bool hasChild { get; set; }
+        public bool HasChild { get; set; }
         
-        public bool posiblyDeployed { get; set; }
+        public bool PossiblyDeployed { get; set; }
         
-        public int parentId { get; set; }
+        public int ParentId { get; set; }
         
-        public bool share { get; set; }
+        public bool Share { get; set; }
         
         [ForeignKey("question_set")]
-        public int questionSetId { get; set; }
+        public int QuestionSetId { get; set; }
         
         public virtual question_sets QuestionSet { get; set; }
     }

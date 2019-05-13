@@ -34,28 +34,28 @@ namespace eFormSqlController
     public partial class taggings : BaseEntity
     {
         [ForeignKey("tag")]
-        public int? tag_id { get; set; }
+        public int? TagId { get; set; }
 
         [ForeignKey("check_list")]
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
-        public int? tagger_id { get; set; } // this will refer to some user Id.
+        public int? TaggerId { get; set; } // this will refer to some user Id.
 
-        public virtual tags tag { get; set; }
+        public virtual tags Tag { get; set; }
 
-        public virtual check_lists check_list { get; set; }
+        public virtual check_lists CheckList { get; set; }
 
         public void Save(MicrotingDbAnySql dbContext)
         {
             taggings tagging = new taggings
             {
-                check_list_id = check_list_id,
-                tag_id = tag_id,
-                created_at = DateTime.Now,
-                updated_at = DateTime.Now,
-                tagger_id = tagger_id,
-                version = 1,
-                workflow_state = Constants.WorkflowStates.Created
+                CheckListId = CheckListId,
+                TagId = TagId,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                TaggerId = TaggerId,
+                Version = 1,
+                WorkflowState = Constants.WorkflowStates.Created
             };
             
             dbContext.taggings.Add(tagging);
@@ -74,10 +74,10 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find tagging with Id: {Id}");
             }
 
-            tagging.workflow_state = workflow_state;
-            tagging.updated_at = DateTime.Now;
-            tagging.tagger_id = tagger_id;
-            tagging.version += 1;
+            tagging.WorkflowState = WorkflowState;
+            tagging.UpdatedAt = DateTime.Now;
+            tagging.TaggerId = TaggerId;
+            tagging.Version += 1;
 
             dbContext.SaveChanges();
 
@@ -94,9 +94,9 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find tagging with Id: {Id}");
             }
 
-            tagging.workflow_state = Constants.WorkflowStates.Removed;
-            tagging.updated_at = DateTime.Now;
-            tagging.version += 1;
+            tagging.WorkflowState = Constants.WorkflowStates.Removed;
+            tagging.UpdatedAt = DateTime.Now;
+            tagging.Version += 1;
 
             dbContext.SaveChanges();
 
@@ -107,14 +107,14 @@ namespace eFormSqlController
         private tagging_versions MapTaggingVersions(taggings tagging)
         {
             tagging_versions taggingVer = new tagging_versions();
-            taggingVer.workflow_state = tagging.workflow_state;
-            taggingVer.version = tagging.version;
-            taggingVer.created_at = tagging.created_at;
-            taggingVer.updated_at = tagging.updated_at;
-            taggingVer.check_list_id = tagging.check_list_id;
-            taggingVer.tag_id = tagging.tag_id;
-            taggingVer.tagger_id = tagging.tagger_id;
-            taggingVer.tagging_id = tagging.Id;
+            taggingVer.WorkflowState = tagging.WorkflowState;
+            taggingVer.Version = tagging.Version;
+            taggingVer.CreatedAt = tagging.CreatedAt;
+            taggingVer.UpdatedAt = tagging.UpdatedAt;
+            taggingVer.CheckListId = tagging.CheckListId;
+            taggingVer.TagId = tagging.TagId;
+            taggingVer.TaggerId = tagging.TaggerId;
+            taggingVer.TaggingId = tagging.Id;
 
             return taggingVer;
         }

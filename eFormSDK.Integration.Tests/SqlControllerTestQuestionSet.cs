@@ -44,10 +44,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             // Act
             questionSet.Create(DbContext);
@@ -58,10 +58,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }  
         [Test]
         public void questionSet_Create_DoesCreate_AllTrue()
@@ -70,10 +70,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             
             // Act
             questionSet.Create(DbContext);
@@ -84,10 +84,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Create_DoesCreate_ShareTrue()
@@ -96,10 +96,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             // Act
             questionSet.Create(DbContext);
@@ -110,10 +110,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Create_DoesCreate_HasChildTrue()
@@ -122,10 +122,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = false;
             
             // Act
             questionSet.Create(DbContext);
@@ -136,10 +136,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Create_DoesCreate_PosiblyDeployedTrue()
@@ -148,10 +148,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = true;
             
             // Act
             questionSet.Create(DbContext);
@@ -162,10 +162,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Create_DoesCreate_ShareAndHasChildTrue()
@@ -174,10 +174,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = false;
             
             // Act
             questionSet.Create(DbContext);
@@ -188,10 +188,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Create_DoesCreate_ShareAndPosiblyDeployedTrue()
@@ -200,10 +200,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = true;
             
             // Act
             questionSet.Create(DbContext);
@@ -214,10 +214,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Create_DoesCreate_HasChildAndPosiblyDeployedTrue()
@@ -226,10 +226,10 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             
             // Act
             questionSet.Create(DbContext);
@@ -240,10 +240,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_AllFalse()
@@ -252,17 +252,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
 
             questionSet.Create(DbContext);
             // Act
 
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Update(DbContext);
             
@@ -272,11 +272,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }  
         [Test]
         public void questionSet_Update_DoesUpdate_AllTrue()
@@ -285,17 +285,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Create(DbContext);
 
             // Act
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
 
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -304,11 +304,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_ShareTrue()
@@ -317,17 +317,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -336,11 +336,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_HasChildTrue()
@@ -349,17 +349,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -368,11 +368,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_PosiblyDeployedTrue()
@@ -381,17 +381,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = true;
             
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -400,11 +400,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_ShareAndHasChildTrue()
@@ -413,17 +413,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -432,11 +432,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_ShareAndPosiblyDeployedTrue()
@@ -445,17 +445,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = true;
             
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -464,11 +464,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Update_DoesUpdate_HasChildAndPosiblyDeployedTrue()
@@ -477,17 +477,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             
             questionSet.Update(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -496,11 +496,11 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_AllFalse()
@@ -509,17 +509,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
 
             questionSet.Create(DbContext);
             // Act
 
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Delete(DbContext);
             
@@ -529,12 +529,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }  
         [Test]
         public void questionSet_Delete_DoesDelete_AllTrue()
@@ -543,17 +543,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Create(DbContext);
 
             // Act
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
 
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -562,12 +562,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_ShareTrue()
@@ -576,17 +576,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -595,12 +595,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_HasChildTrue()
@@ -609,17 +609,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -628,12 +628,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_PosiblyDeployedTrue()
@@ -642,17 +642,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = true;
             
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -661,12 +661,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_ShareAndHasChildTrue()
@@ -675,17 +675,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = false;
             
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -694,12 +694,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(false, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_ShareAndPosiblyDeployedTrue()
@@ -708,17 +708,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = true;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = true;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = true;
             
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -727,12 +727,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(true, dbQuestionSet.share);
-            Assert.AreEqual(false, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(true, dbQuestionSet.Share);
+            Assert.AreEqual(false, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
         public void questionSet_Delete_DoesDelete_HasChildAndPosiblyDeployedTrue()
@@ -741,17 +741,17 @@ namespace eFormSDK.Integration.Tests
             string name = Guid.NewGuid().ToString();
             
             question_sets questionSet = new question_sets();
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = false;
-            questionSet.posiblyDeployed = false;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = false;
+            questionSet.PosiblyDeployed = false;
 
             questionSet.Create(DbContext);
             // Act
-            questionSet.name = name;
-            questionSet.share = false;
-            questionSet.hasChild = true;
-            questionSet.posiblyDeployed = true;
+            questionSet.Name = name;
+            questionSet.Share = false;
+            questionSet.HasChild = true;
+            questionSet.PosiblyDeployed = true;
             
             questionSet.Delete(DbContext);
             question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
@@ -760,12 +760,12 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
             
-            Assert.AreEqual(questionSet.name, dbQuestionSet.name);
-            Assert.AreEqual(false, dbQuestionSet.share);
-            Assert.AreEqual(true, dbQuestionSet.hasChild);
-            Assert.AreEqual(true, dbQuestionSet.posiblyDeployed);
-            Assert.AreEqual(2, dbQuestionSet.version);
-            Assert.AreEqual(dbQuestionSet.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(questionSet.Name, dbQuestionSet.Name);
+            Assert.AreEqual(false, dbQuestionSet.Share);
+            Assert.AreEqual(true, dbQuestionSet.HasChild);
+            Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
+            Assert.AreEqual(2, dbQuestionSet.Version);
+            Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
     }
 }

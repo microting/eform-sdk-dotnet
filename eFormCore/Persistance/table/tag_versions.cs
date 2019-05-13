@@ -39,15 +39,15 @@ namespace eFormSqlController
 //        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public int? taggings_count { get; set; }
+        public int? TaggingsCount { get; set; }
 
 //        public int? version { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
 
-        public int? tag_id { get; set; }
+        public int? TagId { get; set; }
     }
 }

@@ -94,10 +94,10 @@ namespace eFormSqlController
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.field_values.Add(this);
             dbContext.SaveChanges();
@@ -133,8 +133,8 @@ namespace eFormSqlController
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                fieldValues.updated_at = DateTime.Now;
-                fieldValues.version += 1;
+                fieldValues.UpdatedAt = DateTime.Now;
+                fieldValues.Version += 1;
 
                 dbContext.field_value_versions.Add(MapFieldValueVersions(fieldValues));
                 dbContext.SaveChanges();
@@ -151,12 +151,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Field Value with Id: {Id}");
             }
 
-            fieldValues.workflow_state = Constants.WorkflowStates.Removed;
+            fieldValues.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                fieldValues.updated_at = DateTime.Now;
-                fieldValues.version += 1;
+                fieldValues.UpdatedAt = DateTime.Now;
+                fieldValues.Version += 1;
 
                 dbContext.field_value_versions.Add(MapFieldValueVersions(fieldValues));
                 dbContext.SaveChanges();
@@ -168,26 +168,26 @@ namespace eFormSqlController
         {
             field_value_versions fvv = new field_value_versions();
 
-            fvv.created_at = fieldValue.created_at;
-            fvv.updated_at = fieldValue.updated_at;
-            fvv.value = fieldValue.value;
-            fvv.latitude = fieldValue.latitude;
-            fvv.longitude = fieldValue.longitude;
-            fvv.altitude = fieldValue.altitude;
-            fvv.heading = fieldValue.heading;
-            fvv.date = fieldValue.date;
-            fvv.accuracy = fieldValue.accuracy;
-            fvv.uploaded_data_id = fieldValue.uploaded_data_id;
-            fvv.version = fieldValue.version;
-            fvv.case_id = fieldValue.case_id;
-            fvv.field_id = fieldValue.field_id;
-            fvv.user_id = fieldValue.user_id;
-            fvv.workflow_state = fieldValue.workflow_state;
-            fvv.check_list_id = fieldValue.check_list_id;
-            fvv.check_list_duplicate_id = fieldValue.check_list_duplicate_id;
-            fvv.done_at = fieldValue.done_at;
+            fvv.CreatedAt = fieldValue.CreatedAt;
+            fvv.UpdatedAt = fieldValue.UpdatedAt;
+            fvv.Value = fieldValue.value;
+            fvv.Latitude = fieldValue.latitude;
+            fvv.Longitude = fieldValue.longitude;
+            fvv.Altitude = fieldValue.altitude;
+            fvv.Heading = fieldValue.heading;
+            fvv.Date = fieldValue.date;
+            fvv.Accuracy = fieldValue.accuracy;
+            fvv.UploadedDataId = fieldValue.uploaded_data_id;
+            fvv.Version = fieldValue.Version;
+            fvv.CaseId = fieldValue.case_id;
+            fvv.FieldId = fieldValue.field_id;
+            fvv.UserId = fieldValue.user_id;
+            fvv.WorkflowState = fieldValue.WorkflowState;
+            fvv.CheckListId = fieldValue.check_list_id;
+            fvv.CheckListDuplicateId = fieldValue.check_list_duplicate_id;
+            fvv.DoneAt = fieldValue.done_at;
 
-            fvv.field_value_id = fieldValue.Id; //<<--
+            fvv.FieldValueId = fieldValue.Id; //<<--
 
             return fvv;
         }

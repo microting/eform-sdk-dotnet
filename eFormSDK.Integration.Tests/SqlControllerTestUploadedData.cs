@@ -52,18 +52,18 @@ namespace eFormSDK.Integration.Tests
             // Act
             uploaded_data dU = new uploaded_data();
 
-            dU.created_at = DateTime.Now;
-            dU.updated_at = DateTime.Now;
-            dU.extension = extension;
-            dU.uploader_id = uploaderId;
-            dU.uploader_type = Constants.UploaderTypes.System;
-            dU.workflow_state = Constants.WorkflowStates.PreCreated;
-            dU.version = 1;
-            dU.local = 0;
-            dU.file_location = fileLocation;
-            dU.file_name = fileName;
-            dU.current_file = currentFile;
-            dU.checksum = checksum;
+            dU.CreatedAt = DateTime.Now;
+            dU.UpdatedAt = DateTime.Now;
+            dU.Extension = extension;
+            dU.UploaderId = uploaderId;
+            dU.UploaderType = Constants.UploaderTypes.System;
+            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
+            dU.Version = 1;
+            dU.Local = 0;
+            dU.FileLocation = fileLocation;
+            dU.FileName = fileName;
+            dU.CurrentFile = currentFile;
+            dU.Checksum = checksum;
 
             DbContext.uploaded_data.Add(dU);
             DbContext.SaveChanges();
@@ -73,13 +73,13 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.NotNull(ud);
             Assert.AreEqual(dU.Id, ud.Id);
-            Assert.AreEqual(dU.checksum, ud.Checksum);
-            Assert.AreEqual(dU.extension, ud.Extension);
-            Assert.AreEqual(dU.current_file, ud.CurrentFile);
-            Assert.AreEqual(dU.uploader_id, ud.UploaderId);
-            Assert.AreEqual(dU.uploader_type, ud.UploaderType);
-            Assert.AreEqual(dU.file_location, ud.FileLocation);
-            Assert.AreEqual(dU.file_name, ud.FileName);
+            Assert.AreEqual(dU.Checksum, ud.Checksum);
+            Assert.AreEqual(dU.Extension, ud.Extension);
+            Assert.AreEqual(dU.CurrentFile, ud.CurrentFile);
+            Assert.AreEqual(dU.UploaderId, ud.UploaderId);
+            Assert.AreEqual(dU.UploaderType, ud.UploaderType);
+            Assert.AreEqual(dU.FileLocation, ud.FileLocation);
+            Assert.AreEqual(dU.FileName, ud.FileName);
             // Assert.AreEqual(dU.local, ud.);
 
         }
@@ -98,18 +98,18 @@ namespace eFormSDK.Integration.Tests
             // Act
             uploaded_data dU = new uploaded_data();
 
-            dU.created_at = DateTime.Now;
-            dU.updated_at = DateTime.Now;
-            dU.extension = extension;
-            dU.uploader_id = uploaderId;
-            dU.uploader_type = Constants.UploaderTypes.System;
-            dU.workflow_state = Constants.WorkflowStates.PreCreated;
-            dU.version = 1;
-            dU.local = 0;
-            dU.file_location = fileLocation;
-            dU.file_name = fileName;
-            dU.current_file = currentFile;
-            dU.checksum = checksum;
+            dU.CreatedAt = DateTime.Now;
+            dU.UpdatedAt = DateTime.Now;
+            dU.Extension = extension;
+            dU.UploaderId = uploaderId;
+            dU.UploaderType = Constants.UploaderTypes.System;
+            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
+            dU.Version = 1;
+            dU.Local = 0;
+            dU.FileLocation = fileLocation;
+            dU.FileName = fileName;
+            dU.CurrentFile = currentFile;
+            dU.Checksum = checksum;
 
             DbContext.uploaded_data.Add(dU);
             DbContext.SaveChanges();
@@ -119,16 +119,16 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.NotNull(ud);
             Assert.AreEqual(ud.Id, dU.Id);
-            Assert.AreEqual(ud.extension, dU.extension);
-            Assert.AreEqual(ud.uploader_id, dU.uploader_id);
-            Assert.AreEqual(ud.uploader_type, dU.uploader_type);
-            Assert.AreEqual(ud.workflow_state, dU.workflow_state);
-            Assert.AreEqual(ud.version, 1);
-            Assert.AreEqual(ud.local, 0);
-            Assert.AreEqual(ud.file_location, dU.file_location);
-            Assert.AreEqual(ud.file_name, dU.file_name);
-            Assert.AreEqual(ud.current_file, dU.current_file);
-            Assert.AreEqual(ud.checksum, dU.checksum);
+            Assert.AreEqual(ud.Extension, dU.Extension);
+            Assert.AreEqual(ud.UploaderId, dU.UploaderId);
+            Assert.AreEqual(ud.UploaderType, dU.UploaderType);
+            Assert.AreEqual(ud.WorkflowState, dU.WorkflowState);
+            Assert.AreEqual(ud.Version, 1);
+            Assert.AreEqual(ud.Local, 0);
+            Assert.AreEqual(ud.FileLocation, dU.FileLocation);
+            Assert.AreEqual(ud.FileName, dU.FileName);
+            Assert.AreEqual(ud.CurrentFile, dU.CurrentFile);
+            Assert.AreEqual(ud.Checksum, dU.Checksum);
 
         }
 
@@ -138,16 +138,16 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data();
 
-            ud.checksum = "checksum1";
-            ud.extension = "extension";
-            ud.current_file = "currentFile1";
-            ud.uploader_id = 223;
-            ud.uploader_type = "uploader_type";
-            ud.file_location = "file_location";
-            ud.file_name = "fileName";
+            ud.Checksum = "checksum1";
+            ud.Extension = "extension";
+            ud.CurrentFile = "currentFile1";
+            ud.UploaderId = 223;
+            ud.UploaderType = "uploader_type";
+            ud.FileLocation = "file_location";
+            ud.FileName = "fileName";
             //ud.Id = 111;
 
-            ud.workflow_state = Constants.WorkflowStates.PreCreated;
+            ud.WorkflowState = Constants.WorkflowStates.PreCreated;
 
 
 
@@ -163,15 +163,15 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(ud);
             Assert.NotNull(Ud);
-            Assert.AreEqual(Ud.Checksum, ud.checksum);
-            Assert.AreEqual(Ud.Extension, ud.extension);
-            Assert.AreEqual(Ud.CurrentFile, ud.current_file);
-            Assert.AreEqual(Ud.UploaderId, ud.uploader_id);
-            Assert.AreEqual(Ud.UploaderType, ud.uploader_type);
-            Assert.AreEqual(Ud.FileLocation, ud.file_location);
-            Assert.AreEqual(Ud.FileName, ud.file_name);
+            Assert.AreEqual(Ud.Checksum, ud.Checksum);
+            Assert.AreEqual(Ud.Extension, ud.Extension);
+            Assert.AreEqual(Ud.CurrentFile, ud.CurrentFile);
+            Assert.AreEqual(Ud.UploaderId, ud.UploaderId);
+            Assert.AreEqual(Ud.UploaderType, ud.UploaderType);
+            Assert.AreEqual(Ud.FileLocation, ud.FileLocation);
+            Assert.AreEqual(Ud.FileName, ud.FileName);
             Assert.AreEqual(Ud.Id, ud.Id);
-            Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.WorkflowState);
 
 
 
@@ -204,13 +204,13 @@ namespace eFormSDK.Integration.Tests
 
             uploaded_data ud = new uploaded_data();
 
-            ud.checksum = "checksum1";
-            ud.extension = "extension";
-            ud.current_file = "currentFile1";
-            ud.uploader_id = 223;
-            ud.uploader_type = "uploader_type";
-            ud.file_location = "url";
-            ud.file_name = "fileName";
+            ud.Checksum = "checksum1";
+            ud.Extension = "extension";
+            ud.CurrentFile = "currentFile1";
+            ud.UploaderId = 223;
+            ud.UploaderType = "uploader_type";
+            ud.FileLocation = "url";
+            ud.FileName = "fileName";
             //ud.Id = 111;
 
             DbContext.uploaded_data.Add(ud);
@@ -239,9 +239,9 @@ namespace eFormSDK.Integration.Tests
             uploaded_data ud = new uploaded_data();
 
 
-            ud.local = 0;
-            ud.workflow_state = Constants.WorkflowStates.PreCreated;
-            ud.version = 1;
+            ud.Local = 0;
+            ud.WorkflowState = Constants.WorkflowStates.PreCreated;
+            ud.Version = 1;
 
             DbContext.uploaded_data.Add(ud);
             DbContext.SaveChanges();
@@ -256,12 +256,12 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(uploadedDataResult);
             Assert.NotNull(ud);
-            Assert.AreEqual(Constants.WorkflowStates.Created, uploadedDataResult[0].workflow_state);
-            Assert.AreEqual(1, uploadedDataResult[0].local);
-            Assert.AreEqual(2, uploadedDataResult[0].version);
-            Assert.AreEqual("myChecksum", uploadedDataResult[0].checksum);
-            Assert.AreEqual("myFileLocation", uploadedDataResult[0].file_location);
-            Assert.AreEqual("myFileName", uploadedDataResult[0].file_name);
+            Assert.AreEqual(Constants.WorkflowStates.Created, uploadedDataResult[0].WorkflowState);
+            Assert.AreEqual(1, uploadedDataResult[0].Local);
+            Assert.AreEqual(2, uploadedDataResult[0].Version);
+            Assert.AreEqual("myChecksum", uploadedDataResult[0].Checksum);
+            Assert.AreEqual("myFileLocation", uploadedDataResult[0].FileLocation);
+            Assert.AreEqual("myFileName", uploadedDataResult[0].FileName);
             Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
 
         }
@@ -290,8 +290,8 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data();
 
-            ud.workflow_state = Constants.WorkflowStates.Created;
-            ud.version = 1;
+            ud.WorkflowState = Constants.WorkflowStates.Created;
+            ud.Version = 1;
             DbContext.uploaded_data.Add(ud);
             DbContext.SaveChanges();
 
@@ -302,8 +302,8 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.NotNull(ud);
             Assert.NotNull(uploadedDataResult);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, uploadedDataResult[0].workflow_state);
-            Assert.AreEqual(2, uploadedDataResult[0].version);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, uploadedDataResult[0].WorkflowState);
+            Assert.AreEqual(2, uploadedDataResult[0].Version);
             Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
         }
 

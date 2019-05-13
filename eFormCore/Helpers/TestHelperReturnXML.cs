@@ -72,7 +72,7 @@ namespace eFormCore.Helpers
                 {
                     id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
                     workflow_state = Constants.WorkflowStates.Created, person_type = "",
-                    site_id = site.microting_uid, user_id = worker.microting_uid
+                    site_id = site.MicrotingUid, user_id = worker.MicrotingUid
                 }));
                 return result.ToString();
             }
@@ -96,7 +96,7 @@ namespace eFormCore.Helpers
                 DateTime cl1_ua = DateTime.Now;
                 check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);
                 check_lists cl2 = testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
-                fields f1 = testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.DbContext.field_types.Where(x => x.field_type == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
+                fields f1 = testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
                 check_list_sites cls = testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0, Constants.WorkflowStates.Created, "MultiPictureTestInMultipleChecks");
                 //returnXML = ;
                 return "MultiPictureTestInMultipleChecks";
@@ -115,7 +115,7 @@ namespace eFormCore.Helpers
                 <Response>
                     <Value type='success'>MultiPictureTestInMultipleChecks</Value>
                     <Checks>
-                        <Check worker='John Doe' worker_id='{worker.microting_uid}' date='2018-04-25 14:29:21 +0200' unit_id='{unit.microting_uid}' id='7'>
+                        <Check worker='John Doe' worker_id='{worker.MicrotingUid}' date='2018-04-25 14:29:21 +0200' unit_id='{unit.MicrotingUid}' id='7'>
                             <ElementList>
                                 <Id>{cl2.Id}</Id>
                                 <Status>approved</Status>
@@ -138,7 +138,7 @@ namespace eFormCore.Helpers
                                 <ExtraDataItemList></ExtraDataItemList>
                             </ElementList>
                         </Check>
-                        <Check worker='John Doe' worker_id='{worker.microting_uid}' date='2018-04-25 14:29:52 +0200' unit_id='{unit.microting_uid}' id='12'>
+                        <Check worker='John Doe' worker_id='{worker.MicrotingUid}' date='2018-04-25 14:29:52 +0200' unit_id='{unit.MicrotingUid}' id='12'>
                             <ElementList>
                                 <Id>{cl2.Id}</Id>
                                 <Status>approved</Status>
@@ -175,7 +175,7 @@ namespace eFormCore.Helpers
                                 <ExtraDataItemList></ExtraDataItemList>
                             </ElementList>
                         </Check>
-                        <Check worker='John Doe' worker_id='{worker.microting_uid}' date='2018-04-25 14:39:43 +0200' unit_id='{unit.microting_uid}' id='17'>
+                        <Check worker='John Doe' worker_id='{worker.MicrotingUid}' date='2018-04-25 14:39:43 +0200' unit_id='{unit.MicrotingUid}' id='17'>
                             <ElementList>
                                 <Id>{cl2.Id}</Id>
                                 <Status>approved</Status>

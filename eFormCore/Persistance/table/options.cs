@@ -31,29 +31,29 @@ namespace eFormSqlController
 {
     public partial class options : BaseEntity
     {
-        public int nextQuestionId { get; set; }
+        public int NextQuestionId { get; set; }
         
-        public int weight { get; set; }
+        public int Weight { get; set; }
         
-        public int weightValue { get; set; }
+        public int WeightValue { get; set; }
         
-        public int continuousOptionId { get; set; }
+        public int ContinuousOptionId { get; set; }
         
         [ForeignKey("question")]
-        public int questionId { get; set; }
+        public int QuestionId { get; set; }
         
-        public int optionsIndex { get; set; }
+        public int OptionsIndex { get; set; }
         
         public virtual questions Question { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
             
-            questionId = questionId;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            QuestionId = QuestionId;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.options.Add(this);
             dbContext.SaveChanges();
@@ -71,17 +71,17 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find option with Id: {Id}");
             }
 
-            option.questionId = questionId;
-            option.weight = weight;
-            option.weightValue = weightValue;
-            option.nextQuestionId = nextQuestionId;
-            option.continuousOptionId = continuousOptionId;
-            option.optionsIndex = optionsIndex;
+            option.QuestionId = QuestionId;
+            option.Weight = Weight;
+            option.WeightValue = WeightValue;
+            option.NextQuestionId = NextQuestionId;
+            option.ContinuousOptionId = ContinuousOptionId;
+            option.OptionsIndex = OptionsIndex;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                version += 1;
-                updated_at = DateTime.Now;
+                Version += 1;
+                UpdatedAt = DateTime.Now;
 
                 dbContext.option_versions.Add(MapVersions(option));
                 dbContext.SaveChanges();
@@ -98,12 +98,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find option with Id: {Id}");
             }
 
-            option.workflow_state = Constants.WorkflowStates.Removed;
+            option.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                version += 1;
-                updated_at = DateTime.Now;
+                Version += 1;
+                UpdatedAt = DateTime.Now;
 
                 dbContext.option_versions.Add(MapVersions(option));
                 dbContext.SaveChanges();
@@ -114,13 +114,13 @@ namespace eFormSqlController
         {
             option_versions optionVersions = new option_versions();
 
-            optionVersions.questionId = option.questionId;
-            optionVersions.weight = option.weight;
-            optionVersions.weightValue = option.weightValue;
-            optionVersions.nextQuestionId = option.nextQuestionId;
-            optionVersions.continuousOptionId = option.continuousOptionId;
-            optionVersions.optionsIndex = option.optionsIndex;
-            optionVersions.optionId = option.Id;
+            optionVersions.QuestionId = option.QuestionId;
+            optionVersions.Weight = option.Weight;
+            optionVersions.WeightValue = option.WeightValue;
+            optionVersions.NextQuestionId = option.NextQuestionId;
+            optionVersions.ContinuousOptionId = option.ContinuousOptionId;
+            optionVersions.OptionsIndex = option.OptionsIndex;
+            optionVersions.OptionId = option.Id;
 
             return optionVersions;
 

@@ -2758,13 +2758,13 @@ namespace eFormCore
                     if (uploadedData != null)
                     {
                         string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
-                        if (audioFileExtenstions.Any(uploadedData.extension.Contains))
+                        if (audioFileExtenstions.Any(uploadedData.Extension.Contains))
                         {
 
-                            string filePath = Path.Combine(uploadedData.file_location, uploadedData.file_name);
+                            string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
                             Log.LogStandard(methodName, $"filePath is {filePath}");
                             int requestId = SpeechToText(filePath);
-                            uploadedData.transcription_id = requestId;
+                            uploadedData.TranscriptionId = requestId;
 
                             _sqlController.UpdateUploadedData(uploadedData);
                         }
@@ -3456,14 +3456,14 @@ namespace eFormCore
 
                 var ud = _sqlController.GetUploadedData(id);
                 UploadedData uD = new UploadedData();
-                uD.Checksum = ud.checksum;
-                uD.CurrentFile = ud.current_file;
-                uD.Extension = ud.extension;
-                uD.FileLocation = ud.file_location;
-                uD.FileName = ud.file_name;
+                uD.Checksum = ud.Checksum;
+                uD.CurrentFile = ud.CurrentFile;
+                uD.Extension = ud.Extension;
+                uD.FileLocation = ud.FileLocation;
+                uD.FileName = ud.FileName;
                 uD.Id = ud.Id;
-                uD.UploaderId = ud.uploader_id;
-                uD.UploaderType = ud.uploader_type;
+                uD.UploaderId = ud.UploaderId;
+                uD.UploaderType = ud.UploaderType;
                 return uD;
             }
             catch (Exception ex)
@@ -3546,13 +3546,13 @@ namespace eFormCore
 
                     try
                     {
-                        Directory.CreateDirectory(uD.file_location + "Deleted");
+                        Directory.CreateDirectory(uD.FileLocation + "Deleted");
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                            File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted\" + uD.file_name);
+                            File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted\" + uD.FileName);
                         }
                         else
                         {
-                            File.Move(uD.file_location + uD.file_name, uD.file_location + @"Deleted/" + uD.file_name);
+                            File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted/" + uD.FileName);
                         }
                     }
                     catch (Exception exd)
@@ -4047,7 +4047,7 @@ namespace eFormCore
 
             if (uploadedData != null)
             {
-                string urlStr = uploadedData.file_location;
+                string urlStr = uploadedData.FileLocation;
                 Log.LogEverything(t.GetMethodName("Core"), "Received file:" + uploadedData.ToString());
 
                 #region finding file name and creating folder if needed

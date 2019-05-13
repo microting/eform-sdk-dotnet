@@ -34,11 +34,11 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? tag_id { get; set; }
+        public int? TagId { get; set; }
 
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
-        public int? tagger_id { get; set; } // this will refer to some user id.
+        public int? TaggerId { get; set; } // this will refer to some user id.
 
 //        public int? version { get; set; }
 //
@@ -49,6 +49,6 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? tagging_id { get; set; }
+        public int? TaggingId { get; set; }
     }
 }

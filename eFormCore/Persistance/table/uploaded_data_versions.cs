@@ -34,7 +34,7 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? data_uploaded_id { get; set; }
+        public int? DataUploadedId { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -45,30 +45,30 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? uploader_id { get; set; }
+        public int? UploaderId { get; set; }
 
         [StringLength(255)]
-        public string checksum { get; set; }
+        public string Checksum { get; set; }
 
         [StringLength(255)]
-        public string extension { get; set; }
+        public string Extension { get; set; }
 
         [StringLength(255)]
-        public string current_file { get; set; }
+        public string CurrentFile { get; set; }
 
         [StringLength(255)]
-        public string uploader_type { get; set; }
+        public string UploaderType { get; set; }
 
         [StringLength(255)]
-        public string file_location { get; set; }
+        public string FileLocation { get; set; }
 
         [StringLength(255)]
-        public string file_name { get; set; }
+        public string FileName { get; set; }
 
-        public DateTime? expiration_date { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
-        public short? local { get; set; }
+        public short? Local { get; set; }
 
-        public int? transcription_id { get; set; }
+        public int? TranscriptionId { get; set; }
     }
 }

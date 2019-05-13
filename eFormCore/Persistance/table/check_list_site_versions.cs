@@ -34,7 +34,7 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? check_list_site_id { get; set; }
+        public int? CheckListSiteId { get; set; }
 
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
@@ -45,14 +45,14 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? site_id { get; set; }
+        public int? SiteId { get; set; }
 
-        public int? check_list_id { get; set; }
-
-        [StringLength(255)]
-        public string microting_uid { get; set; }
+        public int? CheckListId { get; set; }
 
         [StringLength(255)]
-        public string last_check_id { get; set; }
+        public string MicrotingUid { get; set; }
+
+        [StringLength(255)]
+        public string LastCheckId { get; set; }
     }
 }

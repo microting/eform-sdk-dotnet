@@ -37,11 +37,11 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int Id { get; set; }
 
-        public int? microting_uid { get; set; }
+        public int? MicrotingUid { get; set; }
 
-        public int? otp_code { get; set; }
+        public int? OtpCode { get; set; }
 
-        public int? customer_no { get; set; }
+        public int? CustomerNo { get; set; }
 //
 //        public int? version { get; set; }
 //
@@ -53,16 +53,16 @@ namespace eFormSqlController
 //        public DateTime? updated_at { get; set; }
 
         [ForeignKey("site")]
-        public int? site_id { get; set; }
+        public int? SiteId { get; set; }
 
-        public virtual sites site { get; set; }
+        public virtual sites Site { get; set; }
         
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.units.Add(this);
             dbContext.SaveChanges();
@@ -80,15 +80,15 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Unit with Id: {Id}");
             }
 
-            unit.site_id = site_id;
-            unit.microting_uid = microting_uid;
-            unit.otp_code = otp_code;
-            unit.customer_no = customer_no;
+            unit.SiteId = SiteId;
+            unit.MicrotingUid = MicrotingUid;
+            unit.OtpCode = OtpCode;
+            unit.CustomerNo = CustomerNo;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                unit.version += 1;
-                unit.updated_at = DateTime.Now;
+                unit.Version += 1;
+                unit.UpdatedAt = DateTime.Now;
 
                 dbContext.unit_versions.Add(MapUnitVersions(unit));
                 dbContext.SaveChanges();
@@ -105,12 +105,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Unit with Id: {Id}");
             }
 
-            unit.workflow_state = Constants.WorkflowStates.Removed;
+            unit.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                unit.version += 1;
-                unit.updated_at = DateTime.Now;
+                unit.Version += 1;
+                unit.UpdatedAt = DateTime.Now;
 
                 dbContext.unit_versions.Add(MapUnitVersions(unit));
                 dbContext.SaveChanges();
@@ -122,16 +122,16 @@ namespace eFormSqlController
         private unit_versions MapUnitVersions(units units)
         {
             unit_versions unitVer = new unit_versions();
-            unitVer.workflow_state = units.workflow_state;
-            unitVer.version = units.version;
-            unitVer.created_at = units.created_at;
-            unitVer.updated_at = units.updated_at;
-            unitVer.microting_uid = units.microting_uid;
-            unitVer.site_id = units.site_id;
-            unitVer.customer_no = units.customer_no;
-            unitVer.otp_code = units.otp_code;
+            unitVer.WorkflowState = units.WorkflowState;
+            unitVer.Version = units.Version;
+            unitVer.CreatedAt = units.CreatedAt;
+            unitVer.UpdatedAt = units.UpdatedAt;
+            unitVer.MicrotingUid = units.MicrotingUid;
+            unitVer.SiteId = units.SiteId;
+            unitVer.CustomerNo = units.CustomerNo;
+            unitVer.OtpCode = units.OtpCode;
 
-            unitVer.unit_id = units.Id; //<<--
+            unitVer.UnitId = units.Id; //<<--
 
             return unitVer;
         }

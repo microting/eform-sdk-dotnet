@@ -55,14 +55,14 @@ namespace eFormSDK.Integration.Tests
             units unit = testHelpers.CreateUnit(564646, 0, site, 0);
 
             // Act
-            sut.Advanced_UnitRequestOtp((int)unit.microting_uid);
+            sut.Advanced_UnitRequestOtp((int)unit.MicrotingUid);
 
             // Assert
             List<units> matches = DbContext.units.AsNoTracking().ToList();
 
             Assert.NotNull(matches);
             Assert.AreEqual(1, matches.Count);
-            Assert.AreEqual(558877, matches[0].otp_code);
+            Assert.AreEqual(558877, matches[0].OtpCode);
         }
         #endregion
 

@@ -38,12 +38,12 @@ namespace eFormSqlController
 //        public int Id { get; set; }
 
         [ForeignKey("site")]
-        public int? site_id { get; set; }
+        public int? SiteId { get; set; }
 
         [ForeignKey("worker")]
-        public int? worker_id { get; set; }
+        public int? WorkerId { get; set; }
 
-        public int? microting_uid { get; set; }
+        public int? MicrotingUid { get; set; }
 
 //        public int? version { get; set; }
 //
@@ -54,16 +54,16 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public virtual sites site { get; set; }
+        public virtual sites Site { get; set; }
 
-        public virtual workers worker { get; set; }
+        public virtual workers Worker { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.site_workers.Add(this);
             dbContext.SaveChanges();
@@ -81,14 +81,14 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find site worker tish Id: {Id}");
             }
 
-            siteWorkers.site_id = site_id;
-            siteWorkers.worker_id = worker_id;
-            siteWorkers.microting_uid = microting_uid;
+            siteWorkers.SiteId = SiteId;
+            siteWorkers.WorkerId = WorkerId;
+            siteWorkers.MicrotingUid = MicrotingUid;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                siteWorkers.version += 1;
-                siteWorkers.updated_at = DateTime.Now;
+                siteWorkers.Version += 1;
+                siteWorkers.UpdatedAt = DateTime.Now;
 
                 dbContext.site_worker_versions.Add(MapSiteWorkerVersions(siteWorkers));
                 dbContext.SaveChanges();
@@ -104,12 +104,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find site worker tish Id: {Id}");
             }
 
-            siteWorkers.workflow_state = Constants.WorkflowStates.Removed;
+            siteWorkers.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                siteWorkers.version += 1;
-                siteWorkers.updated_at = DateTime.Now;
+                siteWorkers.Version += 1;
+                siteWorkers.UpdatedAt = DateTime.Now;
 
                 dbContext.site_worker_versions.Add(MapSiteWorkerVersions(siteWorkers));
                 dbContext.SaveChanges();
@@ -120,15 +120,15 @@ namespace eFormSqlController
         private site_worker_versions MapSiteWorkerVersions(site_workers site_workers)
         {
             site_worker_versions siteWorkerVer = new site_worker_versions();
-            siteWorkerVer.workflow_state = site_workers.workflow_state;
-            siteWorkerVer.version = site_workers.version;
-            siteWorkerVer.created_at = site_workers.created_at;
-            siteWorkerVer.updated_at = site_workers.updated_at;
-            siteWorkerVer.microting_uid = site_workers.microting_uid;
-            siteWorkerVer.site_id = site_workers.site_id;
-            siteWorkerVer.worker_id = site_workers.worker_id;
+            siteWorkerVer.WorkflowState = site_workers.WorkflowState;
+            siteWorkerVer.Version = site_workers.Version;
+            siteWorkerVer.CreatedAt = site_workers.CreatedAt;
+            siteWorkerVer.UpdatedAt = site_workers.UpdatedAt;
+            siteWorkerVer.MicrotingUid = site_workers.MicrotingUid;
+            siteWorkerVer.SiteId = site_workers.SiteId;
+            siteWorkerVer.WorkerId = site_workers.WorkerId;
 
-            siteWorkerVer.site_worker_id = site_workers.Id; //<<--
+            siteWorkerVer.SiteWorkerId = site_workers.Id; //<<--
 
             return siteWorkerVer;
         }

@@ -46,20 +46,20 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public string microting_uid { get; set; }
+        public string MicrotingUid { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [StringLength(50)]
-        public string type { get; set; }
+        public string Type { get; set; }
 
         public void Create(MicrotingDbAnySql dbContext)
         {
            
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.entity_groups.Add(this);
             dbContext.SaveChanges();
@@ -78,14 +78,14 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Entity Group with Id: {Id}");
             }
 
-            entityGroups.microting_uid = microting_uid;
-            entityGroups.name = name;
-            entityGroups.type = type;
+            entityGroups.MicrotingUid = MicrotingUid;
+            entityGroups.Name = Name;
+            entityGroups.Type = Type;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                entityGroups.updated_at = DateTime.Now;
-                entityGroups.version += 1;
+                entityGroups.UpdatedAt = DateTime.Now;
+                entityGroups.Version += 1;
 
                 dbContext.entity_group_versions.Add(MapEntityGroupVersions(entityGroups));
                 dbContext.SaveChanges();
@@ -102,12 +102,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Entity Group with Id: {Id}");
             }
 
-            entityGroups.workflow_state = Constants.WorkflowStates.Removed;
+            entityGroups.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                entityGroups.updated_at = DateTime.Now;
-                entityGroups.version += 1;
+                entityGroups.UpdatedAt = DateTime.Now;
+                entityGroups.Version += 1;
 
                 dbContext.entity_group_versions.Add(MapEntityGroupVersions(entityGroups));
                 dbContext.SaveChanges();
@@ -120,16 +120,16 @@ namespace eFormSqlController
         private entity_group_versions MapEntityGroupVersions(entity_groups entityGroup)
         {
             entity_group_versions entityGroupVer = new entity_group_versions();
-            entityGroupVer.created_at = entityGroup.created_at;
-            entityGroupVer.entity_group_id = entityGroup.Id;
-            entityGroupVer.microting_uid = entityGroup.microting_uid;
-            entityGroupVer.name = entityGroup.name;
-            entityGroupVer.type = entityGroup.type;
-            entityGroupVer.updated_at = entityGroup.updated_at;
-            entityGroupVer.version = entityGroup.version;
-            entityGroupVer.workflow_state = entityGroup.workflow_state;
+            entityGroupVer.CreatedAt = entityGroup.CreatedAt;
+            entityGroupVer.EntityGroupId = entityGroup.Id;
+            entityGroupVer.MicrotingUid = entityGroup.MicrotingUid;
+            entityGroupVer.Name = entityGroup.Name;
+            entityGroupVer.Type = entityGroup.Type;
+            entityGroupVer.UpdatedAt = entityGroup.UpdatedAt;
+            entityGroupVer.Version = entityGroup.Version;
+            entityGroupVer.WorkflowState = entityGroup.WorkflowState;
 
-            entityGroupVer.entity_group_id = entityGroup.Id; //<<--
+            entityGroupVer.EntityGroupId = entityGroup.Id; //<<--
 
             return entityGroupVer;
         }

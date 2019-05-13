@@ -29,18 +29,18 @@ namespace eFormSqlController
 {
     public partial class survey_configuration_versions : BaseEntity
     {
-        public DateTime start { get; set; }
+        public DateTime Start { get; set; }
         
-        public DateTime stop { get; set; }
+        public DateTime Stop { get; set; }
         
-        public int timeToLive { get; set; }
+        public int TimeToLive { get; set; }
         
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public int timeOut { get; set; }
+        public int TimeOut { get; set; }
         
         [ForeignKey("survey_configuration")]
-        public int surveyConfigurationId { get; set; }
+        public int SurveyConfigurationId { get; set; }
         
         public virtual survey_configurations SurveyConfiguration { get; set; }
     }

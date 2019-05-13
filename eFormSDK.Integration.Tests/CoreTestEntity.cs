@@ -1777,7 +1777,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].WorkflowState);
         }
 
         [Test]
@@ -1793,7 +1793,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, items[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, items[0].WorkflowState);
             Assert.AreEqual(Constants.WorkflowStates.Created, result_item.WorkflowState);
         }
 
@@ -1825,7 +1825,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].WorkflowState);
         }
 
         [Test]
@@ -1841,7 +1841,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, items[0].workflow_state);
+            Assert.AreEqual(Constants.WorkflowStates.Created, items[0].WorkflowState);
             Assert.AreEqual(Constants.WorkflowStates.Created, result_item.WorkflowState);
         }
 

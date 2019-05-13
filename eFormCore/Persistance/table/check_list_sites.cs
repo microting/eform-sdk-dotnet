@@ -49,28 +49,28 @@ namespace eFormSqlController
 //        public DateTime? updated_at { get; set; }
 
         [ForeignKey("site")]
-        public int? site_id { get; set; }
+        public int? SiteId { get; set; }
 
         [ForeignKey("check_list")]
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
         [StringLength(255)]
-        public string microting_uid { get; set; }
+        public string MicrotingUid { get; set; }
 
         [StringLength(255)]
-        public string last_check_id { get; set; }
+        public string LastCheckId { get; set; }
 
-        public virtual sites site { get; set; }
+        public virtual sites Site { get; set; }
 
-        public virtual check_lists check_list { get; set; }
+        public virtual check_lists CheckList { get; set; }
 
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.check_list_sites.Add(this);
             dbContext.SaveChanges();
@@ -88,16 +88,16 @@ namespace eFormSqlController
                 throw  new NullReferenceException($"Could not find Check List Site with Id: {Id}");
             }
 
-            checkListSites.site_id = site_id;
-            checkListSites.check_list_id = check_list_id;
-            checkListSites.microting_uid = microting_uid;
-            checkListSites.last_check_id = last_check_id;
+            checkListSites.SiteId = SiteId;
+            checkListSites.CheckListId = CheckListId;
+            checkListSites.MicrotingUid = MicrotingUid;
+            checkListSites.LastCheckId = LastCheckId;
 
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                checkListSites.version += 1;
-                checkListSites.updated_at = DateTime.Now;
+                checkListSites.Version += 1;
+                checkListSites.UpdatedAt = DateTime.Now;
 
                 dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(checkListSites));
                 dbContext.SaveChanges();
@@ -114,12 +114,12 @@ namespace eFormSqlController
                 throw  new NullReferenceException($"Could not find Check List Site with Id: {Id}");
             }
 
-            checkListSites.workflow_state = Constants.WorkflowStates.Removed;
+            checkListSites.WorkflowState = Constants.WorkflowStates.Removed;
                 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                checkListSites.version += 1;
-                checkListSites.updated_at = DateTime.Now;
+                checkListSites.Version += 1;
+                checkListSites.UpdatedAt = DateTime.Now;
 
                 dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(checkListSites));
                 dbContext.SaveChanges();
@@ -130,16 +130,16 @@ namespace eFormSqlController
         private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
         {
             check_list_site_versions checkListSiteVer = new check_list_site_versions();
-            checkListSiteVer.check_list_id = checkListSite.check_list_id;
-            checkListSiteVer.created_at = checkListSite.created_at;
-            checkListSiteVer.updated_at = checkListSite.updated_at;
-            checkListSiteVer.last_check_id = checkListSite.last_check_id;
-            checkListSiteVer.microting_uid = checkListSite.microting_uid;
-            checkListSiteVer.site_id = checkListSite.site_id;
-            checkListSiteVer.version = checkListSite.version;
-            checkListSiteVer.workflow_state = checkListSite.workflow_state;
+            checkListSiteVer.CheckListId = checkListSite.CheckListId;
+            checkListSiteVer.CreatedAt = checkListSite.CreatedAt;
+            checkListSiteVer.UpdatedAt = checkListSite.UpdatedAt;
+            checkListSiteVer.LastCheckId = checkListSite.LastCheckId;
+            checkListSiteVer.MicrotingUid = checkListSite.MicrotingUid;
+            checkListSiteVer.SiteId = checkListSite.SiteId;
+            checkListSiteVer.Version = checkListSite.Version;
+            checkListSiteVer.WorkflowState = checkListSite.WorkflowState;
 
-            checkListSiteVer.check_list_site_id = checkListSite.Id; //<<--
+            checkListSiteVer.CheckListSiteId = checkListSite.Id; //<<--
 
             return checkListSiteVer;
         }

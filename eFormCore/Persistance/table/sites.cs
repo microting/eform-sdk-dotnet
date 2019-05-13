@@ -37,10 +37,10 @@ namespace eFormSqlController
     {
         public sites()
         {
-            this.cases = new HashSet<cases>();
-            this.units = new HashSet<units>();
-            this.site_workers = new HashSet<site_workers>();
-            this.check_list_sites = new HashSet<check_list_sites>();
+            this.Cases = new HashSet<cases>();
+            this.Units = new HashSet<units>();
+            this.SiteWorkers = new HashSet<site_workers>();
+            this.CheckListSites = new HashSet<check_list_sites>();
         }
 
 //        [Key]
@@ -52,30 +52,30 @@ namespace eFormSqlController
 //        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public int? microting_uid { get; set; }
+        public int? MicrotingUid { get; set; }
 
 //        public int? version { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
 
-        public virtual ICollection<cases> cases { get; set; }
+        public virtual ICollection<cases> Cases { get; set; }
 
-        public virtual ICollection<units> units { get; set; }
+        public virtual ICollection<units> Units { get; set; }
 
-        public virtual ICollection<site_workers> site_workers { get; set; }
+        public virtual ICollection<site_workers> SiteWorkers { get; set; }
 
-        public virtual ICollection<check_list_sites> check_list_sites { get; set; }
+        public virtual ICollection<check_list_sites> CheckListSites { get; set; }
 
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.sites.Add(this);
             dbContext.SaveChanges();
@@ -95,15 +95,15 @@ namespace eFormSqlController
 
             }
 
-            site.name = name;
-            site.microting_uid = microting_uid;
+            site.Name = Name;
+            site.MicrotingUid = MicrotingUid;
 
 
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                site.version += 1;
-                site.updated_at = DateTime.Now;
+                site.Version += 1;
+                site.UpdatedAt = DateTime.Now;
 
 
                 dbContext.site_versions.Add(MapSiteVersions(site));
@@ -123,12 +123,12 @@ namespace eFormSqlController
 
             }
 
-            site.workflow_state = Constants.WorkflowStates.Removed;
+            site.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                site.version += 1;
-                site.updated_at = DateTime.Now;
+                site.Version += 1;
+                site.UpdatedAt = DateTime.Now;
 
 
                 dbContext.site_versions.Add(MapSiteVersions(site));
@@ -141,14 +141,14 @@ namespace eFormSqlController
         private site_versions MapSiteVersions(sites site)
         {
             site_versions siteVer = new site_versions();
-            siteVer.workflow_state = site.workflow_state;
-            siteVer.version = site.version;
-            siteVer.created_at = site.created_at;
-            siteVer.updated_at = site.updated_at;
-            siteVer.microting_uid = site.microting_uid;
-            siteVer.name = site.name;
+            siteVer.WorkflowState = site.WorkflowState;
+            siteVer.Version = site.Version;
+            siteVer.CreatedAt = site.CreatedAt;
+            siteVer.UpdatedAt = site.UpdatedAt;
+            siteVer.MicrotingUid = site.MicrotingUid;
+            siteVer.Name = site.Name;
 
-            siteVer.site_id = site.Id; //<<--
+            siteVer.SiteId = site.Id; //<<--
 
             return siteVer;
         }

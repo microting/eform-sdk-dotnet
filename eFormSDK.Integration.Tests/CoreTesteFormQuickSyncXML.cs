@@ -165,7 +165,7 @@ namespace eFormSDK.Integration.Tests
             //cl1.quick_sync_enabled = 1;
             check_lists cl_ud = DbContext.check_lists.Single(x => x.Id == cl1.Id);
             //DbContext.check_lists.Add(cl1);
-            cl_ud.quick_sync_enabled = 1;
+            cl_ud.QuickSyncEnabled = 1;
             DbContext.SaveChanges();
 
             #endregion
@@ -176,12 +176,12 @@ namespace eFormSDK.Integration.Tests
             // Assert
             Assert.NotNull(match);
             Assert.AreEqual(match.Id, cl1.Id);
-            Assert.AreEqual(match.CaseType, cl1.case_type);
+            Assert.AreEqual(match.CaseType, cl1.CaseType);
             Assert.AreEqual(match.FastNavigation, false);
-            Assert.AreEqual(match.Label, cl1.label);
+            Assert.AreEqual(match.Label, cl1.Label);
             Assert.AreEqual(match.ManualSync, false);
             Assert.AreEqual(match.MultiApproval, false);
-            Assert.AreEqual(match.Repeated, cl1.repeated);
+            Assert.AreEqual(match.Repeated, cl1.Repeated);
             Assert.AreEqual(match.EnableQuickSync, true);
 
 

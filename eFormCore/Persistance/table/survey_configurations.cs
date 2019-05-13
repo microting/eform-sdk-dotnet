@@ -29,23 +29,23 @@ namespace eFormSqlController
 {
     public partial class survey_configurations : BaseEntity
     {
-        public DateTime start { get; set; }
+        public DateTime Start { get; set; }
         
-        public DateTime stop { get; set; }
+        public DateTime Stop { get; set; }
         
-        public int timeToLive { get; set; }
+        public int TimeToLive { get; set; }
         
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public int timeOut { get; set; }
+        public int TimeOut { get; set; }
 
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
-            version = 1;
-            workflow_state = eFormShared.Constants.WorkflowStates.Created;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
+            WorkflowState = eFormShared.Constants.WorkflowStates.Created;
 
             dbContext.survey_configurations.Add(this);
             dbContext.SaveChanges();
@@ -64,16 +64,16 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
             }
 
-            surveyConfigurations.name = name;
-            surveyConfigurations.stop = stop;
-            surveyConfigurations.start = start;
-            surveyConfigurations.timeOut = timeOut;
-            surveyConfigurations.timeToLive = timeToLive;
+            surveyConfigurations.Name = Name;
+            surveyConfigurations.Stop = Stop;
+            surveyConfigurations.Start = Start;
+            surveyConfigurations.TimeOut = TimeOut;
+            surveyConfigurations.TimeToLive = TimeToLive;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                surveyConfigurations.version += 1;
-                surveyConfigurations.updated_at = DateTime.Now;
+                surveyConfigurations.Version += 1;
+                surveyConfigurations.UpdatedAt = DateTime.Now;
 
                 dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
                 dbContext.SaveChanges();
@@ -91,12 +91,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
             }
 
-            surveyConfigurations.workflow_state = eFormShared.Constants.WorkflowStates.Removed;
+            surveyConfigurations.WorkflowState = eFormShared.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                surveyConfigurations.version += 1;
-                surveyConfigurations.updated_at = DateTime.Now;
+                surveyConfigurations.Version += 1;
+                surveyConfigurations.UpdatedAt = DateTime.Now;
 
                 dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
                 dbContext.SaveChanges();
@@ -108,16 +108,16 @@ namespace eFormSqlController
         {
             survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions();
 
-            surveyConfigurationVersions.surveyConfigurationId = surveyConfiguration.Id;
-            surveyConfigurationVersions.name = surveyConfiguration.name;
-            surveyConfigurationVersions.stop = surveyConfiguration.stop;
-            surveyConfigurationVersions.start = surveyConfiguration.start;
-            surveyConfigurationVersions.timeOut = surveyConfiguration.timeOut;
-            surveyConfigurationVersions.timeToLive = surveyConfiguration.timeToLive;
-            surveyConfigurationVersions.version = surveyConfiguration.version;
-            surveyConfigurationVersions.created_at = surveyConfiguration.created_at;
-            surveyConfigurationVersions.updated_at = surveyConfiguration.updated_at;
-            surveyConfigurationVersions.workflow_state = surveyConfiguration.workflow_state;
+            surveyConfigurationVersions.SurveyConfigurationId = surveyConfiguration.Id;
+            surveyConfigurationVersions.Name = surveyConfiguration.Name;
+            surveyConfigurationVersions.Stop = surveyConfiguration.Stop;
+            surveyConfigurationVersions.Start = surveyConfiguration.Start;
+            surveyConfigurationVersions.TimeOut = surveyConfiguration.TimeOut;
+            surveyConfigurationVersions.TimeToLive = surveyConfiguration.TimeToLive;
+            surveyConfigurationVersions.Version = surveyConfiguration.Version;
+            surveyConfigurationVersions.CreatedAt = surveyConfiguration.CreatedAt;
+            surveyConfigurationVersions.UpdatedAt = surveyConfiguration.UpdatedAt;
+            surveyConfigurationVersions.WorkflowState = surveyConfiguration.WorkflowState;
 
             
             return surveyConfigurationVersions;

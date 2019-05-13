@@ -34,45 +34,45 @@ namespace eFormSqlController
     public partial class questions : BaseEntity
     {
         [ForeignKey("question_set")]
-        public int questionSetId { get; set; }
+        public int QuestionSetId { get; set; }
         
-        public string questionType { get; set; }
+        public string QuestionType { get; set; }
         
-        public int minimum { get; set; }
+        public int Minimum { get; set; }
         
-        public int maximum { get; set; }
+        public int Maximum { get; set; }
         
-        public string type { get; set; }
+        public string Type { get; set; }
         
-        public int refId { get; set; }
+        public int RefId { get; set; }
         
-        public int questionIndex { get; set; }
+        public int QuestionIndex { get; set; }
         
-        public bool image { get; set; }
+        public bool Image { get; set; }
         
-        public int continuousQuestionId { get; set; }
+        public int ContinuousQuestionId { get; set; }
         
-        public string imagePostion { get; set; }
+        public string ImagePosition { get; set; }
         
-        public bool prioritised { get; set; }
+        public bool Prioritised { get; set; }
         
-        public bool backButtonEnabled { get; set; }
+        public bool BackButtonEnabled { get; set; }
         
-        public string fontSize { get; set; }
+        public string FontSize { get; set; }
         
-        public int minDuration { get; set; }
+        public int MinDuration { get; set; }
         
-        public int maxDuration { get; set; }
+        public int MaxDuration { get; set; }
         
-        public bool validDisplay { get; set; }
+        public bool ValidDisplay { get; set; }
 
         public virtual question_sets QuestionSet { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.questions.Add(this);
             dbContext.SaveChanges();
@@ -92,27 +92,27 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could no find question with Id: {Id}");
             }
 
-            question.type = type;
-            question.image = image;
-            question.backButtonEnabled = backButtonEnabled;
-            question.maximum = maximum;
-            question.minimum = minimum;
-            question.prioritised = prioritised;
-            question.refId = refId;
-            question.fontSize = fontSize;
-            question.maxDuration = maxDuration;
-            question.minDuration = minDuration;
-            question.imagePostion = imagePostion;
-            question.questionType = questionType;
-            question.validDisplay = validDisplay;
-            question.questionIndex = questionIndex;
-            question.questionSetId = questionSetId;
-            question.continuousQuestionId = continuousQuestionId;
+            question.Type = Type;
+            question.Image = Image;
+            question.BackButtonEnabled = BackButtonEnabled;
+            question.Maximum = Maximum;
+            question.Minimum = Minimum;
+            question.Prioritised = Prioritised;
+            question.RefId = RefId;
+            question.FontSize = FontSize;
+            question.MaxDuration = MaxDuration;
+            question.MinDuration = MinDuration;
+            question.ImagePosition = ImagePosition;
+            question.QuestionType = QuestionType;
+            question.ValidDisplay = ValidDisplay;
+            question.QuestionIndex = QuestionIndex;
+            question.QuestionSetId = QuestionSetId;
+            question.ContinuousQuestionId = ContinuousQuestionId;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                version += 1;
-                updated_at = DateTime.Now;
+                Version += 1;
+                UpdatedAt = DateTime.Now;
 
                 dbContext.question_versions.Add(MapVersions(question));
                 dbContext.SaveChanges();
@@ -128,12 +128,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could no find question with Id: {Id}");
             }
 
-            question.workflow_state = Constants.WorkflowStates.Removed;
+            question.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                version += 1;
-                updated_at = DateTime.Now;
+                Version += 1;
+                UpdatedAt = DateTime.Now;
 
                 dbContext.question_versions.Add(MapVersions(question));
                 dbContext.SaveChanges();
@@ -144,23 +144,23 @@ namespace eFormSqlController
         {
             question_versions questionVersion = new question_versions();
 
-            questionVersion.questionSetId = question.questionSetId;
-            questionVersion.type = question.type;
-            questionVersion.image = question.image;
-            questionVersion.maximum = question.maximum;
-            questionVersion.minimum = question.minimum;
-            questionVersion.prioritised = question.prioritised;
-            questionVersion.refId = question.refId;
-            questionVersion.fontSize = question.fontSize;
-            questionVersion.questionId = question.Id;
-            questionVersion.maxDuration = question.maxDuration;
-            questionVersion.minDuration = question.minDuration;
-            questionVersion.imagePostion = question.imagePostion;
-            questionVersion.questionType = question.questionType;
-            questionVersion.validDisplay = question.validDisplay;
-            questionVersion.questionIndex = question.questionIndex;
-            questionVersion.backButtonEnabled = question.backButtonEnabled;
-            questionVersion.continuousQuestionId = question.continuousQuestionId;
+            questionVersion.QuestionSetId = question.QuestionSetId;
+            questionVersion.Type = question.Type;
+            questionVersion.Image = question.Image;
+            questionVersion.Maximum = question.Maximum;
+            questionVersion.Minimum = question.Minimum;
+            questionVersion.Prioritised = question.Prioritised;
+            questionVersion.RefId = question.RefId;
+            questionVersion.FontSize = question.FontSize;
+            questionVersion.QuestionId = question.Id;
+            questionVersion.MaxDuration = question.MaxDuration;
+            questionVersion.MinDuration = question.MinDuration;
+            questionVersion.ImagePosition = question.ImagePosition;
+            questionVersion.QuestionType = question.QuestionType;
+            questionVersion.ValidDisplay = question.ValidDisplay;
+            questionVersion.QuestionIndex = question.QuestionIndex;
+            questionVersion.BackButtonEnabled = question.BackButtonEnabled;
+            questionVersion.ContinuousQuestionId = question.ContinuousQuestionId;
 
             return questionVersion;
         }

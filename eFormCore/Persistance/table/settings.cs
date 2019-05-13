@@ -30,12 +30,12 @@ namespace eFormSqlController
     public partial class settings
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string value { get; set; }
+        public string Value { get; set; }
     }
 }

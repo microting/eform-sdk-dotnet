@@ -34,11 +34,11 @@ namespace eFormSqlController
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 //        public int id { get; set; }
 
-        public int? site_id { get; set; }
+        public int? SiteId { get; set; }
 
-        public int? worker_id { get; set; }
+        public int? WorkerId { get; set; }
 
-        public int? microting_uid { get; set; }
+        public int? MicrotingUid { get; set; }
 
 //        public int? version { get; set; }
 //
@@ -49,6 +49,6 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? site_worker_id { get; set; }
+        public int? SiteWorkerId { get; set; }
     }
 }

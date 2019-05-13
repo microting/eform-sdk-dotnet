@@ -36,7 +36,7 @@ namespace eFormSqlController
     {
         public tags()
         {
-            this.taggings = new HashSet<taggings>();
+            this.Taggings = new HashSet<taggings>();
             //this.check_lists = new HashSet<check_lists>();
         }
 
@@ -49,24 +49,24 @@ namespace eFormSqlController
 //        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public int? taggings_count { get; set; }
+        public int? TaggingsCount { get; set; }
 
 //        public int? version { get; set; }
 //
 //        [StringLength(255)]
 //        public string workflow_state { get; set; }
 
-        public virtual ICollection<taggings> taggings { get; set; }
+        public virtual ICollection<taggings> Taggings { get; set; }
 
         //public virtual ICollection<check_lists> check_lists { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.tags.Add(this);
             dbContext.SaveChanges();
@@ -85,13 +85,13 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Tag with Id: {Id}");
             }
 
-            tag.name = name;
-            tag.taggings_count = taggings_count;
+            tag.Name = Name;
+            tag.TaggingsCount = TaggingsCount;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                tag.version += 1;
-                tag.updated_at = DateTime.Now;
+                tag.Version += 1;
+                tag.UpdatedAt = DateTime.Now;
 
                 dbContext.tag_versions.Add(MapTagVersions(tag));
                 dbContext.SaveChanges();
@@ -108,12 +108,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Tag with Id: {Id}");
             }
 
-            tag.workflow_state = Constants.WorkflowStates.Removed;
+            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                tag.version += 1;
-                tag.updated_at = DateTime.Now;
+                tag.Version += 1;
+                tag.UpdatedAt = DateTime.Now;
 
                 dbContext.tag_versions.Add(MapTagVersions(tag));
                 dbContext.SaveChanges();
@@ -124,11 +124,11 @@ namespace eFormSqlController
         private tag_versions MapTagVersions(tags tags)
         {
             tag_versions tagVer = new tag_versions();
-            tagVer.workflow_state = tags.workflow_state;
-            tagVer.version = tags.version;
-            tagVer.created_at = tags.created_at;
-            tagVer.updated_at = tags.updated_at;
-            tagVer.name = tags.name;
+            tagVer.WorkflowState = tags.WorkflowState;
+            tagVer.Version = tags.Version;
+            tagVer.CreatedAt = tags.CreatedAt;
+            tagVer.UpdatedAt = tags.UpdatedAt;
+            tagVer.Name = tags.Name;
 
             return tagVer;
         }

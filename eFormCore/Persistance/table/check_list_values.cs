@@ -43,28 +43,28 @@ namespace eFormSqlController
 //        public int? version { get; set; }
 
         [StringLength(255)]
-        public string status { get; set; }
+        public string Status { get; set; }
 
 //        public DateTime? created_at { get; set; }
 //
 //        public DateTime? updated_at { get; set; }
 
-        public int? user_id { get; set; }
+        public int? UserId { get; set; }
 
-        public int? case_id { get; set; }
+        public int? CaseId { get; set; }
 
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
-        public int? check_list_duplicate_id { get; set; }
+        public int? CheckListDuplicateId { get; set; }
 
 
         public void Create(MicrotingDbAnySql dbContext)
         {
             
-            workflow_state = Constants.WorkflowStates.Created;
-            version = 1;
-            created_at = DateTime.Now;
-            updated_at = DateTime.Now;
+            WorkflowState = Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
 
             dbContext.check_list_values.Add(this);
             dbContext.SaveChanges();
@@ -83,17 +83,17 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Check List Value with Id: {Id}");
             }
 
-            clv.status = status;
-            clv.user_id = user_id;
-            clv.case_id = case_id;
-            clv.check_list_id = check_list_id;
-            clv.check_list_duplicate_id = check_list_duplicate_id;
+            clv.Status = Status;
+            clv.UserId = UserId;
+            clv.CaseId = CaseId;
+            clv.CheckListId = CheckListId;
+            clv.CheckListDuplicateId = CheckListDuplicateId;
 
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                clv.updated_at = DateTime.Now;
-                clv.version += 1;
+                clv.UpdatedAt = DateTime.Now;
+                clv.Version += 1;
 
                 dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
                 dbContext.SaveChanges();
@@ -109,12 +109,12 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Check List Value with Id: {Id}");
             }
 
-            clv.workflow_state = Constants.WorkflowStates.Removed;
+            clv.WorkflowState = Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                clv.updated_at = DateTime.Now;
-                clv.version += 1;
+                clv.UpdatedAt = DateTime.Now;
+                clv.Version += 1;
 
                 dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
                 dbContext.SaveChanges();
@@ -125,17 +125,17 @@ namespace eFormSqlController
         private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
         {
             check_list_value_versions clvv = new check_list_value_versions();
-            clvv.version = checkListValue.version;
-            clvv.created_at = checkListValue.created_at;
-            clvv.updated_at = checkListValue.updated_at;
-            clvv.check_list_id = checkListValue.check_list_id;
-            clvv.case_id = checkListValue.case_id;
-            clvv.status = checkListValue.status;
-            clvv.user_id = checkListValue.user_id;
-            clvv.workflow_state = checkListValue.workflow_state;
-            clvv.check_list_duplicate_id = checkListValue.check_list_duplicate_id;
+            clvv.Version = checkListValue.Version;
+            clvv.CreatedAt = checkListValue.CreatedAt;
+            clvv.UpdatedAt = checkListValue.UpdatedAt;
+            clvv.CheckListId = checkListValue.CheckListId;
+            clvv.CaseId = checkListValue.CaseId;
+            clvv.Status = checkListValue.Status;
+            clvv.UserId = checkListValue.UserId;
+            clvv.WorkflowState = checkListValue.WorkflowState;
+            clvv.CheckListDuplicateId = checkListValue.CheckListDuplicateId;
 
-            clvv.check_list_value_id = checkListValue.Id; //<<--
+            clvv.CheckListValueId = checkListValue.Id; //<<--
 
             return clvv;
         }

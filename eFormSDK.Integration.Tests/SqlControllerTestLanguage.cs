@@ -45,8 +45,8 @@ namespace eFormSDK.Integration.Tests
 
             languages language = new languages();
 
-            language.name = Guid.NewGuid().ToString();
-            language.description = Guid.NewGuid().ToString();
+            language.Name = Guid.NewGuid().ToString();
+            language.Description = Guid.NewGuid().ToString();
 
             // Act
             language.Create(DbContext);
@@ -57,8 +57,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbLanguage);
             Assert.NotNull(dbLanguageVersion);
             
-            Assert.AreEqual(language.name, dbLanguage.name);
-            Assert.AreEqual(language.description, dbLanguage.description);
+            Assert.AreEqual(language.Name, dbLanguage.Name);
+            Assert.AreEqual(language.Description, dbLanguage.Description);
         }
         
         [Test]
@@ -70,8 +70,8 @@ namespace eFormSDK.Integration.Tests
 
             languages language = new languages();
 
-            language.name = name;
-            language.description = description;
+            language.Name = name;
+            language.Description = description;
                 
             language.Create(DbContext);
             // Act
@@ -79,8 +79,8 @@ namespace eFormSDK.Integration.Tests
             string newName = Guid.NewGuid().ToString();
             string newDescription = Guid.NewGuid().ToString();
 
-            language.name = newName;
-            language.description = newDescription;
+            language.Name = newName;
+            language.Description = newDescription;
             language.Update(DbContext);
 
             languages dbLanguage = DbContext.languages.AsNoTracking().First();
@@ -89,10 +89,10 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbLanguage);
             Assert.NotNull(dbLanguageVersion);
             
-            Assert.AreNotEqual(name, dbLanguage.name);
-            Assert.AreNotEqual(description, dbLanguage.description);
-            Assert.AreEqual(newName, dbLanguage.name);
-            Assert.AreEqual(newDescription, dbLanguage.description);
+            Assert.AreNotEqual(name, dbLanguage.Name);
+            Assert.AreNotEqual(description, dbLanguage.Description);
+            Assert.AreEqual(newName, dbLanguage.Name);
+            Assert.AreEqual(newDescription, dbLanguage.Description);
             
         }
 
@@ -105,8 +105,8 @@ namespace eFormSDK.Integration.Tests
 
             languages language = new languages();
 
-            language.name = name;
-            language.description = description;
+            language.Name = name;
+            language.Description = description;
 
             language.Create(DbContext);
 
@@ -120,7 +120,7 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(dbLanguage);
             Assert.NotNull(dbLanguageVersion);
             
-            Assert.AreEqual(language.workflow_state, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(language.WorkflowState, Constants.WorkflowStates.Removed);
             
         }
 

@@ -32,14 +32,14 @@ namespace eFormSqlController
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public DateTime created_at { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public int level { get; set; }
+        public int Level { get; set; }
 
-        public string type { get; set; }
+        public string Type { get; set; }
 
-        public string message { get; set; }
+        public string Message { get; set; }
     }
 }

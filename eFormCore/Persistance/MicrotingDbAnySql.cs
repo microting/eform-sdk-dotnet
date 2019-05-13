@@ -102,12 +102,12 @@ namespace eFormSqlController
 
             modelBuilder.Entity<check_lists>(entity =>
             {
-                entity.HasOne(d => d.parent).WithMany(p => p.children).HasForeignKey(d => d.parent_id);
+                entity.HasOne(d => d.Parent).WithMany(p => p.Children).HasForeignKey(d => d.ParentId);
             });
 
             modelBuilder.Entity<fields>(entity =>
             {
-                entity.HasOne(d => d.parent).WithMany(p => p.children).HasForeignKey(d => d.parent_field_id);
+                entity.HasOne(d => d.Parent).WithMany(p => p.Children).HasForeignKey(d => d.ParentFieldId);
             });
 
 #pragma warning restore 612, 618
