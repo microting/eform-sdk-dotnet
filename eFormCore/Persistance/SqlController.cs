@@ -73,6 +73,7 @@ namespace eFormSqlController
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+//                Console.WriteLine(ex.InnerException.Message);
                 throw ex;
                 //TODO! THIS part need to be redone in some form in EF Core!
                // MigrateDb();

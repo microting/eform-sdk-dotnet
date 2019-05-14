@@ -35,7 +35,7 @@ namespace eFormSqlController
         
         public int AnswerDuration { get; set; }
         
-        public int languageId { get; set; }
+        public int LanguageId { get; set; }
         
         public int SurveyConfigurationId { get; set; }
         

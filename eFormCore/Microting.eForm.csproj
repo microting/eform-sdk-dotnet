@@ -70,6 +70,8 @@
     <Compile Include="Persistance\Migrations\20190408084408_AddingMissingParentId.Designer.cs" />
     <Compile Include="Persistance\Migrations\20190509074123_RefactoringidtoId.cs" />
     <Compile Include="Persistance\Migrations\20190509074123_RefactoringidtoId.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190514053645_RefactoringAttributeNames.cs" />
+    <Compile Include="Persistance\Migrations\20190514053645_RefactoringAttributeNames.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\answers.cs" />

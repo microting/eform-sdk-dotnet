@@ -137,7 +137,7 @@ namespace eFormSqlController
             answerVersion.AnswerId = answer.Id;
             answerVersion.TimeZone = answer.TimeZone;
             answerVersion.FinishedAt = answer.FinishedAt;
-            answerVersion.languageId = answer.LanguageId;
+            answerVersion.LanguageId = answer.LanguageId;
             answerVersion.AnswerDuration = answer.AnswerDuration;
             answerVersion.QuestionSetId = answer.QuestionSetId;
             answerVersion.SurveyConfigurationId = answer.SurveyConfigurationId;
