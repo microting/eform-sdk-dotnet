@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Microting.eForm.Migrations
 {
@@ -6,7 +7,19 @@ namespace Microting.eForm.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-//            
+            //Setup for SQL Server Provider
+           
+            string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
+            object autoIDGenStrategyValue= SqlServerValueGenerationStrategy.IdentityColumn;
+
+            // Setup for MySQL Provider
+            if (migrationBuilder.ActiveProvider=="Pomelo.EntityFrameworkCore.MySql")
+            {
+                DbConfig.IsMySQL = true;
+                autoIDGenStrategy = "MySql:ValueGenerationStrategy";
+                autoIDGenStrategyValue = MySqlValueGenerationStrategy.IdentityColumn;
+            }
+            
             migrationBuilder.DropForeignKey(
                 name: "FK_cases_workers_done_by_user_id",
                 table: "cases");
@@ -168,130 +181,234 @@ namespace Microting.eForm.Migrations
                 table: "workers",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "workers").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "worker_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "worker_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "uploaded_data_versions",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "uploaded_data_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "uploaded_data",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "uploaded_data").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "units",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "units").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 //
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "unit_versions",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "unit_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "tags",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "tags").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "taggings",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "taggings").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 //
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "tagging_versions",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "tagging_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "tag_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "tag_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "survey_configurations",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "survey_configurations").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "survey_configuration_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "survey_configuration_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "sites",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "sites").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "site_workers",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "site_workers").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "site_worker_versions",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "site_worker_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "site_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "site_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "site_survey_configurations",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "site_survey_configurations").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "site_survey_configuration_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "site_survey_configuration_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "questions",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "questions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "question_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "question_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "question_sets",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "question_sets").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "question_set_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "question_set_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "options",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "options").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "option_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "option_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "languages",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "languages").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "language_versions",
                 newName: "Id");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "language_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "parentid",
@@ -301,117 +418,209 @@ namespace Microting.eForm.Migrations
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "folders",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "folders").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "folder_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "folder_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "fields",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "fields").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "field_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "field_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "field_values",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "field_values").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "field_value_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "field_value_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "field_types",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "field_types").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "entity_items",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "entity_items").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "entity_item_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "entity_item_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "entity_groups",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "entity_groups").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "entity_group_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "entity_group_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "check_lists",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "check_lists").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "check_list_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "check_list_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "check_list_values",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "check_list_values").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "check_list_value_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "check_list_value_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "check_list_sites",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "check_list_sites").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "check_list_site_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "check_list_site_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "cases",
-                newName: "Id");
+                newName: "Id");            
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "cases").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "case_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "case_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "answers",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "answers").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "answer_versions",
                 newName: "Id");
 
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "answer_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "answer_values",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "answer_values").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "answer_value_versions",
-                newName: "Id");
+                newName: "Id"); 
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "answer_value_versions").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
 //            migrationBuilder.AddForeignKey(
 //                name: "FK_folders_folders_parentId",
