@@ -235,7 +235,7 @@ namespace eFormCore.Helpers
             aCase.CreatedAt = created_at;
             aCase.Custom = custom;
             aCase.DoneAt = done_at;
-            aCase.DoneByUserId = worker.Id;
+            aCase.WorkerId = worker.Id;
             aCase.MicrotingCheckUid = microtingCheckId;
             aCase.MicrotingUid = microtingUId;
             aCase.Site = site;

@@ -58,7 +58,7 @@ namespace eFormSqlController
         public int? UnitId { get; set; }
 
         [ForeignKey("worker")]
-        public int? DoneByUserId { get; set; }
+        public int? WorkerId { get; set; }
 
         [ForeignKey("check_list")]
         public int? CheckListId { get; set; }
@@ -148,7 +148,7 @@ namespace eFormSqlController
             cases.FieldValue9 = FieldValue9;
             cases.FieldValue10 = FieldValue10;
             cases.MicrotingUid = MicrotingUid;
-            cases.DoneByUserId = DoneByUserId;
+            cases.WorkerId = WorkerId;
             cases.MicrotingCheckUid = MicrotingCheckUid;
 
             if (dbContext.ChangeTracker.HasChanges())
@@ -193,7 +193,7 @@ namespace eFormSqlController
             caseVer.Status = aCase.Status;
             caseVer.DoneAt = aCase.DoneAt;
             caseVer.UpdatedAt = aCase.UpdatedAt;
-            caseVer.DoneByUserId = aCase.DoneByUserId;
+            caseVer.WorkerId = aCase.WorkerId;
             caseVer.WorkflowState = aCase.WorkflowState;
             caseVer.Version = aCase.Version;
             caseVer.MicrotingCheckUid = aCase.MicrotingCheckUid;

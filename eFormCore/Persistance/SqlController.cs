@@ -770,7 +770,7 @@ namespace eFormSqlController
                     caseStd.Status = 100;
                     caseStd.DoneAt = doneAt;
                     caseStd.UpdatedAt = DateTime.Now;
-                    caseStd.DoneByUserId = userId;
+                    caseStd.WorkerId = userId;
                     caseStd.WorkflowState = Constants.WorkflowStates.Created;
                     caseStd.Version = caseStd.Version + 1;
                     caseStd.UnitId = unitId;
@@ -1388,7 +1388,7 @@ namespace eFormSqlController
                     replyElement.CaseType = aCase.Type;
                     replyElement.Custom = aCase.Custom;
                     replyElement.DoneAt = (DateTime)aCase.DoneAt;
-                    replyElement.DoneById = (int)aCase.DoneByUserId;
+                    replyElement.DoneById = (int)aCase.WorkerId;
                     replyElement.ElementList = new List<Element>();
                     //replyElement.EndDate
                     replyElement.FastNavigation = t.Bool(mainCheckList.FastNavigation);
@@ -2416,8 +2416,8 @@ namespace eFormSqlController
                     if (match.UnitId != null)
                         match.UnitId = db.units.SingleOrDefault(x => x.Id == match.UnitId).MicrotingUid;
 
-                    if (match.DoneByUserId != null)
-                        match.DoneByUserId = db.workers.SingleOrDefault(x => x.Id == match.DoneByUserId).MicrotingUid;
+                    if (match.WorkerId != null)
+                        match.WorkerId = db.workers.SingleOrDefault(x => x.Id == match.WorkerId).MicrotingUid;
                     return match;
                 }
             }
@@ -5348,7 +5348,7 @@ namespace eFormSqlController
             caseVer.Status = aCase.Status;
             caseVer.DoneAt = aCase.DoneAt;
             caseVer.UpdatedAt = aCase.UpdatedAt;
-            caseVer.DoneByUserId = aCase.DoneByUserId;
+            caseVer.WorkerId = aCase.WorkerId;
             caseVer.WorkflowState = aCase.WorkflowState;
             caseVer.Version = aCase.Version;
             caseVer.MicrotingCheckUid = aCase.MicrotingCheckUid;

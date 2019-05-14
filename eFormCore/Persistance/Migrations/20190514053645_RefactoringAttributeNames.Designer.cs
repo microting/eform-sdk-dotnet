@@ -201,7 +201,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("DoneAt");
 
-                    b.Property<int?>("DoneByUserId");
+                    b.Property<int?>("WorkerId");
 
                     b.Property<string>("FieldValue1");
 
@@ -267,7 +267,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("DoneAt");
 
-                    b.Property<int?>("DoneByUserId");
+                    b.Property<int?>("WorkerId");
 
                     b.Property<string>("FieldValue1");
 

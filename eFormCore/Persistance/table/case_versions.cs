@@ -53,7 +53,7 @@ namespace eFormSqlController
 
         public int? UnitId { get; set; }
 
-        public int? DoneByUserId { get; set; }
+        public int? WorkerId { get; set; }
 
         public int? CheckListId { get; set; }
 

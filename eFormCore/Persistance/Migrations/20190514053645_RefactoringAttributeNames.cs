@@ -2998,7 +2998,7 @@ namespace Microting.eForm.Migrations
             migrationBuilder.RenameColumn(
                 name: "done_by_user_id",
                 table: "cases",
-                newName: "DoneByUserId");
+                newName: "WorkerId");
 
             migrationBuilder.RenameColumn(
                 name: "done_at",
@@ -3138,7 +3138,7 @@ namespace Microting.eForm.Migrations
             migrationBuilder.RenameColumn(
                 name: "done_by_user_id",
                 table: "case_versions",
-                newName: "DoneByUserId");
+                newName: "WorkerId");
 
             migrationBuilder.RenameColumn(
                 name: "done_at",
@@ -3439,127 +3439,127 @@ namespace Microting.eForm.Migrations
                 name: "IX_cases_CheckListId",
                 table: "cases",
                 column: "CheckListId");
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answer_value_versions_answer_values_AnswerValueId",
-//                table: "answer_value_versions",
-//                column: "AnswerValueId",
-//                principalTable: "answer_values",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answer_values_answers_AnswerId",
-//                table: "answer_values",
-//                column: "AnswerId",
-//                principalTable: "answers",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answer_values_options_OptionsId",
-//                table: "answer_values",
-//                column: "OptionsId",
-//                principalTable: "options",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answer_values_questions_QuestionId",
-//                table: "answer_values",
-//                column: "QuestionId",
-//                principalTable: "questions",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answers_languages_LanguageId",
-//                table: "answers",
-//                column: "LanguageId",
-//                principalTable: "languages",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answers_question_sets_QuestionSetId",
-//                table: "answers",
-//                column: "QuestionSetId",
-//                principalTable: "question_sets",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answers_sites_SiteId",
-//                table: "answers",
-//                column: "SiteId",
-//                principalTable: "sites",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answers_survey_configurations_SurveyConfigurationId",
-//                table: "answers",
-//                column: "SurveyConfigurationId",
-//                principalTable: "survey_configurations",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_answers_units_UnitId",
-//                table: "answers",
-//                column: "UnitId",
-//                principalTable: "units",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_cases_check_lists_CheckListId",
-//                table: "cases",
-//                column: "CheckListId",
-//                principalTable: "check_lists",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_cases_sites_SiteId",
-//                table: "cases",
-//                column: "SiteId",
-//                principalTable: "sites",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_cases_units_UnitId",
-//                table: "cases",
-//                column: "UnitId",
-//                principalTable: "units",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_cases_workers_WorkerId",
-//                table: "cases",
-//                column: "DoneByUserId",
-//                principalTable: "workers",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_check_list_sites_check_lists_CheckListId",
-//                table: "check_list_sites",
-//                column: "CheckListId",
-//                principalTable: "check_lists",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_check_list_sites_sites_SiteId",
-//                table: "check_list_sites",
-//                column: "SiteId",
-//                principalTable: "sites",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answer_value_versions_answer_values_AnswerValueId",
+                table: "answer_value_versions",
+                column: "AnswerValueId",
+                principalTable: "answer_values",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answer_values_answers_AnswerId",
+                table: "answer_values",
+                column: "AnswerId",
+                principalTable: "answers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answer_values_options_OptionsId",
+                table: "answer_values",
+                column: "OptionsId",
+                principalTable: "options",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answer_values_questions_QuestionId",
+                table: "answer_values",
+                column: "QuestionId",
+                principalTable: "questions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answers_languages_LanguageId",
+                table: "answers",
+                column: "LanguageId",
+                principalTable: "languages",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answers_question_sets_QuestionSetId",
+                table: "answers",
+                column: "QuestionSetId",
+                principalTable: "question_sets",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answers_sites_SiteId",
+                table: "answers",
+                column: "SiteId",
+                principalTable: "sites",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answers_survey_configurations_SurveyConfigurationId",
+                table: "answers",
+                column: "SurveyConfigurationId",
+                principalTable: "survey_configurations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_answers_units_UnitId",
+                table: "answers",
+                column: "UnitId",
+                principalTable: "units",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_cases_check_lists_CheckListId",
+                table: "cases",
+                column: "CheckListId",
+                principalTable: "check_lists",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_cases_sites_SiteId",
+                table: "cases",
+                column: "SiteId",
+                principalTable: "sites",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_cases_units_UnitId",
+                table: "cases",
+                column: "UnitId",
+                principalTable: "units",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_cases_workers_WorkerId",
+                table: "cases",
+                column: "WorkerId",
+                principalTable: "workers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_check_list_sites_check_lists_CheckListId",
+                table: "check_list_sites",
+                column: "CheckListId",
+                principalTable: "check_lists",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_check_list_sites_sites_SiteId",
+                table: "check_list_sites",
+                column: "SiteId",
+                principalTable: "sites",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
 //            migrationBuilder.AddForeignKey(
 //                name: "FK_check_lists_check_lists_ParentId",
 //                table: "check_lists",
@@ -3567,158 +3567,158 @@ namespace Microting.eForm.Migrations
 //                principalTable: "check_lists",
 //                principalColumn: "Id",
 //                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_fields_check_lists_CheckListId",
-//                table: "fields",
-//                column: "CheckListId",
-//                principalTable: "check_lists",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_fields_field_types_FieldTypeId",
-//                table: "fields",
-//                column: "FieldTypeId",
-//                principalTable: "field_types",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_fields_fields_ParentFieldId",
-//                table: "fields",
-//                column: "ParentFieldId",
-//                principalTable: "fields",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_folders_folders_ParentId",
-//                table: "folders",
-//                column: "ParentId",
-//                principalTable: "folders",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_language_versions_languages_LanguageId",
-//                table: "language_versions",
-//                column: "LanguageId",
-//                principalTable: "languages",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_option_versions_options_OptionId",
-//                table: "option_versions",
-//                column: "OptionId",
-//                principalTable: "options",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_options_questions_QuestionId",
-//                table: "options",
-//                column: "QuestionId",
-//                principalTable: "questions",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_question_set_versions_question_sets_QuestionSetId",
-//                table: "question_set_versions",
-//                column: "QuestionSetId",
-//                principalTable: "question_sets",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_question_versions_questions_QuestionId",
-//                table: "question_versions",
-//                column: "QuestionId",
-//                principalTable: "questions",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_questions_question_sets_QuestionSetId",
-//                table: "questions",
-//                column: "QuestionSetId",
-//                principalTable: "question_sets",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_site_survey_configuration_versions_site_survey_configurations_SiteSurveyConfigurationId",
-//                table: "site_survey_configuration_versions",
-//                column: "SiteSurveyConfigurationId",
-//                principalTable: "site_survey_configurations",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_site_survey_configurations_sites_SiteId",
-//                table: "site_survey_configurations",
-//                column: "SiteId",
-//                principalTable: "sites",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_site_survey_configurations_survey_configurations_SurveyConfigurationId",
-//                table: "site_survey_configurations",
-//                column: "SurveyConfigurationId",
-//                principalTable: "survey_configurations",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_site_workers_sites_SiteId",
-//                table: "site_workers",
-//                column: "SiteId",
-//                principalTable: "sites",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_site_workers_workers_WorkerId",
-//                table: "site_workers",
-//                column: "WorkerId",
-//                principalTable: "workers",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_survey_configuration_versions_survey_configurations_SurveyConfigurationId",
-//                table: "survey_configuration_versions",
-//                column: "SurveyConfigurationId",
-//                principalTable: "survey_configurations",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Cascade);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_taggings_check_lists_CheckListId",
-//                table: "taggings",
-//                column: "CheckListId",
-//                principalTable: "check_lists",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_taggings_tags_TagId",
-//                table: "taggings",
-//                column: "TagId",
-//                principalTable: "tags",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
-//
-//            migrationBuilder.AddForeignKey(
-//                name: "FK_units_sites_SiteId",
-//                table: "units",
-//                column: "SiteId",
-//                principalTable: "sites",
-//                principalColumn: "Id",
-//                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_fields_check_lists_CheckListId",
+                table: "fields",
+                column: "CheckListId",
+                principalTable: "check_lists",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_fields_field_types_FieldTypeId",
+                table: "fields",
+                column: "FieldTypeId",
+                principalTable: "field_types",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_fields_fields_ParentFieldId",
+                table: "fields",
+                column: "ParentFieldId",
+                principalTable: "fields",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_folders_folders_ParentId",
+                table: "folders",
+                column: "ParentId",
+                principalTable: "folders",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_language_versions_languages_LanguageId",
+                table: "language_versions",
+                column: "LanguageId",
+                principalTable: "languages",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_option_versions_options_OptionId",
+                table: "option_versions",
+                column: "OptionId",
+                principalTable: "options",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_options_questions_QuestionId",
+                table: "options",
+                column: "QuestionId",
+                principalTable: "questions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_question_set_versions_question_sets_QuestionSetId",
+                table: "question_set_versions",
+                column: "QuestionSetId",
+                principalTable: "question_sets",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_question_versions_questions_QuestionId",
+                table: "question_versions",
+                column: "QuestionId",
+                principalTable: "questions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_questions_question_sets_QuestionSetId",
+                table: "questions",
+                column: "QuestionSetId",
+                principalTable: "question_sets",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_site_survey_configuration_versions_site_survey_configurations_SiteSurveyConfigurationId",
+                table: "site_survey_configuration_versions",
+                column: "SiteSurveyConfigurationId",
+                principalTable: "site_survey_configurations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_site_survey_configurations_sites_SiteId",
+                table: "site_survey_configurations",
+                column: "SiteId",
+                principalTable: "sites",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_site_survey_configurations_survey_configurations_SurveyConfigurationId",
+                table: "site_survey_configurations",
+                column: "SurveyConfigurationId",
+                principalTable: "survey_configurations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_site_workers_sites_SiteId",
+                table: "site_workers",
+                column: "SiteId",
+                principalTable: "sites",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_site_workers_workers_WorkerId",
+                table: "site_workers",
+                column: "WorkerId",
+                principalTable: "workers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_survey_configuration_versions_survey_configurations_SurveyConfigurationId",
+                table: "survey_configuration_versions",
+                column: "SurveyConfigurationId",
+                principalTable: "survey_configurations",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_taggings_check_lists_CheckListId",
+                table: "taggings",
+                column: "CheckListId",
+                principalTable: "check_lists",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_taggings_tags_TagId",
+                table: "taggings",
+                column: "TagId",
+                principalTable: "tags",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_units_sites_SiteId",
+                table: "units",
+                column: "SiteId",
+                principalTable: "sites",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
