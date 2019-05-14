@@ -70,8 +70,10 @@ namespace eFormSqlController
                    var match = db.settings.Count();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
+                throw ex;
                 //TODO! THIS part need to be redone in some form in EF Core!
                // MigrateDb();
             }

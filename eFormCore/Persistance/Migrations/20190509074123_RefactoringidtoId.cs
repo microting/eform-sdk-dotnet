@@ -6,9 +6,162 @@ namespace Microting.eForm.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+//            
+            migrationBuilder.DropForeignKey(
+                name: "FK_cases_workers_done_by_user_id",
+                table: "cases");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_field_values_workers_user_id",
+                table: "field_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_site_workers_workers_worker_id",
+                table: "site_workers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_cases_check_lists_check_list_id",
+                table: "cases");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_field_values_uploaded_data_uploaded_data_id",
+                table: "field_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_field_values_fields_field_id",
+                table: "field_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_fields_fields_parentid",
+                table: "fields");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_fields_check_lists_check_list_id",
+                table: "fields");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_field_values_check_lists_check_list_id",
+                table: "field_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_check_list_sites_check_lists_check_list_id",
+                table: "check_list_sites");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_check_lists_check_lists_parentid",
+                table: "check_lists");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_taggings_check_lists_check_list_id",
+                table: "taggings");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_taggings_tags_tag_id",
+                table: "taggings");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answers_survey_configurations_surveyConfigurationId",
+                table: "answers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_site_survey_configurations_survey_configurations_surveyConfig",
+                table: "site_survey_configurations");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_survey_configuration_versions_survey_configurations_surveyCon",
+                table: "survey_configuration_versions");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answers_units_unitId",
+                table: "answers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_cases_units_unit_id",
+                table: "cases");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answers_sites_siteId",
+                table: "answers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_cases_sites_site_id",
+                table: "cases");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_check_list_sites_sites_site_id",
+                table: "check_list_sites");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_site_survey_configurations_sites_siteId",
+                table: "site_survey_configurations");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_site_workers_sites_site_id",
+                table: "site_workers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_units_sites_site_id",
+                table: "units");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_site_survey_configuration_versions_site_survey_configurations",
+                table: "site_survey_configuration_versions");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answer_values_questions_questionId",
+                table: "answer_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_options_questions_questionId",
+                table: "options");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_question_versions_questions_questionId",
+                table: "question_versions");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answers_question_sets_questionSetId",
+                table: "answers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_question_set_versions_question_sets_questionSetId",
+                table: "question_set_versions");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_questions_question_sets_questionSetId",
+                table: "questions");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answer_values_options_optionsId",
+                table: "answer_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_option_versions_options_optionId",
+                table: "option_versions");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answers_languages_languageId",
+                table: "answers");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_language_versions_languages_languageId",
+                table: "language_versions");
+            
             migrationBuilder.DropForeignKey(
                 name: "FK_folders_folders_parentid",
                 table: "folders");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_fields_field_types_field_type_id",
+                table: "fields");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answer_values_answers_answerId",
+                table: "answer_values");
+            
+            migrationBuilder.DropForeignKey(
+                name: "FK_answer_value_versions_answer_values_answerValueId",
+                table: "answer_value_versions");
 
             migrationBuilder.RenameColumn(
                 name: "id",
@@ -34,7 +187,7 @@ namespace Microting.eForm.Migrations
                 name: "id",
                 table: "units",
                 newName: "Id");
-
+//
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "unit_versions",
@@ -49,7 +202,7 @@ namespace Microting.eForm.Migrations
                 name: "id",
                 table: "taggings",
                 newName: "Id");
-
+//
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "tagging_versions",
@@ -149,11 +302,6 @@ namespace Microting.eForm.Migrations
                 name: "id",
                 table: "folders",
                 newName: "Id");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_folders_parentid",
-                table: "folders",
-                newName: "IX_folders_parentId");
 
             migrationBuilder.RenameColumn(
                 name: "id",
@@ -265,13 +413,13 @@ namespace Microting.eForm.Migrations
                 table: "answer_value_versions",
                 newName: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_folders_folders_parentId",
-                table: "folders",
-                column: "parentId",
-                principalTable: "folders",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+//            migrationBuilder.AddForeignKey(
+//                name: "FK_folders_folders_parentId",
+//                table: "folders",
+//                column: "parentId",
+//                principalTable: "folders",
+//                principalColumn: "Id",
+//                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
