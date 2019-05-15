@@ -609,17 +609,10 @@ namespace eFormCore
                     if (mainElement == null)
                         throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
+                    List<string> errorList = FieldValidation(mainElement);
+                    errorList = errorList.Concat(CheckListValidation(mainElement)).ToList();
 
-                    List<string> errorLst = new List<string>();
-
-                    List<string> fieldErrors = FieldValidation(mainElement);
-
-                    List<string> checkListErrors = CheckListValidation(mainElement);
-
-                    errorLst = fieldErrors;
-                    errorLst = errorLst.Concat(checkListErrors).ToList();
-
-                    return errorLst;
+                    return errorList;
 
                 }
                 else
