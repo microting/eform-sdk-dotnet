@@ -17,7 +17,6 @@ namespace eFormSDK.Integration.Tests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        private string path;
 
         public override void DoSetup()
         {
@@ -32,9 +31,9 @@ namespace eFormSDK.Integration.Tests
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
+            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
 
