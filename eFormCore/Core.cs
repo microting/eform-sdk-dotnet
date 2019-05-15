@@ -607,7 +607,7 @@ namespace eFormCore
                 if (Running())
                 {
                     if (mainElement == null)
-                        throw new ArgumentNullException("mainElement", "mainElement not allowed to be null");
+                        throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
 
                     List<string> errorLst = new List<string>();
@@ -713,7 +713,7 @@ namespace eFormCore
         public MainElement TemplateUploadData(MainElement mainElement)
         {
             if (mainElement == null)
-                throw new ArgumentNullException("mainElement not allowed to be null");
+                throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
             string methodName = t.GetMethodName("Core");
             try
@@ -792,7 +792,7 @@ namespace eFormCore
         public int TemplateCreate(MainElement mainElement)
         {
             if (mainElement == null)
-                throw new ArgumentNullException("mainElement not allowed to be null");
+                throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
             string methodName = t.GetMethodName("Core");
             try
