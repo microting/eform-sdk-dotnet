@@ -1435,7 +1435,11 @@ namespace Microting.eForm.Migrations
             migrationBuilder.RenameColumn(
                 name: "id",
                 table: "notifications",
-                newName: "Id");
+                newName: "Id");                     
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                "notifications").Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
 
             migrationBuilder.RenameColumn(
                 name: "workflow_state",
