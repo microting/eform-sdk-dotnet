@@ -671,6 +671,19 @@ namespace eFormCore
                     ShowPdf showPdf = (ShowPdf) dataItem;
                     errorLst.AddRange(PdfValidate(showPdf.Value, showPdf.Id));
                 }
+                
+                List<string> acceptedColors = new List<string>();
+                acceptedColors.Add(Constants.FieldColors.Grey);
+                acceptedColors.Add(Constants.FieldColors.Red);
+                acceptedColors.Add(Constants.FieldColors.Green);
+                acceptedColors.Add(Constants.FieldColors.Blue);
+                acceptedColors.Add(Constants.FieldColors.Purple);
+                acceptedColors.Add(Constants.FieldColors.Yellow);
+                acceptedColors.Add(Constants.FieldColors.Default);
+                if (!acceptedColors.Contains(dataItem.Color))
+                {
+                    errorLst.Add($"DataItem with label {dataItem.Label} did supply color {dataItem.Color}, but the only allowed colors are: grey, red, green, blue, purple, yellow, default");
+                }
 
                 #endregion
             }
@@ -695,7 +708,7 @@ namespace eFormCore
             {
                 if (!acceptedColors.Contains(element.Color) && !string.IsNullOrEmpty(element.Color))
                 {
-                    errorLst.Add($"Element with label {element.Label} did supply color {element.Color}, the only allowed colors are either leave it blank, grey, red, green.");
+                    errorLst.Add($"Element with label {element.Label} did supply color {element.Color}, but the only allowed colors are: grey, red, green or leave it blank.");
                 }
             }
             
