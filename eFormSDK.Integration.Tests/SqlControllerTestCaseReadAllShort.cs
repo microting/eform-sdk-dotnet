@@ -391,7 +391,7 @@ namespace eFormSDK.Integration.Tests
             DateTime endDt = DateTime.Now;
             MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, false, true, "type1", "MessageTitle",
-                "MessageBody", false, CElement.ElementList);
+                "MessageBody", false, CElement.ElementList, "");
 
             // Act
             int templateId = sut.TemplateCreate(main);

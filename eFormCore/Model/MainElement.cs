@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -42,7 +43,7 @@ namespace eFormData
         }
 
         public CoreElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, List<Element> elementList)
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, List<Element> elementList, string color)
         {
             Id = id;
             Label = label;
@@ -58,6 +59,7 @@ namespace eFormData
             ManualSync = manualSync;
             CaseType = caseType;
             ElementList = elementList;
+            Color = color;
         }
         #endregion
 
@@ -68,6 +70,7 @@ namespace eFormData
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
         public string MicrotingUId { get; set; }
+        public string Color { get; set; }
 //        public string OriginalId { get; set; }
 
         [XmlIgnore]
@@ -203,13 +206,14 @@ namespace eFormData
             CaseType = coreElement.CaseType;
             ElementList = coreElement.ElementList;
             EnableQuickSync = coreElement.EnableQuickSync;
+            Color = coreElement.Color;
 
             PushMessageTitle = "";
             PushMessageBody = "";
         }
 
         public MainElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, bool enableQuickSync, List<Element> elementList)
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, bool enableQuickSync, List<Element> elementList, string color)
         {
             Id = id;
             Label = label;
@@ -228,6 +232,7 @@ namespace eFormData
             PushMessageBody = pushMessageBody;
             EnableQuickSync = enableQuickSync;
             ElementList = elementList;
+            Color = color;
         }
         #endregion
 

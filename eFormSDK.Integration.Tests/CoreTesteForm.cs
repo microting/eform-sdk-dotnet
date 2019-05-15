@@ -527,7 +527,7 @@ namespace eFormSDK.Integration.Tests
             DateTime endDt = DateTime.Now;
             MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, false, true, "type1", "MessageTitle",
-                "MessageBody", false, CElement.ElementList);
+                "MessageBody", false, CElement.ElementList, "");
             // Act
             var match = sut.TemplateValidation(main);
             // Assert
@@ -545,7 +545,7 @@ namespace eFormSDK.Integration.Tests
             DateTime endDt = DateTime.Now;
             MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
-                "MessageBody", false, CElement.ElementList);
+                "MessageBody", false, CElement.ElementList, "");
             // Act
             var match = sut.TemplateUploadData(main);
             // Assert
@@ -585,7 +585,7 @@ namespace eFormSDK.Integration.Tests
             DateTime endDt = DateTime.Now;
             MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
-                "MessageBody", false, CElement.ElementList);
+                "MessageBody", false, CElement.ElementList, "");
             // Act
             var match = sut.TemplateCreate(main);
             // Assert

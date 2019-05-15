@@ -697,23 +697,17 @@ namespace eFormCore
             Log.LogStandard(t.GetMethodName("Core"), "called");
             List<string> errorLst = new List<string>();
             
-            var elements = mainElement.ElementGetAll();
-
             List<string> acceptedColors = new List<string>();
             acceptedColors.Add(Constants.CheckListColors.Grey);
             acceptedColors.Add(Constants.CheckListColors.Red);
             acceptedColors.Add(Constants.CheckListColors.Green);
 
-            foreach (Element element in elements)
+            if (!acceptedColors.Contains(mainElement.Color) && !string.IsNullOrEmpty(mainElement.Color))
             {
-                if (!acceptedColors.Contains(element.Color) && !string.IsNullOrEmpty(element.Color))
-                {
-                    errorLst.Add($"Element with label {element.Label} did supply color {element.Color}, but the only allowed colors are: grey, red, green or leave it blank.");
-                }
+                errorLst.Add($"mainElement with label {mainElement.Label} did supply color {mainElement.Color}, but the only allowed colors are: grey, red, green or leave it blank.");
             }
             
             return errorLst;
-
         }
 
         public MainElement TemplateUploadData(MainElement mainElement)

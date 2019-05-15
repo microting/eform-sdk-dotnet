@@ -56,7 +56,6 @@ namespace eFormData
         public string PinkBarText { get; set; }
         public bool QuickSyncEnabled { get; set; }
         public string OriginalId { get; set; }
-        public string Color { get; set; }
         #endregion
     }
 
@@ -69,7 +68,7 @@ namespace eFormData
         }
 
         public GroupElement(int id, string label, int displayOrder, string description, bool approvedEnabled, bool reviewEnabled, bool doneButtonEnabled,
-            bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled, List<Element> elementList, string color)
+            bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled, List<Element> elementList)
         {
             ElementList = new List<Element>();
 
@@ -84,7 +83,6 @@ namespace eFormData
             ExtraFieldsEnabled = extraDataElementsEnabled;
             PinkBarText = pinkBarText;
             QuickSyncEnabled = quickSyncEnabled;
-            Color = color;
 
             ElementList = elementList;
         }
@@ -104,7 +102,7 @@ namespace eFormData
         }
 
         public DataElement(int id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
-            bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled, List<DataItemGroup> dataItemGroupList, List<DataItem> dataItemList, string color)
+            bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled, List<DataItemGroup> dataItemGroupList, List<DataItem> dataItemList)
         {
             //DataItemGroupList = new List<DataItemGroup>();
             //DataItemList = new List<DataItem>();
@@ -120,7 +118,6 @@ namespace eFormData
             ExtraFieldsEnabled = extraDataElementsEnabled;
             PinkBarText = pinkBarText;
             QuickSyncEnabled = quickSyncEnabled;
-            Color = color;
 
             DataItemGroupList = dataItemGroupList;
             DataItemList = dataItemList;
@@ -159,7 +156,6 @@ namespace eFormData
 
             DataItemGroupList = dataElement.DataItemGroupList;
             DataItemList = dataElement.DataItemList;
-            Color = dataElement.Color;
             Status = status;
         }
 
