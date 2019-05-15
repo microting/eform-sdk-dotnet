@@ -217,8 +217,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             field_values fVs = new field_values();
-            fVs.uploaded_data_id = ud.Id;
-            fVs.case_id = aCase1.Id;
+            fVs.UploadedDataId = ud.Id;
+            fVs.CaseId = aCase1.Id;
 
             DbContext.field_values.Add(fVs);
             DbContext.SaveChanges();
@@ -229,7 +229,7 @@ namespace eFormSDK.Integration.Tests
 
 
             Assert.NotNull(fVs);
-            Assert.AreEqual(fVs.case_id, aCase1.Id);
+            Assert.AreEqual(fVs.CaseId, aCase1.Id);
 
         }
 

@@ -113,6 +113,8 @@ namespace eFormSqlController
         public short? QuickSyncEnabled { get; set; }
 
         public string OriginalId { get; set; }
+        
+        public string Color { get; set; }
 
         public virtual ICollection<cases> Cases { get; set; }
 

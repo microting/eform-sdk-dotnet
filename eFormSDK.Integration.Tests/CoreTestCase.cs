@@ -929,16 +929,16 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
             List<string> FVPlist = new List<string>();
-            FVPlist.Add(field_Value1.Id + " |" + field_Value1.value);
-            FVPlist.Add(field_Value2.Id + " |" + field_Value2.value);
-            FVPlist.Add(field_Value3.Id + " |" + field_Value3.value);
-            FVPlist.Add(field_Value4.Id + " |" + field_Value4.value);
-            FVPlist.Add(field_Value5.Id + " |" + field_Value5.value);
-            FVPlist.Add(field_Value6.Id + " |" + field_Value6.value);
-            FVPlist.Add(field_Value7.Id + " |" + field_Value7.value);
-            FVPlist.Add(field_Value8.Id + " |" + field_Value8.value);
-            FVPlist.Add(field_Value9.Id + " |" + field_Value9.value);
-            FVPlist.Add(field_Value10.Id + " |" + field_Value10.value);
+            FVPlist.Add(field_Value1.Id + " |" + field_Value1.Value);
+            FVPlist.Add(field_Value2.Id + " |" + field_Value2.Value);
+            FVPlist.Add(field_Value3.Id + " |" + field_Value3.Value);
+            FVPlist.Add(field_Value4.Id + " |" + field_Value4.Value);
+            FVPlist.Add(field_Value5.Id + " |" + field_Value5.Value);
+            FVPlist.Add(field_Value6.Id + " |" + field_Value6.Value);
+            FVPlist.Add(field_Value7.Id + " |" + field_Value7.Value);
+            FVPlist.Add(field_Value8.Id + " |" + field_Value8.Value);
+            FVPlist.Add(field_Value9.Id + " |" + field_Value9.Value);
+            FVPlist.Add(field_Value10.Id + " |" + field_Value10.Value);
             //FVPlist.ToList();
 
             List<string> CLVlist = new List<string>();
@@ -2033,16 +2033,16 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(theCaseAfter);
 
-            theCaseAfter.FieldValue1 = field_Value1.value;
-            theCaseAfter.FieldValue2 = field_Value2.value;
-            theCaseAfter.FieldValue3 = field_Value3.value;
-            theCaseAfter.FieldValue4 = field_Value4.value;
-            theCaseAfter.FieldValue5 = field_Value5.value;
-            theCaseAfter.FieldValue6 = field_Value6.value;
-            theCaseAfter.FieldValue7 = field_Value7.value;
-            theCaseAfter.FieldValue8 = field_Value8.value;
-            theCaseAfter.FieldValue9 = field_Value9.value;
-            theCaseAfter.FieldValue10 = field_Value10.value;
+            theCaseAfter.FieldValue1 = field_Value1.Value;
+            theCaseAfter.FieldValue2 = field_Value2.Value;
+            theCaseAfter.FieldValue3 = field_Value3.Value;
+            theCaseAfter.FieldValue4 = field_Value4.Value;
+            theCaseAfter.FieldValue5 = field_Value5.Value;
+            theCaseAfter.FieldValue6 = field_Value6.Value;
+            theCaseAfter.FieldValue7 = field_Value7.Value;
+            theCaseAfter.FieldValue8 = field_Value8.Value;
+            theCaseAfter.FieldValue9 = field_Value9.Value;
+            theCaseAfter.FieldValue10 = field_Value10.Value;
 
 
             Assert.True(testThis);

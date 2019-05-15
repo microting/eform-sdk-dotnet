@@ -73,6 +73,8 @@
     <Compile Include="Persistance\Migrations\20190509074123_RefactoringidtoId.Designer.cs" />
     <Compile Include="Persistance\Migrations\20190514053645_RefactoringAttributeNames.cs" />
     <Compile Include="Persistance\Migrations\20190514053645_RefactoringAttributeNames.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190515064952_FixingNamingForFieldValues.cs" />
+    <Compile Include="Persistance\Migrations\20190515064952_FixingNamingForFieldValues.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\answers.cs" />

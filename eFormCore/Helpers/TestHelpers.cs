@@ -256,23 +256,23 @@ namespace eFormCore.Helpers
         public field_values CreateFieldValue(cases aCase, check_lists checkList, fields f, int? ud_id, int? userId, string value, int? version, workers worker)
         {
             field_values fv = new field_values();
-            fv.case_id = aCase.Id;
-            fv.check_list = checkList;
-            fv.check_list_id = checkList.Id;
+            fv.CaseId = aCase.Id;
+            fv.CheckList = checkList;
+            fv.CheckListId = checkList.Id;
             fv.CreatedAt = DateTime.Now;
-            fv.date = DateTime.Now;
-            fv.done_at = DateTime.Now;
-            fv.field = f;
-            fv.field_id = f.Id;
+            fv.Date = DateTime.Now;
+            fv.DoneAt = DateTime.Now;
+            fv.Field = f;
+            fv.FieldId = f.Id;
             fv.UpdatedAt = DateTime.Now;
             if (ud_id != null)
             {
-                fv.uploaded_data_id = ud_id;
+                fv.UploadedDataId = ud_id;
             }
-            fv.user_id = userId;
-            fv.value = value;
+            fv.WorkerId = userId;
+            fv.Value = value;
             fv.Version = version;
-            fv.worker = worker;
+            fv.Worker = worker;
             fv.WorkflowState = Constants.WorkflowStates.Created;
 
             DbContext.field_values.Add(fv);

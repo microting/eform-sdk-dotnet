@@ -98,6 +98,8 @@ namespace eFormSqlController
         public int? Field9 { get; set; }
 
         public int? Field10 { get; set; }
+        
+        public string Color { get; set; }
 
         public short? QuickSyncEnabled { get; set; }
 

@@ -1013,7 +1013,7 @@ namespace eFormSqlController
 
                                 if (!fieldTypeIds.Contains((int)f.FieldTypeId)) 
                                 {
-                                    fieldV = db.field_values.SingleOrDefault(x => x.field_id == field_id && x.case_id == case_id && x.check_list_id == cl_id && x.user_id == userId);
+                                    fieldV = db.field_values.SingleOrDefault(x => x.FieldId == field_id && x.CaseId == case_id && x.CheckListId == cl_id && x.WorkerId == userId);
                                 }
 
 
@@ -1052,7 +1052,7 @@ namespace eFormSqlController
                                         db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
                                         db.SaveChanges();
                                         //}
-                                        fieldV.uploaded_data_id = dU.Id;
+                                        fieldV.UploadedDataId = dU.Id;
                                         uploadedDataIds.Add(dU.Id);
 
                                     }
@@ -1079,33 +1079,33 @@ namespace eFormSqlController
                                         extractedValue = extractedValue.Replace(".", ",");
                                     }
                                     
-                                    fieldV.value = extractedValue;                                    
+                                    fieldV.Value = extractedValue;                                    
                                     fields _field = db.fields.SingleOrDefault(x => x.Id == field_id);
                                     if (_field.FieldType.FieldType == Constants.FieldTypes.EntitySearch || _field.FieldType.FieldType == Constants.FieldTypes.EntitySelect)
                                     {
                                         if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
                                         {
                                             int Id = EntityItemRead(extractedValue).Id;
-                                            fieldV.value = Id.ToString();
+                                            fieldV.Value = Id.ToString();
                                         }
                                     }
                                     
                                     #endregion
                                     //geo
-                                    fieldV.latitude = t.Locate(dataItemStr, "<Latitude>", "</");
-                                    fieldV.longitude = t.Locate(dataItemStr, "<Longitude>", "</");
-                                    fieldV.altitude = t.Locate(dataItemStr, "<Altitude>", "</");
-                                    fieldV.heading = t.Locate(dataItemStr, "<Heading>", "</");
-                                    fieldV.accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
-                                    fieldV.date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
+                                    fieldV.Latitude = t.Locate(dataItemStr, "<Latitude>", "</");
+                                    fieldV.Longitude = t.Locate(dataItemStr, "<Longitude>", "</");
+                                    fieldV.Altitude = t.Locate(dataItemStr, "<Altitude>", "</");
+                                    fieldV.Heading = t.Locate(dataItemStr, "<Heading>", "</");
+                                    fieldV.Accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
+                                    fieldV.Date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
                                     //
                                     fieldV.WorkflowState = Constants.WorkflowStates.Created;
                                     fieldV.Version = 1;
-                                    fieldV.case_id = responseCase.Id;
-                                    fieldV.field_id = field_id;
-                                    fieldV.user_id = userId;
-                                    fieldV.check_list_id = clv.CheckListId;
-                                    fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
+                                    fieldV.CaseId = responseCase.Id;
+                                    fieldV.FieldId = field_id;
+                                    fieldV.WorkerId = userId;
+                                    fieldV.CheckListId = clv.CheckListId;
+                                    fieldV.DoneAt = t.Date(response.Checks[xmlIndex].Date);
 
                                     db.field_values.Add(fieldV);
                                     db.SaveChanges();
@@ -1114,18 +1114,18 @@ namespace eFormSqlController
                                     db.SaveChanges();
 
                                     #region update case field_values
-                                    if (case_fields.Contains(fieldV.field_id))
+                                    if (case_fields.Contains(fieldV.FieldId))
                                     {
-                                        field_types field_type = db.fields.First(x => x.Id == fieldV.field_id).FieldType;
-                                        string new_value = fieldV.value;
+                                        field_types field_type = db.fields.First(x => x.Id == fieldV.FieldId).FieldType;
+                                        string new_value = fieldV.Value;
 
                                         if (field_type.FieldType == Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.FieldTypes.EntitySelect)
                                         {
                                             try
                                             {
-                                                if (fieldV.value != "" || fieldV.value != null)
+                                                if (fieldV.Value != "" || fieldV.Value != null)
                                                 {
-                                                    int Id = int.Parse(fieldV.value);
+                                                    int Id = int.Parse(fieldV.Value);
                                                     entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
                                                     
                                                     if (match != null)
@@ -1140,8 +1140,8 @@ namespace eFormSqlController
 
                                         if (field_type.FieldType == "SingleSelect")
                                         {
-                                            string key = fieldV.value;
-                                            string fullKey = t.Locate(fieldV.field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                                            string key = fieldV.Value;
+                                            string fullKey = t.Locate(fieldV.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                                             new_value = t.Locate(fullKey, "<key>", "</key>");
                                         }
 
@@ -1149,12 +1149,12 @@ namespace eFormSqlController
                                         {
                                             new_value = "";
 
-                                            string keys = fieldV.value;
+                                            string keys = fieldV.Value;
                                             List<string> keyLst = keys.Split('|').ToList();
 
                                             foreach (string key in keyLst)
                                             {
-                                                string fullKey = t.Locate(fieldV.field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                                                string fullKey = t.Locate(fieldV.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                                                 if (new_value != "")
                                                 {
                                                     new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
@@ -1167,7 +1167,7 @@ namespace eFormSqlController
                                         }
 
 
-                                        int i = case_fields.IndexOf(fieldV.field_id);
+                                        int i = case_fields.IndexOf(fieldV.FieldId);
                                         switch (i)
                                         {
                                             case 0:
@@ -1215,7 +1215,7 @@ namespace eFormSqlController
                                     int index = 0;
                                     foreach (var field in TemplatFieldLst)
                                     {
-                                        if (fieldV.field_id == field.Id)
+                                        if (fieldV.FieldId == field.Id)
                                         {
                                             TemplatFieldLst.RemoveAt(index);
                                             break;
@@ -1240,7 +1240,7 @@ namespace eFormSqlController
 
                         field_values fieldV = null;
 
-                        fieldV = db.field_values.SingleOrDefault(x => x.field_id == field.Id && x.case_id == responseCase.Id && x.check_list_id == field.CheckListId && x.user_id == userId);
+                        fieldV = db.field_values.SingleOrDefault(x => x.FieldId == field.Id && x.CaseId == responseCase.Id && x.CheckListId == field.CheckListId && x.WorkerId == userId);
 
                         if (fieldV == null)
                         {
@@ -1248,23 +1248,23 @@ namespace eFormSqlController
                             fieldV.CreatedAt = DateTime.Now;
                             fieldV.UpdatedAt = DateTime.Now;
 
-                            fieldV.value = null;
+                            fieldV.Value = null;
 
                             //geo
-                            fieldV.latitude = null;
-                            fieldV.longitude = null;
-                            fieldV.altitude = null;
-                            fieldV.heading = null;
-                            fieldV.accuracy = null;
-                            fieldV.date = null;
+                            fieldV.Latitude = null;
+                            fieldV.Longitude = null;
+                            fieldV.Altitude = null;
+                            fieldV.Heading = null;
+                            fieldV.Accuracy = null;
+                            fieldV.Date = null;
                             //
                             fieldV.WorkflowState = Constants.WorkflowStates.Created;
                             fieldV.Version = 1;
-                            fieldV.case_id = responseCase.Id;
-                            fieldV.field_id = field.Id;
-                            fieldV.user_id = userId;
-                            fieldV.check_list_id = field.CheckListId;
-                            fieldV.done_at = t.Date(response.Checks[xmlIndex].Date);
+                            fieldV.CaseId = responseCase.Id;
+                            fieldV.FieldId = field.Id;
+                            fieldV.WorkerId = userId;
+                            fieldV.CheckListId = field.CheckListId;
+                            fieldV.DoneAt = t.Date(response.Checks[xmlIndex].Date);
 
                             db.field_values.Add(fieldV);
                             db.SaveChanges();
@@ -1301,55 +1301,55 @@ namespace eFormSqlController
                         check_lists cl = match.CheckList;
                         field_values fv = null;
                         #region field_value and field matching
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field1);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field1);
                         if (fv != null)
                         {
-                            match.FieldValue1 = fv.value;
+                            match.FieldValue1 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field2);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field2);
                         if (fv != null)
                         {
-                            match.FieldValue2 = fv.value;
+                            match.FieldValue2 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field3);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field3);
                         if (fv != null)
                         {
-                            match.FieldValue3 = fv.value;
+                            match.FieldValue3 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field4);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field4);
                         if (fv != null)
                         {
-                            match.FieldValue4 = fv.value;
+                            match.FieldValue4 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field5);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field5);
                         if (fv != null)
                         {
-                            match.FieldValue5 = fv.value;
+                            match.FieldValue5 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field6);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field6);
                         if (fv != null)
                         {
-                            match.FieldValue6 = fv.value;
+                            match.FieldValue6 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field7);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field7);
                         if (fv != null)
                         {
-                            match.FieldValue7 = fv.value;
+                            match.FieldValue7 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field8);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field8);
                         if (fv != null)
                         {
-                            match.FieldValue8 = fv.value;
+                            match.FieldValue8 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field9);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field9);
                         if (fv != null)
                         {
-                            match.FieldValue9 = fv.value;
+                            match.FieldValue9 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.case_id == caseId && x.field_id == cl.Field10);
+                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field10);
                         if (fv != null)
                         {
-                            match.FieldValue10 = fv.value;
+                            match.FieldValue10 = fv.Value;
                         }
 
                         match.Version += 1;
@@ -1448,7 +1448,7 @@ namespace eFormSqlController
                                     Field _field = FieldRead(subField.Id);
 
                                     _field.FieldValues = new List<FieldValue>();
-                                    foreach (field_values fieldValue in subField.FieldValues.Where(x => x.case_id == caseId).ToList())
+                                    foreach (field_values fieldValue in subField.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                     {
                                         FieldValue answer = FieldValueRead(fieldValue, false);
                                         _field.FieldValues.Add(answer);
@@ -1466,7 +1466,7 @@ namespace eFormSqlController
                             {
                                 Field _field = FieldRead(field.Id);
                                 _field.FieldValues = new List<FieldValue>();
-                                foreach (field_values fieldValue in field.FieldValues.Where(x => x.case_id == caseId).ToList())
+                                foreach (field_values fieldValue in field.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                 {
                                     FieldValue answer = FieldValueRead(fieldValue, false);
                                     _field.FieldValues.Add(answer);
@@ -1497,7 +1497,7 @@ namespace eFormSqlController
                     var aCase = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     int caseId = aCase.Id;
 
-                    List<field_values> lst = db.field_values.Where(x => x.case_id == caseId).ToList();
+                    List<field_values> lst = db.field_values.Where(x => x.CaseId == caseId).ToList();
                     return lst;
                 }
             }
@@ -1559,40 +1559,40 @@ namespace eFormSqlController
                 using (var db = GetContext())
                 {
 
-                    fields field = db.fields.Single(x => x.Id == reply.field_id);
+                    fields field = db.fields.Single(x => x.Id == reply.FieldId);
                     FieldValue field_value = new FieldValue();
-                    field_value.Accuracy = reply.accuracy;
-                    field_value.Altitude = reply.altitude;
+                    field_value.Accuracy = reply.Accuracy;
+                    field_value.Altitude = reply.Altitude;
                     field_value.Color = field.Color;
-                    field_value.Date = reply.date;
-                    field_value.FieldId = t.Int(reply.field_id);
+                    field_value.Date = reply.Date;
+                    field_value.FieldId = t.Int(reply.FieldId);
                     field_value.FieldType = field.FieldType.FieldType;
-                    field_value.DateOfDoing = t.Date(reply.done_at);
+                    field_value.DateOfDoing = t.Date(reply.DoneAt);
                     field_value.Description = new CDataValue();
                     field_value.Description.InderValue = field.Description;
                     field_value.DisplayOrder = t.Int(field.DisplayIndex);
-                    field_value.Heading = reply.heading;
+                    field_value.Heading = reply.Heading;
                     field_value.Id = reply.Id;
-                    field_value.OriginalId = reply.field.OriginalId;
+                    field_value.OriginalId = reply.Field.OriginalId;
                     field_value.Label = field.Label;
-                    field_value.Latitude = reply.latitude;
-                    field_value.Longitude = reply.longitude;
+                    field_value.Latitude = reply.Latitude;
+                    field_value.Longitude = reply.Longitude;
                     field_value.Mandatory = t.Bool(field.Mandatory);
                     field_value.ReadOnly = t.Bool(field.ReadOnly);
                     #region answer.UploadedDataId = reply.uploaded_data_id;
-                    if (reply.uploaded_data_id.HasValue)
-                        if (reply.uploaded_data_id > 0)
+                    if (reply.UploadedDataId.HasValue)
+                        if (reply.UploadedDataId > 0)
                         {
                             string locations = "";
                             int uploadedDataId;
                             uploaded_data uploadedData;
                             if (joinUploadedData)
                             {
-                                List<field_values> lst = db.field_values.Where(x => x.case_id == reply.case_id && x.field_id == reply.field_id).ToList();
+                                List<field_values> lst = db.field_values.Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToList();
 
                                 foreach (field_values fV in lst)
                                 {
-                                    uploadedDataId = (int)fV.uploaded_data_id;
+                                    uploadedDataId = (int)fV.UploadedDataId;
 
                                     uploadedData = db.uploaded_data.Single(x => x.Id == uploadedDataId);
 
@@ -1607,7 +1607,7 @@ namespace eFormSqlController
                             {
                                 locations = "";
                                 UploadedData uploadedDataObj = new UploadedData();
-                                uploadedData = reply.uploaded_data;
+                                uploadedData = reply.UploadedData;
                                 uploadedDataObj.Checksum = uploadedData.Checksum;
                                 uploadedDataObj.Extension = uploadedData.Extension;
                                 uploadedDataObj.CurrentFile = uploadedData.CurrentFile;
@@ -1622,17 +1622,17 @@ namespace eFormSqlController
 
                         }
                     #endregion
-                    field_value.Value = reply.value;
+                    field_value.Value = reply.Value;
                     #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
-                    field_value.ValueReadable = reply.value;
+                    field_value.ValueReadable = reply.Value;
 
                     if (field_value.FieldType == Constants.FieldTypes.EntitySearch || field_value.FieldType == Constants.FieldTypes.EntitySelect)
                     {
                         try
                         {
-                            if (reply.value != "" || reply.value != null)
+                            if (reply.Value != "" || reply.Value != null)
                             {
-								int Id = int.Parse(reply.value);
+								int Id = int.Parse(reply.Value);
                                 entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
 
                                 if (match != null)
@@ -1677,10 +1677,10 @@ namespace eFormSqlController
                     if (field_value.FieldType == Constants.FieldTypes.Number ||
                         field_value.FieldType == Constants.FieldTypes.NumberStepper)
                     {
-                        if (reply.value != null)
+                        if (reply.Value != null)
                         {
-                            field_value.ValueReadable = reply.value.Replace(",", ".");
-                            field_value.Value = reply.value.Replace(",", ".");
+                            field_value.ValueReadable = reply.Value.Replace(",", ".");
+                            field_value.Value = reply.Value.Replace(",", ".");
                         }
                         else
                         {
@@ -1722,7 +1722,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == Id).OrderByDescending(z => z.CreatedAt).ToList();
+                    List<field_values> matches = db.field_values.Where(x => x.FieldId == Id).OrderByDescending(z => z.CreatedAt).ToList();
 
                     if (matches.Count() > instances)
                         matches = matches.GetRange(0, instances);
@@ -1749,7 +1749,7 @@ namespace eFormSqlController
                 {
                     field_values fieldMatch = db.field_values.Single(x => x.Id == fieldValueId);
 
-                    fieldMatch.value = value;
+                    fieldMatch.Value = value;
                     fieldMatch.UpdatedAt = DateTime.Now;
                     fieldMatch.Version = fieldMatch.Version + 1;
 
@@ -1777,7 +1777,7 @@ namespace eFormSqlController
                 {
                     fields matchField = db.fields.Single(x => x.Id == fieldId);
 
-                    List<field_values> matches = db.field_values.Where(x => x.field_id == fieldId && caseIds.Contains((int)x.case_id)).ToList();
+                    List<field_values> matches = db.field_values.Where(x => x.FieldId == fieldId && caseIds.Contains((int)x.CaseId)).ToList();
 
                     List<List<eFormShared.KeyValuePair>> rtrnLst = new List<List<eFormShared.KeyValuePair>>();
                     List<eFormShared.KeyValuePair> replyLst1 = new List<eFormShared.KeyValuePair>();
@@ -1789,10 +1789,10 @@ namespace eFormSqlController
                         case Constants.FieldTypes.CheckBox:
                             foreach (field_values item in matches)
                             {
-                                if (item.value == "checked")
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "1", false, ""));
+                                if (item.Value == "checked")
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "1", false, ""));
                                 else
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "0", false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "0", false, ""));
                             }
                             break;
                         case Constants.FieldTypes.Signature:
@@ -1801,51 +1801,51 @@ namespace eFormSqlController
                             int lastIndex = -1;
                             foreach (field_values item in matches)
                             {
-                                if (item.value != null)
+                                if (item.Value != null)
                                 {
-                                    if (lastCaseId == (int)item.case_id)
+                                    if (lastCaseId == (int)item.CaseId)
                                     {
 
                                         foreach (eFormShared.KeyValuePair kvp in replyLst1)
                                         {
-                                            if (kvp.Key == item.case_id.ToString())
+                                            if (kvp.Key == item.CaseId.ToString())
                                             {
                                                 if (customPathForUploadedData != null)
                                                     if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
-                                                        kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.uploaded_data.FileName;
+                                                        kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.UploadedData.FileName;
                                                     else
-                                                        kvp.Value = customPathForUploadedData + item.uploaded_data.FileName;
+                                                        kvp.Value = customPathForUploadedData + item.UploadedData.FileName;
                                                 else
                                                     if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
-                                                    kvp.Value = kvp.Value + "|" + item.uploaded_data.FileLocation + item.uploaded_data.FileName;
+                                                    kvp.Value = kvp.Value + "|" + item.UploadedData.FileLocation + item.UploadedData.FileName;
                                                 else
-                                                    kvp.Value = item.uploaded_data.FileLocation + item.uploaded_data.FileName;
+                                                    kvp.Value = item.UploadedData.FileLocation + item.UploadedData.FileName;
                                             }
                                         }
                                     }
                                     else
                                     {
                                         lastIndex++;
-                                        if (item.uploaded_data_id != null)
+                                        if (item.UploadedDataId != null)
                                         {
                                             if (customPathForUploadedData != null)
 
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), customPathForUploadedData + item.uploaded_data.FileName, false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), customPathForUploadedData + item.UploadedData.FileName, false, ""));
                                             else
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.uploaded_data.FileLocation + item.uploaded_data.FileName, false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), item.UploadedData.FileLocation + item.UploadedData.FileName, false, ""));
                                         }
                                         else
                                         {
-                                            replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                            replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                         }
                                     }
                                 }
                                 else
                                 {
                                     lastIndex++;
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                 }
-                                lastCaseId = (int)item.case_id;
+                                lastCaseId = (int)item.CaseId;
                             }
                             break;
 
@@ -1854,7 +1854,7 @@ namespace eFormSqlController
                                 var kVP = PairRead(matchField.KeyValuePairList);
 
                                 foreach (field_values item in matches)
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), PairMatch(kVP, item.value), false, ""));
+                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), PairMatch(kVP, item.Value), false, ""));
                             }
                             break;
 
@@ -1873,11 +1873,11 @@ namespace eFormSqlController
 
                                     foreach (field_values item in matches)
                                     {
-                                        valueExt = "|" + item.value + "|";
+                                        valueExt = "|" + item.Value + "|";
                                         if (valueExt.Contains("|" + index.ToString() + "|"))
-                                            replyLst.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "1", false, ""));
+                                            replyLst.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "1", false, ""));
                                         else
-                                            replyLst.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "0", false, ""));
+                                            replyLst.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "0", false, ""));
                                     }
 
                                     rtrnLst.Add(replyLst);
@@ -1893,24 +1893,24 @@ namespace eFormSqlController
                                 {
                                     try
                                     {
-                                        if (item.value != "" || item.value != null)
+                                        if (item.Value != "" || item.Value != null)
                                         {
-                                            entity_items match = db.entity_items.SingleOrDefault(x => x.Id.ToString() == item.value);
+                                            entity_items match = db.entity_items.SingleOrDefault(x => x.Id.ToString() == item.Value);
 
                                             if (match != null)
                                             {
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), match.Name, false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), match.Name, false, ""));
                                             }
                                             else
                                             {
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                             }
 
                                         }
                                     }
                                     catch
                                     {
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), "", false, ""));
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                     }
                                 }
                             }
@@ -1925,12 +1925,12 @@ namespace eFormSqlController
                                     {
                                         case ".":
                                         {
-                                            replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), String.Format("{0:#.##0.##}", item.value), false, ""));
+                                            replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), String.Format("{0:#.##0.##}", item.Value), false, ""));
                                         }   
                                         break;
                                         case ",":
                                         {
-                                            replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), String.Format("{0:#,##0.##}", item.value), false, ""));
+                                            replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), String.Format("{0:#,##0.##}", item.Value), false, ""));
                                         }
                                         break;
 
@@ -1941,20 +1941,20 @@ namespace eFormSqlController
                                     if (!string.IsNullOrEmpty(decimalSeparator))
                                     {
                                         string value = "";
-                                        if (item.value != null)
+                                        if (item.Value != null)
                                         {
-                                            value = item.value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
+                                            value = item.Value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
                                         }
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), value, false, ""));   
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), value, false, ""));   
                                     }
                                     else
                                     {
                                         string value = "";
-                                        if (item.value != null)
+                                        if (item.Value != null)
                                         {
-                                            value = item.value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
+                                            value = item.Value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
                                         }
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), value, false, ""));
+                                        replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), value, false, ""));
                                     }                                    
                                 }
                             }
@@ -1964,7 +1964,7 @@ namespace eFormSqlController
                         default:
                             foreach (field_values item in matches)
                             {
-                                replyLst1.Add(new eFormShared.KeyValuePair(item.case_id.ToString(), item.value, false, ""));
+                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), item.Value, false, ""));
                             }
                             break;
                     }
@@ -2137,8 +2137,8 @@ namespace eFormSqlController
                     try
                     {
                         uploaded_data dU = db.uploaded_data.Where(x => x.FileLocation == urlString).First();
-                        field_values fV = db.field_values.Single(x => x.uploaded_data_id == dU.Id);
-                        cases aCase = db.cases.Single(x => x.Id == fV.case_id);
+                        field_values fV = db.field_values.Single(x => x.UploadedDataId == dU.Id);
+                        cases aCase = db.cases.Single(x => x.Id == fV.CaseId);
 
                         return CaseReadByCaseId(aCase.Id);
                     }
@@ -2228,7 +2228,7 @@ namespace eFormSqlController
                     uploaded_data ud = GetUploaded_DataByTranscriptionId(transcriptionId);
                     if (ud != null)
                     {
-                        return db.field_values.SingleOrDefault(x => x.uploaded_data_id == ud.Id);
+                        return db.field_values.SingleOrDefault(x => x.UploadedDataId == ud.Id);
                     } else
                     {
                         return null;
@@ -2780,20 +2780,20 @@ namespace eFormSqlController
                     lstMatchs.FieldValue9 = null;
                     lstMatchs.FieldValue10 = null;
 
-                    List<field_values> field_values = db.field_values.Where(x => x.case_id == lstMatchs.Id && case_fields.Contains(x.field_id)).ToList();
+                    List<field_values> field_values = db.field_values.Where(x => x.CaseId == lstMatchs.Id && case_fields.Contains(x.FieldId)).ToList();
 
                     foreach (field_values item in field_values)
                     {
-                        field_types field_type = item.field.FieldType;
-                        string new_value = item.value;
+                        field_types field_type = item.Field.FieldType;
+                        string new_value = item.Value;
 
                         if (field_type.FieldType == Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.FieldTypes.EntitySelect)
                         {
                             try
                             {
-                                if (item.value != "" || item.value != null)
+                                if (item.Value != "" || item.Value != null)
                                 {
-                                    entity_items match = db.entity_items.SingleOrDefault(x => x.Id == int.Parse(item.value));
+                                    entity_items match = db.entity_items.SingleOrDefault(x => x.Id == int.Parse(item.Value));
 
                                     if (match != null)
                                     {
@@ -2807,8 +2807,8 @@ namespace eFormSqlController
 
                         if (field_type.FieldType == Constants.FieldTypes.SingleSelect)
                         {
-                            string key = item.value;
-                            string fullKey = t.Locate(item.field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            string key = item.Value;
+                            string fullKey = t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                             new_value = t.Locate(fullKey, "<key>", "</key>");
                         }
 
@@ -2816,12 +2816,12 @@ namespace eFormSqlController
                         {
                             new_value = "";
 
-                            string keys = item.value;
+                            string keys = item.Value;
                             List<string> keyLst = keys.Split('|').ToList();
 
                             foreach (string key in keyLst)
                             {
-                                string fullKey = t.Locate(item.field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                                string fullKey = t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                                 if (new_value != "")
                                 {
                                     new_value += "\n" + t.Locate(fullKey, "<key>", "</key>");
@@ -2834,7 +2834,7 @@ namespace eFormSqlController
                         }
 
 
-                        int i = case_fields.IndexOf(item.field_id);
+                        int i = case_fields.IndexOf(item.FieldId);
                         switch (i)
                         {
                             case 0:
@@ -5480,22 +5480,22 @@ namespace eFormSqlController
 
             fvv.CreatedAt = fieldValue.CreatedAt;
             fvv.UpdatedAt = fieldValue.UpdatedAt;
-            fvv.Value = fieldValue.value;
-            fvv.Latitude = fieldValue.latitude;
-            fvv.Longitude = fieldValue.longitude;
-            fvv.Altitude = fieldValue.altitude;
-            fvv.Heading = fieldValue.heading;
-            fvv.Date = fieldValue.date;
-            fvv.Accuracy = fieldValue.accuracy;
-            fvv.UploadedDataId = fieldValue.uploaded_data_id;
+            fvv.Value = fieldValue.Value;
+            fvv.Latitude = fieldValue.Latitude;
+            fvv.Longitude = fieldValue.Longitude;
+            fvv.Altitude = fieldValue.Altitude;
+            fvv.Heading = fieldValue.Heading;
+            fvv.Date = fieldValue.Date;
+            fvv.Accuracy = fieldValue.Accuracy;
+            fvv.UploadedDataId = fieldValue.UploadedDataId;
             fvv.Version = fieldValue.Version;
-            fvv.CaseId = fieldValue.case_id;
-            fvv.FieldId = fieldValue.field_id;
-            fvv.UserId = fieldValue.user_id;
+            fvv.CaseId = fieldValue.CaseId;
+            fvv.FieldId = fieldValue.FieldId;
+            fvv.WorkerId = fieldValue.WorkerId;
             fvv.WorkflowState = fieldValue.WorkflowState;
-            fvv.CheckListId = fieldValue.check_list_id;
-            fvv.CheckListDuplicateId = fieldValue.check_list_duplicate_id;
-            fvv.DoneAt = fieldValue.done_at;
+            fvv.CheckListId = fieldValue.CheckListId;
+            fvv.CheckListDuplicateId = fieldValue.CheckListDuplicateId;
+            fvv.DoneAt = fieldValue.DoneAt;
 
             fvv.FieldValueId = fieldValue.Id; //<<--
 

@@ -46,50 +46,50 @@ namespace eFormSqlController
 //
 //        public DateTime? updated_at { get; set; }
 
-        public DateTime? done_at { get; set; }
+        public DateTime? DoneAt { get; set; }
 
-        public DateTime? date { get; set; }
+        public DateTime? Date { get; set; }
 
         [ForeignKey("worker")]
-        public int? user_id { get; set; }
+        public int? WorkerId { get; set; }
 
-        public int? case_id { get; set; }
+        public int? CaseId { get; set; }
 
         [ForeignKey("field")]
-        public int? field_id { get; set; }
+        public int? FieldId { get; set; }
 
         [ForeignKey("check_list")]
-        public int? check_list_id { get; set; }
+        public int? CheckListId { get; set; }
 
-        public int? check_list_duplicate_id { get; set; }
+        public int? CheckListDuplicateId { get; set; }
 
         [ForeignKey("uploaded_data")]
-        public int? uploaded_data_id { get; set; }
+        public int? UploadedDataId { get; set; }
 
-        public string value { get; set; }
-
-        [StringLength(255)]
-        public string latitude { get; set; }
+        public string Value { get; set; }
 
         [StringLength(255)]
-        public string longitude { get; set; }
+        public string Latitude { get; set; }
 
         [StringLength(255)]
-        public string altitude { get; set; }
+        public string Longitude { get; set; }
 
         [StringLength(255)]
-        public string heading { get; set; }
+        public string Altitude { get; set; }
 
         [StringLength(255)]
-        public string accuracy { get; set; }
+        public string Heading { get; set; }
 
-        public virtual workers worker { get; set; }
+        [StringLength(255)]
+        public string Accuracy { get; set; }
 
-        public virtual fields field { get; set; }
+        public virtual workers Worker { get; set; }
 
-        public virtual check_lists check_list { get; set; }
+        public virtual fields Field { get; set; }
 
-        public virtual uploaded_data uploaded_data { get; set; }
+        public virtual check_lists CheckList { get; set; }
+
+        public virtual uploaded_data UploadedData { get; set; }
 
 
         public void Create(MicrotingDbAnySql dbContext)
@@ -116,20 +116,20 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Field Value with Id: {Id}");
             }
 
-            fieldValues.done_at = done_at;
-            fieldValues.date = date;
-            fieldValues.user_id = user_id;
-            fieldValues.case_id = case_id;
-            fieldValues.field_id = field_id;
-            fieldValues.check_list_id = check_list_id;
-            fieldValues.check_list_duplicate_id = check_list_duplicate_id;
-            fieldValues.uploaded_data_id = uploaded_data_id;
-            fieldValues.value = value;
-            fieldValues.latitude = latitude;
-            fieldValues.longitude = longitude;
-            fieldValues.altitude = altitude;
-            fieldValues.heading = heading;
-            fieldValues.accuracy = accuracy;
+            fieldValues.DoneAt = DoneAt;
+            fieldValues.Date = Date;
+            fieldValues.WorkerId = WorkerId;
+            fieldValues.CaseId = CaseId;
+            fieldValues.FieldId = FieldId;
+            fieldValues.CheckListId = CheckListId;
+            fieldValues.CheckListDuplicateId = CheckListDuplicateId;
+            fieldValues.UploadedDataId = UploadedDataId;
+            fieldValues.Value = Value;
+            fieldValues.Latitude = Latitude;
+            fieldValues.Longitude = Longitude;
+            fieldValues.Altitude = Altitude;
+            fieldValues.Heading = Heading;
+            fieldValues.Accuracy = Accuracy;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
@@ -170,22 +170,22 @@ namespace eFormSqlController
 
             fvv.CreatedAt = fieldValue.CreatedAt;
             fvv.UpdatedAt = fieldValue.UpdatedAt;
-            fvv.Value = fieldValue.value;
-            fvv.Latitude = fieldValue.latitude;
-            fvv.Longitude = fieldValue.longitude;
-            fvv.Altitude = fieldValue.altitude;
-            fvv.Heading = fieldValue.heading;
-            fvv.Date = fieldValue.date;
-            fvv.Accuracy = fieldValue.accuracy;
-            fvv.UploadedDataId = fieldValue.uploaded_data_id;
+            fvv.Value = fieldValue.Value;
+            fvv.Latitude = fieldValue.Latitude;
+            fvv.Longitude = fieldValue.Longitude;
+            fvv.Altitude = fieldValue.Altitude;
+            fvv.Heading = fieldValue.Heading;
+            fvv.Date = fieldValue.Date;
+            fvv.Accuracy = fieldValue.Accuracy;
+            fvv.UploadedDataId = fieldValue.UploadedDataId;
             fvv.Version = fieldValue.Version;
-            fvv.CaseId = fieldValue.case_id;
-            fvv.FieldId = fieldValue.field_id;
-            fvv.UserId = fieldValue.user_id;
+            fvv.CaseId = fieldValue.CaseId;
+            fvv.FieldId = fieldValue.FieldId;
+            fvv.WorkerId = fieldValue.WorkerId;
             fvv.WorkflowState = fieldValue.WorkflowState;
-            fvv.CheckListId = fieldValue.check_list_id;
-            fvv.CheckListDuplicateId = fieldValue.check_list_duplicate_id;
-            fvv.DoneAt = fieldValue.done_at;
+            fvv.CheckListId = fieldValue.CheckListId;
+            fvv.CheckListDuplicateId = fieldValue.CheckListDuplicateId;
+            fvv.DoneAt = fieldValue.DoneAt;
 
             fvv.FieldValueId = fieldValue.Id; //<<--
 

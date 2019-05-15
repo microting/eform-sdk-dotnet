@@ -419,11 +419,11 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, _f4.FieldValues.Count());
             Assert.AreEqual(1, _f5.FieldValues.Count());
 
-            Assert.AreEqual(field_Values1.value, _f1.FieldValues[0].Value);
-            Assert.AreEqual(field_Values2.value, _f2.FieldValues[0].Value);
-            Assert.AreEqual(field_Values3.value, _f3.FieldValues[0].Value);
-            Assert.AreEqual(field_Values4.value, _f4.FieldValues[0].Value);
-            Assert.AreEqual(field_Values5.value, _f5.FieldValues[0].Value);
+            Assert.AreEqual(field_Values1.Value, _f1.FieldValues[0].Value);
+            Assert.AreEqual(field_Values2.Value, _f2.FieldValues[0].Value);
+            Assert.AreEqual(field_Values3.Value, _f3.FieldValues[0].Value);
+            Assert.AreEqual(field_Values4.Value, _f4.FieldValues[0].Value);
+            Assert.AreEqual(field_Values5.Value, _f5.FieldValues[0].Value);
             #endregion
 
             #region Version

@@ -2013,7 +2013,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
 
-            Assert.AreEqual(field_Value1.value, match[0].Value);
+            Assert.AreEqual(field_Value1.Value, match[0].Value);
 
 
 
@@ -2649,16 +2649,16 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(theCaseAfter);
 
-            theCaseAfter.FieldValue1 = field_Value1.value;
-            theCaseAfter.FieldValue2 = field_Value2.value;
-            theCaseAfter.FieldValue3 = field_Value3.value;
-            theCaseAfter.FieldValue4 = field_Value4.value;
-            theCaseAfter.FieldValue5 = field_Value5.value;
-            theCaseAfter.FieldValue6 = field_Value6.value;
-            theCaseAfter.FieldValue7 = field_Value7.value;
-            theCaseAfter.FieldValue8 = field_Value8.value;
-            theCaseAfter.FieldValue9 = field_Value9.value;
-            theCaseAfter.FieldValue10 = field_Value10.value;
+            theCaseAfter.FieldValue1 = field_Value1.Value;
+            theCaseAfter.FieldValue2 = field_Value2.Value;
+            theCaseAfter.FieldValue3 = field_Value3.Value;
+            theCaseAfter.FieldValue4 = field_Value4.Value;
+            theCaseAfter.FieldValue5 = field_Value5.Value;
+            theCaseAfter.FieldValue6 = field_Value6.Value;
+            theCaseAfter.FieldValue7 = field_Value7.Value;
+            theCaseAfter.FieldValue8 = field_Value8.Value;
+            theCaseAfter.FieldValue9 = field_Value9.Value;
+            theCaseAfter.FieldValue10 = field_Value10.Value;
 
 
             Assert.True(testThis);

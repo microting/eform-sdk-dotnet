@@ -57,7 +57,7 @@ namespace eFormCore.Handlers
                 field_values fv = sqlController.GetFieldValueByTranscriptionId(int.Parse(message.MicrotringUUID));
                 JToken result = communicator.SpeechToText(int.Parse(message.MicrotringUUID));
 
-                sqlController.FieldValueUpdate((int)fv.case_id, (int)fv.Id, result["text"].ToString());
+                sqlController.FieldValueUpdate((int)fv.CaseId, (int)fv.Id, result["text"].ToString());
 
                 #region download file
                 uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(int.Parse(message.MicrotringUUID));
