@@ -680,9 +680,9 @@ namespace eFormCore
                 acceptedColors.Add(Constants.FieldColors.Purple);
                 acceptedColors.Add(Constants.FieldColors.Yellow);
                 acceptedColors.Add(Constants.FieldColors.Default);
-                if (!acceptedColors.Contains(dataItem.Color))
+                if (!acceptedColors.Contains(dataItem.Color) && !string.IsNullOrEmpty(element.dataItem))
                 {
-                    errorLst.Add($"DataItem with label {dataItem.Label} did supply color {dataItem.Color}, but the only allowed colors are: grey, red, green, blue, purple, yellow, default");
+                    errorLst.Add($"DataItem with label {dataItem.Label} did supply color {dataItem.Color}, but the only allowed colors are: grey, red, green, blue, purple, yellow, default or leave it blank.");
                 }
 
                 #endregion
