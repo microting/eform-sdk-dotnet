@@ -601,49 +601,26 @@ namespace eFormCore
 
         public List<string> TemplateValidation(MainElement mainElement)
         {
-            if (mainElement == null)
-                throw new ArgumentNullException("mainElement not allowed to be null");
-
             string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    Log.LogStandard(t.GetMethodName("Core"), "called");
+                    if (mainElement == null)
+                        throw new ArgumentNullException("mainElement", "mainElement not allowed to be null");
+
 
                     List<string> errorLst = new List<string>();
-                    var dataItems = mainElement.DataItemGetAll();
 
-                    foreach (var dataItem in dataItems)
-                    {
-                        #region entities
-                        if (dataItem.GetType() == typeof(EntitySearch))
-                        {
-                            EntitySearch entitySearch = (EntitySearch)dataItem;
-                            var temp = _sqlController.EntityGroupRead(entitySearch.EntityTypeId.ToString());
-                            if (temp == null)
-                                errorLst.Add("Element entitySearch.EntityTypeId:'" + entitySearch.EntityTypeId + "' is an reference to a local unknown EntitySearch group. Please update reference");
-                        }
+                    List<string> fieldErrors = FieldValidation(mainElement);
 
-                        if (dataItem.GetType() == typeof(EntitySelect))
-                        {
-                            EntitySelect entitySelect = (EntitySelect)dataItem;
-                            var temp = _sqlController.EntityGroupRead(entitySelect.Source.ToString());
-                            if (temp == null)
-                                errorLst.Add("Element entitySelect.Source:'" + entitySelect.Source + "' is an reference to a local unknown EntitySearch group. Please update reference");
-                        }
-                        #endregion
+                    List<string> checkListErrors = CheckListValidation(mainElement);
 
-                        #region PDF
-                        if (dataItem.GetType() == typeof(ShowPdf))
-                        {
-                            ShowPdf showPdf = (ShowPdf)dataItem;
-                            errorLst.AddRange(PdfValidate(showPdf.Value, showPdf.Id));
-                        }
-                        #endregion
-                    }
+                    errorLst = fieldErrors;
+                    errorLst = errorLst.Concat(checkListErrors).ToList();
 
                     return errorLst;
+
                 }
                 else
                     throw new Exception("Core is not running");
@@ -653,6 +630,77 @@ namespace eFormCore
                 Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
                 throw new Exception("failed", ex);
             }
+        }
+
+        private List<string> FieldValidation(MainElement mainElement)
+        {
+
+            Log.LogStandard(t.GetMethodName("Core"), "called");
+
+            List<string> errorLst = new List<string>();
+            var dataItems = mainElement.DataItemGetAll();
+
+            foreach (var dataItem in dataItems)
+            {
+                #region entities
+
+                if (dataItem.GetType() == typeof(EntitySearch))
+                {
+                    EntitySearch entitySearch = (EntitySearch) dataItem;
+                    var temp = _sqlController.EntityGroupRead(entitySearch.EntityTypeId.ToString());
+                    if (temp == null)
+                        errorLst.Add("Element entitySearch.EntityTypeId:'" + entitySearch.EntityTypeId +
+                                     "' is an reference to a local unknown EntitySearch group. Please update reference");
+                }
+
+                if (dataItem.GetType() == typeof(EntitySelect))
+                {
+                    EntitySelect entitySelect = (EntitySelect) dataItem;
+                    var temp = _sqlController.EntityGroupRead(entitySelect.Source.ToString());
+                    if (temp == null)
+                        errorLst.Add("Element entitySelect.Source:'" + entitySelect.Source +
+                                     "' is an reference to a local unknown EntitySearch group. Please update reference");
+                }
+
+                #endregion
+
+                #region PDF
+
+                if (dataItem.GetType() == typeof(ShowPdf))
+                {
+                    ShowPdf showPdf = (ShowPdf) dataItem;
+                    errorLst.AddRange(PdfValidate(showPdf.Value, showPdf.Id));
+                }
+
+                #endregion
+            }
+
+            return errorLst;
+
+        }
+
+        private List<string> CheckListValidation(MainElement mainElement)
+        {
+            Log.LogStandard(t.GetMethodName("Core"), "called");
+            List<string> errorLst = new List<string>();
+            
+            var elements = mainElement.ElementGetAll();
+
+            List<string> acceptedColors = new List<string>();
+            acceptedColors.Add(Constants.CheckListColors.Grey);
+            acceptedColors.Add(Constants.CheckListColors.Red);
+            acceptedColors.Add(Constants.CheckListColors.Green);
+
+            foreach (Element element in elements)
+            {
+                if (!acceptedColors.Contains(element.Color) && !string.IsNullOrEmpty(element.Color))
+                {
+                    errorLst.Add($"Element with label {element.Label} did supply color {element.Color}, the only allowed colors are either leave it blank, grey, red, green.");
+                }
+            }
+            
+            return errorLst;
+
         }
 
         public MainElement TemplateUploadData(MainElement mainElement)

@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Xml.Serialization;
 using eFormShared;
@@ -119,9 +120,9 @@ namespace eFormData
             }
         }
 
-        private List<DataItem> DataItemGetAllFromList(List<Element> elementLst, List<DataItem> dataItemLst)
+        private List<DataItem> DataItemGetAllFromList(List<Element> elements, List<DataItem> dataItemLst)
         {
-            foreach (Element element in elementLst)
+            foreach (Element element in elements)
             {
                 if (element.GetType() == typeof(DataElement))
                 {
@@ -147,6 +148,31 @@ namespace eFormData
             }
             return dataItemLst;
         }
+
+        public List<Element> ElementGetAll()
+        {
+            return ElementGetAllFromList(ElementList, new List<Element>());
+        }
+
+        private List<Element> ElementGetAllFromList(List<Element> elements, List<Element> returnElements)
+        {
+            foreach (Element element in elements)
+            {
+                if (element.GetType() == typeof(DataElement))
+                {
+                    returnElements.Add(element);
+                }
+                
+                if (element.GetType() == typeof(GroupElement))
+                {
+                    GroupElement groupE = (GroupElement)element;
+                    ElementGetAllFromList(groupE.ElementList, returnElements);
+                }
+            }
+
+            return returnElements;
+        }
+        
     }
 
     #region MainElement : CoreElement

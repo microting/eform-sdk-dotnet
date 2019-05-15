@@ -132,6 +132,13 @@ namespace eFormShared
             public const string Grey = "e8eaf6";
             public const string Default = "None";
         }
+        
+        public static class CheckListColors
+        {
+            public const string Grey = "grey";
+            public const string Red = "red";
+            public const string Green = "green";
+        }
 
         public static class BarcodeTypes
         {
