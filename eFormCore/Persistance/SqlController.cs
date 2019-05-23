@@ -4184,6 +4184,10 @@ namespace eFormSqlController
             SettingCreate(Settings.swiftEndPoint);
             SettingCreate(Settings.keystoneEndPoint);
             SettingCreate(Settings.customerNo);
+            SettingCreate(Settings.s3Enabled);
+            SettingCreate(Settings.s3AccessKeyId);
+            SettingCreate(Settings.s3SecrectAccessKey);
+            SettingCreate(Settings.s3Endpoint);
 
             return true;
         }
@@ -4257,6 +4261,10 @@ namespace eFormSqlController
                     case Settings.swiftEndPoint: Id = 24; defaultValue = "http://172.16.4.4:8080/swift/v1"; break;
                     case Settings.keystoneEndPoint: Id = 25; defaultValue = "http://172.16.4.4:5000/v2.0"; break;
                     case Settings.customerNo: Id = 26; defaultValue = "0"; break;
+                    case Settings.s3Enabled: Id = 27; defaultValue = "false"; break;
+                    case Settings.s3AccessKeyId: Id = 28; defaultValue = "XXX"; break;
+                    case Settings.s3SecrectAccessKey: Id = 29; defaultValue = "XXX"; break;
+                    case Settings.s3Endpoint: Id = 30; defaultValue = "XXX"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");

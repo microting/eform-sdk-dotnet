@@ -1099,6 +1099,10 @@ namespace eFormShared
         swiftPassword,
         swiftEndPoint,
         keystoneEndPoint,
-        customerNo
+        customerNo,
+        s3Enabled,
+        s3AccessKeyId,
+        s3SecrectAccessKey,
+        s3Endpoint
     }
 }

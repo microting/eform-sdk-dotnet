@@ -46,9 +46,14 @@ using Rebus.Bus;
 using eForm.Messages;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microting.eForm;
 using OpenStack.NetCoreSwiftClient;
 using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
+using Tag = eFormShared.Tag;
 
 
 namespace eFormCore
@@ -97,14 +102,25 @@ namespace eFormCore
         private int _sameExceptionCountTried = 0;
         private int _maxParallelism = 1;
         private int _numberOfWorkers = 1;
+        private string _customerNo;
+        private IBus _bus;
+        
+        #region swift
         private bool _swiftEnabled = false;
         private string _swiftUserName = "";
         private string _swiftPassword = "";
         private string _swiftEndpoint = "";
         private string _keystoneEndpoint = "";
         private SwiftClientService _swiftClient;
-        private string _customerNo;
-        private IBus _bus;
+        #endregion
+        
+        #region s3
+        private bool _s3Enabled = false;
+        private string _s3AccessKeyId = "";
+        private string _s3SecretAccessKey = "";
+        private string _s3Endpoint = "";
+        private static AmazonS3Client _s3Client;
+        #endregion
 		#endregion
 
 		//con
@@ -242,6 +258,12 @@ namespace eFormCore
 
 				    } catch {}
 
+                    try
+                    {
+                        _s3Enabled = (_sqlController.SettingRead(Settings.s3Enabled).ToLower() == "true");
+
+                    } catch {}
+
 				    if (_swiftEnabled)
 				    {
 				        _swiftUserName = _sqlController.SettingRead(Settings.swiftUserName);
@@ -270,6 +292,17 @@ namespace eFormCore
 				        
 				        _container.Register(Component.For<SwiftClientService>().Instance(_swiftClient));
 				    }
+
+                    if (_s3Enabled)
+                    {
+                        _s3AccessKeyId = _sqlController.SettingRead(Settings.s3AccessKeyId);
+                        _s3SecretAccessKey = _sqlController.SettingRead(Settings.s3SecrectAccessKey);
+                        _s3Endpoint = _sqlController.SettingRead(Settings.s3Endpoint);
+
+                        _s3Client = new AmazonS3Client(_s3AccessKeyId,_s3SecretAccessKey, RegionEndpoint.EUCentral1);
+				        
+                        _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
+                    }
 
 
 
@@ -4179,21 +4212,33 @@ namespace eFormCore
             }
         }
 
-        public async Task<SwiftObjectGetResponse> GetFileFromStorageSystem(string fileName)
+        public async Task<GetObjectResponse> GetFileFromS3Storage(string fileName)
+        {
+            GetObjectRequest request = new GetObjectRequest
+            {
+                BucketName = $"{_customerNo}_uploaded_data",
+                Key = fileName
+            };
+
+            GetObjectResponse response = await _s3Client.GetObjectAsync(request);
+            return response;
+        }
+
+        public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
         {
             try
             {
-                return await GetFileFromStorageSystem(fileName, 0);
+                return await GetFileFromSwiftStorage(fileName, 0);
             }
             catch (UnauthorizedAccessException)
             {
                 _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
                 
-                return await GetFileFromStorageSystem(fileName, 0);
+                return await GetFileFromSwiftStorage(fileName, 0);
             }
         }
 
-        private async Task<SwiftObjectGetResponse> GetFileFromStorageSystem(string fileName, int retries)
+        private async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName, int retries)
         {
             if (_swiftEnabled)
             {                
@@ -4238,50 +4283,70 @@ namespace eFormCore
         private void PutFileToStorageSystem(String filePath, string fileName, int tryCount)
         {
             if (_swiftEnabled)
-            {                
-                Log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
-                try
+            {
+                PutFileToSwiftStorage(filePath, fileName, tryCount);
+            }
+
+            if (_s3Enabled)
+            {
+                PutFileToS3Storage(filePath, fileName, tryCount);
+            }
+        }
+
+        private void PutFileToSwiftStorage(string filePath, string fileName, int tryCount)
+        {
+            Log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
+            try
+            {
+                var fileStream = new FileStream(filePath, FileMode.Open);
+
+                SwiftBaseResponse response = _swiftClient
+                    .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+
+                if (!response.IsSuccess)
                 {
-                    var fileStream = new FileStream(filePath, FileMode.Open);
-
-                    SwiftBaseResponse response = _swiftClient
-                        .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
-
-                    if (!response.IsSuccess)
+                    if (response.Reason == "Unauthorized")
                     {
-                        if (response.Reason == "Unauthorized")
+                        fileStream.Close();
+                        fileStream.Dispose();
+                        Log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
+                        throw new UnauthorizedAccessException();
+                    }
+
+                    Log.LogWarning(t.GetMethodName("Core"), $"Something went wrong, message was {response.Reason}");
+
+                    response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
+                    if (response.IsSuccess)
+                    {
+                        response = _swiftClient
+                            .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+                        if (!response.IsSuccess)
                         {
                             fileStream.Close();
                             fileStream.Dispose();
-                            Log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
-                            throw new UnauthorizedAccessException();
-                        }
-
-                        Log.LogWarning(t.GetMethodName("Core"), $"Something went wrong, message was {response.Reason}");
-
-                        response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
-                        if (response.IsSuccess)
-                        {
-                            response = _swiftClient
-                                .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
-                            if (!response.IsSuccess)
-                            {
-                                fileStream.Close();
-                                fileStream.Dispose();
-                                throw new Exception($"Could not upload file {fileName}");
-                            }
+                            throw new Exception($"Could not upload file {fileName}");
                         }
                     }
-
-                    fileStream.Close();
-                    fileStream.Dispose();
                 }
-                catch (FileNotFoundException ex)
-                {
-                    Log.LogCritical(t.GetMethodName("Core"), $"File not found at {filePath}");
-                    Log.LogCritical(t.GetMethodName("Core"), ex.Message);
-                }                
+
+                fileStream.Close();
+                fileStream.Dispose();
             }
+            catch (FileNotFoundException ex)
+            {
+                Log.LogCritical(t.GetMethodName("Core"), $"File not found at {filePath}");
+                Log.LogCritical(t.GetMethodName("Core"), ex.Message);
+            }   
+        }
+
+        private void PutFileToS3Storage(string filePath, string fileName, int tryCount)
+        {
+            PutObjectRequest putObjectRequest = new PutObjectRequest
+            {
+                BucketName = $"{_customerNo}_uploaded_data",
+                Key = fileName,
+                FilePath = filePath
+            };
         }
         
         public bool CheckStatusByMicrotingUid(string microtingUid)
