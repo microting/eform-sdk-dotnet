@@ -28,6 +28,7 @@ using eFormSqlController;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.SQS;
@@ -138,31 +139,35 @@ namespace eFormSubscriber
                 string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token);
 
                 var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
-                DateTime lastExpection = DateTime.MinValue;
-                DateTime lastCheckAdd15s;
+                DateTime lastException = DateTime.MinValue;
                 #endregion
 
                 while (keepSubscribed)
                 {
                     try
                     {
-                        lastCheckAdd15s = DateTime.Now.AddSeconds(15);
                         var res = sqsClient.ReceiveMessageAsync(awsQueueUrl).Result;
 
                         if (res.Messages.Count > 0)
                             foreach (var message in res.Messages)
                             {
                                 #region JSON -> var
+
                                 var parsedData = JRaw.Parse(message.Body);
                                 string notificationUId = parsedData["id"].ToString();
                                 string microtingUId = parsedData["microting_uuid"].ToString();
                                 string action = parsedData["text"].ToString();
+
                                 #endregion
-                                log.LogStandard(t.GetMethodName("Subscriber"), "Notification notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + action);
+
+                                log.LogStandard(t.GetMethodName("Subscriber"),
+                                    "Notification notificationUId : " + notificationUId + " microtingUId : " +
+                                    microtingUId + " action : " + action);
                                 switch (action)
                                 {
                                     case Constants.Notifications.Completed:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
+                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.Completed);
                                         bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsedByServer:
@@ -172,39 +177,50 @@ namespace eFormSubscriber
                                         bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.RetrievedForm:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.RetrievedForm);
+                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.RetrievedForm);
                                         bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.UnitActivate:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.UnitActivate);
+                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.UnitActivate);
                                         bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.SpeechToTextCompleted:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.SpeechToTextCompleted);
+                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.SpeechToTextCompleted);
                                         bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
                                         break;
-                                }                               
+                                }
 
                                 sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
                             }
                         else
                         {
-                            log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} -  No messages for us right now!");
+                            log.LogStandard(t.GetMethodName("Subscriber"),
+                                $"{DateTime.Now.ToString()} -  No messages for us right now!");
                         }
-                            
+
                     }
+                    catch (WebException webException)
+                    {
+                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", webException));
+                        // We try to sleep 20 seconds to see if the problem goes away by it self.
+                        Thread.Sleep(20000);
+                    }
+                    
                     catch (Exception ex)
                     {
-                        //Log expection
+                        // Log exception
                         log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex));
 
-                        if (DateTime.Compare(lastExpection.AddMinutes(5), DateTime.Now) > 0)
+                        if (DateTime.Compare(lastException.AddMinutes(5), DateTime.Now) > 0)
                         {
                             keepSubscribed = false;
                             log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true);
                         }
 
-                        lastExpection = DateTime.Now;
+                        lastException = DateTime.Now;
                     }
                 }
                 log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");

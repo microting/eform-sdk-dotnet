@@ -427,6 +427,7 @@ namespace eFormShared
 
             return
             "######## -Expection at level " + level + "- ########" + Environment.NewLine +
+            "Type    :" + ex.GetType().Name + Environment.NewLine +
             "Message    :" + ex.Message + Environment.NewLine +
             "Source     :" + ex.Source + Environment.NewLine +
             "StackTrace :" + ex.StackTrace + Environment.NewLine +
