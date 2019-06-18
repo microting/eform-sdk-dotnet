@@ -130,7 +130,8 @@ namespace eFormShared
             public const string Yellow = "fff6df";
             public const string Red = "ffe4e4";
             public const string Grey = "e8eaf6";
-            public const string Default = "None";
+            public const string Default = "e7e7e7";
+            public const string None = "None";
         }
         
         public static class CheckListColors
