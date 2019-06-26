@@ -126,7 +126,11 @@ namespace eFormCore
 		//con
 
 		#region public state
-		public bool Start(string connectionString)
+
+        /// <summary>
+        /// Starts the Core and enables Events. Restarts if needed
+        /// </summary>
+        public bool Start(string connectionString)
 		{
 			try
 			{
@@ -377,6 +381,9 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Closes the Core and disables Events
+        /// </summary>
         public bool Close()
         {
             Log.LogStandard(t.GetMethodName("Core"), "Close called");
@@ -442,6 +449,9 @@ namespace eFormCore
             return true;
         }
 
+        /// <summary>
+        /// Tells if the Core is useable
+        /// </summary>
         public bool Running()
         {
             return _coreAvailable;
@@ -467,6 +477,11 @@ namespace eFormCore
 
         #region public actions
         #region template
+
+        /// <summary>
+        /// Converts XML from ex. eForm Builder or other sources, into a MainElement
+        /// </summary>
+        /// <param name="xmlString">XML string to be converted</param>
         public MainElement TemplateFromXml(string xmlString)
         {
             if (string.IsNullOrEmpty(xmlString))
@@ -816,6 +831,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to create an eForm template in the Microting local DB. Returns that templat's templatId
+        /// </summary>
+        /// <param name="mainElement">Templat MainElement to be inserted into the Microting local DB</param>
         public int TemplateCreate(MainElement mainElement)
         {
             if (mainElement == null)
@@ -848,6 +867,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve the template MainElement from the Microting DB
+        /// </summary>
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
         public MainElement TemplateRead(int templateId)
         {
             string methodName = t.GetMethodName("Core");
@@ -870,6 +893,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to delete an eForm template in the Microting local DB. Returns if it was successfully
+        /// </summary>
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
         public bool TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName("Core");
@@ -892,6 +919,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve the template meta data from the Microting DB
+        /// </summary>
+        /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
         public Template_Dto TemplateItemRead(int templateId)
         {
             string methodName = t.GetMethodName("Core");
@@ -921,6 +952,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve all templates meta data from the Microting DB
+        /// </summary>
+        /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
         public List<Template_Dto> TemplateItemReadAll(bool includeRemoved)
         {
             string methodName = t.GetMethodName("Core");
@@ -1025,6 +1060,13 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to create an eForm case(s) in the Microting local DB, and creates it in the Microting system, with extended parameters
+        /// </summary>
+        /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
+        /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
+        /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
+        /// <param name="custom">Custom extended parameter</param>
         public List<string> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
         {
             string methodName = t.GetMethodName("Core");
@@ -1093,6 +1135,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve the status of a case
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
         public string CaseCheck(string microtingUId)
         {
             string methodName = t.GetMethodName("Core");
@@ -1116,6 +1162,11 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve the answered full case from the DB
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
+        /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public ReplyElement CaseRead(string microtingUId, string checkUId)
         {
             string methodName = t.GetMethodName("Core");
@@ -1291,6 +1342,11 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to set the resultats of a case to new values
+        /// </summary>
+        /// <param name="newFieldValuePairLst">List of '[fieldValueId]|[new value]'</param>
+        /// <param name="newCheckListValuePairLst">List of '[checkListValueId]|[new status]'</param>
         public bool CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst)
         {
             string methodName = t.GetMethodName("Core");
@@ -1411,6 +1467,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Marks a case as deleted, and will remove it from the device, if needed
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
         public bool CaseDelete(string microtingUId)
         {
             //bus.SendLocal(new EformDeleteFromServer(microtingUId)).Wait();
@@ -1599,6 +1659,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Looks up the case's markers, from the match
+        /// </summary>
+        /// <param name="microtingUId">Microting unique ID of the eForm case</param>
         public Case_Dto CaseLookupMUId(string microtingUId)
         {
             string methodName = t.GetMethodName("Core");
@@ -1621,6 +1685,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Looks up the case's markers, from the match
+        /// </summary>
+        /// <param name="CaseId">Microting DB's ID of the eForm case</param>
         public Case_Dto CaseLookupCaseId(int caseId)
         {
             string methodName = t.GetMethodName("Core");
@@ -1643,6 +1711,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Looks up the case's markers, from the matches
+        /// </summary>
+        /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         public List<Case_Dto> CaseLookupCaseUId(string caseUId)
         {
             string methodName = t.GetMethodName("Core");
@@ -1665,6 +1737,11 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Looks up the case's ID, from the match
+        /// </summary>
+        /// <param name="microtingUId">Microting ID of the eForm case</param>
+        /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public int? CaseIdLookup(string microtingUId, string checkUId)
         {
             string methodName = t.GetMethodName("Core");
@@ -1705,6 +1782,13 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
+        /// </summary>
+        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
+        /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
+        /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
+        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
         public string CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
             string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
         {
@@ -1779,6 +1863,13 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
+        /// </summary>
+        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
+        /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
+        /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
+        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
         public string CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "");
@@ -2377,6 +2468,12 @@ namespace eFormCore
         #endregion
 
         #region entity
+
+        /// <summary>
+        /// Creates an EntityGroup, and returns its unique microting id for further use
+        /// </summary>
+        /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
+        /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         public EntityGroup EntityGroupCreate(string entityType, string name)
         {
             try
@@ -2407,6 +2504,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Returns the EntityGroup and its EntityItems
+        /// </summary>
+        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
             if (string.IsNullOrEmpty(entityGroupMUId))
@@ -2446,6 +2547,10 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Updates the EntityGroup and its EntityItems for those needed
+        /// </summary>
+        /// <param name="entityGroup">The EntityGroup and its EntityItems</param>
         public bool EntityGroupUpdate(EntityGroup entityGroup)
         {
             try
@@ -2482,6 +2587,10 @@ namespace eFormCore
             return true;
         }
 
+        /// <summary>
+        /// Deletes an EntityGroup, both its items should be deleted before using
+        /// </summary>
+        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         public bool EntityGroupDelete(string entityGroupMUId)
         {
             try

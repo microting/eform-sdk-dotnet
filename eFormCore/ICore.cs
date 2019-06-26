@@ -277,6 +277,11 @@ namespace eFormCore
         /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         bool EntityGroupDelete(string entityGroupMUId);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="localPath"></param>
+        /// <returns></returns>
         string PdfUpload(string localPath);
     }
 }
