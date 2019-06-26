@@ -354,148 +354,148 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
         }
-        [Test]
-        public void SQL_Check_FieldValueRead_ReturnsTrue()
-        {
-            // Arrance
-
-            #region Arrance
-            #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
-            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region Fields
-            #region field1
-
-
-            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, DbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-            #endregion
-
-            #region Worker
-
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
-
-            #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
-
-            #endregion
-
-            #region units
-            units unit = testHelpers.CreateUnit(48, 49, site, 348);
-
-            #endregion
-
-            #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
-
-            #endregion
-
-            #region Case1
-
-            cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region Check List Values
-            check_list_values check_List_Values = testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
-
-
-            #endregion
-
-            #region Field Values
-            #region fv1
-            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
-
-            #endregion
-
-            #region fv2
-            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
-
-            #endregion
-
-            #region fv3
-            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
-
-            #endregion
-
-            #region fv4
-            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
-
-            #endregion
-
-            #region fv5
-            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
-
-            #endregion
-
-
-            #endregion
-            #endregion
-
-            // Act
-
-            var match = sut.FieldValueRead(field_Value1.Id);
-
-            // Assert
-
-            Assert.AreEqual(field_Value1.Id, match.Id);
-
-        }
+//        [Test]
+//        public void SQL_Check_FieldValueRead_ReturnsTrue()
+//        {
+//            // Arrance
+//
+//            #region Arrance
+//            #region Template1
+//            DateTime cl1_Ca = DateTime.Now;
+//            DateTime cl1_Ua = DateTime.Now;
+//            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region Fields
+//            #region field1
+//
+//
+//            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, DbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//            #endregion
+//
+//            #region Worker
+//
+//            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//
+//            #endregion
+//
+//            #region site
+//            sites site = testHelpers.CreateSite("SiteName", 88);
+//
+//            #endregion
+//
+//            #region units
+//            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+//
+//            #endregion
+//
+//            #region site_workers
+//            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+//
+//            #endregion
+//
+//            #region Case1
+//
+//            cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+//                worker, "microtingCheckUId", "microtingUId",
+//               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+//
+//            #endregion
+//
+//            #region Check List Values
+//            check_list_values check_List_Values = testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+//
+//
+//            #endregion
+//
+//            #region Field Values
+//            #region fv1
+//            field_values field_Value1 = testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
+//
+//            #endregion
+//
+//            #region fv2
+//            field_values field_Value2 = testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+//
+//            #endregion
+//
+//            #region fv3
+//            field_values field_Value3 = testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+//
+//            #endregion
+//
+//            #region fv4
+//            field_values field_Value4 = testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+//
+//            #endregion
+//
+//            #region fv5
+//            field_values field_Value5 = testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+//
+//            #endregion
+//
+//
+//            #endregion
+//            #endregion
+//
+//            // Act
+//
+//            var match = sut.FieldValueRead(field_Value1.Id);
+//
+//            // Assert
+//
+//            Assert.AreEqual(field_Value1.Id, match.Id);
+//
+//        }
         [Test]
         public void SQL_Check_FieldValueReadList_ReturnsList()
         {
