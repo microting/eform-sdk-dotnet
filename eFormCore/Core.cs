@@ -3577,6 +3577,51 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
+        
+        public List<FieldValue> Advanced_FieldValueReadList(int fieldId, List<int> caseIds)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    Log.LogStandard(t.GetMethodName("Core"), "called");
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(fieldId), fieldId);
+
+                    return _sqlController.FieldValueReadList(fieldId, caseIds);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        public List<FieldValue> Advanced_FieldValueReadList(List<int> caseIds)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    Log.LogStandard(t.GetMethodName("Core"), "called");
+
+                    return _sqlController.FieldValueReadList(caseIds);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+
         #endregion
 
         //EntityGroupList

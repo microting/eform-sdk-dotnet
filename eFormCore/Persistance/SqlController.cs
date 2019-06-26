@@ -1720,45 +1720,88 @@ namespace eFormSqlController
             }
         }
 
-        public FieldValue FieldValueRead(int Id)
+//        public FieldValue FieldValueRead(int Id)
+//        {
+//            try
+//            {
+//                using (var db = GetContext())
+//                {
+//                    field_values reply = db.field_values.Single(x => x.Id == Id);
+//                    //fields field = db.fields.Single(x => x.Id == reply.field_id);
+//                    return FieldValueRead(reply, true);
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                throw new Exception("FieldValueUpdate failed", ex);
+//            }
+//        }
+
+        public List<FieldValue> FieldValueReadList(int fieldId, int instancesBackInTime)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    field_values reply = db.field_values.Single(x => x.Id == Id);
-                    //fields field = db.fields.Single(x => x.Id == reply.field_id);
-                    return FieldValueRead(reply, true);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("FieldValueUpdate failed", ex);
-            }
-        }
+                    List<field_values> matches = db.field_values.Where(x => x.FieldId == fieldId).OrderByDescending(z => z.CreatedAt).ToList();
 
-        public List<FieldValue> FieldValueReadList(int Id, int instances)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<field_values> matches = db.field_values.Where(x => x.FieldId == Id).OrderByDescending(z => z.CreatedAt).ToList();
-
-                    if (matches.Count() > instances)
-                        matches = matches.GetRange(0, instances);
+                    if (matches.Count() > instancesBackInTime)
+                        matches = matches.GetRange(0, instancesBackInTime);
 
                     List<FieldValue> rtnLst = new List<FieldValue>();
 
                     foreach (var item in matches)
-                        rtnLst.Add(FieldValueRead(item.Id));
+                        rtnLst.Add(FieldValueRead(item, true));
 
                     return rtnLst;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueUpdate failed", ex);
+                throw new Exception("FieldValueReadList failed", ex);
+            }
+        }
+
+        public List<FieldValue> FieldValueReadList(int fieldId, List<int> caseIds)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    List<field_values> matches = db.field_values.Where(x => x.FieldId == fieldId && caseIds.Contains(x.Id)).ToList();
+                    
+                    List<FieldValue> rtnLst = new List<FieldValue>();
+
+                    foreach (var item in matches)
+                        rtnLst.Add(FieldValueRead(item, true));
+
+                    return rtnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueReadList failed", ex);
+            }
+        }
+
+        public List<FieldValue> FieldValueReadList(List<int> caseIds)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    List<field_values> matches = db.field_values.Where(x => caseIds.Contains(x.Id)).ToList();
+                    List<FieldValue> rtnLst = new List<FieldValue>();
+
+                    foreach (var item in matches)
+                        rtnLst.Add(FieldValueRead(item, true));
+
+                    return rtnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueReadList failed", ex);
             }
         }
 
