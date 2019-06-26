@@ -1805,6 +1805,33 @@ namespace eFormSqlController
             }
         }
 
+        public List<CheckListValue> CheckListValueReadList(List<int> caseIds)
+        {
+            try
+            {
+                using (var db = GetContext())
+                {
+                    List<check_list_values> matches = db.check_list_values.Where(x => caseIds.Contains(x.Id)).ToList();
+                    List<CheckListValue> rtnLst = new List<CheckListValue>();
+
+                    foreach (var item in matches)
+                    {
+                        CheckListValue checkListValue = new CheckListValue();
+                        checkListValue.Id = item.Id;
+                        checkListValue.Label = item.Status;
+                        rtnLst.Add(checkListValue);
+                    }
+                        
+
+                    return rtnLst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueReadList failed", ex);
+            }
+        }
+
         public void FieldValueUpdate(int caseId, int fieldValueId, string value)
         {
             try

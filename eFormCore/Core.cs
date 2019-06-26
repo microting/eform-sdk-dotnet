@@ -3602,7 +3602,6 @@ namespace eFormCore
 
         public List<FieldValue> Advanced_FieldValueReadList(List<int> caseIds)
         {
-            string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
@@ -3610,6 +3609,26 @@ namespace eFormCore
                     Log.LogStandard(t.GetMethodName("Core"), "called");
 
                     return _sqlController.FieldValueReadList(caseIds);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        public List<CheckListValue> Advanced_CheckListValueReadList(List<int> caseIds)
+        {
+            try
+            {
+                if (Running())
+                {
+                    Log.LogStandard(t.GetMethodName("Core"), "called");
+
+                    return _sqlController.CheckListValueReadList(caseIds);
                 }
                 else
                     throw new Exception("Core is not running");
