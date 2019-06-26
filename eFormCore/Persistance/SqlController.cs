@@ -116,6 +116,8 @@ namespace eFormSqlController
 
         #region public
         #region public template
+        
+       //TODO
         public int TemplateCreate(MainElement mainElement)
         {
             try
@@ -129,6 +131,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public MainElement TemplateRead(int templateId)
         {
             try
@@ -163,6 +166,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public Template_Dto TemplateItemRead(int templateId)
         {
             try
@@ -256,6 +260,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public List<Template_Dto> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -387,6 +392,7 @@ namespace eFormSqlController
 
         }
 
+        //TODO
         public List<Field_Dto> TemplateFieldReadAll(int templateId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -423,6 +429,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public bool TemplateDisplayIndexChange(int templateId, int newDisplayIndex)
         {
             try
@@ -450,6 +457,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public bool TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
         {
             try
@@ -486,6 +494,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes Template from DB with given templateId
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool TemplateDelete(int templateId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -521,6 +535,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public bool TemplateSetTags(int templateId, List<int> tagIds)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -593,6 +608,7 @@ namespace eFormSqlController
 
         #region public (pre)case
 
+        //TODO
         public void CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
         {
             try
@@ -624,6 +640,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public List<string> CheckListSitesRead(int templateId, int microtingUid, string workflowState)
         {
             try
@@ -644,6 +661,19 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Creates a case in DB with given parameters siteUId, microtingUId, microtingCheckId, caseUid, custom and createdAt
+        /// After creation the method returns the ID of the newly created case
+        /// </summary>
+        /// <param name="checkListId"></param>
+        /// <param name="siteUId"></param>
+        /// <param name="microtingUId"></param>
+        /// <param name="microtingCheckId"></param>
+        /// <param name="caseUId"></param>
+        /// <param name="custom"></param>
+        /// <param name="createdAt"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int CaseCreate(int checkListId, int siteUId, string microtingUId, string microtingCheckId, string caseUId, string custom, DateTime createdAt)
         {
             try
@@ -709,6 +739,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads case from DB with given microtingUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string CaseReadLastCheckIdByMicrotingUId(string microtingUId)
         {
             try
@@ -728,6 +764,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public void CaseUpdateRetrived(string microtingUId)
         {
             try
@@ -753,6 +790,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public void CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
         {
             try
@@ -800,6 +838,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public void CaseRetract(string microtingUId, string microtingCheckId)
         {
             try
@@ -822,6 +861,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes Case from DB with given microtingUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool CaseDelete(string microtingUId)
 
         {
@@ -863,6 +908,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public bool CaseDeleteResult(int caseId)
         {
 
@@ -894,6 +940,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public void CaseDeleteReversed(string microtingUId)
         {
             try
@@ -921,6 +968,8 @@ namespace eFormSqlController
 
         #region public "reply"
         #region check
+        
+        //TODO
         public List<int> ChecksCreate(Response response, string xmlString, int xmlIndex)
         {
             List<int> uploadedDataIds = new List<int>();
@@ -1285,6 +1334,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates Case Field Value in DB with given caseId
+        /// </summary>
+        /// <param name="caseId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool UpdateCaseFieldValue(int caseId)
         {
             try
@@ -1373,6 +1428,13 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads check from DB with given microtingUId and checkUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <param name="checkUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public ReplyElement CheckRead(string microtingUId, string checkUId)
         {
             try
@@ -1415,6 +1477,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         private Element SubChecks(int parentId, int caseId)
         {
             try
@@ -2109,6 +2172,14 @@ namespace eFormSqlController
         #endregion
 
         #region notification
+        
+        /// <summary>
+        /// Creates Notification in DB with given values notificationUId, microtingUId and activity
+        /// </summary>
+        /// <param name="notificationUId"></param>
+        /// <param name="microtingUId"></param>
+        /// <param name="activity"></param>
+        /// <returns></returns>
         public notifications NotificationCreate(string notificationUId, string microtingUId, string activity)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -2142,6 +2213,11 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Returns a Note Data transfer object from DB
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Note_Dto NotificationReadFirst()
         {
             try
@@ -2165,6 +2241,15 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates a Notification in DB with new values of notificationUId, microtingUId, workflowstate, exception and stack trace
+        /// </summary>
+        /// <param name="notificationUId"></param>
+        /// <param name="microtingUId"></param>
+        /// <param name="workflowState"></param>
+        /// <param name="exception"></param>
+        /// <param name="stacktrace"></param>
+        /// <exception cref="Exception"></exception>
         public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState, string exception, string stacktrace)
         {
             try
@@ -2188,6 +2273,8 @@ namespace eFormSqlController
         #endregion
 
         #region file
+        
+        //TODO
         public UploadedData FileRead()
         {
             try
@@ -2219,6 +2306,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public Case_Dto FileCaseFindMUId(string urlString)
         {
             try
@@ -2246,6 +2334,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public void FileProcessed(string urlString, string checkSum, string fileLocation, string fileName, int Id)
         {
             try
@@ -2271,6 +2360,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Returns uploaded data object from DB with give Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public uploaded_data GetUploadedData(int Id)
         {
             try
@@ -2286,6 +2381,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public bool UpdateUploadedData(uploaded_data uploadedData)
         {
             try
@@ -2310,6 +2406,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Returns field_values object from DB with given transcription Id
+        /// </summary>
+        /// <param name="transcriptionId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public field_values GetFieldValueByTranscriptionId(int transcriptionId)
         {
             try
@@ -2332,6 +2434,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public uploaded_data GetUploaded_DataByTranscriptionId(int transcriptionId)
         {
 
@@ -2348,6 +2451,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes file from DB with given Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool DeleteFile(int Id)
         {
             try
@@ -2374,6 +2483,13 @@ namespace eFormSqlController
 
         #region public (post)case
 
+        /// <summary>
+        /// Return a case data transfer object from DB with given microtingUId and checkUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <param name="checkUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Case_Dto CaseLookup(string microtingUId, string checkUId)
         {
             try
@@ -2389,7 +2505,12 @@ namespace eFormSqlController
             }
         }
         
-        
+        /// <summary>
+        /// Finds a Case_Dto based on microtingUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Case_Dto CaseReadByMUId(string microtingUId)
         {
             try
@@ -2433,6 +2554,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads a Case from DB with given case id
+        /// </summary>
+        /// <param name="caseId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Case_Dto CaseReadByCaseId(int caseId)
         {
             try
@@ -2468,6 +2595,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Return a list of Case data transfer objects from db with given caseUId
+        /// </summary>
+        /// <param name="caseUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Case_Dto> CaseReadByCaseUId(string caseUId)
         {
             try
@@ -2494,7 +2627,14 @@ namespace eFormSqlController
                 throw new Exception("CaseReadByCaseUId failed", ex);
             }
         }
-
+        
+        /// <summary>
+        /// Returns a cases object from DB with given microtingUId and checkUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <param name="checkUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public cases CaseReadFull(string microtingUId, string checkUId)
         {
             try
@@ -2518,6 +2658,13 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Returns an ID of a specific Case from DB with given templateId and workflowstate
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <param name="workflowState"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int? CaseReadFirstId(int? templateId, string workflowState)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -2566,6 +2713,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public CaseList CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState,
             string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize)
         {
@@ -2785,6 +2933,17 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Returns a list of Case objects from DB with given parameters as templateId, startTime, endTime, workflowstate, searchkey, descendingsort, sortparameter
+        /// </summary>
+        /// <param name="templatId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="workflowState"></param>
+        /// <param name="searchKey"></param>
+        /// <param name="descendingSort"></param>
+        /// <param name="sortParameter"></param>
+        /// <returns></returns>
         public List<Case> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
         {            
             string methodName = t.GetMethodName("SQLController");
@@ -2811,6 +2970,12 @@ namespace eFormSqlController
 
         }
 
+        /// <summary>
+        /// Returns a list of case data transfer objects from DB with given Custom string
+        /// </summary>
+        /// <param name="customString"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Case_Dto> CaseFindCustomMatchs(string customString)
         {
             try
@@ -2833,6 +2998,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public bool CaseUpdateFieldValues(int caseId)
         {
             try
@@ -2979,6 +3145,12 @@ namespace eFormSqlController
         
         #region public site
         #region site
+        
+        /// <summary>
+        /// Returns a list of site data transfer objects from DB
+        /// </summary>
+        /// <param name="includeRemoved"></param>
+        /// <returns></returns>
         public List<SiteName_Dto> SiteGetAll(bool includeRemoved)
         {
             List<SiteName_Dto> siteList = new List<SiteName_Dto>();
@@ -3000,6 +3172,7 @@ namespace eFormSqlController
 
         }
 
+        //TODO
         public List<Site_Dto> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
             List<Site_Dto> siteList = new List<Site_Dto>();
@@ -3065,6 +3238,13 @@ namespace eFormSqlController
 
         }
 
+        /// <summary>
+        /// Creates a site in DB with given microtingUid and Name
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int SiteCreate(int microtingUid, string name)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3100,6 +3280,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads a site from DB with given microting_uid
+        /// </summary>
+        /// <param name="microting_uid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public SiteName_Dto SiteRead(int microting_uid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3121,6 +3307,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public Site_Dto SiteReadSimple(int microting_uid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3151,6 +3338,13 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates site in DB with new values of microting_uid and name
+        /// </summary>
+        /// <param name="microting_uid"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool SiteUpdate(int microting_uid, string name)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3186,6 +3380,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes site in DB with given microting_uid
+        /// </summary>
+        /// <param name="microting_uid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool SiteDelete(int microting_uid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3223,6 +3423,15 @@ namespace eFormSqlController
         #endregion
 
         #region worker
+        
+        /// <summary>
+        /// Returns a list of workers from DB 
+        /// </summary>
+        /// <param name="workflowState"></param>
+        /// <param name="offSet"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Worker_Dto> WorkerGetAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3265,6 +3474,15 @@ namespace eFormSqlController
 
         }
 
+        /// <summary>
+        /// Creates a Worker in DB with given microtingUid, first name, last name and email.
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3301,6 +3519,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads a workers name from DB with give workerId
+        /// </summary>
+        /// <param name="workerId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string WorkerNameRead(int workerId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3322,6 +3546,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// returns a worker data transfer object from DB with given microting_uid
+        /// </summary>
+        /// <param name="microting_uid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Worker_Dto WorkerRead(int microting_uid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3343,6 +3573,15 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates worker in DB with new values of first name, last name and email.
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3379,7 +3618,14 @@ namespace eFormSqlController
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
+        
+        
+        /// <summary>
+        /// Deletes a worker with given microtingUid
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool WorkerDelete(int microtingUid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3416,6 +3662,15 @@ namespace eFormSqlController
         #endregion
 
         #region site_worker
+        
+        /// <summary>
+        /// Creates Site Worker in DB with given microtingUId, siteUId and workerUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <param name="siteUId"></param>
+        /// <param name="workerUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3454,6 +3709,14 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads Site Worker from DB 
+        /// </summary>
+        /// <param name="siteWorkerMicrotingUid"></param>
+        /// <param name="siteId"></param>
+        /// <param name="workerId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Site_Worker_Dto SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3488,6 +3751,14 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates Site Worker with new values of microtingUid, siteId and workerId
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <param name="siteId"></param>
+        /// <param name="workerId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3523,6 +3794,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes Site Worker from DB with given micrioting_uid
+        /// </summary>
+        /// <param name="microting_uid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool SiteWorkerDelete(int microting_uid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3559,6 +3836,12 @@ namespace eFormSqlController
         #endregion
 
         #region unit
+        
+        /// <summary>
+        /// Returns list of unit data transfer objects from DB
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Unit_Dto> UnitGetAll()
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3581,7 +3864,17 @@ namespace eFormSqlController
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
+        
+        
+        /// <summary>
+        /// Creates Unit in DB with given micriotingUid, customer number, one time password and siteUId
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <param name="customerNo"></param>
+        /// <param name="otpCode"></param>
+        /// <param name="siteUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3619,6 +3912,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads Unit from DB with given microtingUid
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Unit_Dto UnitRead(int microtingUid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3643,6 +3942,15 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates Unit in DB with new values
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <param name="customerNo"></param>
+        /// <param name="otpCode"></param>
+        /// <param name="siteId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3677,7 +3985,13 @@ namespace eFormSqlController
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
+        
+        /// <summary>
+        /// Deletes Unit from DB with given microtingUid
+        /// </summary>
+        /// <param name="microtingUid"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool UnitDelete(int microtingUid)
         {
             string methodName = t.GetMethodName("SQLController");
@@ -3716,6 +4030,8 @@ namespace eFormSqlController
 
         #region public entity
         #region entityGroup
+        
+        //TODO
         public EntityGroupList EntityGroupAll(string sort, string nameFilter, int offSet, int pageSize, string entityType, bool desc, string workflowState)
         {
 
@@ -3782,6 +4098,13 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Crates an Entity Group in DB with given name and type of entity
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="entityType"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public EntityGroup EntityGroupCreate(string name, string entityType)
         {
             try
@@ -3815,6 +4138,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public EntityGroup EntityGroupReadSorted(string entityGroupMUId, string sort, string nameFilter)
         {
             try
@@ -3870,6 +4194,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads Entity Group from DB with given Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public EntityGroup EntityGroupRead(int Id) 
         {
             using (var db = GetContext()) {
@@ -3883,11 +4213,19 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public EntityGroup EntityGroupRead(string entityGroupMUId)
         {
             return EntityGroupReadSorted(entityGroupMUId, "Id", "");
         }
 
+        /// <summary>
+        /// Updates Entity Group in DB with given EntitygroupId and entityGroupMUId
+        /// </summary>
+        /// <param name="entityGroupId"></param>
+        /// <param name="entityGroupMUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
         {
             try
@@ -3917,6 +4255,13 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates Entity Group Name in DB with given name and entitygroupMUId
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="entityGroupMUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool EntityGroupUpdateName(string name, string entityGroupMUId)
         {
             try
@@ -3946,6 +4291,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes Entity Group in DB with given entitygROUPMUId
+        /// </summary>
+        /// <param name="entityGroupMUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string EntityGroupDelete(string entityGroupMUId)
         {
             try
@@ -3994,6 +4345,13 @@ namespace eFormSqlController
         #endregion
 
         #region entityItem 
+        
+        /// <summary>
+        /// Reads an entity item from DB with given microtingUid
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public entity_items EntityItemRead(string microtingUId)
         {
             try
@@ -4009,6 +4367,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads an Entity Item from DB with given Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public EntityItem EntityItemRead(int Id)
         {
             using (var db = GetContext())
@@ -4028,6 +4392,14 @@ namespace eFormSqlController
             }
         }
 
+        
+        /// <summary>
+        /// Reads an entity item group with given id, name and description from DB
+        /// </summary>
+        /// <param name="entityItemGroupId"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
         public EntityItem EntityItemRead(int entityItemGroupId, string name, string description)
         {
             using (var db = GetContext())
@@ -4044,6 +4416,8 @@ namespace eFormSqlController
             }
         }
 
+    
+        //TODO
         public EntityItem EntityItemCreate(int entityItemGroupId, EntityItem entityItem)
         {
 
@@ -4073,6 +4447,10 @@ namespace eFormSqlController
             return entityItem;
         }
 
+        /// <summary>
+        /// Updates an Entity Item in DB
+        /// </summary>
+        /// <param name="entityItem"></param>
         public void EntityItemUpdate(EntityItem entityItem)
         {
             using (var db = GetContext())
@@ -4094,6 +4472,11 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes an Entity Item in DB with given Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <exception cref="NullReferenceException"></exception>
         public void EntityItemDelete(int Id)
         {
             using (var db = GetContext())
@@ -4122,6 +4505,11 @@ namespace eFormSqlController
 
         #region folders
 
+        /// <summary>
+        /// Returns a list of Folders of type of folder data transfer objects from DB
+        /// </summary>
+        /// <param name="includeRemoved"></param>
+        /// <returns></returns>
         public List<Folder_Dto> FolderGetAll(bool includeRemoved)
         {
             List<Folder_Dto> folderDtos = new List<Folder_Dto>();
@@ -4140,6 +4528,11 @@ namespace eFormSqlController
             return folderDtos;
         }
 
+        /// <summary>
+        /// Reads a Folder of type Folder data transfer object from DB with specific Microting_UID
+        /// </summary>
+        /// <param name="microting_uid"></param>
+        /// <returns></returns>
         public Folder_Dto FolderReadByMicrotingUUID(int microting_uid)
         {
             using (var db = GetContext())
@@ -4156,6 +4549,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Reads a folder from DB with given ID
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public Folder_Dto FolderRead(int Id)
         {
             using (var db = GetContext())
@@ -4172,6 +4571,14 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Creates a folder in DB with given name, description, parent id and microtingUUID
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="parent_id"></param>
+        /// <param name="microtingUUID"></param>
+        /// <returns></returns>
         public int FolderCreate(string name, string description, int? parent_id, int microtingUUID)
         {
             folders folder = new folders
@@ -4187,6 +4594,14 @@ namespace eFormSqlController
             return folder.Id;
         }
 
+        /// <summary>
+        /// Updates Folder in DB with new values of Id, Name, Description and Parent Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="parent_id"></param>
+        /// <exception cref="NullReferenceException"></exception>
         public void FolderUpdate(int Id, string name, string description, int? parent_id)
         {
             using (var db = GetContext())
@@ -4206,6 +4621,11 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes a Folder in DB with given ID
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <exception cref="NullReferenceException"></exception>
         public void FolderDelete(int Id)
         {
             using (var db = GetContext())
@@ -4225,6 +4645,8 @@ namespace eFormSqlController
         
         
         #region public setting
+        
+        //TODO
         public bool SettingCreateDefaults()
         {
             //key point
@@ -4262,6 +4684,12 @@ namespace eFormSqlController
             return true;
         }
 
+        /// <summary>
+        /// Creates setting with specific name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public bool SettingCreate(Settings name)
         {
             using (var db = GetContext())
@@ -4383,6 +4811,12 @@ namespace eFormSqlController
             return true;
         }
 
+        /// <summary>
+        /// Reads a specific setting from DB
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string SettingRead(Settings name)
         {
             try
@@ -4403,6 +4837,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Updates specific setting with new value in DB
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="newValue"></param>
+        /// <exception cref="Exception"></exception>
         public void SettingUpdate(Settings name, string newValue)
         {
             try
@@ -4427,6 +4867,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public List<string> SettingCheckAll()
         {
             List<string> result = new List<string>();
@@ -4494,6 +4935,13 @@ namespace eFormSqlController
         #endregion
 
         #region public write log
+        
+        /// <summary>
+        /// Returns a log from corebase
+        /// </summary>
+        /// <param name="core"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Log StartLog(CoreBase core)
         {
             try
@@ -4510,6 +4958,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         public override string WriteLogEntry(LogEntry logEntry)
         {
             lock (_lockWrite)
@@ -4559,6 +5008,8 @@ namespace eFormSqlController
             }
         }
 
+        
+        //TODO
         private string WriteLogExceptionEntry(LogEntry logEntry)
         {
             try
@@ -4601,6 +5052,10 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Writes into the log if it failed to write.
+        /// </summary>
+        /// <param name="logEntries"></param>
         public override void WriteIfFailed(string logEntries)
         {
             lock (_lockWrite)
@@ -4622,6 +5077,8 @@ namespace eFormSqlController
 
         #region private
         #region EformCreateDb
+        
+        //TODO
         private int EformCreateDb(MainElement mainElement)
         {
             try
@@ -4677,6 +5134,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         private void CreateElementList(int parentId, List<Element> lstElement)
         {
             foreach (Element element in lstElement)
@@ -4697,6 +5155,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         private void CreateGroupElement(int parentId, GroupElement groupElement)
         {
             try
@@ -4744,6 +5203,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         private void CreateDataElement(int parentId, DataElement dataElement)
         {
             try
@@ -4811,6 +5271,8 @@ namespace eFormSqlController
             }
         }
 
+        
+        //TODO
         private void CreateDataItemGroup(int elementId, FieldContainer fieldGroup)
         {
             try
@@ -4859,6 +5321,8 @@ namespace eFormSqlController
             }
         }
 
+        
+        //TODO
         private void CreateDataItem(int? parentFieldId, int elementId, DataItem dataItem)
         {
             try
@@ -5052,6 +5516,13 @@ namespace eFormSqlController
         #endregion
 
         #region EformReadDb
+        
+        /// <summary>
+        /// Gets element with specifik id from DB
+        /// </summary>
+        /// <param name="elementId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private Element GetElement(int elementId)
         {
             try
@@ -5138,6 +5609,14 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Gets data item with specific id from DB
+        /// </summary>
+        /// <param name="lstDataItem"></param>
+        /// <param name="lstDataItemGroup"></param>
+        /// <param name="dataItemId"></param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="Exception"></exception>
         private void GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, int dataItemId)
         {
             try
@@ -5257,6 +5736,7 @@ namespace eFormSqlController
             }
         }
 
+        //TODO
         private void GetConverter()
         {
             try
@@ -5281,6 +5761,13 @@ namespace eFormSqlController
         #endregion
 
         #region tags
+        
+        /// <summary>
+        /// Gets all tags from DB
+        /// </summary>
+        /// <param name="includeRemoved"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Tag> GetAllTags(bool includeRemoved)
         {
             List<Tag> tags = new List<Tag>();
@@ -5308,6 +5795,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Create tag with given name and saves it in DB
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public int TagCreate(string name)
         {
             try
@@ -5346,6 +5839,12 @@ namespace eFormSqlController
             }
         }
 
+        /// <summary>
+        /// Deletes tag with specific id from DB
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool TagDelete(int tagId)
         {
             try
@@ -5373,6 +5872,13 @@ namespace eFormSqlController
         #endregion
 
         #region help methods
+        
+        /// <summary>
+        /// Finds field type by id
+        /// </summary>
+        /// <param name="fieldTypeId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private string Find(int fieldTypeId)
         {
             foreach (var holder in converter)
@@ -5383,6 +5889,12 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
         }
 
+        /// <summary>
+        /// Find field type by type string
+        /// </summary>
+        /// <param name="typeStr"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private int Find(string typeStr)
         {
             foreach (var holder in converter)
@@ -5393,6 +5905,7 @@ namespace eFormSqlController
             throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
+        //TODO
         private string PairBuild(List<eFormShared.KeyValuePair> lst)
         {
             string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><hash>";
@@ -5417,6 +5930,7 @@ namespace eFormSqlController
             return str;
         }
 
+        //TODO
         public List<eFormShared.KeyValuePair> PairRead(string str)
         {
             List<eFormShared.KeyValuePair> list = new List<eFormShared.KeyValuePair>();
@@ -5446,6 +5960,7 @@ namespace eFormSqlController
             return list;
         }
 
+        //ToDo
         private string PairMatch(List<eFormShared.KeyValuePair> keyValuePairs, string match)
         {
             foreach (var item in keyValuePairs)
@@ -5459,7 +5974,11 @@ namespace eFormSqlController
         #endregion
 
         #region mappers
-       
+       /// <summary>
+       /// Mapping case versions
+       /// </summary>
+       /// <param name="aCase"></param>
+       /// <returns></returns>
         private case_versions MapCaseVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
@@ -5777,6 +6296,12 @@ namespace eFormSqlController
         #endregion
         #endregion       
 
+        /// <summary>
+        /// Adding field type to DB 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="fieldType"></param>
+        /// <param name="description"></param>
         private void FieldTypeAdd(int Id, string fieldType, string description)
         {
             using (var db = GetContext())
