@@ -2452,15 +2452,15 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    List<string> ids = new List<string>();
-                    foreach (var item in entityGroup.EntityGroupItemLst)
-                        ids.Add(item.EntityItemUId);
-
-                    if (ids.Count != ids.Distinct().Count())
-                        throw new Exception("List entityGroup.entityItemUIds are not all unique"); // Duplicates exist
-
-                    while (_updateIsRunningEntities)
-                        Thread.Sleep(200);
+//                    List<string> ids = new List<string>();
+//                    foreach (var item in entityGroup.EntityGroupItemLst)
+//                        ids.Add(item.EntityItemUId);
+//
+//                    if (ids.Count != ids.Distinct().Count())
+//                        throw new Exception("List entityGroup.entityItemUIds are not all unique"); // Duplicates exist
+//
+//                    while (_updateIsRunningEntities)
+//                        Thread.Sleep(200);
 
                     bool isUpdated = _communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.MicrotingUUID);
 
