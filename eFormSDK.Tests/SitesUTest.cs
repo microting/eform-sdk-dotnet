@@ -15,9 +15,11 @@ namespace eFormSDK.Tests
         public void Site_Create_DoesCreate()
         {
             //Arrange
+            Random rnd = new Random();
             
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
+            site.MicrotingUid = rnd.Next(1, 255);
             
             //Act
             
@@ -37,6 +39,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString()); 
             Assert.AreEqual(dbSites.WorkflowState, eFormShared.Constants.WorkflowStates.Created);
             Assert.AreEqual(site.Name, dbSites.Name);
+            Assert.AreEqual(site.MicrotingUid, dbSites.MicrotingUid);
         }
 
         [Test]
