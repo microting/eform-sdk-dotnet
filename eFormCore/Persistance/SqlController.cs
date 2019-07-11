@@ -441,12 +441,9 @@ namespace eFormSqlController
                     if (checkList == null)
                         return false;
 
-                    checkList.UpdatedAt = DateTime.Now;
-                    checkList.Version = checkList.Version + 1;
                     checkList.DisplayIndex = newDisplayIndex;
 
-                    db.check_list_versions.Add(MapCheckListVersions(checkList));
-                    db.SaveChanges();
+                    checkList.Update(db);
 
                     return true;
                 }
@@ -469,8 +466,6 @@ namespace eFormSqlController
                     if (checkList == null)
                         return false;
 
-                    checkList.UpdatedAt = DateTime.Now;
-                    checkList.Version = checkList.Version + 1;
                     checkList.Field1 = fieldId1;
                     checkList.Field2 = fieldId2;
                     checkList.Field3 = fieldId3;
@@ -481,9 +476,8 @@ namespace eFormSqlController
                     checkList.Field8 = fieldId8;
                     checkList.Field9 = fieldId9;
                     checkList.Field10 = fieldId10;
-
-                    db.check_list_versions.Add(MapCheckListVersions(checkList));
-                    db.SaveChanges();
+                    
+                    checkList.Update(db);
 
                     return true;
                 }
@@ -514,13 +508,7 @@ namespace eFormSqlController
 
                     if (check_list != null)
                     {
-                        check_list.Version = check_list.Version + 1;
-                        check_list.UpdatedAt = DateTime.Now;
-
-                        check_list.WorkflowState = Constants.WorkflowStates.Removed;
-
-                        db.check_list_versions.Add(MapCheckListVersions(check_list));
-                        db.SaveChanges();
+                        check_list.Delete((db));
 
                         return true;
                     }
@@ -568,7 +556,6 @@ namespace eFormSqlController
                             tags tag = db.tags.Single(x => x.Id == Id);
                             if (tag != null)
                             {
-
                                 taggings currentTagging = db.taggings.SingleOrDefault(x => x.TagId == tag.Id && x.CheckListId == templateId);
 
                                 if (currentTagging == null)
@@ -576,18 +563,14 @@ namespace eFormSqlController
                                     taggings tagging = new taggings();
                                     tagging.CheckListId = templateId;
                                     tagging.TagId = tag.Id;
-                                    tagging.CreatedAt = DateTime.Now;
-                                    tagging.UpdatedAt = tagging.CreatedAt;
-                                    tagging.WorkflowState = Constants.WorkflowStates.Created;
-                                    tagging.Version = 1;
 
-                                    tagging.Save(db);
+                                    tagging.Create(db);
                                 } else {
                                     if (currentTagging.WorkflowState != Constants.WorkflowStates.Created)
                                     {
                                         currentTagging.WorkflowState = Constants.WorkflowStates.Created;
                                         currentTagging.Update(db);
-                                    }                                    
+                                    }
                                 }                                
                             }
                         }
@@ -604,6 +587,35 @@ namespace eFormSqlController
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public void SetJasperExportEnabled(int eFormId, bool isEnabled)
+        {
+            string methodName = t.GetMethodName("SQLController"); 
+            using (var db = GetContext())
+            {
+                check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == eFormId);
+                if (checkList != null)
+                {
+                    checkList.JasperExportEnabled = isEnabled;
+                    checkList.Update(db);
+                }
+            }
+        }
+
+        public void SetDocxExportEnabled(int eFormId, bool isEnabled)
+        {
+            string methodName = t.GetMethodName("SQLController"); 
+            using (var db = GetContext())
+            {
+                check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == eFormId);
+                if (checkList != null)
+                {
+                    checkList.DocxExportEnabled = isEnabled;
+                    checkList.Update(db);
+                }
+            }
+        }
+        
         #endregion
 
         #region public (pre)case

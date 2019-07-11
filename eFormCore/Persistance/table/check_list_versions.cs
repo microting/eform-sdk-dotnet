@@ -104,5 +104,9 @@ namespace eFormSqlController
         public short? QuickSyncEnabled { get; set; }
 
         public string OriginalId { get; set; }
+        
+        public bool JasperExportEnabled { get; set; }
+        
+        public bool DocxExportEnabled { get; set; }
     }
 }

@@ -2150,6 +2150,22 @@ namespace eFormCore
         }
         #endregion
 
+        public void SetJasperExportEnabled(int eFormId, bool isEnabled)
+        {
+            if (Running())
+            {
+                _sqlController.SetJasperExportEnabled(eFormId, isEnabled);
+            }
+        }
+
+        public void SetDocxExportEnabled(int eFormId, bool isEnabled)
+        {
+            if (Running())
+            {
+                _sqlController.SetDocxExportEnabled(eFormId, isEnabled);
+            }
+        }
+        
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
             return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", "");

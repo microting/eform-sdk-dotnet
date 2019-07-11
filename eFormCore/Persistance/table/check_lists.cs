@@ -115,6 +115,10 @@ namespace eFormSqlController
         public string OriginalId { get; set; }
         
         public string Color { get; set; }
+        
+        public bool JasperExportEnabled { get; set; }
+        
+        public bool DocxExportEnabled { get; set; }
 
         public virtual ICollection<cases> Cases { get; set; }
 
@@ -177,8 +181,11 @@ namespace eFormSqlController
             checkList.Field8 = Field8;
             checkList.Field9 = Field9;
             checkList.Field10 = Field10;
+            checkList.Color = Color;
             checkList.QuickSyncEnabled = QuickSyncEnabled;
             checkList.OriginalId = OriginalId;
+            checkList.JasperExportEnabled = JasperExportEnabled;
+            checkList.DocxExportEnabled = DocxExportEnabled;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
@@ -245,6 +252,11 @@ namespace eFormSqlController
             clv.Field8 = checkList.Field8;
             clv.Field9 = checkList.Field9;
             clv.Field10 = checkList.Field10;
+            clv.Color = checkList.Color;
+            clv.QuickSyncEnabled = checkList.QuickSyncEnabled;
+            clv.OriginalId = checkList.OriginalId;
+            clv.JasperExportEnabled = checkList.JasperExportEnabled;
+            clv.DocxExportEnabled = checkList.DocxExportEnabled;
 
             clv.CheckListId = checkList.Id; //<<--
 

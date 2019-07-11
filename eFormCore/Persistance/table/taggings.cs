@@ -45,23 +45,17 @@ namespace eFormSqlController
 
         public virtual check_lists CheckList { get; set; }
 
-        public void Save(MicrotingDbAnySql dbContext)
+        public void Create(MicrotingDbAnySql dbContext)
         {
-            taggings tagging = new taggings
-            {
-                CheckListId = CheckListId,
-                TagId = TagId,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                TaggerId = TaggerId,
-                Version = 1,
-                WorkflowState = Constants.WorkflowStates.Created
-            };
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
+            WorkflowState = Constants.WorkflowStates.Created;
             
-            dbContext.taggings.Add(tagging);
+            dbContext.taggings.Add(this);
             dbContext.SaveChanges();
 
-            dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
+            dbContext.tagging_versions.Add(MapTaggingVersions(this));
             dbContext.SaveChanges();
         }
 
