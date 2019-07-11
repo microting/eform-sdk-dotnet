@@ -77,6 +77,8 @@
     <Compile Include="Persistance\Migrations\20190515064952_FixingNamingForFieldValues.Designer.cs" />
     <Compile Include="Persistance\Migrations\20190531092007_AddingMissingAIonLogs.cs" />
     <Compile Include="Persistance\Migrations\20190531092007_AddingMissingAIonLogs.Designer.cs" />
+    <Compile Include="Persistance\Migrations\20190711053344_AddingJasperDocxEnabledAttributesToCheckList.cs" />
+    <Compile Include="Persistance\Migrations\20190711053344_AddingJasperDocxEnabledAttributesToCheckList.Designer.cs" />
     <Compile Include="Persistance\Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Persistance\SqlController.cs" />
     <Compile Include="Persistance\table\answers.cs" />
