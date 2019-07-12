@@ -113,7 +113,7 @@ namespace eFormSqlController
 #pragma warning restore 612, 618
         }
 
-        // dotnet ef migrations add AddingNewModels --project eFormCore --startup-project SourceCode
+        // dotnet ef migrations add AddingNewModels --project eFormCore --startup-project DBMigrator
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
