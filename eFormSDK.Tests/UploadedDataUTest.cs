@@ -1,9 +1,33 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2019 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Amazon.Runtime.Internal.Util;
-using eFormSqlController;
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
 namespace eFormSDK.Tests
@@ -48,7 +72,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), dbUploadedData.CreatedAt.ToString());                                  
             Assert.AreEqual(uploadedData.Version, dbUploadedData.Version);                                      
             Assert.AreEqual(uploadedData.UpdatedAt.ToString(), dbUploadedData.UpdatedAt.ToString());                                  
-            Assert.AreEqual(dbUploadedData.WorkflowState, eFormShared.Constants.WorkflowStates.Created);
+            Assert.AreEqual(dbUploadedData.WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(uploadedData.Checksum, dbUploadedData.Checksum);                      
             Assert.AreEqual(uploadedData.Extension, dbUploadedData.Extension);                      
             Assert.AreEqual(uploadedData.Local, dbUploadedData.Local);
@@ -185,7 +209,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(uploadedData.UploaderId, dbUploadedData.UploaderId);
             Assert.AreEqual(uploadedData.UploaderType, dbUploadedData.UploaderType);
             
-            Assert.AreEqual(dbUploadedData.WorkflowState, eFormShared.Constants.WorkflowStates.Removed);
+            Assert.AreEqual(dbUploadedData.WorkflowState, Constants.WorkflowStates.Removed);
         }
     }
 }
