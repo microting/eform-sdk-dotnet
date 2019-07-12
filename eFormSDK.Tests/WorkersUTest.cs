@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
             worker.Create(DbContext);                                                             
 
             List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
-            List<workers> workersVersion = DbContext.workers.AsNoTracking().ToList();                
+            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList();                
 
             //Assert                                                                            
 
@@ -75,14 +75,14 @@ namespace eFormSDK.Tests
             
             //Versions
             Assert.AreEqual(worker.CreatedAt.ToString(), workersVersion[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(worker.Version, workersVersion[0].Version);                                      
+            Assert.AreEqual(1, workersVersion[0].Version);                                      
             Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(workersVersion[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(worker.Email, workersVersion[0].Email);                      
             Assert.AreEqual(worker.FirstName, workersVersion[0].FirstName);                      
             Assert.AreEqual(worker.LastName, workersVersion[0].LastName);
             Assert.AreEqual(worker.MicrotingUid, workersVersion[0].MicrotingUid); 
-            Assert.AreEqual(worker.full_name(), workersVersion[0].full_name()); 
+            
         }
 
         [Test]
