@@ -22,23 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-using eFormData;
-//using eFormSqlController.Migrations;
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Microting.eForm;
+using eFormShared;
+using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Models;
+using Microting.eForm.Infrastructure.Models.reply;
+//using eFormSqlController.Migrations;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure
 {
     public class SqlController : LogWriter
     {
@@ -179,7 +176,7 @@ namespace eFormSqlController
                         return null;
 
                     List<SiteName_Dto> sites = new List<SiteName_Dto>();
-                    foreach (check_list_sites check_list_site in checkList.CheckListSites.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed).ToList())
+                    foreach (check_list_sites check_list_site in checkList.CheckListSites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList())
                     {
                         SiteName_Dto site = new SiteName_Dto((int)check_list_site.Site.MicrotingUid, check_list_site.Site.Name, check_list_site.Site.CreatedAt, check_list_site.Site.UpdatedAt);
                         sites.Add(site);
@@ -280,7 +277,7 @@ namespace eFormSqlController
                     IQueryable<check_lists> sub_query = db.check_lists.Where(x => x.ParentId == null);
 
                     if (!includeRemoved)
-                        sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Created);
+                        sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (searchKey != null && searchKey != "")
                     {
@@ -300,25 +297,25 @@ namespace eFormSqlController
 
                     switch (sortParameter)
                     {
-                        case Constants.eFormSortParameters.Label:
+                        case Constants.Constants.eFormSortParameters.Label:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.Label);
                             else
                                 sub_query = sub_query.OrderBy(x => x.Label);
                             break;
-                        case Constants.eFormSortParameters.Description:
+                        case Constants.Constants.eFormSortParameters.Description:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.Description);
                             else
                                 sub_query = sub_query.OrderBy(x => x.Description);
                             break;
-                        case Constants.eFormSortParameters.CreatedAt:
+                        case Constants.Constants.eFormSortParameters.CreatedAt:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.CreatedAt);
                             else
                                 sub_query = sub_query.OrderBy(x => x.CreatedAt);
                             break;
-                        case Constants.eFormSortParameters.Tags:
+                        case Constants.Constants.eFormSortParameters.Tags:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.CreatedAt);
                             else
@@ -339,10 +336,10 @@ namespace eFormSqlController
                         List<SiteName_Dto> sites = new List<SiteName_Dto>();
                         List<check_list_sites> check_list_sites = null;
 
-                        if (siteWorkflowState == Constants.WorkflowStates.Removed)
-                            check_list_sites = checkList.CheckListSites.Where(x => x.WorkflowState == Constants.WorkflowStates.Removed).ToList();
+                        if (siteWorkflowState == Constants.Constants.WorkflowStates.Removed)
+                            check_list_sites = checkList.CheckListSites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
                         else
-                            check_list_sites = checkList.CheckListSites.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed).ToList();
+                            check_list_sites = checkList.CheckListSites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
 
                         foreach (check_list_sites check_list_site in check_list_sites)
                         {
@@ -362,7 +359,7 @@ namespace eFormSqlController
                             hasCases = true;
 
                         #region loadtags
-                        List<taggings> tagging_matches = checkList.Taggings.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed).ToList();
+                        List<taggings> tagging_matches = checkList.Taggings.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                         List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
                         foreach (taggings tagging in tagging_matches)
                         {
@@ -566,9 +563,9 @@ namespace eFormSqlController
 
                                     tagging.Create(db);
                                 } else {
-                                    if (currentTagging.WorkflowState != Constants.WorkflowStates.Created)
+                                    if (currentTagging.WorkflowState != Constants.Constants.WorkflowStates.Created)
                                     {
-                                        currentTagging.WorkflowState = Constants.WorkflowStates.Created;
+                                        currentTagging.WorkflowState = Constants.Constants.WorkflowStates.Created;
                                         currentTagging.Update(db);
                                     }
                                 }                                
@@ -637,7 +634,7 @@ namespace eFormSqlController
                     cLS.MicrotingUid = microtingUId;
                     cLS.SiteId = siteId;
                     cLS.Version = 1;
-                    cLS.WorkflowState = Constants.WorkflowStates.Created;
+                    cLS.WorkflowState = Constants.Constants.WorkflowStates.Created;
 
                     db.check_list_sites.Add(cLS);
                     db.SaveChanges();
@@ -661,8 +658,8 @@ namespace eFormSqlController
                 {
                     sites site = db.sites.Single(x => x.MicrotingUid == microtingUid);
                     IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.SiteId == site.Id && x.CheckListId == templateId);
-                    if (workflowState == Constants.WorkflowStates.NotRemoved)
-                        sub_query = sub_query.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed);
+                    if (workflowState == Constants.Constants.WorkflowStates.NotRemoved)
+                        sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
 
                     return sub_query.Select(x => x.MicrotingUid).ToList();
                 }
@@ -711,7 +708,7 @@ namespace eFormSqlController
                         aCase.MicrotingUid = microtingUId;
                         aCase.MicrotingCheckUid = microtingCheckId;
                         aCase.CaseUid = caseUId;
-                        aCase.WorkflowState = Constants.WorkflowStates.Created;
+                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Created;
                         aCase.Version = 1;
                         aCase.SiteId = siteId;
 
@@ -731,7 +728,7 @@ namespace eFormSqlController
                         aCase.MicrotingUid = microtingUId;
                         aCase.MicrotingCheckUid = microtingCheckId;
                         aCase.CaseUid = caseUId;
-                        aCase.WorkflowState = Constants.WorkflowStates.Created;
+                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Created;
                         aCase.Version = 1;
                         aCase.SiteId = siteId;
                         aCase.UpdatedAt = DateTime.Now;
@@ -821,7 +818,7 @@ namespace eFormSqlController
                     caseStd.DoneAt = doneAt;
                     caseStd.UpdatedAt = DateTime.Now;
                     caseStd.WorkerId = userId;
-                    caseStd.WorkflowState = Constants.WorkflowStates.Created;
+                    caseStd.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     caseStd.Version = caseStd.Version + 1;
                     caseStd.UnitId = unitId;
                     caseStd.MicrotingCheckUid = microtingCheckId;
@@ -860,7 +857,7 @@ namespace eFormSqlController
                     cases match = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
 
                     match.UpdatedAt = DateTime.Now;
-                    match.WorkflowState = Constants.WorkflowStates.Retracted;
+                    match.WorkflowState = Constants.Constants.WorkflowStates.Retracted;
                     match.Version = match.Version + 1;
 
                     db.case_versions.Add(MapCaseVersions(match));
@@ -886,7 +883,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    List<cases> matches = db.cases.Where(x => x.MicrotingUid == microtingUId && x.WorkflowState != Constants.WorkflowStates.Removed && x.WorkflowState != Constants.WorkflowStates.Retracted).ToList();
+                    List<cases> matches = db.cases.Where(x => x.MicrotingUid == microtingUId && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.Retracted).ToList();
                     if (matches.Count() > 1)
                     {
                         return false;
@@ -894,10 +891,10 @@ namespace eFormSqlController
                     if (matches != null && matches.Count() == 1)
                     {
                         cases aCase = matches.First();
-                        if (aCase.WorkflowState != Constants.WorkflowStates.Removed)
+                        if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         {
                             aCase.UpdatedAt = DateTime.Now;
-                            aCase.WorkflowState = Constants.WorkflowStates.Removed;
+                            aCase.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                             aCase.Version = aCase.Version + 1;
 
                             db.case_versions.Add(MapCaseVersions(aCase));
@@ -932,7 +929,7 @@ namespace eFormSqlController
 
                     if (aCase != null)
                     {
-                        aCase.WorkflowState = Constants.WorkflowStates.Removed;
+                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                         aCase.UpdatedAt = DateTime.Now;
                         aCase.Version = aCase.Version + 1;
 
@@ -963,7 +960,7 @@ namespace eFormSqlController
                     check_list_sites site = db.check_list_sites.Single(x => x.MicrotingUid == microtingUId);
 
                     site.UpdatedAt = DateTime.Now;
-                    site.WorkflowState = Constants.WorkflowStates.Removed;
+                    site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                     site.Version = site.Version + 1;
 
                     db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
@@ -996,7 +993,7 @@ namespace eFormSqlController
                     List<Field_Dto> TemplatFieldLst = null;
                     cases responseCase = null;
                     List<int?> case_fields = new List<int?>();
-                    List<int> fieldTypeIds = db.field_types.Where(x => x.FieldType == Constants.FieldTypes.Picture || x.FieldType == Constants.FieldTypes.Signature || x.FieldType == Constants.FieldTypes.Audio).Select(x => x.Id).ToList();
+                    List<int> fieldTypeIds = db.field_types.Where(x => x.FieldType == Constants.Constants.FieldTypes.Picture || x.FieldType == Constants.Constants.FieldTypes.Signature || x.FieldType == Constants.Constants.FieldTypes.Audio).Select(x => x.Id).ToList();
 
                     try //if a reversed case, case needs to be created
                     {
@@ -1045,7 +1042,7 @@ namespace eFormSqlController
                             clv.Status = t.Locate(elementStr, "<Status>", "</");
                             clv.Version = 1;
                             clv.UserId = userId;
-                            clv.WorkflowState = Constants.WorkflowStates.Created;
+                            clv.WorkflowState = Constants.Constants.WorkflowStates.Created;
 
                             db.check_list_values.Add(clv);
                             db.SaveChanges();
@@ -1101,8 +1098,8 @@ namespace eFormSqlController
                                         dU.UpdatedAt = DateTime.Now;
                                         dU.Extension = t.Locate(dataItemStr, "<Extension>", "</");
                                         dU.UploaderId = userId;
-                                        dU.UploaderType = Constants.UploaderTypes.System;
-                                        dU.WorkflowState = Constants.WorkflowStates.PreCreated;
+                                        dU.UploaderType = Constants.Constants.UploaderTypes.System;
+                                        dU.WorkflowState = Constants.Constants.WorkflowStates.PreCreated;
                                         dU.Version = 1;
                                         dU.Local = 0;
                                         dU.FileLocation = fileLocation;
@@ -1133,8 +1130,8 @@ namespace eFormSqlController
                                         }
                                     }
 
-                                    if (f.FieldType.FieldType == eFormShared.Constants.FieldTypes.Number || 
-                                        f.FieldType.FieldType == eFormShared.Constants.FieldTypes.NumberStepper)
+                                    if (f.FieldType.FieldType == Constants.Constants.FieldTypes.Number || 
+                                        f.FieldType.FieldType == Constants.Constants.FieldTypes.NumberStepper)
                                     {
                                         extractedValue = extractedValue.Replace(",", "|");
                                         extractedValue = extractedValue.Replace(".", ",");
@@ -1142,7 +1139,7 @@ namespace eFormSqlController
                                     
                                     fieldV.Value = extractedValue;                                    
                                     fields _field = db.fields.SingleOrDefault(x => x.Id == field_id);
-                                    if (_field.FieldType.FieldType == Constants.FieldTypes.EntitySearch || _field.FieldType.FieldType == Constants.FieldTypes.EntitySelect)
+                                    if (_field.FieldType.FieldType == Constants.Constants.FieldTypes.EntitySearch || _field.FieldType.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                                     {
                                         if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
                                         {
@@ -1160,7 +1157,7 @@ namespace eFormSqlController
                                     fieldV.Accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
                                     fieldV.Date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
                                     //
-                                    fieldV.WorkflowState = Constants.WorkflowStates.Created;
+                                    fieldV.WorkflowState = Constants.Constants.WorkflowStates.Created;
                                     fieldV.Version = 1;
                                     fieldV.CaseId = responseCase.Id;
                                     fieldV.FieldId = field_id;
@@ -1180,7 +1177,7 @@ namespace eFormSqlController
                                         field_types field_type = db.fields.First(x => x.Id == fieldV.FieldId).FieldType;
                                         string new_value = fieldV.Value;
 
-                                        if (field_type.FieldType == Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.FieldTypes.EntitySelect)
+                                        if (field_type.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                                         {
                                             try
                                             {
@@ -1319,7 +1316,7 @@ namespace eFormSqlController
                             fieldV.Accuracy = null;
                             fieldV.Date = null;
                             //
-                            fieldV.WorkflowState = Constants.WorkflowStates.Created;
+                            fieldV.WorkflowState = Constants.Constants.WorkflowStates.Created;
                             fieldV.Version = 1;
                             fieldV.CaseId = responseCase.Id;
                             fieldV.FieldId = field.Id;
@@ -1722,7 +1719,7 @@ namespace eFormSqlController
                     #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
                     field_value.ValueReadable = reply.Value;
 
-                    if (field_value.FieldType == Constants.FieldTypes.EntitySearch || field_value.FieldType == Constants.FieldTypes.EntitySelect)
+                    if (field_value.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_value.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                     {
                         try
                         {
@@ -1743,7 +1740,7 @@ namespace eFormSqlController
                         catch { }
                     }
 
-                    if (field_value.FieldType == Constants.FieldTypes.SingleSelect)
+                    if (field_value.FieldType == Constants.Constants.FieldTypes.SingleSelect)
                     {
                         string key = field_value.Value;
                         string fullKey = t.Locate(field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
@@ -1752,7 +1749,7 @@ namespace eFormSqlController
                         field_value.KeyValuePairList = PairRead(field.KeyValuePairList);
                     }
 
-                    if (field_value.FieldType == Constants.FieldTypes.MultiSelect)
+                    if (field_value.FieldType == Constants.Constants.FieldTypes.MultiSelect)
                     {
                         field_value.ValueReadable = "";
 
@@ -1770,8 +1767,8 @@ namespace eFormSqlController
                         field_value.KeyValuePairList = PairRead(field.KeyValuePairList);
                     }
 
-                    if (field_value.FieldType == Constants.FieldTypes.Number ||
-                        field_value.FieldType == Constants.FieldTypes.NumberStepper)
+                    if (field_value.FieldType == Constants.Constants.FieldTypes.Number ||
+                        field_value.FieldType == Constants.Constants.FieldTypes.NumberStepper)
                     {
                         if (reply.Value != null)
                         {
@@ -1929,13 +1926,13 @@ namespace eFormSqlController
             }
         }
 
-        public List<List<eFormShared.KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds,
+        public List<List<KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds,
             string customPathForUploadedData)
         {
             return FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, ".", "");
         }
 
-        public List<List<eFormShared.KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
+        public List<List<KeyValuePair>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
         {
             try
             {
@@ -1945,24 +1942,24 @@ namespace eFormSqlController
 
                     List<field_values> matches = db.field_values.Where(x => x.FieldId == fieldId && caseIds.Contains((int)x.CaseId)).ToList();
 
-                    List<List<eFormShared.KeyValuePair>> rtrnLst = new List<List<eFormShared.KeyValuePair>>();
-                    List<eFormShared.KeyValuePair> replyLst1 = new List<eFormShared.KeyValuePair>();
+                    List<List<KeyValuePair>> rtrnLst = new List<List<KeyValuePair>>();
+                    List<KeyValuePair> replyLst1 = new List<KeyValuePair>();
                     rtrnLst.Add(replyLst1);
 
                     switch (matchField.FieldType.FieldType)
                     {
                         #region special dataItem
-                        case Constants.FieldTypes.CheckBox:
+                        case Constants.Constants.FieldTypes.CheckBox:
                             foreach (field_values item in matches)
                             {
                                 if (item.Value == "checked")
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "1", false, ""));
+                                    replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "1", false, ""));
                                 else
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "0", false, ""));
+                                    replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "0", false, ""));
                             }
                             break;
-                        case Constants.FieldTypes.Signature:
-                        case Constants.FieldTypes.Picture:
+                        case Constants.Constants.FieldTypes.Signature:
+                        case Constants.Constants.FieldTypes.Picture:
                             int lastCaseId = -1;
                             int lastIndex = -1;
                             foreach (field_values item in matches)
@@ -1972,7 +1969,7 @@ namespace eFormSqlController
                                     if (lastCaseId == (int)item.CaseId)
                                     {
 
-                                        foreach (eFormShared.KeyValuePair kvp in replyLst1)
+                                        foreach (KeyValuePair kvp in replyLst1)
                                         {
                                             if (kvp.Key == item.CaseId.ToString())
                                             {
@@ -1996,54 +1993,54 @@ namespace eFormSqlController
                                         {
                                             if (customPathForUploadedData != null)
 
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), customPathForUploadedData + item.UploadedData.FileName, false, ""));
+                                                replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), customPathForUploadedData + item.UploadedData.FileName, false, ""));
                                             else
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), item.UploadedData.FileLocation + item.UploadedData.FileName, false, ""));
+                                                replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), item.UploadedData.FileLocation + item.UploadedData.FileName, false, ""));
                                         }
                                         else
                                         {
-                                            replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
+                                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                         }
                                     }
                                 }
                                 else
                                 {
                                     lastIndex++;
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
+                                    replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                 }
                                 lastCaseId = (int)item.CaseId;
                             }
                             break;
 
-                        case Constants.FieldTypes.SingleSelect:
+                        case Constants.Constants.FieldTypes.SingleSelect:
                             {
                                 var kVP = PairRead(matchField.KeyValuePairList);
 
                                 foreach (field_values item in matches)
-                                    replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), PairMatch(kVP, item.Value), false, ""));
+                                    replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), PairMatch(kVP, item.Value), false, ""));
                             }
                             break;
 
-                        case Constants.FieldTypes.MultiSelect:
+                        case Constants.Constants.FieldTypes.MultiSelect:
                             {
                                 var kVP = PairRead(matchField.KeyValuePairList);
-                                rtrnLst = new List<List<eFormShared.KeyValuePair>>();
-                                List<eFormShared.KeyValuePair> replyLst = null;
+                                rtrnLst = new List<List<KeyValuePair>>();
+                                List<KeyValuePair> replyLst = null;
                                 int index = 0;
                                 string valueExt = "";
 
                                 foreach (var key in kVP)
                                 {
-                                    replyLst = new List<eFormShared.KeyValuePair>();
+                                    replyLst = new List<KeyValuePair>();
                                     index++;
 
                                     foreach (field_values item in matches)
                                     {
                                         valueExt = "|" + item.Value + "|";
                                         if (valueExt.Contains("|" + index.ToString() + "|"))
-                                            replyLst.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "1", false, ""));
+                                            replyLst.Add(new KeyValuePair(item.CaseId.ToString(), "1", false, ""));
                                         else
-                                            replyLst.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "0", false, ""));
+                                            replyLst.Add(new KeyValuePair(item.CaseId.ToString(), "0", false, ""));
                                     }
 
                                     rtrnLst.Add(replyLst);
@@ -2052,8 +2049,8 @@ namespace eFormSqlController
                             }
                             break;
 
-                        case Constants.FieldTypes.EntitySelect:
-                        case Constants.FieldTypes.EntitySearch:
+                        case Constants.Constants.FieldTypes.EntitySelect:
+                        case Constants.Constants.FieldTypes.EntitySearch:
                             {
                                 foreach (field_values item in matches)
                                 {
@@ -2065,23 +2062,23 @@ namespace eFormSqlController
 
                                             if (match != null)
                                             {
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), match.Name, false, ""));
+                                                replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), match.Name, false, ""));
                                             }
                                             else
                                             {
-                                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
+                                                replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                             }
 
                                         }
                                     }
                                     catch
                                     {
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), "", false, ""));
+                                        replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                     }
                                 }
                             }
                             break;
-                        case Constants.FieldTypes.Number:
+                        case Constants.Constants.FieldTypes.Number:
                             foreach (field_values item in matches)
                             {
                                 //string value = item.value.Replace(".", decimalSeparator);
@@ -2091,12 +2088,12 @@ namespace eFormSqlController
                                     {
                                         case ".":
                                         {
-                                            replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), String.Format("{0:#.##0.##}", item.Value), false, ""));
+                                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), String.Format("{0:#.##0.##}", item.Value), false, ""));
                                         }   
                                         break;
                                         case ",":
                                         {
-                                            replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), String.Format("{0:#,##0.##}", item.Value), false, ""));
+                                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), String.Format("{0:#,##0.##}", item.Value), false, ""));
                                         }
                                         break;
 
@@ -2111,7 +2108,7 @@ namespace eFormSqlController
                                         {
                                             value = item.Value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
                                         }
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), value, false, ""));   
+                                        replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), value, false, ""));   
                                     }
                                     else
                                     {
@@ -2120,7 +2117,7 @@ namespace eFormSqlController
                                         {
                                             value = item.Value.Replace(".", decimalSeparator).Replace(",", decimalSeparator);    
                                         }
-                                        replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), value, false, ""));
+                                        replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), value, false, ""));
                                     }                                    
                                 }
                             }
@@ -2130,7 +2127,7 @@ namespace eFormSqlController
                         default:
                             foreach (field_values item in matches)
                             {
-                                replyLst1.Add(new eFormShared.KeyValuePair(item.CaseId.ToString(), item.Value, false, ""));
+                                replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), item.Value, false, ""));
                             }
                             break;
                     }
@@ -2204,7 +2201,7 @@ namespace eFormSqlController
 
                     notifications aNote = new notifications();
 
-                    aNote.WorkflowState = Constants.WorkflowStates.Created;
+                    aNote.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     aNote.CreatedAt = DateTime.Now;
                     aNote.UpdatedAt = DateTime.Now;
                     aNote.NotificationUid = notificationUId;
@@ -2236,7 +2233,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    notifications aNoti = db.notifications.FirstOrDefault(x => x.WorkflowState == Constants.WorkflowStates.Created);
+                    notifications aNoti = db.notifications.FirstOrDefault(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (aNoti != null)
                     {
@@ -2293,7 +2290,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data dU = db.uploaded_data.FirstOrDefault(x => x.WorkflowState == Constants.WorkflowStates.PreCreated);
+                    uploaded_data dU = db.uploaded_data.FirstOrDefault(x => x.WorkflowState == Constants.Constants.WorkflowStates.PreCreated);
 
                     if (dU != null)
                     {
@@ -2359,7 +2356,7 @@ namespace eFormSqlController
                     uD.FileLocation = fileLocation;
                     uD.FileName = fileName;
                     uD.Local = 1;
-                    uD.WorkflowState = Constants.WorkflowStates.Created;
+                    uD.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     uD.UpdatedAt = DateTime.Now;
                     uD.Version = uD.Version + 1;
 
@@ -2477,7 +2474,7 @@ namespace eFormSqlController
                 {
                     uploaded_data uD = db.uploaded_data.Single(x => x.Id == Id);
 
-                    uD.WorkflowState = Constants.WorkflowStates.Removed;
+                    uD.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                     uD.UpdatedAt = DateTime.Now;
                     uD.Version = uD.Version + 1;
                     db.SaveChanges();
@@ -2543,10 +2540,10 @@ namespace eFormSqlController
 
                         #region string stat = aCase.workflow_state ...
                         string stat = "";
-                        if (cls.WorkflowState == Constants.WorkflowStates.Created)
-                            stat = Constants.WorkflowStates.Created;
+                        if (cls.WorkflowState == Constants.Constants.WorkflowStates.Created)
+                            stat = Constants.Constants.WorkflowStates.Created;
 
-                        if (cls.WorkflowState == Constants.WorkflowStates.Removed)
+                        if (cls.WorkflowState == Constants.Constants.WorkflowStates.Removed)
                             stat = "Deleted";
                         #endregion
 
@@ -2583,16 +2580,16 @@ namespace eFormSqlController
 
                     #region string stat = aCase.workflow_state ...
                     string stat = "";
-                    if (aCase.WorkflowState == Constants.WorkflowStates.Created && aCase.Status != 77)
+                    if (aCase.WorkflowState == Constants.Constants.WorkflowStates.Created && aCase.Status != 77)
                         stat = "Created";
 
-                    if (aCase.WorkflowState == Constants.WorkflowStates.Created && aCase.Status == 77)
+                    if (aCase.WorkflowState == Constants.Constants.WorkflowStates.Created && aCase.Status == 77)
                         stat = "Retrived";
 
-                    if (aCase.WorkflowState == Constants.WorkflowStates.Retracted)
+                    if (aCase.WorkflowState == Constants.Constants.WorkflowStates.Retracted)
                         stat = "Completed";
 
-                    if (aCase.WorkflowState == Constants.WorkflowStates.Removed)
+                    if (aCase.WorkflowState == Constants.Constants.WorkflowStates.Removed)
                         stat = "Deleted";
                     #endregion
 
@@ -2691,20 +2688,20 @@ namespace eFormSqlController
                     IQueryable<cases> sub_query = db.cases.Where(x => x.CheckListId == templateId && x.Status == 100);
                     switch (workflowState)
                     {
-                        case Constants.WorkflowStates.NotRetracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.WorkflowStates.Retracted);
+                        case Constants.Constants.WorkflowStates.NotRetracted:
+                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
                             break;
-                        case Constants.WorkflowStates.NotRemoved:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed);
+                        case Constants.Constants.WorkflowStates.NotRemoved:
+                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
                             break;
-                        case Constants.WorkflowStates.Created:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Created);
+                        case Constants.Constants.WorkflowStates.Created:
+                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                             break;
-                        case Constants.WorkflowStates.Retracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Retracted);
+                        case Constants.Constants.WorkflowStates.Retracted:
+                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
                             break;
-                        case Constants.WorkflowStates.Removed:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Removed);
+                        case Constants.Constants.WorkflowStates.Removed:
+                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
                             break;
                         default:
                             break;
@@ -2745,20 +2742,20 @@ namespace eFormSqlController
                     IQueryable<cases> sub_query = db.cases.Where(x => x.DoneAt > start && x.DoneAt < end);
                     switch (workflowState)
                     {
-                        case Constants.WorkflowStates.NotRetracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.WorkflowStates.Retracted);
+                        case Constants.Constants.WorkflowStates.NotRetracted:
+                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
                             break;
-                        case Constants.WorkflowStates.NotRemoved:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed);
+                        case Constants.Constants.WorkflowStates.NotRemoved:
+                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
                             break;
-                        case Constants.WorkflowStates.Created:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Created);
+                        case Constants.Constants.WorkflowStates.Created:
+                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                             break;
-                        case Constants.WorkflowStates.Retracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Retracted);
+                        case Constants.Constants.WorkflowStates.Retracted:
+                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
                             break;
-                        case Constants.WorkflowStates.Removed:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.WorkflowStates.Removed);
+                        case Constants.Constants.WorkflowStates.Removed:
+                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
                             break;
                         default:
                             break;
@@ -2776,97 +2773,97 @@ namespace eFormSqlController
 
                     switch (sortParameter)
                     {
-                        case Constants.CaseSortParameters.CreatedAt:
+                        case Constants.Constants.CaseSortParameters.CreatedAt:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.Id);
                             else
                                 sub_query = sub_query.OrderBy(x => x.Id);
                             break;
-                        case Constants.CaseSortParameters.DoneAt:
+                        case Constants.Constants.CaseSortParameters.DoneAt:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.DoneAt);
                             else
                                 sub_query = sub_query.OrderBy(x => x.DoneAt);
                             break;
-                        case Constants.CaseSortParameters.WorkerName:
+                        case Constants.Constants.CaseSortParameters.WorkerName:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.Worker.FirstName);
                             else
                                 sub_query = sub_query.OrderBy(x => x.Worker.FirstName);
                             break;
-                        case Constants.CaseSortParameters.SiteName:
+                        case Constants.Constants.CaseSortParameters.SiteName:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.Site.Name);
                             else
                                 sub_query = sub_query.OrderBy(x => x.Site.Name);
                             break;
-                        case Constants.CaseSortParameters.UnitId:
+                        case Constants.Constants.CaseSortParameters.UnitId:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.UnitId);
                             else
                                 sub_query = sub_query.OrderBy(x => x.UnitId);
                             break;
-                        case Constants.CaseSortParameters.Status:
+                        case Constants.Constants.CaseSortParameters.Status:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.Status);
                             else
                                 sub_query = sub_query.OrderBy(x => x.Status);
                             break;
-                        case Constants.CaseSortParameters.Field1:
+                        case Constants.Constants.CaseSortParameters.Field1:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue1);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue1);
                             break;
-                        case Constants.CaseSortParameters.Field2:
+                        case Constants.Constants.CaseSortParameters.Field2:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue2);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue2);
                             break;
-                        case Constants.CaseSortParameters.Field3:
+                        case Constants.Constants.CaseSortParameters.Field3:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue3);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue3);
                             break;
-                        case Constants.CaseSortParameters.Field4:
+                        case Constants.Constants.CaseSortParameters.Field4:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue4);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue4);
                             break;
-                        case Constants.CaseSortParameters.Field5:
+                        case Constants.Constants.CaseSortParameters.Field5:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue5);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue5);
                             break;
-                        case Constants.CaseSortParameters.Field6:
+                        case Constants.Constants.CaseSortParameters.Field6:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue6);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue6);
                             break;
-                        case Constants.CaseSortParameters.Field7:
+                        case Constants.Constants.CaseSortParameters.Field7:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue7);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue7);
                             break;
-                        case Constants.CaseSortParameters.Field8:
+                        case Constants.Constants.CaseSortParameters.Field8:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue8);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue8);
                             break;
-                        case Constants.CaseSortParameters.Field9:
+                        case Constants.Constants.CaseSortParameters.Field9:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue9);
                             else
                                 sub_query = sub_query.OrderBy(x => x.FieldValue9);
                             break;
-                        case Constants.CaseSortParameters.Field10:
+                        case Constants.Constants.CaseSortParameters.Field10:
                             if (descendingSort)
                                 sub_query = sub_query.OrderByDescending(x => x.FieldValue10);
                             else
@@ -2996,7 +2993,7 @@ namespace eFormSqlController
                 {
                     List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
 
-                    List<cases> lstMatchs = db.cases.Where(x => x.Custom == customString && x.WorkflowState == Constants.WorkflowStates.Created).ToList();
+                    List<cases> lstMatchs = db.cases.Where(x => x.Custom == customString && x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
 
                     foreach (cases match in lstMatchs)
                         foundCasesThatMatch.Add(CaseReadByCaseId(match.Id));
@@ -3056,7 +3053,7 @@ namespace eFormSqlController
                         field_types field_type = item.Field.FieldType;
                         string new_value = item.Value;
 
-                        if (field_type.FieldType == Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.FieldTypes.EntitySelect)
+                        if (field_type.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                         {
                             try
                             {
@@ -3074,14 +3071,14 @@ namespace eFormSqlController
                             catch { }
                         }
 
-                        if (field_type.FieldType == Constants.FieldTypes.SingleSelect)
+                        if (field_type.FieldType == Constants.Constants.FieldTypes.SingleSelect)
                         {
                             string key = item.Value;
                             string fullKey = t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                             new_value = t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        if (field_type.FieldType == Constants.FieldTypes.MultiSelect)
+                        if (field_type.FieldType == Constants.Constants.FieldTypes.MultiSelect)
                         {
                             new_value = "";
 
@@ -3172,7 +3169,7 @@ namespace eFormSqlController
                 if(includeRemoved)
                     matches = db.sites.ToList();
                 else
-                    matches = db.sites.Where(x => x.WorkflowState == Constants.WorkflowStates.Created).ToList();
+                    matches = db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
 
                 foreach (sites aSite in matches)
                 {
@@ -3193,14 +3190,14 @@ namespace eFormSqlController
                 List<sites> matches = null;
                 switch (workflowState)
                 {
-                    case Constants.WorkflowStates.NotRemoved:
-                        matches = db.sites.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed).ToList();
+                    case Constants.Constants.WorkflowStates.NotRemoved:
+                        matches = db.sites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                         break;
-                    case Constants.WorkflowStates.Removed:
-                        matches = db.sites.Where(x => x.WorkflowState == Constants.WorkflowStates.Removed).ToList();
+                    case Constants.Constants.WorkflowStates.Removed:
+                        matches = db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
                         break;
-                    case Constants.WorkflowStates.Created:
-                        matches = db.sites.Where(x => x.WorkflowState == Constants.WorkflowStates.Created).ToList();
+                    case Constants.Constants.WorkflowStates.Created:
+                        matches = db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
                         break;
                     default:
                         matches = db.sites.ToList();
@@ -3268,7 +3265,7 @@ namespace eFormSqlController
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = new sites();
-                    site.WorkflowState = Constants.WorkflowStates.Created;
+                    site.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     site.Version = 1;
                     site.CreatedAt = DateTime.Now;
                     site.UpdatedAt = DateTime.Now;
@@ -3305,7 +3302,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.WorkflowStates.Created);
+                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (site != null)
                         return new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
@@ -3327,7 +3324,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.WorkflowStates.Created);
+                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                     if (site == null)
                         return null;
 
@@ -3415,7 +3412,7 @@ namespace eFormSqlController
                         site.Version = site.Version + 1;
                         site.UpdatedAt = DateTime.Now;
 
-                        site.WorkflowState = Constants.WorkflowStates.Removed;
+                        site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
                         db.site_versions.Add(MapSiteVersions(site));
                         db.SaveChanges();
@@ -3457,14 +3454,14 @@ namespace eFormSqlController
 
                     switch (workflowState)
                     {
-                        case Constants.WorkflowStates.NotRemoved:
-                            matches = db.workers.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed).ToList();
+                        case Constants.Constants.WorkflowStates.NotRemoved:
+                            matches = db.workers.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                             break;
-                        case Constants.WorkflowStates.Removed:
-                            matches = db.workers.Where(x => x.WorkflowState == Constants.WorkflowStates.Removed).ToList();
+                        case Constants.Constants.WorkflowStates.Removed:
+                            matches = db.workers.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
                             break;
-                        case Constants.WorkflowStates.Created:
-                            matches = db.workers.Where(x => x.WorkflowState == Constants.WorkflowStates.Created).ToList();
+                        case Constants.Constants.WorkflowStates.Created:
+                            matches = db.workers.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
                             break;
                         default:
                             matches = db.workers.ToList();
@@ -3505,7 +3502,7 @@ namespace eFormSqlController
                     //logger.LogEverything(methodName + " called");
 
                     workers worker = new workers();
-                    worker.WorkflowState = Constants.WorkflowStates.Created;
+                    worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     worker.Version = 1;
                     worker.CreatedAt = DateTime.Now;
                     worker.UpdatedAt = DateTime.Now;
@@ -3544,7 +3541,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.Id == workerId && x.WorkflowState == Constants.WorkflowStates.Created);
+                    workers worker = db.workers.SingleOrDefault(x => x.Id == workerId && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (worker == null)
                         return null;
@@ -3571,7 +3568,7 @@ namespace eFormSqlController
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.WorkflowStates.Created);
+                    workers worker = db.workers.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (worker != null)
                         return new Worker_Dto((int)worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
@@ -3654,7 +3651,7 @@ namespace eFormSqlController
                         worker.Version = worker.Version + 1;
                         worker.UpdatedAt = DateTime.Now;
 
-                        worker.WorkflowState = Constants.WorkflowStates.Removed;
+                        worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
                         db.worker_versions.Add(MapWorkerVersions(worker));
                         db.SaveChanges();
@@ -3696,7 +3693,7 @@ namespace eFormSqlController
                     int localWorkerId = db.workers.Single(x => x.MicrotingUid == workerUId).Id;
 
                     site_workers site_worker = new site_workers();
-                    site_worker.WorkflowState = Constants.WorkflowStates.Created;
+                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     site_worker.Version = 1;
                     site_worker.CreatedAt = DateTime.Now;
                     site_worker.UpdatedAt = DateTime.Now;
@@ -3746,7 +3743,7 @@ namespace eFormSqlController
                     }
                     else
                     {
-                        site_worker = db.site_workers.SingleOrDefault(x => x.MicrotingUid == siteWorkerMicrotingUid && x.WorkflowState == Constants.WorkflowStates.Created);
+                        site_worker = db.site_workers.SingleOrDefault(x => x.MicrotingUid == siteWorkerMicrotingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                     }
 
 
@@ -3828,7 +3825,7 @@ namespace eFormSqlController
                         site_worker.Version = site_worker.Version + 1;
                         site_worker.UpdatedAt = DateTime.Now;
 
-                        site_worker.WorkflowState = Constants.WorkflowStates.Removed;
+                        site_worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
                         db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
                         db.SaveChanges();
@@ -3898,7 +3895,7 @@ namespace eFormSqlController
                     int localSiteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
 
                     units unit = new units();
-                    unit.WorkflowState = Constants.WorkflowStates.Created;
+                    unit.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     unit.Version = 1;
                     unit.CreatedAt = DateTime.Now;
                     unit.UpdatedAt = DateTime.Now;
@@ -3939,7 +3936,7 @@ namespace eFormSqlController
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.MicrotingUid == microtingUid && x.WorkflowState == Constants.WorkflowStates.Created);
+                    units unit = db.units.SingleOrDefault(x => x.MicrotingUid == microtingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (unit != null)
                         return new Unit_Dto((int)unit.MicrotingUid, (int)unit.CustomerNo, (int)unit.OtpCode, (int)unit.SiteId, unit.CreatedAt, unit.UpdatedAt);
@@ -4020,7 +4017,7 @@ namespace eFormSqlController
                         unit.Version = unit.Version + 1;
                         unit.UpdatedAt = DateTime.Now;
 
-                        unit.WorkflowState = Constants.WorkflowStates.Removed;
+                        unit.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
                         db.unit_versions.Add(MapUnitVersions(unit));
                         db.SaveChanges();
@@ -4047,9 +4044,9 @@ namespace eFormSqlController
         public EntityGroupList EntityGroupAll(string sort, string nameFilter, int offSet, int pageSize, string entityType, bool desc, string workflowState)
         {
 
-            if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
+            if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
-            if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
+            if (workflowState != Constants.Constants.WorkflowStates.NotRemoved && workflowState != Constants.Constants.WorkflowStates.Created && workflowState != Constants.Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             List<entity_groups> eG = null;
@@ -4075,14 +4072,14 @@ namespace eFormSqlController
 
                     switch (workflowState)
                     {
-                        case Constants.WorkflowStates.NotRemoved:
-                            source = source.Where(x => x.WorkflowState != Constants.WorkflowStates.Removed);
+                        case Constants.Constants.WorkflowStates.NotRemoved:
+                            source = source.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
                             break;
-                        case Constants.WorkflowStates.Removed:
-                            source = source.Where(x => x.WorkflowState == Constants.WorkflowStates.Removed);
+                        case Constants.Constants.WorkflowStates.Removed:
+                            source = source.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
                             break;
-                        case Constants.WorkflowStates.Created:
-                            source = source.Where(x => x.WorkflowState == Constants.WorkflowStates.Created);
+                        case Constants.Constants.WorkflowStates.Created:
+                            source = source.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                             break;
                     }
 
@@ -4121,7 +4118,7 @@ namespace eFormSqlController
         {
             try
             {
-                if (entityType != Constants.FieldTypes.EntitySearch && entityType != Constants.FieldTypes.EntitySelect)
+                if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
                     throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
 
                 using (var db = GetContext())
@@ -4133,7 +4130,7 @@ namespace eFormSqlController
                     eG.Type = entityType;
                     eG.UpdatedAt = DateTime.Now;
                     eG.Version = 1;
-                    eG.WorkflowState = Constants.WorkflowStates.Created;
+                    eG.WorkflowState = Constants.Constants.WorkflowStates.Created;
 
                     db.entity_groups.Add(eG);
                     db.SaveChanges();
@@ -4169,24 +4166,24 @@ namespace eFormSqlController
 
                     if (nameFilter == "")
                     {
-                        if (sort == Constants.EntityItemSortParameters.Id)
+                        if (sort == Constants.Constants.EntityItemSortParameters.Id)
                         {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.WorkflowStates.Removed && x.WorkflowState != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Id).ToList();
+                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.WorkflowStates.Removed && x.WorkflowState != Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Name).ToList();
+                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Name).ToList();
                         }
                     }
                     else
                     {
-                        if (sort == Constants.EntityItemSortParameters.Id)
+                        if (sort == Constants.Constants.EntityItemSortParameters.Id)
                         {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.WorkflowStates.Removed && x.WorkflowState != Constants.WorkflowStates.FailedToSync && x.Name.Contains(nameFilter)).OrderBy(x => x.Id).ToList();
+                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync && x.Name.Contains(nameFilter)).OrderBy(x => x.Id).ToList();
                         }
                         else
                         {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.WorkflowStates.Removed && x.WorkflowState != Constants.WorkflowStates.FailedToSync && x.Name.Contains(nameFilter)).OrderBy(x => x.Name).ToList();
+                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync && x.Name.Contains(nameFilter)).OrderBy(x => x.Name).ToList();
                         }
                     }
 
@@ -4317,24 +4314,24 @@ namespace eFormSqlController
                 {
                     List<string> killLst = new List<string>();
 
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.MicrotingUid == entityGroupMUId && x.WorkflowState != Constants.WorkflowStates.Removed);
+                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.MicrotingUid == entityGroupMUId && x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
 
                     if (eG == null)
                         return null;
 
                     killLst.Add(eG.MicrotingUid);
 
-                    eG.WorkflowState = Constants.WorkflowStates.Removed;
+                    eG.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                     eG.UpdatedAt = DateTime.Now;
                     eG.Version = eG.Version + 1;
                     db.entity_group_versions.Add(MapEntityGroupVersions(eG));
 
-                    List<entity_items> lst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.WorkflowStates.Removed).ToList();
+                    List<entity_items> lst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                     if (lst != null)
                     {
                         foreach (entity_items item in lst)
                         {
-                            item.WorkflowState = Constants.WorkflowStates.Removed;
+                            item.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                             item.UpdatedAt = DateTime.Now;
                             item.Version = item.Version + 1;
                             item.Synced = t.Bool(false);
@@ -4437,7 +4434,7 @@ namespace eFormSqlController
             {
                 entity_items eI = new entity_items();
 
-                eI.WorkflowState = Constants.WorkflowStates.Created;
+                eI.WorkflowState = Constants.Constants.WorkflowStates.Created;
                 eI.Version = 1;
                 eI.CreatedAt = DateTime.Now;
                 eI.UpdatedAt = DateTime.Now;
@@ -4503,7 +4500,7 @@ namespace eFormSqlController
                     et.Synced = t.Bool(true);
                     et.UpdatedAt = DateTime.Now;
                     et.Version = et.Version + 1;
-                    et.WorkflowState = Constants.WorkflowStates.Removed;
+                    et.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
                     db.SaveChanges();
 
@@ -4528,7 +4525,7 @@ namespace eFormSqlController
             using (var db = GetContext())
             {
                 List<folders> matches = null;
-                matches = includeRemoved ? db.folders.ToList() : db.folders.Where(x => x.WorkflowState == Constants.WorkflowStates.Created).ToList();
+                matches = includeRemoved ? db.folders.ToList() : db.folders.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
 
                 foreach (folders folder in matches)
                 {
@@ -4892,25 +4889,25 @@ namespace eFormSqlController
                         #region prime FieldTypes
                         //UnitTest_TruncateTable(typeof(field_types).Name);
 
-                        FieldTypeAdd(1, Constants.FieldTypes.Text, "Simple text field");
-                        FieldTypeAdd(2, Constants.FieldTypes.Number, "Simple number field");
-                        FieldTypeAdd(3, Constants.FieldTypes.None, "Simple text to be displayed");
-                        FieldTypeAdd(4, Constants.FieldTypes.CheckBox, "Simple check box field");
-                        FieldTypeAdd(5, Constants.FieldTypes.Picture, "Simple picture field");
-                        FieldTypeAdd(6, Constants.FieldTypes.Audio, "Simple audio field");
-                        FieldTypeAdd(7, Constants.FieldTypes.Movie, "Simple movie field");
-                        FieldTypeAdd(8, Constants.FieldTypes.SingleSelect, "Single selection list");
-                        FieldTypeAdd(9, Constants.FieldTypes.Comment, "Simple comment field");
-                        FieldTypeAdd(10, Constants.FieldTypes.MultiSelect, "Simple multi select list");
-                        FieldTypeAdd(11, Constants.FieldTypes.Date, "Date selection");
-                        FieldTypeAdd(12, Constants.FieldTypes.Signature, "Simple signature field");
-                        FieldTypeAdd(13, Constants.FieldTypes.Timer, "Simple timer field");
-                        FieldTypeAdd(14, Constants.FieldTypes.EntitySearch, "Autofilled searchable items field");
-                        FieldTypeAdd(15, Constants.FieldTypes.EntitySelect, "Autofilled single selection list");
-                        FieldTypeAdd(16, Constants.FieldTypes.ShowPdf, "Show PDF");
-                        FieldTypeAdd(17, Constants.FieldTypes.FieldGroup, "Field group");
-                        FieldTypeAdd(18, Constants.FieldTypes.SaveButton, "Save eForm");
-                        FieldTypeAdd(19, Constants.FieldTypes.NumberStepper, "Number stepper field");
+                        FieldTypeAdd(1, Constants.Constants.FieldTypes.Text, "Simple text field");
+                        FieldTypeAdd(2, Constants.Constants.FieldTypes.Number, "Simple number field");
+                        FieldTypeAdd(3, Constants.Constants.FieldTypes.None, "Simple text to be displayed");
+                        FieldTypeAdd(4, Constants.Constants.FieldTypes.CheckBox, "Simple check box field");
+                        FieldTypeAdd(5, Constants.Constants.FieldTypes.Picture, "Simple picture field");
+                        FieldTypeAdd(6, Constants.Constants.FieldTypes.Audio, "Simple audio field");
+                        FieldTypeAdd(7, Constants.Constants.FieldTypes.Movie, "Simple movie field");
+                        FieldTypeAdd(8, Constants.Constants.FieldTypes.SingleSelect, "Single selection list");
+                        FieldTypeAdd(9, Constants.Constants.FieldTypes.Comment, "Simple comment field");
+                        FieldTypeAdd(10, Constants.Constants.FieldTypes.MultiSelect, "Simple multi select list");
+                        FieldTypeAdd(11, Constants.Constants.FieldTypes.Date, "Date selection");
+                        FieldTypeAdd(12, Constants.Constants.FieldTypes.Signature, "Simple signature field");
+                        FieldTypeAdd(13, Constants.Constants.FieldTypes.Timer, "Simple timer field");
+                        FieldTypeAdd(14, Constants.Constants.FieldTypes.EntitySearch, "Autofilled searchable items field");
+                        FieldTypeAdd(15, Constants.Constants.FieldTypes.EntitySelect, "Autofilled single selection list");
+                        FieldTypeAdd(16, Constants.Constants.FieldTypes.ShowPdf, "Show PDF");
+                        FieldTypeAdd(17, Constants.Constants.FieldTypes.FieldGroup, "Field group");
+                        FieldTypeAdd(18, Constants.Constants.FieldTypes.SaveButton, "Save eForm");
+                        FieldTypeAdd(19, Constants.Constants.FieldTypes.NumberStepper, "Number stepper field");
                         #endregion
                     }
 
@@ -5106,7 +5103,7 @@ namespace eFormSqlController
                     cl.Label = mainElement.Label;
                     //description - used for non-MainElements
                     //serialized_default_values - Ruby colume
-                    cl.WorkflowState = Constants.WorkflowStates.Created;
+                    cl.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     cl.ParentId = null; //MainElements never have parents ;)
                     cl.Repeated = mainElement.Repeated;
                     cl.QuickSyncEnabled = t.Bool(mainElement.EnableQuickSync);
@@ -5183,7 +5180,7 @@ namespace eFormSqlController
                     else
                         cl.Description = "";
                     //serialized_default_values - Ruby colume
-                    cl.WorkflowState = Constants.WorkflowStates.Created;
+                    cl.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     cl.ParentId = parentId;
                     //repeated - used for mainElements
                     cl.Version = 1;
@@ -5232,7 +5229,7 @@ namespace eFormSqlController
                         cl.Description = "";
 
                     //serialized_default_values - Ruby colume
-                    cl.WorkflowState = Constants.WorkflowStates.Created;
+                    cl.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     cl.ParentId = parentId;
                     //repeated - used for mainElements
                     cl.Version = 1;
@@ -5305,7 +5302,7 @@ namespace eFormSqlController
 
                     field.CreatedAt = DateTime.Now;
                     field.UpdatedAt = DateTime.Now;
-                    field.WorkflowState = Constants.WorkflowStates.Created;
+                    field.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     field.CheckListId = elementId;
                     field.FieldTypeId = fieldTypeId;
                     field.Version = 1;
@@ -5366,7 +5363,7 @@ namespace eFormSqlController
 
                     field.CreatedAt = DateTime.Now;
                     field.UpdatedAt = DateTime.Now;
-                    field.WorkflowState = Constants.WorkflowStates.Created;
+                    field.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     field.CheckListId = elementId;
                     field.FieldTypeId = fieldTypeId;
                     field.Version = 1;
@@ -5378,35 +5375,35 @@ namespace eFormSqlController
                     //KEY POINT - mapping
                     switch (typeStr)
                     {
-                        case Constants.FieldTypes.Audio:
+                        case Constants.Constants.FieldTypes.Audio:
                             Audio audio = (Audio)dataItem;
                             field.Multi = audio.Multi;
                             break;
 
-                        case Constants.FieldTypes.CheckBox:
+                        case Constants.Constants.FieldTypes.CheckBox:
                             CheckBox checkBox = (CheckBox)dataItem;
                             field.DefaultValue = checkBox.DefaultValue.ToString();
                             field.Selected = t.Bool(checkBox.Selected);
                             break;
 
-                        case Constants.FieldTypes.Comment:
+                        case Constants.Constants.FieldTypes.Comment:
                             Comment comment = (Comment)dataItem;
                             field.DefaultValue = comment.Value;
                             field.MaxLength = comment.Maxlength;
                             field.SplitScreen = t.Bool(comment.SplitScreen);
                             break;
 
-                        case Constants.FieldTypes.Date:
+                        case Constants.Constants.FieldTypes.Date:
                             Date date = (Date)dataItem;
                             field.DefaultValue = date.DefaultValue;
                             field.MinValue = date.MinValue.ToString("yyyy-MM-dd");
                             field.MaxValue = date.MaxValue.ToString("yyyy-MM-dd");
                             break;
 
-                        case Constants.FieldTypes.None:
+                        case Constants.Constants.FieldTypes.None:
                             break;
 
-                        case Constants.FieldTypes.Number:
+                        case Constants.Constants.FieldTypes.Number:
                             Number number = (Number)dataItem;
                             field.MinValue = number.MinValue.ToString();
                             field.MaxValue = number.MaxValue.ToString();
@@ -5415,7 +5412,7 @@ namespace eFormSqlController
                             field.UnitName = number.UnitName;
                             break;
 
-                        case Constants.FieldTypes.NumberStepper:
+                        case Constants.Constants.FieldTypes.NumberStepper:
                             NumberStepper numberStepper = (NumberStepper)dataItem;
                             field.MinValue = numberStepper.MinValue.ToString();
                             field.MaxValue = numberStepper.MaxValue.ToString();
@@ -5424,36 +5421,36 @@ namespace eFormSqlController
                             field.UnitName = numberStepper.UnitName;
                             break;
 
-                        case Constants.FieldTypes.MultiSelect:
+                        case Constants.Constants.FieldTypes.MultiSelect:
                             MultiSelect multiSelect = (MultiSelect)dataItem;
                             field.KeyValuePairList = PairBuild(multiSelect.KeyValuePairList);
                             break;
 
-                        case Constants.FieldTypes.Picture:
+                        case Constants.Constants.FieldTypes.Picture:
                             Picture picture = (Picture)dataItem;
                             field.Multi = picture.Multi;
                             field.GeolocationEnabled = t.Bool(picture.GeolocationEnabled);
                             break;
 
-                        case Constants.FieldTypes.SaveButton:
+                        case Constants.Constants.FieldTypes.SaveButton:
                             SaveButton saveButton = (SaveButton)dataItem;
                             field.DefaultValue = saveButton.Value;
                             break;
 
-                        case Constants.FieldTypes.ShowPdf:
+                        case Constants.Constants.FieldTypes.ShowPdf:
                             ShowPdf showPdf = (ShowPdf)dataItem;
                             field.DefaultValue = showPdf.Value;
                             break;
 
-                        case Constants.FieldTypes.Signature:
+                        case Constants.Constants.FieldTypes.Signature:
                             break;
 
-                        case Constants.FieldTypes.SingleSelect:
+                        case Constants.Constants.FieldTypes.SingleSelect:
                             SingleSelect singleSelect = (SingleSelect)dataItem;
                             field.KeyValuePairList = PairBuild(singleSelect.KeyValuePairList);
                             break;
 
-                        case Constants.FieldTypes.Text:
+                        case Constants.Constants.FieldTypes.Text:
                             Text text = (Text)dataItem;
                             field.DefaultValue = text.Value;
                             field.MaxLength = text.MaxLength;
@@ -5464,14 +5461,14 @@ namespace eFormSqlController
                             field.BarcodeType = text.BarcodeType;
                             break;
 
-                        case Constants.FieldTypes.Timer:
+                        case Constants.Constants.FieldTypes.Timer:
                             Timer timer = (Timer)dataItem;
                             field.SplitScreen = t.Bool(timer.StopOnSave);
                             break;
 
                         //-------
 
-                        case Constants.FieldTypes.EntitySearch:
+                        case Constants.Constants.FieldTypes.EntitySearch:
                             EntitySearch entitySearch = (EntitySearch)dataItem;
                             field.EntityGroupId = entitySearch.EntityTypeId;
                             field.DefaultValue = entitySearch.DefaultValue.ToString();
@@ -5480,13 +5477,13 @@ namespace eFormSqlController
                             field.MinValue = entitySearch.MinSearchLenght.ToString();
                             break;
 
-                        case Constants.FieldTypes.EntitySelect:
+                        case Constants.Constants.FieldTypes.EntitySelect:
                             EntitySelect entitySelect = (EntitySelect)dataItem;
                             field.EntityGroupId = entitySelect.Source;
                             field.DefaultValue = entitySelect.DefaultValue.ToString();
                             break;
 
-                        case Constants.FieldTypes.FieldGroup:
+                        case Constants.Constants.FieldTypes.FieldGroup:
                             FieldContainer fg = (FieldContainer)dataItem;
                             field.DefaultValue = fg.Value;
                             db.fields.Add(field);
@@ -5641,90 +5638,90 @@ namespace eFormSqlController
                     //KEY POINT - mapping
                     switch (fieldTypeStr)
                     {
-                        case Constants.FieldTypes.Audio:
+                        case Constants.Constants.FieldTypes.Audio:
                             lstDataItem.Add(new Audio(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 t.Int(f.Multi)));
                             break;
 
-                        case Constants.FieldTypes.CheckBox:
+                        case Constants.Constants.FieldTypes.CheckBox:
                             lstDataItem.Add(new CheckBox(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 t.Bool(f.DefaultValue), t.Bool(f.Selected)));
                             break;
 
-                        case Constants.FieldTypes.Comment:
+                        case Constants.Constants.FieldTypes.Comment:
                             lstDataItem.Add(new Comment(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 f.DefaultValue, t.Int(f.MaxLength), t.Bool(f.SplitScreen)));
                             break;
 
-                        case Constants.FieldTypes.Date:
+                        case Constants.Constants.FieldTypes.Date:
                             lstDataItem.Add(new Date(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 DateTime.Parse(f.MinValue), DateTime.Parse(f.MaxValue), f.DefaultValue));
                             break;
 
-                        case Constants.FieldTypes.None:
+                        case Constants.Constants.FieldTypes.None:
                             lstDataItem.Add(new None(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy)));
                             break;
 
-                        case Constants.FieldTypes.Number:
+                        case Constants.Constants.FieldTypes.Number:
                             lstDataItem.Add(new Number(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 f.MinValue, f.MaxValue, int.Parse(f.DefaultValue), t.Int(f.DecimalCount), f.UnitName));
                             break;
 
-                        case Constants.FieldTypes.NumberStepper:
+                        case Constants.Constants.FieldTypes.NumberStepper:
                             lstDataItem.Add(new NumberStepper(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 f.MinValue, f.MaxValue, int.Parse(f.DefaultValue), t.Int(f.DecimalCount), f.UnitName));
                             break;
 
-                        case Constants.FieldTypes.MultiSelect:
+                        case Constants.Constants.FieldTypes.MultiSelect:
                             lstDataItem.Add(new MultiSelect(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 PairRead(f.KeyValuePairList)));
                             break;
 
-                        case Constants.FieldTypes.Picture:
+                        case Constants.Constants.FieldTypes.Picture:
                             lstDataItem.Add(new Picture(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 t.Int(f.Multi), t.Bool(f.GeolocationEnabled)));
                             break;
 
-                        case Constants.FieldTypes.SaveButton:
+                        case Constants.Constants.FieldTypes.SaveButton:
                             lstDataItem.Add(new SaveButton(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 f.DefaultValue));
                             break;
 
-                        case Constants.FieldTypes.ShowPdf:
+                        case Constants.Constants.FieldTypes.ShowPdf:
                             lstDataItem.Add(new ShowPdf(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 f.DefaultValue));
                             break;
 
-                        case Constants.FieldTypes.Signature:
+                        case Constants.Constants.FieldTypes.Signature:
                             lstDataItem.Add(new Signature(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy)));
                             break;
 
-                        case Constants.FieldTypes.SingleSelect:
+                        case Constants.Constants.FieldTypes.SingleSelect:
                             lstDataItem.Add(new SingleSelect(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 PairRead(f.KeyValuePairList)));
                             break;
 
-                        case Constants.FieldTypes.Text:
+                        case Constants.Constants.FieldTypes.Text:
                             lstDataItem.Add(new Text(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 f.DefaultValue, t.Int(f.MaxLength), t.Bool(f.GeolocationEnabled), t.Bool(f.GeolocationForced), t.Bool(f.GeolocationHidden), t.Bool(f.BarcodeEnabled), f.BarcodeType));
                             break;
 
-                        case Constants.FieldTypes.Timer:
+                        case Constants.Constants.FieldTypes.Timer:
                             lstDataItem.Add(new Timer(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 t.Bool(f.StopOnSave)));
                             break;
 
-                        case Constants.FieldTypes.EntitySearch:
+                        case Constants.Constants.FieldTypes.EntitySearch:
                             lstDataItem.Add(new EntitySearch(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 t.Int(f.DefaultValue), t.Int(f.EntityGroupId), t.Bool(f.IsNum), f.QueryType, t.Int(f.MinValue), t.Bool(f.BarcodeEnabled), f.BarcodeType));
                             break;
 
-                        case Constants.FieldTypes.EntitySelect:
+                        case Constants.Constants.FieldTypes.EntitySelect:
                             lstDataItem.Add(new EntitySelect(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
                                 t.Int(f.DefaultValue), t.Int(f.EntityGroupId)));
                             break;
 
-                        case Constants.FieldTypes.FieldGroup:
+                        case Constants.Constants.FieldTypes.FieldGroup:
                             List<DataItem> lst = new List<DataItem>();
                             //CDataValue description = new CDataValue();
                             //description.InderValue = f.description;
@@ -5789,7 +5786,7 @@ namespace eFormSqlController
                 {
                     List<tags> matches = null;
                     if (!includeRemoved)
-                        matches = db.tags.Where(x => x.WorkflowState == Constants.WorkflowStates.Created).ToList();
+                        matches = db.tags.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
                     else
                         matches = db.tags.ToList();
 
@@ -5824,7 +5821,7 @@ namespace eFormSqlController
                     {
                         tag = new tags();
                         tag.Name = name;
-                        tag.WorkflowState = Constants.WorkflowStates.Created;
+                        tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
                         tag.Version = 1;
                         db.tags.Add(tag);
                         db.SaveChanges();
@@ -5834,7 +5831,7 @@ namespace eFormSqlController
                         return tag.Id;
                     } else
                     {
-                        tag.WorkflowState = Constants.WorkflowStates.Created;
+                        tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
                         tag.Version += 1;
                         db.SaveChanges();
 
@@ -5866,7 +5863,7 @@ namespace eFormSqlController
                     tags tag = db.tags.SingleOrDefault(x => x.Id == tagId);
                     if (tag != null)                    
                     {
-                        tag.WorkflowState = Constants.WorkflowStates.Removed;
+                        tag.WorkflowState = Constants.Constants.WorkflowStates.Removed;
                         tag.Version += 1;
                         db.SaveChanges();
 
@@ -5918,13 +5915,13 @@ namespace eFormSqlController
         }
 
         //TODO
-        private string PairBuild(List<eFormShared.KeyValuePair> lst)
+        private string PairBuild(List<KeyValuePair> lst)
         {
             string str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><hash>";
             string inderStr;
             int index = 1;
 
-            foreach (eFormShared.KeyValuePair kVP in lst)
+            foreach (KeyValuePair kVP in lst)
             {
                 inderStr = "<" + index + ">";
 
@@ -5943,9 +5940,9 @@ namespace eFormSqlController
         }
 
         //TODO
-        public List<eFormShared.KeyValuePair> PairRead(string str)
+        public List<KeyValuePair> PairRead(string str)
         {
-            List<eFormShared.KeyValuePair> list = new List<eFormShared.KeyValuePair>();
+            List<KeyValuePair> list = new List<KeyValuePair>();
             str = t.Locate(str, "<hash>", "</hash>");
 
             bool flag = true;
@@ -5961,7 +5958,7 @@ namespace eFormSqlController
                 selected = bool.Parse(t.Locate(inderStr.ToLower(), "<selected>", "</"));
                 displayIndex = t.Locate(inderStr, "<displayIndex>", "</");
 
-                list.Add(new eFormShared.KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
+                list.Add(new KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
 
                 index += 1;
 
@@ -5973,7 +5970,7 @@ namespace eFormSqlController
         }
 
         //ToDo
-        private string PairMatch(List<eFormShared.KeyValuePair> keyValuePairs, string match)
+        private string PairMatch(List<KeyValuePair> keyValuePairs, string match)
         {
             foreach (var item in keyValuePairs)
             {

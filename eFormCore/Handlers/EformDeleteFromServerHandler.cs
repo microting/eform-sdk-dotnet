@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eForm.Messages;
-using eFormCommunicator;
-using eFormCore;
-using eFormData;
-using eFormShared;
-using eFormSqlController;
-using Rebus.Handlers;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using eFormCore;
+using eFormShared;
+using Microting.eForm.Communication;
+using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Models.reply;
+using Microting.eForm.Messages;
+using Rebus.Handlers;
 
-namespace eFormCore.Handlers
+namespace Microting.eForm.Handlers
 {
     class EformDeleteFromServerHandler : IHandleMessages<EformDeleteFromServer>
     {

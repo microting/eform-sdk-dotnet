@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models.reply
 {
     [Serializable()]
     public class ElementList

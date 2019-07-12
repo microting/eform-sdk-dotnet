@@ -24,13 +24,10 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using eFormShared;
 using Microsoft.EntityFrameworkCore;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class folders : BaseEntity
     {
@@ -63,7 +60,7 @@ namespace eFormSqlController
                 UpdatedAt = DateTime.Now,
                 MicrotingUid = MicrotingUid,
                 Version = 1,
-                WorkflowState = Constants.WorkflowStates.Created
+                WorkflowState = Constants.Constants.WorkflowStates.Created
             };
 
             _dbContext.folders.Add(folder);
@@ -107,7 +104,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find area with Id: {Id}");
             }
             
-            folder.WorkflowState = Constants.WorkflowStates.Removed;
+            folder.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
             if (_dbContext.ChangeTracker.HasChanges())
             {

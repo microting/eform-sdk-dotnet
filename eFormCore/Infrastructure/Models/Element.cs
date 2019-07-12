@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using eFormShared;
+using Microting.eForm.Dto;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models
 {
     [Serializable()]
     [XmlInclude(typeof(DataElement))]

@@ -26,7 +26,7 @@ using System;
 using System.Linq;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class languages : BaseEntity
     {
@@ -39,7 +39,7 @@ namespace eFormSqlController
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
 
             dbContext.languages.Add(this);
             dbContext.SaveChanges();
@@ -80,7 +80,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find language with Id: {Id}");
             }
 
-            language.WorkflowState = Constants.WorkflowStates.Removed;
+            language.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {

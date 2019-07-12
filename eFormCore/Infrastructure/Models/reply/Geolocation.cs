@@ -24,7 +24,7 @@ SOFTWARE.
 
 using System;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models.reply
 {
     [Serializable()]
     public class GeolocationData

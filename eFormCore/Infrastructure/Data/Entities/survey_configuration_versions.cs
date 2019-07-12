@@ -25,7 +25,7 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class survey_configuration_versions : BaseEntity
     {

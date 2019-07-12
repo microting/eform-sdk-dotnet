@@ -27,7 +27,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class site_survey_configurations : BaseEntity
     {
@@ -41,7 +41,7 @@ namespace eFormSqlController
         public virtual survey_configurations SurveyConfiguration { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
@@ -87,7 +87,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
             }
 
-            siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Removed;
+            siteSurveyConfiguration.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {

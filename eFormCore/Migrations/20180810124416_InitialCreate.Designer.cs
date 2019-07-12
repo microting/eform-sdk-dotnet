@@ -28,7 +28,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using eFormSqlController;
+using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {

@@ -25,12 +25,11 @@ SOFTWARE.
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using eForm.Messages;
-using eFormCore.Handlers;
+using Microting.eForm.Handlers;
+using Microting.eForm.Messages;
 using Rebus.Handlers;
-using System.Reflection;
 
-namespace eFormCore.Installers
+namespace Microting.eForm.Installers
 {
     public class RebusHandlerInstaller : IWindsorInstaller
     {

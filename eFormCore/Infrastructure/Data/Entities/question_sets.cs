@@ -26,7 +26,7 @@ using System;
 using System.Linq;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class question_sets : BaseEntity
     {
@@ -43,7 +43,7 @@ namespace eFormSqlController
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
@@ -89,7 +89,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find question set with Id: {Id}");
             }
 
-            questionSet.WorkflowState = Constants.WorkflowStates.Removed;
+            questionSet.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {

@@ -24,7 +24,7 @@ SOFTWARE.
 
 using Newtonsoft.Json.Linq;
 
-namespace eFormCommunicator
+namespace Microting.eForm.Communication
 {
     internal interface IHttp
     {

@@ -1,14 +1,17 @@
 using eFormCore;
-using eFormCore.Helpers;
-using eFormData;
 using eFormShared;
-using eFormSqlController;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Microting.eForm.Dto;
+using Microting.eForm.Helpers;
+using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
+
 namespace eFormSDK.Integration.Tests 
 {
     public class SqlControllerTestSurveyConfiguration : DbTestFixture
@@ -134,7 +137,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(surveyConfiguration.Start.ToString(), dbSurveyConfigurations.Start.ToString());
             Assert.AreEqual(surveyConfiguration.TimeOut, dbSurveyConfigurations.TimeOut);
             Assert.AreEqual(surveyConfiguration.TimeToLive, dbSurveyConfigurations.TimeToLive);
-            Assert.AreEqual(surveyConfiguration.WorkflowState, eFormShared.Constants.WorkflowStates.Removed);
+            Assert.AreEqual(surveyConfiguration.WorkflowState, Constants.WorkflowStates.Removed);
 
         }   
     }

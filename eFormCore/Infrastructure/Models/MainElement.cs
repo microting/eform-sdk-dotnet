@@ -24,15 +24,11 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Xml.Serialization;
-using eFormShared;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models
 {
     public class CoreElement
     {

@@ -22,16 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public partial class check_lists : BaseEntity
     {
         public check_lists()
@@ -137,7 +135,7 @@ namespace eFormSqlController
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
 
             dbContext.check_lists.Add(this);
             dbContext.SaveChanges();
@@ -206,7 +204,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Checklist with Id: {Id}");
             }
 
-            checkList.WorkflowState = Constants.WorkflowStates.Removed;
+            checkList.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {

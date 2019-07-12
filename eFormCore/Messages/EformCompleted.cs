@@ -24,7 +24,7 @@ SOFTWARE.
 
 using System;
 
-namespace eForm.Messages
+namespace Microting.eForm.Messages
 {
     public class EformCompleted
     {

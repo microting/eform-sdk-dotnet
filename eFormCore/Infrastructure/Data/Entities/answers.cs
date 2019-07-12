@@ -25,9 +25,8 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class answers : BaseEntity
     {
@@ -70,7 +69,7 @@ namespace eFormSqlController
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = eFormShared.Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             dbContext.answers.Add(this);
             dbContext.SaveChanges();
 
@@ -116,7 +115,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find answer with Id: {Id}");
             }
 
-            answer.WorkflowState = eFormShared.Constants.WorkflowStates.Removed;
+            answer.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {

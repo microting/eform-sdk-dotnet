@@ -22,16 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public partial class fields : BaseEntity
     {
         public fields()
@@ -137,7 +136,7 @@ namespace eFormSqlController
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -213,7 +212,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find Field with Id: {Id}");
             }
 
-            field.WorkflowState = Constants.WorkflowStates.Removed;
+            field.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {

@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Infrastructure.Data.Entities;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure
 {
     public interface MicrotingContextInterface : IDisposable
     {

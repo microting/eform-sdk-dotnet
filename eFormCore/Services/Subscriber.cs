@@ -22,24 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-using eFormSqlController;
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.SQS;
-using Amazon.Runtime;
-using Amazon;
 using System.Threading;
+using Amazon;
+using Amazon.SQS;
+using eFormShared;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Messages;
 using Newtonsoft.Json.Linq;
-using eForm.Messages;
 using Rebus.Bus;
 
-namespace eFormSubscriber
+namespace Microting.eForm.Services
 {
     public class Subscriber
     {

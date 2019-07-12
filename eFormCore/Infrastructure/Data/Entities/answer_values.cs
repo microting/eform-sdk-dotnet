@@ -26,9 +26,8 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using eFormShared;
-using Rebus.Topic;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class answer_values : BaseEntity
     {
@@ -49,7 +48,7 @@ namespace eFormSqlController
 
         public void Create(MicrotingDbAnySql dbContext)
         {
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -94,7 +93,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find answer value with Id: {Id}");
             }
 
-            answerValue.WorkflowState = Constants.WorkflowStates.Removed;
+            answerValue.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {

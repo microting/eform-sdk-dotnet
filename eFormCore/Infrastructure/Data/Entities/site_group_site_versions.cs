@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2007 - 2019 microting
@@ -22,30 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class tag_versions : BaseEntity
+    public class site_group_site_versions
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
-        [StringLength(255)]
-        public string Name { get; set; }
-
-        public int? TaggingsCount { get; set; }
-
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-
-        public int? TagId { get; set; }
+        
     }
 }

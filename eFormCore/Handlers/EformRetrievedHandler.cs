@@ -22,15 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eForm.Messages;
-using eFormSqlController;
-using Rebus.Handlers;
 using System;
 using System.Threading.Tasks;
+using eFormCore;
 using eFormShared;
-using eFormCommunicator;
+using Microting.eForm.Communication;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Messages;
+using Rebus.Handlers;
 
-namespace eFormCore.Handlers
+namespace Microting.eForm.Handlers
 {
     public class EformRetrievedHandler : IHandleMessages<EformRetrieved>
     {

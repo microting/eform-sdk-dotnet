@@ -24,10 +24,8 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Serialization;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models
 {
     #region EntityGroup
     public class EntityGroup

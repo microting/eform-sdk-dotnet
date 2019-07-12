@@ -26,10 +26,9 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Security.AccessControl;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class questions : BaseEntity
     {
@@ -69,7 +68,7 @@ namespace eFormSqlController
         public virtual question_sets QuestionSet { get; set; }
         public void Create(MicrotingDbAnySql dbContext)
         {
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -128,7 +127,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could no find question with Id: {Id}");
             }
 
-            question.WorkflowState = Constants.WorkflowStates.Removed;
+            question.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
             if (dbContext.ChangeTracker.HasChanges())
             {

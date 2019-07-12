@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace eFormSqlController
-{
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Infrastructure.Data.Entities;
 
+namespace Microting.eForm.Infrastructure
+{
     public partial class MicrotingDbAnySql : DbContext
     {
         public MicrotingDbAnySql() { }

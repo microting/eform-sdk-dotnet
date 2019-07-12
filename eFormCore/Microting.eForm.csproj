@@ -11,7 +11,6 @@
     <None Remove="JasperExporter.jar" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstractions\ICore.cs" />
     <Compile Include="AdminTools.cs" />
     <Compile Include="Communication\Communicator.cs" />
     <Compile Include="Communication\Http.cs" />
@@ -69,6 +68,10 @@
     <Compile Include="Infrastructure\Data\Entities\question_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\settings.cs" />
     <Compile Include="Infrastructure\Data\Entities\sites.cs" />
+    <Compile Include="Infrastructure\Data\Entities\site_groups.cs" />
+    <Compile Include="Infrastructure\Data\Entities\site_group_sites.cs" />
+    <Compile Include="Infrastructure\Data\Entities\site_group_site_versions.cs" />
+    <Compile Include="Infrastructure\Data\Entities\site_group_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_survey_configurations.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_survey_configuration_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_versions.cs" />

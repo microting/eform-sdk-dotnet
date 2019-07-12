@@ -22,22 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-
 using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
 using System.Net;
-using System.IO;
-using System.Text;
-using System.Collections.Generic;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using eFormShared;
+using Microting.eForm.Helpers;
+using Microting.eForm.Infrastructure.Constants;
 using Newtonsoft.Json.Linq;
-using System.Threading;
-using System.Net.Http;
-using System.Reflection;
-using eFormCore.Helpers;
 
-namespace eFormCommunicator
+namespace Microting.eForm.Communication
 {
     public class HttpFake : IHttp
     {

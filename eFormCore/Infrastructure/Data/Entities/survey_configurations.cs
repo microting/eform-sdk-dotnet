@@ -25,7 +25,7 @@ SOFTWARE.
 using System;
 using System.Linq;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class survey_configurations : BaseEntity
     {
@@ -45,7 +45,7 @@ namespace eFormSqlController
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = eFormShared.Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
 
             dbContext.survey_configurations.Add(this);
             dbContext.SaveChanges();
@@ -91,7 +91,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
             }
 
-            surveyConfigurations.WorkflowState = eFormShared.Constants.WorkflowStates.Removed;
+            surveyConfigurations.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {

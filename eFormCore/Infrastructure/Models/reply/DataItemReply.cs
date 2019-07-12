@@ -22,14 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-
 using System;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
+using eFormShared;
+using Microting.eForm.Dto;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models.reply
 {
     [Serializable()]
     [XmlRoot("DataItem")]

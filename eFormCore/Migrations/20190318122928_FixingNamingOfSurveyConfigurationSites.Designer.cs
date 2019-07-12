@@ -29,7 +29,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using eFormSqlController;
+using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {

@@ -22,16 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormData;
-using eFormShared;
-//using eFormSqlController;
-using Newtonsoft.Json.Linq;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using eFormShared;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure.Constants;
+using Newtonsoft.Json.Linq;
+//using eFormSqlController;
 
-namespace eFormCommunicator
+namespace Microting.eForm.Communication
 {
     public class Communicator
     {

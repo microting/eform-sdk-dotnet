@@ -23,14 +23,12 @@ SOFTWARE.
 */
 
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
 using eFormShared;
 
-namespace eFormSqlController
+namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public partial class taggings : BaseEntity
     {
         [ForeignKey("tag")]
@@ -50,7 +48,7 @@ namespace eFormSqlController
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = Constants.WorkflowStates.Created;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
             
             dbContext.taggings.Add(this);
             dbContext.SaveChanges();
@@ -88,7 +86,7 @@ namespace eFormSqlController
                 throw new NullReferenceException($"Could not find tagging with Id: {Id}");
             }
 
-            tagging.WorkflowState = Constants.WorkflowStates.Removed;
+            tagging.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             tagging.UpdatedAt = DateTime.Now;
             tagging.Version += 1;
 

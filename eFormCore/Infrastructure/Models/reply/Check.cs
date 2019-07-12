@@ -24,12 +24,9 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models.reply
 {
     [Serializable()]
     public class Check

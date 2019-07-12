@@ -22,16 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using eFormShared;
 
-namespace eFormData
+namespace Microting.eForm.Infrastructure.Models.reply
 {
     public class Response
     {
