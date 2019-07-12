@@ -5337,7 +5337,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    string typeStr = dataItem.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
+                    string typeStr = dataItem.GetType().Name;
 
                     /*
                      * Hack for making the FieldContainer work, since it's actually a FieldGroup 
