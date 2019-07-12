@@ -5100,8 +5100,6 @@ namespace Microting.eForm.Infrastructure
                     cl.CreatedAt = DateTime.Now;
                     cl.UpdatedAt = DateTime.Now;
                     cl.Label = mainElement.Label;
-                    //description - used for non-MainElements
-                    //serialized_default_values - Ruby colume
                     cl.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     cl.ParentId = null; //MainElements never have parents ;)
                     cl.Repeated = mainElement.Repeated;
@@ -5110,7 +5108,6 @@ namespace Microting.eForm.Infrastructure
                     cl.CaseType = mainElement.CaseType;
                     cl.FolderName = mainElement.CheckListFolderName;
                     cl.DisplayIndex = mainElement.DisplayOrder;
-                    //report_file_name - Ruby colume
                     cl.ReviewEnabled = 0; //used for non-MainElements
                     cl.ManualSync = t.Bool(mainElement.ManualSync);
                     cl.ExtraFieldsEnabled = 0; //used for non-MainElements
@@ -5121,11 +5118,7 @@ namespace Microting.eForm.Infrastructure
                     cl.DownloadEntities = t.Bool(mainElement.DownloadEntities);
                     cl.OriginalId = mainElement.Id.ToString();
 
-                    db.check_lists.Add(cl);
-                    db.SaveChanges();
-
-                    db.check_list_versions.Add(MapCheckListVersions(cl));
-                    db.SaveChanges();
+                    cl.Create(db);
 
                     int mainId = cl.Id;
                     mainElement.Id = mainId;
@@ -5178,29 +5171,15 @@ namespace Microting.eForm.Infrastructure
                         cl.Description = groupElement.Description.InderValue;
                     else
                         cl.Description = "";
-                    //serialized_default_values - Ruby colume
                     cl.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     cl.ParentId = parentId;
-                    //repeated - used for mainElements
                     cl.Version = 1;
-                    //case_type - used for mainElements
-                    //folder_name - used for mainElements
                     cl.DisplayIndex = groupElement.DisplayOrder;
-                    //report_file_name - Ruby colume
                     cl.ReviewEnabled = t.Bool(groupElement.ReviewEnabled);
-                    //manualSync - used for mainElements
                     cl.ExtraFieldsEnabled = t.Bool(groupElement.ExtraFieldsEnabled);
                     cl.DoneButtonEnabled = t.Bool(groupElement.DoneButtonEnabled);
                     cl.ApprovalEnabled = t.Bool(groupElement.ApprovalEnabled);
-                    //MultiApproval - used for mainElements
-                    //FastNavigation - used for mainElements
-                    //DownloadEntities - used for mainElements
-
-                    db.check_lists.Add(cl);
-                    db.SaveChanges();
-
-                    db.check_list_versions.Add(MapCheckListVersions(cl));
-                    db.SaveChanges();
+                    cl.Create(db);
 
                     CreateElementList(cl.Id, groupElement.ElementList);
                 }
@@ -5227,42 +5206,16 @@ namespace Microting.eForm.Infrastructure
                     else
                         cl.Description = "";
 
-                    //serialized_default_values - Ruby colume
                     cl.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     cl.ParentId = parentId;
-                    //repeated - used for mainElements
                     cl.Version = 1;
-                    //case_type - used for mainElements
-                    //folder_name - used for mainElements
                     cl.DisplayIndex = dataElement.DisplayOrder;
-                    //report_file_name - Ruby colume
                     cl.ReviewEnabled = t.Bool(dataElement.ReviewEnabled);
-                    //manualSync - used for mainElements
                     cl.ExtraFieldsEnabled = t.Bool(dataElement.ExtraFieldsEnabled);
                     cl.DoneButtonEnabled = t.Bool(dataElement.DoneButtonEnabled);
                     cl.ApprovalEnabled = t.Bool(dataElement.ApprovalEnabled);
                     cl.OriginalId = dataElement.Id.ToString();
-                    //MultiApproval - used for mainElements
-                    //FastNavigation - used for mainElements
-                    //DownloadEntities - used for mainElements
-
-                    db.check_lists.Add(cl);
-                    db.SaveChanges();
-
-                    db.check_list_versions.Add(MapCheckListVersions(cl));
-                    db.SaveChanges();
-
-                    //if (dataElement.DataItemGroupList != null)
-                    //{
-                    //    foreach (DataItemGroup dataItemGroup in dataElement.DataItemGroupList)
-                    //    {
-                    //        //CDataValue description = new CDataValue();
-                    //        //description.InderValue = dataItemGroup.Description;
-                    //        //FieldGroup fg = new FieldGroup(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
-                    //        //CreateDataItemGroup(cl.Id, fg);
-                    //        CreateDataItemGroup(cl.Id, (FieldGroup)dataItemGroup);
-                    //    }
-                    //}
+                    cl.Create(db);
 
                     if (dataElement.DataItemList != null)
                     {
@@ -5281,53 +5234,53 @@ namespace Microting.eForm.Infrastructure
 
         
         //TODO
-        private void CreateDataItemGroup(int elementId, FieldContainer fieldGroup)
-        {
-            try
-            {
-                using (var db = GetContext())
-                {
-                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
-                    int fieldTypeId = Find(typeStr);
-
-                    fields field = new fields();
-                    field.ParentFieldId = null;
-                    field.Color = fieldGroup.Color;
-                    //CDataValue description = new CDataValue();
-                    //description.InderValue = fieldGroup.Description;
-                    field.Description = fieldGroup.Description.InderValue;
-                    field.DisplayIndex = fieldGroup.DisplayOrder;
-                    field.Label = fieldGroup.Label;
-
-                    field.CreatedAt = DateTime.Now;
-                    field.UpdatedAt = DateTime.Now;
-                    field.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    field.CheckListId = elementId;
-                    field.FieldTypeId = fieldTypeId;
-                    field.Version = 1;
-
-                    field.DefaultValue = fieldGroup.Value;
-
-                    db.fields.Add(field);
-                    db.SaveChanges();
-
-                    db.field_versions.Add(MapFieldVersions(field));
-                    db.SaveChanges();
-
-                    if (fieldGroup.DataItemList != null)
-                    {
-                        foreach (DataItem dataItem in fieldGroup.DataItemList)
-                        {
-                            CreateDataItem(field.Id, elementId, dataItem);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CreateDataItemGroup failed", ex);
-            }
-        }
+//        private void CreateDataItemGroup(int elementId, FieldContainer fieldGroup)
+//        {
+//            try
+//            {
+//                using (var db = GetContext())
+//                {
+//                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
+//                    int fieldTypeId = Find(typeStr);
+//
+//                    fields field = new fields();
+//                    field.ParentFieldId = null;
+//                    field.Color = fieldGroup.Color;
+//                    //CDataValue description = new CDataValue();
+//                    //description.InderValue = fieldGroup.Description;
+//                    field.Description = fieldGroup.Description.InderValue;
+//                    field.DisplayIndex = fieldGroup.DisplayOrder;
+//                    field.Label = fieldGroup.Label;
+//
+//                    field.CreatedAt = DateTime.Now;
+//                    field.UpdatedAt = DateTime.Now;
+//                    field.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    field.CheckListId = elementId;
+//                    field.FieldTypeId = fieldTypeId;
+//                    field.Version = 1;
+//
+//                    field.DefaultValue = fieldGroup.Value;
+//
+//                    db.fields.Add(field);
+//                    db.SaveChanges();
+//
+//                    db.field_versions.Add(MapFieldVersions(field));
+//                    db.SaveChanges();
+//
+//                    if (fieldGroup.DataItemList != null)
+//                    {
+//                        foreach (DataItem dataItem in fieldGroup.DataItemList)
+//                        {
+//                            CreateDataItem(field.Id, elementId, dataItem);
+//                        }
+//                    }
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                throw new Exception("CreateDataItemGroup failed", ex);
+//            }
+//        }
 
         
         //TODO
@@ -5485,11 +5438,8 @@ namespace Microting.eForm.Infrastructure
                         case Constants.Constants.FieldTypes.FieldGroup:
                             FieldContainer fg = (FieldContainer)dataItem;
                             field.DefaultValue = fg.Value;
-                            db.fields.Add(field);
-                            db.SaveChanges();
-
-                            db.field_versions.Add(MapFieldVersions(field));
-                            db.SaveChanges();
+                            field.Create(db);
+                            
                             isSaved = true;
                             if (fg.DataItemList != null)
                             {
@@ -5498,7 +5448,6 @@ namespace Microting.eForm.Infrastructure
                                     CreateDataItem(field.Id, elementId, data_item);
                                 }
                             }
-                            //CreateDataItemGroup(elementId, (FieldGroup)dataItem);
                             break;
 
                         default:
@@ -5507,11 +5456,7 @@ namespace Microting.eForm.Infrastructure
                     #endregion
                     if (!isSaved)
                     {
-                        db.fields.Add(field);
-                        db.SaveChanges();
-
-                        db.field_versions.Add(MapFieldVersions(field));
-                        db.SaveChanges();
+                        field.Create(db);
                     }
 
                 }
