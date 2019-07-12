@@ -1,14 +1,16 @@
 ﻿using eFormCore;
-using eFormCore.Helpers;
-using eFormData;
 using eFormShared;
-using eFormSqlController;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Microting.eForm.Dto;
+using Microting.eForm.Helpers;
+using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 
 namespace eFormSDK.Integration.Tests
 {

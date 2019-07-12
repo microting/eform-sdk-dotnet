@@ -22,12 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormCommunicator;
-using eFormData;
 using eFormShared;
-using eFormSubscriber;
-using eFormSqlController;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,10 +35,8 @@ using System.Text;
 using System.Xml;
 //using OfficeOpenXml;
 using Castle.Windsor;
-using eFormCore.Installers;
 using Castle.MicroKernel.Registration;
 using Rebus.Bus;
-using eForm.Messages;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Amazon;
@@ -51,14 +44,23 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microting.eForm;
+using Microting.eForm.Communication;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Models;
+using Microting.eForm.Infrastructure.Models.reply;
+using Microting.eForm.Installers;
+using Microting.eForm.Services;
 using OpenStack.NetCoreSwiftClient;
 using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
-using Tag = eFormShared.Tag;
+using Tag = Microting.eForm.Dto.Tag;
 
 
 namespace eFormCore
 {
-    public class Core : CoreBase, ICore
+    public class Core : CoreBase
     {
         #region events
         public event EventHandler HandleCaseCreated;
@@ -4031,17 +4033,17 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<eFormShared.KeyValuePair>> result = _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator);
+                        List<List<KeyValuePair>> result = _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator);
 
                         if (result.Count == 1)
                         {
                             newRow = new List<string>();
                             newRow.Insert(0, label);
-                            List<eFormShared.KeyValuePair> tempList = result[0];
+                            List<KeyValuePair> tempList = result[0];
                             foreach (int i in caseIds)
                             {
                                 string value = "";
-                                foreach (eFormShared.KeyValuePair KvP in tempList)
+                                foreach (KeyValuePair KvP in tempList)
                                 {
                                     if (KvP.Key == i.ToString())
                                     {
@@ -4059,12 +4061,12 @@ namespace eFormCore
                             foreach (var lst in result)
                             {
                                 newRow = new List<string>();
-                                List<eFormShared.KeyValuePair> fieldKvP = field.KeyValuePairList;
+                                List<KeyValuePair> fieldKvP = field.KeyValuePairList;
                                 newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
                                 foreach (int i in caseIds)
                                 {
                                     string value = "";
-                                    foreach (eFormShared.KeyValuePair KvP in lst)
+                                    foreach (KeyValuePair KvP in lst)
                                     {
                                         if (KvP.Key == i.ToString())
                                         {
@@ -4641,7 +4643,7 @@ namespace eFormCore
         #endregion
 
 
-        public List<eFormShared.KeyValuePair> PairRead(string str)
+        public List<KeyValuePair> PairRead(string str)
         {
             return _sqlController.PairRead(str);
         }

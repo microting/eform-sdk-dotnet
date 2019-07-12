@@ -23,11 +23,11 @@ SOFTWARE.
 */
 
 using eFormShared;
-using eFormCommunicator;
-using eFormSqlController;
-
 using System;
 using System.Collections.Generic;
+using Microting.eForm.Communication;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure;
 
 namespace eFormCore
 {

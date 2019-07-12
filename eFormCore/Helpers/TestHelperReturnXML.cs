@@ -22,17 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormShared;
-using eFormSqlController;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using eFormShared;
+using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Newtonsoft.Json.Linq;
-using eFormCore.Helpers;
 
-namespace eFormCore.Helpers
+namespace Microting.eForm.Helpers
 {
     public class TestHelperReturnXML
     {

@@ -24,13 +24,10 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace eFormShared
+namespace Microting.eForm.Dto
 {
     #region Template_Dto
     public class Template_Dto
