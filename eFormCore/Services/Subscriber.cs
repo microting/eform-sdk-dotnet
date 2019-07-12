@@ -27,7 +27,6 @@ using System.Net;
 using System.Threading;
 using Amazon;
 using Amazon.SQS;
-using eFormShared;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;

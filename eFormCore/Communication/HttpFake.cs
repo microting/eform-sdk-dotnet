@@ -26,7 +26,6 @@ using System;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using eFormShared;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure.Constants;
 using Newtonsoft.Json.Linq;

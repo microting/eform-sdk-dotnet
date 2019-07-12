@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using eFormShared;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {

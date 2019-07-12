@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Xml.Serialization;
-using eFormShared;
 using Microting.eForm.Dto;
 
 namespace Microting.eForm.Infrastructure.Models.reply

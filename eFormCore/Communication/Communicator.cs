@@ -25,7 +25,6 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using eFormShared;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Constants;
 using Newtonsoft.Json.Linq;
