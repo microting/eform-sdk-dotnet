@@ -26,7 +26,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using eFormCore;
-using eFormShared;
 using Microting.eForm.Communication;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Models.reply;

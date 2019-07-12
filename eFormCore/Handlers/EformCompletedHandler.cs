@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml;
 using eFormCore;
-using eFormShared;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;

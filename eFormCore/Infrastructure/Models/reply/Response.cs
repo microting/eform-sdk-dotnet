@@ -28,7 +28,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using eFormShared;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {

@@ -30,7 +30,6 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-using eFormShared;
 using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Communication
