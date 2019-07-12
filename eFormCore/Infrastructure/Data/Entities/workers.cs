@@ -133,6 +133,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             workerVer.MicrotingUid = workers.MicrotingUid;
             workerVer.FirstName = workers.FirstName;
             workerVer.LastName = workers.LastName;
+            workerVer.Email = workers.Email;
 
             workerVer.WorkerId = workers.Id; //<<--
 
