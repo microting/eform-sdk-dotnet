@@ -126,6 +126,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             tagVer.CreatedAt = tags.CreatedAt;
             tagVer.UpdatedAt = tags.UpdatedAt;
             tagVer.Name = tags.Name;
+            tagVer.TagId = tags.Id;
 
             return tagVer;
         }

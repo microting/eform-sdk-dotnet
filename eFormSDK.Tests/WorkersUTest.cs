@@ -146,7 +146,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldMicrotingUid, workersVersion[0].MicrotingUid); 
             
             
-            //Version 2 New Version
+            //Version 2 Updated Version
             Assert.AreEqual(worker.CreatedAt.ToString(), workersVersion[1].CreatedAt.ToString());                                  
             Assert.AreEqual(2, workersVersion[1].Version);                                      
             Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[1].UpdatedAt.ToString());

@@ -169,7 +169,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(oldId, unitsVersions[0].UnitId);
             
-            //Version 2 New Version
+            //Version 2 Updated Version
             Assert.AreEqual(unit.CustomerNo, unitsVersions[1].CustomerNo);
             Assert.AreEqual(unit.MicrotingUid, unitsVersions[1].MicrotingUid);
             Assert.AreEqual(unit.OtpCode, unitsVersions[1].OtpCode);
