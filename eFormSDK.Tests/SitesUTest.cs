@@ -34,7 +34,7 @@ using NUnit.Framework;
 namespace eFormSDK.Tests
 {
     [TestFixture]
-    public class SitesUTest : DbTestFixtermure
+    public class SitesUTest : DbTestFixture
     {
         [Test]
         public void Site_Create_DoesCreate()
