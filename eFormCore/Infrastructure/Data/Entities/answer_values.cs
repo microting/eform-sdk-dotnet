@@ -112,6 +112,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             answerValueVersion.OptionsId = answerValue.OptionsId;
             answerValueVersion.AnswerId = answerValue.AnswerId;
             answerValueVersion.AnswerValueId = answerValue.Id;
+            answerValueVersion.CreatedAt = answerValue.CreatedAt;
+            answerValueVersion.Version = answerValue.Version;
+            answerValueVersion.UpdatedAt = answerValue.UpdatedAt;
+            answerValueVersion.WorkflowState = answerValue.WorkflowState;
             
 
             return answerValueVersion;
