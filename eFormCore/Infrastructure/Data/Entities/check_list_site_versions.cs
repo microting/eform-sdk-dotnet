@@ -52,5 +52,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         [StringLength(255)]
         public string LastCheckId { get; set; }
+        
     }
 }
