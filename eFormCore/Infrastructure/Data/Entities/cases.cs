@@ -212,6 +212,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             caseVer.FieldValue8 = aCase.FieldValue8;
             caseVer.FieldValue9 = aCase.FieldValue9;
             caseVer.FieldValue10 = aCase.FieldValue10;
+            caseVer.Custom = aCase.Custom;
+            caseVer.CaseUid = aCase.CaseUid;
 
             caseVer.CaseId = aCase.Id; //<<--
 
