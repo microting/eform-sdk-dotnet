@@ -58,7 +58,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
             fieldTypes.Description = Description;
             fieldTypes.FieldType = FieldType;
-            fieldTypes.Id = Id;
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                dbContext.SaveChanges();
+            }
         }
 
         public void Delete(MicrotingDbAnySql dbContext)
@@ -69,6 +72,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
             }
+            dbContext.Remove(fieldTypes);
+            dbContext.SaveChanges();
         }
     }
 }
