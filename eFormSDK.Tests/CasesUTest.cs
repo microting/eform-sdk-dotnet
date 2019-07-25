@@ -146,7 +146,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(theCase.Version, caseVersions[0].Version);                                      
              Assert.AreEqual(theCase.UpdatedAt.ToString(), caseVersions[0].UpdatedAt.ToString());                                  
              Assert.AreEqual(caseVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-             Assert.AreEqual(theCase.Id, caseVersions[0].Id);
+             Assert.AreEqual(theCase.Id, caseVersions[0].CaseId);
              Assert.AreEqual(theCase.Custom, caseVersions[0].Custom);
              Assert.AreEqual(theCase.SiteId, caseVersions[0].SiteId);
              Assert.AreEqual(theCase.Status, caseVersions[0].Status);
