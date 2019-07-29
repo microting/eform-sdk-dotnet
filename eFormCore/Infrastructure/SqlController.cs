@@ -776,7 +776,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseUpdateRetrived(string microtingUId)
+        public void CaseUpdateRetreived(string microtingUId)
         {
             try
             {
@@ -1457,11 +1457,11 @@ namespace Microting.eForm.Infrastructure
 
                     ReplyElement replyElement = new ReplyElement();
 
-                    replyElement.Id = (int)aCase.CheckListId;
+                    if (aCase.CheckListId != null) replyElement.Id = (int) aCase.CheckListId;
                     replyElement.CaseType = aCase.Type;
                     replyElement.Custom = aCase.Custom;
-                    replyElement.DoneAt = (DateTime)aCase.DoneAt;
-                    replyElement.DoneById = (int)aCase.WorkerId;
+                    if (aCase.DoneAt != null) replyElement.DoneAt = (DateTime) aCase.DoneAt;
+                    if (aCase.WorkerId != null) replyElement.DoneById = (int) aCase.WorkerId;
                     replyElement.ElementList = new List<Element>();
                     //replyElement.EndDate
                     replyElement.FastNavigation = t.Bool(mainCheckList.FastNavigation);
@@ -1469,11 +1469,13 @@ namespace Microting.eForm.Infrastructure
                     //replyElement.Language
                     replyElement.ManualSync = t.Bool(mainCheckList.ManualSync);
                     replyElement.MultiApproval = t.Bool(mainCheckList.MultiApproval);
-                    replyElement.Repeated = (int)mainCheckList.Repeated;
+                    if (mainCheckList.Repeated != null) replyElement.Repeated = (int) mainCheckList.Repeated;
                     //replyElement.StartDate
-                    replyElement.UnitId = (int)aCase.UnitId;
+                    if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
                     replyElement.MicrotingUId = aCase.MicrotingCheckUid;
-                    replyElement.SiteMicrotingUUID = (int)aCase.Site.MicrotingUid;
+                    if (aCase.Site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) aCase.Site.MicrotingUid;
+                    replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
+                    replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
                     foreach (check_lists checkList in aCase.CheckList.Children.OrderBy(x => x.DisplayIndex))
                     {

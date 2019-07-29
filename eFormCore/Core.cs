@@ -1875,7 +1875,7 @@ namespace eFormCore
             return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "");
         }
 
-        public string CaseToJasperXml(int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
+        public string CaseToJasperXml(Case_Dto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1891,8 +1891,8 @@ namespace eFormCore
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
 
                     //get needed data
-                    Case_Dto cDto = CaseLookupCaseId(caseId);
-                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+//                    Case_Dto cDto = CaseLookupCaseId(caseId);
+//                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
                     if (reply == null)
                         throw new NullReferenceException("reply is null. Delete or fix the case with ID " + caseId.ToString());
                     string clsLst = "";
@@ -1909,7 +1909,7 @@ namespace eFormCore
                         + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
                         + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
                         + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
-                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteMicrotingUUID).SiteName + "</site_name>"
+                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteMicrotingUuid).SiteName + "</site_name>"
                         + Environment.NewLine + "<check_lists>"
 
                         + clsLst
@@ -1947,168 +1947,6 @@ namespace eFormCore
             }
         }
 
-        #region settings
-//        #region httpServerAddress
-//        public string GetHttpServerAddress()
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            log.LogStandard(t.GetMethodName("Core"), "called");
-//            try
-//            {
-//                return sqlController.SettingRead(Settings.httpServerAddress);
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                return "N/A";
-//            }
-//        }
-//
-//        public bool SetHttpServerAddress(string serverAddress)
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            try
-//            {
-//                if (Running())
-//                {
-//                    log.LogStandard(t.GetMethodName("Core"), "called");
-//                    log.LogVariable(t.GetMethodName("Core"), nameof(serverAddress), serverAddress);
-//
-//                    sqlController.SettingUpdate(Settings.httpServerAddress, serverAddress);
-//                    return true;
-//                }
-//                else
-//                    throw new Exception("Core is not running");
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                throw new Exception("failed", ex);
-//            }
-//        }
-//        #endregion
-//
-//        #region fileLocationPicture
-//        public string GetPicturePath()
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            log.LogStandard(t.GetMethodName("Core"), "called");
-//            try
-//            {
-//                return sqlController.SettingRead(Settings.fileLocationPicture);
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                return "N/A";
-//            }
-//        }
-//
-//        public bool SetPicturePath(string fileLocationPicture)
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            try
-//            {
-//                if (Running())
-//                {
-//                    log.LogStandard(t.GetMethodName("Core"), "called");
-//                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPicture), fileLocationPicture);
-//
-//                    sqlController.SettingUpdate(Settings.fileLocationPicture, fileLocationPicture);
-//                    return true;
-//                }
-//                else
-//                    throw new Exception("Core is not running");
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                throw new Exception("failed", ex);
-//            }
-//        }
-//        #endregion
-//
-//        #region fileLocationPdf
-//        public string GetPdfPath()
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            log.LogStandard(t.GetMethodName("Core"), "called");
-//            try
-//            {
-//                return sqlController.SettingRead(Settings.fileLocationPdf);
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                return "N/A";
-//            }
-//        }
-//
-//        public bool SetPdfPath(string fileLocationPdf)
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            try
-//            {
-//                if (Running())
-//                {
-//                    log.LogStandard(t.GetMethodName("Core"), "called");
-//                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationPdf), fileLocationPdf);
-//
-//                    sqlController.SettingUpdate(Settings.fileLocationPdf, fileLocationPdf);
-//                    return true;
-//                }
-//                else
-//                    throw new Exception("Core is not running");
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                throw new Exception("failed", ex);
-//            }
-//        }
-//        #endregion
-//
-//        #region fileLocationJasper
-//        public string GetJasperPath()
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            log.LogStandard(t.GetMethodName("Core"), "called");
-//            try
-//            {
-//                return sqlController.SettingRead(Settings.fileLocationJasper);
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                return "N/A";
-//            }
-//        }
-//
-//        public bool SetJasperPath(string fileLocationJasper)
-//        {
-//            string methodName = t.GetMethodName("Core");
-//            try
-//            {
-//                if (Running())
-//                {
-//                    log.LogStandard(t.GetMethodName("Core"), "called");
-//                    log.LogVariable(t.GetMethodName("Core"), nameof(fileLocationJasper), fileLocationJasper);
-//
-//                    sqlController.SettingUpdate(Settings.fileLocationJasper, fileLocationJasper);
-//                    return true;
-//                }
-//                else
-//                    throw new Exception("Core is not running");
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-//                throw new Exception("failed", ex);
-//            }
-//        }
-//        #endregion
-//        
-        #endregion
         #region sdkSettings
         
         public string GetSdkSetting(Settings settingName)
@@ -2168,7 +2006,81 @@ namespace eFormCore
         
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
         {
-            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", "");
+            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", $"");
+        }
+
+        private string JasperToPdf(int caseId, string jasperTemplate, string timeStamp)
+        {
+            #region run jar
+            // Start the child process.
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            // Redirect the output stream of the child process.
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            string exePath = AppDomain.CurrentDomain.BaseDirectory;
+            Log.LogStandard(t.GetMethodName("Core"), "exePath is " + exePath);
+            string localJasperExporter = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils",
+                "JasperExporter.jar");
+            if (!File.Exists(localJasperExporter))
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    Directory.CreateDirectory(Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils"));
+                    webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar", localJasperExporter);
+                }
+            }
+
+            string _templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
+                $"{jasperTemplate}.jrxml");                    
+            if (!File.Exists(_templateFile))
+            {
+                throw new FileNotFoundException($"jrxml template was not found at {_templateFile}");
+            }
+            string _dataSourceXML = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                $"{timeStamp}_{caseId}.xml");
+
+            if (!File.Exists(_dataSourceXML))
+            {
+                throw new FileNotFoundException("Case result xml was not found at " + _dataSourceXML);
+            }
+            string _resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                $"{timeStamp}_{caseId}.pdf");
+
+            string command =
+                $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{_templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
+
+            Log.LogVariable(t.GetMethodName("Core"), nameof(command), command);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                p.StartInfo.FileName = "java.exe";
+            }
+            else
+            {
+                p.StartInfo.FileName = "java";
+            }
+
+            p.StartInfo.Arguments = command;
+            p.StartInfo.Verb = "runas";
+            p.Start();
+            // IF needed:
+            // Do not wait for the child process to exit before
+            // reading to the end of its redirected stream.
+            // p.WaitForExit();
+            // Read the output stream first and then wait.
+            string output = p.StandardOutput.ReadToEnd();
+            Log.LogVariable(t.GetMethodName("Core"), nameof(output), output);
+            p.WaitForExit();
+
+            if (output != "")
+                throw new Exception("output='" + output + "', expected to be no output. This indicates an error has happened");
+            #endregion
+
+            return _resultDocument;
+        }
+
+        private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp)
+        {
+            return "";
         }
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXMLContent)
@@ -2190,75 +2102,24 @@ namespace eFormCore
 
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
-
-                    CaseToJasperXml(caseId, timeStamp, customPathForUploadedData, customXMLContent);
-
-                    #region run jar
-                    // Start the child process.
-                    System.Diagnostics.Process p = new System.Diagnostics.Process();
-                    // Redirect the output stream of the child process.
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    string exePath = AppDomain.CurrentDomain.BaseDirectory;
-                    Log.LogStandard(t.GetMethodName("Core"), "exepath is " + exePath);
-                    string _localJasperExporter = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils",
-                        "JasperExporter.jar");
-                    if (!File.Exists(_localJasperExporter))
+                    
+                    Case_Dto cDto = CaseLookupCaseId(caseId);
+                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+                    
+                    CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXMLContent);
+                    string resultDocument = "";
+                        
+                    if (reply.JasperExportEnabled)
                     {
-                        using (WebClient webClient = new WebClient())
-                        {
-                            Directory.CreateDirectory(Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils"));
-                            webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar", _localJasperExporter);
-                        }
-                    }
-
-                    string _templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
-                        $"{jasperTemplate}.jrxml");                    
-                    if (!File.Exists(_templateFile))
-                    {
-                        throw new FileNotFoundException($"jrxml template was not found at {_templateFile}");
-                    }
-                    string _dataSourceXML = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
-                        $"{timeStamp}_{caseId}.xml");
-
-                    if (!File.Exists(_dataSourceXML))
-                    {
-                        throw new FileNotFoundException("Case result xml was not found at " + _dataSourceXML);
-                    }
-                    string _resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
-                        $"{timeStamp}_{caseId}.{fileType}");
-
-                    string command =
-                        $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {_localJasperExporter} -template=\"{_templateFile}\" -type=\"{fileType}\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
-
-                    Log.LogVariable(t.GetMethodName("Core"), nameof(command), command);
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        p.StartInfo.FileName = "java.exe";
+                        resultDocument = JasperToPdf(caseId, jasperTemplate, timeStamp);   
                     }
                     else
                     {
-                        p.StartInfo.FileName = "java";
+                        resultDocument = DocxToPdf(caseId, jasperTemplate, timeStamp);
                     }
 
-                    p.StartInfo.Arguments = command;
-                    p.StartInfo.Verb = "runas";
-                    p.Start();
-                    // IF needed:
-                    // Do not wait for the child process to exit before
-                    // reading to the end of its redirected stream.
-                    // p.WaitForExit();
-                    // Read the output stream first and then wait.
-                    string output = p.StandardOutput.ReadToEnd();
-                    Log.LogVariable(t.GetMethodName("Core"), nameof(output), output);
-                    p.WaitForExit();
-
-                    if (output != "")
-                        throw new Exception("output='" + output + "', expected to be no output. This indicates an error has happened");
-                    #endregion
-
                     //return path
-                    string path = Path.GetFullPath(_resultDocument);
+                    string path = Path.GetFullPath(resultDocument);
                     Log.LogVariable(t.GetMethodName("Core"), nameof(path), path);
                     return path;
                 }

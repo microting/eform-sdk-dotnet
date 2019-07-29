@@ -133,7 +133,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseUpdateRetrived(aCase.MicrotingUid);
+            sut.CaseUpdateRetreived(aCase.MicrotingUid);
             //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
 
