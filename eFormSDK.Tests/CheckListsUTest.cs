@@ -131,7 +131,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkLists[1].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkLists[1].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkLists[1].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkLists[1].ParentId);
+            Assert.AreEqual(checklist.ParentId, checklistParent.Id);
             Assert.AreEqual(checklist.ReviewEnabled, checkLists[1].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkLists[1].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkLists[1].DoneButtonEnabled);
@@ -141,7 +141,7 @@ namespace eFormSDK.Tests
             
             //Versions
             Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(checklist.Version, checkListVersion[1].Version);                                      
+            Assert.AreEqual(1, checkListVersion[1].Version);                                      
             Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(checkListVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkListVersion[1].Id);
@@ -169,7 +169,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkListVersion[1].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkListVersion[1].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkListVersion[1].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkListVersion[1].ParentId);
+            Assert.AreEqual(checklistParent.Id, checkListVersion[1].ParentId);
             Assert.AreEqual(checklist.ReviewEnabled, checkListVersion[1].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkListVersion[1].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkListVersion[1].DoneButtonEnabled);
@@ -362,7 +362,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkLists[1].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkLists[1].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkLists[1].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkLists[1].ParentId);
+            Assert.AreEqual(checklist.ParentId, checklistParent.Id);
             Assert.AreEqual(checklist.ReviewEnabled, checkLists[1].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkLists[1].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkLists[1].DoneButtonEnabled);
@@ -400,7 +400,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldManualSync, checkListVersion[1].ManualSync);
             Assert.AreEqual(oldMultiApproval, checkListVersion[1].MultiApproval);
             Assert.AreEqual(oldOriginalId, checkListVersion[1].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkListVersion[1].ParentId);
+            Assert.AreEqual(checklistParent.Id, checkListVersion[1].ParentId);
             Assert.AreEqual(oldReviewEnabled, checkListVersion[1].ReviewEnabled);
             Assert.AreEqual(oldDocxExportEnabled, checkListVersion[1].DocxExportEnabled);
             Assert.AreEqual(oldDoneButtonEnabled, checkListVersion[1].DoneButtonEnabled);
@@ -438,7 +438,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkListVersion[2].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkListVersion[2].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkListVersion[2].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkListVersion[2].ParentId);
+            Assert.AreEqual(checklistParent.Id, checkListVersion[2].ParentId);
             Assert.AreEqual(checklist.ReviewEnabled, checkListVersion[2].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkListVersion[2].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkListVersion[2].DoneButtonEnabled);
@@ -572,7 +572,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkLists[1].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkLists[1].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkLists[1].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkLists[1].ParentId);
+            Assert.AreEqual(checklist.ParentId, checklistParent.Id);
             Assert.AreEqual(checklist.ReviewEnabled, checkLists[1].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkLists[1].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkLists[1].DoneButtonEnabled);
@@ -610,7 +610,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkListVersion[1].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkListVersion[1].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkListVersion[1].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkListVersion[1].ParentId);
+            Assert.AreEqual(checklistParent.Id, checkListVersion[1].ParentId);
             Assert.AreEqual(checklist.ReviewEnabled, checkListVersion[1].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkListVersion[1].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkListVersion[1].DoneButtonEnabled);
@@ -648,7 +648,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ManualSync, checkListVersion[2].ManualSync);
             Assert.AreEqual(checklist.MultiApproval, checkListVersion[2].MultiApproval);
             Assert.AreEqual(checklist.OriginalId, checkListVersion[2].OriginalId);
-            Assert.AreEqual(checklist.ParentId, checkListVersion[2].ParentId);
+            Assert.AreEqual(checklistParent.Id, checkListVersion[2].ParentId);
             Assert.AreEqual(checklist.ReviewEnabled, checkListVersion[2].ReviewEnabled);
             Assert.AreEqual(checklist.DocxExportEnabled, checkListVersion[2].DocxExportEnabled);
             Assert.AreEqual(checklist.DoneButtonEnabled, checkListVersion[2].DoneButtonEnabled);

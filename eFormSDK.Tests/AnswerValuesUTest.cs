@@ -29,13 +29,14 @@ namespace eFormSDK.Tests
              sites siteForUnit = new sites();
              siteForUnit.Name = Guid.NewGuid().ToString();
              siteForUnit.MicrotingUid = rnd.Next(1, 255);
+             siteForUnit.Create(DbContext);
+             
              units unit = new units();
-             unit.Site = siteForUnit;
              unit.CustomerNo = rnd.Next(1, 255);
              unit.MicrotingUid = rnd.Next(1, 255);
              unit.OtpCode = rnd.Next(1, 255);
              unit.SiteId = siteForUnit.Id;
-             siteForUnit.Create(DbContext);
+             unit.Create(DbContext);
              
              languages language = new languages();
              language.Description = Guid.NewGuid().ToString();
@@ -46,7 +47,6 @@ namespace eFormSDK.Tests
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
-             questionSet.ParentId = rnd.Next(1, 255);
              questionSet.PosiblyDeployed = randomBool;
              questionSet.Create(DbContext);
              
@@ -62,12 +62,8 @@ namespace eFormSDK.Tests
              answer.AnswerDuration = rnd.Next(1, 255);
              answer.FinishedAt = rnd.Next(1, 255);
              answer.LanguageId = language.Id;
-             answer.Language = language;
-             answer.Site = site;
-             answer.Unit = unit;
              answer.QuestionSetId = questionSet.Id;
              answer.SiteId = site.Id;
-             answer.SurveyConfiguration = surveyConfiguration;
              answer.TimeZone = Guid.NewGuid().ToString();
              answer.UnitId = unit.Id;
              answer.UtcAdjusted = randomBool;
@@ -79,7 +75,6 @@ namespace eFormSDK.Tests
              questionSetForQuestion.Name = Guid.NewGuid().ToString();
              questionSetForQuestion.Share = randomBool;
              questionSetForQuestion.HasChild = randomBool;
-             questionSetForQuestion.ParentId = rnd.Next(1, 255);
              questionSetForQuestion.PosiblyDeployed = randomBool;
              questionSetForQuestion.Create(DbContext);
              
@@ -94,7 +89,6 @@ namespace eFormSDK.Tests
              question.MaxDuration = rnd.Next(1, 255);
              question.MinDuration = rnd.Next(1, 255);
              question.QuestionIndex = rnd.Next(1, 255);
-             question.QuestionSet = questionSetForQuestion;
              question.QuestionType = Guid.NewGuid().ToString();
              question.RefId = rnd.Next(1, 255);
              question.ValidDisplay = randomBool;
@@ -110,7 +104,6 @@ namespace eFormSDK.Tests
              option.QuestionId = question.Id;
              option.WeightValue = rnd.Next(1, 255);
              option.ContinuousOptionId = rnd.Next(1, 255);
-             option.NextQuestionId = rnd.Next(1, 255);
              option.Create(DbContext);
              
              questions questionForAnswerValue = new questions();
@@ -124,7 +117,6 @@ namespace eFormSDK.Tests
              questionForAnswerValue.MaxDuration = rnd.Next(1, 255);
              questionForAnswerValue.MinDuration = rnd.Next(1, 255);
              questionForAnswerValue.QuestionIndex = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionSet = questionSetForQuestion;
              questionForAnswerValue.QuestionType = Guid.NewGuid().ToString();
              questionForAnswerValue.RefId = rnd.Next(1, 255);
              questionForAnswerValue.ValidDisplay = randomBool;
@@ -134,9 +126,6 @@ namespace eFormSDK.Tests
              questionForAnswerValue.Create(DbContext);
             
              answer_values answerValue = new answer_values();
-             answerValue.Answer = answer;
-             answerValue.Option = option;
-             answerValue.Question = question;
              answerValue.Value = rnd.Next(1, 255);
              answerValue.AnswerId = answer.Id;
              answerValue.OptionsId = option.Id;
@@ -163,19 +152,20 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValues[0].WorkflowState, Constants.WorkflowStates.Created);
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
-             Assert.AreEqual(answerValue.AnswerId, answerValues[0].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValues[0].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValues[0].QuestionId);
+             Assert.AreEqual(answer.Id, answerValue.AnswerId);
+             Assert.AreEqual(option.Id, answerValue.OptionsId);
+             Assert.AreEqual(question.Id, answerValue.QuestionId);
              
+             //Versions
              Assert.AreEqual(answerValue.CreatedAt.ToString(), answerValueVersions[0].CreatedAt.ToString());                                  
-             Assert.AreEqual(answerValue.Version, answerValueVersions[0].Version);                                      
+             Assert.AreEqual(1, answerValueVersions[0].Version);                                      
              Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValueVersions[0].UpdatedAt.ToString());                                  
              Assert.AreEqual(answerValueVersions[0].WorkflowState, Constants.WorkflowStates.Created);
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[0].Value);
-             Assert.AreEqual(answerValue.AnswerId, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValueVersions[0].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValueVersions[0].QuestionId);
+             Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
         }
 
         [Test]
@@ -195,13 +185,14 @@ namespace eFormSDK.Tests
              sites siteForUnit = new sites();
              siteForUnit.Name = Guid.NewGuid().ToString();
              siteForUnit.MicrotingUid = rnd.Next(1, 255);
+             siteForUnit.Create(DbContext);
+             
              units unit = new units();
-             unit.Site = siteForUnit;
              unit.CustomerNo = rnd.Next(1, 255);
              unit.MicrotingUid = rnd.Next(1, 255);
              unit.OtpCode = rnd.Next(1, 255);
              unit.SiteId = siteForUnit.Id;
-             siteForUnit.Create(DbContext);
+             unit.Create(DbContext);
              
              languages language = new languages();
              language.Description = Guid.NewGuid().ToString();
@@ -212,7 +203,6 @@ namespace eFormSDK.Tests
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
-             questionSet.ParentId = rnd.Next(1, 255);
              questionSet.PosiblyDeployed = randomBool;
              questionSet.Create(DbContext);
              
@@ -228,12 +218,7 @@ namespace eFormSDK.Tests
              answer.AnswerDuration = rnd.Next(1, 255);
              answer.FinishedAt = rnd.Next(1, 255);
              answer.LanguageId = language.Id;
-             answer.Language = language;
-             answer.Site = site;
-             answer.Unit = unit;
-             answer.QuestionSet = questionSet;
              answer.SiteId = site.Id;
-             answer.SurveyConfiguration = surveyConfiguration;
              answer.TimeZone = Guid.NewGuid().ToString();
              answer.UnitId = unit.Id;
              answer.UtcAdjusted = randomBool;
@@ -245,7 +230,6 @@ namespace eFormSDK.Tests
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
-             questionSet.ParentId = rnd.Next(1, 255);
              questionSet.PosiblyDeployed = randomBool;
              questionSetForQuestion.Create(DbContext);
              
@@ -260,7 +244,6 @@ namespace eFormSDK.Tests
              question.MaxDuration = rnd.Next(1, 255);
              question.MinDuration = rnd.Next(1, 255);
              question.QuestionIndex = rnd.Next(1, 255);
-             question.QuestionSet = questionSetForQuestion;
              question.QuestionType = Guid.NewGuid().ToString();
              question.RefId = rnd.Next(1, 255);
              question.ValidDisplay = randomBool;
@@ -276,7 +259,6 @@ namespace eFormSDK.Tests
              option.QuestionId = question.Id;
              option.WeightValue = rnd.Next(1, 255);
              option.ContinuousOptionId = rnd.Next(1, 255);
-             option.NextQuestionId = rnd.Next(1, 255);
              option.Create(DbContext);
              
              questions questionForAnswerValue = new questions();
@@ -290,7 +272,6 @@ namespace eFormSDK.Tests
              questionForAnswerValue.MaxDuration = rnd.Next(1, 255);
              questionForAnswerValue.MinDuration = rnd.Next(1, 255);
              questionForAnswerValue.QuestionIndex = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionSet = questionSetForQuestion;
              questionForAnswerValue.QuestionType = Guid.NewGuid().ToString();
              questionForAnswerValue.RefId = rnd.Next(1, 255);
              questionForAnswerValue.ValidDisplay = randomBool;
@@ -300,9 +281,6 @@ namespace eFormSDK.Tests
              questionForAnswerValue.Create(DbContext);
             
              answer_values answerValue = new answer_values();
-             answerValue.Answer = answer;
-             answerValue.Option = option;
-             answerValue.Question = question;
              answerValue.Value = rnd.Next(1, 255);
              answerValue.AnswerId = answer.Id;
              answerValue.OptionsId = option.Id;
@@ -336,9 +314,9 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValues[0].WorkflowState, Constants.WorkflowStates.Created);
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
-             Assert.AreEqual(answerValue.AnswerId, answerValues[0].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValues[0].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValues[0].QuestionId);
+             Assert.AreEqual(answerValue.AnswerId, answer.Id);
+             Assert.AreEqual(answerValue.OptionsId, option.Id);
+             Assert.AreEqual(answerValue.QuestionId, question.Id);
              
              //Old Version
              Assert.AreEqual(answerValue.CreatedAt.ToString(), answerValueVersions[0].CreatedAt.ToString());                                  
@@ -347,9 +325,9 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValueVersions[0].WorkflowState, Constants.WorkflowStates.Created);
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(oldValue, answerValueVersions[0].Value);
-             Assert.AreEqual(answerValue.AnswerId, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValueVersions[0].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValueVersions[0].QuestionId);
+             Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
              
              //New Version
              Assert.AreEqual(answerValue.CreatedAt.ToString(), answerValueVersions[1].CreatedAt.ToString());                                  
@@ -358,9 +336,9 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValueVersions[1].WorkflowState, Constants.WorkflowStates.Created);
              Assert.AreEqual(answerValue.Id, answerValueVersions[1].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[1].Value);
-             Assert.AreEqual(answerValue.AnswerId, answerValueVersions[1].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValueVersions[1].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValueVersions[1].QuestionId);
+             Assert.AreEqual(answer.Id, answerValueVersions[1].AnswerId);
+             Assert.AreEqual(option.Id, answerValueVersions[1].OptionsId);
+             Assert.AreEqual(question.Id, answerValueVersions[1].QuestionId);
         }
 
         [Test]
@@ -380,13 +358,14 @@ namespace eFormSDK.Tests
              sites siteForUnit = new sites();
              siteForUnit.Name = Guid.NewGuid().ToString();
              siteForUnit.MicrotingUid = rnd.Next(1, 255);
+             siteForUnit.Create(DbContext);
+             
              units unit = new units();
-             unit.Site = siteForUnit;
              unit.CustomerNo = rnd.Next(1, 255);
              unit.MicrotingUid = rnd.Next(1, 255);
              unit.OtpCode = rnd.Next(1, 255);
              unit.SiteId = siteForUnit.Id;
-             siteForUnit.Create(DbContext);
+             unit.Create(DbContext);
              
              languages language = new languages();
              language.Description = Guid.NewGuid().ToString();
@@ -397,7 +376,6 @@ namespace eFormSDK.Tests
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
-             questionSet.ParentId = rnd.Next(1, 255);
              questionSet.PosiblyDeployed = randomBool;
              questionSet.Create(DbContext);
              
@@ -413,10 +391,6 @@ namespace eFormSDK.Tests
              answer.AnswerDuration = rnd.Next(1, 255);
              answer.FinishedAt = rnd.Next(1, 255);
              answer.LanguageId = language.Id;
-             answer.Language = language;
-             answer.Site = site;
-             answer.Unit = unit;
-             answer.QuestionSet = questionSet;
              answer.SiteId = site.Id;
              answer.SurveyConfiguration = surveyConfiguration;
              answer.TimeZone = Guid.NewGuid().ToString();
@@ -430,7 +404,6 @@ namespace eFormSDK.Tests
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
-             questionSet.ParentId = rnd.Next(1, 255);
              questionSet.PosiblyDeployed = randomBool;
              questionSetForQuestion.Create(DbContext);
              
@@ -445,7 +418,6 @@ namespace eFormSDK.Tests
              question.MaxDuration = rnd.Next(1, 255);
              question.MinDuration = rnd.Next(1, 255);
              question.QuestionIndex = rnd.Next(1, 255);
-             question.QuestionSet = questionSetForQuestion;
              question.QuestionType = Guid.NewGuid().ToString();
              question.RefId = rnd.Next(1, 255);
              question.ValidDisplay = randomBool;
@@ -455,13 +427,11 @@ namespace eFormSDK.Tests
              question.Create(DbContext);
              
              options option = new options();
-             option.Question = question;
              option.Weight = rnd.Next(1, 255);
              option.OptionsIndex = rnd.Next(1, 255);
              option.QuestionId = question.Id;
              option.WeightValue = rnd.Next(1, 255);
              option.ContinuousOptionId = rnd.Next(1, 255);
-             option.NextQuestionId = rnd.Next(1, 255);
              option.Create(DbContext);
              
              questions questionForAnswerValue = new questions();
@@ -475,7 +445,6 @@ namespace eFormSDK.Tests
              questionForAnswerValue.MaxDuration = rnd.Next(1, 255);
              questionForAnswerValue.MinDuration = rnd.Next(1, 255);
              questionForAnswerValue.QuestionIndex = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionSet = questionSetForQuestion;
              questionForAnswerValue.QuestionType = Guid.NewGuid().ToString();
              questionForAnswerValue.RefId = rnd.Next(1, 255);
              questionForAnswerValue.ValidDisplay = randomBool;
@@ -485,9 +454,6 @@ namespace eFormSDK.Tests
              questionForAnswerValue.Create(DbContext);
             
              answer_values answerValue = new answer_values();
-             answerValue.Answer = answer;
-             answerValue.Option = option;
-             answerValue.Question = question;
              answerValue.Value = rnd.Next(1, 255);
              answerValue.AnswerId = answer.Id;
              answerValue.OptionsId = option.Id;
@@ -518,9 +484,9 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValues[0].WorkflowState, Constants.WorkflowStates.Removed);
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
-             Assert.AreEqual(answerValue.AnswerId, answerValues[0].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValues[0].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValues[0].QuestionId);
+             Assert.AreEqual(answerValue.AnswerId, answer.Id);
+             Assert.AreEqual(answerValue.OptionsId, option.Id);
+             Assert.AreEqual(answerValue.QuestionId, question.Id);
              
              //Old Version
              Assert.AreEqual(answerValue.CreatedAt.ToString(), answerValueVersions[0].CreatedAt.ToString());                                  
@@ -529,9 +495,9 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValueVersions[0].WorkflowState, Constants.WorkflowStates.Created);
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[0].Value);
-             Assert.AreEqual(answerValue.AnswerId, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValueVersions[0].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValueVersions[0].QuestionId);
+             Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
              
              //New Version
              Assert.AreEqual(answerValue.CreatedAt.ToString(), answerValueVersions[1].CreatedAt.ToString());                                  
@@ -540,9 +506,9 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValueVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
              Assert.AreEqual(answerValue.Id, answerValueVersions[1].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[1].Value);
-             Assert.AreEqual(answerValue.AnswerId, answerValueVersions[1].AnswerId);
-             Assert.AreEqual(answerValue.OptionsId, answerValueVersions[1].OptionsId);
-             Assert.AreEqual(answerValue.QuestionId, answerValueVersions[1].QuestionId);
+             Assert.AreEqual(answer.Id, answerValueVersions[1].AnswerId);
+             Assert.AreEqual(option.Id, answerValueVersions[1].OptionsId);
+             Assert.AreEqual(question.Id, answerValueVersions[1].QuestionId);
         }
     }
 }
