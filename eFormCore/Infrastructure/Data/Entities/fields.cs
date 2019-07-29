@@ -259,8 +259,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             fv.Mandatory = field.Mandatory;
             fv.ReadOnly = field.ReadOnly;
             fv.Color = field.Color;
+            fv.IsNum = field.IsNum;
+            fv.OriginalId = field.OriginalId;
             fv.BarcodeEnabled = field.BarcodeEnabled;
             fv.BarcodeType = field.BarcodeType;
+            fv.QueryType = field.QueryType;
+            fv.EntityGroupId = field.EntityGroupId;
 
             fv.FieldId = field.Id; //<<--
 

@@ -120,6 +120,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             optionVersions.ContinuousOptionId = option.ContinuousOptionId;
             optionVersions.OptionsIndex = option.OptionsIndex;
             optionVersions.OptionId = option.Id;
+            optionVersions.CreatedAt = option.CreatedAt;
+            optionVersions.Version = option.Version;
+            optionVersions.UpdatedAt = option.UpdatedAt;
+            optionVersions.WorkflowState = option.WorkflowState;
 
             return optionVersions;
 

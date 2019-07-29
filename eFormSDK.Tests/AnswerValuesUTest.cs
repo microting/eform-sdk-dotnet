@@ -65,7 +65,7 @@ namespace eFormSDK.Tests
              answer.Language = language;
              answer.Site = site;
              answer.Unit = unit;
-             answer.QuestionSet = questionSet;
+             answer.QuestionSetId = questionSet.Id;
              answer.SiteId = site.Id;
              answer.SurveyConfiguration = surveyConfiguration;
              answer.TimeZone = Guid.NewGuid().ToString();
@@ -76,11 +76,11 @@ namespace eFormSDK.Tests
              answer.Create(DbContext);
              
              question_sets questionSetForQuestion = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.ParentId = rnd.Next(1, 255);
-             questionSet.PosiblyDeployed = randomBool;
+             questionSetForQuestion.Name = Guid.NewGuid().ToString();
+             questionSetForQuestion.Share = randomBool;
+             questionSetForQuestion.HasChild = randomBool;
+             questionSetForQuestion.ParentId = rnd.Next(1, 255);
+             questionSetForQuestion.PosiblyDeployed = randomBool;
              questionSetForQuestion.Create(DbContext);
              
              questions question = new questions();

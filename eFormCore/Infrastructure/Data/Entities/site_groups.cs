@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class site_groups
+    public partial class site_groups : BaseEntity
     {
         
     }

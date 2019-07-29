@@ -159,7 +159,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             questionVersion.QuestionIndex = question.QuestionIndex;
             questionVersion.BackButtonEnabled = question.BackButtonEnabled;
             questionVersion.ContinuousQuestionId = question.ContinuousQuestionId;
-
+            questionVersion.CreatedAt = question.CreatedAt;
+            questionVersion.Version = question.Version;
+            questionVersion.UpdatedAt = question.UpdatedAt;
+            questionVersion.WorkflowState = question.WorkflowState;
+            
             return questionVersion;
         }
     }

@@ -41,5 +41,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Type { get; set; }
 
         public string Message { get; set; }
+        
     }
 }
