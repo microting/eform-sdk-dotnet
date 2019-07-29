@@ -59,24 +59,38 @@ namespace eFormSDK.Tests
             
             unit.Create(DbContext);
 
-            units dbUnit = DbContext.units.AsNoTracking().First();
-            List<units> unitsList = DbContext.units.AsNoTracking().ToList();
+            List<units> units = DbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList(); 
             
             //Assert
             
-            Assert.NotNull(dbUnit);
-            Assert.NotNull(dbUnit.Id);
+            Assert.NotNull(units);
+            Assert.NotNull(unitsVersions);
             
-            Assert.AreEqual(1, unitsList.Count());
-            Assert.AreEqual(unit.CustomerNo, dbUnit.CustomerNo);
-            Assert.AreEqual(unit.MicrotingUid, dbUnit.MicrotingUid);
-            Assert.AreEqual(unit.OtpCode, dbUnit.OtpCode);
-            Assert.AreEqual(unit.SiteId, dbUnit.SiteId);
-            Assert.AreEqual(dbUnit.WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(unit.CreatedAt.ToString(), dbUnit.CreatedAt.ToString());                                  
-            Assert.AreEqual(unit.Version, dbUnit.Version);            
-            Assert.AreEqual(unit.Id, dbUnit.Id);
-            Assert.AreEqual(unit.UpdatedAt.ToString(), dbUnit.UpdatedAt.ToString());
+            Assert.AreEqual(1, units.Count());
+            Assert.AreEqual(1, unitsVersions.Count());
+
+            
+            Assert.AreEqual(unit.CustomerNo, units[0].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, units[0].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, units[0].OtpCode);
+            Assert.AreEqual(unit.SiteId, units[0].SiteId);
+            Assert.AreEqual(units[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.AreEqual(unit.CreatedAt.ToString(), units[0].CreatedAt.ToString());                                  
+            Assert.AreEqual(unit.Version, units[0].Version);            
+            Assert.AreEqual(unit.Id, units[0].Id);
+            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
+            
+            //Versions
+            Assert.AreEqual(unit.CustomerNo, unitsVersions[0].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, unitsVersions[0].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, unitsVersions[0].OtpCode);
+            Assert.AreEqual(unit.SiteId, unitsVersions[0].SiteId);
+            Assert.AreEqual(unitsVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.AreEqual(unit.CreatedAt.ToString(), unitsVersions[0].CreatedAt.ToString());                                  
+            Assert.AreEqual(1, unitsVersions[0].Version);            
+            Assert.AreEqual(unit.Id, unitsVersions[0].Id);
+            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
         }
 
         [Test]
@@ -90,8 +104,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
+            site.Create(DbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
@@ -100,16 +113,22 @@ namespace eFormSDK.Tests
             unit.Site = site;
             unit.SiteId = site.Id;
 
-            DbContext.units.Add(unit);
-            DbContext.SaveChanges();
+            unit.Create(DbContext);
             
             //Act
+
+            sites oldSite = unit.Site;
+            int? oldCustomerNo = unit.CustomerNo;
+            int? oldMicrotingUid = unit.MicrotingUid;
+            int? oldOtpCode = unit.OtpCode;
+            int? oldSiteId = unit.SiteId;
+            DateTime? oldUpdatedAt = unit.UpdatedAt;
+            int? oldId = unit.Id;
 
             sites newSite = new sites();
             newSite.Name = Guid.NewGuid().ToString();
             newSite.MicrotingUid = rnd.Next(1, 255);
-            DbContext.sites.Add(newSite);
-            DbContext.SaveChanges();
+            newSite.Create(DbContext);
 
             unit.Site = newSite;
             unit.CustomerNo = rnd.Next(1, 255);
@@ -120,26 +139,45 @@ namespace eFormSDK.Tests
             
             unit.Update(DbContext);
 
-            units dbUnit = DbContext.units.AsNoTracking().First();
-            List<units> unitsList = DbContext.units.AsNoTracking().ToList();
+            List<units> units = DbContext.units.AsNoTracking().ToList();                            
             List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
             
             //Assert
             
-            Assert.NotNull(dbUnit);
-            Assert.NotNull(dbUnit.Id);
+            Assert.NotNull(units);
+            Assert.NotNull(unitsVersions);
             
-            Assert.AreEqual(1, unitsList.Count());
-            Assert.AreEqual(1, unitsVersions.Count());
+            Assert.AreEqual(1, units.Count());
+            Assert.AreEqual(2, unitsVersions.Count());
             
-            Assert.AreEqual(unit.CustomerNo, dbUnit.CustomerNo);
-            Assert.AreEqual(unit.MicrotingUid, dbUnit.MicrotingUid);
-            Assert.AreEqual(unit.OtpCode, dbUnit.OtpCode);
-            Assert.AreEqual(unit.SiteId, dbUnit.SiteId);
-            Assert.AreEqual(unit.CreatedAt.ToString(), dbUnit.CreatedAt.ToString());                                  
-            Assert.AreEqual(unit.Version, dbUnit.Version);                                      
-            Assert.AreEqual(unit.UpdatedAt.ToString(), dbUnit.UpdatedAt.ToString());
-            Assert.AreEqual(unit.Id, dbUnit.Id);
+            Assert.AreEqual(unit.CustomerNo, units[0].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, units[0].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, units[0].OtpCode);
+            Assert.AreEqual(unit.SiteId, units[0].SiteId);
+            Assert.AreEqual(unit.CreatedAt.ToString(), units[0].CreatedAt.ToString());                                  
+            Assert.AreEqual(unit.Version, units[0].Version);                                      
+            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
+            Assert.AreEqual(unit.Id, units[0].Id);
+            
+            //Version 1 Old Version
+            Assert.AreEqual(oldCustomerNo, unitsVersions[0].CustomerNo);
+            Assert.AreEqual(oldMicrotingUid, unitsVersions[0].MicrotingUid);
+            Assert.AreEqual(oldOtpCode, unitsVersions[0].OtpCode);
+            Assert.AreEqual(oldSiteId, unitsVersions[0].SiteId);
+            Assert.AreEqual(unit.CreatedAt.ToString(), unitsVersions[0].CreatedAt.ToString());                                  
+            Assert.AreEqual(1, unitsVersions[0].Version);                                      
+            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
+            Assert.AreEqual(oldId, unitsVersions[0].UnitId);
+            
+            //Version 2 Updated Version
+            Assert.AreEqual(unit.CustomerNo, unitsVersions[1].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, unitsVersions[1].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, unitsVersions[1].OtpCode);
+            Assert.AreEqual(unit.SiteId, unitsVersions[1].SiteId);
+            Assert.AreEqual(unit.CreatedAt.ToString(), unitsVersions[1].CreatedAt.ToString());                                  
+            Assert.AreEqual(2, unitsVersions[1].Version);                                      
+            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
+            Assert.AreEqual(unit.Id, unitsVersions[1].UnitId);
 
         }
 
@@ -154,9 +192,8 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            DbContext.sites.Add(site);
-            DbContext.SaveChanges();
-            
+            site.Create(DbContext);
+
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
@@ -164,34 +201,58 @@ namespace eFormSDK.Tests
             unit.Site = site;
             unit.SiteId = site.Id;
 
-            DbContext.units.Add(unit);
-            DbContext.SaveChanges();
+            unit.Create(DbContext);
             
             //Act
+            DateTime? oldUpdatedAt = unit.UpdatedAt;
             
             unit.Delete(DbContext);
             
-            units dbUnit = DbContext.units.AsNoTracking().First();
-            List<units> unitsList = DbContext.units.AsNoTracking().ToList();
+            List<units> units = DbContext.units.AsNoTracking().ToList();                            
             List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
             
             //Assert
             
-            Assert.NotNull(dbUnit);
-            Assert.NotNull(dbUnit.Id);
+            Assert.NotNull(units);
+            Assert.NotNull(unitsVersions);
             
-            Assert.AreEqual(1, unitsList.Count());
-            Assert.AreEqual(1, unitsVersions.Count());
+            Assert.AreEqual(1, units.Count());
+            Assert.AreEqual(2, unitsVersions.Count());
             
-            Assert.AreEqual(unit.CustomerNo, dbUnit.CustomerNo);
-            Assert.AreEqual(unit.MicrotingUid, dbUnit.MicrotingUid);
-            Assert.AreEqual(unit.OtpCode, dbUnit.OtpCode);
-            Assert.AreEqual(unit.SiteId, dbUnit.SiteId);
-            Assert.AreEqual(unit.CreatedAt.ToString(), dbUnit.CreatedAt.ToString());                                  
-            Assert.AreEqual(unit.Version, dbUnit.Version);                                      
-            Assert.AreEqual(unit.UpdatedAt.ToString(), dbUnit.UpdatedAt.ToString());
-            Assert.AreEqual(unit.Id, dbUnit.Id);
-            Assert.AreEqual(dbUnit.WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.AreEqual(unit.CustomerNo, units[0].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, units[0].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, units[0].OtpCode);
+            Assert.AreEqual(unit.SiteId, units[0].SiteId);
+            Assert.AreEqual(unit.CreatedAt.ToString(), units[0].CreatedAt.ToString());                                  
+            Assert.AreEqual(unit.Version, units[0].Version);                                      
+            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
+            Assert.AreEqual(unit.Id, units[0].Id);
+            Assert.AreEqual(units[0].WorkflowState, Constants.WorkflowStates.Removed);
+            
+            //Version 1
+            Assert.AreEqual(unit.CustomerNo, unitsVersions[0].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, unitsVersions[0].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, unitsVersions[0].OtpCode);
+            Assert.AreEqual(unit.SiteId, unitsVersions[0].SiteId);
+            Assert.AreEqual(unit.CreatedAt.ToString(), unitsVersions[0].CreatedAt.ToString());                                  
+            Assert.AreEqual(1, unitsVersions[0].Version);                                      
+            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
+            Assert.AreEqual(unit.Id, unitsVersions[0].UnitId);
+            
+            Assert.AreEqual(unitsVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            
+            //Version 2 Deleted Version
+            Assert.AreEqual(unit.CustomerNo, unitsVersions[1].CustomerNo);
+            Assert.AreEqual(unit.MicrotingUid, unitsVersions[1].MicrotingUid);
+            Assert.AreEqual(unit.OtpCode, unitsVersions[1].OtpCode);
+            Assert.AreEqual(unit.SiteId, unitsVersions[1].SiteId);
+            Assert.AreEqual(unit.CreatedAt.ToString(), unitsVersions[1].CreatedAt.ToString());                                  
+            Assert.AreEqual(2, unitsVersions[1].Version);                                      
+            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
+            Assert.AreEqual(unit.Id, unitsVersions[1].UnitId);
+            
+            Assert.AreEqual(unitsVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
+
         }
     }
 }

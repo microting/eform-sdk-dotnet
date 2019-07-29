@@ -118,7 +118,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         {
             entity_group_versions entityGroupVer = new entity_group_versions();
             entityGroupVer.CreatedAt = entityGroup.CreatedAt;
-            entityGroupVer.EntityGroupId = entityGroup.Id;
             entityGroupVer.MicrotingUid = entityGroup.MicrotingUid;
             entityGroupVer.Name = entityGroup.Name;
             entityGroupVer.Type = entityGroup.Type;

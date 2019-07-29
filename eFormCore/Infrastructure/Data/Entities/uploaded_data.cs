@@ -156,7 +156,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             udv.Local = uploadedData.Local;
             udv.FileLocation = uploadedData.FileLocation;
             udv.FileName = uploadedData.FileName;
-
+            udv.TranscriptionId = uploadedData.TranscriptionId;
             udv.DataUploadedId = uploadedData.Id; //<<--
 
             return udv;

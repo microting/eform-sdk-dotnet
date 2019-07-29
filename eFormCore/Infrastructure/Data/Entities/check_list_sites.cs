@@ -72,6 +72,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.SaveChanges();
 
             dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(this));
+            dbContext.SaveChanges();
 
         }
 

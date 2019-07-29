@@ -22,8 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -38,5 +41,39 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         [StringLength(255)]
         public string Description { get; set; }
+        
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            dbContext.field_types.Add(this);
+            dbContext.SaveChanges();
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            field_types fieldTypes = dbContext.field_types.FirstOrDefault(x => x.Id == Id);
+
+            if (fieldTypes == null)
+            {
+                throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
+            }
+            fieldTypes.Description = Description;
+            fieldTypes.FieldType = FieldType;
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            field_types fieldTypes = dbContext.field_types.FirstOrDefault(x => x.Id == Id);
+
+            if (fieldTypes == null)
+            {
+                throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
+            }
+            dbContext.Remove(fieldTypes);
+            dbContext.SaveChanges();
+        }
     }
 }
