@@ -56,7 +56,30 @@ namespace Microting.eForm.Dto
 
 
 
-        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteName_Dto> deployedSites, bool hasCases, int? displayIndex, Field_Dto field_1, Field_Dto field_2, Field_Dto field_3, Field_Dto field_4, Field_Dto field_5, Field_Dto field_6, Field_Dto field_7, Field_Dto field_8, Field_Dto field_9, Field_Dto field_10, List<KeyValuePair<int, string>> tags)
+        public Template_Dto(int id, 
+            DateTime? createdAt, 
+            DateTime? updatedAt, 
+            string label, 
+            string description, 
+            int repeated, 
+            string folderName, 
+            string workflowState, 
+            List<SiteName_Dto> deployedSites, 
+            bool hasCases, 
+            int? displayIndex, 
+            Field_Dto field1, 
+            Field_Dto field2, 
+            Field_Dto field3, 
+            Field_Dto field4, 
+            Field_Dto field5, 
+            Field_Dto field6, 
+            Field_Dto field7, 
+            Field_Dto field8, 
+            Field_Dto field9, 
+            Field_Dto field10, 
+            List<KeyValuePair<int, string>> tags,
+            bool jasperExportEnabled,
+            bool docxExportEnabled)
         {
             Id = id;
             Label = label;
@@ -69,17 +92,19 @@ namespace Microting.eForm.Dto
             DeployedSites = deployedSites;
             HasCases = hasCases;
             DisplayIndex = displayIndex;
-            Field1 = field_1;
-            Field2 = field_2;
-            Field3 = field_3;
-            Field4 = field_4;
-            Field5 = field_5;
-            Field6 = field_6;
-            Field7 = field_7;
-            Field8 = field_8;
-            Field9 = field_9;
-            Field10 = field_10;
+            Field1 = field1;
+            Field2 = field2;
+            Field3 = field3;
+            Field4 = field4;
+            Field5 = field5;
+            Field6 = field6;
+            Field7 = field7;
+            Field8 = field8;
+            Field9 = field9;
+            Field10 = field10;
             Tags = tags;
+            JasperExportEnabled = jasperExportEnabled;
+            DocxExportEnabled = docxExportEnabled;
         }
         #endregion
 
@@ -188,6 +213,10 @@ namespace Microting.eForm.Dto
         /// Field10
         /// </summary>
         public Field_Dto Field10 { get; }
+
+        public bool JasperExportEnabled { get; set; }
+        
+        public bool DocxExportEnabled { get; set; }
 
         /// <summary>
         /// Tags
