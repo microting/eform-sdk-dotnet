@@ -94,6 +94,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("field_values");
             modelNames.Add("field_versions");
             modelNames.Add("fields");
+            modelNames.Add("folder_versions");
+            modelNames.Add("folders");
             modelNames.Add("check_list_site_versions");
             modelNames.Add("check_list_sites");
             modelNames.Add("check_list_value_versions");

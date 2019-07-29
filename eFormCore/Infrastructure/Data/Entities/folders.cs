@@ -50,25 +50,18 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public void Save(MicrotingDbAnySql _dbContext)
         {
-            folders folder = new folders
-            {
-                Name = Name,
-                Description = Description,
-                ParentId = ParentId,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                MicrotingUid = MicrotingUid,
-                Version = 1,
-                WorkflowState = Constants.Constants.WorkflowStates.Created
-            };
-
-            _dbContext.folders.Add(folder);
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+            Version = 1;
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
+            
+            _dbContext.folders.Add(this);
             _dbContext.SaveChanges();
 
-            _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
+            _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, this));
             _dbContext.SaveChanges();
 
-            Id = folder.Id;
+           
         }
 
         public void Update(MicrotingDbAnySql _dbContext)
