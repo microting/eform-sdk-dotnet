@@ -4016,7 +4016,7 @@ namespace eFormCore
             if (pdfString.ToLower().Contains("http") || pdfString.ToLower().Contains("https"))
                 errorLst.Add("Element showPdf.Id:'" + pdfId + "' contains an HTTP or HTTPS. Indicating that it's not a proper hash");
             if (pdfString.Length != 32)
-                errorLst.Add("Element showPdf.Id:'" + pdfId + "' lenght is not the correct lenght (32). Indicating that it's not a proper hash");
+                errorLst.Add("Element showPdf.Id:'" + pdfId + "' length is not the correct length (32). Indicating that it's not a proper hash");
 
             if (errorLst.Count > 0)
                 errorLst.Add("Element showPdf.Id:'" + pdfId + "' please check 'value' input, and consider running PdfUpload");
