@@ -11,6 +11,7 @@ using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Models;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -3808,7 +3809,9 @@ namespace eFormSDK.Integration.Tests
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
-            var match = sut.CaseToJasperXml(aCase2.Id, timeStamp, pdfPath, "");
+            Case_Dto cDto = sut.CaseLookupCaseId(aCase2.Id);
+            ReplyElement reply = sut.CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+            var match = sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
 
             // Assert
             Assert.NotNull(match);

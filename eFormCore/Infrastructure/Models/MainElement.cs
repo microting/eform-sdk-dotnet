@@ -337,7 +337,9 @@ namespace Microting.eForm.Infrastructure.Models
         public DateTime DoneAt { get; set; }
         public int DoneById { get; set; }
         public int UnitId { get; set; }
-        public int SiteMicrotingUUID { get; set; }
+        public int SiteMicrotingUuid { get; set; }
+        public bool JasperExportEnabled { get; set; }
+        public bool DocxExportEnabled { get; set; }
 //        public string OriginalId { get; set; }
         #endregion
     }
