@@ -78,7 +78,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questions[0].RefId);
             Assert.AreEqual(question.ValidDisplay, questions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questions[0].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questions[0].QuestionSetId);
+            Assert.AreEqual(question.QuestionSetId, questionSetForQuestion.Id);
             
             //Versions
             Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());                                  
@@ -100,7 +100,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questionVersions[0].RefId);
             Assert.AreEqual(question.ValidDisplay, questionVersions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questionVersions[0].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questionVersions[0].QuestionSetId);
+            Assert.AreEqual(questionSetForQuestion.Id, questionVersions[0].QuestionSetId);
         }
 
         [Test]
@@ -156,8 +156,7 @@ namespace eFormSDK.Tests
             int? oldRefId = question.RefId;
             bool oldValidDisplau = question.ValidDisplay;
             bool oldBackButtonEnabled = question.BackButtonEnabled;
-            int? oldContinuousQuestionId = question.ContinuousQuestionId;
-            
+
             question.Image = randomBool;
             question.Maximum = rnd.Next(1, 255);
             question.Minimum = rnd.Next(1, 255);
@@ -204,7 +203,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questions[0].RefId);
             Assert.AreEqual(question.ValidDisplay, questions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questions[0].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questions[0].QuestionSetId);
+            Assert.AreEqual(question.QuestionSetId, questionSetForQuestion.Id);
             
             //Old Version
             Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());                                  
@@ -226,7 +225,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldRefId, questionVersions[0].RefId);
             Assert.AreEqual(oldValidDisplau, questionVersions[0].ValidDisplay);
             Assert.AreEqual(oldBackButtonEnabled, questionVersions[0].BackButtonEnabled);
-            Assert.AreEqual(oldContinuousQuestionId, questionVersions[0].ContinuousQuestionId);
+            Assert.AreEqual(questionSetForQuestion.Id, questionVersions[0].QuestionSetId);
             
             //New Version
             Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[1].CreatedAt.ToString());                                  
@@ -248,7 +247,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questionVersions[1].RefId);
             Assert.AreEqual(question.ValidDisplay, questionVersions[1].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questionVersions[1].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questionVersions[1].QuestionSetId);
+            Assert.AreEqual(questionSetForQuestion.Id, questionVersions[1].QuestionSetId);
         }
 
         [Test]
@@ -321,7 +320,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questions[0].RefId);
             Assert.AreEqual(question.ValidDisplay, questions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questions[0].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questions[0].QuestionSetId);
+            Assert.AreEqual(question.QuestionSetId, questionSetForQuestion.Id);
             
             //Old Version
             Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());                                  
@@ -343,7 +342,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questionVersions[0].RefId);
             Assert.AreEqual(question.ValidDisplay, questionVersions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questionVersions[0].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questionVersions[0].QuestionSetId);
+            Assert.AreEqual(questionSetForQuestion.Id, questionVersions[0].QuestionSetId);
             
             //New Version
             Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[1].CreatedAt.ToString());                                  
@@ -365,7 +364,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(question.RefId, questionVersions[1].RefId);
             Assert.AreEqual(question.ValidDisplay, questionVersions[1].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questionVersions[1].BackButtonEnabled);
-            Assert.AreEqual(question.QuestionSetId, questionVersions[1].QuestionSetId);
+            Assert.AreEqual(questionSetForQuestion.Id, questionVersions[1].QuestionSetId);
         }
     }
 }
