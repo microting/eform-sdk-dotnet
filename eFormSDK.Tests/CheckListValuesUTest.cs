@@ -124,20 +124,18 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValues[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListValue.Id, checkListValues[0].Id);
             Assert.AreEqual(checkListValue.Status, checkListValues[0].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValues[0].CaseId);
-            Assert.AreEqual(checkListValue.Status, checkListValues[0].Status);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValues[0].CheckListId);
+            Assert.AreEqual(checkListValue.CaseId, theCase.Id);
+            Assert.AreEqual(checkListValue.CheckListId, checklist.Id);
 
             //Versions
             Assert.AreEqual(checkListValue.CreatedAt.ToString(), checkListValueVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(checkListValue.Version, checkListValueVersions[0].Version);                                      
+            Assert.AreEqual(1, checkListValueVersions[0].Version);                                      
             Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValueVersions[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(checkListValueVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListValue.Id, checkListValueVersions[0].Id);
             Assert.AreEqual(checkListValue.Status, checkListValueVersions[0].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValueVersions[0].CaseId);
-            Assert.AreEqual(checkListValue.Status, checkListValueVersions[0].Status);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValueVersions[0].CheckListId);
+            Assert.AreEqual(theCase.Id, checkListValueVersions[0].CaseId);
+            Assert.AreEqual(checklist.Id, checkListValueVersions[0].CheckListId);
         }
 
         [Test]
@@ -258,9 +256,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValues[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListValue.Id, checkListValues[0].Id);
             Assert.AreEqual(checkListValue.Status, checkListValues[0].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValues[0].CaseId);
-            Assert.AreEqual(checkListValue.Status, checkListValues[0].Status);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValues[0].CheckListId);
+            Assert.AreEqual(checkListValue.CaseId, theCase.Id);
+            Assert.AreEqual(checkListValue.CheckListId, checklist.Id);
 
             //Old Version
             Assert.AreEqual(checkListValue.CreatedAt.ToString(), checkListValueVersions[0].CreatedAt.ToString());                                  
@@ -269,8 +266,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValueVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListValue.Id, checkListValueVersions[0].CheckListValueId);
             Assert.AreEqual(oldStatus, checkListValueVersions[0].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValueVersions[0].CaseId);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValueVersions[0].CheckListId);
+            Assert.AreEqual(theCase.Id, checkListValueVersions[0].CaseId);
+            Assert.AreEqual(checklist.Id, checkListValueVersions[0].CheckListId);
             
             //New Version
             Assert.AreEqual(checkListValue.CreatedAt.ToString(), checkListValueVersions[1].CreatedAt.ToString());                                  
@@ -279,8 +276,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValueVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListValue.Id, checkListValueVersions[1].CheckListValueId);
             Assert.AreEqual(checkListValue.Status, checkListValueVersions[1].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValueVersions[1].CaseId);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValueVersions[1].CheckListId);
+            Assert.AreEqual(theCase.Id, checkListValueVersions[1].CaseId);
+            Assert.AreEqual(checklist.Id, checkListValueVersions[1].CheckListId);
         }
 
         [Test]
@@ -398,9 +395,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValues[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(checkListValue.Id, checkListValues[0].Id);
             Assert.AreEqual(checkListValue.Status, checkListValues[0].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValues[0].CaseId);
-            Assert.AreEqual(checkListValue.Status, checkListValues[0].Status);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValues[0].CheckListId);
+            Assert.AreEqual(checkListValue.CaseId, theCase.Id);
+            Assert.AreEqual(checkListValue.CheckListId, checklist.Id);
 
             //Old Version
             Assert.AreEqual(checkListValue.CreatedAt.ToString(), checkListValueVersions[0].CreatedAt.ToString());                                  
@@ -409,8 +405,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValueVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListValue.Id, checkListValueVersions[0].CheckListValueId);
             Assert.AreEqual(checkListValue.Status, checkListValueVersions[0].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValueVersions[0].CaseId);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValueVersions[0].CheckListId);
+            Assert.AreEqual(theCase.Id, checkListValueVersions[0].CaseId);
+            Assert.AreEqual(checklist.Id, checkListValueVersions[0].CheckListId);
             
             //New Version
             Assert.AreEqual(checkListValue.CreatedAt.ToString(), checkListValueVersions[1].CreatedAt.ToString());                                  
@@ -419,8 +415,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListValueVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(checkListValue.Id, checkListValueVersions[1].CheckListValueId);
             Assert.AreEqual(checkListValue.Status, checkListValueVersions[1].Status);
-            Assert.AreEqual(checkListValue.CaseId, checkListValueVersions[1].CaseId);
-            Assert.AreEqual(checkListValue.CheckListId, checkListValueVersions[1].CheckListId);
+            Assert.AreEqual(theCase.Id, checkListValueVersions[1].CaseId);
+            Assert.AreEqual(checklist.Id, checkListValueVersions[1].CheckListId);
         }
         
     }

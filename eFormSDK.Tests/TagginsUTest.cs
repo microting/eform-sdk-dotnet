@@ -113,10 +113,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(taggings[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(tagging.Id, taggings[0].Id);
             Assert.AreEqual(tagging.TaggerId, taggings[0].TaggerId);
-            Assert.AreEqual(tagging.TagId, taggings[0].TagId); 
-            Assert.AreEqual(tagging.CheckListId, taggings[0].CheckListId); 
-            Assert.AreEqual(tagging.CheckListId, checklist.Id);
             Assert.AreEqual(tagging.TagId, tag.Id);
+            Assert.AreEqual(tagging.CheckListId, checklist.Id);
 
             //Version 1
             Assert.AreEqual(tagging.CreatedAt.ToString(), taggingVersions[0].CreatedAt.ToString());                                  
@@ -125,10 +123,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(taggingVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(tagging.Id, taggingVersions[0].Id);
             Assert.AreEqual(tagging.TaggerId, taggingVersions[0].TaggerId);
-            Assert.AreEqual(tagging.TagId, taggingVersions[0].TagId); 
-            Assert.AreEqual(tagging.CheckListId, taggingVersions[0].CheckListId); 
-            Assert.AreEqual(tagging.CheckListId, checklist.Id);
-            Assert.AreEqual(tagging.TagId, tag.Id);
+            Assert.AreEqual(tag.Id, taggingVersions[0].TagId); 
+            Assert.AreEqual(checklist.Id, taggingVersions[0].CheckListId); 
         }
 
         [Test]
@@ -214,8 +210,6 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, taggings[0].WorkflowState);
             Assert.AreEqual(tagging.Id, taggings[0].Id);
             Assert.AreEqual(tagging.TaggerId, taggings[0].TaggerId);
-            Assert.AreEqual(tagging.TagId, taggings[0].TagId); 
-            Assert.AreEqual(tagging.CheckListId, taggings[0].CheckListId); 
             Assert.AreEqual(tagging.CheckListId, checklist.Id);
             Assert.AreEqual(tagging.TagId, tag.Id);
 
@@ -226,10 +220,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, taggingVersions[0].WorkflowState);
             Assert.AreEqual(tagging.Id, taggingVersions[0].TaggingId);
             Assert.AreEqual(tagging.TaggerId, taggingVersions[0].TaggerId);
-            Assert.AreEqual(tagging.TagId, taggingVersions[0].TagId); 
-            Assert.AreEqual(tagging.CheckListId, taggingVersions[0].CheckListId); 
-            Assert.AreEqual(tagging.CheckListId, checklist.Id);
-            Assert.AreEqual(tagging.TagId, tag.Id);
+            Assert.AreEqual(tag.Id, taggingVersions[0].TagId); 
+            Assert.AreEqual(checklist.Id, taggingVersions[0].CheckListId); 
             
             //Version 2 Deleted Version
             Assert.AreEqual(tagging.CreatedAt.ToString(), taggingVersions[1].CreatedAt.ToString());                                  
@@ -238,10 +230,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, taggingVersions[1].WorkflowState);
             Assert.AreEqual(tagging.Id, taggingVersions[1].TaggingId);
             Assert.AreEqual(tagging.TaggerId, taggingVersions[1].TaggerId);
-            Assert.AreEqual(tagging.TagId, taggingVersions[1].TagId); 
-            Assert.AreEqual(tagging.CheckListId, taggingVersions[1].CheckListId); 
-            Assert.AreEqual(tagging.CheckListId, checklist.Id);
-            Assert.AreEqual(tagging.TagId, tag.Id);
+            Assert.AreEqual(tag.Id, taggingVersions[1].TagId); 
+            Assert.AreEqual(checklist.Id, taggingVersions[1].CheckListId); 
         }
     }
 }

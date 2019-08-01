@@ -195,12 +195,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValues[0].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValues[0].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValues[0].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValues[0].CaseId);
+            Assert.AreEqual(fieldValue.CaseId, theCase.Id);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValues[0].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValues[0].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValues[0].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValues[0].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValues[0].UploadedDataId);
+            Assert.AreEqual(fieldValue.FieldId, field.Id);
+            Assert.AreEqual(fieldValue.WorkerId, worker.Id);
+            Assert.AreEqual(fieldValue.CheckListId, checklist.Id);
+            Assert.AreEqual(fieldValue.UploadedDataId, uploadedData.Id);
             
             //Versions
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[0].CreatedAt.ToString());                                  
@@ -214,12 +214,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValueVersions[0].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValueVersions[0].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValueVersions[0].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValueVersions[0].CaseId);
+            Assert.AreEqual(theCase.Id, fieldValueVersions[0].CaseId);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValueVersions[0].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValueVersions[0].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValueVersions[0].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValueVersions[0].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValueVersions[0].UploadedDataId);
+            Assert.AreEqual(field.Id, fieldValueVersions[0].FieldId);
+            Assert.AreEqual(worker.Id, fieldValueVersions[0].WorkerId);
+            Assert.AreEqual(checklist.Id, fieldValueVersions[0].CheckListId);
+            Assert.AreEqual(uploadedData.Id, fieldValueVersions[0].UploadedDataId);
         }
 
         [Test]
@@ -424,12 +424,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValues[0].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValues[0].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValues[0].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValues[0].CaseId);
+            Assert.AreEqual(fieldValue.CaseId, theCase.Id);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValues[0].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValues[0].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValues[0].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValues[0].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValues[0].UploadedDataId);
+            Assert.AreEqual(fieldValue.FieldId, field.Id);
+            Assert.AreEqual(fieldValue.WorkerId, worker.Id);
+            Assert.AreEqual(fieldValue.CheckListId, checklist.Id);
+            Assert.AreEqual(fieldValue.UploadedDataId, uploadedData.Id);
             
             //Old Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[0].CreatedAt.ToString());                                  
@@ -443,12 +443,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldLatitude, fieldValueVersions[0].Latitude);
             Assert.AreEqual(oldLongitude, fieldValueVersions[0].Longitude);
             Assert.AreEqual(oldValue, fieldValueVersions[0].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValueVersions[0].CaseId);
+            Assert.AreEqual(theCase.Id, fieldValueVersions[0].CaseId);
             Assert.AreEqual(oldDoneAt.ToString(), fieldValueVersions[0].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValueVersions[0].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValueVersions[0].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValueVersions[0].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValueVersions[0].UploadedDataId);
+            Assert.AreEqual(field.Id, fieldValueVersions[0].FieldId);
+            Assert.AreEqual(worker.Id, fieldValueVersions[0].WorkerId);
+            Assert.AreEqual(checklist.Id, fieldValueVersions[0].CheckListId);
+            Assert.AreEqual(uploadedData.Id, fieldValueVersions[0].UploadedDataId);
             
             //New Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[1].CreatedAt.ToString());                                  
@@ -462,12 +462,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValueVersions[1].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValueVersions[1].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValueVersions[1].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValueVersions[1].CaseId);
+            Assert.AreEqual(theCase.Id, fieldValueVersions[1].CaseId);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValueVersions[1].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValueVersions[1].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValueVersions[1].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValueVersions[1].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValueVersions[1].UploadedDataId);
+            Assert.AreEqual(field.Id, fieldValueVersions[1].FieldId);
+            Assert.AreEqual(worker.Id, fieldValueVersions[1].WorkerId);
+            Assert.AreEqual(checklist.Id, fieldValueVersions[1].CheckListId);
+            Assert.AreEqual(uploadedData.Id, fieldValueVersions[1].UploadedDataId);
         }
 
         [Test]
@@ -656,12 +656,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValues[0].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValues[0].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValues[0].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValues[0].CaseId);
+            Assert.AreEqual(fieldValue.CaseId, theCase.Id);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValues[0].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValues[0].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValues[0].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValues[0].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValues[0].UploadedDataId);
+            Assert.AreEqual(fieldValue.FieldId, field.Id);
+            Assert.AreEqual(fieldValue.WorkerId, worker.Id);
+            Assert.AreEqual(fieldValue.CheckListId, checklist.Id);
+            Assert.AreEqual(fieldValue.UploadedDataId, uploadedData.Id);
             
             //Old Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[0].CreatedAt.ToString());                                  
@@ -675,12 +675,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValueVersions[0].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValueVersions[0].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValueVersions[0].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValueVersions[0].CaseId);
+            Assert.AreEqual(theCase.Id, fieldValueVersions[0].CaseId);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValueVersions[0].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValueVersions[0].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValueVersions[0].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValueVersions[0].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValueVersions[0].UploadedDataId);
+            Assert.AreEqual(field.Id, fieldValueVersions[0].FieldId);
+            Assert.AreEqual(worker.Id, fieldValueVersions[0].WorkerId);
+            Assert.AreEqual(checklist.Id, fieldValueVersions[0].CheckListId);
+            Assert.AreEqual(uploadedData.Id, fieldValueVersions[0].UploadedDataId);
             
             //New Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[1].CreatedAt.ToString());                                  
@@ -694,12 +694,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.Latitude, fieldValueVersions[1].Latitude);
             Assert.AreEqual(fieldValue.Longitude, fieldValueVersions[1].Longitude);
             Assert.AreEqual(fieldValue.Value, fieldValueVersions[1].Value);
-            Assert.AreEqual(fieldValue.CaseId, fieldValueVersions[1].CaseId);
+            Assert.AreEqual(theCase.Id, fieldValueVersions[1].CaseId);
             Assert.AreEqual(fieldValue.DoneAt.ToString(), fieldValueVersions[1].DoneAt.ToString());
-            Assert.AreEqual(fieldValue.FieldId, fieldValueVersions[1].FieldId);
-            Assert.AreEqual(fieldValue.WorkerId, fieldValueVersions[1].WorkerId);
-            Assert.AreEqual(fieldValue.CheckListId, fieldValueVersions[1].CheckListId);
-            Assert.AreEqual(fieldValue.UploadedDataId, fieldValueVersions[1].UploadedDataId);
+            Assert.AreEqual(field.Id, fieldValueVersions[1].FieldId);
+            Assert.AreEqual(worker.Id, fieldValueVersions[1].WorkerId);
+            Assert.AreEqual(checklist.Id, fieldValueVersions[1].CheckListId);
+            Assert.AreEqual(uploadedData.Id, fieldValueVersions[1].UploadedDataId);
         }
     }
 }

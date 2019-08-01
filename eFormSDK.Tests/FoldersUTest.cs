@@ -52,7 +52,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folders[1].Description);
             Assert.AreEqual(folder.Name, folders[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folders[1].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folders[1].ParentId);
+            Assert.AreEqual(folder.ParentId, parentFolder.Id);
             
             //Versions
             
@@ -64,7 +64,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folderVersions[1].Description);
             Assert.AreEqual(folder.Name, folderVersions[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folderVersions[1].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folderVersions[1].ParentId);
+            Assert.AreEqual(parentFolder.Id, folderVersions[1].ParentId);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folders[1].Description);
             Assert.AreEqual(folder.Name, folders[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folders[1].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folders[1].ParentId);
+            Assert.AreEqual(folder.ParentId, parentFolder.Id);
             
             //Old Version
             
@@ -127,7 +127,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldDescription, folderVersions[1].Description);
             Assert.AreEqual(oldName, folderVersions[1].Name);
             Assert.AreEqual(oldMicrotingUid, folderVersions[1].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folderVersions[1].ParentId);
+            Assert.AreEqual(parentFolder.Id, folderVersions[1].ParentId);
             
             //New Version
             
@@ -139,7 +139,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folderVersions[2].Description);
             Assert.AreEqual(folder.Name, folderVersions[2].Name);
             Assert.AreEqual(folder.MicrotingUid, folderVersions[2].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folderVersions[2].ParentId);
+            Assert.AreEqual(parentFolder.Id, folderVersions[2].ParentId);
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folders[1].Description);
             Assert.AreEqual(folder.Name, folders[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folders[1].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folders[1].ParentId);
+            Assert.AreEqual(folder.ParentId, parentFolder.Id);
             
             //Old Version
             
@@ -195,7 +195,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folderVersions[1].Description);
             Assert.AreEqual(folder.Name, folderVersions[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folderVersions[1].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folderVersions[1].ParentId);
+            Assert.AreEqual(parentFolder.Id, folderVersions[1].ParentId);
             
             //New Version
             
@@ -207,7 +207,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(folder.Description, folderVersions[2].Description);
             Assert.AreEqual(folder.Name, folderVersions[2].Name);
             Assert.AreEqual(folder.MicrotingUid, folderVersions[2].MicrotingUid);
-            Assert.AreEqual(folder.ParentId, folderVersions[2].ParentId);
+            Assert.AreEqual(parentFolder.Id, folderVersions[2].ParentId);
         }
     }
 }

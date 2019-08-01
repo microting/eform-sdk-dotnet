@@ -25,6 +25,7 @@ namespace eFormSDK.Tests
             entityGroup.Name = Guid.NewGuid().ToString();
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
+            entityGroup.Create(DbContext);
             
             entity_items entityItem = new entity_items();
             entityItem.Description = Guid.NewGuid().ToString();
@@ -61,7 +62,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
             Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItems[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItems[0].EntityGroupId);
+            Assert.AreEqual(entityItem.EntityGroupId, entityGroup.Id);
             
             //Versions
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[0].CreatedAt.ToString());                                  
@@ -70,12 +71,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemsId);
             Assert.AreEqual(entityItem.Name, entityItemVersion[0].Name);
-            Assert.AreEqual(entityItem.Description, entityItems[0].Description);
-            Assert.AreEqual(entityItem.Synced, entityItems[0].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
+            Assert.AreEqual(entityItem.Description, entityItemVersion[0].Description);
+            Assert.AreEqual(entityItem.Synced, entityItemVersion[0].Synced);
+            Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[0].DisplayIndex);
+            Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[0].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItems[0].EntityGroupId);
+            Assert.AreEqual(entityGroup.Id, entityItemVersion[0].EntityGroupId);
         }
 
         [Test]
@@ -144,7 +145,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
             Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItems[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItems[0].EntityGroupId);
+            Assert.AreEqual(entityItem.EntityGroupId, entityGroup.Id);
             
             //Old Version
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[0].CreatedAt.ToString());                                  
@@ -158,7 +159,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldDisplayIndex, entityItemVersion[0].DisplayIndex);
             Assert.AreEqual(oldEntityItemUid, entityItemVersion[0].EntityItemUid);
             Assert.AreEqual(oldMicrotingUid, entityItemVersion[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItemVersion[0].EntityGroupId);
+            Assert.AreEqual(entityGroup.Id, entityItemVersion[0].EntityGroupId);
             
             //New Version
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[1].CreatedAt.ToString());                                  
@@ -172,7 +173,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[1].DisplayIndex);
             Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[1].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[1].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItemVersion[1].EntityGroupId);
+            Assert.AreEqual(entityGroup.Id, entityItemVersion[1].EntityGroupId);
         }
 
         [Test]
@@ -228,7 +229,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
             Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItems[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItems[0].EntityGroupId);
+            Assert.AreEqual(entityItem.EntityGroupId, entityGroup.Id);
             
             //Old Version
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[0].CreatedAt.ToString());                                  
@@ -242,7 +243,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[0].DisplayIndex);
             Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[0].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItemVersion[0].EntityGroupId);
+            Assert.AreEqual(entityGroup.Id, entityItemVersion[0].EntityGroupId);
             
             //New Version
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[1].CreatedAt.ToString());                                  
@@ -256,7 +257,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[1].DisplayIndex);
             Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[1].EntityItemUid);
             Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[1].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityItemVersion[1].EntityGroupId);
+            Assert.AreEqual(entityGroup.Id, entityItemVersion[1].EntityGroupId);
         }
     }
 }

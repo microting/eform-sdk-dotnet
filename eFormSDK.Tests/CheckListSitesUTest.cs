@@ -87,8 +87,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, checkListSites[0].WorkflowState);
             Assert.AreEqual(checkListSite.Id, checkListSites[0].Id);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSites[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSites[0].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSites[0].CheckListId);
+            Assert.AreEqual(checkListSite.SiteId, site.Id);
+            Assert.AreEqual(checkListSite.CheckListId, checklist.Id);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSites[0].LastCheckId);
             
             //Versions
@@ -98,8 +98,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListSite.WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListSite.Id, checkListSitesVersion[0].Id);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSitesVersion[0].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSitesVersion[0].CheckListId);
+            Assert.AreEqual(site.Id, checkListSitesVersion[0].SiteId);
+            Assert.AreEqual(checklist.Id, checkListSitesVersion[0].CheckListId);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[0].LastCheckId);
         }
 
@@ -187,8 +187,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, checkListSites[0].WorkflowState);
             Assert.AreEqual(checkListSite.Id, checkListSites[0].Id);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSites[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSites[0].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSites[0].CheckListId);
+            Assert.AreEqual(checkListSite.SiteId, site.Id);
+            Assert.AreEqual(checkListSite.CheckListId, checklist.Id);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSites[0].LastCheckId);
             
             //Old Version
@@ -198,8 +198,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checkListSite.WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListSite.Id, checkListSitesVersion[0].Id);
             Assert.AreEqual(oldMicrotingUid, checkListSitesVersion[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSitesVersion[0].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSitesVersion[0].CheckListId);
+            Assert.AreEqual(site.Id, checkListSitesVersion[0].SiteId);
+            Assert.AreEqual(checklist.Id, checkListSitesVersion[0].CheckListId);
             Assert.AreEqual(oldLastCheckId, checkListSitesVersion[0].LastCheckId);
             
             //New Version
@@ -209,8 +209,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, checkListSitesVersion[1].WorkflowState);
             Assert.AreEqual(checkListSite.Id, checkListSitesVersion[1].CheckListId);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[1].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSitesVersion[1].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSitesVersion[1].CheckListId);
+            Assert.AreEqual(site.Id, checkListSitesVersion[1].SiteId);
+            Assert.AreEqual(checklist.Id, checkListSitesVersion[1].CheckListId);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[1].LastCheckId);
         }
 
@@ -293,8 +293,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSites[0].WorkflowState);
             Assert.AreEqual(checkListSite.Id, checkListSites[0].Id);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSites[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSites[0].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSites[0].CheckListId);
+            Assert.AreEqual(checkListSite.SiteId, site.Id);
+            Assert.AreEqual(checkListSite.CheckListId, checklist.Id);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSites[0].LastCheckId);
             
             //Old Version
@@ -303,8 +303,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldUpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
             Assert.AreEqual(checkListSitesVersion[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checkListSite.Id, checkListSitesVersion[0].Id);
-            Assert.AreEqual(checkListSite.SiteId, checkListSitesVersion[0].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSitesVersion[0].CheckListId);
+            Assert.AreEqual(site.Id, checkListSitesVersion[0].SiteId);
+            Assert.AreEqual(checklist.Id, checkListSitesVersion[0].CheckListId);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[0].LastCheckId);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[0].MicrotingUid);
             
@@ -315,8 +315,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSitesVersion[1].WorkflowState);
             Assert.AreEqual(checkListSite.Id, checkListSitesVersion[1].CheckListSiteId);
             Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[1].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, checkListSitesVersion[1].SiteId);
-            Assert.AreEqual(checkListSite.CheckListId, checkListSitesVersion[1].CheckListId);
+            Assert.AreEqual(site.Id, checkListSitesVersion[1].SiteId);
+            Assert.AreEqual(checklist.Id, checkListSitesVersion[1].CheckListId);
             Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[1].LastCheckId);
         }
     }

@@ -188,10 +188,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fields[1].SplitScreen);
             Assert.AreEqual(field.QueryType, fields[1].QueryType);
             Assert.AreEqual(field.UnitName, fields[1].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fields[1].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fields[1].FieldTypeId);
+            Assert.AreEqual(field.EntityGroupId, entityGroup.Id);
+            Assert.AreEqual(field.FieldTypeId, fieldType.Id);
             Assert.AreEqual(field.ParentFieldId, fields[1].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fields[1].CheckListId);
+            Assert.AreEqual(field.CheckListId, checklist.Id);
             Assert.AreEqual(field.StopOnSave, fields[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fields[1].KeyValuePairList);
          
@@ -228,10 +228,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fieldVersion[1].SplitScreen);
             Assert.AreEqual(field.QueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[1].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fieldVersion[1].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fieldVersion[1].FieldTypeId);
+            Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);
+            Assert.AreEqual(fieldType.Id, fieldVersion[1].FieldTypeId);
             Assert.AreEqual(field.ParentFieldId, fieldVersion[1].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fieldVersion[1].CheckListId);
+            Assert.AreEqual(checklist.Id, fieldVersion[1].CheckListId);
             Assert.AreEqual(field.StopOnSave, fieldVersion[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fieldVersion[1].KeyValuePairList);
         }
@@ -473,10 +473,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fields[1].SplitScreen);
             Assert.AreEqual(field.QueryType, fields[1].QueryType);
             Assert.AreEqual(field.UnitName, fields[1].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fields[1].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fields[1].FieldTypeId);
+            Assert.AreEqual(field.EntityGroupId, entityGroup.Id);
+            Assert.AreEqual(field.FieldTypeId, fieldType.Id);
             Assert.AreEqual(field.ParentFieldId, fields[1].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fields[1].CheckListId);
+            Assert.AreEqual(field.CheckListId, checklist.Id);
             Assert.AreEqual(field.StopOnSave, fields[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fields[1].KeyValuePairList);
          
@@ -513,10 +513,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldSplitscreen, fieldVersion[1].SplitScreen);
             Assert.AreEqual(oldQueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(oldUnitName, fieldVersion[1].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fieldVersion[1].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fieldVersion[1].FieldTypeId);
+            Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);
+            Assert.AreEqual(fieldType.Id, fieldVersion[1].FieldTypeId);
             Assert.AreEqual(field.ParentFieldId, fieldVersion[1].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fieldVersion[1].CheckListId);
+            Assert.AreEqual(checklist.Id, fieldVersion[1].CheckListId);
             Assert.AreEqual(oldStopOnSave, fieldVersion[1].StopOnSave);
             Assert.AreEqual(oldKeyValuePairList, fieldVersion[1].KeyValuePairList);
             
@@ -552,10 +552,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fieldVersion[2].SplitScreen);
             Assert.AreEqual(field.QueryType, fieldVersion[2].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[2].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fieldVersion[2].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fieldVersion[2].FieldTypeId);
+            Assert.AreEqual(entityGroup.Id, fieldVersion[2].EntityGroupId);
+            Assert.AreEqual(fieldType.Id, fieldVersion[2].FieldTypeId);
             Assert.AreEqual(field.ParentFieldId, fieldVersion[2].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fieldVersion[2].CheckListId);
+            Assert.AreEqual(checklist.Id, fieldVersion[2].CheckListId);
             Assert.AreEqual(field.StopOnSave, fieldVersion[2].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fieldVersion[2].KeyValuePairList);
         }
@@ -740,10 +740,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fields[1].SplitScreen);
             Assert.AreEqual(field.QueryType, fields[1].QueryType);
             Assert.AreEqual(field.UnitName, fields[1].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fields[1].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fields[1].FieldTypeId);
+            Assert.AreEqual(field.EntityGroupId, entityGroup.Id);
+            Assert.AreEqual(field.FieldTypeId, fieldType.Id);
             Assert.AreEqual(field.ParentFieldId, fields[1].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fields[1].CheckListId);
+            Assert.AreEqual(field.CheckListId, checklist.Id);
             Assert.AreEqual(field.StopOnSave, fields[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fields[1].KeyValuePairList);
          
@@ -780,10 +780,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fieldVersion[1].SplitScreen);
             Assert.AreEqual(field.QueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[1].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fieldVersion[1].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fieldVersion[1].FieldTypeId);
+            Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);
+            Assert.AreEqual(fieldType.Id, fieldVersion[1].FieldTypeId);
             Assert.AreEqual(field.ParentFieldId, fieldVersion[1].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fieldVersion[1].CheckListId);
+            Assert.AreEqual(checklist.Id, fieldVersion[1].CheckListId);
             Assert.AreEqual(field.StopOnSave, fieldVersion[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fieldVersion[1].KeyValuePairList);
             
@@ -819,10 +819,10 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.SplitScreen, fieldVersion[2].SplitScreen);
             Assert.AreEqual(field.QueryType, fieldVersion[2].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[2].UnitName);
-            Assert.AreEqual(field.EntityGroupId, fieldVersion[2].EntityGroupId);
-            Assert.AreEqual(field.FieldTypeId, fieldVersion[2].FieldTypeId);
+            Assert.AreEqual(entityGroup.Id, fieldVersion[2].EntityGroupId);
+            Assert.AreEqual(fieldType.Id, fieldVersion[2].FieldTypeId);
             Assert.AreEqual(field.ParentFieldId, fieldVersion[2].ParentFieldId);
-            Assert.AreEqual(field.CheckListId, fieldVersion[2].CheckListId);
+            Assert.AreEqual(checklist.Id, fieldVersion[2].CheckListId);
             Assert.AreEqual(field.StopOnSave, fieldVersion[2].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fieldVersion[2].KeyValuePairList); 
         }

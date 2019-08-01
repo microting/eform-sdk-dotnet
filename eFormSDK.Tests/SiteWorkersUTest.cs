@@ -54,8 +54,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkers[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteWorker.Id, siteWorkers[0].Id);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkers[0].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkers[0].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkers[0].WorkerId);
+            Assert.AreEqual(siteWorker.SiteId, site.Id);
+            Assert.AreEqual(siteWorker.WorkerId, worker.Id);
             
             //Versions
             
@@ -65,8 +65,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkerVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteWorker.Id, siteWorkerVersions[0].SiteWorkerId);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkerVersions[0].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkerVersions[0].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkerVersions[0].WorkerId);
+            Assert.AreEqual(site.Id, siteWorkerVersions[0].SiteId);
+            Assert.AreEqual(worker.Id, siteWorkerVersions[0].WorkerId);
         }
 
         [Test]
@@ -120,8 +120,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkers[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteWorker.Id, siteWorkers[0].Id);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkers[0].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkers[0].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkers[0].WorkerId);
+            Assert.AreEqual(siteWorker.SiteId, site.Id);
+            Assert.AreEqual(siteWorker.WorkerId, worker.Id);
             
             //Old Version
             
@@ -131,8 +131,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkerVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteWorker.Id, siteWorkerVersions[0].SiteWorkerId);
             Assert.AreEqual(oldMicroTingUid, siteWorkerVersions[0].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkerVersions[0].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkerVersions[0].WorkerId);
+            Assert.AreEqual(site.Id, siteWorkerVersions[0].SiteId);
+            Assert.AreEqual(worker.Id, siteWorkerVersions[0].WorkerId);
             
             //New Version
             
@@ -142,8 +142,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkerVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteWorker.Id, siteWorkerVersions[1].SiteWorkerId);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkerVersions[1].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkerVersions[1].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkerVersions[1].WorkerId);
+            Assert.AreEqual(site.Id, siteWorkerVersions[1].SiteId);
+            Assert.AreEqual(worker.Id, siteWorkerVersions[1].WorkerId);
         }
 
         [Test]
@@ -194,8 +194,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkers[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(siteWorker.Id, siteWorkers[0].Id);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkers[0].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkers[0].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkers[0].WorkerId);
+            Assert.AreEqual(siteWorker.SiteId, site.Id);
+            Assert.AreEqual(siteWorker.WorkerId, worker.Id);
             
             //Old Version
             
@@ -205,8 +205,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkerVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteWorker.Id, siteWorkerVersions[0].SiteWorkerId);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkerVersions[0].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkerVersions[0].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkerVersions[0].WorkerId);
+            Assert.AreEqual(site.Id, siteWorkerVersions[0].SiteId);
+            Assert.AreEqual(worker.Id, siteWorkerVersions[0].WorkerId);
             
             //New Version
             
@@ -216,8 +216,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteWorkerVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(siteWorker.Id, siteWorkerVersions[1].SiteWorkerId);
             Assert.AreEqual(siteWorker.MicrotingUid, siteWorkerVersions[1].MicrotingUid);
-            Assert.AreEqual(siteWorker.SiteId, siteWorkerVersions[1].SiteId);
-            Assert.AreEqual(siteWorker.WorkerId, siteWorkerVersions[1].WorkerId);
+            Assert.AreEqual(site.Id, siteWorkerVersions[1].SiteId);
+            Assert.AreEqual(worker.Id, siteWorkerVersions[1].WorkerId);
         }
     }
 }

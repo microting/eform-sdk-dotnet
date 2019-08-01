@@ -54,8 +54,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(siteSurveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteSurveyConfiguration.Id, siteSurveyConfigurations[0].Id);
-            Assert.AreEqual(siteSurveyConfiguration.SiteId, siteSurveyConfigurations[0].SiteId);
-            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, siteSurveyConfigurations[0].SurveyConfigurationId);
+            Assert.AreEqual(siteSurveyConfiguration.SiteId, site.Id);
+            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, surveyConfiguration.Id);
             
             //Versions
             
@@ -64,8 +64,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(siteSurveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteSurveyConfiguration.Id, siteSurveyConfigurationVersions[0].Id);
-            Assert.AreEqual(siteSurveyConfiguration.SiteId, siteSurveyConfigurationVersions[0].SiteId);
-            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, siteSurveyConfigurationVersions[0].SurveyConfigurationId);
+            Assert.AreEqual(site.Id, siteSurveyConfigurationVersions[0].SiteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfigurationVersions[0].SurveyConfigurationId);
         }
 
         [Test]
@@ -114,8 +114,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(siteSurveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(siteSurveyConfiguration.Id, siteSurveyConfigurations[0].Id);
-            Assert.AreEqual(siteSurveyConfiguration.SiteId, siteSurveyConfigurations[0].SiteId);
-            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, siteSurveyConfigurations[0].SurveyConfigurationId);
+            Assert.AreEqual(siteSurveyConfiguration.SiteId, site.Id);
+            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, surveyConfiguration.Id);
             
             //Old Version
             
@@ -124,8 +124,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldUpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(siteSurveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(siteSurveyConfiguration.Id, siteSurveyConfigurationVersions[0].SiteSurveyConfigurationId);
-            Assert.AreEqual(siteSurveyConfiguration.SiteId, siteSurveyConfigurationVersions[0].SiteId);
-            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, siteSurveyConfigurationVersions[0].SurveyConfigurationId);
+            Assert.AreEqual(site.Id, siteSurveyConfigurationVersions[0].SiteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfigurationVersions[0].SurveyConfigurationId);
             
             //New Version
             
@@ -134,8 +134,8 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(siteSurveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(siteSurveyConfiguration.Id, siteSurveyConfigurationVersions[1].SiteSurveyConfigurationId);
-            Assert.AreEqual(siteSurveyConfiguration.SiteId, siteSurveyConfigurationVersions[1].SiteId);
-            Assert.AreEqual(siteSurveyConfiguration.SurveyConfigurationId, siteSurveyConfigurationVersions[1].SurveyConfigurationId);
+            Assert.AreEqual(site.Id, siteSurveyConfigurationVersions[1].SiteId);
+            Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfigurationVersions[1].SurveyConfigurationId);
         }
     }
 }

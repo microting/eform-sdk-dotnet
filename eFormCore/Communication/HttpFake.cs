@@ -288,12 +288,14 @@ namespace Microting.eForm.Communication
 
         public string FolderLoadAllFromRemote()
         {
-            return "";
+            return "{}";
         }
 
         public string FolderCreate(string name, string description, int? parent_id)
         {
-            return "";
+            JObject content_to_microting = JObject.FromObject(new
+                {name = name, description = description, parent_id = t.GetRandomInt(6)});
+            return content_to_microting.ToString();
         }
 
         public void FolderUpdate(int id, string name, string description, int? parent_id)
