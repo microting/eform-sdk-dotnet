@@ -61,11 +61,24 @@ namespace eFormSDK.Integration.Tests
             
             //Assert
 
-            var folder = DbContext.folders.ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
-            Assert.AreEqual(folder[0].Name, folderName);
-            Assert.AreEqual(folder[0].Description, folderDescription);
-            Assert.AreEqual(1, folder.Count());
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(1, folders.Count);
+            Assert.AreEqual(1, folderVersions.Count);
+            
+            Assert.AreEqual(folders[0].Name, folderName);
+            Assert.AreEqual(folders[0].Description, folderDescription);
+            Assert.AreEqual(folders[0].WorkflowState, Constants.WorkflowStates.Created);
+
+            
+            Assert.AreEqual(folderVersions[0].Name, folders[0].Name);
+            Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
+            Assert.AreEqual(folderVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+
         }
 
         [Test]
@@ -87,8 +100,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId);
 
-            var folderVersions = DbContext.folder_versions.ToList();
-            var folders = DbContext.folders.ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -130,14 +143,30 @@ namespace eFormSDK.Integration.Tests
             
             sut.FolderDelete(folder.Id);
             
-            //Assert
-
-            var result = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
-            Assert.AreEqual(result[0].Name, folderName);
-            Assert.AreEqual(result[0].Description, folderDescription);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
+            //Assert
+            
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(1, folders.Count);
+            Assert.AreEqual(2, folderVersions.Count);
+            
+            Assert.AreEqual(folders[0].Name, folderName);
+            Assert.AreEqual(folders[0].Description, folderDescription);
+            Assert.AreEqual(folders[0].WorkflowState, Constants.WorkflowStates.Removed);
+
+
+            Assert.AreEqual(folderVersions[0].Name, folders[0].Name);
+            Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
+            Assert.AreEqual(folderVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+
+            
+            Assert.AreEqual(folderVersions[1].Name, folders[0].Name);
+            Assert.AreEqual(folderVersions[1].Description, folders[0].Description);
+            Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
         }
 
         [Test]
@@ -162,13 +191,26 @@ namespace eFormSDK.Integration.Tests
             
             sut.FolderUpdate(folder.Id, newFolderName, newDescription, null);
             
-            //Assert
-
-            var result = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
-            Assert.AreEqual(result[0].Name, newFolderName);
-            Assert.AreEqual(result[0].Description, newDescription);
-            Assert.AreEqual(1, result.Count());
+            //Assert
+            
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(1, folders.Count);
+            Assert.AreEqual(2, folderVersions.Count);
+            
+            Assert.AreEqual(folders[0].Name, newFolderName);
+            Assert.AreEqual(folders[0].Description, newDescription);
+
+
+            Assert.AreEqual(folderVersions[0].Name, folder.Name);
+            Assert.AreEqual(folderVersions[0].Description, folder.Description);
+            
+            Assert.AreEqual(folderVersions[1].Name, folders[0].Name);
+            Assert.AreEqual(folderVersions[1].Description, folders[0].Description);
         }
         
 
