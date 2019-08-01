@@ -726,7 +726,7 @@ namespace Microting.eForm.Communication
             return response;
         }
 
-        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        public bool FolderUpdate(int id, string name, string description, int? parent_id)
         {
             JObject content_to_microting = JObject.FromObject(new { name = name, description = description, parent_id = parent_id });
             WebRequest request = WebRequest.Create(addressBasic + "/v1/folders/" + id + "?token=" + token + "&model=" + content_to_microting.ToString() + "&sdk_ver=" + dllVersion);
@@ -735,10 +735,11 @@ namespace Microting.eForm.Communication
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
-            string newUrl = PostToServerGetRedirect(request, content);
+            PostToServerGetRedirect(request, content);
+            return true;
         }
 
-        public void FolderDelete(int id)
+        public string FolderDelete(int id)
         {            
             try
             {
@@ -750,6 +751,8 @@ namespace Microting.eForm.Communication
 
                 request = WebRequest.Create(newUrl + "?token=" + token);
                 request.Method = "GET";
+                
+                return PostToServer(request);
             }
             catch (Exception ex)
             {

@@ -48,7 +48,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<folders> Children { get; set; }
 
-        public void Save(MicrotingDbAnySql _dbContext)
+        public void Create(MicrotingDbAnySql _dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;

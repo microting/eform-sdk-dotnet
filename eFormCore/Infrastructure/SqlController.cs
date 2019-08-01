@@ -4602,7 +4602,7 @@ namespace Microting.eForm.Infrastructure
                 MicrotingUid = microtingUUID
             };
 
-            folder.Save(GetContext());
+            folder.Create(GetContext());
             
             return folder.Id;
         }

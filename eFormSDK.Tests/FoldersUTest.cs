@@ -23,7 +23,7 @@ namespace eFormSDK.Tests
             parentFolder.Description = Guid.NewGuid().ToString();
             parentFolder.Name = Guid.NewGuid().ToString();
             parentFolder.MicrotingUid = rnd.Next(1, 255);
-            parentFolder.Save(DbContext);
+            parentFolder.Create(DbContext);
             
             folders folder = new folders();
             folder.Description = Guid.NewGuid().ToString();
@@ -33,7 +33,7 @@ namespace eFormSDK.Tests
             
             //Act
             
-            folder.Save(DbContext);
+            folder.Create(DbContext);
             
             List<folders> folders = DbContext.folders.AsNoTracking().ToList();
             List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
@@ -78,14 +78,14 @@ namespace eFormSDK.Tests
             parentFolder.Description = Guid.NewGuid().ToString();
             parentFolder.Name = Guid.NewGuid().ToString();
             parentFolder.MicrotingUid = rnd.Next(1, 255);
-            parentFolder.Save(DbContext);
+            parentFolder.Create(DbContext);
             
             folders folder = new folders();
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
             folder.ParentId = parentFolder.Id;
-            folder.Save(DbContext);
+            folder.Create(DbContext);
 
             //Act
             DateTime? oldUpdatedAt = folder.UpdatedAt;
@@ -153,14 +153,14 @@ namespace eFormSDK.Tests
             parentFolder.Description = Guid.NewGuid().ToString();
             parentFolder.Name = Guid.NewGuid().ToString();
             parentFolder.MicrotingUid = rnd.Next(1, 255);
-            parentFolder.Save(DbContext);
+            parentFolder.Create(DbContext);
             
             folders folder = new folders();
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
             folder.ParentId = parentFolder.Id;
-            folder.Save(DbContext);
+            folder.Create(DbContext);
 
             //Act
             

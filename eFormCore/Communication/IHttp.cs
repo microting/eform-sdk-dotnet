@@ -90,9 +90,9 @@ namespace Microting.eForm.Communication
 
         string FolderCreate(string name, string description, int? parent_id);
 
-        void FolderUpdate(int id, string name, string description, int? parent_id);
+        bool FolderUpdate(int id, string name, string description, int? parent_id);
 
-        void FolderDelete(int id);
+        string FolderDelete(int id);
 
         int UnitRequestOtp(int id);
 

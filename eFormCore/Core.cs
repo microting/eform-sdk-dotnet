@@ -2710,7 +2710,9 @@ namespace eFormCore
                     _sqlController.FolderUpdate(id, name, description, parent_id);
                 }
                 else
+                {
                     throw new Exception("Core is not running");
+                }
             }
             catch (Exception ex)
             {
@@ -2726,11 +2728,16 @@ namespace eFormCore
                 if (Running())
                 {
                     Folder_Dto folder = FolderRead(id);
-                    _communicator.FolderDelete((int)folder.MicrotingUId);
-                    _sqlController.FolderDelete(id);
+                    bool success = _communicator.FolderDelete((int)folder.MicrotingUId);
+                    if (success)
+                    {
+                        _sqlController.FolderDelete(id);
+                    }
                 }
                 else
+                {
                     throw new Exception("Core is not running");
+                }
             }
             catch (Exception ex)
             {

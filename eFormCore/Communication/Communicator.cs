@@ -539,9 +539,17 @@ namespace Microting.eForm.Communication
             http.FolderUpdate(id, name, description, parentId);
         }
 
-        public void FolderDelete(int id)
+        public bool FolderDelete(int id)
         {
-            http.FolderDelete(id);
+            string response = http.FolderDelete(id);
+            var parsedData = JRaw.Parse(response);
+
+            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
+            {
+                return true;
+            }
+            
+            return false;
         }
         
         #endregion

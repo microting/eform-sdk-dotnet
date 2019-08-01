@@ -293,19 +293,29 @@ namespace Microting.eForm.Communication
 
         public string FolderCreate(string name, string description, int? parent_id)
         {
+            int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new
-                {name = name, description = description, parent_id = t.GetRandomInt(6)});
+                {id = id, name = name, description = description, parent_id = t.GetRandomInt(6)});
             return content_to_microting.ToString();
         }
 
-        public void FolderUpdate(int id, string name, string description, int? parent_id)
+        public bool FolderUpdate(int id, string name, string description, int? parent_id)
         {
-            
+            return true;
         }
 
-        public void FolderDelete(int id)
+        public string FolderDelete(int id)
         {
             
+            JObject content_to_microting = JObject.FromObject(new {name = "Some Name", description = "Some Description", id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            return content_to_microting.ToString();
+////            if (id == 1)
+////            {
+////            }
+////            else
+////            {
+////                return "Not implemented!";
+//            }
         }
         #endregion
 
