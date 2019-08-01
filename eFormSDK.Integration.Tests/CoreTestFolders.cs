@@ -69,6 +69,49 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
+        public void Core_Folders_CreateSubFolder_DoesCreateSubFolder()
+        {
+            // Arrange
+            
+            string folderName = Guid.NewGuid().ToString();
+            string folderDescription = Guid.NewGuid().ToString();
+            
+            sut.FolderCreate(folderName, folderDescription, null);
+
+            int firstFolderId = DbContext.folders.First().Id;
+            
+            string subFolderName = Guid.NewGuid().ToString();
+            string subFolderDescription = Guid.NewGuid().ToString();
+            
+            
+            // Act
+            sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId);
+
+            var folderVersions = DbContext.folder_versions.ToList();
+            var folders = DbContext.folders.ToList();
+            
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(2, folders.Count);
+            Assert.AreEqual(2, folderVersions.Count);
+            
+            Assert.AreEqual(folders[0].Name, folderName);
+            Assert.AreEqual(folders[0].Description, folderDescription);
+
+            Assert.AreEqual(folders[1].Name, subFolderName);
+            Assert.AreEqual(folders[1].Description, subFolderDescription);
+            Assert.AreEqual(folders[1].ParentId, firstFolderId);
+            
+            Assert.AreEqual(folderVersions[0].Name, folders[0].Name);
+            Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
+            
+            Assert.AreEqual(folderVersions[1].Name, folders[1].Name);
+            Assert.AreEqual(folderVersions[1].Description, folders[1].Description);
+            Assert.AreEqual(folderVersions[1].ParentId, firstFolderId);
+        }
+
+        [Test]
         public void Core_Folders_DeleteFolder_DoesMarkFolderAsRemoved()
         {
             // Arrange

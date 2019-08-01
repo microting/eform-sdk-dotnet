@@ -295,7 +295,7 @@ namespace Microting.eForm.Communication
         {
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new
-                {id = id, name = name, description = description, parent_id = t.GetRandomInt(6)});
+                {id = id, name = name, description = description, parent_id = parent_id});
             return content_to_microting.ToString();
         }
 
