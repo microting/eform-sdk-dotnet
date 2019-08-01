@@ -2080,7 +2080,7 @@ namespace eFormCore
             return _resultDocument;
         }
 
-        private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, Case_Dto cDto, string customPathForUploadedData, string customXmlContent)
+        private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, Case_Dto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
         {
             
             List<KeyValuePair<string, string>> valuePairs = new List<KeyValuePair<string, string>>();
@@ -2108,13 +2108,16 @@ namespace eFormCore
                 {
                     if (fieldValue.FieldType == Constants.FieldTypes.Picture)
                     {
-                        pictures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
-                        SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
-                        var fileStream =
-                            File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                        swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                        swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                        fileStream.Close();
+                        if (fieldValue.UploadedDataObj != null)
+                        {
+                            pictures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
+                            var fileStream =
+                                File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                            swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                            swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                            fileStream.Close();    
+                        }
                     }
                     else
                     {
@@ -2145,8 +2148,17 @@ namespace eFormCore
             ReportHelper.InsertImages(resultDocument, pictures);
             
             ReportHelper.ConvertToPdf(resultDocument, outputFolder);
-            return Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
-                $"{timeStamp}_{caseId}.pdf");;
+            if (fileType == "pdf")
+            {
+                return Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                    $"{timeStamp}_{caseId}.pdf");    
+            }
+            else
+            {
+                return Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                    $"{timeStamp}_{caseId}.docx");
+            }
+            
         }
 
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXmlContent)
@@ -2181,7 +2193,7 @@ namespace eFormCore
                     }
                     else
                     {
-                        resultDocument = DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent);
+                        resultDocument = DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent, fileType);
                     }
 
                     //return path
