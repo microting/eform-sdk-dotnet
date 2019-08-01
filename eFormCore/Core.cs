@@ -41,9 +41,11 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
+using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -2004,9 +2006,9 @@ namespace eFormCore
             }
         }
         
-        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData)
+        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string customXmlContent)
         {
-            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", $"");
+            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", customXmlContent);
         }
 
         private string JasperToPdf(int caseId, string jasperTemplate, string timeStamp)
@@ -2017,8 +2019,8 @@ namespace eFormCore
             // Redirect the output stream of the child process.
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            string exePath = AppDomain.CurrentDomain.BaseDirectory;
-            Log.LogStandard(t.GetMethodName("Core"), "exePath is " + exePath);
+//            string exePath = AppDomain.CurrentDomain.BaseDirectory;
+//            Log.LogStandard(t.GetMethodName("Core"), "exePath is " + exePath);
             string localJasperExporter = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "utils",
                 "JasperExporter.jar");
             if (!File.Exists(localJasperExporter))
@@ -2078,12 +2080,76 @@ namespace eFormCore
             return _resultDocument;
         }
 
-        private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp)
+        private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, Case_Dto cDto, string customPathForUploadedData, string customXmlContent)
         {
-            return "";
+            
+            List<KeyValuePair<string, string>> valuePairs = new List<KeyValuePair<string, string>>();
+            // get base values
+            valuePairs.Add(new KeyValuePair<string, string>("F_CaseName", reply.Label));
+            valuePairs.Add(new KeyValuePair<string, string>("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}"));
+            valuePairs.Add(new KeyValuePair<string, string>("F_Worker", Advanced_WorkerNameRead(reply.DoneById)));
+            valuePairs.Add(new KeyValuePair<string, string>("F_CheckId", reply.MicrotingUId));
+            valuePairs.Add(new KeyValuePair<string, string>("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss")));
+            valuePairs.Add(new KeyValuePair<string, string>("F_SiteName", Advanced_SiteItemRead(reply.SiteMicrotingUuid).SiteName));
+            
+            // get field_values
+            List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
+            List<int> caseIds = new List<int>();
+            caseIds.Add(caseId);
+            List<FieldValue> fieldValues = Advanced_FieldValueReadList(caseIds);
+            foreach (FieldValue fieldValue in fieldValues)
+            {
+                if (fieldValue.FieldType == Constants.FieldTypes.MultiSelect)
+                {
+                    // This inserts a linebreak instead of each |
+                    valuePairs.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>")));
+                }
+                else
+                {
+                    if (fieldValue.FieldType == Constants.FieldTypes.Picture)
+                    {
+                        pictures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                        SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
+                        var fileStream =
+                            File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                        swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                        swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                        fileStream.Close();
+                    }
+                    else
+                    {
+                        valuePairs.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.ValueReadable));
+                    }
+                }
+            }
+            // get check_list_values
+            List<CheckListValue> checkListValues = Advanced_CheckListValueReadList(caseIds);
+            foreach (CheckListValue checkListValue in checkListValues)
+            {
+                valuePairs.Add(new KeyValuePair<string, string>($"C_{checkListValue.Id}", checkListValue.Status));
+            }
+            // TODO get custom xml values
+            
+            
+            string templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
+                $"{jasperTemplate}.docx");  
+            
+            string resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                $"{timeStamp}_{caseId}.docx");
+
+            string outputFolder = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results");
+            
+            ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
+            
+            // TODO insert images
+            ReportHelper.InsertImages(resultDocument, pictures);
+            
+            ReportHelper.ConvertToPdf(resultDocument, outputFolder);
+            return Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
+                $"{timeStamp}_{caseId}.pdf");;
         }
 
-        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXMLContent)
+        public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXmlContent)
         {
             if (fileType != "pdf" && fileType != "docx" && fileType != "pptx")
             {
@@ -2106,16 +2172,16 @@ namespace eFormCore
                     Case_Dto cDto = CaseLookupCaseId(caseId);
                     ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
                     
-                    CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXMLContent);
                     string resultDocument = "";
-                        
+
+                    CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent);
                     if (reply.JasperExportEnabled)
                     {
-                        resultDocument = JasperToPdf(caseId, jasperTemplate, timeStamp);   
+                        resultDocument = JasperToPdf(caseId, jasperTemplate, timeStamp);
                     }
                     else
                     {
-                        resultDocument = DocxToPdf(caseId, jasperTemplate, timeStamp);
+                        resultDocument = DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent);
                     }
 
                     //return path

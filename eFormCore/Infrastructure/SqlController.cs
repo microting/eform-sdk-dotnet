@@ -281,7 +281,7 @@ namespace Microting.eForm.Infrastructure
                     if (!includeRemoved)
                         sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
-                    if (searchKey != null && searchKey != "")
+                    if (!string.IsNullOrEmpty(searchKey))
                     {
                         sub_query = sub_query.Where(x => x.Label.Contains(searchKey) || x.Description.Contains(searchKey));
                     }
@@ -1866,11 +1866,11 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    List<field_values> matches = db.field_values.Where(x => caseIds.Contains(x.Id)).ToList();
+                    List<field_values> matches = db.field_values.Where(x => caseIds.Contains((int)x.CaseId)).ToList();
                     List<FieldValue> rtnLst = new List<FieldValue>();
 
                     foreach (var item in matches)
-                        rtnLst.Add(FieldValueRead(item, true));
+                        rtnLst.Add(FieldValueRead(item, false));
 
                     return rtnLst;
                 }
@@ -1887,7 +1887,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    List<check_list_values> matches = db.check_list_values.Where(x => caseIds.Contains(x.Id)).ToList();
+                    List<check_list_values> matches = db.check_list_values.Where(x => caseIds.Contains((int)x.CaseId)).ToList();
                     List<CheckListValue> rtnLst = new List<CheckListValue>();
 
                     foreach (var item in matches)
