@@ -18,7 +18,7 @@ namespace Microting.eForm.Helpers
 {
     public class ReportHelper
     {
-        public static void SearchAndReplace(string fullPathToDocument, List<KeyValuePair<string, string>> valuesToReplace, string outputFileName)
+        public static void SearchAndReplace(string fullPathToDocument,Dictionary<string, string> valuesToReplace, string outputFileName)
         {
             File.Copy(fullPathToDocument, outputFileName);
             
@@ -32,10 +32,15 @@ namespace Microting.eForm.Helpers
             
             foreach (var fieldValue in valuesToReplace)
             {
-                if (!string.IsNullOrEmpty(fieldValue.Value))
+                if (fieldValue.Value != null)
+                {  
+                    Regex regexText = new Regex(fieldValue.Key);
+                    docText = regexText.Replace(docText, fieldValue.Value);  
+                }
+                else
                 {
                     Regex regexText = new Regex(fieldValue.Key);
-                    docText = regexText.Replace(docText, fieldValue.Value);    
+                    docText = regexText.Replace(docText, "");  
                 }
             }
 
@@ -72,6 +77,8 @@ namespace Microting.eForm.Helpers
                 }
                 
                 InsertPicture(keyValuePair.Value, wordDoc);
+                
+                
             }
             
             wordDoc.Save();

@@ -2083,53 +2083,75 @@ namespace eFormCore
         private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, Case_Dto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
         {
             
-            List<KeyValuePair<string, string>> valuePairs = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> valuePairs = new Dictionary<string, string>();
             // get base values
-            valuePairs.Add(new KeyValuePair<string, string>("F_CaseName", reply.Label));
-            valuePairs.Add(new KeyValuePair<string, string>("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}"));
-            valuePairs.Add(new KeyValuePair<string, string>("F_Worker", Advanced_WorkerNameRead(reply.DoneById)));
-            valuePairs.Add(new KeyValuePair<string, string>("F_CheckId", reply.MicrotingUId));
-            valuePairs.Add(new KeyValuePair<string, string>("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss")));
-            valuePairs.Add(new KeyValuePair<string, string>("F_SiteName", Advanced_SiteItemRead(reply.SiteMicrotingUuid).SiteName));
+            valuePairs.Add("F_CaseName", reply.Label);
+            valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
+            valuePairs.Add("F_Worker", Advanced_WorkerNameRead(reply.DoneById));
+            valuePairs.Add("F_CheckId", reply.MicrotingUId);
+            valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss"));
+            valuePairs.Add("F_SiteName", Advanced_SiteItemRead(reply.SiteMicrotingUuid).SiteName);
             
             // get field_values
             List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
             List<int> caseIds = new List<int>();
             caseIds.Add(caseId);
             List<FieldValue> fieldValues = Advanced_FieldValueReadList(caseIds);
+
+            List<Field_Dto> allFields = _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate));
+
+            foreach (Field_Dto field in allFields)
+            {
+                valuePairs.Add($"F_{field.Id}", "");
+            }
+            
+            Dictionary<string, int> imageFieldCountList = new Dictionary<string, int>();
             foreach (FieldValue fieldValue in fieldValues)
             {
                 if (fieldValue.FieldType == Constants.FieldTypes.MultiSelect)
                 {
                     // This inserts a linebreak instead of each |
-                    valuePairs.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>")));
+                    valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
                 }
                 else
                 {
                     if (fieldValue.FieldType == Constants.FieldTypes.Picture)
                     {
+                        imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
                         {
-                            pictures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            Field field = _sqlController.FieldRead(fieldValue.FieldId);
+                            
+                            pictures.Add(new KeyValuePair<string, string>($"F_{field.Label}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
                             var fileStream =
                                 File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                             swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
                             swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
                             fileStream.Close();    
+                            if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
+                            {
+                                imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
+                            }
                         }
                     }
                     else
                     {
-                        valuePairs.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.ValueReadable));
+                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
                     }
                 }
             }
+
+            foreach (KeyValuePair<string,int> keyValuePair in imageFieldCountList)
+            {
+                valuePairs.Add(keyValuePair.Key, keyValuePair.Value.ToString());
+            }
+            
             // get check_list_values
             List<CheckListValue> checkListValues = Advanced_CheckListValueReadList(caseIds);
             foreach (CheckListValue checkListValue in checkListValues)
             {
-                valuePairs.Add(new KeyValuePair<string, string>($"C_{checkListValue.Id}", checkListValue.Status));
+                valuePairs.Add($"C_{checkListValue.Id}", checkListValue.Status);
             }
             // TODO get custom xml values
             
@@ -2139,17 +2161,17 @@ namespace eFormCore
             
             string resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
                 $"{timeStamp}_{caseId}.docx");
-
-            string outputFolder = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results");
             
             ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
             
             // TODO insert images
             ReportHelper.InsertImages(resultDocument, pictures);
             
-            ReportHelper.ConvertToPdf(resultDocument, outputFolder);
             if (fileType == "pdf")
             {
+                string outputFolder = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results");
+            
+                ReportHelper.ConvertToPdf(resultDocument, outputFolder);
                 return Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
                     $"{timeStamp}_{caseId}.pdf");    
             }
