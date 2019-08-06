@@ -24,8 +24,13 @@ SOFTWARE.
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class site_group_versions
+    public class site_group_versions : BaseEntity
     {
+        public string Name { get; set; }
+
+        public int ParentId { get; set; }
+        
+        public int SiteGroupId { get; set; }
         
     }
 }

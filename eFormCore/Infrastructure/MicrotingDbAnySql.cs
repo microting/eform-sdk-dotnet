@@ -90,6 +90,10 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<tagging_versions> tagging_versions { get; set; }
         public virtual DbSet<folders> folders { get; set; }
         public virtual DbSet<folder_versions> folder_versions { get; set; }
+        public virtual DbSet<site_groups> SiteGroups { get; set; }
+        public virtual DbSet<site_group_versions> SiteGroupVersions { get; set; }
+        public virtual DbSet<site_group_sites> SiteGroupSites { get; set; }
+        public virtual DbSet<site_group_site_versions> SiteGroupSiteVersions { get; set; }
 
         public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
         {

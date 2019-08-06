@@ -22,10 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class site_group_sites
+    public class site_group_sites : BaseEntity
     {
+        [ForeignKey("site_group")]
+        public int SiteGroupId { get; set; }
+
+        [ForeignKey("site")]
+        public int SiteId { get; set; }
+        
+        public virtual sites Site { get; set; }
+        
+        public virtual site_groups SiteGroup { get; set; }
         
     }
 }

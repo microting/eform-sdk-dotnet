@@ -22,10 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections.Generic;
+
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class site_groups : BaseEntity
+    public sealed partial class site_groups : BaseEntity
     {
         
+        public site_groups()
+        {            
+            Children = new HashSet<site_groups>();
+            SiteGroupSites = new List<site_group_sites>();
+        }
+        
+        public string Name { get; set; }
+        
+        public int? ParentId { get; set; }
+
+        public site_groups Parent { get; set; }
+
+        public ICollection<site_groups> Children { get; set; }
+        
+        public ICollection<site_group_sites> SiteGroupSites { get; set; }
     }
 }
