@@ -41,8 +41,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public site_groups Parent { get; set; }
 
-        public ICollection<site_groups> Children { get; set; }
+        public virtual ICollection<site_groups> Children { get; set; }
         
-        public ICollection<site_group_sites> SiteGroupSites { get; set; }
+        public virtual ICollection<site_group_sites> SiteGroupSites { get; set; }
     }
 }
