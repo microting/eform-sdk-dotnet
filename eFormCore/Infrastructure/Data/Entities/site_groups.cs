@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public sealed partial class site_groups : BaseEntity
+    public partial class site_groups : BaseEntity
     {
         
         public site_groups()
