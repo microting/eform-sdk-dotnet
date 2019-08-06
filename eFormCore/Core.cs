@@ -2099,7 +2099,6 @@ namespace eFormCore
             List<FieldValue> fieldValues = Advanced_FieldValueReadList(caseIds);
 
             List<Field_Dto> allFields = _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate));
-
             foreach (Field_Dto field in allFields)
             {
                 valuePairs.Add($"F_{field.Id}", "");

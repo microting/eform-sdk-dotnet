@@ -242,14 +242,30 @@ namespace eFormCore
 
                     foreach (Folder_Dto folderDto in communicator.FolderLoadAllFromRemote())
                     {
-                        Folder_Dto folder = sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
-
-                        if (folder == null)
+                        if (folderDto.MicrotingUId != null)
                         {
-#pragma warning disable 4014
-                            sqlController.FolderCreate(folderDto.Name, folderDto.Description, folderDto.ParentId,
-#pragma warning restore 4014
-                                (int)folderDto.MicrotingUId);
+                            Folder_Dto folder = sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+
+                            if (folder == null)
+                            {
+                                if (folderDto.ParentId == 0)
+                                {
+                                    sqlController.FolderCreate(folderDto.Name, folderDto.Description, null,
+                                        (int)folderDto.MicrotingUId);    
+
+                                }
+                                else
+                                {
+                                    if (folderDto.ParentId != null)
+                                    {
+                                        Folder_Dto parenFolder =
+                                            sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
+                                    
+                                        sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
+                                            (int)folderDto.MicrotingUId);
+                                    }
+                                }
+                            }
                         }
                     }
                     

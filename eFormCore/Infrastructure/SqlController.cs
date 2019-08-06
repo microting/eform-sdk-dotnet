@@ -59,8 +59,10 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //TODO! THIS part need to be redone in some form in EF Core!
-                   
+                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.Migrate() called"));
                     db.Database.Migrate();
+                    
+                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.EnsureCreated() called"));
                     db.Database.EnsureCreated();
 
                    var match = db.settings.Count();
@@ -4662,6 +4664,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public bool SettingCreateDefaults()
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SettingCreateDefaults", "called"));
             //key point
             SettingCreate(Settings.firstRunDone);
             SettingCreate(Settings.logLevel);
@@ -4989,11 +4992,7 @@ namespace Microting.eForm.Infrastructure
                         db.logs.Add(newLog);
                         db.SaveChanges();
                         
-
-                        var oldColor = Console.ForegroundColor;
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine("[DBG] " + logEntry.Type + ": " + logEntry.Message);
-                        Console.ForegroundColor = oldColor;
+                        WriteDebugConsoleLogEntry(logEntry);
                         
                         if (logEntry.Level < 0)
                             WriteLogExceptionEntry(logEntry);
@@ -5021,6 +5020,22 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
+        private void WriteDebugConsoleLogEntry(LogEntry logEntry)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"[DBG] {logEntry.Type}: {logEntry.Message}");
+            Console.ForegroundColor = oldColor;
+        }
+
+        private void WriteErrorConsoleLogEntry(LogEntry logEntry)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[ERR] {logEntry.Type}: {logEntry.Message}");
+            Console.ForegroundColor = oldColor;
+        }
+
         
         //TODO
         private string WriteLogExceptionEntry(LogEntry logEntry)
@@ -5037,11 +5052,8 @@ namespace Microting.eForm.Infrastructure
 
                     db.log_exceptions.Add(newLog);
                     db.SaveChanges();
-                                        
-                    var oldColor = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("[ERR] " + logEntry.Type + ": " + logEntry.Message);
-                    Console.ForegroundColor = oldColor;
+
+                    WriteErrorConsoleLogEntry(logEntry);
 
                     #region clean up of log exception table
                     int limit = t.Int(SettingRead(Settings.logLimit));
