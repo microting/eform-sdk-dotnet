@@ -39,7 +39,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int? ParentId { get; set; }
 
-        public site_groups Parent { get; set; }
+        public virtual site_groups Parent { get; set; }
 
         public virtual ICollection<site_groups> Children { get; set; }
         
