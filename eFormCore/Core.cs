@@ -2119,9 +2119,10 @@ namespace eFormCore
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
                         {
-                            Field field = _sqlController.FieldRead(fieldValue.FieldId);
+                            fields field = _sqlController.FieldReadRaw(fieldValue.FieldId);
+                            check_lists checkList = _sqlController.CheckListRead((int)field.CheckListId);
                             
-                            pictures.Add(new KeyValuePair<string, string>($"F_{field.Label}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            pictures.Add(new KeyValuePair<string, string>($"{checkList.Label} - {field.Label}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
                             var fileStream =
                                 File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
@@ -2136,7 +2137,14 @@ namespace eFormCore
                     }
                     else
                     {
-                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
+                        if (fieldValue.ValueReadable == "null")
+                        {
+                            valuePairs[$"F_{fieldValue.FieldId}"] = "";
+                        }
+                        else
+                        {
+                            valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
+                        }
                     }
                 }
             }

@@ -73,9 +73,9 @@ namespace Microting.eForm.Helpers
                     Break pageBreak = run.AppendChild(new Break());
                     pageBreak.Type = BreakValues.Page;
                     InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
-                    currentHeader = keyValuePair.Key;
                 }
                 
+                currentHeader = keyValuePair.Key;
                 InsertPicture(keyValuePair.Value, wordDoc);
                 
                 
@@ -88,6 +88,7 @@ namespace Microting.eForm.Helpers
 
         public static void ConvertToPdf(string docxFileName, string outputFolder)
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "ConvertToPdf called"));
             try
             {
                 using (Process pdfProcess = new Process())
@@ -113,6 +114,7 @@ namespace Microting.eForm.Helpers
 
         public static void InsertHeader(string header, WordprocessingDocument wordDoc, string currentHeader)
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "InsertHeader called"));
             // If currentHeader is not equal to new header, insert new header.
             if (header != currentHeader)
             {
@@ -165,6 +167,7 @@ namespace Microting.eForm.Helpers
 
         private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx, Int64Value cy)
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "AddImageToBody called"));
             // Define the reference of the image.
             var element =
                  new Drawing(
@@ -211,6 +214,24 @@ namespace Microting.eForm.Helpers
             
             // Append the reference to body, the element should be in a Run.
            wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(new Run(element)));
+        }
+        
+        
+
+        private static void WriteDebugConsoleLogEntry(LogEntry logEntry)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"[DBG] {logEntry.Type}: {logEntry.Message}");
+            Console.ForegroundColor = oldColor;
+        }
+
+        private static void WriteErrorConsoleLogEntry(LogEntry logEntry)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[ERR] {logEntry.Type}: {logEntry.Message}");
+            Console.ForegroundColor = oldColor;
         }
     }
 }

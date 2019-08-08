@@ -1606,7 +1606,24 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        public Field FieldRead(int Id)
+        public fields FieldReadRaw(int id)
+        {
+            using (var db = GetContext())
+            {
+                fields fieldDb = db.fields.SingleOrDefault(x => x.Id == id);
+                return fieldDb;
+            }
+        }
+
+        public check_lists CheckListRead(int id)
+        {
+            using (var db = GetContext())
+            {
+                return db.check_lists.SingleOrDefault(x => x.Id == id);
+            }
+        }
+
+        public Field FieldRead(int id)
         {
 
             string methodName = t.GetMethodName("SQLController");
@@ -1614,7 +1631,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    fields fieldDb = db.fields.SingleOrDefault(x => x.Id == Id);
+                    fields fieldDb = db.fields.SingleOrDefault(x => x.Id == id);
 
                     if (fieldDb != null)
                     {
