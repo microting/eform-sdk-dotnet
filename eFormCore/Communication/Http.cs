@@ -788,6 +788,29 @@ namespace Microting.eForm.Communication
 
             return PostToServer(request);
         }
+        
+        public string UnitDelete(int id)
+        {
+            try
+            {
+                WebRequest request = WebRequest.Create(addressBasic + "/v1/units/" + id + "?token=" + token + "&sdk_ver=" + dllVersion);
+                request.Method = "DELETE";
+                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+
+                string newUrl = PostToServerGetRedirect(request);
+
+                request = WebRequest.Create(newUrl + "?token=" + token);
+                request.Method = "GET";
+
+                return PostToServer(request);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitDelete failed", ex);
+            }
+        }
+        
         #endregion
 
         #region public Organization

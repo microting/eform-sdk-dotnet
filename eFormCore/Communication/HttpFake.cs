@@ -329,6 +329,12 @@ namespace Microting.eForm.Communication
         {
             return "{}";
         }
+
+        public string UnitDelete(int id)
+        {
+            JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Removed });
+            return content_to_microting.ToString();
+        }
         #endregion
 
         #region public Organization

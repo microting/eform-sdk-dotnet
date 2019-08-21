@@ -3161,9 +3161,11 @@ namespace Microting.eForm.Infrastructure
 
                     //TODO! THIS part need to be redone in some form in EF Core!
                     //db.cases.AddOrUpdate(lstMatchs);
-                    db.SaveChanges();
-                    db.case_versions.Add(MapCaseVersions(lstMatchs));
-                    db.SaveChanges();
+                    
+                    lstMatchs.Update(db);
+//                    db.SaveChanges();
+//                    db.case_versions.Add(MapCaseVersions(lstMatchs));
+//                    db.SaveChanges();
 
                     return true;
                 }
@@ -3918,21 +3920,22 @@ namespace Microting.eForm.Infrastructure
                     int localSiteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
 
                     units unit = new units();
-                    unit.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    unit.Version = 1;
-                    unit.CreatedAt = DateTime.Now;
-                    unit.UpdatedAt = DateTime.Now;
+//                    unit.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    unit.Version = 1;
+//                    unit.CreatedAt = DateTime.Now;
+//                    unit.UpdatedAt = DateTime.Now;
                     unit.MicrotingUid = microtingUid;
                     unit.CustomerNo = customerNo;
                     unit.OtpCode = otpCode;
                     unit.SiteId = localSiteId;
 
+                    unit.Create(db);
 
-                    db.units.Add(unit);
-                    db.SaveChanges();
-
-                    db.unit_versions.Add(MapUnitVersions(unit));
-                    db.SaveChanges();
+//                    db.units.Add(unit);
+//                    db.SaveChanges();
+//
+//                    db.unit_versions.Add(MapUnitVersions(unit));
+//                    db.SaveChanges();
 
                     return unit.Id;
                 }
@@ -3996,14 +3999,15 @@ namespace Microting.eForm.Infrastructure
 
                     if (unit != null)
                     {
-                        unit.Version = unit.Version + 1;
-                        unit.UpdatedAt = DateTime.Now;
+//                        unit.Version = unit.Version + 1;
+//                        unit.UpdatedAt = DateTime.Now;
 
                         unit.CustomerNo = customerNo;
                         unit.OtpCode = otpCode;
+                        unit.Update(db);
 
-                        db.unit_versions.Add(MapUnitVersions(unit));
-                        db.SaveChanges();
+//                        db.unit_versions.Add(MapUnitVersions(unit));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -4037,13 +4041,14 @@ namespace Microting.eForm.Infrastructure
 
                     if (unit != null)
                     {
-                        unit.Version = unit.Version + 1;
-                        unit.UpdatedAt = DateTime.Now;
-
-                        unit.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-                        db.unit_versions.Add(MapUnitVersions(unit));
-                        db.SaveChanges();
+                        unit.Delete(db);
+//                        unit.Version = unit.Version + 1;
+//                        unit.UpdatedAt = DateTime.Now;
+//
+//                        unit.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//
+//                        db.unit_versions.Add(MapUnitVersions(unit));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -4148,18 +4153,19 @@ namespace Microting.eForm.Infrastructure
                 {
                     entity_groups eG = new entity_groups();
 
-                    eG.CreatedAt = DateTime.Now;
+//                    eG.CreatedAt = DateTime.Now;
                     eG.Name = name;
                     eG.Type = entityType;
-                    eG.UpdatedAt = DateTime.Now;
-                    eG.Version = 1;
-                    eG.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    eG.UpdatedAt = DateTime.Now;
+//                    eG.Version = 1;
+//                    eG.WorkflowState = Constants.Constants.WorkflowStates.Created;
 
-                    db.entity_groups.Add(eG);
-                    db.SaveChanges();
+//                    db.entity_groups.Add(eG);
+//                    db.SaveChanges();
 
-                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
-                    db.SaveChanges();
+//                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+//                    db.SaveChanges();
+                    eG.Create(db);
 
                     return new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, new List<EntityItem>(), eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
                 }
@@ -4270,13 +4276,14 @@ namespace Microting.eForm.Infrastructure
                         return false;
 
                     eG.MicrotingUid = entityGroupMUId;
-                    eG.UpdatedAt = DateTime.Now;
-                    eG.Version = eG.Version + 1;
-
-                    db.SaveChanges();
-
-                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
-                    db.SaveChanges();
+                    eG.Update(db);
+//                    eG.UpdatedAt = DateTime.Now;
+//                    eG.Version = eG.Version + 1;
+//
+//                    db.SaveChanges();
+//
+//                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+//                    db.SaveChanges();
 
                     return true;
                 }
@@ -4306,13 +4313,14 @@ namespace Microting.eForm.Infrastructure
                         return false;
 
                     eG.Name = name;
-                    eG.UpdatedAt = DateTime.Now;
-                    eG.Version = eG.Version + 1;
-
-                    db.SaveChanges();
-
-                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
-                    db.SaveChanges();
+                    eG.Update(db);
+//                    eG.UpdatedAt = DateTime.Now;
+//                    eG.Version = eG.Version + 1;
+//
+//                    db.SaveChanges();
+//
+//                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+//                    db.SaveChanges();
 
                     return true;
                 }
@@ -4344,21 +4352,23 @@ namespace Microting.eForm.Infrastructure
 
                     killLst.Add(eG.MicrotingUid);
 
-                    eG.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                    eG.UpdatedAt = DateTime.Now;
-                    eG.Version = eG.Version + 1;
-                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
+                    eG.Delete(db);
+//                    eG.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                    eG.UpdatedAt = DateTime.Now;
+//                    eG.Version = eG.Version + 1;
+//                    db.entity_group_versions.Add(MapEntityGroupVersions(eG));
 
                     List<entity_items> lst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                     if (lst != null)
                     {
                         foreach (entity_items item in lst)
                         {
-                            item.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                            item.UpdatedAt = DateTime.Now;
-                            item.Version = item.Version + 1;
+//                            item.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                            item.UpdatedAt = DateTime.Now;
+//                            item.Version = item.Version + 1;
                             item.Synced = t.Bool(false);
-                            db.entity_item_versions.Add(MapEntityItemVersions(item));
+                            item.Update(db);
+//                            db.entity_item_versions.Add(MapEntityItemVersions(item));
 
                             killLst.Add(item.MicrotingUid);
                         }
@@ -4457,10 +4467,10 @@ namespace Microting.eForm.Infrastructure
             {
                 entity_items eI = new entity_items();
 
-                eI.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                eI.Version = 1;
-                eI.CreatedAt = DateTime.Now;
-                eI.UpdatedAt = DateTime.Now;
+//                eI.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                eI.Version = 1;
+//                eI.CreatedAt = DateTime.Now;
+//                eI.UpdatedAt = DateTime.Now;
                 eI.EntityGroupId = entityItemGroupId;
                 eI.EntityItemUid = entityItem.EntityItemUId;
                 eI.MicrotingUid = entityItem.MicrotingUUID;
@@ -4469,12 +4479,13 @@ namespace Microting.eForm.Infrastructure
                 eI.DisplayIndex = entityItem.DisplayIndex;
                 //eI.migrated_entity_group_id = true;
                 eI.Synced = t.Bool(false);
+                eI.Create(db);
 
-                db.entity_items.Add(eI);
-                db.SaveChanges();
-
-                db.entity_item_versions.Add(MapEntityItemVersions(eI));
-                db.SaveChanges();
+//                db.entity_items.Add(eI);
+//                db.SaveChanges();
+//
+//                db.entity_item_versions.Add(MapEntityItemVersions(eI));
+//                db.SaveChanges();
             }
             return entityItem;
         }
@@ -4491,16 +4502,17 @@ namespace Microting.eForm.Infrastructure
                 match.Description = entityItem.Description;
                 match.Name = entityItem.Name;
                 match.Synced = t.Bool(false);
-                match.UpdatedAt = DateTime.Now;
-                match.DisplayIndex = entityItem.DisplayIndex;
-                match.Version = match.Version + 1;
+//                match.UpdatedAt = DateTime.Now;
+//                match.DisplayIndex = entityItem.DisplayIndex;
+//                match.Version = match.Version + 1;
                 match.EntityItemUid = entityItem.EntityItemUId;
                 match.WorkflowState = entityItem.WorkflowState;
+                match.Update(db);
 
-                db.SaveChanges();
-
-                db.entity_item_versions.Add(MapEntityItemVersions(match));
-                db.SaveChanges();
+//                db.SaveChanges();
+//
+//                db.entity_item_versions.Add(MapEntityItemVersions(match));
+//                db.SaveChanges();
             }
         }
 
@@ -4521,14 +4533,16 @@ namespace Microting.eForm.Infrastructure
                 else
                 {
                     et.Synced = t.Bool(true);
-                    et.UpdatedAt = DateTime.Now;
-                    et.Version = et.Version + 1;
-                    et.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+                    et.Update(db);
+                    et.Delete(db);
+//                    et.UpdatedAt = DateTime.Now;
+//                    et.Version = et.Version + 1;
+//                    et.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
-                    db.SaveChanges();
+//                    db.SaveChanges();
 
-                    db.entity_item_versions.Add(MapEntityItemVersions(et));
-                    db.SaveChanges();
+//                    db.entity_item_versions.Add(MapEntityItemVersions(et));
+//                    db.SaveChanges();
                 }
             }
         }

@@ -3603,6 +3603,32 @@ namespace eFormCore
                 throw ex;
             }
         }
+        
+        public bool Advanced_UnitDelete(int unitId)
+        {
+            string methodName = t.GetMethodName("Core");
+            try
+            {
+                if (Running())
+                {
+                    Log.LogStandard(t.GetMethodName("Core"), "called");
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+
+                    bool success = _communicator.UnitDelete(unitId);
+                    if (!success)
+                        return false;
+
+                    return _sqlController.UnitDelete(unitId);
+                }
+                else
+                    throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                throw new Exception("failed", ex);
+            }
+        }
         #endregion
 
         #region fields

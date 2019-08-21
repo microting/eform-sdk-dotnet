@@ -455,6 +455,24 @@ namespace Microting.eForm.Communication
             }
             return lst;
         }
+
+        public bool UnitDelete(int unitId)
+        {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(unitId), unitId);
+
+            string response = http.UnitDelete(unitId);
+            var parsedData = JRaw.Parse(response);
+
+            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region public organization      

@@ -98,6 +98,8 @@ namespace Microting.eForm.Communication
 
         string UnitLoadAllFromRemote();
 
+        string UnitDelete(int id);
+
         string OrganizationLoadAllFromRemote();
 
         int SpeechToText(string pathToAudioFile, string language);
