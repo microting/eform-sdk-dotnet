@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,5 +38,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Name { get; set; }
 
         public string Value { get; set; }
+        
+        public string ChangedByName { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+        
+        public int Version { get; set; }
     }
 }

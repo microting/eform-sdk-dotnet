@@ -136,7 +136,9 @@ namespace eFormSDK.Tests
             modelNames.Add("entity_items");
             modelNames.Add("log_exceptions");
             modelNames.Add("logs");
+            modelNames.Add("notification_versions");
             modelNames.Add("notifications");
+            modelNames.Add("setting_versions");
             modelNames.Add("settings");
             modelNames.Add("unit_versions");
             modelNames.Add("units");

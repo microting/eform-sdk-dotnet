@@ -28,34 +28,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class notifications
+    public partial class setting_versions
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        [StringLength(255)]
-        public string WorkflowState { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; }
+
+        public string Value { get; set; }
+        
+        public string ChangedByName { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
-
-        [StringLength(255)]
-        public string MicrotingUid { get; set; }
-
-        public string Transmission { get; set; }
-
-        [StringLength(255)]
-        public string NotificationUid { get; set; }
-
-        public string Activity { get; set; }
-
-        public string Exception { get; set; }
-
-        public string Stacktrace { get; set; }
         
         public int Version { get; set; }
         
+        public int SettingId { get; set; }
     }
 }

@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class notifications
+    public partial class notification_versions
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -57,5 +57,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int Version { get; set; }
         
+        [ForeignKey("notification")]
+        public int NotificationId { get; set; }
     }
 }

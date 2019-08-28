@@ -61,6 +61,7 @@
     <Compile Include="Infrastructure\Data\Entities\logs.cs" />
     <Compile Include="Infrastructure\Data\Entities\log_exceptions.cs" />
     <Compile Include="Infrastructure\Data\Entities\notifications.cs" />
+    <Compile Include="Infrastructure\Data\Entities\notification_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\options.cs" />
     <Compile Include="Infrastructure\Data\Entities\option_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\questions.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Infrastructure\Data\Entities\question_set_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\question_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\settings.cs" />
+    <Compile Include="Infrastructure\Data\Entities\setting_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\sites.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_groups.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_group_sites.cs" />
