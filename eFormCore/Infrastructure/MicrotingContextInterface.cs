@@ -56,6 +56,7 @@ namespace Microting.eForm.Infrastructure
         DbSet<log_exceptions> log_exceptions { get; set; }
         DbSet<logs> logs { get; set; }
         DbSet<notifications> notifications { get; set; }
+        DbSet<notification_versions> notification_versions { get; set; }
         DbSet<options> options { get; set; }
         DbSet<option_versions> option_versions { get; set; }
         DbSet<question_sets> question_sets { get; set; }
@@ -63,6 +64,7 @@ namespace Microting.eForm.Infrastructure
         DbSet<questions> questions { get; set; }
         DbSet<question_versions> question_versions { get; set; }
         DbSet<settings> settings { get; set; }
+        DbSet<setting_versions> setting_versions { get; set; }
         DbSet<site_survey_configurations> site_survey_configuraions { get; set; }
         DbSet<site_survey_configuration_versions> site_survey_configuraion_versions { get; set; }
         DbSet<site_versions> site_versions { get; set; }

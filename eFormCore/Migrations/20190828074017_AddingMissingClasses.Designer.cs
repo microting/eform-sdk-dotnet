@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbAnySql))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20190828074017_AddingMissingClasses")]
+    partial class AddingMissingClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";

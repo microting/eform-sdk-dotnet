@@ -137,6 +137,8 @@
     <Compile Include="Migrations\20190531092007_AddingMissingAIonLogs.Designer.cs" />
     <Compile Include="Migrations\20190711053344_AddingJasperDocxEnabledAttributesToCheckList.cs" />
     <Compile Include="Migrations\20190711053344_AddingJasperDocxEnabledAttributesToCheckList.Designer.cs" />
+    <Compile Include="Migrations\20190828054730_AddingNewVersionClasses.cs" />
+    <Compile Include="Migrations\20190828054730_AddingNewVersionClasses.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingContextInterface.cs" />
     <Compile Include="Infrastructure\MicrotingDbAnySql.cs" />

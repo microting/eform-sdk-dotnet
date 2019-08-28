@@ -63,6 +63,7 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<log_exceptions> log_exceptions { get; set; }
         public virtual DbSet<logs> logs { get; set; }
         public virtual DbSet<notifications> notifications { get; set; }
+        public virtual DbSet<notification_versions> notification_versions { get; set; }
         public virtual DbSet<options> options { get; set; }
         public virtual DbSet<option_versions> option_versions { get; set; }
         public virtual DbSet<question_sets> question_sets { get; set; }
@@ -70,6 +71,7 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<questions> questions { get; set; }
         public virtual DbSet<question_versions> question_versions { get; set; }
         public virtual DbSet<settings> settings { get; set; }
+        public virtual DbSet<setting_versions> setting_versions { get; set; }
         public virtual DbSet<site_survey_configurations> site_survey_configurations { get; set; }
         public virtual DbSet<site_survey_configuration_versions> site_survey_configuration_versions { get; set; }
         public virtual DbSet<site_versions> site_versions { get; set; }
