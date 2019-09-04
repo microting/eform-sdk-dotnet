@@ -46,5 +46,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public DateTime? UpdatedAt { get; set; }
         
         public int Version { get; set; }
+        
+        //TODO CRUD methods
     }
 }

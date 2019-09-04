@@ -42,5 +42,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Message { get; set; }
         
+        //TODO CRUD methods
+        
     }
 }

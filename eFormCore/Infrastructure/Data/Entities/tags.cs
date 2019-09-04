@@ -84,6 +84,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             tag.Name = Name;
             tag.TaggingsCount = TaggingsCount;
+            tag.WorkflowState = WorkflowState; // TODO extend tests to include WorkflowState
 
             if (dbContext.ChangeTracker.HasChanges())
             {

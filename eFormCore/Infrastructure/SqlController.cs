@@ -632,19 +632,20 @@ namespace Microting.eForm.Infrastructure
 
                     check_list_sites cLS = new check_list_sites();
                     cLS.CheckListId = checkListId;
-                    cLS.CreatedAt = DateTime.Now;
-                    cLS.UpdatedAt = DateTime.Now;
+//                    cLS.CreatedAt = DateTime.Now;
+//                    cLS.UpdatedAt = DateTime.Now;
                     cLS.LastCheckId = "0";
                     cLS.MicrotingUid = microtingUId;
                     cLS.SiteId = siteId;
-                    cLS.Version = 1;
-                    cLS.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                    cLS.Create(db);
+//                    cLS.Version = 1;
+//                    cLS.WorkflowState = Constants.Constants.WorkflowStates.Created;
 
-                    db.check_list_sites.Add(cLS);
-                    db.SaveChanges();
+//                    db.check_list_sites.Add(cLS);
+//                    db.SaveChanges();
 
-                    db.check_list_site_versions.Add(MapCheckListSiteVersions(cLS));
-                    db.SaveChanges();
+//                    db.check_list_site_versions.Add(MapCheckListSiteVersions(cLS));
+//                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -706,23 +707,24 @@ namespace Microting.eForm.Infrastructure
                         aCase = new cases();
                         aCase.Status = 66;
                         aCase.Type = caseType;
-                        aCase.CreatedAt = createdAt;
-                        aCase.UpdatedAt = createdAt;
+//                        aCase.CreatedAt = createdAt;
+//                        aCase.UpdatedAt = createdAt;
                         aCase.CheckListId = checkListId;
                         aCase.MicrotingUid = microtingUId;
                         aCase.MicrotingCheckUid = microtingCheckId;
                         aCase.CaseUid = caseUId;
-                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                        aCase.Version = 1;
+//                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                        aCase.Version = 1;
                         aCase.SiteId = siteId;
 
                         aCase.Custom = custom;
 
-                        db.cases.Add(aCase);
-                        db.SaveChanges();
-
-                        db.case_versions.Add(MapCaseVersions(aCase));
-                        db.SaveChanges();
+                        aCase.Create(db);
+//                        db.cases.Add(aCase);
+//                        db.SaveChanges();
+//
+//                        db.case_versions.Add(MapCaseVersions(aCase));
+//                        db.SaveChanges();
                     }
                     else
                     {
@@ -732,15 +734,17 @@ namespace Microting.eForm.Infrastructure
                         aCase.MicrotingUid = microtingUId;
                         aCase.MicrotingCheckUid = microtingCheckId;
                         aCase.CaseUid = caseUId;
-                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                        aCase.Version = 1;
+//                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                        aCase.Version = 1;
                         aCase.SiteId = siteId;
-                        aCase.UpdatedAt = DateTime.Now;
-                        aCase.Version = aCase.Version + 1;
+//                        aCase.UpdatedAt = DateTime.Now;
+//                        aCase.Version = aCase.Version + 1;
                         aCase.Custom = custom;
+                        aCase.Update(db);
 
-                        db.case_versions.Add(MapCaseVersions(aCase));
-                        db.SaveChanges();
+//                        db.case_versions.Add(MapCaseVersions(aCase));
+//                        db.SaveChanges();
+
                     }
 
                     return aCase.Id;
@@ -789,11 +793,12 @@ namespace Microting.eForm.Infrastructure
                     if (match != null)
                     {
                         match.Status = 77;
-                        match.UpdatedAt = DateTime.Now;
-                        match.Version = match.Version + 1;
+                        match.Update(db);
+//                        match.UpdatedAt = DateTime.Now;
+//                        match.Version = match.Version + 1;
 
-                        db.case_versions.Add(MapCaseVersions(match));
-                        db.SaveChanges();
+//                        db.case_versions.Add(MapCaseVersions(match));
+//                        db.SaveChanges();
                     }
                 }
             }
@@ -820,10 +825,10 @@ namespace Microting.eForm.Infrastructure
 
                     caseStd.Status = 100;
                     caseStd.DoneAt = doneAt;
-                    caseStd.UpdatedAt = DateTime.Now;
+//                    caseStd.UpdatedAt = DateTime.Now;
                     caseStd.WorkerId = userId;
-                    caseStd.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    caseStd.Version = caseStd.Version + 1;
+//                    caseStd.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    caseStd.Version = caseStd.Version + 1;
                     caseStd.UnitId = unitId;
                     caseStd.MicrotingCheckUid = microtingCheckId;
                     #region - update "check_list_sites" if needed
@@ -831,18 +836,21 @@ namespace Microting.eForm.Infrastructure
                     if (match != null)
                     {
                         match.LastCheckId = microtingCheckId;
-                        match.Version = match.Version + 1;
-                        match.UpdatedAt = DateTime.Now;
+//                        match.Version = match.Version + 1;
+//                        match.UpdatedAt = DateTime.Now;
+                        match.Update(db);
 
-                        db.SaveChanges();
 
-                        db.check_list_site_versions.Add(MapCheckListSiteVersions(match));
-                        db.SaveChanges();
+//                        db.SaveChanges();
+
+//                        db.check_list_site_versions.Add(MapCheckListSiteVersions(match));
+//                        db.SaveChanges();
                     }
                     #endregion
 
-                    db.case_versions.Add(MapCaseVersions(caseStd));
-                    db.SaveChanges();
+                    caseStd.Update(db);
+//                    db.case_versions.Add(MapCaseVersions(caseStd));
+//                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -860,12 +868,13 @@ namespace Microting.eForm.Infrastructure
                 {
                     cases match = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
 
-                    match.UpdatedAt = DateTime.Now;
+//                    match.UpdatedAt = DateTime.Now;
                     match.WorkflowState = Constants.Constants.WorkflowStates.Retracted;
-                    match.Version = match.Version + 1;
+                    match.Update(db);
+//                    match.Version = match.Version + 1;
 
-                    db.case_versions.Add(MapCaseVersions(match));
-                    db.SaveChanges();
+//                    db.case_versions.Add(MapCaseVersions(match));
+//                    db.SaveChanges();
                 }   
             }
             catch (Exception ex)
@@ -897,12 +906,13 @@ namespace Microting.eForm.Infrastructure
                         cases aCase = matches.First();
                         if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         {
-                            aCase.UpdatedAt = DateTime.Now;
-                            aCase.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                            aCase.Version = aCase.Version + 1;
+                            aCase.Delete(db);
+//                            aCase.UpdatedAt = DateTime.Now;
+//                            aCase.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                            aCase.Version = aCase.Version + 1;
 
-                            db.case_versions.Add(MapCaseVersions(aCase));
-                            db.SaveChanges();
+//                            db.case_versions.Add(MapCaseVersions(aCase));
+//                            db.SaveChanges();
                         }
                         log.LogStandard(t.GetMethodName("SQLController"), "Case successfully marked as removed for microtingUId " + microtingUId);
                         return true;
@@ -933,12 +943,13 @@ namespace Microting.eForm.Infrastructure
 
                     if (aCase != null)
                     {
-                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                        aCase.UpdatedAt = DateTime.Now;
-                        aCase.Version = aCase.Version + 1;
+                        aCase.Delete(db);
+//                        aCase.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                        aCase.UpdatedAt = DateTime.Now;
+//                        aCase.Version = aCase.Version + 1;
 
-                        db.case_versions.Add(MapCaseVersions(aCase));
-                        db.SaveChanges();
+//                        db.case_versions.Add(MapCaseVersions(aCase));
+//                        db.SaveChanges();
 
                         return true;
                     } else
@@ -961,14 +972,15 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
 
-                    check_list_sites site = db.check_list_sites.Single(x => x.MicrotingUid == microtingUId);
+                    check_list_sites checkListSites = db.check_list_sites.Single(x => x.MicrotingUid == microtingUId);
 
-                    site.UpdatedAt = DateTime.Now;
-                    site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                    site.Version = site.Version + 1;
+                    checkListSites.Delete(db);
+//                    site.UpdatedAt = DateTime.Now;
+//                    site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                    site.Version = site.Version + 1;
 
-                    db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
-                    db.SaveChanges();
+//                    db.check_list_site_versions.Add(MapCheckListSiteVersions(site));
+//                    db.SaveChanges();
 
                 }
             }
@@ -1039,20 +1051,22 @@ namespace Microting.eForm.Infrastructure
                         if (clv == null)
                         {
                             clv = new check_list_values();
-                            clv.CreatedAt = DateTime.Now;
-                            clv.UpdatedAt = DateTime.Now;
+//                            clv.CreatedAt = DateTime.Now;
+//                            clv.UpdatedAt = DateTime.Now;
                             clv.CheckListId = int.Parse(t.Locate(elementStr, "<Id>", "</"));
                             clv.CaseId = responseCase.Id;
                             clv.Status = t.Locate(elementStr, "<Status>", "</");
-                            clv.Version = 1;
+//                            clv.Version = 1;
                             clv.UserId = userId;
-                            clv.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                            clv.WorkflowState = Constants.Constants.WorkflowStates.Created;
 
-                            db.check_list_values.Add(clv);
-                            db.SaveChanges();
+                            clv.Create(db);
+                            
+//                            db.check_list_values.Add(clv);
+//                            db.SaveChanges();
 
-                            db.check_list_value_versions.Add(MapCheckListValueVersions(clv));
-                            db.SaveChanges();
+//                            db.check_list_value_versions.Add(MapCheckListValueVersions(clv));
+//                            db.SaveChanges();
                         }
 
                         
@@ -1120,8 +1134,8 @@ namespace Microting.eForm.Infrastructure
                                     }
                                     #endregion
 
-                                    fieldV.CreatedAt = DateTime.Now;
-                                    fieldV.UpdatedAt = DateTime.Now;
+//                                    fieldV.CreatedAt = DateTime.Now;
+//                                    fieldV.UpdatedAt = DateTime.Now;
                                     #region fieldV.value = t.Locate(xml, "<Value>", "</");
                                     string extractedValue = t.Locate(dataItemStr, "<Value>", "</");
 
@@ -1161,19 +1175,20 @@ namespace Microting.eForm.Infrastructure
                                     fieldV.Accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
                                     fieldV.Date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
                                     //
-                                    fieldV.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                                    fieldV.Version = 1;
+//                                    fieldV.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                                    fieldV.Version = 1;
                                     fieldV.CaseId = responseCase.Id;
                                     fieldV.FieldId = field_id;
                                     fieldV.WorkerId = userId;
                                     fieldV.CheckListId = clv.CheckListId;
                                     fieldV.DoneAt = t.Date(response.Checks[xmlIndex].Date);
 
-                                    db.field_values.Add(fieldV);
-                                    db.SaveChanges();
+                                    fieldV.Create(db);
+//                                    db.field_values.Add(fieldV);
+//                                    db.SaveChanges();
 
-                                    db.field_value_versions.Add(MapFieldValueVersions(fieldV));
-                                    db.SaveChanges();
+//                                    db.field_value_versions.Add(MapFieldValueVersions(fieldV));
+//                                    db.SaveChanges();
 
                                     #region update case field_values
                                     if (case_fields.Contains(fieldV.FieldId))
@@ -1263,12 +1278,13 @@ namespace Microting.eForm.Infrastructure
                                                 responseCase.FieldValue10 = new_value;
                                                 break;
                                         }
-                                        responseCase.Version = responseCase.Version + 1;
+//                                        responseCase.Version = responseCase.Version + 1;
                                         //TODO! THIS part need to be redone in some form in EF Core!
                                         //db.cases.AddOrUpdate(responseCase);
-                                        db.SaveChanges();
-                                        db.case_versions.Add(MapCaseVersions(responseCase));
-                                        db.SaveChanges();
+                                        responseCase.Update(db);
+//                                        db.SaveChanges();
+//                                        db.case_versions.Add(MapCaseVersions(responseCase));
+//                                        db.SaveChanges();
                                     }
 
                                     #endregion
@@ -1328,11 +1344,12 @@ namespace Microting.eForm.Infrastructure
                             fieldV.CheckListId = field.CheckListId;
                             fieldV.DoneAt = t.Date(response.Checks[xmlIndex].Date);
 
-                            db.field_values.Add(fieldV);
-                            db.SaveChanges();
-
-                            db.field_value_versions.Add(MapFieldValueVersions(fieldV));
-                            db.SaveChanges();
+                            fieldV.Create(db);
+//                            db.field_values.Add(fieldV);
+//                            db.SaveChanges();
+//
+//                            db.field_value_versions.Add(MapFieldValueVersions(fieldV));
+//                            db.SaveChanges();
                         }
 
                         
@@ -1420,13 +1437,14 @@ namespace Microting.eForm.Infrastructure
                             match.FieldValue10 = fv.Value;
                         }
 
-                        match.Version += 1;
-                        match.UpdatedAt = DateTime.Now;
-                        //TODO! THIS part need to be redone in some form in EF Core!
-                        //db.cases.AddOrUpdate(match);
-                        db.SaveChanges();
-                        db.case_versions.Add(MapCaseVersions(match));
-                        db.SaveChanges();
+                        match.Update(db);
+//                        match.Version += 1;
+//                        match.UpdatedAt = DateTime.Now;
+//                        //TODO! THIS part need to be redone in some form in EF Core!
+//                        //db.cases.AddOrUpdate(match);
+//                        db.SaveChanges();
+//                        db.case_versions.Add(MapCaseVersions(match));
+//                        db.SaveChanges();
 
 
                         #endregion
@@ -1936,11 +1954,12 @@ namespace Microting.eForm.Infrastructure
                     field_values fieldMatch = db.field_values.Single(x => x.Id == fieldValueId);
 
                     fieldMatch.Value = value;
-                    fieldMatch.UpdatedAt = DateTime.Now;
-                    fieldMatch.Version = fieldMatch.Version + 1;
+                    fieldMatch.Update(db);
+//                    fieldMatch.UpdatedAt = DateTime.Now;
+//                    fieldMatch.Version = fieldMatch.Version + 1;
 
-                    db.field_value_versions.Add(MapFieldValueVersions(fieldMatch));
-                    db.SaveChanges();
+//                    db.field_value_versions.Add(MapFieldValueVersions(fieldMatch));
+//                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -2189,11 +2208,12 @@ namespace Microting.eForm.Infrastructure
                     check_list_values match = db.check_list_values.Single(x => x.CaseId == caseId && x.CheckListId == checkListId);
 
                     match.Status = value;
-                    match.UpdatedAt = DateTime.Now;
-                    match.Version = match.Version + 1;
+                    match.Update(db);
+//                    match.UpdatedAt = DateTime.Now;
+//                    match.Version = match.Version + 1;
 
-                    db.check_list_value_versions.Add(MapCheckListValueVersions(match));
-                    db.SaveChanges();
+//                    db.check_list_value_versions.Add(MapCheckListValueVersions(match));
+//                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -2218,7 +2238,7 @@ namespace Microting.eForm.Infrastructure
 
             using (var db = GetContext())
             {
-                if (db.notifications.Count(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId) == 0)
+                if (db.notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
                 {
                     log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
@@ -2379,11 +2399,12 @@ namespace Microting.eForm.Infrastructure
                     uD.FileLocation = fileLocation;
                     uD.FileName = fileName;
                     uD.Local = 1;
-                    uD.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    uD.UpdatedAt = DateTime.Now;
-                    uD.Version = uD.Version + 1;
+                    uD.Create(db);
+//                    uD.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    uD.UpdatedAt = DateTime.Now;
+//                    uD.Version = uD.Version + 1;
 
-                    db.SaveChanges();
+//                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -2422,13 +2443,14 @@ namespace Microting.eForm.Infrastructure
                 {
                     uploaded_data uD = db.uploaded_data.Single(x => x.Id == uploadedData.Id);
                     uD.TranscriptionId = uploadedData.TranscriptionId;
-                    uD.UpdatedAt = DateTime.Now;
-                    uD.Version = uploadedData.Version + 1;
+                    uD.Update(db);
+//                    uD.UpdatedAt = DateTime.Now;
+//                    uD.Version = uploadedData.Version + 1;
                     //db.uploaded_data.Add(uploadedData);
 
-                    db.SaveChanges();
+//                    db.SaveChanges();
 
-                    db.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
+//                    db.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
                     return true;
                 }
             }
@@ -2497,10 +2519,11 @@ namespace Microting.eForm.Infrastructure
                 {
                     uploaded_data uD = db.uploaded_data.Single(x => x.Id == Id);
 
-                    uD.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                    uD.UpdatedAt = DateTime.Now;
-                    uD.Version = uD.Version + 1;
-                    db.SaveChanges();
+                    uD.Delete(db);
+//                    uD.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                    uD.UpdatedAt = DateTime.Now;
+//                    uD.Version = uD.Version + 1;
+//                    db.SaveChanges();
 
                     return true;
                 }
@@ -4368,13 +4391,14 @@ namespace Microting.eForm.Infrastructure
 //                            item.Version = item.Version + 1;
                             item.Synced = t.Bool(false);
                             item.Update(db);
+                            item.Delete(db);
 //                            db.entity_item_versions.Add(MapEntityItemVersions(item));
 
                             killLst.Add(item.MicrotingUid);
                         }
                     }
 
-                    db.SaveChanges();
+//                    db.SaveChanges();
 
                     return eG.Type;
                 }
@@ -5813,22 +5837,24 @@ namespace Microting.eForm.Infrastructure
                     {
                         tag = new tags();
                         tag.Name = name;
-                        tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                        tag.Version = 1;
-                        db.tags.Add(tag);
-                        db.SaveChanges();
+                        tag.Create(db);
+//                        tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                        tag.Version = 1;
+//                        db.tags.Add(tag);
+//                        db.SaveChanges();
 
-                        db.tag_versions.Add(MapTagVersions(tag));
-                        db.SaveChanges();
+//                        db.tag_versions.Add(MapTagVersions(tag));
+//                        db.SaveChanges();
                         return tag.Id;
                     } else
                     {
                         tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                        tag.Version += 1;
-                        db.SaveChanges();
+                        tag.Update(db);
+//                        tag.Version += 1;
+//                        db.SaveChanges();
 
-                        db.tag_versions.Add(MapTagVersions(tag));
-                        db.SaveChanges();
+//                        db.tag_versions.Add(MapTagVersions(tag));
+//                        db.SaveChanges();
                         return tag.Id;
                     }                    
                 }
@@ -5855,12 +5881,13 @@ namespace Microting.eForm.Infrastructure
                     tags tag = db.tags.SingleOrDefault(x => x.Id == tagId);
                     if (tag != null)                    
                     {
-                        tag.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                        tag.Version += 1;
-                        db.SaveChanges();
+                        tag.Delete(db);
+//                        tag.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                        tag.Version += 1;
+//                        db.SaveChanges();
 
-                        db.tag_versions.Add(MapTagVersions(tag));
-                        db.SaveChanges();
+//                        db.tag_versions.Add(MapTagVersions(tag));
+//                        db.SaveChanges();
                     }
                 }
                 return true;
@@ -6312,9 +6339,10 @@ namespace Microting.eForm.Infrastructure
                     field_types fT = new field_types();
                     fT.FieldType = fieldType;
                     fT.Description = description;
+                    fT.Create(db);
 
-                    db.field_types.Add(fT);
-                    db.SaveChanges();
+//                    db.field_types.Add(fT);
+//                    db.SaveChanges();
     
                 }                
             }

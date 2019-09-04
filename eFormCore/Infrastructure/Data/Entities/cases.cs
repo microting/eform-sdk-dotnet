@@ -148,6 +148,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             cases.MicrotingUid = MicrotingUid;
             cases.WorkerId = WorkerId;
             cases.MicrotingCheckUid = MicrotingCheckUid;
+            cases.WorkflowState = WorkflowState; // TODO extend tests to include WorkflowState
 
             if (dbContext.ChangeTracker.HasChanges())
             {
