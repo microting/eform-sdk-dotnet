@@ -2402,8 +2402,8 @@ namespace Microting.eForm.Infrastructure
                     uD.FileLocation = fileLocation;
                     uD.FileName = fileName;
                     uD.Local = 1;
-                    uD.Create(db);
-//                    uD.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                    uD.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                    uD.Update(db);
 //                    uD.UpdatedAt = DateTime.Now;
 //                    uD.Version = uD.Version + 1;
 
