@@ -114,7 +114,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.cases.Add(this);
             dbContext.SaveChanges();
 
-            dbContext.case_versions.Add(MapCaseVersions(this));
+            dbContext.case_versions.Add(MapVersions(this));
             dbContext.SaveChanges();
         }
 
@@ -155,7 +155,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 cases.Version += 1;
                 cases.UpdatedAt = DateTime.Now;
 
-                dbContext.case_versions.Add(MapCaseVersions(cases));
+                dbContext.case_versions.Add(MapVersions(cases));
                 dbContext.SaveChanges();
             }
         }
@@ -176,17 +176,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 cases.Version += 1;
                 cases.UpdatedAt = DateTime.Now;
 
-                dbContext.case_versions.Add(MapCaseVersions(cases));
+                dbContext.case_versions.Add(MapVersions(cases));
                 dbContext.SaveChanges();
             }
             
         }
         
-        
-        
-        
-        
-        private case_versions MapCaseVersions(cases aCase)
+        private case_versions MapVersions(cases aCase)
         {
             case_versions caseVer = new case_versions();
             caseVer.Status = aCase.Status;

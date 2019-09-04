@@ -16,10 +16,7 @@ namespace eFormSDK.Tests
         public void Options_Create_DoesCreate()
         {
             Random rnd = new Random();
-            
-            short shortMinValue = Int16.MinValue;
-            short shortmaxValue = Int16.MaxValue;
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
             
             question_sets questionSet = new question_sets();
@@ -91,9 +88,6 @@ namespace eFormSDK.Tests
         public void Options_Update_DoesUpdate()
         {
             Random rnd = new Random();
-            
-            short shortMinValue = Int16.MinValue;
-            short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
             
@@ -187,9 +181,6 @@ namespace eFormSDK.Tests
         public void Options_Delete_DoesSetWorkflowStateToRemoved()
         {
             Random rnd = new Random();
-            
-            short shortMinValue = Int16.MinValue;
-            short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
             

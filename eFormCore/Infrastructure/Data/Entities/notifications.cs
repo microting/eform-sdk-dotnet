@@ -25,6 +25,8 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Microting.eForm.Infrastructure.Models;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -56,6 +58,89 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Stacktrace { get; set; }
         
         public int Version { get; set; }
-        
+
+        public void Create(MicrotingDbAnySql dbContext)
+        {
+            WorkflowState = Constants.Constants.WorkflowStates.Created;
+            Version = 1;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
+
+            dbContext.notifications.Add(this);
+            dbContext.SaveChanges();
+
+            dbContext.notification_versions.Add(MapVersions(this));
+            dbContext.SaveChanges();
+            
+        }
+
+        public void Update(MicrotingDbAnySql dbContext)
+        {
+            notifications notification = dbContext.notifications.SingleOrDefault(x => x.Id == Id);
+
+            if (notification == null)
+            {
+                throw new NullReferenceException($"Could not find notification with id {Id}");
+            }
+
+            notification.WorkflowState = WorkflowState;
+            notification.MicrotingUid = MicrotingUid;
+            notification.Transmission = Transmission;
+            notification.NotificationUid = NotificationUid;
+            notification.Activity = Activity;
+            notification.Exception = Exception;
+            notification.Stacktrace = Stacktrace;
+
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                notification.UpdatedAt = DateTime.UtcNow;
+                notification.Version += 1;
+
+                dbContext.notification_versions.Add(MapVersions(notification));
+                dbContext.SaveChanges();
+            }
+            
+        }
+
+        public void Delete(MicrotingDbAnySql dbContext)
+        {
+            notifications notification = dbContext.notifications.SingleOrDefault(x => x.Id == Id);
+
+            if (notification == null)
+            {
+                throw new NullReferenceException($"Could not find notification with id {Id}");
+            }
+            
+            notification.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+            
+            if (dbContext.ChangeTracker.HasChanges())
+            {
+                notification.UpdatedAt = DateTime.UtcNow;
+                notification.Version += 1;
+
+                dbContext.notification_versions.Add(MapVersions(notification));
+                dbContext.SaveChanges();
+            }
+        }
+
+        private notification_versions MapVersions(notifications notification)
+        {
+            notification_versions notificationVersion = new notification_versions()
+            {
+                WorkflowState = notification.WorkflowState,
+                CreatedAt = notification.CreatedAt,
+                UpdatedAt = notification.UpdatedAt,
+                MicrotingUid = notification.MicrotingUid,
+                Transmission = notification.Transmission,
+                NotificationUid = notification.NotificationUid,
+                Activity = notification.Activity,
+                Exception = notification.Exception,
+                Stacktrace = notification.Stacktrace,
+                NotificationId = notification.Id,
+                Version = notification.Version
+            };
+
+            return notificationVersion;
+        }
     }
 }

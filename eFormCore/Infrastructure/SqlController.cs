@@ -1112,21 +1112,22 @@ namespace Microting.eForm.Infrastructure
                                         //if (dU == null)
                                         //{
                                         dU = new uploaded_data();
-                                        dU.CreatedAt = DateTime.Now;
-                                        dU.UpdatedAt = DateTime.Now;
+//                                        dU.CreatedAt = DateTime.Now;
+//                                        dU.UpdatedAt = DateTime.Now;
                                         dU.Extension = t.Locate(dataItemStr, "<Extension>", "</");
                                         dU.UploaderId = userId;
                                         dU.UploaderType = Constants.Constants.UploaderTypes.System;
-                                        dU.WorkflowState = Constants.Constants.WorkflowStates.PreCreated;
-                                        dU.Version = 1;
+//                                        dU.WorkflowState = Constants.Constants.WorkflowStates.PreCreated;
+//                                        dU.Version = 1;
                                         dU.Local = 0;
                                         dU.FileLocation = fileLocation;
+                                        dU.Create(db);
 
-                                        db.uploaded_data.Add(dU);
-                                        db.SaveChanges();
+//                                        db.uploaded_data.Add(dU);
+//                                        db.SaveChanges();
 
-                                        db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
-                                        db.SaveChanges();
+//                                        db.uploaded_data_versions.Add(MapUploadedDataVersions(dU));
+//                                        db.SaveChanges();
                                         //}
                                         fieldV.UploadedDataId = dU.Id;
                                         uploadedDataIds.Add(dU.Id);
@@ -2238,21 +2239,22 @@ namespace Microting.eForm.Infrastructure
 
             using (var db = GetContext())
             {
-                if (db.notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
+                if (!db.notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
                 {
                     log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
                     notifications aNote = new notifications();
 
-                    aNote.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    aNote.CreatedAt = DateTime.Now;
-                    aNote.UpdatedAt = DateTime.Now;
+//                    aNote.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    aNote.CreatedAt = DateTime.Now;
+//                    aNote.UpdatedAt = DateTime.Now;
                     aNote.NotificationUid = notificationUId;
                     aNote.MicrotingUid = microtingUId;
                     aNote.Activity = activity;
+                    aNote.Create(db);
 
-                    db.notifications.Add(aNote);
-                    db.SaveChanges();
+//                    db.notifications.Add(aNote);
+//                    db.SaveChanges();
                     return aNote;
                 }
                 else
@@ -2310,11 +2312,12 @@ namespace Microting.eForm.Infrastructure
                 {
                     notifications aNoti = db.notifications.Single(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
                     aNoti.WorkflowState = workflowState;
-                    aNoti.UpdatedAt = DateTime.Now;
+//                    aNoti.UpdatedAt = DateTime.Now;
                     aNoti.Exception = exception;
                     aNoti.Stacktrace = stacktrace;
+                    aNoti.Update(db);
 
-                    db.SaveChanges();
+//                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -3313,19 +3316,20 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                     sites site = new sites();
-                    site.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    site.Version = 1;
-                    site.CreatedAt = DateTime.Now;
-                    site.UpdatedAt = DateTime.Now;
+//                    site.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    site.Version = 1;
+//                    site.CreatedAt = DateTime.Now;
+//                    site.UpdatedAt = DateTime.Now;
                     site.MicrotingUid = microtingUid;
                     site.Name = name;
+                    site.Create(db);
 
 
-                    db.sites.Add(site);
-                    db.SaveChanges();
+//                    db.sites.Add(site);
+//                    db.SaveChanges();
 
-                    db.site_versions.Add(MapSiteVersions(site));
-                    db.SaveChanges();
+//                    db.site_versions.Add(MapSiteVersions(site));
+//                    db.SaveChanges();
 
                     return site.Id;
                 }
@@ -3416,13 +3420,14 @@ namespace Microting.eForm.Infrastructure
 
                     if (site != null)
                     {
-                        site.Version = site.Version + 1;
-                        site.UpdatedAt = DateTime.Now;
+//                        site.Version = site.Version + 1;
+//                        site.UpdatedAt = DateTime.Now;
 
                         site.Name = name;
+                        site.Update(db);
 
-                        db.site_versions.Add(MapSiteVersions(site));
-                        db.SaveChanges();
+//                        db.site_versions.Add(MapSiteVersions(site));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -3457,13 +3462,14 @@ namespace Microting.eForm.Infrastructure
 
                     if (site != null)
                     {
-                        site.Version = site.Version + 1;
-                        site.UpdatedAt = DateTime.Now;
+                        site.Delete(db);
+//                        site.Version = site.Version + 1;
+//                        site.UpdatedAt = DateTime.Now;
 
-                        site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                        site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
-                        db.site_versions.Add(MapSiteVersions(site));
-                        db.SaveChanges();
+//                        db.site_versions.Add(MapSiteVersions(site));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -3550,21 +3556,22 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
 
                     workers worker = new workers();
-                    worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    worker.Version = 1;
-                    worker.CreatedAt = DateTime.Now;
-                    worker.UpdatedAt = DateTime.Now;
+//                    worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    worker.Version = 1;
+//                    worker.CreatedAt = DateTime.Now;
+//                    worker.UpdatedAt = DateTime.Now;
                     worker.MicrotingUid = microtingUid;
                     worker.FirstName = firstName;
                     worker.LastName = lastName;
                     worker.Email = email;
+                    worker.Create(db);
 
 
-                    db.workers.Add(worker);
-                    db.SaveChanges();
+//                    db.workers.Add(worker);
+//                    db.SaveChanges();
 
-                    db.worker_versions.Add(MapWorkerVersions(worker));
-                    db.SaveChanges();
+//                    db.worker_versions.Add(MapWorkerVersions(worker));
+//                    db.SaveChanges();
 
                     return worker.Id;
                 }
@@ -3653,15 +3660,16 @@ namespace Microting.eForm.Infrastructure
 
                     if (worker != null)
                     {
-                        worker.Version = worker.Version + 1;
-                        worker.UpdatedAt = DateTime.Now;
+//                        worker.Version = worker.Version + 1;
+//                        worker.UpdatedAt = DateTime.Now;
 
                         worker.FirstName = firstName;
                         worker.LastName = lastName;
                         worker.Email = email;
+                        worker.Update(db);
 
-                        db.worker_versions.Add(MapWorkerVersions(worker));
-                        db.SaveChanges();
+//                        db.worker_versions.Add(MapWorkerVersions(worker));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -3696,13 +3704,14 @@ namespace Microting.eForm.Infrastructure
 
                     if (worker != null)
                     {
-                        worker.Version = worker.Version + 1;
-                        worker.UpdatedAt = DateTime.Now;
+                        worker.Delete(db);
+//                        worker.Version = worker.Version + 1;
+//                        worker.UpdatedAt = DateTime.Now;
 
-                        worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                        worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
-                        db.worker_versions.Add(MapWorkerVersions(worker));
-                        db.SaveChanges();
+//                        db.worker_versions.Add(MapWorkerVersions(worker));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -3741,20 +3750,21 @@ namespace Microting.eForm.Infrastructure
                     int localWorkerId = db.workers.Single(x => x.MicrotingUid == workerUId).Id;
 
                     site_workers site_worker = new site_workers();
-                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    site_worker.Version = 1;
-                    site_worker.CreatedAt = DateTime.Now;
-                    site_worker.UpdatedAt = DateTime.Now;
+//                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                    site_worker.Version = 1;
+//                    site_worker.CreatedAt = DateTime.Now;
+//                    site_worker.UpdatedAt = DateTime.Now;
                     site_worker.MicrotingUid = microtingUId;
                     site_worker.SiteId = localSiteId;
                     site_worker.WorkerId = localWorkerId;
+                    site_worker.Create(db);
 
 
-                    db.site_workers.Add(site_worker);
-                    db.SaveChanges();
+//                    db.site_workers.Add(site_worker);
+//                    db.SaveChanges();
 
-                    db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
-                    db.SaveChanges();
+//                    db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
+//                    db.SaveChanges();
 
                     return site_worker.Id;
                 }
@@ -3829,14 +3839,16 @@ namespace Microting.eForm.Infrastructure
 
                     if (site_worker != null)
                     {
-                        site_worker.Version = site_worker.Version + 1;
-                        site_worker.UpdatedAt = DateTime.Now;
+//                        site_worker.Version = site_worker.Version + 1;
+//                        site_worker.UpdatedAt = DateTime.Now;
 
                         site_worker.SiteId = siteId;
                         site_worker.WorkerId = workerId;
+                        site_worker.Update(db);
 
-                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
-                        db.SaveChanges();
+//                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
+//                        db.SaveChanges();
+
 
                         return true;
                     }
@@ -3870,13 +3882,14 @@ namespace Microting.eForm.Infrastructure
 
                     if (site_worker != null)
                     {
-                        site_worker.Version = site_worker.Version + 1;
-                        site_worker.UpdatedAt = DateTime.Now;
+                        site_worker.Delete(db);
+//                        site_worker.Version = site_worker.Version + 1;
+//                        site_worker.UpdatedAt = DateTime.Now;
 
-                        site_worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+//                        site_worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
-                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
-                        db.SaveChanges();
+//                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
+//                        db.SaveChanges();
 
                         return true;
                     }
@@ -6001,327 +6014,7 @@ namespace Microting.eForm.Infrastructure
         }
         #endregion
 
-        #region mappers
-       /// <summary>
-       /// Mapping case versions
-       /// </summary>
-       /// <param name="aCase"></param>
-       /// <returns></returns>
-        private case_versions MapCaseVersions(cases aCase)
-        {
-            case_versions caseVer = new case_versions();
-            caseVer.Status = aCase.Status;
-            caseVer.DoneAt = aCase.DoneAt;
-            caseVer.UpdatedAt = aCase.UpdatedAt;
-            caseVer.WorkerId = aCase.WorkerId;
-            caseVer.WorkflowState = aCase.WorkflowState;
-            caseVer.Version = aCase.Version;
-            caseVer.MicrotingCheckUid = aCase.MicrotingCheckUid;
-            caseVer.UnitId = aCase.UnitId;
-
-            caseVer.Type = aCase.Type;
-            caseVer.CreatedAt = aCase.CreatedAt;
-            caseVer.CheckListId = aCase.CheckListId;
-            caseVer.MicrotingUid = aCase.MicrotingUid;
-            caseVer.SiteId = aCase.SiteId;
-            caseVer.FieldValue1 = aCase.FieldValue1;
-            caseVer.FieldValue2 = aCase.FieldValue2;
-            caseVer.FieldValue3 = aCase.FieldValue3;
-            caseVer.FieldValue4 = aCase.FieldValue4;
-            caseVer.FieldValue5 = aCase.FieldValue5;
-            caseVer.FieldValue6 = aCase.FieldValue6;
-            caseVer.FieldValue7 = aCase.FieldValue7;
-            caseVer.FieldValue8 = aCase.FieldValue8;
-            caseVer.FieldValue9 = aCase.FieldValue9;
-            caseVer.FieldValue10 = aCase.FieldValue10;
-
-            caseVer.CaseId = aCase.Id; //<<--
-
-            return caseVer;
-        }
-
-        private check_list_versions MapCheckListVersions(check_lists checkList)
-        {
-            check_list_versions clv = new check_list_versions();
-            clv.CreatedAt = checkList.CreatedAt;
-            clv.UpdatedAt = checkList.UpdatedAt;
-            clv.Label = checkList.Label;
-            clv.Description = checkList.Description;
-            clv.Custom = checkList.Custom;
-            clv.WorkflowState = checkList.WorkflowState;
-            clv.ParentId = checkList.ParentId;
-            clv.Repeated = checkList.Repeated;
-            clv.Version = checkList.Version;
-            clv.CaseType = checkList.CaseType;
-            clv.FolderName = checkList.FolderName;
-            clv.DisplayIndex = checkList.DisplayIndex;
-            clv.ReviewEnabled = checkList.ReviewEnabled;
-            clv.ManualSync = checkList.ManualSync;
-            clv.ExtraFieldsEnabled = checkList.ExtraFieldsEnabled;
-            clv.DoneButtonEnabled = checkList.DoneButtonEnabled;
-            clv.ApprovalEnabled = checkList.ApprovalEnabled;
-            clv.MultiApproval = checkList.MultiApproval;
-            clv.FastNavigation = checkList.FastNavigation;
-            clv.DownloadEntities = checkList.DownloadEntities;
-            clv.Field1 = checkList.Field1;
-            clv.Field2 = checkList.Field2;
-            clv.Field3 = checkList.Field3;
-            clv.Field4 = checkList.Field4;
-            clv.Field5 = checkList.Field5;
-            clv.Field6 = checkList.Field6;
-            clv.Field7 = checkList.Field7;
-            clv.Field8 = checkList.Field8;
-            clv.Field9 = checkList.Field9;
-            clv.Field10 = checkList.Field10;
-
-            clv.CheckListId = checkList.Id; //<<--
-
-            return clv;
-        }
-
-        private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
-        {
-            check_list_value_versions clvv = new check_list_value_versions();
-            clvv.Version = checkListValue.Version;
-            clvv.CreatedAt = checkListValue.CreatedAt;
-            clvv.UpdatedAt = checkListValue.UpdatedAt;
-            clvv.CheckListId = checkListValue.CheckListId;
-            clvv.CaseId = checkListValue.CaseId;
-            clvv.Status = checkListValue.Status;
-            clvv.UserId = checkListValue.UserId;
-            clvv.WorkflowState = checkListValue.WorkflowState;
-            clvv.CheckListDuplicateId = checkListValue.CheckListDuplicateId;
-
-            clvv.CheckListValueId = checkListValue.Id; //<<--
-
-            return clvv;
-        }
-
-        private field_versions MapFieldVersions(fields field)
-        {
-            field_versions fv = new field_versions();
-
-            fv.Version = field.Version;
-            fv.CreatedAt = field.CreatedAt;
-            fv.UpdatedAt = field.UpdatedAt;
-            fv.Custom = field.Custom;
-            fv.WorkflowState = field.WorkflowState;
-            fv.CheckListId = field.CheckListId;
-            fv.Label = field.Label;
-            fv.Description = field.Description;
-            fv.FieldTypeId = field.FieldTypeId;
-            fv.DisplayIndex = field.DisplayIndex;
-            fv.Dummy = field.Dummy;
-            fv.ParentFieldId = field.ParentFieldId;
-            fv.Optional = field.Optional;
-            fv.Multi = field.Multi;
-            fv.DefaultValue = field.DefaultValue;
-            fv.Selected = field.Selected;
-            fv.MinValue = field.MinValue;
-            fv.MaxValue = field.MaxValue;
-            fv.MaxLength = field.MaxLength;
-            fv.SplitScreen = field.SplitScreen;
-            fv.DecimalCount = field.DecimalCount;
-            fv.UnitName = field.UnitName;
-            fv.KeyValuePairList = field.KeyValuePairList;
-            fv.GeolocationEnabled = field.GeolocationEnabled;
-            fv.GeolocationForced = field.GeolocationForced;
-            fv.GeolocationHidden = field.GeolocationHidden;
-            fv.StopOnSave = field.StopOnSave;
-            fv.Mandatory = field.Mandatory;
-            fv.ReadOnly = field.ReadOnly;
-            fv.Color = field.Color;
-            fv.BarcodeEnabled = field.BarcodeEnabled;
-            fv.BarcodeType = field.BarcodeType;
-
-            fv.FieldId = field.Id; //<<--
-
-            return fv;
-        }
-
-        private field_value_versions MapFieldValueVersions(field_values fieldValue)
-        {
-            field_value_versions fvv = new field_value_versions();
-
-            fvv.CreatedAt = fieldValue.CreatedAt;
-            fvv.UpdatedAt = fieldValue.UpdatedAt;
-            fvv.Value = fieldValue.Value;
-            fvv.Latitude = fieldValue.Latitude;
-            fvv.Longitude = fieldValue.Longitude;
-            fvv.Altitude = fieldValue.Altitude;
-            fvv.Heading = fieldValue.Heading;
-            fvv.Date = fieldValue.Date;
-            fvv.Accuracy = fieldValue.Accuracy;
-            fvv.UploadedDataId = fieldValue.UploadedDataId;
-            fvv.Version = fieldValue.Version;
-            fvv.CaseId = fieldValue.CaseId;
-            fvv.FieldId = fieldValue.FieldId;
-            fvv.WorkerId = fieldValue.WorkerId;
-            fvv.WorkflowState = fieldValue.WorkflowState;
-            fvv.CheckListId = fieldValue.CheckListId;
-            fvv.CheckListDuplicateId = fieldValue.CheckListDuplicateId;
-            fvv.DoneAt = fieldValue.DoneAt;
-
-            fvv.FieldValueId = fieldValue.Id; //<<--
-
-            return fvv;
-        }
-
-        private uploaded_data_versions MapUploadedDataVersions(uploaded_data uploadedData)
-        {
-            uploaded_data_versions udv = new uploaded_data_versions();
-
-            udv.CreatedAt = uploadedData.CreatedAt;
-            udv.UpdatedAt = uploadedData.UpdatedAt;
-            udv.Checksum = uploadedData.Checksum;
-            udv.Extension = uploadedData.Extension;
-            udv.CurrentFile = uploadedData.CurrentFile;
-            udv.UploaderId = uploadedData.UploaderId;
-            udv.UploaderType = uploadedData.UploaderType;
-            udv.WorkflowState = uploadedData.WorkflowState;
-            udv.ExpirationDate = uploadedData.ExpirationDate;
-            udv.Version = uploadedData.Version;
-            udv.Local = uploadedData.Local;
-            udv.FileLocation = uploadedData.FileLocation;
-            udv.FileName = uploadedData.FileName;
-
-            udv.DataUploadedId = uploadedData.Id; //<<--
-
-            return udv;
-        }
-
-        private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
-        {
-            check_list_site_versions checkListSiteVer = new check_list_site_versions();
-            checkListSiteVer.CheckListId = checkListSite.CheckListId;
-            checkListSiteVer.CreatedAt = checkListSite.CreatedAt;
-            checkListSiteVer.UpdatedAt = checkListSite.UpdatedAt;
-            checkListSiteVer.LastCheckId = checkListSite.LastCheckId;
-            checkListSiteVer.MicrotingUid = checkListSite.MicrotingUid;
-            checkListSiteVer.SiteId = checkListSite.SiteId;
-            checkListSiteVer.Version = checkListSite.Version;
-            checkListSiteVer.WorkflowState = checkListSite.WorkflowState;
-
-            checkListSiteVer.CheckListSiteId = checkListSite.Id; //<<--
-
-            return checkListSiteVer;
-        }
-
-        private entity_group_versions MapEntityGroupVersions(entity_groups entityGroup)
-        {
-            entity_group_versions entityGroupVer = new entity_group_versions();
-            entityGroupVer.CreatedAt = entityGroup.CreatedAt;
-            entityGroupVer.EntityGroupId = entityGroup.Id;
-            entityGroupVer.MicrotingUid = entityGroup.MicrotingUid;
-            entityGroupVer.Name = entityGroup.Name;
-            entityGroupVer.Type = entityGroup.Type;
-            entityGroupVer.UpdatedAt = entityGroup.UpdatedAt;
-            entityGroupVer.Version = entityGroup.Version;
-            entityGroupVer.WorkflowState = entityGroup.WorkflowState;
-
-            entityGroupVer.EntityGroupId = entityGroup.Id; //<<--
-
-            return entityGroupVer;
-        }
-
-        private entity_item_versions MapEntityItemVersions(entity_items entityItem)
-        {
-            entity_item_versions entityItemVer = new entity_item_versions();
-            entityItemVer.WorkflowState = entityItem.WorkflowState;
-            entityItemVer.Version = entityItem.Version;
-            entityItemVer.CreatedAt = entityItem.CreatedAt;
-            entityItemVer.UpdatedAt = entityItem.UpdatedAt;
-            entityItemVer.EntityItemUid = entityItem.EntityItemUid;
-            entityItemVer.MicrotingUid = entityItem.MicrotingUid;
-            entityItemVer.EntityGroupId = entityItem.EntityGroupId;
-            entityItemVer.Name = entityItem.Name;
-            entityItemVer.Description = entityItem.Description;
-            entityItemVer.Synced = entityItem.Synced;
-            entityItemVer.DisplayIndex = entityItem.DisplayIndex;
-
-            entityItemVer.EntityItemsId = entityItem.Id; //<<--
-
-            return entityItemVer;
-        }
-
-        private site_worker_versions MapSiteWorkerVersions(site_workers site_workers)
-        {
-            site_worker_versions siteWorkerVer = new site_worker_versions();
-            siteWorkerVer.WorkflowState = site_workers.WorkflowState;
-            siteWorkerVer.Version = site_workers.Version;
-            siteWorkerVer.CreatedAt = site_workers.CreatedAt;
-            siteWorkerVer.UpdatedAt = site_workers.UpdatedAt;
-            siteWorkerVer.MicrotingUid = site_workers.MicrotingUid;
-            siteWorkerVer.SiteId = site_workers.SiteId;
-            siteWorkerVer.WorkerId = site_workers.WorkerId;
-
-            siteWorkerVer.SiteWorkerId = site_workers.Id; //<<--
-
-            return siteWorkerVer;
-        }
-
-        private site_versions MapSiteVersions(sites site)
-        {
-            site_versions siteVer = new site_versions();
-            siteVer.WorkflowState = site.WorkflowState;
-            siteVer.Version = site.Version;
-            siteVer.CreatedAt = site.CreatedAt;
-            siteVer.UpdatedAt = site.UpdatedAt;
-            siteVer.MicrotingUid = site.MicrotingUid;
-            siteVer.Name = site.Name;
-
-            siteVer.SiteId = site.Id; //<<--
-
-            return siteVer;
-        }
-
-        private unit_versions MapUnitVersions(units units)
-        {
-            unit_versions unitVer = new unit_versions();
-            unitVer.WorkflowState = units.WorkflowState;
-            unitVer.Version = units.Version;
-            unitVer.CreatedAt = units.CreatedAt;
-            unitVer.UpdatedAt = units.UpdatedAt;
-            unitVer.MicrotingUid = units.MicrotingUid;
-            unitVer.SiteId = units.SiteId;
-            unitVer.CustomerNo = units.CustomerNo;
-            unitVer.OtpCode = units.OtpCode;
-
-            unitVer.UnitId = units.Id; //<<--
-
-            return unitVer;
-        }
-
-        private worker_versions MapWorkerVersions(workers workers)
-        {
-            worker_versions workerVer = new worker_versions();
-            workerVer.WorkflowState = workers.WorkflowState;
-            workerVer.Version = workers.Version;
-            workerVer.CreatedAt = workers.CreatedAt;
-            workerVer.UpdatedAt = workers.UpdatedAt;
-            workerVer.MicrotingUid = workers.MicrotingUid;
-            workerVer.FirstName = workers.FirstName;
-            workerVer.LastName = workers.LastName;
-
-            workerVer.WorkerId = workers.Id; //<<--
-
-            return workerVer;
-        }
-
-        private tag_versions MapTagVersions(tags tags)
-        {
-            tag_versions tagVer = new tag_versions();
-            tagVer.WorkflowState = tags.WorkflowState;
-            tagVer.Version = tags.Version;
-            tagVer.CreatedAt = tags.CreatedAt;
-            tagVer.UpdatedAt = tags.UpdatedAt;
-            tagVer.Name = tags.Name;
-
-            return tagVer;
-        }
-
         
-        #endregion
         #endregion       
 
         /// <summary>

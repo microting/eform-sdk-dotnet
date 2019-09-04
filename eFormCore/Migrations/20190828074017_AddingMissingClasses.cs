@@ -26,7 +26,7 @@ namespace Microting.eForm.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation(autoIDGenStrategy, autoIDGenStrategyValue);
+                        .Annotation(autoIDGenStrategy, autoIDGenStrategyValue),
                     WorkflowState = table.Column<string>(maxLength: 255, nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
