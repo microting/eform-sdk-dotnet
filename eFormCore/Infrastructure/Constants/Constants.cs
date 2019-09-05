@@ -95,8 +95,9 @@ namespace Microting.eForm.Infrastructure.Constants
 
         public static class EntityItemSortParameters
         {
-            public const string Id = "id";
-            public const string Name = "name";
+            public const string Id = "Id";
+            public const string Name = "Name";
+            public const string DisplayIndex = "DisplayIndex";
         }
 
         public static class FieldTypes

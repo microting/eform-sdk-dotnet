@@ -30,6 +30,7 @@ using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Extensions;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 //using eFormSqlController.Migrations;
@@ -3988,25 +3989,20 @@ namespace Microting.eForm.Infrastructure
 
                     if (nameFilter == "")
                     {
-                        if (sort == Constants.Constants.EntityItemSortParameters.Id)
-                        {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Id).ToList();
-                        }
-                        else
-                        {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).OrderBy(x => x.Name).ToList();
-                        }
+                        eILst = db.entity_items.
+                            Where(x => x.EntityGroupId == eG.Id 
+                                       && x.WorkflowState != Constants.Constants.WorkflowStates.Removed 
+                                       && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).
+                            CustomOrderBy(sort).ToList();
                     }
                     else
                     {
-                        if (sort == Constants.Constants.EntityItemSortParameters.Id)
-                        {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync && x.Name.Contains(nameFilter)).OrderBy(x => x.Id).ToList();
-                        }
-                        else
-                        {
-                            eILst = db.entity_items.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync && x.Name.Contains(nameFilter)).OrderBy(x => x.Name).ToList();
-                        }
+                        eILst = db.entity_items.
+                            Where(x => x.EntityGroupId == eG.Id 
+                                       && x.WorkflowState != Constants.Constants.WorkflowStates.Removed 
+                                       && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync 
+                                       && x.Name.Contains(nameFilter)).
+                            CustomOrderBy(sort).ToList();
                     }
 
                     if (eILst.Count > 0)

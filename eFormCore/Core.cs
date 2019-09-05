@@ -2496,7 +2496,7 @@ namespace eFormCore
         {
             if (string.IsNullOrEmpty(entityGroupMUId))
                 throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
-            return EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.Name, "");
+            return EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.DisplayIndex, "");
         }
 
         public EntityGroup EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
