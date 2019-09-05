@@ -4321,6 +4321,7 @@ namespace Microting.eForm.Infrastructure
                 match.Synced = t.Bool(false);
                 match.EntityItemUid = entityItem.EntityItemUId;
                 match.WorkflowState = entityItem.WorkflowState;
+                match.DisplayIndex = entityItem.DisplayIndex;
                 match.Update(db);
             }
         }
