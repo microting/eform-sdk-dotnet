@@ -35,7 +35,11 @@ namespace Microting.eForm.Helpers
                 if (fieldValue.Value != null)
                 {  
                     Regex regexText = new Regex(fieldValue.Key);
-                    docText = regexText.Replace(docText, fieldValue.Value);  
+                    docText = regexText.Replace(docText, fieldValue.Value.
+                        Replace("<br>", "").
+                        Replace("<br />", "").
+                        Replace("<br/>", "")
+                    );  
                 }
                 else
                 {
