@@ -37,6 +37,7 @@ using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Rebus.Bus;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
@@ -2107,21 +2108,20 @@ namespace eFormCore
             Dictionary<string, int> imageFieldCountList = new Dictionary<string, int>();
             foreach (FieldValue fieldValue in fieldValues)
             {
-                if (fieldValue.FieldType == Constants.FieldTypes.MultiSelect)
+                switch (fieldValue.FieldType)
                 {
-                    // This inserts a linebreak instead of each |
-                    valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
-                }
-                else
-                {
-                    if (fieldValue.FieldType == Constants.FieldTypes.Picture)
-                    {
+                    case Constants.FieldTypes.MultiSelect:
+                        valuePairs[$"F_{fieldValue.FieldId}"] =
+                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
+                        break;
+                    
+                    case Constants.FieldTypes.Picture:
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
                         {
                             fields field = _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = _sqlController.CheckListRead((int)field.CheckListId);
-                            
+                        
                             pictures.Add(new KeyValuePair<string, string>($"{checkList.Label} - {field.Label}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
                             var fileStream =
@@ -2134,18 +2134,21 @@ namespace eFormCore
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
                             }
                         }
-                    }
-                    else
-                    {
+                        break;
+                    case Constants.FieldTypes.CheckBox:
+                        // TODO change this to use Winding 0252 = checkmark
+                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable == "checked" ? "Ja" : "Nej";
+                        break;
+                    default:
                         if (fieldValue.ValueReadable == "null")
                         {
                             valuePairs[$"F_{fieldValue.FieldId}"] = "";
                         }
                         else
                         {
-                            valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
+                            valuePairs[$"F_{fieldValue.FieldId}"] = Regex.Replace(fieldValue.ValueReadable, "<.*?>", string.Empty);
                         }
-                    }
+                        break;
                 }
             }
 
