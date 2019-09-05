@@ -145,7 +145,7 @@ namespace eFormCore
                         break;
                     case "M":
                         Console.WriteLine("MigrateDb");
-                        reply = MigrateDb().ToString();
+//                        reply = MigrateDb().ToString();
                         break;
                     case "R":
                         Console.WriteLine("DbSettingsReloadRemote");
@@ -322,10 +322,10 @@ namespace eFormCore
 
         }
 
-        public bool MigrateDb()
-        {
-            return sqlController.MigrateDb();
-        }
+//        public bool MigrateDb()
+//        {
+//            return sqlController.MigrateDb();
+//        }
         #endregion
 
         #region private
