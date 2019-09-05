@@ -3286,7 +3286,13 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            EntityItem eT = new EntityItem("Jon Doe", "", "", Constants.WorkflowStates.Created);
+            EntityItem eT = new EntityItem
+            {
+                Name = "Jon Doe",
+                Description = "",
+                EntityItemUId = "",
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
             // Act
             sut.EntityItemCreate(eG1.Id, eT);
@@ -3319,7 +3325,13 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            EntityItem eT = new EntityItem("Jon Doe", "", "", Constants.WorkflowStates.Created);
+            EntityItem eT = new EntityItem
+            {
+                Name = "Jon Doe",
+                Description = "",
+                EntityItemUId = "",
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
             // Act
             sut.EntityItemCreate(eG1.Id, eT);

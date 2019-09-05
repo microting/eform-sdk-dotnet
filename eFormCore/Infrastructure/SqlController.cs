@@ -3927,7 +3927,18 @@ namespace Microting.eForm.Infrastructure
 
                     foreach (entity_groups eg in eG)
                     {
-                        EntityGroup g = new EntityGroup(eg.Id, eg.Name, eg.Type, eg.MicrotingUid, new List<EntityItem>(), eg.WorkflowState, eg.CreatedAt, eg.UpdatedAt);
+//                        EntityGroup g = new EntityGroup(eg.Id, eg.Name, eg.Type, eg.MicrotingUid, new List<EntityItem>(), eg.WorkflowState, eg.CreatedAt, eg.UpdatedAt);
+                        EntityGroup g = new EntityGroup()
+                        {
+                            Id = eg.Id,
+                            Name = eg.Name,
+                            Type = eg.Type,
+                            MicrotingUUID = eg.MicrotingUid,
+                            EntityGroupItemLst = new List<EntityItem>(),
+                            WorkflowState = eg.WorkflowState,
+                            CreatedAt = eg.CreatedAt,
+                            UpdatedAt = eg.UpdatedAt
+                        };
                         e_G.Add(g);
                     }
                     return new EntityGroupList(numOfElements, offSet, e_G);
@@ -3955,13 +3966,21 @@ namespace Microting.eForm.Infrastructure
 
                 using (var db = GetContext())
                 {
-                    entity_groups eG = new entity_groups();
+                    entity_groups eG = new entity_groups {Name = name, Type = entityType};
 
-                    eG.Name = name;
-                    eG.Type = entityType;
                     eG.Create(db);
 
-                    return new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, new List<EntityItem>(), eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
+                    return new EntityGroup
+                    {
+                        Id = eG.Id,
+                        Name = eG.Name,
+                        Type = eG.Type,
+                        MicrotingUUID = eG.MicrotingUid,
+                        EntityGroupItemLst = new List<EntityItem>(),
+                        WorkflowState = eG.WorkflowState,
+                        CreatedAt = eG.CreatedAt,
+                        UpdatedAt = eG.UpdatedAt
+                    };
                 }
             }
             catch (Exception ex)
@@ -3983,7 +4002,18 @@ namespace Microting.eForm.Infrastructure
                         return null;
 
                     List<EntityItem> lst = new List<EntityItem>();
-                    EntityGroup rtnEG = new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, lst, eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
+//                    EntityGroup rtnEG = new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, lst, eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
+                    EntityGroup rtnEG = new EntityGroup
+                    {
+                        Id = eG.Id,
+                        Name = eG.Name,
+                        Type = eG.Type,
+                        MicrotingUUID = eG.MicrotingUid,
+                        EntityGroupItemLst = lst,
+                        WorkflowState = eG.WorkflowState,
+                        CreatedAt = eG.CreatedAt,
+                        UpdatedAt = eG.UpdatedAt
+                    };
 
                     List<entity_items> eILst = null;
 
@@ -4008,7 +4038,15 @@ namespace Microting.eForm.Infrastructure
                     if (eILst.Count > 0)
                         foreach (entity_items item in eILst)
                         {
-                            EntityItem eI = new EntityItem(item.Id, item.Name, item.Description, item.EntityItemUid, item.MicrotingUid, item.WorkflowState);
+                            EntityItem eI = new EntityItem
+                            {
+                                Id = item.Id,
+                                Name = item.Name,
+                                Description = item.Description,
+                                EntityItemUId = item.EntityItemUid,
+                                MicrotingUUID = item.MicrotingUid,
+                                WorkflowState = item.WorkflowState
+                            };
                             lst.Add(eI);
                         }
 
@@ -4033,7 +4071,15 @@ namespace Microting.eForm.Infrastructure
                 entity_groups eg = db.entity_groups.SingleOrDefault(x => x.Id == Id);
                 if (eg != null) {
                     List<EntityItem> egl = new List<EntityItem>();
-                    return new EntityGroup(eg.Id, eg.Name, eg.Type, eg.MicrotingUid, egl);
+                    return new EntityGroup
+                    {
+                        Id = eg.Id,
+                        Name = eg.Name,
+                        Type = eg.Type,
+                        MicrotingUUID = eg.MicrotingUid,
+                        EntityGroupItemLst = egl
+                    };
+//                    return new EntityGroup(eg.Id, eg.Name, eg.Type, eg.MicrotingUid, egl);
                 } else {
                     throw new NullReferenceException("No EntityGroup found by Id " + Id.ToString());
                 }
@@ -4188,7 +4234,14 @@ namespace Microting.eForm.Infrastructure
                 entity_items et = db.entity_items.FirstOrDefault(x => x.Id == Id);
                 if (et != null)
                 {
-                    EntityItem entityItem = new EntityItem(et.Id, et.Name, et.Description, et.EntityItemUid, et.MicrotingUid);
+                    EntityItem entityItem = new EntityItem
+                    {
+                        Id = et.Id,
+                        Name = et.Name,
+                        Description = et.Description,
+                        EntityItemUId = et.EntityItemUid,
+                        MicrotingUUID = et.MicrotingUid
+                    };
                     entityItem.EntityItemGroupId = et.EntityGroupId;
                     entityItem.Id = et.Id;
                     return entityItem;
@@ -4212,10 +4265,20 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.SingleOrDefault(x => x.Name == name && x.Description == description && x.EntityGroupId == entityItemGroupId);
+                entity_items et = db.entity_items.SingleOrDefault(x => x.Name == name 
+                                                                       && x.Description == description 
+                                                                       && x.EntityGroupId == entityItemGroupId);
                 if (et != null)
                 {
-                    return new EntityItem(et.Id, et.Name, et.Description, et.EntityItemUid, et.MicrotingUid, et.WorkflowState);
+                    return new EntityItem
+                    {
+                        Id = et.Id,
+                        Name = et.Name,
+                        Description = et.Description,
+                        EntityItemUId = et.EntityItemUid,
+                        MicrotingUUID = et.MicrotingUid,
+                        WorkflowState = et.WorkflowState
+                    };
                 }
                 else
                 {

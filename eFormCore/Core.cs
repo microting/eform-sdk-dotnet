@@ -2471,7 +2471,14 @@ namespace eFormCore
                     bool isCreated = _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMUId);
 
                     if (isCreated)
-                        return new EntityGroup(entityGroup.Id, entityGroup.Name, entityGroup.Type, entityGroupMUId, new List<EntityItem>());
+                        return new EntityGroup()
+                        {
+                            Id = entityGroup.Id,
+                            Name = entityGroup.Name,
+                            Type = entityGroup.Type,
+                            EntityGroupItemLst = new List<EntityItem>(),
+                            MicrotingUUID = entityGroupMUId
+                        };
                     else
                     {
                         _sqlController.EntityGroupDelete(entityGroupMUId);
@@ -2624,8 +2631,18 @@ namespace eFormCore
                     microtingUId = _communicator.EntitySelectItemCreate(eg.MicrotingUUID, name, displayIndex, ownUUID);
                 }
 
-                if (microtingUId != null) {
-                    et = new EntityItem(name, description, ownUUID,Constants.WorkflowStates.Created, microtingUId, displayIndex);
+                if (microtingUId != null)
+                {
+                    et = new EntityItem
+                    {
+                        Name = name,
+                        Description = description,
+                        EntityItemUId = ownUUID,
+                        WorkflowState = Constants.WorkflowStates.Created,
+                        MicrotingUUID = microtingUId,
+                        DisplayIndex = displayIndex
+                    };
+//                        (name, description, ownUUID,Constants.WorkflowStates.Created, microtingUId, displayIndex);
                     return _sqlController.EntityItemCreate(eg.Id, et);
                 } else
                 {

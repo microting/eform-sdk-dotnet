@@ -35,43 +35,22 @@ namespace Microting.eForm.Infrastructure.Models
 
         }
 
-        public EntityGroup(int id, string name, string type, string microtingUUId, List<EntityItem> entityGroupItemLst)
-        {
-            Id = id;
-            Name = name;
-            Type = type;
-            MicrotingUUID = microtingUUId;
-            EntityGroupItemLst = entityGroupItemLst;
-        }
-
-        public EntityGroup(int id, string name, string type, string microtingUUId, List<EntityItem> entityGroupItemLst, string workflowState, DateTime? createdAt, DateTime? updatedAt)
-        {
-            Id = id;
-            Name = name;
-            Type = type;
-            MicrotingUUID = microtingUUId;
-            EntityGroupItemLst = entityGroupItemLst;
-            WorkflowState = workflowState;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
-        }
-
-        public int Id { get; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; }
-        public string MicrotingUUID { get; }
+        public string Type { get; set; }
+        public string MicrotingUUID { get; set; }
         public List<EntityItem> EntityGroupItemLst { get; set; }
-        public string WorkflowState { get; }
+        public string WorkflowState { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? CreatedAt { get; }
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? UpdatedAt { get; }
+        public DateTime? UpdatedAt { get; set; }
     }
     #endregion
 
@@ -105,50 +84,6 @@ namespace Microting.eForm.Infrastructure.Models
             Description = "";
             EntityItemUId = "";
             MicrotingUUID = "";
-        }
-
-        public EntityItem(string name, string description, string entityItemUId)
-        {
-            Name = name;
-            Description = description;
-            EntityItemUId = entityItemUId;
-        }
-        public EntityItem(string name, string description, string entityItemUId, string workflowState)
-        {
-            Name = name;
-            Description = description;
-            EntityItemUId = entityItemUId;
-            WorkflowState = workflowState;
-        }
-
-        public EntityItem(string name, string description, string entityItemUId, string workflowState, string microtingUId, int displayIndex)
-        {
-            Name = name;
-            Description = description;
-            EntityItemUId = entityItemUId;
-            WorkflowState = workflowState;
-            MicrotingUUID = microtingUId;
-            DisplayIndex = displayIndex;
-
-        }
-
-        public EntityItem(int id, string name, string description, string entityItemUId, string microtingUId)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            EntityItemUId = entityItemUId;
-            MicrotingUUID = microtingUId;
-        }
-
-        public EntityItem(int id, string name, string description, string entityItemUId, string microtingUId, string workflowState)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            EntityItemUId = entityItemUId;
-            WorkflowState = workflowState;
-            MicrotingUUID = microtingUId;
         }
 
         public int Id { get; set; }
