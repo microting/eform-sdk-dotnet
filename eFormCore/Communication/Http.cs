@@ -356,22 +356,14 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/json; charset=utf-8";
 
-                string responseXml = PostToServerNoRedirect(request);
+                string newUrl = PostToServerGetRedirect(request);
 
-                if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-                {
-                    WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-                        "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                    request2.Method = "GET";
-                    string responseXml2 = PostToServer(request2);
+                request = WebRequest.Create(newUrl + "?token=" + token);
+                request.Method = "GET";
 
-                    if (responseXml2.Contains("workflow_state\": \"removed"))
-                        return true;
-                    else
-                        return false;
-                }
-                else
-                    return false;
+                string responseXml = PostToServer(request);
+                
+                return responseXml.Contains("workflow_state\": \"removed");
             }
             catch (Exception ex)
             {
