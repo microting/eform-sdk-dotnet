@@ -4045,7 +4045,8 @@ namespace Microting.eForm.Infrastructure
                                 Description = item.Description,
                                 EntityItemUId = item.EntityItemUid,
                                 MicrotingUUID = item.MicrotingUid,
-                                WorkflowState = item.WorkflowState
+                                WorkflowState = item.WorkflowState,
+                                DisplayIndex = item.DisplayIndex
                             };
                             lst.Add(eI);
                         }
@@ -4224,14 +4225,14 @@ namespace Microting.eForm.Infrastructure
         /// <summary>
         /// Reads an Entity Item from DB with given Id
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException"></exception>
-        public EntityItem EntityItemRead(int Id)
+        public EntityItem EntityItemRead(int id)
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.FirstOrDefault(x => x.Id == Id);
+                entity_items et = db.entity_items.FirstOrDefault(x => x.Id == id);
                 if (et != null)
                 {
                     EntityItem entityItem = new EntityItem
@@ -4240,15 +4241,17 @@ namespace Microting.eForm.Infrastructure
                         Name = et.Name,
                         Description = et.Description,
                         EntityItemUId = et.EntityItemUid,
-                        MicrotingUUID = et.MicrotingUid
+                        MicrotingUUID = et.MicrotingUid,
+                        DisplayIndex = et.DisplayIndex,
+                        EntityItemGroupId = et.EntityGroupId
                     };
-                    entityItem.EntityItemGroupId = et.EntityGroupId;
-                    entityItem.Id = et.Id;
+//                    entityItem.EntityItemGroupId = et.EntityGroupId;
+//                    entityItem.Id = et.Id;
                     return entityItem;
                 }
                 else
                 {
-                    throw new NullReferenceException("No EntityItem found for Id " + Id.ToString());
+                    throw new NullReferenceException("No EntityItem found for Id " + id.ToString());
                 }
             }
         }
