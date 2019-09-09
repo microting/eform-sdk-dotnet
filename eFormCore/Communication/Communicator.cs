@@ -102,26 +102,26 @@ namespace Microting.eForm.Communication
         /// <param name="siteId">Your device's Microting ID.</param>
         public string PostXml(string xmlString, int siteId)
         {
-            lock (_lockSending)
-            {
-                log.LogEverything(t.GetMethodName("Comminicator"), "called");
+//            lock (_lockSending)
+//            {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
-                //TODO - ALL xml hacks
-                //XML HACK
-                xmlString = xmlString.Replace("<color></color>", "");
-                //Missing serverside. Will not accept blank/empty field
-                xmlString = xmlString.Replace("<Color />", "");
-                //Missing serverside. Will not accept blank/empty field
-                xmlString = xmlString.Replace("<DefaultValue>0</DefaultValue>", "<DefaultValue></DefaultValue>");
-                xmlString = xmlString.Replace("DefaultValue", "Value");
-                //Missing serverside.
-                //XML HACK
+            //TODO - ALL xml hacks
+            //XML HACK
+            xmlString = xmlString.Replace("<color></color>", "");
+            //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("<Color />", "");
+            //Missing serverside. Will not accept blank/empty field
+            xmlString = xmlString.Replace("<DefaultValue>0</DefaultValue>", "<DefaultValue></DefaultValue>");
+            xmlString = xmlString.Replace("DefaultValue", "Value");
+            //Missing serverside.
+            //XML HACK
 
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(xmlString), xmlString);
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(xmlString), xmlString);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-                return http.Post(xmlString, siteId.ToString());
-            }
+            return http.Post(xmlString, siteId.ToString());
+//            }
         }
 
         /// <summary>
@@ -131,14 +131,14 @@ namespace Microting.eForm.Communication
         /// <param name="siteId">Your device's Microting ID.</param>
         public string CheckStatus(string eFormId, int siteId)
         {
-            lock (_lockSending)
-            {
-                log.LogEverything(t.GetMethodName("Comminicator"), "called");
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+//            lock (_lockSending)
+//            {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-                return http.Status(eFormId, siteId.ToString());
-            }
+            return http.Status(eFormId, siteId.ToString());
+//            }
         }
 
         //public bool CheckStatusUpdateIfNeeded(string microtingUId)
@@ -197,14 +197,14 @@ namespace Microting.eForm.Communication
         /// <param name="siteId">Your device's Microting ID.</param>
         public string Retrieve(string eFormId, int siteId)
         {
-            lock (_lockSending)
-            {
-                log.LogEverything(t.GetMethodName("Comminicator"), "called");
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+//            lock (_lockSending)
+//            {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-                return http.Retrieve(eFormId, "0", siteId); //Always gets the first
-            }
+            return http.Retrieve(eFormId, "0", siteId); //Always gets the first
+//            }
         }
 
         /// <summary>
@@ -215,15 +215,15 @@ namespace Microting.eForm.Communication
         /// <param name="eFormCheckId">Identifier of the check to begin from.</param>
         public string RetrieveFromId(string eFormId, int siteId, string eFormCheckId)
         {
-            lock (_lockSending)
-            {
-                log.LogEverything(t.GetMethodName("Comminicator"), "called");
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormCheckId), eFormCheckId);
+//            lock (_lockSending)
+//            {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormCheckId), eFormCheckId);
 
-                return http.Retrieve(eFormId, eFormCheckId, siteId);
-            }
+            return http.Retrieve(eFormId, eFormCheckId, siteId);
+//            }
         }
 
         /// <summary>
@@ -233,14 +233,14 @@ namespace Microting.eForm.Communication
         /// <param name="siteId">Your device's Microting ID.</param>
         public string Delete(string eFormId, int siteId)
         {
-            lock (_lockSending)
-            {
-                log.LogEverything(t.GetMethodName("Comminicator"), "called");
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
-                log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
+//            lock (_lockSending)
+//            {
+            log.LogEverything(t.GetMethodName("Comminicator"), "called");
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
+            log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-                return http.Delete(eFormId, siteId.ToString());
-            }
+            return http.Delete(eFormId, siteId.ToString());
+//            }
         }
         #endregion
 

@@ -4810,47 +4810,47 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public override string WriteLogEntry(LogEntry logEntry)
         {
-            lock (_lockWrite)
+//            lock (_lockWrite)
+//            {
+            try
             {
-                try
+                using (var db = GetContext())
                 {
-                    using (var db = GetContext())
+                    logs newLog = new logs();
+                    newLog.CreatedAt = logEntry.Time;
+                    newLog.Level = logEntry.Level;
+                    newLog.Message = logEntry.Message;
+                    newLog.Type = logEntry.Type;
+
+                    db.logs.Add(newLog);
+                    db.SaveChanges();
+                    
+                    WriteDebugConsoleLogEntry(logEntry);
+                    
+                    if (logEntry.Level < 0)
+                        WriteLogExceptionEntry(logEntry);
+
+                    #region clean up of log table
+                    int limit = t.Int(SettingRead(Settings.logLimit));
+                    if (limit > 0)
                     {
-                        logs newLog = new logs();
-                        newLog.CreatedAt = logEntry.Time;
-                        newLog.Level = logEntry.Level;
-                        newLog.Message = logEntry.Message;
-                        newLog.Type = logEntry.Type;
+                        List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
 
-                        db.logs.Add(newLog);
-                        db.SaveChanges();
-                        
-                        WriteDebugConsoleLogEntry(logEntry);
-                        
-                        if (logEntry.Level < 0)
-                            WriteLogExceptionEntry(logEntry);
-
-                        #region clean up of log table
-                        int limit = t.Int(SettingRead(Settings.logLimit));
-                        if (limit > 0)
+                        if (killList.Count > 0)
                         {
-                            List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
-
-                            if (killList.Count > 0)
-                            {
-                                db.logs.RemoveRange(killList);
-                                db.SaveChanges();
-                            }
+                            db.logs.RemoveRange(killList);
+                            db.SaveChanges();
                         }
-                        #endregion
                     }
-                    return "";
+                    #endregion
                 }
-                catch (Exception ex)
-                {
-                    return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
-                }
+                return "";
             }
+            catch (Exception ex)
+            {
+                return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
+            }
+//            }
         }
 
         private void WriteDebugConsoleLogEntry(LogEntry logEntry)
@@ -4916,8 +4916,8 @@ namespace Microting.eForm.Infrastructure
         /// <param name="logEntries"></param>
         public override void WriteIfFailed(string logEntries)
         {
-            lock (_lockWrite)
-            {
+//            lock (_lockWrite)
+//            {
                 try
                 {
                     File.AppendAllText(@"expection.txt",
@@ -4928,7 +4928,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //magic
                 }
-            }
+//            }
         }
         #endregion
         #endregion

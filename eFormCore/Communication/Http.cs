@@ -851,8 +851,8 @@ namespace Microting.eForm.Communication
         #region private
         private string PostToServer(WebRequest request, byte[] content)
         {
-            lock (_lock)
-            {
+//            lock (_lock)
+//            {
                 // Hack for ignoring certificate validation.
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
                 Stream dataRequestStream = request.GetRequestStream();
@@ -878,13 +878,13 @@ namespace Microting.eForm.Communication
                 }
 
                 return responseFromServer;
-            }
+//            }
         }
 
         private string PostToServerGetRedirect(WebRequest request, byte[] content)
         {
-            lock (_lock)
-            {
+//            lock (_lock)
+//            {
                 // Hack for ignoring certificate validation.
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
 
@@ -912,13 +912,13 @@ namespace Microting.eForm.Communication
                     }
                 }
                 return newUrl;
-            }
+//            }
         }
 
         private string PostToServerGetRedirect(WebRequest request)
         {
-            lock (_lock)
-            {
+//            lock (_lock)
+//            {
                 // Hack for ignoring certificate validation.
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
 
@@ -943,13 +943,13 @@ namespace Microting.eForm.Communication
                 }
 
                 return newUrl;
-            }
+//            }
         }
 
         private string PostToServerNoRedirect(WebRequest request, byte[] content)
         {
-            lock (_lock)
-            {
+//            lock (_lock)
+//            {
                 // Hack for ignoring certificate validation.
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
 
@@ -979,13 +979,13 @@ namespace Microting.eForm.Communication
                 }
 
                 return responseFromServer;
-            }
+//            }
         }
 
         private string PostToServer(WebRequest request)
         {
-            lock (_lock)
-            {
+//            lock (_lock)
+//            {
                 // Hack for ignoring certificate validation.
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
 
@@ -1007,13 +1007,13 @@ namespace Microting.eForm.Communication
                 }
 
                 return responseFromServer;
-            }
+//            }
         }
 
         private string PostToServerNoRedirect(WebRequest request)
         {
-            lock (_lock)
-            {
+//            lock (_lock)
+//            {
                 // Hack for ignoring certificate validation.
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
 
@@ -1039,7 +1039,7 @@ namespace Microting.eForm.Communication
                 }
 
                 return responseFromServer;
-            }
+//            }
         }
 
         /// <summary>

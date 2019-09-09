@@ -1077,56 +1077,56 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+//                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+//                    {
+                    Log.LogStandard(t.GetMethodName("Core"), "called");
+                    string siteIdsStr = string.Join(",", siteUids);
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(caseUId), caseUId);
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(siteIdsStr), siteIdsStr);
+                    Log.LogVariable(t.GetMethodName("Core"), nameof(custom), custom);
+
+                    #region check input
+                    DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
+                    DateTime end = DateTime.Parse(mainElement.EndDate.ToShortDateString());
+
+                    if (end < DateTime.Now)
                     {
-                        Log.LogStandard(t.GetMethodName("Core"), "called");
-                        string siteIdsStr = string.Join(",", siteUids);
-                        Log.LogVariable(t.GetMethodName("Core"), nameof(caseUId), caseUId);
-                        Log.LogVariable(t.GetMethodName("Core"), nameof(siteIdsStr), siteIdsStr);
-                        Log.LogVariable(t.GetMethodName("Core"), nameof(custom), custom);
-
-                        #region check input
-                        DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
-                        DateTime end = DateTime.Parse(mainElement.EndDate.ToShortDateString());
-
-                        if (end < DateTime.Now)
-                        {
-                            Log.LogStandard(t.GetMethodName("Core"), "mainElement.EndDate is set to " + end);
-                            throw new ArgumentException("mainElement.EndDate needs to be a future date");
-                        }
-
-                        if (end <= start)
-                        {
-                            Log.LogStandard(t.GetMethodName("Core"), "mainElement.StartDat is set to " + start);
-                            throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
-                        }
-
-                        if (caseUId != "" && mainElement.Repeated != 1)
-                            throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
-                        #endregion
-
-                        //sending and getting a reply
-                        List<string> lstMUId = new List<string>();
-
-                        foreach (int siteUid in siteUids)
-                        {
-                            string mUId = SendXml(mainElement, siteUid);
-
-                            if (mainElement.Repeated == 1)
-                                _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
-                            else
-                                _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
-
-                            Case_Dto cDto = _sqlController.CaseReadByMUId(mUId);
-                            //InteractionCaseUpdate(cDto);
-                            try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
-                            catch { Log.LogWarning(t.GetMethodName("Core"), "HandleCaseCreated event's external logic suffered an Expection"); }
-                            Log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been created");
-
-                            lstMUId.Add(mUId);
-                        }
-                        return lstMUId;
+                        Log.LogStandard(t.GetMethodName("Core"), "mainElement.EndDate is set to " + end);
+                        throw new ArgumentException("mainElement.EndDate needs to be a future date");
                     }
+
+                    if (end <= start)
+                    {
+                        Log.LogStandard(t.GetMethodName("Core"), "mainElement.StartDat is set to " + start);
+                        throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+                    }
+
+                    if (caseUId != "" && mainElement.Repeated != 1)
+                        throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
+                    #endregion
+
+                    //sending and getting a reply
+                    List<string> lstMUId = new List<string>();
+
+                    foreach (int siteUid in siteUids)
+                    {
+                        string mUId = SendXml(mainElement, siteUid);
+
+                        if (mainElement.Repeated == 1)
+                            _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
+                        else
+                            _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
+
+                        Case_Dto cDto = _sqlController.CaseReadByMUId(mUId);
+                        //InteractionCaseUpdate(cDto);
+                        try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
+                        catch { Log.LogWarning(t.GetMethodName("Core"), "HandleCaseCreated event's external logic suffered an Expection"); }
+                        Log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been created");
+
+                        lstMUId.Add(mUId);
+                    }
+                    return lstMUId;
+//                    }
                 }
                 else
                     throw new Exception("Core is not running");
