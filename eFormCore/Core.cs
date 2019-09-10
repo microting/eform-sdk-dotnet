@@ -2594,19 +2594,10 @@ namespace eFormCore
                     while (_updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    try
-                    {
-                        EntityGroup entityGroup =_sqlController.EntityGroupRead(entityGroupMUId);
-                        _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMUId);
-                    }
-                    catch (Exception exception)
-                    {
-                        
-                    }
+                    EntityGroup entityGroup =_sqlController.EntityGroupRead(entityGroupMUId);
+                    _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMUId);
                     string type = _sqlController.EntityGroupDelete(entityGroupMUId);
-                        
 
-                    //CoreHandleUpdateEntityItems();
                 }
                 else
                     throw new Exception("Core is not running");

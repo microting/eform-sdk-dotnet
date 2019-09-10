@@ -40,13 +40,12 @@ namespace Microting.eForm.Infrastructure
     public class SqlController : LogWriter
     {
         #region var
-        string connectionStr;       
-        Log log;
-        Tools t = new Tools();
-        List<Holder> converter;
 
-        object _lockQuery = new object();
-        object _lockWrite = new object();
+        private readonly string connectionStr;
+        private Log log;
+        private readonly Tools t = new Tools();
+        private List<Holder> converter;
+        private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         #endregion
 
         #region con
@@ -4557,7 +4556,7 @@ namespace Microting.eForm.Infrastructure
                     case Settings.logLimit: Id = 3; defaultValue = "25000"; break;
                     case Settings.knownSitesDone: Id = 4; defaultValue = "false"; break;
                     case Settings.fileLocationPicture:
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        if (isLinux)
                         {
                             Id = 5;
                             defaultValue = "output/dataFolder/picture/";
@@ -4569,7 +4568,7 @@ namespace Microting.eForm.Infrastructure
                         } 
                         break;
                     case Settings.fileLocationPdf:
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        if (isLinux)
                         {                            
                             Id = 6;
                             defaultValue = "output/dataFolder/pdf/";
@@ -4581,7 +4580,7 @@ namespace Microting.eForm.Infrastructure
                         } 
                         break;
                     case Settings.fileLocationJasper:
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        if (isLinux)
                         {
                             Id = 7;
                             defaultValue = "output/dataFolder/reports/";
@@ -4815,45 +4814,51 @@ namespace Microting.eForm.Infrastructure
         {
 //            lock (_lockWrite)
 //            {
-            try
+            WriteDebugConsoleLogEntry(logEntry);
+                    
+            if (logEntry.Level < 0)
+                WriteLogExceptionEntry(logEntry);
+            
+            if (!isLinux)
             {
-                using (var db = GetContext())
+                try
                 {
-                    logs newLog = new logs();
-                    newLog.CreatedAt = logEntry.Time;
-                    newLog.Level = logEntry.Level;
-                    newLog.Message = logEntry.Message;
-                    newLog.Type = logEntry.Type;
-
-                    db.logs.Add(newLog);
-                    db.SaveChanges();
-                    
-                    WriteDebugConsoleLogEntry(logEntry);
-                    
-                    if (logEntry.Level < 0)
-                        WriteLogExceptionEntry(logEntry);
-
-                    #region clean up of log table
-                    int limit = t.Int(SettingRead(Settings.logLimit));
-                    if (limit > 0)
+                    using (var db = GetContext())
                     {
-                        List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
+                        logs newLog = new logs();
+                        newLog.CreatedAt = logEntry.Time;
+                        newLog.Level = logEntry.Level;
+                        newLog.Message = logEntry.Message;
+                        newLog.Type = logEntry.Type;
 
-                        if (killList.Count > 0)
+                        db.logs.Add(newLog);
+                        db.SaveChanges();
+                        
+
+                        #region clean up of log table
+                        int limit = t.Int(SettingRead(Settings.logLimit));
+                        if (limit > 0)
                         {
-                            db.logs.RemoveRange(killList);
-                            db.SaveChanges();
+                            List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
+
+                            if (killList.Count > 0)
+                            {
+                                db.logs.RemoveRange(killList);
+                                db.SaveChanges();
+                            }
                         }
+                        #endregion
                     }
-                    #endregion
+                    return "";
                 }
-                return "";
+                catch (Exception ex)
+                {
+                    return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
+                }
+                
             }
-            catch (Exception ex)
-            {
-                return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
-            }
-//            }
+
+            return "";
         }
 
         private void WriteDebugConsoleLogEntry(LogEntry logEntry)
