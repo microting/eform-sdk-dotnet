@@ -66,12 +66,15 @@ namespace Microting.eForm.Helpers
             {
                 if (currentHeader != keyValuePair.Key)
                 {
-                    Body body = wordDoc.MainDocumentPart.Document.Body;
+                    if (currentHeader != "")
+                    {
+                        Body body = wordDoc.MainDocumentPart.Document.Body;
 
-                    Paragraph para = body.AppendChild(new Paragraph());
-                    Run run = para.AppendChild(new Run());
-                    Break pageBreak = run.AppendChild(new Break());
-                    pageBreak.Type = BreakValues.Page;
+                        Paragraph para = body.AppendChild(new Paragraph());
+                        Run run = para.AppendChild(new Run());
+                        Break pageBreak = run.AppendChild(new Break());
+                        pageBreak.Type = BreakValues.Page;
+                    }
                     InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
                 }
                 
@@ -149,7 +152,7 @@ namespace Microting.eForm.Helpers
             iWidth = (long)Math.Round((decimal)iWidth * 9525);
             iHeight = (long)Math.Round((decimal)iHeight * 9525);
             
-            double maxWidthCm = 17.4;
+            double maxWidthCm = 16.5;
             const int emusPerCm = 360000;
             long maxWidthEmus = (long)(maxWidthCm * emusPerCm);
             if (iWidth > maxWidthEmus) {

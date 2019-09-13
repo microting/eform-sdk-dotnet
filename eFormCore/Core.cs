@@ -2137,7 +2137,7 @@ namespace eFormCore
                         break;
                     case Constants.FieldTypes.CheckBox:
                         // TODO change this to use Winding 0252 = checkmark
-                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable == "checked" ? "Ja" : "Nej";
+                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "Ja" : "Nej";
                         break;
                     default:
                         if (fieldValue.ValueReadable == "null")
@@ -2146,7 +2146,14 @@ namespace eFormCore
                         }
                         else
                         {
-                            valuePairs[$"F_{fieldValue.FieldId}"] = Regex.Replace(fieldValue.ValueReadable, "<.*?>", string.Empty);
+                            if (string.IsNullOrEmpty(fieldValue.ValueReadable))
+                            {
+                                valuePairs[$"F_{fieldValue.FieldId}"] = "";
+                            }
+                            else
+                            {
+                                valuePairs[$"F_{fieldValue.FieldId}"] = Regex.Replace(fieldValue.ValueReadable, "<.*?>", string.Empty);
+                            }
                         }
                         break;
                 }

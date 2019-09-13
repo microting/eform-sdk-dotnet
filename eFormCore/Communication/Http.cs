@@ -78,6 +78,7 @@ namespace Microting.eForm.Communication
         {
             try
             {
+                WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.Now}");
                 WebRequest request = WebRequest.Create(addressApi + "/gwt/inspection_app/integration/?token=" + token + "&protocol=" + protocolXml + "&site_id=" + siteId + "&sdk_ver=" + dllVersion);
                 request.Method = "POST";
                 byte[] content = Encoding.UTF8.GetBytes(xmlData);
@@ -854,6 +855,8 @@ namespace Microting.eForm.Communication
 //            lock (_lock)
 //            {
                 // Hack for ignoring certificate validation.
+                DateTime start = DateTime.Now;
+                WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
                 ServicePointManager.ServerCertificateValidationCallback = Validator;
                 Stream dataRequestStream = request.GetRequestStream();
                 dataRequestStream.Write(content, 0, content.Length);
@@ -877,6 +880,7 @@ namespace Microting.eForm.Communication
 
                 }
 
+                WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
                 return responseFromServer;
 //            }
         }
@@ -1061,6 +1065,23 @@ namespace Microting.eForm.Communication
         {
             return true;
         }
+
+        private void WriteDebugConsoleLogEntry(string classMethodName, string message)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"[DBG] {classMethodName}: {message}");
+            Console.ForegroundColor = oldColor;
+        }
+
+        private void WriteErrorConsoleLogEntry(string classMethodName, string message)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[ERR] {classMethodName}: {message}");
+            Console.ForegroundColor = oldColor;
+        }
+        
         #endregion
     }
 }
