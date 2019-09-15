@@ -4016,7 +4016,7 @@ namespace Microting.eForm.Infrastructure
 
                     List<entity_items> eILst = null;
 
-                    if (nameFilter == "")
+                    if (string.IsNullOrEmpty(nameFilter))
                     {
                         eILst = db.entity_items.
                             Where(x => x.EntityGroupId == eG.Id 
