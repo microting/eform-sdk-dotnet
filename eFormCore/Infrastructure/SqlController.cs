@@ -4559,7 +4559,7 @@ namespace Microting.eForm.Infrastructure
                         if (isLinux)
                         {
                             Id = 5;
-                            defaultValue = "output/dataFolder/picture/";
+                            defaultValue = "/var/www/microting/eform-angular-frontend/eFormAPI/eFormAPI.Web/out/output/datafolder/picture/";
                         }
                         else
                         {
@@ -4571,7 +4571,7 @@ namespace Microting.eForm.Infrastructure
                         if (isLinux)
                         {                            
                             Id = 6;
-                            defaultValue = "output/dataFolder/pdf/";
+                            defaultValue = "/var/www/microting/eform-angular-frontend/eFormAPI/eFormAPI.Web/out/output/datafolder/pdf/";
                         }
                         else
                         {
@@ -4583,7 +4583,7 @@ namespace Microting.eForm.Infrastructure
                         if (isLinux)
                         {
                             Id = 7;
-                            defaultValue = "output/dataFolder/reports/";
+                            defaultValue = "/var/www/microting/eform-angular-frontend/eFormAPI/eFormAPI.Web/out/output/datafolder/reports/";
                         }
                         else
                         {

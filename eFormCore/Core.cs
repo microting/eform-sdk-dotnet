@@ -2171,8 +2171,12 @@ namespace eFormCore
                 valuePairs.Add($"C_{checkListValue.Id}", checkListValue.Status);
             }
             // TODO get custom xml values
-            
-            
+
+            foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
+            {
+                valuePairs.Add(keyValuePair.Key, keyValuePair.Value);
+            }
+
             string templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
                 $"{jasperTemplate}.docx");  
             
@@ -2200,6 +2204,22 @@ namespace eFormCore
             
         }
 
+        private Dictionary<string, string> ParseCustomXmlContent(string customXmlContent)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(customXmlContent);
+            XmlElement root = xmlDocument.DocumentElement;
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            
+            foreach (XmlNode node in root.ChildNodes)
+            {
+                dictionary.Add($"F_{node.Name}", node.InnerText);
+            }
+
+            return dictionary;
+        }
+
         public string CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXmlContent)
         {
             if (fileType != "pdf" && fileType != "docx" && fileType != "pptx")
@@ -2225,9 +2245,9 @@ namespace eFormCore
                     
                     string resultDocument = "";
 
-                    CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent);
                     if (reply.JasperExportEnabled)
                     {
+                        CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent);
                         resultDocument = JasperToPdf(caseId, jasperTemplate, timeStamp);
                     }
                     else
