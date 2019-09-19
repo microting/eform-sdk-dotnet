@@ -2172,9 +2172,12 @@ namespace eFormCore
             }
             // TODO get custom xml values
 
-            foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
+            if (!string.IsNullOrEmpty(customXmlContent))
             {
-                valuePairs.Add(keyValuePair.Key, keyValuePair.Value);
+                foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
+                {
+                    valuePairs.Add(keyValuePair.Key, keyValuePair.Value);
+                }    
             }
 
             string templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
