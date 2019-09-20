@@ -2084,7 +2084,7 @@ namespace eFormCore
         private string DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, Case_Dto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
         {
             
-            Dictionary<string, string> valuePairs = new Dictionary<string, string>();
+            SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // get base values
             valuePairs.Add("F_CaseName", reply.Label);
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
@@ -2105,7 +2105,7 @@ namespace eFormCore
                 valuePairs.Add($"F_{field.Id}", "");
             }
             
-            Dictionary<string, int> imageFieldCountList = new Dictionary<string, int>();
+            SortedDictionary<string, int> imageFieldCountList = new SortedDictionary<string, int>();
             foreach (FieldValue fieldValue in fieldValues)
             {
                 switch (fieldValue.FieldType)
@@ -2137,7 +2137,7 @@ namespace eFormCore
                         break;
                     case Constants.FieldTypes.CheckBox:
                         // TODO change this to use Winding 0252 = checkmark
-                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "Ja" : "Nej";
+                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "Nej";
                         break;
                     default:
                         if (fieldValue.ValueReadable == "null")

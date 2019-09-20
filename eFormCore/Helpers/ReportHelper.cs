@@ -18,7 +18,7 @@ namespace Microting.eForm.Helpers
 {
     public class ReportHelper
     {
-        public static void SearchAndReplace(string fullPathToDocument,Dictionary<string, string> valuesToReplace, string outputFileName)
+        public static void SearchAndReplace(string fullPathToDocument,SortedDictionary<string, string> valuesToReplace, string outputFileName)
         {
             File.Copy(fullPathToDocument, outputFileName);
             
