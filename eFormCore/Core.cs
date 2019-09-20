@@ -2183,6 +2183,9 @@ namespace eFormCore
             string templateFile = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "templates", jasperTemplate, "compact",
                 $"{jasperTemplate}.docx");  
             
+            // Try to create the results directory first
+            Directory.CreateDirectory(Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results"));
+            
             string resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
                 $"{timeStamp}_{caseId}.docx");
             
