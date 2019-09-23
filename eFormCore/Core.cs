@@ -3993,10 +3993,14 @@ namespace eFormCore
             Log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", requested sent eForm");
 
             string xmlStrRequest = mainElement.ClassToXml();
+            
+            Log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", ClassToXml done");
             string xmlStrResponse = _communicator.PostXml(xmlStrRequest, siteId);
+            Log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", PostXml done");
 
             Response response = new Response();
             response = response.XmlToClass(xmlStrResponse);
+            Log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", XmlToClass done");
 
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
