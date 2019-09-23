@@ -312,9 +312,9 @@ namespace Microting.eForm.Dto
 
         public string CaseType { get; set; }
 
-        public string MicrotingUId { get; set; }
+        public int? MicrotingUId { get; set; }
 
-        public string CheckUIid { get; set; }
+        public int? CheckUIid { get; set; }
 
         public string CaseUId { get; set; }
 
@@ -369,16 +369,16 @@ namespace Microting.eForm.Dto
         {
         }
 
-        public Case_Dto(int? caseId, string stat, int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string custom, int checkListId, string workflowState)
+        public Case_Dto(int? caseId, string stat, int siteUId, string caseType, string caseUId, int? microtingUId, int? checkUId, string custom, int checkListId, string workflowState)
         {
             if (caseType == null)
                 caseType = "";
             if (caseUId == null)
                 caseUId = "";
-            if (microtingUId == null)
-                microtingUId = "";
-            if (checkUId == null)
-                checkUId = "";
+//            if (microtingUId == null)
+//                microtingUId = "";
+//            if (checkUId == null)
+//                checkUId = "";
 
             CaseId = caseId;
             Stat = stat;
@@ -423,12 +423,12 @@ namespace Microting.eForm.Dto
         /// <summary>
         ///Unique identifier of that specific eForm in Microting system
         /// </summary>
-        public string MicrotingUId { get; }
+        public int? MicrotingUId { get; }
 
         /// <summary>
         /// Unique identifier of that check of the eForm. Only used if repeat
         /// </summary>
-        public string CheckUId { get; }
+        public int? CheckUId { get; }
 
         /// <summary>
         /// Custom data. Only used in special cases
@@ -457,7 +457,7 @@ namespace Microting.eForm.Dto
                 caseIdStr = CaseId.ToString();
 
             if (CheckUId == null) return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
-            if (CheckUId == "") return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
+//            if (CheckUId == "") return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + ".";
             return "CaseId:" + caseIdStr + " / Stat:" + Stat + " / SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + ".";
         }
     }
@@ -615,7 +615,7 @@ namespace Microting.eForm.Dto
 
         }
 
-        public Note_Dto(string id, string microtingUId, string activity)
+        public Note_Dto(string id, int? microtingUId, string activity)
         {
             Id = id;
             MicrotingUId = microtingUId;
@@ -626,7 +626,7 @@ namespace Microting.eForm.Dto
         #region var
         public string Id { get; }
 
-        public string MicrotingUId { get; }
+        public int? MicrotingUId { get; }
 
         public string Activity { get; }
         #endregion

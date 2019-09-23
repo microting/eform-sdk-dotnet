@@ -29,9 +29,9 @@ namespace Microting.eForm.Messages
     public class UnitActivated
     {
         public string notificationUId { get; protected set; }
-        public string MicrotringUUID { get; protected set; }
+        public int MicrotringUUID { get; protected set; }
 
-        public UnitActivated(string notificationUId, string microtringUUID)
+        public UnitActivated(string notificationUId, int microtringUUID)
         {
             if (string.IsNullOrEmpty(notificationUId)) throw new ArgumentNullException(nameof(notificationUId));
 

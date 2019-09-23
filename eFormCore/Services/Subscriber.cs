@@ -150,7 +150,7 @@ namespace Microting.eForm.Services
 
                                 var parsedData = JRaw.Parse(message.Body);
                                 string notificationUId = parsedData["id"].ToString();
-                                string microtingUId = parsedData["microting_uuid"].ToString();
+                                int microtingUId = int.Parse(parsedData["microting_uuid"].ToString());
                                 string action = parsedData["text"].ToString();
 
                                 #endregion

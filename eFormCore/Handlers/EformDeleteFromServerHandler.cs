@@ -74,14 +74,14 @@ namespace Microting.eForm.Handlers
 
         private bool DeleteCase(EformDeleteFromServer message)
         {
-            string microtingUId = message.MicrotringUUID;
+            int microtingUId = message.MicrotringUUID;
             string methodName = "EformDeleteFromServerHandler";
 
             log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " called");
             log.LogVariable(t.GetMethodName("EformDeleteFromServerHandler"), nameof(microtingUId), microtingUId);
 
             var cDto = sqlController.CaseReadByMUId(microtingUId);
-            string xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
+            string xmlResponse = communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
             Response resp = new Response();
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
@@ -118,7 +118,7 @@ namespace Microting.eForm.Handlers
                 for (int i = 1; i < 7; i++)
                 {
                     Thread.Sleep(i * 200);
-                    xmlResponse = communicator.Delete(microtingUId, cDto.SiteUId);
+                    xmlResponse = communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
                     if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
                         break;
                 }

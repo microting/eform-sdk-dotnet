@@ -610,7 +610,7 @@ namespace Microting.eForm.Infrastructure
         #region public (pre)case
 
         //TODO
-        public void CheckListSitesCreate(int checkListId, int siteUId, string microtingUId)
+        public void CheckListSitesCreate(int checkListId, int siteUId, int microtingUId)
         {
             try
             {
@@ -620,7 +620,7 @@ namespace Microting.eForm.Infrastructure
 
                     check_list_sites cLS = new check_list_sites();
                     cLS.CheckListId = checkListId;
-                    cLS.LastCheckId = "0";
+                    cLS.LastCheckId = 0;
                     cLS.MicrotingUid = microtingUId;
                     cLS.SiteId = siteId;
                     cLS.Create(db);
@@ -633,7 +633,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public List<string> CheckListSitesRead(int templateId, int microtingUid, string workflowState)
+        public List<int> CheckListSitesRead(int templateId, int microtingUid, string workflowState)
         {
             try
             {
@@ -666,19 +666,24 @@ namespace Microting.eForm.Infrastructure
         /// <param name="createdAt"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public int CaseCreate(int checkListId, int siteUId, string microtingUId, string microtingCheckId, string caseUId, string custom, DateTime createdAt)
+        public int CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt)
         {
+            string methodName = t.GetMethodName("SQLController");
+            log.LogStandard(methodName, "called");
             try
             {
                 using (var db = GetContext())
                 {
                     string caseType = db.check_lists.Single(x => x.Id == checkListId).CaseType;
+                    log.LogStandard(methodName, $"caseType is {caseType}");
                     int siteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
+                    log.LogStandard(methodName, $"siteId is {siteId}");
 
                     cases aCase = null;
                     // Lets see if we have an existing case with the same parameters in the db first.
                     // This is to handle none gracefull shutdowns.                
                     aCase = db.cases.SingleOrDefault(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
+                    log.LogStandard(methodName, $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
 
                     if (aCase == null)
                     {
@@ -707,6 +712,7 @@ namespace Microting.eForm.Infrastructure
                         aCase.Custom = custom;
                         aCase.Update(db);
                     }
+                    log.LogStandard(methodName, $"aCase is created in db");
 
                     return aCase.Id;
                 }
@@ -723,7 +729,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="microtingUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public string CaseReadLastCheckIdByMicrotingUId(string microtingUId)
+        public int? CaseReadLastCheckIdByMicrotingUId(int microtingUId)
         {
             try
             {
@@ -743,7 +749,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseUpdateRetreived(string microtingUId)
+        public void CaseUpdateRetreived(int microtingUId)
         {
             try
             {
@@ -765,7 +771,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseUpdateCompleted(string microtingUId, string microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
+        public void CaseUpdateCompleted(int microtingUId, int microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
         {
             try
             {
@@ -803,7 +809,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseRetract(string microtingUId, string microtingCheckId)
+        public void CaseRetract(int microtingUId, int microtingCheckId)
         {
             try
             {
@@ -827,7 +833,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="microtingUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public bool CaseDelete(string microtingUId)
+        public bool CaseDelete(int microtingUId)
 
         {
             try
@@ -891,7 +897,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseDeleteReversed(string microtingUId)
+        public void CaseDeleteReversed(int microtingUId)
         {
             try
             {
@@ -932,13 +938,13 @@ namespace Microting.eForm.Infrastructure
 
                     try //if a reversed case, case needs to be created
                     {
-                        check_list_sites cLS = db.check_list_sites.Single(x => x.MicrotingUid == response.Value);
-                        int caseId = CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, response.Value, response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
+                        check_list_sites cLS = db.check_list_sites.Single(x => x.MicrotingUid == int.Parse(response.Value));
+                        int caseId = CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
                         responseCase = db.cases.Single(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived
                     {
-                        responseCase = db.cases.Single(x => x.MicrotingUid == response.Value);
+                        responseCase = db.cases.Single(x => x.MicrotingUid == int.Parse(response.Value));
                     }
 
                     check_lists cl = responseCase.CheckList;
@@ -1337,7 +1343,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="checkUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public ReplyElement CheckRead(string microtingUId, string checkUId)
+        public ReplyElement CheckRead(int microtingUId, int checkUId)
         {
             try
             {
@@ -1363,7 +1369,7 @@ namespace Microting.eForm.Infrastructure
                     if (mainCheckList.Repeated != null) replyElement.Repeated = (int) mainCheckList.Repeated;
                     //replyElement.StartDate
                     if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
-                    replyElement.MicrotingUId = aCase.MicrotingCheckUid;
+                    replyElement.MicrotingUId = (int)aCase.MicrotingCheckUid;
                     if (aCase.Site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) aCase.Site.MicrotingUid;
                     replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
                     replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
@@ -1476,7 +1482,7 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        public List<field_values> ChecksRead(string microtingUId, string checkUId)
+        public List<field_values> ChecksRead(int microtingUId, int checkUId)
         {
             try
             {
@@ -2076,7 +2082,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="microtingUId"></param>
         /// <param name="activity"></param>
         /// <returns></returns>
-        public notifications NotificationCreate(string notificationUId, string microtingUId, string activity)
+        public notifications NotificationCreate(string notificationUId, int microtingUId, string activity)
         {
             string methodName = t.GetMethodName("SQLController");
 
@@ -2141,7 +2147,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="exception"></param>
         /// <param name="stacktrace"></param>
         /// <exception cref="Exception"></exception>
-        public void NotificationUpdate(string notificationUId, string microtingUId, string workflowState, string exception, string stacktrace)
+        public void NotificationUpdate(string notificationUId, int microtingUId, string workflowState, string exception, string stacktrace)
         {
             try
             {
@@ -2371,7 +2377,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="checkUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public Case_Dto CaseLookup(string microtingUId, string checkUId)
+        public Case_Dto CaseLookup(int microtingUId, int checkUId)
         {
             try
             {
@@ -2392,7 +2398,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="microtingUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public Case_Dto CaseReadByMUId(string microtingUId)
+        public Case_Dto CaseReadByMUId(int microtingUId)
         {
             try
             {
@@ -2516,7 +2522,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="checkUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public cases CaseReadFull(string microtingUId, string checkUId)
+        public cases CaseReadFull(int microtingUId, int checkUId)
         {
             try
             {

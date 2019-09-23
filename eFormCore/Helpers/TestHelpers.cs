@@ -219,7 +219,7 @@ namespace Microting.eForm.Helpers
 
             return f;
         }
-        public cases CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime done_at, workers doneByUserId, string microtingCheckId, string microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
+        public cases CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime done_at, workers doneByUserId, int microtingCheckId, int microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
         {
 
             cases aCase = new cases();
@@ -391,7 +391,7 @@ namespace Microting.eForm.Helpers
             return tag;
         }
         public check_list_sites CreateCheckListSite(check_lists checklist, DateTime createdAt,
-            sites site, DateTime updatedAt, int version, string workflowState, string microting_uid)
+            sites site, DateTime updatedAt, int version, string workflowState, int microting_uid)
         {
             check_list_sites cls = new check_list_sites();
             cls.CheckList = checklist;

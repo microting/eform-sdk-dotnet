@@ -59,11 +59,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [StringLength(255)]
         public string Type { get; set; }
 
-        [StringLength(255)]
-        public string MicrotingUid { get; set; }
+        public int? MicrotingUid { get; set; }
 
-        [StringLength(255)]
-        public string MicrotingCheckUid { get; set; }
+        public int? MicrotingCheckUid { get; set; }
 
         [StringLength(255)]
         public string CaseUid { get; set; }

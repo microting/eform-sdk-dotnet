@@ -29,9 +29,9 @@ namespace Microting.eForm.Messages
     public class EformParsingError
     {
         public string NotificationId { get; protected set; }
-        public string MicrotringUUID { get; protected set; }
+        public int MicrotringUUID { get; protected set; }
 
-        public EformParsingError(string notificationId, string microtringUUID)
+        public EformParsingError(string notificationId, int microtringUUID)
         {
             if (string.IsNullOrEmpty(notificationId)) throw new ArgumentNullException(nameof(notificationId));
 

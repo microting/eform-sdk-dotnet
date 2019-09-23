@@ -45,7 +45,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
         public string Date { get { return date.Substring(0, 19); } set { date = value; } }
         #endregion
         public string Worker { get; set; }
-        public string Id { get; set; }
+        public int? Id { get; set; }
         public string WorkerId { get; set; }
 
         [XmlArray("ElementList"), XmlArrayItem(typeof(ElementList), ElementName = "Element")]

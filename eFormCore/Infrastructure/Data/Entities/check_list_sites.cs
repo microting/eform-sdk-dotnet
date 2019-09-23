@@ -50,11 +50,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("check_list")]
         public int? CheckListId { get; set; }
 
-        [StringLength(255)]
-        public string MicrotingUid { get; set; }
+        public int MicrotingUid { get; set; }
 
-        [StringLength(255)]
-        public string LastCheckId { get; set; }
+        public int LastCheckId { get; set; }
 
         public virtual sites Site { get; set; }
 

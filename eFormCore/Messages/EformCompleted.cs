@@ -29,9 +29,9 @@ namespace Microting.eForm.Messages
     public class EformCompleted
     {
         public string NotificationUId { get; protected set; }
-        public string MicrotringUUID { get; protected set; }
+        public int MicrotringUUID { get; protected set; }
 
-        public EformCompleted(string notificationUId, string microtringUUID)
+        public EformCompleted(string notificationUId, int microtringUUID)
         {
             if (string.IsNullOrEmpty(notificationUId)) throw new ArgumentNullException(nameof(notificationUId));
 

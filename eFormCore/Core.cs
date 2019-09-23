@@ -1047,11 +1047,11 @@ namespace eFormCore
         /// <param name="caseUId">Optional own id</param>
         /// <param name="siteUid">API id of the site to deploy the eForm at</param>
         /// <returns>Microting API ID</returns>
-        public string CaseCreate(MainElement mainElement, string caseUId, int siteUid)
+        public int? CaseCreate(MainElement mainElement, string caseUId, int siteUid)
         {
             List<int> siteUids = new List<int>();
             siteUids.Add(siteUid);
-            List<string> lst = CaseCreate(mainElement, caseUId, siteUids, "");
+            List<int> lst = CaseCreate(mainElement, caseUId, siteUids, "");
 
             try
             {
@@ -1070,7 +1070,7 @@ namespace eFormCore
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
-        public List<string> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
+        public List<int> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1106,11 +1106,11 @@ namespace eFormCore
                     #endregion
 
                     //sending and getting a reply
-                    List<string> lstMUId = new List<string>();
+                    List<int> lstMUId = new List<int>();
 
                     foreach (int siteUid in siteUids)
                     {
-                        string mUId = SendXml(mainElement, siteUid);
+                        int mUId = SendXml(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
                             _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
@@ -1142,7 +1142,7 @@ namespace eFormCore
         /// Tries to retrieve the status of a case
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
-        public string CaseCheck(string microtingUId)
+        public string CaseCheck(int microtingUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1153,7 +1153,7 @@ namespace eFormCore
                     Log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
 
                     Case_Dto cDto = CaseLookupMUId(microtingUId);
-                    return _communicator.CheckStatus(cDto.MicrotingUId, cDto.SiteUId);
+                    return _communicator.CheckStatus(cDto.MicrotingUId.ToString(), cDto.SiteUId);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1170,7 +1170,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
-        public ReplyElement CaseRead(string microtingUId, string checkUId)
+        public ReplyElement CaseRead(int microtingUId, int checkUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1180,12 +1180,12 @@ namespace eFormCore
                     Log.LogStandard(t.GetMethodName("Core"), "called");
                     Log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
                     Log.LogVariable(t.GetMethodName("Core"), nameof(checkUId), checkUId);
-
-                    if (checkUId == null)
-                        checkUId = "";
-
-                    if (checkUId == "" || checkUId == "0")
-                        checkUId = null;
+//
+//                    if (checkUId == null)
+//                        checkUId = "";
+//
+//                    if (checkUId == "" || checkUId == "0")
+//                        checkUId = null;
 
                     cases aCase = _sqlController.CaseReadFull(microtingUId, checkUId);
                     #region handling if no match case found
@@ -1438,11 +1438,11 @@ namespace eFormCore
                     Log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
 
                     List<string> errors = new List<string>();
-                    foreach (string microtingUId in _sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
+                    foreach (int microtingUId in _sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
                     {
                         if (!CaseDelete(microtingUId))
                         {
-                            string error = "Failed to delete case with microtingUId: " + microtingUId;
+                            string error = $"Failed to delete case with microtingUId: {microtingUId}";
                             errors.Add(error);
                         }
                     }
@@ -1474,7 +1474,7 @@ namespace eFormCore
         /// Marks a case as deleted, and will remove it from the device, if needed
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
-        public bool CaseDelete(string microtingUId)
+        public bool CaseDelete(int microtingUId)
         {
             //bus.SendLocal(new EformDeleteFromServer(microtingUId)).Wait();
             //bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
@@ -1486,7 +1486,7 @@ namespace eFormCore
             Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             var cDto = _sqlController.CaseReadByMUId(microtingUId);
-            string xmlResponse = _communicator.Delete(microtingUId, cDto.SiteUId);
+            string xmlResponse = _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
             Log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
             Response resp = new Response();
 
@@ -1524,7 +1524,7 @@ namespace eFormCore
                 for (int i = 1; i < 102; i++)
                 {
                     Thread.Sleep(i * 5000);
-                    xmlResponse = _communicator.Delete(microtingUId, cDto.SiteUId);
+                    xmlResponse = _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
                     try
                     {
                         resp = resp.XmlToClass(xmlResponse);
@@ -1639,7 +1639,7 @@ namespace eFormCore
             }
         }
 
-        public Case_Dto CaseLookup(string microtingUId, string checkUId)
+        public Case_Dto CaseLookup(int microtingUId, int checkUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1666,7 +1666,7 @@ namespace eFormCore
         /// Looks up the case's markers, from the match
         /// </summary>
         /// <param name="microtingUId">Microting unique ID of the eForm case</param>
-        public Case_Dto CaseLookupMUId(string microtingUId)
+        public Case_Dto CaseLookupMUId(int microtingUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1745,7 +1745,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
-        public int? CaseIdLookup(string microtingUId, string checkUId)
+        public int? CaseIdLookup(int microtingUId, int checkUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1756,11 +1756,11 @@ namespace eFormCore
                     Log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
                     Log.LogVariable(t.GetMethodName("Core"), nameof(checkUId), checkUId);
 
-                    if (checkUId == null)
-                        checkUId = "";
-
-                    if (checkUId == "" || checkUId == "0")
-                        checkUId = null;
+//                    if (checkUId == null)
+//                        checkUId = "";
+//
+//                    if (checkUId == "" || checkUId == "0")
+//                        checkUId = null;
 
                     cases aCase = _sqlController.CaseReadFull(microtingUId, checkUId);
                     #region handling if no match case found
@@ -2089,7 +2089,7 @@ namespace eFormCore
             valuePairs.Add("F_CaseName", reply.Label);
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
             valuePairs.Add("F_Worker", Advanced_WorkerNameRead(reply.DoneById));
-            valuePairs.Add("F_CheckId", reply.MicrotingUId);
+            valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss"));
             valuePairs.Add("F_SiteName", Advanced_SiteItemRead(reply.SiteMicrotingUuid).SiteName);
             
@@ -2247,7 +2247,7 @@ namespace eFormCore
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
                     
                     Case_Dto cDto = CaseLookupCaseId(caseId);
-                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+                    ReplyElement reply = CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
                     
                     string resultDocument = "";
 
@@ -3097,14 +3097,14 @@ namespace eFormCore
 
                     string respXml = null;
                     List<string> errors = new List<string>();
-                    foreach (string microtingUId in _sqlController.CheckListSitesRead(templateId, siteUId, Constants.WorkflowStates.NotRemoved))
+                    foreach (int microtingUId in _sqlController.CheckListSitesRead(templateId, siteUId, Constants.WorkflowStates.NotRemoved))
                     {
                         respXml = _communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteUId, newDisplayIndex);
                         Response resp = new Response();
                         resp = resp.XmlToClassUsingXmlDocument(respXml);
                         if (resp.Type != Response.ResponseTypes.Success)
                         {
-                            string error = "Failed to set display index for eForm " + microtingUId + " to " + newDisplayIndex;
+                            string error = $"Failed to set display index for eForm {microtingUId} to {newDisplayIndex}";
                             errors.Add(error);
                         }
                     }
@@ -3988,7 +3988,7 @@ namespace eFormCore
             return elementListReplaced;
         }
 
-        private string SendXml(MainElement mainElement, int siteId)
+        private int SendXml(MainElement mainElement, int siteId)
         {
             Log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", requested sent eForm");
 
@@ -4005,7 +4005,7 @@ namespace eFormCore
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
             {
-                return response.Value;
+                return int.Parse(response.Value);
             }
 
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
@@ -4420,7 +4420,7 @@ namespace eFormCore
                 #endregion
 
                 Case_Dto dto = _sqlController.FileCaseFindMUId(urlStr);
-                File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId, dto.CheckUId, _fileLocationPicture + fileName);
+                File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                 try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
                 catch { Log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
                 Log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
@@ -4595,7 +4595,7 @@ namespace eFormCore
             };
         }
         
-        public bool CheckStatusByMicrotingUid(string microtingUid)
+        public bool CheckStatusByMicrotingUid(int microtingUid)
         {
             List<Case_Dto> lstCase = new List<Case_Dto>();
             MainElement mainElement = new MainElement();
@@ -4613,14 +4613,14 @@ namespace eFormCore
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
                     #region get response's data and update DB with data
-                    string checkIdLastKnown = _sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
+                    int? checkIdLastKnown = _sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
                     Log.LogVariable(t.GetMethodName("Core"), nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
-                        respXml = _communicator.Retrieve(microtingUid, concreteCase.SiteUId);
+                        respXml = _communicator.Retrieve(microtingUid.ToString(), concreteCase.SiteUId);
                     else
-                        respXml = _communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown);
+                        respXml = _communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown.ToString());
                     Log.LogVariable(t.GetMethodName("Core"), nameof(respXml), respXml);
 
                     Response resp = new Response();
@@ -4647,13 +4647,13 @@ namespace eFormCore
 
                                 _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
-                                _sqlController.CaseUpdateCompleted(microtingUid, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
+                                _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
                                 Log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
                                 {
-                                    string responseRetractionXml = _communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
+                                    string responseRetractionXml = _communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
                                     Response respRet = new Response();
                                     respRet = respRet.XmlToClass(respXml);
 
@@ -4666,7 +4666,7 @@ namespace eFormCore
                                 }
                                 #endregion
 
-                                _sqlController.CaseRetract(microtingUid, check.Id);
+                                _sqlController.CaseRetract(microtingUid, (int)check.Id);
                                 Log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseRetract(...)");
                                 // TODO add case.Id
                                 Case_Dto cDto = _sqlController.CaseReadByMUId(microtingUid);
@@ -4689,7 +4689,7 @@ namespace eFormCore
                 else
                 {
                     //delete eForm on other tablets and update DB to "deleted"
-                    CaseDelete(aCase.MicrotingUId);
+                    CaseDelete((int)aCase.MicrotingUId);
                 }
             }
             return true;

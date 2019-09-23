@@ -115,7 +115,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                         check.UnitId = t.Locate(rawXml, " unit_id=\"", "\"");
                         check.Date = t.Locate(rawXml, " date=\"", "\"");
                         check.Worker = t.Locate(rawXml, " worker=\"", "\"");
-                        check.Id = t.Locate(rawXml, " id=\"", "\"");
+                        check.Id = int.Parse(t.Locate(rawXml, " id=\"", "\""));
                         check.WorkerId = t.Locate(rawXml, " worker_id=\"", "\"");
 
                         while (rawXml.Contains("<ElementList>"))
@@ -205,7 +205,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                     check.UnitId = t.Locate(checkXmlStr, " unit_id=\"", "\"");
                     check.Date = t.Locate(checkXmlStr, " date=\"", "\"");
                     check.Worker = t.Locate(checkXmlStr, " worker=\"", "\"");
-                    check.Id = t.Locate(checkXmlStr, " id=\"", "\"");
+                    check.Id = int.Parse(t.Locate(checkXmlStr, " id=\"", "\""));
                     check.WorkerId = t.Locate(checkXmlStr, " worker_id=\"", "\"");
 
                     while (checkXmlStr.Contains("<ElementList>"))

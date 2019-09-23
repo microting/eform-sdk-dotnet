@@ -91,12 +91,12 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.SiteId = site.Id;
             theCase.UnitId = unit.Id;
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             
             
             //Act
@@ -250,12 +250,12 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.SiteId = site.Id;
             theCase.UnitId = unit.Id;
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.Create(DbContext);
             
             //Act
@@ -275,8 +275,8 @@ namespace eFormSDK.Tests
             string oldFieldValue8 = theCase.FieldValue8;
             string oldFieldValue9 = theCase.FieldValue9;
             string oldFieldValue10 = theCase.FieldValue10;
-            string oldMicrotingUid = theCase.MicrotingUid;
-            string oldMicrotingCheckUid = theCase.MicrotingCheckUid;
+            int? oldMicrotingUid = theCase.MicrotingUid;
+            int? oldMicrotingCheckUid = theCase.MicrotingCheckUid;
             string oldCustom = theCase.Custom;
             
             theCase.Custom = Guid.NewGuid().ToString();
@@ -294,8 +294,8 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             
             theCase.Update(DbContext);
             
@@ -474,12 +474,12 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.SiteId = site.Id;
             theCase.UnitId = unit.Id;
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.Create(DbContext);
             
             

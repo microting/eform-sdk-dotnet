@@ -93,7 +93,7 @@ namespace Microting.eForm.Helpers
                 check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);
                 check_lists cl2 = testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
                 fields f1 = testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
-                check_list_sites cls = testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0, Constants.WorkflowStates.Created, "MultiPictureTestInMultipleChecks");
+                check_list_sites cls = testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0, Constants.WorkflowStates.Created, 555);
                 //returnXML = ;
                 return "MultiPictureTestInMultipleChecks";
             }

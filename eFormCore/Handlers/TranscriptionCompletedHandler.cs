@@ -57,13 +57,13 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                field_values fv = sqlController.GetFieldValueByTranscriptionId(int.Parse(message.MicrotringUUID));
-                JToken result = communicator.SpeechToText(int.Parse(message.MicrotringUUID));
+                field_values fv = sqlController.GetFieldValueByTranscriptionId(message.MicrotringUUID);
+                JToken result = communicator.SpeechToText(message.MicrotringUUID);
 
                 sqlController.FieldValueUpdate((int)fv.CaseId, (int)fv.Id, result["text"].ToString());
 
                 #region download file
-                uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(int.Parse(message.MicrotringUUID));
+                uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
 
                 if (ud.FileName.Contains("3gp"))
                 {

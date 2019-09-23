@@ -41,8 +41,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public DateTime? UpdatedAt { get; set; }
 
-        [StringLength(255)]
-        public string MicrotingUid { get; set; }
+        public int? MicrotingUid { get; set; }
 
         public string Transmission { get; set; }
 

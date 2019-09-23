@@ -55,7 +55,7 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                Unit_Dto unitDto = sqlController.UnitRead(int.Parse(message.MicrotringUUID));
+                Unit_Dto unitDto = sqlController.UnitRead(message.MicrotringUUID);
                 sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
                 sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 

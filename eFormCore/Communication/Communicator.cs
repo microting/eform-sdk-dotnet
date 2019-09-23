@@ -38,7 +38,6 @@ namespace Microting.eForm.Communication
         //SqlController sqlController;
         Log log;
         IHttp http;
-        public object _lockSending = new object();
         Tools t = new Tools();
         #endregion
 
@@ -72,7 +71,7 @@ namespace Microting.eForm.Communication
             string errorsFound = "";
 
             if (token.Length != 32)
-                errorsFound += "Tokens are always 32 charactors long" + Environment.NewLine;
+                errorsFound += "Tokens are always 32 characters long" + Environment.NewLine;
 
             if (!comAddressApi.Contains("http://") && !comAddressApi.Contains("https://"))
                 errorsFound += "comAddressApi is missing 'http://' or 'https://'" + Environment.NewLine;

@@ -26,9 +26,9 @@ namespace Microting.eForm.Messages
 {
     public class EformDeleteFromServer
     {
-        public string MicrotringUUID { get; protected set; }
+        public int MicrotringUUID { get; protected set; }
 
-        public EformDeleteFromServer(string microtringUUID)
+        public EformDeleteFromServer(int microtringUUID)
         {
             this.MicrotringUUID = microtringUUID;
         }

@@ -69,7 +69,7 @@ namespace Microting.eForm.Handlers
             }
         }
 
-        private bool CheckStatusByMicrotingUid(string microtingUid)
+        private bool CheckStatusByMicrotingUid(int microtingUid)
         {
             List<Case_Dto> lstCase = new List<Case_Dto>();
             MainElement mainElement = new MainElement();
@@ -87,14 +87,14 @@ namespace Microting.eForm.Handlers
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
                     #region get response's data and update DB with data
-                    string checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
+                    int? checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
                     log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
-                        respXml = communicator.Retrieve(microtingUid, concreteCase.SiteUId);
+                        respXml = communicator.Retrieve(microtingUid.ToString(), concreteCase.SiteUId);
                     else
-                        respXml = communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown);
+                        respXml = communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown.ToString());
                     log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(respXml), respXml);
 
                     Response resp = new Response();
@@ -131,13 +131,13 @@ namespace Microting.eForm.Handlers
                                     }
                                 }
 
-                                sqlController.CaseUpdateCompleted(microtingUid, check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
+                                sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
                                 {
-                                    string responseRetractionXml = communicator.Delete(aCase.MicrotingUId, aCase.SiteUId);
+                                    string responseRetractionXml = communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
                                     Response respRet = new Response();
                                     respRet = respRet.XmlToClass(respXml);
 
@@ -150,7 +150,7 @@ namespace Microting.eForm.Handlers
                                 }
                                 #endregion
 
-                                sqlController.CaseRetract(microtingUid, check.Id);
+                                sqlController.CaseRetract(microtingUid, (int)check.Id);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                                 // TODO add case.id
                                 Case_Dto cDto = sqlController.CaseReadByMUId(microtingUid);
@@ -169,7 +169,7 @@ namespace Microting.eForm.Handlers
                 }
                 else
                 {
-                    core.CaseDelete(aCase.MicrotingUId);
+                    core.CaseDelete((int)aCase.MicrotingUId);
                 }
             }
             return true;

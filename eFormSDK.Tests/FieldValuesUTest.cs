@@ -135,12 +135,12 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.SiteId = site.Id;
             theCase.UnitId = unit.Id;
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.Create(DbContext);
             
             uploaded_data uploadedData = new uploaded_data();
@@ -344,12 +344,12 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.SiteId = site.Id;
             theCase.UnitId = unit.Id;
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.Create(DbContext);
             
             uploaded_data uploadedData = new uploaded_data();
@@ -592,12 +592,12 @@ namespace eFormSDK.Tests
             theCase.FieldValue8 = Guid.NewGuid().ToString();
             theCase.FieldValue9 = Guid.NewGuid().ToString();
             theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = Guid.NewGuid().ToString();
+            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.SiteId = site.Id;
             theCase.UnitId = unit.Id;
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = Guid.NewGuid().ToString();
+            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.Create(DbContext);
             
             uploaded_data uploadedData = new uploaded_data();
