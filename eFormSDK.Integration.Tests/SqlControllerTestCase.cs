@@ -42,6 +42,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Case_CaseCreate_DoesCaseCreate()
         {
+            Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("MySite", 22);
 
             DateTime cl1_Ca = DateTime.Now;
@@ -58,8 +59,8 @@ namespace eFormSDK.Integration.Tests
             site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker);
             units unit = testHelpers.CreateUnit(48, 49, site1, 348);
 
-            string microtingUId = Guid.NewGuid().ToString();
-            string microtingCheckId = Guid.NewGuid().ToString();
+            int microtingUId = rnd.Next(1, 255);
+            int microtingCheckId = rnd.Next(1, 255);
         
 
             // Act
@@ -78,6 +79,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Case_CaseReadLastCheckIdByMicrotingUId_DoesCaseReadLastIDByMicrotiingUID()
         {
+            Random rnd = new Random(); 
             sites site1 = testHelpers.CreateSite("mySite2", 331);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -85,7 +87,7 @@ namespace eFormSDK.Integration.Tests
 
             string guid = Guid.NewGuid().ToString();
             string guid2 = Guid.NewGuid().ToString();
-            string lastCheckUid1 = Guid.NewGuid().ToString();
+            int lastCheckUid1 = rnd.Next(1, 255);
 
             
             //check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1.Id, site1.Id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
@@ -94,7 +96,7 @@ namespace eFormSDK.Integration.Tests
             //cases case1 = CreateCase
 
             // Act
-            string matches = sut.CaseReadLastCheckIdByMicrotingUId(cls1.MicrotingUid);
+            int? matches = sut.CaseReadLastCheckIdByMicrotingUId(cls1.MicrotingUid);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -110,6 +112,7 @@ namespace eFormSDK.Integration.Tests
         {
 
             // Arrance
+            Random rnd = new Random();
             sites site = new sites();
             site.Name = "SiteName";
             DbContext.sites.Add(site);
@@ -122,8 +125,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             cases aCase = new cases();
-            aCase.MicrotingUid = "microting_uid";
-            aCase.MicrotingCheckUid = "microting_check_uid";
+            aCase.MicrotingUid = rnd.Next(1, 255);
+            aCase.MicrotingCheckUid = rnd.Next(1, 255);
             aCase.WorkflowState = Constants.WorkflowStates.Created;
             aCase.CheckListId = cl.Id;
             aCase.SiteId = site.Id;
@@ -133,7 +136,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseUpdateRetreived(aCase.MicrotingUid);
+            sut.CaseUpdateRetreived((int)aCase.MicrotingUid);
             //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
 
@@ -153,6 +156,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
         {
+            Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("MySite", 22);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -174,7 +178,7 @@ namespace eFormSDK.Integration.Tests
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
             cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+                c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
               site1, 66, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
 
@@ -186,7 +190,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].WorkflowState);
             Assert.AreEqual(66, caseResults[0].Status);
 
-            sut.CaseUpdateCompleted(aCase1.MicrotingUid, aCase1.MicrotingCheckUid, c1_da, aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
+            sut.CaseUpdateCompleted((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid, c1_da, aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
             caseResults = DbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             //DbContext.cases
@@ -207,7 +211,7 @@ namespace eFormSDK.Integration.Tests
         {
 
             // Arrance
-            // Arrance
+            Random rnd = new Random();
             sites site = new sites();
             site.Name = "SiteName";
             DbContext.sites.Add(site);
@@ -220,8 +224,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             cases aCase = new cases();
-            aCase.MicrotingUid = "microting_uid";
-            aCase.MicrotingCheckUid = "microting_check_uid";
+            aCase.MicrotingUid = rnd.Next(1, 255);
+            aCase.MicrotingCheckUid = rnd.Next(1, 255);
             aCase.WorkflowState = Constants.WorkflowStates.Created;
             aCase.CheckListId = cl.Id;
             aCase.SiteId = site.Id;
@@ -230,7 +234,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseRetract(aCase.MicrotingUid, aCase.MicrotingCheckUid);
+            sut.CaseRetract((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
             //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
@@ -249,7 +253,7 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Case_CaseDelete_DoesCaseRemoved()
         {
             // Arrance
-            // Arrance
+            Random rnd = new Random();
             sites site = new sites();
             site.Name = "SiteName";
             DbContext.sites.Add(site);
@@ -262,8 +266,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             cases aCase = new cases();
-            aCase.MicrotingUid = "microting_uid";
-            aCase.MicrotingCheckUid = "microting_check_uid";
+            aCase.MicrotingUid = rnd.Next(1, 255);
+            aCase.MicrotingCheckUid = rnd.Next(1, 255);
             aCase.WorkflowState = Constants.WorkflowStates.Created;
             aCase.CheckListId = cl.Id;
             aCase.SiteId = site.Id;
@@ -272,7 +276,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDelete(aCase.MicrotingUid);
+            sut.CaseDelete((int)aCase.MicrotingUid);
             //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
@@ -290,6 +294,7 @@ namespace eFormSDK.Integration.Tests
         {
 
             // Arrance
+            Random rnd = new Random();
             sites site = new sites();
             site.Name = "SiteName";
             DbContext.sites.Add(site);
@@ -302,8 +307,8 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             cases aCase = new cases();
-            aCase.MicrotingUid = "microting_uid";
-            aCase.MicrotingCheckUid = "microting_check_uid";
+            aCase.MicrotingUid = rnd.Next(1, 255);
+            aCase.MicrotingCheckUid = rnd.Next(1, 255);
             aCase.WorkflowState = Constants.WorkflowStates.Created;
             aCase.CheckListId = cl.Id;
             aCase.SiteId = site.Id;
@@ -329,6 +334,7 @@ namespace eFormSDK.Integration.Tests
         public void SQL_PostCase_CaseReadFirstId()
         {
             // Arrance
+            Random rnd = new Random();
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -416,7 +422,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -436,6 +442,7 @@ namespace eFormSDK.Integration.Tests
 
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -528,7 +535,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+                c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -539,7 +546,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
             cases aCase2 = testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker, "microtingCheck2UId", "microting2UId",
+             c2_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
@@ -549,7 +556,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
+              c3_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
@@ -559,7 +566,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4 = testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker, "microtingCheck4UId", "microting4UId",
+                c4_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
             #endregion
@@ -590,6 +597,7 @@ namespace eFormSDK.Integration.Tests
 
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -740,7 +748,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1 = testHelpers.CreateCase("case1UId", cl2, c1_ca, "custom1",
-                c1_da, worker1, "microtingCheckUId1", "microtingUId1",
+                c1_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
 
             #endregion
@@ -751,7 +759,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
             cases aCase2 = testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker2, "microtingCheck2UId", "microting2UId",
+             c2_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
                site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
             #endregion
 
@@ -761,7 +769,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker3, "microtingCheck3UId", "microtin3gUId",
+              c3_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
                site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
             #endregion
 
@@ -771,7 +779,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4 = testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker4, "microtingCheck4UId", "microting4UId",
+                c4_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
                site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
             #endregion
             #endregion
@@ -953,6 +961,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -1039,7 +1048,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -1111,7 +1120,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByMUId(aCase.MicrotingUid);
+            var match = sut.CaseReadByMUId((int)aCase.MicrotingUid);
 
             // Assert
 
@@ -1125,6 +1134,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -1211,7 +1221,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -1234,6 +1244,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -1320,7 +1331,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -1344,6 +1355,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -1430,7 +1442,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -1438,7 +1450,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFull(aCase.MicrotingUid, aCase.MicrotingCheckUid);
+            var match = sut.CaseReadFull((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
             // Assert
             Assert.AreEqual(aCase.MicrotingUid, match.MicrotingUid);
             Assert.AreEqual(aCase.MicrotingCheckUid, match.MicrotingCheckUid);

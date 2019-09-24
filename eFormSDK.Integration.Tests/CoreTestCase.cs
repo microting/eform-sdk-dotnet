@@ -325,7 +325,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseRead(aCase.MicrotingUid, aCase.MicrotingCheckUid);
+            var match = sut.CaseRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
 
             // Assert
             Assert.NotNull(match);
@@ -1728,6 +1728,9 @@ namespace eFormSDK.Integration.Tests
 
             #region SubTemplate1
             check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
 
             #endregion
@@ -2225,7 +2228,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseLookupMUId(aCase.MicrotingUid);
+            var match = sut.CaseLookupMUId((int)aCase.MicrotingUid);
 
             // Assert
 
@@ -2466,6 +2469,9 @@ namespace eFormSDK.Integration.Tests
 
             #region SubTemplate1
             check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl3 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl4 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl5 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
 
             #endregion
@@ -2589,7 +2595,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseIdLookup(aCase1.MicrotingUid, aCase1.MicrotingCheckUid);
+            var match = sut.CaseIdLookup((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid);
             // Assert
             Assert.NotNull(match);
             Assert.AreEqual(aCase1.Id, match);
@@ -3394,7 +3400,7 @@ namespace eFormSDK.Integration.Tests
             #region checkListSites
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
-            string microtingUid = Guid.NewGuid().ToString();
+            int microtingUid = rnd.Next(1,255);
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, microtingUid);
 
@@ -3801,7 +3807,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created, "");
+               cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1,255));
 
             #endregion
             #endregion
@@ -3811,7 +3817,7 @@ namespace eFormSDK.Integration.Tests
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
             Case_Dto cDto = sut.CaseLookupCaseId(aCase2.Id);
-            ReplyElement reply = sut.CaseRead(cDto.MicrotingUId, cDto.CheckUId);
+            ReplyElement reply = sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
             var match = sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
 
             // Assert
@@ -4210,7 +4216,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created, "");
+               cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
@@ -4628,7 +4634,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created, "");
+               cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
@@ -5045,7 +5051,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created, "");
+               cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
@@ -5449,7 +5455,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
-               cls_ua, 5, Constants.WorkflowStates.Created, "");
+               cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion

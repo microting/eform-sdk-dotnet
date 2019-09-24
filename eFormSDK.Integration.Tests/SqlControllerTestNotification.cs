@@ -43,8 +43,9 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
         {
             // Arrance
+            Random rnd = new Random();
             var notificationId = Guid.NewGuid().ToString();
-            var microtingUId = Guid.NewGuid().ToString();
+            var microtingUId = rnd.Next(1, 255);
 
             // Act
             sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
@@ -62,8 +63,9 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Notification_NewNotificationCreateCompletedForm_DoesStoreNotification()
         {
             // Arrance
+            Random rnd = new Random();
             var notificationId = Guid.NewGuid().ToString();
-            var microtingUId = Guid.NewGuid().ToString();
+            var microtingUId = rnd.Next(1, 255);
 
             // Act
             sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
@@ -81,10 +83,11 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Notification_NotificationReadFirst_DoesReturnFirstNotification()
         {
             // Arrance
+            Random rnd = new Random();
             var notificationId1 = Guid.NewGuid().ToString();
-            var microtingUId1 = Guid.NewGuid().ToString();
+            var microtingUId1 = rnd.Next(1, 255);
             var notificationId2 = Guid.NewGuid().ToString();
-            var microtingUId2 = Guid.NewGuid().ToString();
+            var microtingUId2 = rnd.Next(1, 255);
 
             // Act
             sut.NotificationCreate(notificationId1, microtingUId1, Constants.Notifications.Completed);
@@ -103,8 +106,9 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Notification_NotificationUpdate_DoesUpdateNotification()
         {
             // Arrance
+            Random rnd = new Random();
             var notificationUId = Guid.NewGuid().ToString();
-            var microtingUId = Guid.NewGuid().ToString();
+            var microtingUId = rnd.Next(1, 255);
 
             // Act
             sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
@@ -126,7 +130,8 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            sut.NotificationCreate(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Constants.Notifications.UnitActivate);
+            Random rnd = new Random();
+            sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255), Constants.Notifications.UnitActivate);
             List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
             var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
 
@@ -145,13 +150,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Notification_NotificationReadFirst_doesReadFirst()
         {
+            Random rnd = new Random();
             notifications aNote1 = new notifications();
 
             aNote1.WorkflowState = Constants.WorkflowStates.Created;
             aNote1.CreatedAt = DateTime.Now;
             aNote1.UpdatedAt = DateTime.Now;
             aNote1.NotificationUid = "0";
-            aNote1.MicrotingUid = "1";
+            aNote1.MicrotingUid = rnd.Next(1, 255);
             aNote1.Activity = Constants.Notifications.UnitActivate;
 
             DbContext.notifications.Add(aNote1);
@@ -172,20 +178,21 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Notification_NotificationUpdate_doesGetUpdated()
         {
+            Random rnd = new Random();
             notifications aNote1 = new notifications();
 
             aNote1.WorkflowState = Constants.WorkflowStates.Created;
             aNote1.CreatedAt = DateTime.Now;
             aNote1.UpdatedAt = DateTime.Now;
             aNote1.NotificationUid = "0";
-            aNote1.MicrotingUid = "1";
+            aNote1.MicrotingUid = rnd.Next(1, 255);
             aNote1.Activity = Constants.Notifications.UnitActivate;
 
             DbContext.notifications.Add(aNote1);
             DbContext.SaveChanges();
 
             // Act
-            sut.NotificationUpdate(aNote1.NotificationUid, aNote1.MicrotingUid, aNote1.WorkflowState, aNote1.Exception, "");
+            sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState, aNote1.Exception, "");
             List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
             var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
 

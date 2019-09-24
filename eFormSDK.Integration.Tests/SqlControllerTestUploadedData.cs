@@ -183,6 +183,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_File_FileCaseFindMUId_doesFindMUId()
         {
+            Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("MySite", 22);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -201,7 +202,7 @@ namespace eFormSDK.Integration.Tests
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
             cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker, "microtingCheckUId1", "microtingUId1",
+                c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
             uploaded_data ud = new uploaded_data();

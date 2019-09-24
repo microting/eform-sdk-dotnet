@@ -827,7 +827,7 @@ namespace eFormSDK.Integration.Tests
 
             return f;
         }
-        public cases CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime? done_at, workers doneByUserId, string microtingCheckId, string microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
+        public cases CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime? done_at, workers doneByUserId, int microtingCheckId, int microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
         {
 
             cases aCase = new cases();
@@ -925,7 +925,7 @@ namespace eFormSDK.Integration.Tests
             return UD;
         }
 
-        public check_list_sites CreateCheckListSite(int checkListId, int siteId, string microtingUId, string workflowState, string lastCheckUid)
+        public check_list_sites CreateCheckListSite(int checkListId, int siteId, int microtingUId, string workflowState, int lastCheckUid)
         {
             check_list_sites cls = new check_list_sites();
             cls.SiteId = siteId;

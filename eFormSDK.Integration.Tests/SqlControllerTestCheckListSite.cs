@@ -41,6 +41,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Case_CheckListSitesCreate_DoesSiteCreate()
         {
+            Random rnd = new Random();
             sites site = testHelpers.CreateSite("mySite", 987);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -48,7 +49,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, "ServerMicrotingUid");
+            sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255));
             List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -64,7 +65,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public void SQL_Case_CheckListSitesRead_DoesSiteRead()
         {
-
+            Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("mySite2", 331);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -72,15 +73,15 @@ namespace eFormSDK.Integration.Tests
 
             string guid = Guid.NewGuid().ToString();
             string guid2 = Guid.NewGuid().ToString();
-            string lastCheckUid1 = Guid.NewGuid().ToString();
-            string lastCheckUid2 = Guid.NewGuid().ToString();
+            int lastCheckUid1 = rnd.Next(1, 255);
+            int lastCheckUid2 = rnd.Next(1, 255);
 
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
             check_list_sites cls2 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
 
             // Act
-            List<string> matches = sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
-            List<string> matches2 = sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
+            List<int> matches = sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
+            List<int> matches2 = sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -99,13 +100,14 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
         {
             // Arrance
+            Random rnd = new Random();
             sites site = testHelpers.CreateSite("mySite", 987);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
 
             string guid = Guid.NewGuid().ToString();
-            string lastCheckUid1 = Guid.NewGuid().ToString();
+            int lastCheckUid1 = rnd.Next(1, 255);
 
 
             check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);

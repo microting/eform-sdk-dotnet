@@ -54,6 +54,7 @@ namespace eFormSDK.Integration.Tests
             #region Template1
             DateTime cl1_ca = DateTime.Now;
             DateTime cl1_ua = DateTime.Now;
+            Random rnd = new Random();
             check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -155,7 +156,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker1, "microtingCheckUId1", "microtingUId1",
+                c1_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
 
             #endregion
@@ -166,7 +167,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
             cases aCase2 = testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker2, "microtingCheck2UId", "microting2UId",
+             c2_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
                site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
             #endregion
 
@@ -176,7 +177,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3 = testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker3, "microtingCheck3UId", "microtin3gUId",
+              c3_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
                site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
             #endregion
 
@@ -186,7 +187,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4 = testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker4, "microtingCheck4UId", "microting4UId",
+                c4_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
                site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
             #endregion
             #endregion
@@ -200,7 +201,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Removed_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1Removed = testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
-                c1Removed_da, worker1, "microtingCheckUId1", "microtingUId1",
+                c1Removed_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit1, c1Removed_ua, 1, worker1, Constants.WorkflowStates.Removed);
 
             #endregion
@@ -211,7 +212,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Removed_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2Removed_ua = DateTime.Now.AddDays(-6);
             cases aCase2Removed = testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
-             c2Removed_da, worker2, "microtingCheck2UId", "microting2UId",
+             c2Removed_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
                site2, 10, "caseType2", unit2, c2Removed_ua, 1, worker2, Constants.WorkflowStates.Removed);
             #endregion
 
@@ -221,7 +222,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Removed_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3Removed = testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
-              c3Removed_da, worker3, "microtingCheck3UId", "microtin3gUId",
+              c3Removed_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
                site3, 15, "caseType3", unit3, c3Removed_ua, 1, worker3, Constants.WorkflowStates.Removed);
             #endregion
 
@@ -231,7 +232,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Removed_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4Removed = testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
-                c4Removed_da, worker4, "microtingCheck4UId", "microting4UId",
+                c4Removed_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
                site4, 100, "caseType4", unit4, c4Removed_ua, 1, worker4, Constants.WorkflowStates.Removed);
             #endregion
 
@@ -246,7 +247,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Retracted_ua = DateTime.Now.AddDays(-8);
 
             cases aCase1Retracted = testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
-                c1Retracted_da, worker1, "microtingCheckUId1", "microtingUId1",
+                c1Retracted_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit1, c1Retracted_ua, 1, worker1, Constants.WorkflowStates.Retracted);
 
             #endregion
@@ -258,7 +259,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Retracted_ua = DateTime.Now.AddDays(-6);
 
             cases aCase2Retracted = testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
-             c2Retracted_da, worker2, "microtingCheck2UId", "microting2UId",
+             c2Retracted_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
                site2, 10, "caseType2", unit2, c2Retracted_ua, 1, worker2, Constants.WorkflowStates.Retracted);
             #endregion
 
@@ -268,7 +269,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Retracted_ua = DateTime.Now.AddDays(-9);
 
             cases aCase3Retracted = testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
-              c3Retracted_da, worker3, "microtingCheck3UId", "microtin3gUId",
+              c3Retracted_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
                site3, 15, "caseType3", unit3, c3Retracted_ua, 1, worker3, Constants.WorkflowStates.Retracted);
             #endregion
 
@@ -278,7 +279,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Retracted_ua = DateTime.Now.AddDays(-7);
 
             cases aCase4Retracted = testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
-                c4Retracted_da, worker4, "microtingCheck4UId", "microting4UId",
+                c4Retracted_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
                site4, 100, "caseType4", unit4, c4Retracted_ua, 1, worker4, Constants.WorkflowStates.Retracted);
             #endregion
 

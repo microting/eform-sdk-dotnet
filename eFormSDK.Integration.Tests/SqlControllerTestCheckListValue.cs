@@ -42,6 +42,8 @@ namespace eFormSDK.Integration.Tests
         public void SQL_Check_CheckListValueStatusRead_ReturnsCheckListValuesStatus()
         {
             // Arrance
+            
+            Random rnd = new Random();
             #region Arrance
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
@@ -129,7 +131,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
@@ -209,6 +211,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             #region Arrance
+            Random rnd = new Random();
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
@@ -295,7 +298,7 @@ namespace eFormSDK.Integration.Tests
             #region Case1
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
-                worker, "microtingCheckUId", "microtingUId",
+                worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion

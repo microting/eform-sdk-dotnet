@@ -61,10 +61,10 @@ namespace eFormSDK.Tests
             checklist.Create(DbContext);
 
             check_list_sites checkListSite = new check_list_sites();
-            checkListSite.MicrotingUid = Guid.NewGuid().ToString();
+            checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.SiteId = site.Id;
             checkListSite.CheckListId = checklist.Id;
-            checkListSite.LastCheckId = Guid.NewGuid().ToString();
+            checkListSite.LastCheckId = rnd.Next(1, 255);
             
             //Act
             
@@ -153,20 +153,20 @@ namespace eFormSDK.Tests
             checklist.Create(DbContext);
 
             check_list_sites checkListSite = new check_list_sites();
-            checkListSite.MicrotingUid = Guid.NewGuid().ToString();
+            checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.SiteId = site.Id;
             checkListSite.CheckListId = checklist.Id;
-            checkListSite.LastCheckId = Guid.NewGuid().ToString();
+            checkListSite.LastCheckId = rnd.Next(1, 255);
             checkListSite.Create(DbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = checkListSite.UpdatedAt;
-            string oldMicrotingUid = checkListSite.MicrotingUid;
-            string oldLastCheckId = checkListSite.LastCheckId;
+            int oldMicrotingUid = checkListSite.MicrotingUid;
+            int oldLastCheckId = checkListSite.LastCheckId;
 
-            checkListSite.MicrotingUid = Guid.NewGuid().ToString();
-            checkListSite.LastCheckId = Guid.NewGuid().ToString();
+            checkListSite.MicrotingUid = rnd.Next(1, 255);
+            checkListSite.LastCheckId = rnd.Next(1, 255);
             
             checkListSite.Update(DbContext);
             
@@ -264,10 +264,10 @@ namespace eFormSDK.Tests
             checklist.Create(DbContext);
 
             check_list_sites checkListSite = new check_list_sites();
-            checkListSite.MicrotingUid = Guid.NewGuid().ToString();
+            checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.SiteId = site.Id;
             checkListSite.CheckListId = checklist.Id;
-            checkListSite.LastCheckId = Guid.NewGuid().ToString();
+            checkListSite.LastCheckId = rnd.Next(1, 255);
             checkListSite.Create(DbContext);
             
             //Act

@@ -61,9 +61,9 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string microtingUuid = testHelperReturnXml.CreateMultiPictureXMLResult(true);
-
+            
             // Act
-            sut.CheckStatusByMicrotingUid(microtingUuid);
+            sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid));
 
             // Assert
             List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
