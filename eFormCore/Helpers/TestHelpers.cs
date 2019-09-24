@@ -384,9 +384,10 @@ namespace Microting.eForm.Helpers
             tag.Name = name;
             tag.WorkflowState = workflowState;
             tag.Version = version;
+            tag.Create(DbContext);
 
-            DbContext.tags.Add(tag);
-            DbContext.SaveChanges();
+//            DbContext.tags.Add(tag);
+//            DbContext.SaveChanges();
 
             return tag;
         }
@@ -401,8 +402,9 @@ namespace Microting.eForm.Helpers
             cls.Version = version;
             cls.WorkflowState = workflowState;
             cls.MicrotingUid = microting_uid;
-            DbContext.check_list_sites.Add(cls);
-            DbContext.SaveChanges();
+            cls.Create(DbContext);
+//            DbContext.check_list_sites.Add(cls);
+//            DbContext.SaveChanges();
             return cls;
         }
 

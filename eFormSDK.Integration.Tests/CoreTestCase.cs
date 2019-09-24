@@ -534,7 +534,7 @@ namespace eFormSDK.Integration.Tests
 
             cases aCase = testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 100, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 

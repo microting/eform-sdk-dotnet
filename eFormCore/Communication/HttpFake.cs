@@ -73,7 +73,7 @@ namespace Microting.eForm.Communication
 
         public string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
-            if (microtingUuid == "MultiPictureTestInMultipleChecks")
+            if (microtingUuid == "555")
             {
                 return _testHelperReturnXml.CreateMultiPictureXMLResult(false);
             } else

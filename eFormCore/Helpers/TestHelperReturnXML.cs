@@ -95,7 +95,7 @@ namespace Microting.eForm.Helpers
                 fields f1 = testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
                 check_list_sites cls = testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0, Constants.WorkflowStates.Created, 555);
                 //returnXML = ;
-                return "456213";
+                return "555";
 //                return 12;
             }
             else
@@ -110,7 +110,7 @@ namespace Microting.eForm.Helpers
                 #region return xml
                 return $@"<?xml version='1.0' encoding='UTF-8'?>
                 <Response>
-                    <Value type='success'>MultiPictureTestInMultipleChecks</Value>
+                    <Value type='success'>555</Value>
                     <Checks>
                         <Check worker='John Doe' worker_id='{worker.MicrotingUid}' date='2018-04-25 14:29:21 +0200' unit_id='{unit.MicrotingUid}' id='7'>
                             <ElementList>
