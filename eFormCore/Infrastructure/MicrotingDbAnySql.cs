@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
 
 namespace Microting.eForm.Infrastructure
@@ -108,13 +109,17 @@ namespace Microting.eForm.Infrastructure
 
             modelBuilder.Entity<check_lists>(entity =>
             {
-                entity.HasOne(d => d.Parent).WithMany(p => p.Children).HasForeignKey(d => d.ParentId);
+                entity.HasOne(d => d.Parent).WithMany(
+                    p => p.Children).HasForeignKey(d => d.ParentId);
             });
 
             modelBuilder.Entity<fields>(entity =>
             {
-                entity.HasOne(d => d.Parent).WithMany(p => p.Children).HasForeignKey(d => d.ParentFieldId);
+                entity.HasOne(d => d.Parent).WithMany(
+                    p => p.Children).HasForeignKey(d => d.ParentFieldId);
             });
+
+            modelBuilder.Entity<cases>().HasIndex(p => new {p.MicrotingUid, p.MicrotingCheckUid});
 
 #pragma warning restore 612, 618
         }
