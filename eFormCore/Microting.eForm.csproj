@@ -144,6 +144,8 @@
     <Compile Include="Migrations\20190828074017_AddingMissingClasses.Designer.cs" />
     <Compile Include="Migrations\20190923100451_ChangeStringToInt.cs" />
     <Compile Include="Migrations\20190923100451_ChangeStringToInt.Designer.cs" />
+    <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.cs" />
+    <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingContextInterface.cs" />
     <Compile Include="Infrastructure\MicrotingDbAnySql.cs" />
