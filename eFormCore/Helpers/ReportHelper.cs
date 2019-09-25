@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
@@ -30,7 +31,7 @@ namespace Microting.eForm.Helpers
                 docText = sr.ReadToEnd();
             }
             
-            foreach (var fieldValue in valuesToReplace)
+            foreach (var fieldValue in valuesToReplace.Reverse())
             {
                 if (fieldValue.Value != null)
                 {  

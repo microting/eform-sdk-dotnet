@@ -2137,7 +2137,7 @@ namespace eFormCore
                         break;
                     case Constants.FieldTypes.CheckBox:
                         // TODO change this to use Winding 0252 = checkmark
-                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "Nej";
+                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "";
                         break;
                     default:
                         if (fieldValue.ValueReadable == "null")
@@ -2188,7 +2188,7 @@ namespace eFormCore
             
             string resultDocument = Path.Combine(_sqlController.SettingRead(Settings.fileLocationJasper), "results",
                 $"{timeStamp}_{caseId}.docx");
-            
+
             ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
             
             // TODO insert images
