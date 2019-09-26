@@ -44,7 +44,7 @@ namespace Microting.eForm.Infrastructure
         private readonly string connectionStr;
         private Log log;
         private readonly Tools t = new Tools();
-        private List<Holder> converter;
+        private List<Holder> converter = null;
         private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         #endregion
 
@@ -346,10 +346,9 @@ namespace Microting.eForm.Infrastructure
                             }
                             
                         }
-                        bool hasCases = false;
-                        if (checkList.Cases.Count() > 0)
-                            hasCases = true;
 
+                        bool hasCases = db.cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
+                        
                         #region loadtags
                         List<taggings> tagging_matches = checkList.Taggings.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                         List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
@@ -5556,23 +5555,26 @@ namespace Microting.eForm.Infrastructure
         //TODO
         private void GetConverter()
         {
-            try
+            if (converter == null)
             {
-                using (var db = GetContext())
+                try
                 {
-                    converter = new List<Holder>();
-
-                    List<field_types> lstFieldType = db.field_types.ToList();
-
-                    foreach (var fieldType in lstFieldType)
+                    using (var db = GetContext())
                     {
-                        converter.Add(new Holder(fieldType.Id, fieldType.FieldType));
+                        converter = new List<Holder>();
+
+                        List<field_types> lstFieldType = db.field_types.ToList();
+
+                        foreach (var fieldType in lstFieldType)
+                        {
+                            converter.Add(new Holder(fieldType.Id, fieldType.FieldType));
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("GetConverter failed", ex);
+                catch (Exception ex)
+                {
+                    throw new Exception("GetConverter failed", ex);
+                }                
             }
         }
         #endregion

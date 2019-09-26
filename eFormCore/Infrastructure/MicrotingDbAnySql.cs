@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
 
@@ -123,6 +125,12 @@ namespace Microting.eForm.Infrastructure
 
 #pragma warning restore 612, 618
         }
+        
+        #region DefineLoggerFactory
+        public static readonly LoggerFactory MyLoggerFactory
+            = new LoggerFactory(new[] {new ConsoleLoggerProvider((_, __) => true, true)});
+        #endregion
+        
 
         // dotnet ef migrations add AddingNewModels --project eFormCore --startup-project DBMigrator
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -131,6 +139,11 @@ namespace Microting.eForm.Infrastructure
             {
                 optionsBuilder.UseSqlServer(@"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True");
             }
+
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
         }
+
+
     }
 }
