@@ -140,8 +140,8 @@ namespace Microting.eForm.Infrastructure
                 optionsBuilder.UseSqlServer(@"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True");
             }
 
-            optionsBuilder.EnableSensitiveDataLogging();
-            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+//            optionsBuilder.EnableSensitiveDataLogging();
+//            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
         }
 
 

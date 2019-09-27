@@ -170,9 +170,8 @@ namespace Microting.eForm.Infrastructure
                         SiteName_Dto site = new SiteName_Dto((int)check_list_site.Site.MicrotingUid, check_list_site.Site.Name, check_list_site.Site.CreatedAt, check_list_site.Site.UpdatedAt);
                         sites.Add(site);
                     }
-                    bool hasCases = false;
-                    if (checkList.Cases.Count() > 0)
-                        hasCases = true;
+                    bool hasCases = db.cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
+                    
                     #region load fields
                     Field_Dto fd1 = null;
                     Field_Dto fd2 = null;
@@ -1427,12 +1426,12 @@ namespace Microting.eForm.Infrastructure
                                 List<DataItem> dataItemSubList = new List<DataItem>();
                                 foreach (fields subField in field.Children.OrderBy(x => x.DisplayIndex))
                                 {
-                                    Field _field = FieldRead(subField.Id);
+                                    Field _field = DbFieldToField(subField);
 
                                     _field.FieldValues = new List<FieldValue>();
                                     foreach (field_values fieldValue in subField.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                     {
-                                        FieldValue answer = FieldValueRead(fieldValue, false);
+                                        FieldValue answer = ReadFieldValue(fieldValue, field, false);
                                         _field.FieldValues.Add(answer);
                                     }
                                     dataItemSubList.Add(_field);
@@ -1446,11 +1445,11 @@ namespace Microting.eForm.Infrastructure
                             }
                             else
                             {
-                                Field _field = FieldRead(field.Id);
+                                Field _field = DbFieldToField(field);
                                 _field.FieldValues = new List<FieldValue>();
                                 foreach (field_values fieldValue in field.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                 {
-                                    FieldValue answer = FieldValueRead(fieldValue, false);
+                                    FieldValue answer = ReadFieldValue(fieldValue, field, false);
                                     _field.FieldValues.Add(answer);
                                 }
                                 dataItemList.Add(_field);
@@ -1517,6 +1516,33 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
+        private Field DbFieldToField(fields dbField)
+        {
+            Field field = new Field()
+            {
+                Label = dbField.Label,
+                Description = new CDataValue(),
+                FieldType = dbField.FieldType.FieldType,
+                FieldValue = dbField.DefaultValue,
+                EntityGroupId = dbField.EntityGroupId,
+                Color = dbField.Color,
+                Id = dbField.Id
+            };
+            field.Description.InderValue = dbField.Description;
+            
+            if (field.FieldType == "SingleSelect")
+            {
+                field.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+            }
+
+            if (field.FieldType == "MultiSelect")
+            {
+                field.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+            }
+            
+            return field;
+        }
+
         public Field FieldRead(int id)
         {
 
@@ -1525,33 +1551,10 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    fields fieldDb = db.fields.SingleOrDefault(x => x.Id == id);
+                    fields dbField = db.fields.SingleOrDefault(x => x.Id == id);
 
-                    if (fieldDb != null)
-                    {
-                        Field field = new Field();
-                        field.Label = fieldDb.Label;
-                        field.Description = new CDataValue();
-                        field.Description.InderValue = fieldDb.Description;
-                        field.FieldType = fieldDb.FieldType.FieldType;
-                        field.FieldValue = fieldDb.DefaultValue;
-                        field.EntityGroupId = fieldDb.EntityGroupId;
-                        field.Color = fieldDb.Color;
-                        field.Id = fieldDb.Id;
-
-                        if (field.FieldType == "SingleSelect")
-                        {
-                            field.KeyValuePairList = PairRead(fieldDb.KeyValuePairList);
-                        }
-
-                        if (field.FieldType == "MultiSelect")
-                        {
-                            field.KeyValuePairList = PairRead(fieldDb.KeyValuePairList);
-                        }
-                        return field;
-                    }
-                    else
-                        return null;
+                    Field field = DbFieldToField(dbField);
+                    return field;
                 }
             }
             catch (Exception ex)
@@ -1561,34 +1564,33 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        // Rename method to something more intuitive!
-        public FieldValue FieldValueRead(field_values reply, bool joinUploadedData)
+        private FieldValue ReadFieldValue(field_values reply, fields dbField, bool joinUploadedData)
         {
             try
             {
                 using (var db = GetContext())
                 {
 
-                    fields field = db.fields.Single(x => x.Id == reply.FieldId);
+//                    fields field = db.fields.Single(x => x.Id == reply.FieldId);
                     FieldValue field_value = new FieldValue();
                     field_value.Accuracy = reply.Accuracy;
                     field_value.Altitude = reply.Altitude;
-                    field_value.Color = field.Color;
+                    field_value.Color = dbField.Color;
                     field_value.Date = reply.Date;
                     field_value.FieldId = t.Int(reply.FieldId);
-                    field_value.FieldType = field.FieldType.FieldType;
+                    field_value.FieldType = dbField.FieldType.FieldType;
                     field_value.DateOfDoing = t.Date(reply.DoneAt);
                     field_value.Description = new CDataValue();
-                    field_value.Description.InderValue = field.Description;
-                    field_value.DisplayOrder = t.Int(field.DisplayIndex);
+                    field_value.Description.InderValue = dbField.Description;
+                    field_value.DisplayOrder = t.Int(dbField.DisplayIndex);
                     field_value.Heading = reply.Heading;
                     field_value.Id = reply.Id;
                     field_value.OriginalId = reply.Field.OriginalId;
-                    field_value.Label = field.Label;
+                    field_value.Label = dbField.Label;
                     field_value.Latitude = reply.Latitude;
                     field_value.Longitude = reply.Longitude;
-                    field_value.Mandatory = t.Bool(field.Mandatory);
-                    field_value.ReadOnly = t.Bool(field.ReadOnly);
+                    field_value.Mandatory = t.Bool(dbField.Mandatory);
+                    field_value.ReadOnly = t.Bool(dbField.ReadOnly);
                     #region answer.UploadedDataId = reply.uploaded_data_id;
                     if (reply.UploadedDataId.HasValue)
                         if (reply.UploadedDataId > 0)
@@ -1660,10 +1662,10 @@ namespace Microting.eForm.Infrastructure
                     if (field_value.FieldType == Constants.Constants.FieldTypes.SingleSelect)
                     {
                         string key = field_value.Value;
-                        string fullKey = t.Locate(field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                        string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                         field_value.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
 
-                        field_value.KeyValuePairList = PairRead(field.KeyValuePairList);
+                        field_value.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                     }
 
                     if (field_value.FieldType == Constants.Constants.FieldTypes.MultiSelect)
@@ -1675,13 +1677,13 @@ namespace Microting.eForm.Infrastructure
 
                         foreach (string key in keyLst)
                         {
-                            string fullKey = t.Locate(field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                             if (field_value.ValueReadable != "")
                                 field_value.ValueReadable += '|';
                             field_value.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        field_value.KeyValuePairList = PairRead(field.KeyValuePairList);
+                        field_value.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                     }
 
                     if (field_value.FieldType == Constants.Constants.FieldTypes.Number ||
@@ -1701,6 +1703,159 @@ namespace Microting.eForm.Infrastructure
                     #endregion
 
                     return field_value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FieldValueRead failed", ex);
+            }
+        }
+
+        // Rename method to something more intuitive!
+        public FieldValue FieldValueRead(field_values reply, bool joinUploadedData)
+        {
+            
+            
+            try
+            {
+                using (var db = GetContext())
+                {
+
+                    fields field = db.fields.Single(x => x.Id == reply.FieldId);
+
+                    return ReadFieldValue(reply, field, joinUploadedData);
+                    
+//                    FieldValue field_value = new FieldValue();
+//                    field_value.Accuracy = reply.Accuracy;
+//                    field_value.Altitude = reply.Altitude;
+//                    field_value.Color = field.Color;
+//                    field_value.Date = reply.Date;
+//                    field_value.FieldId = t.Int(reply.FieldId);
+//                    field_value.FieldType = field.FieldType.FieldType;
+//                    field_value.DateOfDoing = t.Date(reply.DoneAt);
+//                    field_value.Description = new CDataValue();
+//                    field_value.Description.InderValue = field.Description;
+//                    field_value.DisplayOrder = t.Int(field.DisplayIndex);
+//                    field_value.Heading = reply.Heading;
+//                    field_value.Id = reply.Id;
+//                    field_value.OriginalId = reply.Field.OriginalId;
+//                    field_value.Label = field.Label;
+//                    field_value.Latitude = reply.Latitude;
+//                    field_value.Longitude = reply.Longitude;
+//                    field_value.Mandatory = t.Bool(field.Mandatory);
+//                    field_value.ReadOnly = t.Bool(field.ReadOnly);
+//                    #region answer.UploadedDataId = reply.uploaded_data_id;
+//                    if (reply.UploadedDataId.HasValue)
+//                        if (reply.UploadedDataId > 0)
+//                        {
+//                            string locations = "";
+//                            int uploadedDataId;
+//                            uploaded_data uploadedData;
+//                            if (joinUploadedData)
+//                            {
+//                                List<field_values> lst = db.field_values.Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToList();
+//
+//                                foreach (field_values fV in lst)
+//                                {
+//                                    uploadedDataId = (int)fV.UploadedDataId;
+//
+//                                    uploadedData = db.uploaded_data.Single(x => x.Id == uploadedDataId);
+//
+//                                    if (uploadedData.FileName != null)
+//                                        locations += uploadedData.FileLocation + uploadedData.FileName + Environment.NewLine;
+//                                    else
+//                                        locations += "File attached, awaiting download" + Environment.NewLine;
+//                                }
+//                                field_value.UploadedData = locations.TrimEnd();
+//                            }
+//                            else
+//                            {
+//                                locations = "";
+//                                UploadedData uploadedDataObj = new UploadedData();
+//                                uploadedData = reply.UploadedData;
+//                                uploadedDataObj.Checksum = uploadedData.Checksum;
+//                                uploadedDataObj.Extension = uploadedData.Extension;
+//                                uploadedDataObj.CurrentFile = uploadedData.CurrentFile;
+//                                uploadedDataObj.UploaderId = uploadedData.UploaderId;
+//                                uploadedDataObj.UploaderType = uploadedData.UploaderType;
+//                                uploadedDataObj.FileLocation = uploadedData.FileLocation;
+//                                uploadedDataObj.FileName = uploadedData.FileName;
+//                                uploadedDataObj.Id = uploadedData.Id;
+//                                field_value.UploadedDataObj = uploadedDataObj;
+//                                field_value.UploadedData = "";
+//                            }
+//
+//                        }
+//                    #endregion
+//                    field_value.Value = reply.Value;
+//                    #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
+//                    field_value.ValueReadable = reply.Value;
+//
+//                    if (field_value.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_value.FieldType == Constants.Constants.FieldTypes.EntitySelect)
+//                    {
+//                        try
+//                        {
+//                            if (reply.Value != "" || reply.Value != null)
+//                            {
+//								int Id = int.Parse(reply.Value);
+//                                entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
+//
+//                                if (match != null)
+//                                {
+//                                    field_value.ValueReadable = match.Name;
+//                                    field_value.Value = match.Id.ToString();
+//                                    field_value.MicrotingUuid = match.MicrotingUid;
+//                                }
+//
+//                            }
+//                        }
+//                        catch { }
+//                    }
+//
+//                    if (field_value.FieldType == Constants.Constants.FieldTypes.SingleSelect)
+//                    {
+//                        string key = field_value.Value;
+//                        string fullKey = t.Locate(field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+//                        field_value.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+//
+//                        field_value.KeyValuePairList = PairRead(field.KeyValuePairList);
+//                    }
+//
+//                    if (field_value.FieldType == Constants.Constants.FieldTypes.MultiSelect)
+//                    {
+//                        field_value.ValueReadable = "";
+//
+//                        string keys = field_value.Value;
+//                        List<string> keyLst = keys.Split('|').ToList();
+//
+//                        foreach (string key in keyLst)
+//                        {
+//                            string fullKey = t.Locate(field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+//                            if (field_value.ValueReadable != "")
+//                                field_value.ValueReadable += '|';
+//                            field_value.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
+//                        }
+//
+//                        field_value.KeyValuePairList = PairRead(field.KeyValuePairList);
+//                    }
+//
+//                    if (field_value.FieldType == Constants.Constants.FieldTypes.Number ||
+//                        field_value.FieldType == Constants.Constants.FieldTypes.NumberStepper)
+//                    {
+//                        if (reply.Value != null)
+//                        {
+//                            field_value.ValueReadable = reply.Value.Replace(",", ".");
+//                            field_value.Value = reply.Value.Replace(",", ".");
+//                        }
+//                        else
+//                        {
+//                            field_value.ValueReadable = "";
+//                            field_value.Value = "";
+//                        }
+//                    }
+//                    #endregion
+//
+//                    return field_value;
                 }
             }
             catch (Exception ex)
@@ -5407,7 +5562,7 @@ namespace Microting.eForm.Infrastructure
                             List<fields> lstFields = db.fields.Where(x => x.CheckListId == elementId && x.ParentFieldId == null).ToList();
                             foreach (var field in lstFields)
                             {
-                                GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field.Id);
+                                GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field);
                             }
                             element = dElement;
                         }
@@ -5433,116 +5588,116 @@ namespace Microting.eForm.Infrastructure
         /// <param name="dataItemId"></param>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="Exception"></exception>
-        private void GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, int dataItemId)
+        private void GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, fields field)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    fields f = db.fields.Single(x => x.Id == dataItemId);
-                    string fieldTypeStr = Find(t.Int(f.FieldTypeId));
+//                    fields field = db.fields.Single(x => x.Id == dataItemId);
+                    string fieldTypeStr = Find(t.Int(field.FieldTypeId));
 
                     //KEY POINT - mapping
                     switch (fieldTypeStr)
                     {
                         case Constants.Constants.FieldTypes.Audio:
-                            lstDataItem.Add(new Audio(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                t.Int(f.Multi)));
+                            lstDataItem.Add(new Audio(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                t.Int(field.Multi)));
                             break;
 
                         case Constants.Constants.FieldTypes.CheckBox:
-                            lstDataItem.Add(new CheckBox(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                t.Bool(f.DefaultValue), t.Bool(f.Selected)));
+                            lstDataItem.Add(new CheckBox(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                t.Bool(field.DefaultValue), t.Bool(field.Selected)));
                             break;
 
                         case Constants.Constants.FieldTypes.Comment:
-                            lstDataItem.Add(new Comment(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                f.DefaultValue, t.Int(f.MaxLength), t.Bool(f.SplitScreen)));
+                            lstDataItem.Add(new Comment(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                field.DefaultValue, t.Int(field.MaxLength), t.Bool(field.SplitScreen)));
                             break;
 
                         case Constants.Constants.FieldTypes.Date:
-                            lstDataItem.Add(new Date(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                DateTime.Parse(f.MinValue), DateTime.Parse(f.MaxValue), f.DefaultValue));
+                            lstDataItem.Add(new Date(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), field.DefaultValue));
                             break;
 
                         case Constants.Constants.FieldTypes.None:
-                            lstDataItem.Add(new None(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy)));
+                            lstDataItem.Add(new None(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy)));
                             break;
 
                         case Constants.Constants.FieldTypes.Number:
-                            lstDataItem.Add(new Number(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                f.MinValue, f.MaxValue, int.Parse(f.DefaultValue), t.Int(f.DecimalCount), f.UnitName));
+                            lstDataItem.Add(new Number(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), t.Int(field.DecimalCount), field.UnitName));
                             break;
 
                         case Constants.Constants.FieldTypes.NumberStepper:
-                            lstDataItem.Add(new NumberStepper(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                f.MinValue, f.MaxValue, int.Parse(f.DefaultValue), t.Int(f.DecimalCount), f.UnitName));
+                            lstDataItem.Add(new NumberStepper(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), t.Int(field.DecimalCount), field.UnitName));
                             break;
 
                         case Constants.Constants.FieldTypes.MultiSelect:
-                            lstDataItem.Add(new MultiSelect(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                PairRead(f.KeyValuePairList)));
+                            lstDataItem.Add(new MultiSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                PairRead(field.KeyValuePairList)));
                             break;
 
                         case Constants.Constants.FieldTypes.Picture:
-                            lstDataItem.Add(new Picture(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                t.Int(f.Multi), t.Bool(f.GeolocationEnabled)));
+                            lstDataItem.Add(new Picture(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                t.Int(field.Multi), t.Bool(field.GeolocationEnabled)));
                             break;
 
                         case Constants.Constants.FieldTypes.SaveButton:
-                            lstDataItem.Add(new SaveButton(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                f.DefaultValue));
+                            lstDataItem.Add(new SaveButton(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                field.DefaultValue));
                             break;
 
                         case Constants.Constants.FieldTypes.ShowPdf:
-                            lstDataItem.Add(new ShowPdf(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                f.DefaultValue));
+                            lstDataItem.Add(new ShowPdf(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                field.DefaultValue));
                             break;
 
                         case Constants.Constants.FieldTypes.Signature:
-                            lstDataItem.Add(new Signature(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy)));
+                            lstDataItem.Add(new Signature(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy)));
                             break;
 
                         case Constants.Constants.FieldTypes.SingleSelect:
-                            lstDataItem.Add(new SingleSelect(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                PairRead(f.KeyValuePairList)));
+                            lstDataItem.Add(new SingleSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                PairRead(field.KeyValuePairList)));
                             break;
 
                         case Constants.Constants.FieldTypes.Text:
-                            lstDataItem.Add(new Text(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                f.DefaultValue, t.Int(f.MaxLength), t.Bool(f.GeolocationEnabled), t.Bool(f.GeolocationForced), t.Bool(f.GeolocationHidden), t.Bool(f.BarcodeEnabled), f.BarcodeType));
+                            lstDataItem.Add(new Text(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                field.DefaultValue, t.Int(field.MaxLength), t.Bool(field.GeolocationEnabled), t.Bool(field.GeolocationForced), t.Bool(field.GeolocationHidden), t.Bool(field.BarcodeEnabled), field.BarcodeType));
                             break;
 
                         case Constants.Constants.FieldTypes.Timer:
-                            lstDataItem.Add(new Timer(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                t.Bool(f.StopOnSave)));
+                            lstDataItem.Add(new Timer(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                t.Bool(field.StopOnSave)));
                             break;
 
                         case Constants.Constants.FieldTypes.EntitySearch:
-                            lstDataItem.Add(new EntitySearch(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                t.Int(f.DefaultValue), t.Int(f.EntityGroupId), t.Bool(f.IsNum), f.QueryType, t.Int(f.MinValue), t.Bool(f.BarcodeEnabled), f.BarcodeType));
+                            lstDataItem.Add(new EntitySearch(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                t.Int(field.DefaultValue), t.Int(field.EntityGroupId), t.Bool(field.IsNum), field.QueryType, t.Int(field.MinValue), t.Bool(field.BarcodeEnabled), field.BarcodeType));
                             break;
 
                         case Constants.Constants.FieldTypes.EntitySelect:
-                            lstDataItem.Add(new EntitySelect(t.Int(f.Id), t.Bool(f.Mandatory), t.Bool(f.ReadOnly), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), t.Bool(f.Dummy),
-                                t.Int(f.DefaultValue), t.Int(f.EntityGroupId)));
+                            lstDataItem.Add(new EntitySelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                                t.Int(field.DefaultValue), t.Int(field.EntityGroupId)));
                             break;
 
                         case Constants.Constants.FieldTypes.FieldGroup:
                             List<DataItem> lst = new List<DataItem>();
                             //CDataValue description = new CDataValue();
                             //description.InderValue = f.description;
-                            lstDataItemGroup.Add(new FieldGroup(f.Id.ToString(), f.Label, f.Description, f.Color, t.Int(f.DisplayIndex), f.DefaultValue, lst));
+                            lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), field.DefaultValue, lst));
                             //lstDataItemGroup.Add(new DataItemGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                             //the actual DataItems
-                            List<fields> lstFields = db.fields.Where(x => x.ParentFieldId == f.Id).ToList();
-                            foreach (var field in lstFields)
-                                GetDataItem(lst, null, field.Id); //null, due to FieldGroup, CANT have fieldGroups under them
+                            List<fields> lstFields = db.fields.Where(x => x.ParentFieldId == field.Id).ToList();
+                            foreach (var subField in lstFields)
+                                GetDataItem(lst, null, subField); //null, due to FieldGroup, CANT have fieldGroups under them
                             break;
 
                         default:
-                            throw new IndexOutOfRangeException(f.FieldTypeId + " is not a known/mapped DataItem type");
+                            throw new IndexOutOfRangeException(field.FieldTypeId + " is not a known/mapped DataItem type");
                     }
                 }
             }

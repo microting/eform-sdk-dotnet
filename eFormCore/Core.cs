@@ -2088,16 +2088,16 @@ namespace eFormCore
             // get base values
             valuePairs.Add("F_CaseName", reply.Label);
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", Advanced_WorkerNameRead(reply.DoneById));
+            valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss"));
-            valuePairs.Add("F_SiteName", Advanced_SiteItemRead(reply.SiteMicrotingUuid).SiteName);
+            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).SiteName);
             
             // get field_values
             List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
             List<int> caseIds = new List<int>();
             caseIds.Add(caseId);
-            List<FieldValue> fieldValues = Advanced_FieldValueReadList(caseIds);
+            List<FieldValue> fieldValues = _sqlController.FieldValueReadList(caseIds);
 
             List<Field_Dto> allFields = _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate));
             foreach (Field_Dto field in allFields)
@@ -2165,7 +2165,7 @@ namespace eFormCore
             }
             
             // get check_list_values
-            List<CheckListValue> checkListValues = Advanced_CheckListValueReadList(caseIds);
+            List<CheckListValue> checkListValues = _sqlController.CheckListValueReadList(caseIds);
             foreach (CheckListValue checkListValue in checkListValues)
             {
                 valuePairs.Add($"C_{checkListValue.Id}", checkListValue.Status);
