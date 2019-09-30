@@ -30,20 +30,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class entity_items : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
         
-        // TODO! Change this to be int and create migration to handle the move.
         public int EntityGroupId { get; set; }
 
         [StringLength(50)]
@@ -58,9 +45,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public short? Synced { get; set; }
 
         public int DisplayIndex { get; set; }
-
-        //public bool migrated_entity_group_id { get; set; }
-
+        
         public void Create(MicrotingDbAnySql dbContext)
         {
             
@@ -78,47 +63,47 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public void Update(MicrotingDbAnySql dbContext)
         {
-            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.Id == Id);
+            entity_items entityItem = dbContext.entity_items.FirstOrDefault(x => x.Id == Id);
 
-            if (entityItems == null)
+            if (entityItem == null)
             {
                 throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
             }
 
-            entityItems.EntityGroupId = EntityGroupId;
-            entityItems.MicrotingUid = MicrotingUid;
-            entityItems.Name = Name;
-            entityItems.Description = Description;
-            entityItems.Synced = Synced;
-            entityItems.DisplayIndex = DisplayIndex;
+            entityItem.EntityGroupId = EntityGroupId;
+            entityItem.MicrotingUid = MicrotingUid;
+            entityItem.Name = Name;
+            entityItem.Description = Description;
+            entityItem.Synced = Synced;
+            entityItem.DisplayIndex = DisplayIndex;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                entityItems.UpdatedAt = DateTime.Now;
-                entityItems.Version += 1;
+                entityItem.UpdatedAt = DateTime.Now;
+                entityItem.Version += 1;
 
-                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItems));
+                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItem));
                 dbContext.SaveChanges();
             }
         }
 
         public void Delete(MicrotingDbAnySql dbContext)
         {
-            entity_items entityItems = dbContext.entity_items.FirstOrDefault(x => x.Id == Id);
+            entity_items entityItem = dbContext.entity_items.FirstOrDefault(x => x.Id == Id);
 
-            if (entityItems == null)
+            if (entityItem == null)
             {
                 throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
             }
 
-            entityItems.WorkflowState = Constants.Constants.WorkflowStates.Removed;
+            entityItem.WorkflowState = Constants.Constants.WorkflowStates.Removed;
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                entityItems.UpdatedAt = DateTime.Now;
-                entityItems.Version += 1;
+                entityItem.UpdatedAt = DateTime.Now;
+                entityItem.Version += 1;
 
-                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItems));
+                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItem));
                 dbContext.SaveChanges();
             }
         }

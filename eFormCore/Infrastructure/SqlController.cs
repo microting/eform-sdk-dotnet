@@ -4405,7 +4405,8 @@ namespace Microting.eForm.Infrastructure
                         EntityItemUId = et.EntityItemUid,
                         MicrotingUUID = et.MicrotingUid,
                         DisplayIndex = et.DisplayIndex,
-                        EntityItemGroupId = et.EntityGroupId
+                        EntityItemGroupId = et.EntityGroupId,
+                        WorkflowState = et.WorkflowState
                     };
 //                    entityItem.EntityItemGroupId = et.EntityGroupId;
 //                    entityItem.Id = et.Id;
