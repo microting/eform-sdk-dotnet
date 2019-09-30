@@ -85,6 +85,9 @@ namespace Microting.eForm.Infrastructure
         {
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+            if (log != null) {
+                log.LogStandard("SqlController", "GetContext called");
+            }
 
             if (connectionStr.ToLower().Contains("convert zero datetime"))
             {
