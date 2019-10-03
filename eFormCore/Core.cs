@@ -2152,7 +2152,12 @@ namespace eFormCore
                             }
                             else
                             {
-                                valuePairs[$"F_{fieldValue.FieldId}"] = Regex.Replace(fieldValue.ValueReadable, "<.*?>", string.Empty);
+                                fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("<br>", "|||");
+                                fieldValue.ValueReadable = Regex.Replace(fieldValue.ValueReadable, "<.*?>", 
+                                    string.Empty);
+                                fieldValue.ValueReadable =
+                                    fieldValue.ValueReadable.Replace("|||", @"</w:t><w:br/><w:t>");
+                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
                             }
                         }
                         break;
