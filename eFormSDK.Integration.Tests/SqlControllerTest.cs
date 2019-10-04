@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Microting.eForm;
@@ -17,8 +18,8 @@ namespace eFormSDK.Integration.Tests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", "");
-        //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
+        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
+        //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
 
 
@@ -27,9 +28,9 @@ namespace eFormSDK.Integration.Tests
             sut = new SqlController(ConnectionString);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
+            sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         }
 
         

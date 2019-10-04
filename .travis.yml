@@ -8,7 +8,7 @@ services:
 script:
   - dotnet restore
   - dotnet build eFormSDK.sln
-  - dotnet test -v n eFormSDK.Integration.Tests/eFormSDK.Integration.Tests.csproj
+  - dotnet test -v n eFormSDK.Integration.Tests/eFormSDK.Integration.Tests.csproj || travis_terminate 1;
   - export GITVERSION=`git describe --abbrev=0 --tags | cut -d "v" -f 2`
   - echo $GITVERSION
   - dotnet pack eFormSDK.sln -c Release -o ./artifacts -p:PackageVersion=$GITVERSION

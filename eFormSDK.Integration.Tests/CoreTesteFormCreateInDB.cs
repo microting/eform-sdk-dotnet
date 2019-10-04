@@ -12,6 +12,7 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
 using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
+using System.IO;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -41,10 +42,10 @@ namespace eFormSDK.Integration.Tests
             sut.HandleSiteActivated += EventSiteActivated;
             sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
-            sut.SetSdkSetting(Settings.fileLocationPicture, path + @"\output\dataFolder\picture\");
-            sut.SetSdkSetting(Settings.fileLocationPdf, path + @"\output\dataFolder\pdf\");
-            sut.SetSdkSetting(Settings.fileLocationJasper, path + @"\output\dataFolder\reports\");
+            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
         }

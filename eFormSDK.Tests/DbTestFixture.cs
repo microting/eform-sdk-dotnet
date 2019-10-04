@@ -196,7 +196,7 @@ namespace eFormSDK.Tests
         public void ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:\", "");
+            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
             string picturePath;
 
