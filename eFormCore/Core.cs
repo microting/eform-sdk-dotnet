@@ -784,7 +784,7 @@ namespace eFormCore
                                     //download file
                                     string downloadPath = _sqlController.SettingRead(Settings.fileLocationPdf);
                                     long ticks = DateTime.Now.Ticks;
-                             ½       string tempFileName = $"{ticks}_temp.pdf";
+                                    string tempFileName = $"{ticks}_temp.pdf";
                                     string filePathAndFileName = Path.Combine(downloadPath, tempFileName);
                                     try
                                     {
