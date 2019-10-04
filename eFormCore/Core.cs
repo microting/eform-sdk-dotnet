@@ -788,7 +788,8 @@ namespace eFormCore
                                     string filePathAndFileName = Path.Combine(downloadPath, tempFileName);
                                     try
                                     {
-                                        (new FileInfo(downloadPath)).Directory.Create();
+//                                        (new FileInfo(downloadPath)).Directory.Create();
+                                        Directory.CreateDirectory(downloadPath);
 
                                         using (WebClient client = new WebClient())
                                         {
