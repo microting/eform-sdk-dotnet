@@ -783,13 +783,16 @@ namespace eFormCore
                                 {
                                     //download file
                                     string downloadPath = _sqlController.SettingRead(Settings.fileLocationPdf);
+                                    long ticks = DateTime.Now.Ticks;
+                                    string tempFileName = $"{ticks}_temp.pdf";
+                                    string filePathAndFileName = Path.Combine(downloadPath, tempFileName);
                                     try
                                     {
                                         (new FileInfo(downloadPath)).Directory.Create();
 
                                         using (WebClient client = new WebClient())
                                         {
-                                            client.DownloadFile(showPdf.Value, downloadPath + "temp.pdf");
+                                            client.DownloadFile(showPdf.Value, filePathAndFileName);
                                         }
                                     }
                                     catch (Exception ex)
@@ -798,13 +801,16 @@ namespace eFormCore
                                     }
 
                                     //upload file
-                                    string hash = PdfUpload(downloadPath + "temp.pdf");
+                                    string hash = PdfUpload(filePathAndFileName);
                                     if (hash != null)
                                     {
                                         //rename local file
-                                        FileInfo FileInfo = new FileInfo(downloadPath + "temp.pdf");
+                                        FileInfo FileInfo = new FileInfo(filePathAndFileName);
+
                                         FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
                                         FileInfo.Delete();
+
+                                        PutFileToStorageSystem(Path.Combine(downloadPath, $"{hash}.pdf"), $"{hash}.pdf");
 
                                         showPdf.Value = hash;
                                     }
