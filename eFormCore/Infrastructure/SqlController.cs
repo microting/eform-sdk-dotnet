@@ -1048,7 +1048,7 @@ namespace Microting.eForm.Infrastructure
                                     if (f.FieldType.FieldType == Constants.Constants.FieldTypes.Number || 
                                         f.FieldType.FieldType == Constants.Constants.FieldTypes.NumberStepper)
                                     {
-                                        extractedValue = extractedValue.Replace(",", "|");
+//                                        extractedValue = extractedValue.Replace(",", "|"); // commented as of 8. oct. 2019
                                         extractedValue = extractedValue.Replace(".", ",");
                                     }
                                     
