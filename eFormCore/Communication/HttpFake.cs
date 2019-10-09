@@ -63,7 +63,7 @@ namespace Microting.eForm.Communication
             if (xmlData.Contains("throw other Exception"))
                 throw new Exception("Post created 'other' Exception as per request");
 
-            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "M" + t.GetRandomInt(5) + "</Value></Response>";
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + t.GetRandomInt(5) + "</Value></Response>";
         }
 
         public string Status(string elementId, string siteId)

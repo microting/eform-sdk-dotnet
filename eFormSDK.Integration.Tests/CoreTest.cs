@@ -10,6 +10,7 @@ using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Models;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -48,15 +49,7 @@ namespace eFormSDK.Integration.Tests
             testHelperReturnXml = new TestHelperReturnXML();
             //sut.StartLog(new CoreBase());
         }
-
-
         
-
-        
-        
-        
-
-
         [Test]
         public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
         {
@@ -79,7 +72,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(5, fvMatches.Count());
 
         }
-
+        
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {
