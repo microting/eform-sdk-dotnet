@@ -4267,6 +4267,14 @@ namespace eFormCore
                         //jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">NO FILE</F" + field.Id + "_value>";
                     }
                     break;
+                case Constants.FieldTypes.Number:
+                case Constants.FieldTypes.NumberStepper:
+                    
+                    jasperFieldXml += Environment.NewLine + "<F" + field.Id +
+                                      "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
+                                      (answer.ValueReadable.Replace(",",".") ?? string.Empty) + "]]></F" + field.Id +
+                                      "_value>";
+                    break;
                 default:
                 {
                     jasperFieldXml += Environment.NewLine + "<F" + field.Id +
