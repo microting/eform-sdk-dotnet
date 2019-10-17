@@ -1,6 +1,7 @@
 # eform-sdk-dotnet 
 
-![C# Build status on Windows](https://microtingas2017.visualstudio.com/_apis/public/build/definitions/5f551ab2-01ab-4204-8efa-06be93328bc1/1/badge)
+![C# Build status on Windows](https://microtingas2017.visualstudio.com/_apis/public/build/definitions/5f551ab2-01ab-4204-8efa-06be93328bc1/1/badge) Azure pipeline currently disabled
+
 [![Build Status on Linux](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
 [![NuGet Badge](https://buildstats.info/nuget/Microting.eForm)](https://www.nuget.org/packages/Microting.eForm/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/72013d4897452b0e305c/maintainability)](https://codeclimate.com/github/microting/eform-sdk-dotnet/maintainability)
@@ -96,7 +97,7 @@ dotnet ef migrations add MIGRATIONNAME --project eFormCore/Microting.eForm.cspro
 
 ## Microting Open Source Code of Conduct
 
-This project has adopted the [Microting Open Source Code of Conduct](https://www.microting.com/microting-open-source-code-of-conduct/). Contact opencode@microting.com with any additional questions or comments.
+This project has adopted the [Microting Open Source Code of Conduct](https://www.microting.com/microting-open-source-code-of-conduct). Contact opencode@microting.com with any additional questions or comments.
 	
 ## License
 
