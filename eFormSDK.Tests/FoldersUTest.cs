@@ -46,7 +46,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());                                  
             Assert.AreEqual(folder.Version, folders[1].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folders[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(folders[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folders[1].Id);
             Assert.AreEqual(folder.Description, folders[1].Description);
@@ -58,7 +57,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());                                  
             Assert.AreEqual(1, folderVersions[1].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folderVersions[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[1].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[1].Description);
@@ -109,7 +107,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());                                  
             Assert.AreEqual(folder.Version, folders[1].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folders[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(folders[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folders[1].Id);
             Assert.AreEqual(folder.Description, folders[1].Description);
@@ -121,7 +118,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());                                  
             Assert.AreEqual(1, folderVersions[1].Version);                                      
-            Assert.AreEqual(oldUpdatedAt.ToString(), folderVersions[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[1].FolderId);
             Assert.AreEqual(oldDescription, folderVersions[1].Description);
@@ -133,7 +129,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[2].CreatedAt.ToString());                                  
             Assert.AreEqual(2, folderVersions[2].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folderVersions[2].UpdatedAt.ToString());                                  
             Assert.AreEqual(folderVersions[2].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[2].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[2].Description);
@@ -177,7 +172,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());                                  
             Assert.AreEqual(folder.Version, folders[1].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folders[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(folders[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(folder.Id, folders[1].Id);
             Assert.AreEqual(folder.Description, folders[1].Description);
@@ -189,7 +183,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());                                  
             Assert.AreEqual(1, folderVersions[1].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folderVersions[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[1].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[1].Description);
@@ -201,7 +194,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[2].CreatedAt.ToString());                                  
             Assert.AreEqual(2, folderVersions[2].Version);                                      
-            Assert.AreEqual(folder.UpdatedAt.ToString(), folderVersions[2].UpdatedAt.ToString());                                  
             Assert.AreEqual(folderVersions[2].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(folder.Id, folderVersions[2].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[2].Description);
