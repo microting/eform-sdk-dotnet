@@ -155,7 +155,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
+        public async Task SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
         {
             Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("MySite", 22);
@@ -191,7 +191,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].WorkflowState);
             Assert.AreEqual(66, caseResults[0].Status);
 
-            sut.CaseUpdateCompleted((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid, c1_da, aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
+            await sut.CaseUpdateCompleted((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid, c1_da, aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
             caseResults = DbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             //DbContext.cases
@@ -208,7 +208,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseRetract_DoesCaseGetRetracted()
+        public async Task SQL_Case_CaseRetract_DoesCaseGetRetracted()
         {
 
             // Arrance
@@ -235,7 +235,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseRetract((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+            await sut.CaseRetract((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
             //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
@@ -291,7 +291,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
+        public async Task SQL_Case_CaseDeleteResult_DoesMarkCaseRemoved()
         {
 
             // Arrance
@@ -318,7 +318,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDeleteResult(aCase.Id);
+            await sut.CaseDeleteResult(aCase.Id);
             //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
