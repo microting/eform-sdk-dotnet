@@ -2080,7 +2080,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_list_values match = db.check_list_values.Single(x => x.CaseId == caseId && x.CheckListId == checkListId);
+                    check_list_values match = await db.check_list_values.SingleAsync(x => x.CaseId == caseId && x.CheckListId == checkListId);
 
                     match.Status = value;
                     await match.Update(db);
