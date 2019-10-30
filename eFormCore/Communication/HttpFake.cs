@@ -58,6 +58,7 @@ namespace Microting.eForm.Communication
         #region public API
         public async Task<string> Post(string xmlData, string siteId)
         {
+            await Task.Run(() => { });
             if (xmlData.Contains("throw new Exception"))
                 throw new Exception("Post created 'new' Exception as per request");
 
@@ -69,6 +70,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> Status(string elementId, string siteId)
         {
+            await Task.Run(() => { });
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
 
@@ -85,6 +87,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> Delete(string elementId, string siteId)
         {
+            await Task.Run(() => { });
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
         #endregion
@@ -92,31 +95,37 @@ namespace Microting.eForm.Communication
         #region public EntitySearch
         public async Task<string> EntitySearchGroupCreate(string name, string id)
         {
+            await Task.Run(() => { });
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<bool> EntitySearchGroupDelete(string entityGroupId)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
+            await Task.Run(() => { });
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
         {
+            await Task.Run(() => { });
             return true;
         }
         #endregion
@@ -124,31 +133,37 @@ namespace Microting.eForm.Communication
         #region public EntitySelect
         public async Task<string> EntitySelectGroupCreate(string name, string id)
         {
+            await Task.Run(() => { });
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<bool> EntitySelectGroupDelete(string entityGroupId)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
         {
+            await Task.Run(() => { });
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<bool> EntitySelectItemDelete(string entitySelectItemId)
         {
+            await Task.Run(() => { });
             return true;
         }
         #endregion
@@ -156,6 +171,7 @@ namespace Microting.eForm.Communication
         #region public PdfUpload
         public async Task<bool> PdfUpload(string name, string hash)
         {
+            await Task.Run(() => { });
             return true;
         }
         #endregion
@@ -163,6 +179,7 @@ namespace Microting.eForm.Communication
         #region public TemplateDisplayIndexChange
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
+            await Task.Run(() => { });
             return "Not implemented!";
         }
         #endregion
@@ -170,6 +187,7 @@ namespace Microting.eForm.Communication
         #region public site
         public async Task<string> SiteCreate(string name)
         {
+            await Task.Run(() => { });
             if (name == "John Noname Doe")
             {
                 int id = t.GetRandomInt(6);
@@ -189,11 +207,13 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SiteUpdate(int id, string name)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<string> SiteDelete(int id)
         {
+            await Task.Run(() => { });
             JObject content_to_microting = JObject.FromObject(new { name = "Some name", id = id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
             
@@ -210,6 +230,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteLoadAllFromRemote()
         {
+            await Task.Run(() => { });
             return "{}";
         }
         #endregion
@@ -217,6 +238,7 @@ namespace Microting.eForm.Communication
         #region public Worker
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
+            await Task.Run(() => { });
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
             return content_to_microting.ToString();
@@ -231,11 +253,13 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<string> WorkerDelete(int id)
         {
+            await Task.Run(() => { });
             string firstName = "John Noname";
             string lastName = "Doe";
             string email = "jhd@invalid.invalid";
@@ -252,6 +276,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> WorkerLoadAllFromRemote()
         {
+            await Task.Run(() => { });
             return "{}";
         }
         #endregion
@@ -259,6 +284,7 @@ namespace Microting.eForm.Communication
         #region public SiteWorker
         public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
+            await Task.Run(() => { });
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
             return content_to_microting.ToString();
@@ -266,6 +292,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteWorkerDelete(int id)
         {
+            await Task.Run(() => { });
             JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
 //            if (id == 1)
@@ -289,11 +316,13 @@ namespace Microting.eForm.Communication
 
         public async Task<string> FolderLoadAllFromRemote()
         {
+            await Task.Run(() => { });
             return "{}";
         }
 
         public async Task<string> FolderCreate(string name, string description, int? parent_id)
         {
+            await Task.Run(() => { });
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new
                 {id = id, name = name, description = description, parent_id = parent_id});
@@ -302,11 +331,13 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> FolderUpdate(int id, string name, string description, int? parent_id)
         {
+            await Task.Run(() => { });
             return true;
         }
 
         public async Task<string> FolderDelete(int id)
         {
+            await Task.Run(() => { });
             
             JObject content_to_microting = JObject.FromObject(new {name = "Some Name", description = "Some Description", id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
@@ -323,16 +354,19 @@ namespace Microting.eForm.Communication
         #region public Unit
         public async Task<int> UnitRequestOtp(int id)
         {
+            await Task.Run(() => { });
             return 558877;
         }
 
         public async Task<string> UnitLoadAllFromRemote()
         {
+            await Task.Run(() => { });
             return "{}";
         }
 
         public async Task<string> UnitDelete(int id)
         {
+            await Task.Run(() => { });
             JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
         }
@@ -341,6 +375,7 @@ namespace Microting.eForm.Communication
         #region public Organization
         public async Task<string> OrganizationLoadAllFromRemote()
         {
+            await Task.Run(() => { });
 //            int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { my_organization = new
             { aws_endpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
@@ -373,11 +408,13 @@ namespace Microting.eForm.Communication
         #region SpeechToText
         public async Task<int> SpeechToText(string pathToAudioFile, string language)
         {
+            await Task.Run(() => { });
             throw new NotImplementedException();
         }
 
         public async Task<JToken> SpeechToText(int requestId)
         {
+            await Task.Run(() => { });
             throw new NotImplementedException();
         }
         #endregion

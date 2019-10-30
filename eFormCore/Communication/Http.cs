@@ -936,7 +936,7 @@ namespace Microting.eForm.Communication
                 string newUrl = "";
                 try
                 {
-                    response = (HttpWebResponse) httpRequest.GetResponse();
+                    response = (HttpWebResponse) await httpRequest.GetResponseAsync();
                 }
                 catch (WebException ex)
                 {
@@ -969,7 +969,7 @@ namespace Microting.eForm.Communication
                 HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
                 Stream dataResponseStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = reader.ReadToEnd();
+                string responseFromServer = await reader.ReadToEndAsync();
 
                 // Clean up the streams.
                 try

@@ -4216,6 +4216,7 @@ namespace eFormCore
 
         private async Task<List<string>> PdfValidate(string pdfString, int pdfId)
         {
+            await Task.Run(() => { }); // TODO FIX ME
             List<string> errorLst = new List<string>();
 
             if (pdfString.ToLower().Contains("microting.com"))
@@ -4233,6 +4234,7 @@ namespace eFormCore
 
         private async Task<string> GetJasperFieldValue(Field field, FieldValue answer, string customPathForUploadedData)
         {
+            await Task.Run(() => { }); // TODO FIX ME
             string jasperFieldXml = "";
             string latitude = answer.Latitude;
             string longitude = answer.Longitude;
@@ -4608,6 +4610,7 @@ namespace eFormCore
 
         private async Task PutFileToS3Storage(string filePath, string fileName, int tryCount)
         {
+            await Task.Run(() => { }); // TODO FIX ME
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
                 BucketName = $"{_customerNo}_uploaded_data",
