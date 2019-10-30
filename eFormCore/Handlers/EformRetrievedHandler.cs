@@ -55,19 +55,19 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                sqlController.CaseUpdateRetreived(message.MicrotringUUID);
+                await sqlController.CaseUpdateRetreived(message.MicrotringUUID);
                 
                 sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
                 Case_Dto cDto = sqlController.CaseReadByMUId(message.MicrotringUUID);
-                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrived");
+                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrieved");
                 core.FireHandleCaseRetrived(cDto);
             }
             catch (Exception ex)
             {
                 sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
-                Note_Dto note_Dto = new Note_Dto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
-                core.FireHandleNotificationNotFound(note_Dto);
+                Note_Dto noteDto = new Note_Dto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
+                core.FireHandleNotificationNotFound(noteDto);
             }
         }
 

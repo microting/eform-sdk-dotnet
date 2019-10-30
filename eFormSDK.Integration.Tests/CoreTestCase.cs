@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -1713,7 +1714,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_CaseUpdateFieldValues()
+        public async Task Core_Case_CaseUpdateFieldValues()
         {
 
 
@@ -2032,7 +2033,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(null, theCase.FieldValue9);
             Assert.AreEqual(null, theCase.FieldValue10);
 
-            var testThis = sut.CaseUpdateFieldValues(aCase1.Id);
+            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id);
 
             // Assert
             cases theCaseAfter = DbContext.cases.AsNoTracking().First();

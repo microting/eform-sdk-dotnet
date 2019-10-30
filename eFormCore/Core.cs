@@ -1054,11 +1054,11 @@ namespace eFormCore
         /// <param name="caseUId">Optional own id</param>
         /// <param name="siteUid">API id of the site to deploy the eForm at</param>
         /// <returns>Microting API ID</returns>
-        public int? CaseCreate(MainElement mainElement, string caseUId, int siteUid)
+        public async Task<int?> CaseCreate(MainElement mainElement, string caseUId, int siteUid)
         {
             List<int> siteUids = new List<int>();
             siteUids.Add(siteUid);
-            List<int> lst = CaseCreate(mainElement, caseUId, siteUids, "");
+            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "");
 
             try
             {
@@ -1077,7 +1077,7 @@ namespace eFormCore
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
-        public List<int> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
+        public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1120,7 +1120,7 @@ namespace eFormCore
                         int mUId = SendXml(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
-                            _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
+                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now);
                         else
                             _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
 
@@ -1605,14 +1605,14 @@ namespace eFormCore
             //return true;
         }
 
-        public bool CaseDeleteResult(int caseId)
+        public async Task<bool> CaseDeleteResult(int caseId)
         {
             string methodName = t.GetMethodName("Core");
             Log.LogStandard(t.GetMethodName("Core"), "called");
             Log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
             try
             {
-                return _sqlController.CaseDeleteResult(caseId);
+                return await _sqlController.CaseDeleteResult(caseId);
                 throw new NotImplementedException();
             }
             catch (Exception ex)
@@ -1630,14 +1630,14 @@ namespace eFormCore
             }
         }
 
-        public bool CaseUpdateFieldValues(int id)
+        public async Task<bool> CaseUpdateFieldValues(int id)
         {
             string methodName = t.GetMethodName("Core");
             Log.LogStandard(t.GetMethodName("Core"), "called");
             Log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
             try
             {
-                return _sqlController.CaseUpdateFieldValues(id);
+                return await _sqlController.CaseUpdateFieldValues(id);
             }
             catch (Exception ex)
             {
@@ -3908,7 +3908,7 @@ namespace eFormCore
             }
         }
 
-        public bool Advanced_UpdateCaseFieldValue(int caseId)
+        public async Task<bool> Advanced_UpdateCaseFieldValue(int caseId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -3917,7 +3917,7 @@ namespace eFormCore
                 {
                     Log.LogStandard(t.GetMethodName("Core"), "called");
                     Log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
-                    return _sqlController.CaseUpdateFieldValues(caseId);
+                    return await _sqlController.CaseUpdateFieldValues(caseId);
                 }
                 else
                 {
@@ -4665,9 +4665,9 @@ namespace eFormCore
                                 int workerUId = _sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
                                 Log.LogVariable(t.GetMethodName("Core"), nameof(workerUId), workerUId);
 
-                                _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
+                                await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
-                                _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
+                                await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
                                 Log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
@@ -4686,7 +4686,7 @@ namespace eFormCore
                                 }
                                 #endregion
 
-                                _sqlController.CaseRetract(microtingUid, (int)check.Id);
+                                await _sqlController.CaseRetract(microtingUid, (int)check.Id);
                                 Log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseRetract(...)");
                                 // TODO add case.Id
                                 Case_Dto cDto = _sqlController.CaseReadByMUId(microtingUid);

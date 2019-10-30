@@ -118,7 +118,7 @@ namespace Microting.eForm.Handlers
                                 int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 
-                                List<int> uploadedDataIds = sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
+                                List<int> uploadedDataIds = await sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
                                 foreach (int uploadedDataid in uploadedDataIds)
                                 {
@@ -131,7 +131,7 @@ namespace Microting.eForm.Handlers
                                     }
                                 }
 
-                                sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
+                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
@@ -150,7 +150,7 @@ namespace Microting.eForm.Handlers
                                 }
                                 #endregion
 
-                                sqlController.CaseRetract(microtingUid, (int)check.Id);
+                                await sqlController.CaseRetract(microtingUid, (int)check.Id);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                                 // TODO add case.id
                                 Case_Dto cDto = sqlController.CaseReadByMUId(microtingUid);

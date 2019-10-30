@@ -26,6 +26,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -102,7 +104,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual workers Worker { get; set; }
         
             
-        public void Create(MicrotingDbAnySql dbContext) 
+        public async Task Create(MicrotingDbAnySql dbContext) 
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -110,15 +112,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.Now;
 
             dbContext.cases.Add(this);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             dbContext.case_versions.Add(MapVersions(this));
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public void Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
-            cases cases = dbContext.cases.FirstOrDefault(x => x.Id == Id);
+            cases cases = await dbContext.cases.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (cases == null)
             {
@@ -154,13 +156,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 cases.UpdatedAt = DateTime.Now;
 
                 dbContext.case_versions.Add(MapVersions(cases));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
 
-        public void Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            cases cases = dbContext.cases.FirstOrDefault(x => x.Id == Id);
+            cases cases = await dbContext.cases.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (cases == null)
             {
@@ -175,7 +177,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 cases.UpdatedAt = DateTime.Now;
 
                 dbContext.case_versions.Add(MapVersions(cases));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             
         }

@@ -666,7 +666,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="createdAt"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public int CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt)
+        public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt)
         {
             string methodName = t.GetMethodName("SQLController");
             log.LogStandard(methodName, "called");
@@ -674,15 +674,15 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    string caseType = db.check_lists.Single(x => x.Id == checkListId).CaseType;
+                    string caseType = db.check_lists.SingleAsync(x => x.Id == checkListId).Result.CaseType;
                     log.LogStandard(methodName, $"caseType is {caseType}");
-                    int siteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
+                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
                     log.LogStandard(methodName, $"siteId is {siteId}");
 
                     cases aCase = null;
                     // Lets see if we have an existing case with the same parameters in the db first.
                     // This is to handle none gracefull shutdowns.                
-                    aCase = db.cases.SingleOrDefault(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
+                    aCase = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
                     log.LogStandard(methodName, $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
 
                     if (aCase == null)
@@ -698,7 +698,7 @@ namespace Microting.eForm.Infrastructure
 
                         aCase.Custom = custom;
 
-                        aCase.Create(db);
+                        await aCase.Create(db);
                     }
                     else
                     {
@@ -710,7 +710,7 @@ namespace Microting.eForm.Infrastructure
                         aCase.CaseUid = caseUId;
                         aCase.SiteId = siteId;
                         aCase.Custom = custom;
-                        aCase.Update(db);
+                        await aCase.Update(db);
                     }
                     log.LogStandard(methodName, $"aCase is created in db");
 
@@ -749,7 +749,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseUpdateRetreived(int microtingUId)
+        public async Task CaseUpdateRetreived(int microtingUId)
         {
             try
             {
@@ -760,7 +760,7 @@ namespace Microting.eForm.Infrastructure
                     if (match != null)
                     {
                         match.Status = 77;
-                        match.Update(db);
+                        await match.Update(db);
                     }
                 }
             }
@@ -771,7 +771,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseUpdateCompleted(int microtingUId, int microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
+        public async Task CaseUpdateCompleted(int microtingUId, int microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
         {
             try
             {
@@ -799,7 +799,7 @@ namespace Microting.eForm.Infrastructure
                     }
                     #endregion
 
-                    caseStd.Update(db);
+                    await caseStd.Update(db);
                 }
             }
             catch (Exception ex)
@@ -809,7 +809,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public void CaseRetract(int microtingUId, int microtingCheckId)
+        public async Task CaseRetract(int microtingUId, int microtingCheckId)
         {
             try
             {
@@ -818,7 +818,7 @@ namespace Microting.eForm.Infrastructure
                     cases match = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
 
                     match.WorkflowState = Constants.Constants.WorkflowStates.Retracted;
-                    match.Update(db);
+                    await match.Update(db);
                 }   
             }
             catch (Exception ex)
@@ -844,7 +844,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Retracted && aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         {
-                            aCase.Delete((db));
+                            await aCase.Delete((db));
                         }
                         return true;
                     }
@@ -858,7 +858,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public bool CaseDeleteResult(int caseId)
+        public async Task<bool> CaseDeleteResult(int caseId)
         {
             try
             {
@@ -868,7 +868,7 @@ namespace Microting.eForm.Infrastructure
 
                     if (aCase != null)
                     {
-                        aCase.Delete(db);
+                        await aCase.Delete(db);
 
                         return true;
                     } else
@@ -907,7 +907,7 @@ namespace Microting.eForm.Infrastructure
         #region check
         
         //TODO
-        public List<int> ChecksCreate(Response response, string xmlString, int xmlIndex)
+        public async Task<List<int>> ChecksCreate(Response response, string xmlString, int xmlIndex)
         {
             List<int> uploadedDataIds = new List<int>();
             try
@@ -926,7 +926,7 @@ namespace Microting.eForm.Infrastructure
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = db.check_list_sites.Single(x => x.MicrotingUid == int.Parse(response.Value));
-                        int caseId = CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
+                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
                         responseCase = db.cases.Single(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived
@@ -958,7 +958,7 @@ namespace Microting.eForm.Infrastructure
                         int case_id = responseCase.Id;
 
                         check_list_values clv = null;
-                        clv = db.check_list_values.SingleOrDefault(x => x.CheckListId == cl_id && x.CaseId == case_id);
+                        clv = await db.check_list_values.SingleOrDefaultAsync(x => x.CheckListId == cl_id && x.CaseId == case_id);
 
                         if (clv == null)
                         {
@@ -991,7 +991,7 @@ namespace Microting.eForm.Infrastructure
 
                                 if (!fieldTypeIds.Contains((int)f.FieldTypeId)) 
                                 {
-                                    fieldV = db.field_values.SingleOrDefault(x => x.FieldId == field_id && x.CaseId == case_id && x.CheckListId == cl_id && x.WorkerId == userId);
+                                    fieldV = await db.field_values.SingleOrDefaultAsync(x => x.FieldId == field_id && x.CaseId == case_id && x.CheckListId == cl_id && x.WorkerId == userId);
                                 }
 
 
@@ -1039,7 +1039,7 @@ namespace Microting.eForm.Infrastructure
                                     }
                                     
                                     fieldV.Value = extractedValue;                                    
-                                    fields _field = db.fields.SingleOrDefault(x => x.Id == field_id);
+                                    fields _field = await db.fields.SingleOrDefaultAsync(x => x.Id == field_id);
                                     if (_field.FieldType.FieldType == Constants.Constants.FieldTypes.EntitySearch || _field.FieldType.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                                     {
                                         if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
@@ -1068,7 +1068,7 @@ namespace Microting.eForm.Infrastructure
                                     #region update case field_values
                                     if (case_fields.Contains(fieldV.FieldId))
                                     {
-                                        field_types field_type = db.fields.First(x => x.Id == fieldV.FieldId).FieldType;
+                                        field_types field_type = db.fields.FirstAsync(x => x.Id == fieldV.FieldId).Result.FieldType;
                                         string new_value = fieldV.Value;
 
                                         if (field_type.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.Constants.FieldTypes.EntitySelect)
@@ -1153,7 +1153,7 @@ namespace Microting.eForm.Infrastructure
                                                 responseCase.FieldValue10 = new_value;
                                                 break;
                                         }
-                                        responseCase.Update(db);
+                                        await responseCase.Update(db);
                                     }
 
                                     #endregion
@@ -1234,7 +1234,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="caseId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public bool UpdateCaseFieldValue(int caseId)
+        public async Task<bool> UpdateCaseFieldValue(int caseId)
         {
             try
             {
@@ -1301,7 +1301,7 @@ namespace Microting.eForm.Infrastructure
                             match.FieldValue10 = fv.Value;
                         }
 
-                        match.Update(db);
+                        await match.Update(db);
 //                        match.Version += 1;
 //                        match.UpdatedAt = DateTime.Now;
 //                        //TODO! THIS part need to be redone in some form in EF Core!
@@ -2897,7 +2897,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public bool CaseUpdateFieldValues(int caseId)
+        public async Task<bool> CaseUpdateFieldValues(int caseId)
         {
             try
             {
@@ -3025,7 +3025,7 @@ namespace Microting.eForm.Infrastructure
                         }
                     }
                     
-                    lstMatchs.Update(db);
+                    await lstMatchs.Update(db);
 
                     return true;
                 }

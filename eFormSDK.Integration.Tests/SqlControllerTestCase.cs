@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -40,7 +41,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseCreate_DoesCaseCreate()
+        public async Task SQL_Case_CaseCreate_DoesCaseCreate()
         {
             Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("MySite", 22);
@@ -64,7 +65,7 @@ namespace eFormSDK.Integration.Tests
         
 
             // Act
-            int matches = sut.CaseCreate(cl1.Id, (int)site1.MicrotingUid, microtingUId, microtingCheckId, "", "", c1_ca);
+            int matches = await sut.CaseCreate(cl1.Id, (int)site1.MicrotingUid, microtingUId, microtingCheckId, "", "", c1_ca);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -250,7 +251,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseDelete_DoesCaseRemoved()
+        public async Task SQL_Case_CaseDelete_DoesCaseRemoved()
         {
             // Arrance
             Random rnd = new Random();
@@ -276,7 +277,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDelete((int)aCase.MicrotingUid);
+            await sut.CaseDelete((int)aCase.MicrotingUid);
             //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
@@ -591,7 +592,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_PostCase_CaseUpdateFieldValues()
+        public async Task SQL_PostCase_CaseUpdateFieldValues()
         {
 
 
@@ -922,7 +923,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(null, theCase.FieldValue9);
             Assert.AreEqual(null, theCase.FieldValue10);
 
-            var testThis = sut.CaseUpdateFieldValues(aCase1.Id);
+            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id);
 
             // Assert
             cases theCaseAfter = DbContext.cases.AsNoTracking().First();
