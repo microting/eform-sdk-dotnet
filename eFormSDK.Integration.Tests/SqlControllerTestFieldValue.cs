@@ -22,22 +22,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.FieldValueRead(field_Value1, false);
+            var match = await sut.FieldValueRead(field_Value1, false);
 
             // Assert
             #region Assert
@@ -329,7 +329,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.FieldValueRead(field_Value1, true);
+            var match = await sut.FieldValueRead(field_Value1, true);
 
             //// Assert
             #region Assert
@@ -495,7 +495,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            // Act
 //
-//            var match = sut.FieldValueRead(field_Value1.Id);
+//            var match = await sut.FieldValueRead(field_Value1.Id);
 //
 //            // Assert
 //
@@ -636,7 +636,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            List<FieldValue> match = sut.FieldValueReadList(f1.Id, 5);
+            List<FieldValue> match = await sut.FieldValueReadList(f1.Id, 5);
 
             // Assert
 
@@ -955,11 +955,11 @@ namespace eFormSDK.Integration.Tests
             // Act
             List<int> listOfCaseIds = new List<int>();
             listOfCaseIds.Add(aCase.Id);
-            var matchF1 = sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/");
-            var matchF2 = sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/");
-            var matchF3 = sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/");
-            var matchF4 = sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/");
-            var matchF5 = sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/");
+            var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/");
+            var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/");
+            var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/");
+            var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/");
+            var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/");
 
             // Assert
             #region Assert
@@ -1104,7 +1104,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            List<field_values> match = sut.ChecksRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+            List<field_values> match = await sut.ChecksRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
 
             // Assert
 

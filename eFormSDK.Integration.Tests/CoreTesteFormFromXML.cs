@@ -23,14 +23,14 @@ namespace eFormSDK.Integration.Tests
         private TestHelpers testHelpers;
         private string path;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();
@@ -40,14 +40,14 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
-          sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-          sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-          sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            //await sut.StartLog(new CoreBase());
         }
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
@@ -98,7 +98,7 @@ namespace eFormSDK.Integration.Tests
                     </ElementList>
                 </Main>";
             // Act
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
             // Assert
             Assert.NotNull(match);
@@ -184,7 +184,7 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -269,7 +269,7 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -353,7 +353,7 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
           
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -466,7 +466,7 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -584,7 +584,7 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -908,7 +908,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -1254,7 +1254,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -1430,7 +1430,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -1568,7 +1568,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -1660,7 +1660,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
             
 
             // Assert
@@ -1753,7 +1753,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -1839,7 +1839,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -1921,7 +1921,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -2005,7 +2005,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -2088,7 +2088,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
 
             // Assert
@@ -2231,7 +2231,7 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            var match = sut.TemplateFromXml(xmlstring);
+            var match = await sut.TemplateFromXml(xmlstring);
 
             
             // Assert

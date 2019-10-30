@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -58,7 +59,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<taggings> Taggings { get; set; }
 
         //public virtual ICollection<check_lists> check_lists { get; set; }
-        public void Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbAnySql dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -73,7 +74,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         }
 
-        public void Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
             tags tag = dbContext.tags.FirstOrDefault(x => x.Id == Id);
 
@@ -96,7 +97,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public void Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
             
             tags tag = dbContext.tags.FirstOrDefault(x => x.Id == Id);

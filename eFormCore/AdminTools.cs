@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -50,7 +51,7 @@ namespace eFormCore
         #endregion
 
         #region public
-        public void RunConsole()
+        public async Task RunConsole()
         {
             #region warning
             Console.WriteLine("");
@@ -130,11 +131,11 @@ namespace eFormCore
                         Console.WriteLine("Prime, configure and add sites to  database");
                         Console.WriteLine("Enter your token:");
                         string token = Console.ReadLine();
-                        reply = DbSetup(token);
+                        reply = await DbSetup(token);
                         break;
                     case "I":
                         Console.WriteLine("Check is database primed");
-                        List<string> checkResult = DbSetupCompleted();
+                        List<string> checkResult = await DbSetupCompleted();
                         if (checkResult.Count == 1)
                         {
                             if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
@@ -161,57 +162,57 @@ namespace eFormCore
             }
         }
 
-        public string DbSetup(string token)
+        public async Task<string> DbSetup(string token)
         {
 //            try
 //            {
                 sqlController = new SqlController(connectionString);
 
                 if (token == null)
-                    token = sqlController.SettingRead(Settings.token);
+                    token = await sqlController.SettingRead(Settings.token);
                 
-                sqlController.SettingUpdate(Settings.token, token);
+                await sqlController.SettingUpdate(Settings.token, token);
 
                 // configure db
-                DbSettingsReloadRemote();
+                await DbSettingsReloadRemote();
 
 
-                string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
-                string comAddressBasic = sqlController.SettingRead(Settings.comAddressBasic);
-                string comOrganizationId = sqlController.SettingRead(Settings.comOrganizationId);
-                string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
-                string ComSpeechToText = sqlController.SettingRead(Settings.comSpeechToText);
+                string comAddressApi = await sqlController.SettingRead(Settings.comAddressApi);
+                string comAddressBasic = await sqlController.SettingRead(Settings.comAddressBasic);
+                string comOrganizationId = await sqlController.SettingRead(Settings.comOrganizationId);
+                string ComAddressPdfUpload = await sqlController.SettingRead(Settings.comAddressPdfUpload);
+                string ComSpeechToText = await sqlController.SettingRead(Settings.comSpeechToText);
                 Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                 #region add site's data to db
-                if (!bool.Parse(sqlController.SettingRead(Settings.knownSitesDone)))
+                if (!bool.Parse(await sqlController.SettingRead(Settings.knownSitesDone)))
                 {
-                    foreach (var item in communicator.SiteLoadAllFromRemote())
+                    foreach (var item in await communicator.SiteLoadAllFromRemote())
                     {
-                        SiteName_Dto siteDto = sqlController.SiteRead(item.SiteUId);
+                        SiteName_Dto siteDto = await sqlController.SiteRead(item.SiteUId);
                         if (siteDto == null)
                         {
-                            sqlController.SiteCreate(item.SiteUId, item.SiteName);
+                            await sqlController.SiteCreate(item.SiteUId, item.SiteName);
                         }
                     }
 
-                    foreach (var item in communicator.WorkerLoadAllFromRemote())
+                    foreach (var item in await communicator.WorkerLoadAllFromRemote())
                     {
-                        Worker_Dto workerDto = sqlController.WorkerRead(item.WorkerUId);
+                        Worker_Dto workerDto = await sqlController.WorkerRead(item.WorkerUId);
                         if (workerDto == null)
                         {
-                            sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
+                            await sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
                         }
                     }
 
-                    foreach (var item in communicator.SiteWorkerLoadAllFromRemote())
+                    foreach (var item in await communicator.SiteWorkerLoadAllFromRemote())
                     {
-                        Site_Worker_Dto siteWorkerDto = sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
+                        Site_Worker_Dto siteWorkerDto = await sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
                         if (siteWorkerDto == null)
                         {
                             try
                             {
-                                sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
+                                await sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
                             }
                             catch
                             {
@@ -221,16 +222,16 @@ namespace eFormCore
                         }
                     }
 
-                    int customerNo = communicator.OrganizationLoadAllFromRemote(token).CustomerNo;
+                    int customerNo = communicator.OrganizationLoadAllFromRemote(token).Result.CustomerNo;
 
-                    foreach (var item in communicator.UnitLoadAllFromRemote(customerNo))
+                    foreach (var item in await communicator.UnitLoadAllFromRemote(customerNo))
                     {
-                        Unit_Dto unitDto = sqlController.UnitRead(item.UnitUId);
+                        Unit_Dto unitDto = await sqlController.UnitRead(item.UnitUId);
                         if (unitDto == null)
                         {
                             try
                             {
-                                sqlController.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
+                                await sqlController.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
                             }
                             catch
                             {
@@ -240,17 +241,17 @@ namespace eFormCore
                         }
                     }
 
-                    foreach (Folder_Dto folderDto in communicator.FolderLoadAllFromRemote())
+                    foreach (Folder_Dto folderDto in await communicator.FolderLoadAllFromRemote())
                     {
                         if (folderDto.MicrotingUId != null)
                         {
-                            Folder_Dto folder = sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+                            Folder_Dto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
 
                             if (folder == null)
                             {
                                 if (folderDto.ParentId == 0)
                                 {
-                                    sqlController.FolderCreate(folderDto.Name, folderDto.Description, null,
+                                    await sqlController.FolderCreate(folderDto.Name, folderDto.Description, null,
                                         (int)folderDto.MicrotingUId);    
 
                                 }
@@ -259,9 +260,9 @@ namespace eFormCore
                                     if (folderDto.ParentId != null)
                                     {
                                         Folder_Dto parenFolder =
-                                            sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
+                                            await sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
                                     
-                                        sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
+                                        await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
                                             (int)folderDto.MicrotingUId);
                                     }
                                 }
@@ -269,11 +270,11 @@ namespace eFormCore
                         }
                     }
                     
-                    sqlController.SettingUpdate(Settings.knownSitesDone, "true");
+                    await sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 }
                 #endregion
 
-                sqlController.SettingUpdate(Settings.firstRunDone, "true");
+                await sqlController.SettingUpdate(Settings.firstRunDone, "true");
 
                 return "";
 //            }
@@ -283,29 +284,29 @@ namespace eFormCore
 //            }
         }
 
-        public string DbSettingsReloadRemote()
+        public async Task<string> DbSettingsReloadRemote()
         {
             try
             {
                 sqlController = new SqlController(connectionString);
 
-                string token = sqlController.SettingRead(Settings.token);
+                string token = await sqlController.SettingRead(Settings.token);
                 Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com");
 
-                Organization_Dto organizationDto = communicator.OrganizationLoadAllFromRemote(token);
-                sqlController.SettingUpdate(Settings.token, token);
-                sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
-                sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
-                sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
-                sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
-                sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
-                sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
-                sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
-                sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
-                sqlController.SettingUpdate(Settings.comSpeechToText, organizationDto.ComSpeechToText);
-                if (sqlController.SettingRead(Settings.logLevel) == "true")
+                Organization_Dto organizationDto = await communicator.OrganizationLoadAllFromRemote(token);
+                await sqlController.SettingUpdate(Settings.token, token);
+                await sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
+                await sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
+                await sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
+                await sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
+                await sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
+                await sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
+                await sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
+                await sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
+                await sqlController.SettingUpdate(Settings.comSpeechToText, organizationDto.ComSpeechToText);
+                if (await sqlController.SettingRead(Settings.logLevel) == "true")
                 {
-                    sqlController.SettingUpdate(Settings.logLevel, "2");
+                    await sqlController.SettingUpdate(Settings.logLevel, "2");
                 }
 
                 return "";
@@ -316,9 +317,9 @@ namespace eFormCore
             }
         }
 
-        public List<string> DbSetupCompleted()
+        public async Task<List<string>> DbSetupCompleted()
         {
-            return sqlController.SettingCheckAll();
+            return await sqlController.SettingCheckAll();
 
         }
 

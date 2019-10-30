@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -55,7 +56,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? CheckListDuplicateId { get; set; }
 
 
-        public void Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbAnySql dbContext)
         {
             
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -71,7 +72,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         }
 
-        public void Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
             check_list_values clv = dbContext.check_list_values.FirstOrDefault(x => x.Id == Id);
 
@@ -97,7 +98,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public void Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
             check_list_values clv = dbContext.check_list_values.FirstOrDefault(x => x.Id == Id);
 

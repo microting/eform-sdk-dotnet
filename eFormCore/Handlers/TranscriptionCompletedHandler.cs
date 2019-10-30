@@ -57,24 +57,24 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                field_values fv = sqlController.GetFieldValueByTranscriptionId(message.MicrotringUUID);
-                JToken result = communicator.SpeechToText(message.MicrotringUUID);
+                field_values fv = await sqlController.GetFieldValueByTranscriptionId(message.MicrotringUUID);
+                JToken result = await communicator.SpeechToText(message.MicrotringUUID);
 
-                sqlController.FieldValueUpdate((int)fv.CaseId, (int)fv.Id, result["text"].ToString());
+                await sqlController.FieldValueUpdate((int)fv.CaseId, (int)fv.Id, result["text"].ToString());
 
                 #region download file
-                uploaded_data ud = sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
+                uploaded_data ud = await sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
 
                 if (ud.FileName.Contains("3gp"))
                 {
-                    log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
+                    await log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
                     string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
-                    string fileLocationPicture = sqlController.SettingRead(Settings.fileLocationPicture);
+                    string fileLocationPicture = await sqlController.SettingRead(Settings.fileLocationPicture);
                     using (var client = new System.Net.WebClient())
                     {
                         try
                         {
-                            log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Trying to donwload file from : " + urlStr);
+                            await log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Trying to donwload file from : " + urlStr);
                             client.DownloadFile(urlStr, fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"));
                         }
                         catch (Exception ex)
@@ -85,13 +85,13 @@ namespace Microting.eForm.Handlers
                 }
                 #endregion
 
-                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
-                log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Transcription with id " + message.MicrotringUUID + " has been transcribed");
+                await log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Transcription with id " + message.MicrotringUUID + " has been transcribed");
             }
             catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
             }
         }
     }

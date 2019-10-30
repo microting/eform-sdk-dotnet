@@ -26,14 +26,14 @@ namespace eFormSDK.Integration.Tests
         short shortMinValue = Int16.MinValue;
         short shortmaxValue = Int16.MaxValue;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();
@@ -43,14 +43,14 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
-            sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            //await sut.StartLog(new CoreBase());
         }
 
         #region case
@@ -83,7 +83,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseDeleteResult(aCase.Id);
-            Case_Dto theCase = sut.CaseLookupCaseId(aCase.Id);
+            Case_Dto theCase = await sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
             Assert.NotNull(theCase);
@@ -326,7 +326,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+            var match = await sut.CaseRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
 
             // Assert
             Assert.NotNull(match);
@@ -437,7 +437,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByCaseId(aCase.Id);
+            var match = await sut.CaseReadByCaseId(aCase.Id);
 
             // Assert
 
@@ -542,7 +542,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFirstId(aCase.CheckList.Id, aCase.WorkflowState);
+            var match = await sut.CaseReadFirstId(aCase.CheckList.Id, aCase.WorkflowState);
             // Assert
             Assert.AreEqual(aCase.Id, match);
         }
@@ -960,7 +960,7 @@ namespace eFormSDK.Integration.Tests
             CLVlist.Add(clv10.CheckListId + " |" + clv10.Status);
             //CLVlist.ToList();
 
-            var match = sut.CaseUpdate(aCase1.Id, FVPlist, CLVlist);
+            var match = await sut.CaseUpdate(aCase1.Id, FVPlist, CLVlist);
 
             Assert.NotNull(match);
             Assert.True(match);
@@ -1333,7 +1333,7 @@ namespace eFormSDK.Integration.Tests
             //#endregion
             //#endregion
             //// Act
-            //var match = sut.CaseDelete(cl2.Id,(int) cls1.site.microting_uid);
+            //var match = await sut.CaseDelete(cl2.Id,(int) cls1.site.microting_uid);
             //// Assert
             // Assert.NotNull(match);
             // Assert.True(match);
@@ -1707,7 +1707,7 @@ namespace eFormSDK.Integration.Tests
             //#endregion
             //#endregion
             //// Act
-            //var match = sut.CaseDelete(cl2.Id, (int)cls1.site.microting_uid, Constants.WorkflowStates.Created);
+            //var match = await sut.CaseDelete(cl2.Id, (int)cls1.site.microting_uid, Constants.WorkflowStates.Created);
             //// Assert
             // Assert.NotNull(match);
             // Assert.True(match);
@@ -2229,7 +2229,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseLookupMUId((int)aCase.MicrotingUid);
+            var match = await sut.CaseLookupMUId((int)aCase.MicrotingUid);
 
             // Assert
 
@@ -2340,7 +2340,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseLookupCaseId(aCase.Id);
+            var match = await sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
 
@@ -2448,7 +2448,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseLookupCaseUId(aCase.CaseUid);
+            var match = await sut.CaseLookupCaseUId(aCase.CaseUid);
 
 
             // Assert
@@ -2596,7 +2596,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseIdLookup((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid);
+            var match = await sut.CaseIdLookup((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid);
             // Assert
             Assert.NotNull(match);
             Assert.AreEqual(aCase1.Id, match);
@@ -3001,7 +3001,7 @@ namespace eFormSDK.Integration.Tests
 //            #endregion
 //            // Act
 //
-//            //var match = sut.CasesToExcel(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
+//            //var match = await sut.CasesToExcel(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 //
 //            //// Assert
 //            // Assert.NotNull(match);
@@ -3402,14 +3402,14 @@ namespace eFormSDK.Integration.Tests
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
             int microtingUid = rnd.Next(1,255);
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, microtingUid);
 
             #endregion
             #endregion
             // Act
 
-            //var match = sut.CasesToCsv(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
+            //var match = await sut.CasesToCsv(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 
             // Assert
             // Assert.NotNull(match);
@@ -3807,7 +3807,7 @@ namespace eFormSDK.Integration.Tests
             #region checkListSites
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1,255));
 
             #endregion
@@ -3817,9 +3817,9 @@ namespace eFormSDK.Integration.Tests
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
-            Case_Dto cDto = sut.CaseLookupCaseId(aCase2.Id);
-            ReplyElement reply = sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
-            var match = sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
+            Case_Dto cDto = await sut.CaseLookupCaseId(aCase2.Id);
+            ReplyElement reply = await sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
+            var match = await sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
 
             // Assert
             Assert.NotNull(match);
@@ -4216,14 +4216,14 @@ namespace eFormSDK.Integration.Tests
             #region checkListSites
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
             // Act
 
-            var match = sut.GetSdkSetting(Settings.fileLocationJasper);
+            var match = await sut.GetSdkSetting(Settings.fileLocationJasper);
 
             // Assert
             Assert.NotNull(match);
@@ -4238,7 +4238,7 @@ namespace eFormSDK.Integration.Tests
             // Arrange
 
             // Act
-            var match = sut.SetSdkSetting(Settings.fileLocationJasper, @"C:\local\gitgud");
+            var match = await sut.SetSdkSetting(Settings.fileLocationJasper, @"C:\local\gitgud");
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -4634,14 +4634,14 @@ namespace eFormSDK.Integration.Tests
             #region checkListSites
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
             // Act
 
-            var match = sut.GetSdkSetting(Settings.fileLocationPicture);
+            var match = await sut.GetSdkSetting(Settings.fileLocationPicture);
 
             // Assert
             Assert.NotNull(match);
@@ -4655,7 +4655,7 @@ namespace eFormSDK.Integration.Tests
             // Arrange
 
             // Act
-            var match = sut.SetSdkSetting(Settings.fileLocationPicture, @"C:\local");
+            var match = await sut.SetSdkSetting(Settings.fileLocationPicture, @"C:\local");
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -5051,14 +5051,14 @@ namespace eFormSDK.Integration.Tests
             #region checkListSites
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
             // Act
 
-            var match = sut.GetSdkSetting(Settings.fileLocationPdf);
+            var match = await sut.GetSdkSetting(Settings.fileLocationPdf);
 
             // Assert
             Assert.NotNull(match);
@@ -5455,14 +5455,14 @@ namespace eFormSDK.Integration.Tests
             #region checkListSites
             DateTime cls_ca = DateTime.Now;
             DateTime cls_ua = DateTime.Now;
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl2, cls_ca, site,
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
             #endregion
             #endregion
             // Act
 
-            var match = sut.GetSdkSetting(Settings.httpServerAddress);
+            var match = await sut.GetSdkSetting(Settings.httpServerAddress);
 
             // Assert
             Assert.NotNull(match);
@@ -5476,7 +5476,7 @@ namespace eFormSDK.Integration.Tests
             // Arrange
 
             // Act
-            var match = sut.SetSdkSetting(Settings.httpServerAddress, "facebook.com");
+            var match = await sut.SetSdkSetting(Settings.httpServerAddress, "facebook.com");
             // Assert
             Assert.NotNull(match);
             Assert.True(match);

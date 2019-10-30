@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
@@ -378,20 +379,20 @@ namespace Microting.eForm.Helpers
 
             return eI;
         }
-        public tags CreateTag(string name, string workflowState, int version)
+        public async Task <tags> CreateTag(string name, string workflowState, int version)
         {
             tags tag = new tags();
             tag.Name = name;
             tag.WorkflowState = workflowState;
             tag.Version = version;
-            tag.Create(DbContext);
+            await tag.Create(DbContext);
 
 //            DbContext.tags.Add(tag);
 //            DbContext.SaveChanges();
 
             return tag;
         }
-        public check_list_sites CreateCheckListSite(check_lists checklist, DateTime createdAt,
+        public async Task<check_list_sites> CreateCheckListSite(check_lists checklist, DateTime createdAt,
             sites site, DateTime updatedAt, int version, string workflowState, int microting_uid)
         {
             check_list_sites cls = new check_list_sites();
@@ -402,7 +403,7 @@ namespace Microting.eForm.Helpers
             cls.Version = version;
             cls.WorkflowState = workflowState;
             cls.MicrotingUid = microting_uid;
-            cls.Create(DbContext);
+            await cls.Create(DbContext);
 //            DbContext.check_list_sites.Add(cls);
 //            DbContext.SaveChanges();
             return cls;

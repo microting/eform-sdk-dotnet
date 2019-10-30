@@ -22,14 +22,14 @@ namespace eFormSDK.Integration.Tests
         private TestHelpers testHelpers;
         private string path;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();
@@ -39,14 +39,14 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
-            sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            //await sut.StartLog(new CoreBase());
         }
 
         #region site
@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
+            var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
 
             // Assert
             var sites = DbContext.sites.AsNoTracking().ToList();
@@ -76,7 +76,7 @@ namespace eFormSDK.Integration.Tests
 
             //// Act
 
-            //var site = sut.SiteCreate("site1", "René", "Madsen", "rm@rm.dk");
+            //var site = await sut.SiteCreate("site1", "René", "Madsen", "rm@rm.dk");
 
             //// Assert
             // Assert.NotNull(site);
@@ -278,7 +278,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteRead((int)site.MicrotingUid);
+            var match = await sut.SiteRead((int)site.MicrotingUid);
 
             // Assert
             Assert.NotNull(match);
@@ -477,8 +477,8 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var matchNotRemoved = sut.SiteReadAll(false);
-            var matchInclRemoved = sut.SiteReadAll(true);
+            var matchNotRemoved = await sut.SiteReadAll(false);
+            var matchInclRemoved = await sut.SiteReadAll(true);
             // Assert
             Assert.NotNull(matchInclRemoved);
             Assert.NotNull(matchNotRemoved);
@@ -537,7 +537,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
 
-            var match = sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email);
+            var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email);
             // Assert
             Assert.True(match);
         }
@@ -573,7 +573,7 @@ namespace eFormSDK.Integration.Tests
             units unit = testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
             // Act
-            var match = sut.SiteDelete((int)site.MicrotingUid);
+            var match = await sut.SiteDelete((int)site.MicrotingUid);
             // Assert
             Assert.True(match);
             //#endregion

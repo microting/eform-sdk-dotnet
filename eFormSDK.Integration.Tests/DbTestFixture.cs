@@ -63,15 +63,15 @@ namespace eFormSDK.Integration.Tests
             try
             {
                 Core core = new Core();
-                core.StartSqlOnly(ConnectionString);
-                core.Close();
+                await core.StartSqlOnly(ConnectionString);
+                await core.Close();
             } catch
             {
                 AdminTools adminTools = new AdminTools(ConnectionString);
-                adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
 
-            DoSetup();
+            await DoSetup();
         }
       
         [TearDown]
@@ -200,7 +200,7 @@ namespace eFormSDK.Integration.Tests
 
 
         }
-        public virtual void DoSetup() { }
+        public virtual async Task DoSetup() { }
 
     }
 }

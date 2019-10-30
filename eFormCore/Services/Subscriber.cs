@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Amazon;
 using Amazon.SQS;
 using Microting.eForm.Dto;
@@ -86,7 +87,7 @@ namespace Microting.eForm.Services
         /// <summary>
         /// Sends the close command to the Notification Subscriber
         /// </summary>
-        public void Close()
+        public async Task Close()
         {
             try
             {
@@ -104,7 +105,7 @@ namespace Microting.eForm.Services
             }
             catch (Exception ex)
             {
-                log.LogException(t.GetMethodName("Subscriber"), "failed", ex, false);
+                await log.LogException(t.GetMethodName("Subscriber"), "failed", ex, false);
             }
         }
 
@@ -118,20 +119,20 @@ namespace Microting.eForm.Services
         #endregion
 
         #region private
-        private void SubscriberThread()
+        private async Task SubscriberThread()
         {
-            if (sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
+            if (await sqlController.SettingRead(Settings.token) != "UNIT_TEST___________________L:32")
             #region amazon
             {
-                log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up");
+                await log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up");
 
                 #region setup
                 isActive = true;
                 keepSubscribed = true;
 
-                string awsAccessKeyId = sqlController.SettingRead(Settings.awsAccessKeyId);
-                string awsSecretAccessKey = sqlController.SettingRead(Settings.awsSecretAccessKey);
-                string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token);
+                string awsAccessKeyId = await sqlController.SettingRead(Settings.awsAccessKeyId);
+                string awsSecretAccessKey = await sqlController.SettingRead(Settings.awsSecretAccessKey);
+                string awsQueueUrl = await sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token);
 
                 var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
                 DateTime lastException = DateTime.MinValue;
@@ -155,51 +156,51 @@ namespace Microting.eForm.Services
 
                                 #endregion
 
-                                log.LogStandard(t.GetMethodName("Subscriber"),
+                                await log.LogStandard(t.GetMethodName("Subscriber"),
                                     "Notification notificationUId : " + notificationUId + " microtingUId : " +
                                     microtingUId + " action : " + action);
                                 switch (action)
                                 {
                                     case Constants.Notifications.Completed:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                        await sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.Completed);
-                                        bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
+                                        await bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsedByServer:
-                                        bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId));
+                                        await bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsingError:
-                                        bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
+                                        await bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.RetrievedForm:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                        await sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.RetrievedForm);
-                                        bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
+                                        await bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.UnitActivate:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                        await sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.UnitActivate);
-                                        bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
+                                        await bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.SpeechToTextCompleted:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
+                                        await sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.SpeechToTextCompleted);
-                                        bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
+                                        await bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
                                         break;
                                 }
 
-                                sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
+                                await sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
                             }
                         else
                         {
-                            log.LogStandard(t.GetMethodName("Subscriber"),
+                            await log.LogStandard(t.GetMethodName("Subscriber"),
                                 $"{DateTime.Now.ToString()} -  No messages for us right now!");
                         }
 
                     }
                     catch (WebException webException)
                     {
-                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", webException));
+                        await log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", webException));
                         // We try to sleep 20 seconds to see if the problem goes away by it self.
                         Thread.Sleep(20000);
                     }
@@ -207,18 +208,18 @@ namespace Microting.eForm.Services
                     catch (Exception ex)
                     {
                         // Log exception
-                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex));
+                        await log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex));
 
                         if (DateTime.Compare(lastException.AddMinutes(5), DateTime.Now) > 0)
                         {
                             keepSubscribed = false;
-                            log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true);
+                            await log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true);
                         }
 
                         lastException = DateTime.Now;
                     }
                 }
-                log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
+                await log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
                 sqsClient.Dispose();
                 //EventMsgClient("Subscriber closed", null);
                 keepSubscribed = false;
@@ -228,7 +229,7 @@ namespace Microting.eForm.Services
             else
             #region unit test
             {
-                log.LogStandard(t.GetMethodName("Subscriber"), "Subscriber faked");
+                await log.LogStandard(t.GetMethodName("Subscriber"), "Subscriber faked");
                 isActive = true;
                 keepSubscribed = true;
 

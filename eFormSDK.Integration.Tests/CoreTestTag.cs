@@ -22,14 +22,14 @@ namespace eFormSDK.Integration.Tests
         private TestHelpers testHelpers;
         private string path;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();
@@ -39,14 +39,14 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
-            sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            //await sut.StartLog(new CoreBase());
         }
 
         #region tag
@@ -57,7 +57,7 @@ namespace eFormSDK.Integration.Tests
             string tagName = "Tag1";
 
             // Act
-            sut.TagCreate(tagName);
+            await sut.TagCreate(tagName);
 
             // Assert
             var tag = DbContext.tags.ToList();
@@ -79,7 +79,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.TagDelete(tag.Id);
+            await sut.TagDelete(tag.Id);
 
             // Assert
             var result = DbContext.tags.AsNoTracking().ToList();
@@ -102,7 +102,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.TagCreate(tagName);
+            await sut.TagCreate(tagName);
 
             // Assert
             var result = DbContext.tags.AsNoTracking().ToList();
@@ -140,10 +140,10 @@ namespace eFormSDK.Integration.Tests
 
             DbContext.tags.Add(tag);
             DbContext.SaveChanges();
-            //int tagId3 = sut.TagCreate(tagName3);
+            //int tagId3 = await sut.TagCreate(tagName3);
 
             // Act
-            var tags = sut.GetAllTags(true);
+            var tags = await sut.GetAllTags(true);
 
             // Assert
             Assert.True(true);
@@ -185,7 +185,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             List<int> tags = new List<int>();
             tags.Add(tag.Id);
-            sut.TemplateSetTags(cl1.Id, tags);
+            await sut.TemplateSetTags(cl1.Id, tags);
 
 
             // Assert
@@ -256,8 +256,8 @@ namespace eFormSDK.Integration.Tests
             List<int> tags = new List<int>();
             tags.Add(tag1.Id);
             tags.Add(tag3.Id);
-            sut.TemplateSetTags(cl1.Id, tags);
-            sut.TemplateSetTags(cl1.Id, tags);
+            await sut.TemplateSetTags(cl1.Id, tags);
+            await sut.TemplateSetTags(cl1.Id, tags);
 
             //// Assert
             List<taggings> result = DbContext.taggings.AsNoTracking().ToList();

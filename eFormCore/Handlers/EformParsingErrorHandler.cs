@@ -50,7 +50,7 @@ namespace Microting.eForm.Handlers
 #pragma warning disable 1998
         public async Task Handle(EformParsingError message)
         {
-            sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.EformParsingError);
+            await sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.EformParsingError);
 
             // Potentially send new message onto local queue
         }

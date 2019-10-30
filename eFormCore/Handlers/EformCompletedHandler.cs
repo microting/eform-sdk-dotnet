@@ -60,12 +60,12 @@ namespace Microting.eForm.Handlers
             try
             {
                 await CheckStatusByMicrotingUid(message.MicrotringUUID);
-                sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                await sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
             } catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                await sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
                 Note_Dto note_Dto = new Note_Dto(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
-                core.FireHandleNotificationNotFound(note_Dto);
+                await core.FireHandleNotificationNotFound(note_Dto);
             }
         }
 
@@ -74,35 +74,35 @@ namespace Microting.eForm.Handlers
             List<Case_Dto> lstCase = new List<Case_Dto>();
             MainElement mainElement = new MainElement();
 
-            Case_Dto concreteCase = sqlController.CaseReadByMUId(microtingUid);
-            log.LogEverything(t.GetMethodName("EformCompletedHandler"), concreteCase.ToString() + " has been matched");
+            Case_Dto concreteCase = await sqlController.CaseReadByMUId(microtingUid);
+            await log.LogEverything(t.GetMethodName("EformCompletedHandler"), concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                 lstCase.Add(concreteCase);
             else
-                lstCase = sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
+                lstCase = await sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
 
             foreach (Case_Dto aCase in lstCase)
             {
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
                     #region get response's data and update DB with data
-                    int? checkIdLastKnown = sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
-                    log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(checkIdLastKnown), checkIdLastKnown);
+                    int? checkIdLastKnown = await sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
+                    await log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
-                        respXml = communicator.Retrieve(microtingUid.ToString(), concreteCase.SiteUId);
+                        respXml = await communicator.Retrieve(microtingUid.ToString(), concreteCase.SiteUId);
                     else
-                        respXml = communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown.ToString());
-                    log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(respXml), respXml);
+                        respXml = await communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown.ToString());
+                    await log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(respXml), respXml);
 
                     Response resp = new Response();
                     resp = resp.XmlToClassUsingXmlDocument(respXml);
 
                     if (resp.Type == Response.ResponseTypes.Success)
                     {
-                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (true)");
+                        await log.LogEverything(t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (true)");
                         if (resp.Checks.Count > 0)
                         {
                             XmlDocument xDoc = new XmlDocument();
@@ -113,56 +113,56 @@ namespace Microting.eForm.Handlers
                             foreach (Check check in resp.Checks)
                             {
 
-                                int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).UnitUId;
-                                log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
-                                int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).WorkerUId;
-                                log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
+                                int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
+                                await log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
+                                int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
+                                await log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 
                                 List<int> uploadedDataIds = await sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
                                 foreach (int uploadedDataid in uploadedDataIds)
                                 {
-                                    if (core.DownloadUploadedData(uploadedDataid))
+                                    if (await core.DownloadUploadedData(uploadedDataid))
                                     {
-                                        core.TranscribeUploadedData(uploadedDataid);
+                                        await core.TranscribeUploadedData(uploadedDataid);
                                     } else
                                     {
-                                        log.LogEverything(t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid.ToString());
+                                        await log.LogEverything(t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid.ToString());
                                     }
                                 }
 
                                 await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
-                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
+                                await log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
                                 {
-                                    string responseRetractionXml = communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
+                                    string responseRetractionXml = await communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
                                     Response respRet = new Response();
                                     respRet = respRet.XmlToClass(respXml);
 
                                     if (respRet.Type == Response.ResponseTypes.Success)
                                     {
-                                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), aCase.ToString() + " has been retracted");
+                                        await log.LogEverything(t.GetMethodName("EformCompletedHandler"), aCase.ToString() + " has been retracted");
                                     }
                                     else
-                                        log.LogWarning(t.GetMethodName("EformCompletedHandler"), "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                        await log.LogWarning(t.GetMethodName("EformCompletedHandler"), "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                 }
                                 #endregion
 
                                 await sqlController.CaseRetract(microtingUid, (int)check.Id);
-                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
+                                await log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                                 // TODO add case.id
-                                Case_Dto cDto = sqlController.CaseReadByMUId(microtingUid);
-                                core.FireHandleCaseCompleted(cDto);
-                                log.LogStandard(t.GetMethodName("EformCompletedHandler"), cDto.ToString() + " has been completed");
+                                Case_Dto cDto = await sqlController.CaseReadByMUId(microtingUid);
+                                await core.FireHandleCaseCompleted(cDto);
+                                await log.LogStandard(t.GetMethodName("EformCompletedHandler"), cDto.ToString() + " has been completed");
                                 i++;
                             }
                         }
                     }
                     else
                     {
-                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (false)");
+                        await log.LogEverything(t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (false)");
                         throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                     }
                     #endregion

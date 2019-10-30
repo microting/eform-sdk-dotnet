@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Communication
@@ -30,9 +31,9 @@ namespace Microting.eForm.Communication
     {
         string Post(string xmlData, string siteId);
 
-        string Status(string elementId, string siteId);
+        Task<string> Status(string elementId, string siteId);
 
-        string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);
+        Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);
 
         string Delete(string elementId, string siteId);
 

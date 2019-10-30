@@ -21,22 +21,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         #region Entity
@@ -330,25 +330,25 @@ namespace eFormSDK.Integration.Tests
 
             #region Default Sorting
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #endregion
@@ -356,25 +356,25 @@ namespace eFormSDK.Integration.Tests
             #region Sorting W.O nameFilter
 
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #endregion
@@ -382,25 +382,25 @@ namespace eFormSDK.Integration.Tests
             #region sorting W.O sort param
 
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
 
@@ -993,25 +993,25 @@ namespace eFormSDK.Integration.Tests
 
             #region Default Sorting
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreated = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemoved = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #endregion
@@ -1019,25 +1019,25 @@ namespace eFormSDK.Integration.Tests
             #region Sorting W.O nameFilter
 
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #endregion
@@ -1045,25 +1045,25 @@ namespace eFormSDK.Integration.Tests
             #region sorting W.O sort param
 
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
 
@@ -1079,25 +1079,25 @@ namespace eFormSDK.Integration.Tests
 
             #region Default Sorting
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedB = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedB = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedB = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedB = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedB = sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedB = sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedBWDesc = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBWDesc = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedBWDesc = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBWDesc = sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDesc = sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDesc = sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #endregion
@@ -1105,25 +1105,25 @@ namespace eFormSDK.Integration.Tests
             #region Sorting W.O nameFilter
 
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedBNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedBNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoNameFilter = sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoNameFilter = sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoNameFilter = sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter = sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter = sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #endregion
@@ -1131,25 +1131,25 @@ namespace eFormSDK.Integration.Tests
             #region sorting W.O sort param
 
             #region entityGroup Asc
-            EntityGroupList matchEntityGroupAllSearchCreatedBNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedBNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
             #endregion
 
             #region entityGroup Desc
-            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
 
-            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
 
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoSort = sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
             #endregion
 
 
@@ -1751,8 +1751,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            var matchEntitySearch = sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch);
-            var matchEntitySelect = sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect);
+            var matchEntitySearch = await sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch);
+            var matchEntitySelect = await sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect);
             // Assert
             Assert.AreEqual("eG1", matchEntitySearch.Name);
             Assert.AreEqual("eG2", matchEntitySelect.Name);
@@ -2055,21 +2055,21 @@ namespace eFormSDK.Integration.Tests
             //#region EntitySearch 
 
             //#region Created
-            //var entityGroupSortByIdCreated = sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameCreated = sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameCreated = sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Name, "eG");
+            //var entityGroupSortByIdCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "");
+            //var entityGroupSortByIdNameCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "eG");
+            //var entityGroupSortByNameCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Name, "eG");
             //#endregion
 
             //#region Removed
-            //var entityGroupSortByIdRemoved = sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameRemoved = sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameRemoved = sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Name, "eG");
+            //var entityGroupSortByIdRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "");
+            //var entityGroupSortByIdNameRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "eG");
+            //var entityGroupSortByNameRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Name, "eG");
             //#endregion
 
             //#region Retracted
-            //var entityGroupSortByIdRetracted = sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameRetracted = sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameRetracted = sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Name, "eG");
+            //var entityGroupSortByIdRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "");
+            //var entityGroupSortByIdNameRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "eG");
+            //var entityGroupSortByNameRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Name, "eG");
             //#endregion
 
 
@@ -2078,21 +2078,21 @@ namespace eFormSDK.Integration.Tests
             //#region EntitySelect 
 
             //#region Created
-            //var entityGroupSortByIdSCreated = sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameSCreated = sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameSCreated = sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Name, "eG");
+            //var entityGroupSortByIdSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "");
+            //var entityGroupSortByIdNameSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "eG");
+            //var entityGroupSortByNameSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Name, "eG");
             //#endregion
 
             //#region Removed
-            //var entityGroupSortByIdSRemoved = sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameSRemoved = sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameSRemoved = sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Name, "eG");
+            //var entityGroupSortByIdSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "");
+            //var entityGroupSortByIdNameSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "eG");
+            //var entityGroupSortByNameSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Name, "eG");
             //#endregion
 
             //#region Retracted
-            //var entityGroupSortByIdSRetracted = sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameSRetracted = sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameSRetracted = sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Name, "eG");
+            //var entityGroupSortByIdSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "");
+            //var entityGroupSortByIdNameSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "eG");
+            //var entityGroupSortByNameSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Name, "eG");
             //#endregion
 
 
@@ -2387,15 +2387,15 @@ namespace eFormSDK.Integration.Tests
             //#endregion
             //// Act
             //#region search
-            //var readSearchCreated = sut.EntityGroupRead("microtingUIdC");
-            //var readSearchRemoved = sut.EntityGroupRead("microtingUIdR");
-            //var readSearchRetracted = sut.EntityGroupRead("microtingUIdT");
+            //var readSearchCreated = await sut.EntityGroupRead("microtingUIdC");
+            //var readSearchRemoved = await sut.EntityGroupRead("microtingUIdR");
+            //var readSearchRetracted = await sut.EntityGroupRead("microtingUIdT");
             //#endregion
 
             //#region select
-            //var readSelectCreated = sut.EntityGroupRead("microtingUIdSC");
-            //var readSelectRemoved = sut.EntityGroupRead("microtingUIdSR");
-            //var readSelectRetracted = sut.EntityGroupRead("microtingUIdST");
+            //var readSelectCreated = await sut.EntityGroupRead("microtingUIdSC");
+            //var readSelectRemoved = await sut.EntityGroupRead("microtingUIdSR");
+            //var readSelectRetracted = await sut.EntityGroupRead("microtingUIdST");
             //#endregion
             //// Assert
 
@@ -2682,9 +2682,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var updateEG1 = sut.EntityGroupUpdate(eG1.Id, eG1.MicrotingUid);
-            var updateEG1removed = sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.MicrotingUid);
-            var updateEG1retracted = sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.MicrotingUid);
+            var updateEG1 = await sut.EntityGroupUpdate(eG1.Id, eG1.MicrotingUid);
+            var updateEG1removed = await sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.MicrotingUid);
+            var updateEG1retracted = await sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.MicrotingUid);
 
 
 
@@ -2973,9 +2973,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
             // Act
-            var EG1nameUpdate = sut.EntityGroupUpdateName(eG1.Name, eG1.MicrotingUid);
-            var EG2nameUpdate = sut.EntityGroupUpdateName(eG2.Name, eG2.MicrotingUid);
-            var EG3nameUpdate = sut.EntityGroupUpdateName(eG3.Name, eG3.MicrotingUid);
+            var EG1nameUpdate = await sut.EntityGroupUpdateName(eG1.Name, eG1.MicrotingUid);
+            var EG2nameUpdate = await sut.EntityGroupUpdateName(eG2.Name, eG2.MicrotingUid);
+            var EG3nameUpdate = await sut.EntityGroupUpdateName(eG3.Name, eG3.MicrotingUid);
 
             // Assert
             Assert.True(EG1nameUpdate);
@@ -3273,9 +3273,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
             // Act
-            var EG1Delete = sut.EntityGroupDelete(eG1.MicrotingUid);
-            var EG2Delete = sut.EntityGroupDelete(eG2.MicrotingUid);
-            var EG3Delete = sut.EntityGroupDelete(eG3.MicrotingUid);
+            var EG1Delete = await sut.EntityGroupDelete(eG1.MicrotingUid);
+            var EG2Delete = await sut.EntityGroupDelete(eG2.MicrotingUid);
+            var EG3Delete = await sut.EntityGroupDelete(eG3.MicrotingUid);
             // Assert
             Assert.AreEqual(EG1Delete, Constants.FieldTypes.EntitySearch);
             Assert.AreEqual(EG2Delete, Constants.FieldTypes.EntitySearch);

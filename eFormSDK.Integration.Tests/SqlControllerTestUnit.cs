@@ -21,22 +21,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         #region unit
@@ -318,7 +318,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var getAllUnits = sut.UnitGetAll();
+            var getAllUnits = await sut.UnitGetAll();
 
             // Assert
 
@@ -558,7 +558,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.UnitCreate(5, 654, 88, (int)site1.MicrotingUid);
+            var match = await sut.UnitCreate(5, 654, 88, (int)site1.MicrotingUid);
             // Assert
             var units = DbContext.units.AsNoTracking().ToList();
 
@@ -846,7 +846,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.UnitRead((int)unit1.MicrotingUid);
+            var match = await sut.UnitRead((int)unit1.MicrotingUid);
 
             // Assert
 
@@ -1132,7 +1132,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode, (int)unit1.SiteId);
+            var match = await sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode, (int)unit1.SiteId);
             // Assert
             Assert.True(match);
         }
@@ -1413,7 +1413,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            var match = sut.UnitDelete((int)unit1.MicrotingUid);
+            var match = await sut.UnitDelete((int)unit1.MicrotingUid);
             // Assert
             Assert.True(match);
         }

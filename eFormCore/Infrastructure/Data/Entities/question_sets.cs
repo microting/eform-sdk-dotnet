@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -40,7 +41,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public bool Share { get; set; }
 
 
-        public void Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbAnySql dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             CreatedAt = DateTime.Now;
@@ -54,7 +55,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.SaveChanges();
         }
 
-        public void Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
             question_sets questionSet = dbContext.question_sets.FirstOrDefault(x => x.Id == Id);
 
@@ -79,7 +80,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public void Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
             question_sets questionSet = dbContext.question_sets.FirstOrDefault(x => x.Id == Id);
 

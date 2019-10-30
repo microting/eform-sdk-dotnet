@@ -21,22 +21,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
 
@@ -222,8 +222,8 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var getAllSitesOnlyCreated = sut.SiteGetAll(false).ToList();
-            var getAllSitesInclRemoved = sut.SiteGetAll(true).ToList();
+            var getAllSitesOnlyCreated = sut.SiteGetAll(false).Result.ToList();
+            var getAllSitesInclRemoved = sut.SiteGetAll(true).Result.ToList();
 
 
 
@@ -436,7 +436,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            var match = sut.SimpleSiteGetAll(Constants.WorkflowStates.Created, 0, 1);
+            var match = await sut.SimpleSiteGetAll(Constants.WorkflowStates.Created, 0, 1);
 
 
             // Assert
@@ -465,7 +465,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteCreate(88, "siteName1");
+            var match = await sut.SiteCreate(88, "siteName1");
 
             // Assert
             var sites = DbContext.sites.AsNoTracking().ToList();
@@ -657,7 +657,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteRead((int)site1.MicrotingUid);
+            var match = await sut.SiteRead((int)site1.MicrotingUid);
 
             // Assert
             Assert.AreEqual(site1.MicrotingUid, match.SiteUId);
@@ -854,7 +854,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteReadSimple((int)site1.MicrotingUid);
+            var match = await sut.SiteReadSimple((int)site1.MicrotingUid);
 
             // Assert
             Assert.AreEqual(site1.MicrotingUid, match.SiteId);
@@ -1051,7 +1051,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteUpdate((int)site1.MicrotingUid, site1.Name);
+            var match = await sut.SiteUpdate((int)site1.MicrotingUid, site1.Name);
 
             // Assert
             Assert.True(match);
@@ -1247,7 +1247,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteDelete((int)site1.MicrotingUid);
+            var match = await sut.SiteDelete((int)site1.MicrotingUid);
 
             // Assert
             Assert.True(match);

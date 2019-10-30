@@ -22,22 +22,22 @@ namespace eFormSDK.Integration.Tests
         private TestHelpers testHelpers;
 //        private string path;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         [Test]
@@ -92,12 +92,12 @@ namespace eFormSDK.Integration.Tests
 
             
             //check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1.Id, site1.Id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
-            check_list_sites cls1 = testHelpers.CreateCheckListSite(cl1,cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
+            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl1,cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
 
             //cases case1 = CreateCase
 
             // Act
-            int? matches = sut.CaseReadLastCheckIdByMicrotingUId(cls1.MicrotingUid);
+            int? matches = await sut.CaseReadLastCheckIdByMicrotingUId(cls1.MicrotingUid);
             List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
@@ -138,7 +138,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseUpdateRetreived((int)aCase.MicrotingUid);
-            //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
+            //Case_Dto caseResult = await sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
 
 
@@ -236,7 +236,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseRetract((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            //cases theCase = await sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
@@ -278,7 +278,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseDelete((int)aCase.MicrotingUid);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            //cases theCase = await sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
@@ -319,7 +319,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseDeleteResult(aCase.Id);
-            //cases theCase = sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
+            //cases theCase = await sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
             var match = DbContext.cases.AsNoTracking().ToList();
             var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
@@ -431,7 +431,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFirstId(aCase.CheckListId, Constants.WorkflowStates.NotRemoved);
+            var match = await sut.CaseReadFirstId(aCase.CheckListId, Constants.WorkflowStates.NotRemoved);
             // Assert
             Assert.AreEqual(aCase.Id, match);
         }
@@ -576,10 +576,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            List<Case_Dto> aCase1Custom = sut.CaseFindCustomMatchs(aCase1.Custom);
-            List<Case_Dto> aCase2Custom = sut.CaseFindCustomMatchs(aCase2.Custom);
-            List<Case_Dto> aCase3Custom = sut.CaseFindCustomMatchs(aCase3.Custom);
-            List<Case_Dto> aCase4Custom = sut.CaseFindCustomMatchs(aCase4.Custom);
+            List<Case_Dto> aCase1Custom = await sut.CaseFindCustomMatchs(aCase1.Custom);
+            List<Case_Dto> aCase2Custom = await sut.CaseFindCustomMatchs(aCase2.Custom);
+            List<Case_Dto> aCase3Custom = await sut.CaseFindCustomMatchs(aCase3.Custom);
+            List<Case_Dto> aCase4Custom = await sut.CaseFindCustomMatchs(aCase4.Custom);
             // Assert
             Assert.AreEqual(aCase1.Custom, aCase1Custom[0].Custom);
             Assert.AreEqual(aCase2.Custom, aCase2Custom[0].Custom);
@@ -1121,7 +1121,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByMUId((int)aCase.MicrotingUid);
+            var match = await sut.CaseReadByMUId((int)aCase.MicrotingUid);
 
             // Assert
 
@@ -1233,7 +1233,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByCaseId(aCase.Id);
+            var match = await sut.CaseReadByCaseId(aCase.Id);
 
             // Assert
 
@@ -1343,7 +1343,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.CaseReadByCaseUId(aCase.CaseUid);
+            var match = await sut.CaseReadByCaseUId(aCase.CaseUid);
 
 
             // Assert
@@ -1451,7 +1451,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.CaseReadFull((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+            var match = await sut.CaseReadFull((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
             // Assert
             Assert.AreEqual(aCase.MicrotingUid, match.MicrotingUid);
             Assert.AreEqual(aCase.MicrotingCheckUid, match.MicrotingCheckUid);

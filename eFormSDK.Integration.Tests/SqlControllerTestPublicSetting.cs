@@ -20,22 +20,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
 
@@ -47,7 +47,7 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            var match = sut.SettingCreateDefaults();
+            var match = await sut.SettingCreateDefaults();
             // Assert
 
             Assert.True(match);
@@ -61,23 +61,23 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            var match1 = sut.SettingCreate(Settings.firstRunDone);
-            var match2 = sut.SettingCreate(Settings.logLevel);
-            var match3 = sut.SettingCreate(Settings.logLimit);
-            var match4 = sut.SettingCreate(Settings.knownSitesDone);
-            var match5 = sut.SettingCreate(Settings.fileLocationPicture);
-            var match6 = sut.SettingCreate(Settings.fileLocationPdf);
-            var match7 = sut.SettingCreate(Settings.fileLocationJasper);
-            var match8 = sut.SettingCreate(Settings.token);
-            var match9 = sut.SettingCreate(Settings.comAddressBasic);
-            var match10 = sut.SettingCreate(Settings.comAddressApi);
-            var match11 = sut.SettingCreate(Settings.comAddressPdfUpload);
-            var match12 = sut.SettingCreate(Settings.comOrganizationId);
-            var match13 = sut.SettingCreate(Settings.awsAccessKeyId);
-            var match14 = sut.SettingCreate(Settings.awsSecretAccessKey);
-            var match15 = sut.SettingCreate(Settings.awsEndPoint);
-            var match16 = sut.SettingCreate(Settings.unitLicenseNumber);
-            var match17 = sut.SettingCreate(Settings.httpServerAddress);
+            var match1 = await sut.SettingCreate(Settings.firstRunDone);
+            var match2 = await sut.SettingCreate(Settings.logLevel);
+            var match3 = await sut.SettingCreate(Settings.logLimit);
+            var match4 = await sut.SettingCreate(Settings.knownSitesDone);
+            var match5 = await sut.SettingCreate(Settings.fileLocationPicture);
+            var match6 = await sut.SettingCreate(Settings.fileLocationPdf);
+            var match7 = await sut.SettingCreate(Settings.fileLocationJasper);
+            var match8 = await sut.SettingCreate(Settings.token);
+            var match9 = await sut.SettingCreate(Settings.comAddressBasic);
+            var match10 = await sut.SettingCreate(Settings.comAddressApi);
+            var match11 = await sut.SettingCreate(Settings.comAddressPdfUpload);
+            var match12 = await sut.SettingCreate(Settings.comOrganizationId);
+            var match13 = await sut.SettingCreate(Settings.awsAccessKeyId);
+            var match14 = await sut.SettingCreate(Settings.awsSecretAccessKey);
+            var match15 = await sut.SettingCreate(Settings.awsEndPoint);
+            var match16 = await sut.SettingCreate(Settings.unitLicenseNumber);
+            var match17 = await sut.SettingCreate(Settings.httpServerAddress);
 
             // Assert
             Assert.True(match1);
@@ -108,23 +108,23 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            var match1 = sut.SettingRead(Settings.awsAccessKeyId);
-            var match2 = sut.SettingRead(Settings.awsEndPoint);
-            var match3 = sut.SettingRead(Settings.awsSecretAccessKey);
-            var match4 = sut.SettingRead(Settings.comAddressApi);
-            var match5 = sut.SettingRead(Settings.comAddressBasic);
-            var match6 = sut.SettingRead(Settings.comAddressPdfUpload);
-            var match7 = sut.SettingRead(Settings.comOrganizationId);
-            var match8 = sut.SettingRead(Settings.fileLocationJasper);
-            var match9 = sut.SettingRead(Settings.fileLocationPdf);
-            var match10 = sut.SettingRead(Settings.fileLocationPicture);
-            var match11 = sut.SettingRead(Settings.firstRunDone);
-            var match12 = sut.SettingRead(Settings.httpServerAddress);
-            var match13 = sut.SettingRead(Settings.knownSitesDone);
-            var match14 = sut.SettingRead(Settings.logLevel);
-            var match15 = sut.SettingRead(Settings.logLimit);
-            var match16 = sut.SettingRead(Settings.token);
-            var match17 = sut.SettingRead(Settings.unitLicenseNumber);
+            var match1 = await sut.SettingRead(Settings.awsAccessKeyId);
+            var match2 = await sut.SettingRead(Settings.awsEndPoint);
+            var match3 = await sut.SettingRead(Settings.awsSecretAccessKey);
+            var match4 = await sut.SettingRead(Settings.comAddressApi);
+            var match5 = await sut.SettingRead(Settings.comAddressBasic);
+            var match6 = await sut.SettingRead(Settings.comAddressPdfUpload);
+            var match7 = await sut.SettingRead(Settings.comOrganizationId);
+            var match8 = await sut.SettingRead(Settings.fileLocationJasper);
+            var match9 = await sut.SettingRead(Settings.fileLocationPdf);
+            var match10 = await sut.SettingRead(Settings.fileLocationPicture);
+            var match11 = await sut.SettingRead(Settings.firstRunDone);
+            var match12 = await sut.SettingRead(Settings.httpServerAddress);
+            var match13 = await sut.SettingRead(Settings.knownSitesDone);
+            var match14 = await sut.SettingRead(Settings.logLevel);
+            var match15 = await sut.SettingRead(Settings.logLimit);
+            var match16 = await sut.SettingRead(Settings.token);
+            var match17 = await sut.SettingRead(Settings.unitLicenseNumber);
 
 
             // Assert

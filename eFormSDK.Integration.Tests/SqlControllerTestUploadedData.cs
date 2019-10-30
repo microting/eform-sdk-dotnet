@@ -22,22 +22,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         #region uploaded_data
@@ -71,7 +71,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.uploaded_data.Add(dU);
             DbContext.SaveChanges();
 
-            UploadedData ud = sut.FileRead();
+            UploadedData ud = await sut.FileRead();
 
             // Assert
             Assert.NotNull(ud);
@@ -117,7 +117,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.uploaded_data.Add(dU);
             DbContext.SaveChanges();
 
-            uploaded_data ud = sut.GetUploadedData(dU.Id);
+            uploaded_data ud = await sut.GetUploadedData(dU.Id);
 
             // Assert
             Assert.NotNull(ud);
@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            UploadedData Ud = sut.FileRead();
+            UploadedData Ud = await sut.FileRead();
 
 
             // Assert

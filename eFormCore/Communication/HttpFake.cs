@@ -26,6 +26,7 @@ using System;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure.Constants;
 using Newtonsoft.Json.Linq;
@@ -66,16 +67,16 @@ namespace Microting.eForm.Communication
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + t.GetRandomInt(5) + "</Value></Response>";
         }
 
-        public string Status(string elementId, string siteId)
+        public async Task<string> Status(string elementId, string siteId)
         {
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
 
-        public string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
+        public async Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
             if (microtingUuid == "555")
             {
-                return _testHelperReturnXml.CreateMultiPictureXMLResult(false);
+                return await _testHelperReturnXml.CreateMultiPictureXMLResult(false);
             } else
             {
                 return "failed";

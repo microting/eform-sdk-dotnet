@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 
 namespace Microting.eForm
@@ -50,52 +51,52 @@ namespace Microting.eForm
         }
 
         #region public
-        public void LogEverything(string type, string message)
+        public async Task LogEverything(string type, string message)
         {
-            LogLogic(new LogEntry(4, type, message));
+            await LogLogic(new LogEntry(4, type, message));
         }
 
         #region public void     LogVariable (string type, ... variableName, string variableContent)
-        public void LogVariable(string type, string variableName, string variableContent)
+        public async Task LogVariable(string type, string variableName, string variableContent)
         {
             if (variableContent == null)
                 variableContent = "[null]";
 
-            LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
+            await LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
-        public void LogVariable(string type, string variableName, int? variableContent)
+        public async Task LogVariable(string type, string variableName, int? variableContent)
         {
-            LogVariable(type, variableName, variableContent.ToString());
+            await LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogVariable(string type, string variableName, bool? variableContent)
+        public async Task LogVariable(string type, string variableName, bool? variableContent)
         {
-            LogVariable(type, variableName, variableContent.ToString());
+            await LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public void LogVariable(string type, string variableName, DateTime? variableContent)
+        public async Task LogVariable(string type, string variableName, DateTime? variableContent)
         {
-            LogVariable(type, variableName, variableContent.ToString());
+            await LogVariable(type, variableName, variableContent.ToString());
         }
         #endregion
 
-        public void LogStandard(string type, string message)
+        public async Task LogStandard(string type, string message)
         {
-            LogLogic(new LogEntry(2, type, message));
+            await LogLogic(new LogEntry(2, type, message));
         }
 
-        public void LogCritical(string type, string message)
+        public async Task LogCritical(string type, string message)
         {
-            LogLogic(new LogEntry(1, type, message));
+            await LogLogic(new LogEntry(1, type, message));
         }
 
-        public void LogWarning(string type, string message)
+        public async Task LogWarning(string type, string message)
         {
-            LogLogic(new LogEntry(0, type, message));
+            await LogLogic(new LogEntry(0, type, message));
         }
 
-        public void LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
+        public async Task LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
         {
             try
             {
@@ -103,13 +104,13 @@ namespace Microting.eForm
                 if (fullExceptionDescription.Contains("Message    :Core is not running"))
                     return;
 
-                LogLogic(new LogEntry(-1, type, fullExceptionDescription));
-                LogVariable(type, nameof(restartCore), restartCore);
+                await LogLogic(new LogEntry(-1, type, fullExceptionDescription));
+                await LogVariable(type, nameof(restartCore), restartCore);
 
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
 
-                int sameExceptionCount = CheckExceptionLst(exCls);
+                int sameExceptionCount = await CheckExceptionLst(exCls);
                 int sameExceptionCountMax = 0;
 
                 foreach (var item in exceptionLst)
@@ -117,17 +118,17 @@ namespace Microting.eForm
                         sameExceptionCountMax = item.Occurrence;
 
                 if (restartCore)
-                    core.Restart(sameExceptionCount, sameExceptionCountMax);
+                    await core.Restart(sameExceptionCount, sameExceptionCountMax);
             }
             catch { }
         }
 
-        public void LogFatalException(string exceptionDescription, Exception exception)
+        public async Task LogFatalException(string exceptionDescription, Exception exception)
         {
             try
             {
                 string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
-                LogLogic(new LogEntry(-3, "FatalException", PrintCache(-3, fullExceptionDescription)));
+                await LogLogic(new LogEntry(-3, "FatalException", PrintCache(-3, fullExceptionDescription)));
             }
             catch { }
         }
@@ -150,7 +151,7 @@ namespace Microting.eForm
         #endregion
 
         #region private
-        private int CheckExceptionLst(ExceptionClass exceptionClass)
+        private async Task<int> CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int count = 0;
             #region find count
@@ -183,11 +184,11 @@ namespace Microting.eForm
             #endregion
 
             exceptionClass.Occurrence = count;
-            LogStandard(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
+            await LogStandard(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
             return count;
         }
 
-        private void LogLogic(LogEntry logEntry)
+        private async Task LogLogic(LogEntry logEntry)
         {
             try
             {
@@ -195,7 +196,7 @@ namespace Microting.eForm
 
                 LogCache(logEntry);
                 if (logLevel >= logEntry.Level)
-                    reply = logWriter.WriteLogEntry(logEntry);
+                    reply = await logWriter.WriteLogEntry(logEntry);
 
                 //if prime log writer failed
                 if (reply != "")
@@ -220,7 +221,7 @@ namespace Microting.eForm
 
     public class CoreBase
     {
-        public virtual void Restart(int sameExceptionCount, int sameExceptionCountMax)
+        public virtual Task Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
             throw new Exception("CoreBase." + "Restart" + " method should never actually be called. Core should override");
         }
@@ -228,7 +229,7 @@ namespace Microting.eForm
 
     public class LogWriter
     {
-        public virtual string WriteLogEntry(LogEntry logEntry)
+        public virtual async Task<string> WriteLogEntry(LogEntry logEntry)
         {
             throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }

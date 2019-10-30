@@ -57,17 +57,17 @@ namespace Microting.eForm.Handlers
             {
                 await sqlController.CaseUpdateRetreived(message.MicrotringUUID);
                 
-                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
-                Case_Dto cDto = sqlController.CaseReadByMUId(message.MicrotringUUID);
-                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrieved");
-                core.FireHandleCaseRetrived(cDto);
+                Case_Dto cDto = await sqlController.CaseReadByMUId(message.MicrotringUUID);
+                await log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrieved");
+                await core.FireHandleCaseRetrived(cDto);
             }
             catch (Exception ex)
             {
-                sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
                 Note_Dto noteDto = new Note_Dto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
-                core.FireHandleNotificationNotFound(noteDto);
+                await core.FireHandleNotificationNotFound(noteDto);
             }
         }
 

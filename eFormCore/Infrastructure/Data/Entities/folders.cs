@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -48,7 +49,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<folders> Children { get; set; }
 
-        public void Create(MicrotingDbAnySql _dbContext)
+        public async Task Create(MicrotingDbAnySql _dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -64,7 +65,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
            
         }
 
-        public void Update(MicrotingDbAnySql _dbContext)
+        public async Task Update(MicrotingDbAnySql _dbContext)
         {
             folders folder = _dbContext.folders.FirstOrDefaultAsync(x => x.Id == Id).Result;
 
@@ -87,7 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public void Delete(MicrotingDbAnySql _dbContext)
+        public async Task Delete(MicrotingDbAnySql _dbContext)
         {
             folders folder = _dbContext.folders.SingleOrDefaultAsync(x => x.Id == Id).Result;
 

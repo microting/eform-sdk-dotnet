@@ -27,14 +27,14 @@ namespace eFormSDK.Integration.Tests
         short shortMinValue = Int16.MinValue;
         short shortmaxValue = Int16.MaxValue;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();
@@ -44,14 +44,14 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
-            sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            //await sut.StartLog(new CoreBase());
         }
 
         #region public advanced actions
@@ -71,7 +71,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            bool match = sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5);
+            bool match = await sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5);
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -95,7 +95,7 @@ namespace eFormSDK.Integration.Tests
 
             //#endregion
             //// Act
-            //bool match = sut.Advanced_TemplateDisplayIndexChangeServer(cl1.Id,(int)site.microting_uid, 5);
+            //bool match = await sut.Advanced_TemplateDisplayIndexChangeServer(cl1.Id,(int)site.microting_uid, 5);
             //// Assert
             // Assert.NotNull(match);
             // Assert.True(match);
@@ -270,7 +270,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            bool match = sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.Id, f1.Id, f2.Id, f3.Id, f4.Id, f5.Id, f6.Id, f7.Id, f8.Id, f9.Id, f10.Id);
+            bool match = await sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.Id, f1.Id, f2.Id, f3.Id, f4.Id, f5.Id, f6.Id, f7.Id, f8.Id, f9.Id, f10.Id);
 
             // Assert
             Assert.NotNull(match);
@@ -442,10 +442,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.Advanced_TemplateFieldReadAll(Template1.Id);
-            var match2 = sut.Advanced_TemplateFieldReadAll(Template2.Id);
-            var match3 = sut.Advanced_TemplateFieldReadAll(Template3.Id);
-            var match4 = sut.Advanced_TemplateFieldReadAll(Template4.Id);
+            var match1 = await sut.Advanced_TemplateFieldReadAll(Template1.Id);
+            var match2 = await sut.Advanced_TemplateFieldReadAll(Template2.Id);
+            var match3 = await sut.Advanced_TemplateFieldReadAll(Template3.Id);
+            var match4 = await sut.Advanced_TemplateFieldReadAll(Template4.Id);
 
             // Assert
             #region template1
@@ -948,7 +948,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
+            var match = await sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
 
 
             // Assert
@@ -1195,7 +1195,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match = sut.Advanced_SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
+            var match = await sut.Advanced_SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
             Assert.NotNull(match);
@@ -1234,8 +1234,8 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            //var match = sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
-            var match2 = sut.Advanced_SiteWorkerDelete(1);
+            //var match = await sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
+            var match2 = await sut.Advanced_SiteWorkerDelete(1);
             var result = DbContext.site_workers.AsNoTracking().ToList();
 
 
@@ -1255,7 +1255,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            var match = sut.Advanced_WorkerDelete(worker.MicrotingUid);
+            var match = await sut.Advanced_WorkerDelete(worker.MicrotingUid);
             var result = DbContext.workers.AsNoTracking().ToList();
             var result_versioned = DbContext.worker_versions.AsNoTracking().ToList();
             // Assert
@@ -1503,7 +1503,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            Unit_Dto match = sut.Advanced_UnitRead((int) unit.MicrotingUid);
+            Unit_Dto match = await sut.Advanced_UnitRead((int) unit.MicrotingUid);
 
             // Assert
             Assert.NotNull(match);
@@ -1786,7 +1786,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var getAllUnits = sut.Advanced_UnitReadAll();
+            var getAllUnits = await sut.Advanced_UnitReadAll();
 
             // Assert
 
@@ -1876,7 +1876,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            Field match = sut.Advanced_FieldRead(f1.Id);
+            Field match = await sut.Advanced_FieldRead(f1.Id);
 
             // Assert
 
@@ -2016,7 +2016,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            List<FieldValue> match = sut.Advanced_FieldValueReadList(f1.Id, 5);
+            List<FieldValue> match = await sut.Advanced_FieldValueReadList(f1.Id, 5);
 
             // Assert
 
@@ -2229,7 +2229,7 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            bool match = sut.Advanced_DeleteUploadedData(f2.Id, ud1.Id);
+            bool match = await sut.Advanced_DeleteUploadedData(f2.Id, ud1.Id);
             // Assert
             Assert.True(match);
 

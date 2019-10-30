@@ -24,14 +24,14 @@ namespace eFormSDK.Integration.Tests
         private TestHelpers testHelpers;
         private string path;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();
@@ -41,14 +41,14 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
-            sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //sut.StartLog(new CoreBase());
+            //await sut.StartLog(new CoreBase());
         }
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
@@ -99,8 +99,8 @@ namespace eFormSDK.Integration.Tests
                     </ElementList>
                 </Main>";
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -191,8 +191,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -280,8 +280,8 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -369,9 +369,9 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            mainElement = sut.TemplateUploadData(mainElement);
-            int eFormId = sut.TemplateCreate(mainElement); 
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            mainElement = await sut.TemplateUploadData(mainElement);
+            int eFormId = await sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -486,8 +486,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement); 
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
@@ -607,8 +607,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
 
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement); 
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
@@ -932,9 +932,9 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            mainElement = sut.TemplateUploadData(mainElement);
-            int eFormId = sut.TemplateCreate(mainElement); //TODO
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            mainElement = await sut.TemplateUploadData(mainElement);
+            int eFormId = await sut.TemplateCreate(mainElement); //TODO
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
@@ -1002,7 +1002,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(6, _fields[5].DisplayIndex);
             Assert.AreEqual(0, _fields[5].Mandatory); //false
 
-            List<KeyValuePair> kvp = sut.PairRead(_fields[5].KeyValuePairList);
+            List<KeyValuePair> kvp = await sut.PairRead(_fields[5].KeyValuePairList);
             Assert.AreEqual("1", kvp[0].DisplayOrder);
             Assert.AreEqual("Valgmulighed 1", kvp[0].Value);
             Assert.AreEqual(false, kvp[0].Selected); //false
@@ -1065,7 +1065,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[6].Mandatory); //false
 
 
-            List<KeyValuePair> kvpp1 = sut.PairRead(_fields[6].KeyValuePairList);
+            List<KeyValuePair> kvpp1 = await sut.PairRead(_fields[6].KeyValuePairList);
             Assert.AreEqual("1", kvpp1[0].Key);
             Assert.AreEqual("Valgmulighed 1", kvpp1[0].Value);
             Assert.AreEqual(false, kvpp1[0].Selected); //false
@@ -1269,8 +1269,8 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement); 
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
@@ -1309,7 +1309,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             Assert.AreEqual(0, _fields[0].Mandatory); //false
 
-            List<KeyValuePair> kvp = sut.PairRead(_fields[0].KeyValuePairList);
+            List<KeyValuePair> kvp = await sut.PairRead(_fields[0].KeyValuePairList);
             Assert.AreEqual("1", kvp[0].Key); 
             // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvp[0].Selected); //false
@@ -1336,7 +1336,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, _fields[1].DisplayIndex);
             Assert.AreEqual(0, _fields[1].Mandatory); //false
 
-            List<KeyValuePair> kvpp1 = sut.PairRead(_fields[1].KeyValuePairList);
+            List<KeyValuePair> kvpp1 = await sut.PairRead(_fields[1].KeyValuePairList);
             Assert.AreEqual("1", kvpp1[0].Key);
             // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvpp1[0].Selected); //false
@@ -1442,8 +1442,8 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
 
@@ -1481,7 +1481,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             Assert.AreEqual(0, _fields[0].Mandatory); //false
 
-            List<KeyValuePair> kvp = sut.PairRead(_fields[0].KeyValuePairList);
+            List<KeyValuePair> kvp = await sut.PairRead(_fields[0].KeyValuePairList);
 
             
             Assert.AreEqual("1", kvp[0].Key);
@@ -1579,8 +1579,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement); 
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement); 
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -1673,8 +1673,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -1768,8 +1768,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -1857,8 +1857,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -1941,8 +1941,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -2027,8 +2027,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -2112,8 +2112,8 @@ namespace eFormSDK.Integration.Tests
                 </Main>";
 
             // Act
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert
@@ -2256,8 +2256,8 @@ namespace eFormSDK.Integration.Tests
                   </ElementList>
                 </Main>";
 
-            MainElement mainElement = sut.TemplateFromXml(xmlstring);
-            int eFormId = sut.TemplateCreate(mainElement);
+            MainElement mainElement = await sut.TemplateFromXml(xmlstring);
+            int eFormId = await sut.TemplateCreate(mainElement);
             List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
 
             // Assert

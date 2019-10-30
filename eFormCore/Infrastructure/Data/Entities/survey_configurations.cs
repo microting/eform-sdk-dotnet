@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -40,7 +41,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int TimeOut { get; set; }
 
 
-        public void Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbAnySql dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -54,7 +55,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.SaveChanges();
         }
 
-        public void Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
             survey_configurations surveyConfigurations =
                 dbContext.survey_configurations.FirstOrDefault(x => x.Id == Id);
@@ -81,7 +82,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public void Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
             survey_configurations surveyConfigurations =
                 dbContext.survey_configurations.FirstOrDefault(x => x.Id == Id);

@@ -21,22 +21,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
 
@@ -275,7 +275,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.SiteWorkerCreate(5, (int)site1.MicrotingUid, (int)worker1.MicrotingUid);
+            var match = await sut.SiteWorkerCreate(5, (int)site1.MicrotingUid, (int)worker1.MicrotingUid);
 
             // Assert
             var siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
@@ -525,7 +525,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            Site_Worker_Dto match = sut.SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
+            Site_Worker_Dto match = await sut.SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
 
@@ -776,7 +776,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteWorkerUpdate((int)site_workers.MicrotingUid, site1.Id, worker1.Id);
+            var match = await sut.SiteWorkerUpdate((int)site_workers.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
 
@@ -1024,7 +1024,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
 
-            var match = sut.SiteWorkerDelete((int)site_workers.MicrotingUid);
+            var match = await sut.SiteWorkerDelete((int)site_workers.MicrotingUid);
 
             // Assert
             Assert.True(match);

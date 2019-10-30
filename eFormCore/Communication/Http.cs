@@ -30,6 +30,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Communication
@@ -97,7 +98,7 @@ namespace Microting.eForm.Communication
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to retrieve status of.</param>
-        public string Status(string elementId, string siteId)
+        public async Task<string> Status(string elementId, string siteId)
         {
             try
             {
@@ -117,7 +118,7 @@ namespace Microting.eForm.Communication
         /// </summary>
         /// <param name="microtingUuid">Identifier of the element to retrieve results from.</param>
         /// <param name="microtingCheckUuid">Identifier of the check to begin from.</param>
-        public string Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
+        public async Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
             try
             {

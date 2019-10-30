@@ -23,16 +23,16 @@ namespace eFormSDK.Integration.Tests
         private TestHelpers testHelpers;
 //        private string path;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         #region template
@@ -114,28 +114,28 @@ namespace eFormSDK.Integration.Tests
             List<int> emptyList = new List<int>();
 
             // Default sorting including removed
-            List<Template_Dto> templateListId = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, "", emptyList);
-            List<Template_Dto> templateListLabel = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescription = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListCreatedAt = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
+            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, "", emptyList);
+            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList);
+            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
+            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
 
             // Descending including removed
-            List<Template_Dto> templateListDescengingId = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList);
-            List<Template_Dto> templateListDescengingLabel = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescengingDescription = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListDescengingCreatedAt = sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
+            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList);
+            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList);
+            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
+            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
 
             // Default sorting excluding removed
-            List<Template_Dto> templateListIdNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList);
-            List<Template_Dto> templateListLabelNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescriptionNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListCreatedAtNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
+            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList);
+            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList);
+            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
+            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
 
             // Descending excluding removed
-            List<Template_Dto> templateListDescengingIdNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList);
-            List<Template_Dto> templateListDescengingLabelNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescengingDescriptionNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListDescengingCreatedAtNr = sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
+            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList);
+            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList);
+            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
+            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
 
 
             // Assert
@@ -363,7 +363,7 @@ namespace eFormSDK.Integration.Tests
 
             sut.TemplateDelete(cl1.Id);
 
-            Template_Dto clResult = sut.TemplateItemRead(cl1.Id);
+            Template_Dto clResult = await sut.TemplateItemRead(cl1.Id);
 
             // Assert
 
@@ -398,7 +398,7 @@ namespace eFormSDK.Integration.Tests
                 "MessageBody", false, CElement.ElementList, "");
 
             // Act
-            int templateId = sut.TemplateCreate(main);
+            int templateId = await sut.TemplateCreate(main);
 
             check_lists cl1 = DbContext.check_lists.AsNoTracking().First();
             // Assert
@@ -590,15 +590,15 @@ namespace eFormSDK.Integration.Tests
 
             #region Tag
 
-            tags tag = testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
+            tags tag = await testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
 
             #endregion
             // Act
 
-            var match1 = sut.TemplateItemRead(Template1.Id);
-            var match2 = sut.TemplateItemRead(Template2.Id);
-            var match3 = sut.TemplateItemRead(Template3.Id);
-            var match4 = sut.TemplateItemRead(Template4.Id);
+            var match1 = await sut.TemplateItemRead(Template1.Id);
+            var match2 = await sut.TemplateItemRead(Template2.Id);
+            var match3 = await sut.TemplateItemRead(Template3.Id);
+            var match4 = await sut.TemplateItemRead(Template4.Id);
 
 
             // Assert
@@ -813,10 +813,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.TemplateFieldReadAll(Template1.Id);
-            var match2 = sut.TemplateFieldReadAll(Template2.Id);
-            var match3 = sut.TemplateFieldReadAll(Template3.Id);
-            var match4 = sut.TemplateFieldReadAll(Template4.Id);
+            var match1 = await sut.TemplateFieldReadAll(Template1.Id);
+            var match2 = await sut.TemplateFieldReadAll(Template2.Id);
+            var match3 = await sut.TemplateFieldReadAll(Template3.Id);
+            var match4 = await sut.TemplateFieldReadAll(Template4.Id);
 
             // Assert
             #region template1
@@ -923,10 +923,10 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            var match1 = sut.TemplateDisplayIndexChange(Template1.Id, 5);
-            var match2 = sut.TemplateDisplayIndexChange(Template2.Id, 1);
-            var match3 = sut.TemplateDisplayIndexChange(Template3.Id, 2);
-            var match4 = sut.TemplateDisplayIndexChange(Template4.Id, 3);
+            var match1 = await sut.TemplateDisplayIndexChange(Template1.Id, 5);
+            var match2 = await sut.TemplateDisplayIndexChange(Template2.Id, 1);
+            var match3 = await sut.TemplateDisplayIndexChange(Template3.Id, 2);
+            var match4 = await sut.TemplateDisplayIndexChange(Template4.Id, 3);
             // Assert
             Assert.NotNull(match1);
             Assert.NotNull(match2);
@@ -1107,27 +1107,27 @@ namespace eFormSDK.Integration.Tests
             #region Tags
 
             #region Tag1
-            tags tag1 = testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
+            tags tag1 = await testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
             #endregion
 
             #region Tag2
-            tags tag2 = testHelpers.CreateTag("Tag2", Constants.WorkflowStates.Created, 1);
+            tags tag2 = await testHelpers.CreateTag("Tag2", Constants.WorkflowStates.Created, 1);
             #endregion
 
             #region Tag3
-            tags tag3 = testHelpers.CreateTag("Tag3", Constants.WorkflowStates.Created, 1);
+            tags tag3 = await testHelpers.CreateTag("Tag3", Constants.WorkflowStates.Created, 1);
             #endregion
 
             #region Tag4
-            tags tag4 = testHelpers.CreateTag("Tag4", Constants.WorkflowStates.Created, 1);
+            tags tag4 = await testHelpers.CreateTag("Tag4", Constants.WorkflowStates.Created, 1);
             #endregion
 
             #region Tag5
-            tags tag5 = testHelpers.CreateTag("Tag5", Constants.WorkflowStates.Created, 1);
+            tags tag5 = await testHelpers.CreateTag("Tag5", Constants.WorkflowStates.Created, 1);
             #endregion
 
             #region Tag6
-            tags tag6 = testHelpers.CreateTag("Tag6", Constants.WorkflowStates.Created, 1);
+            tags tag6 = await testHelpers.CreateTag("Tag6", Constants.WorkflowStates.Created, 1);
             #endregion
 
 
@@ -1141,10 +1141,10 @@ namespace eFormSDK.Integration.Tests
             taglist.Add(tag5.Id);
             taglist.Add(tag6.Id);
 
-            var match1 = sut.TemplateSetTags(Template1.Id, taglist);
-            var match2 = sut.TemplateSetTags(Template2.Id, taglist);
-            var match3 = sut.TemplateSetTags(Template3.Id, taglist);
-            var match4 = sut.TemplateSetTags(Template4.Id, taglist);
+            var match1 = await sut.TemplateSetTags(Template1.Id, taglist);
+            var match2 = await sut.TemplateSetTags(Template2.Id, taglist);
+            var match3 = await sut.TemplateSetTags(Template3.Id, taglist);
+            var match4 = await sut.TemplateSetTags(Template4.Id, taglist);
 
             // Assert
 
@@ -1326,10 +1326,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match1 = sut.TemplateUpdateFieldIdsForColumns(Template1.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
-            var match2 = sut.TemplateUpdateFieldIdsForColumns(Template2.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
-            var match3 = sut.TemplateUpdateFieldIdsForColumns(Template3.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
-            var match4 = sut.TemplateUpdateFieldIdsForColumns(Template4.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match1 = await sut.TemplateUpdateFieldIdsForColumns(Template1.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match2 = await sut.TemplateUpdateFieldIdsForColumns(Template2.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match3 = await sut.TemplateUpdateFieldIdsForColumns(Template3.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match4 = await sut.TemplateUpdateFieldIdsForColumns(Template4.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
 
             // Assert
             Assert.NotNull(match1);

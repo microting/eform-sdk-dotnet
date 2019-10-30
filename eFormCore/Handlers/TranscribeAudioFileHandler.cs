@@ -52,7 +52,7 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                core.TranscribeUploadedData(message.uploadedDataId);
+                await core.TranscribeUploadedData(message.uploadedDataId);
             }
             catch 
             {

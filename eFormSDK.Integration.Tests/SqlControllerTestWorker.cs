@@ -21,22 +21,22 @@ namespace eFormSDK.Integration.Tests
         private SqlController sut;
         private TestHelpers testHelpers;
 
-        public override void DoSetup()
+        public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
             SqlController sql = new SqlController(ConnectionString);
-            sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            sql.SettingUpdate(Settings.firstRunDone, "true");
-            sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new SqlController(ConnectionString);
-            sut.StartLog(new CoreBase());
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
 
@@ -278,8 +278,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var getAllCreatedWorkers = sut.WorkerGetAll(Constants.WorkflowStates.Created, 0, 1);
-            var getAllRemovedWorkers = sut.WorkerGetAll(Constants.WorkflowStates.Removed, 0, 1);
+            var getAllCreatedWorkers = await sut.WorkerGetAll(Constants.WorkflowStates.Created, 0, 1);
+            var getAllRemovedWorkers = await sut.WorkerGetAll(Constants.WorkflowStates.Removed, 0, 1);
 
 
             // Assert
@@ -316,7 +316,7 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            var match = sut.WorkerCreate(55, "Arne", "Jensen", "aa@tak.dk");
+            var match = await sut.WorkerCreate(55, "Arne", "Jensen", "aa@tak.dk");
             // Assert
 
             var workers = DbContext.workers.AsNoTracking().ToList();
@@ -561,7 +561,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.WorkerNameRead((int)worker1.Id);
+            var match = await sut.WorkerNameRead((int)worker1.Id);
 
             // Assert
 
@@ -805,7 +805,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.WorkerRead((int)worker1.MicrotingUid);
+            var match = await sut.WorkerRead((int)worker1.MicrotingUid);
 
             // Assert
 
@@ -1051,7 +1051,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.WorkerUpdate(worker1.MicrotingUid, worker1.FirstName, worker1.LastName, worker1.Email);
+            var match = await sut.WorkerUpdate(worker1.MicrotingUid, worker1.FirstName, worker1.LastName, worker1.Email);
 
 
             // Assert
@@ -1294,7 +1294,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            var match = sut.WorkerDelete((int)worker1.MicrotingUid);
+            var match = await sut.WorkerDelete((int)worker1.MicrotingUid);
 
             // Assert
 

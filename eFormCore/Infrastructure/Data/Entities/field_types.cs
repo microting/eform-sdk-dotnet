@@ -42,13 +42,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [StringLength(255)]
         public string Description { get; set; }
         
-        public void Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbAnySql dbContext)
         {
             dbContext.field_types.Add(this);
             dbContext.SaveChanges();
         }
 
-        public void Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
             field_types fieldTypes = dbContext.field_types.FirstOrDefault(x => x.Id == Id);
 
@@ -64,7 +64,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public void Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
             field_types fieldTypes = dbContext.field_types.FirstOrDefault(x => x.Id == Id);
 
