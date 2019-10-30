@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -36,7 +37,7 @@ namespace eFormSDK.Integration.Tests
 
         #region template
         [Test]
-        public void SQL_Template_TemplateItemReadAll_DoesSortAccordingly()
+        public async Task SQL_Template_TemplateItemReadAll_DoesSortAccordingly()
         {
 
             // Arrance
@@ -339,7 +340,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_TemplateDelete_DoesMarkTemplateAsRemoved()
+        public async Task SQL_Template_TemplateDelete_DoesMarkTemplateAsRemoved()
         {
             // Arrance
             #region Template1
@@ -375,7 +376,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
+        public async Task SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
         {
             // Arrance
 
@@ -385,7 +386,7 @@ namespace eFormSDK.Integration.Tests
             Assert.True(true);
         }
         [Test] //might need aditional testing
-        public void SQL_Template_TemplateCreate_CreatesTemplate()
+        public async Task SQL_Template_TemplateCreate_CreatesTemplate()
         {
             // Arrance
             CoreElement CElement = new CoreElement();
@@ -423,7 +424,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_TemplateItemRead_ReadsItems()
+        public async Task SQL_Template_TemplateItemRead_ReadsItems()
         {
             // Arrance
             #region Templates
@@ -647,7 +648,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_TemplateFieldReadAll_ReturnsFieldList()
+        public async Task SQL_Template_TemplateFieldReadAll_ReturnsFieldList()
         {
             // Arrance
             #region Templates
@@ -883,7 +884,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_TemplateDisplayIndexChange_ChangesDisplayIndex()
+        public async Task SQL_Template_TemplateDisplayIndexChange_ChangesDisplayIndex()
         {
             // Arrance
             #region Templates
@@ -939,7 +940,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_TemplateSetTags_SetsTag()
+        public async Task SQL_Template_TemplateSetTags_SetsTag()
         {
             // Arrance
             #region Templates
@@ -1160,7 +1161,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Template_TemplateUpdateFieldIdsForColumns_UpdatesIds()
+        public async Task SQL_Template_TemplateUpdateFieldIdsForColumns_UpdatesIds()
         {
             // Arrance
             #region Templates
@@ -1346,32 +1347,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

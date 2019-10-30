@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -48,7 +49,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Case_CaseReadAll_Medium()
+        public async Task Core_Case_CaseReadAll_Medium()
         {
 
 

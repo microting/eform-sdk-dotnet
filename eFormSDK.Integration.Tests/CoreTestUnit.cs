@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -49,7 +50,7 @@ namespace eFormSDK.Integration.Tests
 
         #region unit
         [Test]
-        public void Core_Advanced_UnitRequestOtp_SetsNewOtp()
+        public async Task Core_Advanced_UnitRequestOtp_SetsNewOtp()
         {
             // Arrange
             sites site = testHelpers.CreateSite("test site 1", 1313);

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -51,7 +52,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
-        public void Core_eForm_SimpleCommenteFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimpleCommenteFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -147,7 +148,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePictureFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimplePictureFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -231,7 +232,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleDateFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimpleDateFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -324,7 +325,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePdfFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimplePdfFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -411,7 +412,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleFieldGroupsFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimpleFieldGroupsFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -555,7 +556,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimplePictureAndSignatureFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimplePictureAndSignatureFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -655,7 +656,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_OptionsWithMicrotingFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_OptionsWithMicrotingFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -1180,7 +1181,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_SimpleMultiSelectFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_SimpleMultiSelectFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -1349,7 +1350,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleSingleSelectFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleSingleSelectFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1530,7 +1531,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Comment
-        public void Core_eFormSimpleTextMultiLineFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleTextMultiLineFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1624,7 +1625,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Text
-        public void Core_eFormSimpleTextSingleLineFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleTextSingleLineFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1719,7 +1720,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleNumberFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleNumberFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1814,7 +1815,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleInfoboxFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleInfoboxFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1896,7 +1897,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleCheckBoxFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleCheckBoxFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -1982,7 +1983,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleTimerFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleTimerFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -2068,7 +2069,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eFormSimpleSaveButtonFormCreateInDB_ReturnseFormId()
+        public async Task Core_eFormSimpleSaveButtonFormCreateInDB_ReturnseFormId()
         {
 
             string xmlstring = @"
@@ -2152,7 +2153,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_eForm_MultiLvleFormCreateInDB_ReturnseFormId()
+        public async Task Core_eForm_MultiLvleFormCreateInDB_ReturnseFormId()
         {
             // Arrange
             string xmlstring = @"
@@ -2346,32 +2347,32 @@ namespace eFormSDK.Integration.Tests
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {
-            // Does nothing for web implementation
+          // Does nothing for web implementation
         }
 
         public void EventCaseRetrived(object sender, EventArgs args)
         {
-            // Does nothing for web implementation
+          // Does nothing for web implementation
         }
 
         public void EventCaseCompleted(object sender, EventArgs args)
         {
-            // Does nothing for web implementation
+          // Does nothing for web implementation
         }
 
         public void EventCaseDeleted(object sender, EventArgs args)
         {
-            // Does nothing for web implementation
+          // Does nothing for web implementation
         }
 
         public void EventFileDownloaded(object sender, EventArgs args)
         {
-            // Does nothing for web implementation
+          // Does nothing for web implementation
         }
 
         public void EventSiteActivated(object sender, EventArgs args)
         {
-            // Does nothing for web implementation
+          // Does nothing for web implementation
         }
         #endregion
     }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -50,7 +51,7 @@ namespace eFormSDK.Integration.Tests
 
         #region site
         [Test]
-        public void Core_Site_SiteCreate_ReturnsSiteId()
+        public async Task Core_Site_SiteCreate_ReturnsSiteId()
         {
             // Arrance
 
@@ -69,7 +70,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]//Using communicator, needs httpMock
-        public void Core_Site_SiteCreate_ReturnSiteId()
+        public async Task Core_Site_SiteCreate_ReturnSiteId()
         {
             //// Arrange
 
@@ -87,7 +88,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Site_SiteRead_ReturnsFullSite()
+        public async Task Core_Site_SiteRead_ReturnsFullSite()
         {
             // Arrange
 //            #region Template1
@@ -287,7 +288,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Site_SiteReadAll_ReturnsSites()
+        public async Task Core_Site_SiteReadAll_ReturnsSites()
         {
 
             // Arrange
@@ -489,7 +490,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]//Using Communicatorn needs httpMock
-        public void Core_Site_SiteReset_ReturnsSite()
+        public async Task Core_Site_SiteReset_ReturnsSite()
         {
 
             // Arrange
@@ -503,7 +504,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]//Using Communicatorn needs httpMock
-        public void Core_Site_SiteUpdate_returnsTrue()
+        public async Task Core_Site_SiteUpdate_returnsTrue()
         {
             // Arrange
             // Arrange
@@ -541,7 +542,7 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match);
         }
         [Test]//Using Communicatorn needs httpMock
-        public void Core_Site_SiteDelete_ReturnsTrue()
+        public async Task Core_Site_SiteDelete_ReturnsTrue()
         {
             // Arrange
             #region site

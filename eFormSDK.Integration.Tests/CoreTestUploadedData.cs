@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -50,7 +51,7 @@ namespace eFormSDK.Integration.Tests
 
         #region uploaded_datas
         [Test]
-        public void Core_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
+        public async Task Core_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
         {
             // Arrance
             string checksum = "";

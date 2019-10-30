@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -51,7 +52,7 @@ namespace eFormSDK.Integration.Tests
         #region template
         
         [Test]
-        public void Core_Template_TemplateItemReadAll_DoesReturnSortedTemplates()
+        public async Task Core_Template_TemplateItemReadAll_DoesReturnSortedTemplates()
         {
             // Arrance
             #region Tags
@@ -520,7 +521,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Template_TemplateValidation_ReturnsErrorLst()
+        public async Task Core_Template_TemplateValidation_ReturnsErrorLst()
         {
             // Arrange
             CoreElement CElement = new CoreElement();
@@ -538,7 +539,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(match.Count(), 0);
         }
         [Test]
-        public void Core_Template_TemplateUploadData_ReturnsmainElement()
+        public async Task Core_Template_TemplateUploadData_ReturnsmainElement()
         {
             // Arrange
             CoreElement CElement = new CoreElement();
@@ -577,7 +578,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
         }
         [Test]
-        public void Core_Template_TemplateCreate_CreatesTemplate()
+        public async Task Core_Template_TemplateCreate_CreatesTemplate()
         {
 
             // Arrange
@@ -598,7 +599,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Template_TemplateRead_ReturnsTemplate()
+        public async Task Core_Template_TemplateRead_ReturnsTemplate()
         {
             // Arrange
             #region Tempalte
@@ -626,7 +627,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Template_TemplateDelete_SetsWorkflowStateToRemoved()
+        public async Task Core_Template_TemplateDelete_SetsWorkflowStateToRemoved()
         {
             // Arrange
             #region Tempalte1
@@ -674,7 +675,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Template_TemplateItemRead_ReadsTemplateItems()
+        public async Task Core_Template_TemplateItemRead_ReadsTemplateItems()
         {
             // Arrance
             #region Templates

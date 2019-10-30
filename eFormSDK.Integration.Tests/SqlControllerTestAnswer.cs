@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -41,7 +42,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_answers_Create_DoesCreate_UTCAdjustedTrue()
+        public async Task SQL_answers_Create_DoesCreate_UTCAdjustedTrue()
         {
             // Arrange
             Random rnd = new Random();
@@ -100,7 +101,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void SQL_answers_Create_DoesCreate_UTCAdjustedFalse()
+        public async Task SQL_answers_Create_DoesCreate_UTCAdjustedFalse()
         {
             // Arrange
             Random rnd = new Random();
@@ -159,7 +160,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void SQL_answers_Update_DoesUpdate_UTCAdjustedTrue()
+        public async Task SQL_answers_Update_DoesUpdate_UTCAdjustedTrue()
         {
             // Arrange
             Random rnd = new Random();
@@ -256,7 +257,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void SQL_answers_Update_DoesUpdate_UTCAdjustedFalse()
+        public async Task SQL_answers_Update_DoesUpdate_UTCAdjustedFalse()
         {
             // Arrange
             Random rnd = new Random();
@@ -352,7 +353,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void SQL_answers_Delete_DoesDelete_UTCAdjustedTrue()
+        public async Task SQL_answers_Delete_DoesDelete_UTCAdjustedTrue()
         {
             // Arrange
             Random rnd = new Random();
@@ -414,7 +415,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void SQL_answers_Delete_DoesDelete_UTCAdjustedFalse()
+        public async Task SQL_answers_Delete_DoesDelete_UTCAdjustedFalse()
         {
             // Arrange
             Random rnd = new Random();

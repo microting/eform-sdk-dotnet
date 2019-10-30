@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -51,7 +52,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
-        public void Core_eForm_LargeeFormFromXML_ReturnseMainElement()
+        public async Task Core_eForm_LargeeFormFromXML_ReturnseMainElement()
         {
             // Arrange
             #region Arrance
@@ -13912,35 +13913,35 @@ namespace eFormSDK.Integration.Tests
             #endregion
         }
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-        #endregion
+                public void EventCaseCreated(object sender, EventArgs args)
+                {
+                    // Does nothing for web implementation
+                }
+        
+                public void EventCaseRetrived(object sender, EventArgs args)
+                {
+                    // Does nothing for web implementation
+                }
+        
+                public void EventCaseCompleted(object sender, EventArgs args)
+                {
+                    // Does nothing for web implementation
+                }
+        
+                public void EventCaseDeleted(object sender, EventArgs args)
+                {
+                    // Does nothing for web implementation
+                }
+        
+                public void EventFileDownloaded(object sender, EventArgs args)
+                {
+                    // Does nothing for web implementation
+                }
+        
+                public void EventSiteActivated(object sender, EventArgs args)
+                {
+                    // Does nothing for web implementation
+                }
+                #endregion
     }
 }

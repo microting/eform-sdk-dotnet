@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -41,7 +42,7 @@ namespace eFormSDK.Integration.Tests
         #region unit
 
         [Test]
-        public void SQL_Unit_UnitGetAll_ReturnsAllUnits()
+        public async Task SQL_Unit_UnitGetAll_ReturnsAllUnits()
         {
 
             // Arrance
@@ -336,7 +337,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Unit_UnitCreate_CreatesUnit()
+        public async Task SQL_Unit_UnitCreate_CreatesUnit()
         {
 
             // Arrance
@@ -569,7 +570,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Unit_UnitRead_ReadsUnit()
+        public async Task SQL_Unit_UnitRead_ReadsUnit()
         {
 
             // Arrance
@@ -856,7 +857,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Unit_UnitUpdate_UpdatesUnit()
+        public async Task SQL_Unit_UnitUpdate_UpdatesUnit()
         {
 
             // Arrance
@@ -1137,7 +1138,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Unit_UnitDelete_DeletesUnit()
+        public async Task SQL_Unit_UnitDelete_DeletesUnit()
         {  // Arrance
             #region Arrance
 
@@ -1420,32 +1421,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -51,13 +52,13 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
+        public async Task Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
         {
             // Arrange
             string microtingUuid = testHelperReturnXml.CreateMultiPictureXMLResult(true);
             
             // Act
-            sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid));
+            await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid));
 
             // Assert
             List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();

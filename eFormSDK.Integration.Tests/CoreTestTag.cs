@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -50,7 +51,7 @@ namespace eFormSDK.Integration.Tests
 
         #region tag
         [Test]
-        public void Core_Tags_CreateTag_DoesCreateNewTag()
+        public async Task Core_Tags_CreateTag_DoesCreateNewTag()
         {
             // Arrance
             string tagName = "Tag1";
@@ -66,7 +67,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Tags_DeleteTag_DoesMarkTagAsRemoved()
+        public async Task Core_Tags_DeleteTag_DoesMarkTagAsRemoved()
         {
             // Arrance
             string tagName = "Tag1";
@@ -89,7 +90,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Tags_CreateTag_DoesRecreateRemovedTag()
+        public async Task Core_Tags_CreateTag_DoesRecreateRemovedTag()
         {
             // Arrance
             string tagName = "Tag1";
@@ -112,7 +113,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Tags_GetAllTags_DoesReturnAllTags()
+        public async Task Core_Tags_GetAllTags_DoesReturnAllTags()
         {
             // Arrance
             string tagName1 = "Tag1";
@@ -156,7 +157,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Tags_TemplateSetTags_DoesAssignTagToTemplate()
+        public async Task Core_Tags_TemplateSetTags_DoesAssignTagToTemplate()
         {
             // Arrance
             check_lists cl1 = new check_lists();
@@ -198,7 +199,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void Core_Tags_TemplateSetTags_DoesAssignTagToTemplateWithoutDuplicates()
+        public async Task Core_Tags_TemplateSetTags_DoesAssignTagToTemplateWithoutDuplicates()
         {
             // Arrance
             check_lists cl1 = new check_lists();

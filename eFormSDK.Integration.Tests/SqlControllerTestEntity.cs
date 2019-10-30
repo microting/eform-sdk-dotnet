@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -42,7 +43,7 @@ namespace eFormSDK.Integration.Tests
         #region Entity Group
 
         [Test]
-        public void SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroups()
+        public async Task SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroups()
         {
 
             // Arrance
@@ -705,7 +706,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroupsPaged()
+        public async Task SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroupsPaged()
         {
 
             // Arrance
@@ -1744,7 +1745,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_EntityGroup_EntityGroupCreate_CreatesNewEntityGroup()
+        public async Task SQL_EntityGroup_EntityGroupCreate_CreatesNewEntityGroup()
         {
 
             // Arrance
@@ -1762,7 +1763,7 @@ namespace eFormSDK.Integration.Tests
 
         //TODO René needs to make migration
         [Test]
-        public void SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
+        public async Task SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
         {
 
             //// Arrance
@@ -2110,7 +2111,7 @@ namespace eFormSDK.Integration.Tests
 
         //TODO René needs to make migration
         [Test]
-        public void SQL_EntityGroup_EntityGroupRead_ReadsEntityGroup()
+        public async Task SQL_EntityGroup_EntityGroupRead_ReadsEntityGroup()
         {
 
             //// Arrance
@@ -2405,7 +2406,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
+        public async Task SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
         {
 
             // Arrance
@@ -2697,7 +2698,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_EntityGroup_EntityGroupUpdateName_UpdatesEnityGroupName()
+        public async Task SQL_EntityGroup_EntityGroupUpdateName_UpdatesEnityGroupName()
         {
 
             // Arrance
@@ -2984,7 +2985,7 @@ namespace eFormSDK.Integration.Tests
 
         //TODO René needs to make migration
         [Test]
-        public void SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntotyGroupItems()
+        public async Task SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntotyGroupItems()
         {
 
             // Arrance
@@ -2997,7 +2998,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
+        public async Task SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
         {
 
             // Arrance
@@ -3282,7 +3283,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_EntitySearchItemCreate_CreatesEntitySearchItem()
+        public async Task SQL_EntitySearchItemCreate_CreatesEntitySearchItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
@@ -3304,7 +3305,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_EntitySearchItemDelete_DeletesEntitySearchItem()
+        public async Task SQL_EntitySearchItemDelete_DeletesEntitySearchItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
@@ -3321,7 +3322,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_EntitySelectItemCreate_CreatesEntitySelectItem()
+        public async Task SQL_EntitySelectItemCreate_CreatesEntitySelectItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
@@ -3343,7 +3344,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_EntitySelectItemDelete_DeletesEntitySelectItem()
+        public async Task SQL_EntitySelectItemDelete_DeletesEntitySelectItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
@@ -3367,32 +3368,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

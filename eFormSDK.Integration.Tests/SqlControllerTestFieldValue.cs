@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -40,7 +41,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Check_FieldValueRead_ReturnsAnswer()
+        public async Task SQL_Check_FieldValueRead_ReturnsAnswer()
         {
             // Arrance
             #region Arrance
@@ -195,7 +196,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void SQL_Check_FieldValueReadWithUploadedData_ReturnsAnswer()
+        public async Task SQL_Check_FieldValueReadWithUploadedData_ReturnsAnswer()
         {
             // Arrance
             #region Arrance
@@ -360,7 +361,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
         }
 //        [Test]
-//        public void SQL_Check_FieldValueRead_ReturnsTrue()
+//        public async Task SQL_Check_FieldValueRead_ReturnsTrue()
 //        {
 //            // Arrance
 //
@@ -502,7 +503,7 @@ namespace eFormSDK.Integration.Tests
 //
 //        }
         [Test]
-        public void SQL_Check_FieldValueReadList_ReturnsList()
+        public async Task SQL_Check_FieldValueReadList_ReturnsList()
         {
             // Arrance
             #region Arrance
@@ -643,7 +644,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void SQL_Check_FieldValueUpdate_UpdatesFieldValue()
+        public async Task SQL_Check_FieldValueUpdate_UpdatesFieldValue()
         {
             // Arrance
 
@@ -790,7 +791,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void SQL_Check_FieldValueReadAllValues_ReturnsReturnList()
+        public async Task SQL_Check_FieldValueReadAllValues_ReturnsReturnList()
         {
             // Arrance
 
@@ -971,7 +972,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void SQL_Check_ChecksRead_ReturnsListOfFieldValues()
+        public async Task SQL_Check_ChecksRead_ReturnsListOfFieldValues()
         {
             // Arrance
             #region Arrance
@@ -1122,32 +1123,32 @@ namespace eFormSDK.Integration.Tests
 
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

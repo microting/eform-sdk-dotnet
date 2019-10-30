@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -44,6 +45,7 @@ namespace eFormSDK.Integration.Tests
             testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
         }
+        
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {

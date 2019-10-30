@@ -78,7 +78,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseReadLastCheckIdByMicrotingUId_DoesCaseReadLastIDByMicrotiingUID()
+        public async Task SQL_Case_CaseReadLastCheckIdByMicrotingUId_DoesCaseReadLastIDByMicrotiingUID()
         {
             Random rnd = new Random(); 
             sites site1 = testHelpers.CreateSite("mySite2", 331);
@@ -109,7 +109,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
+        public async Task SQL_Case_CaseUpdateRetrived_DoesCaseGetUpdated()
         {
 
             // Arrance
@@ -137,7 +137,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseUpdateRetreived((int)aCase.MicrotingUid);
+            await sut.CaseUpdateRetreived((int)aCase.MicrotingUid);
             //Case_Dto caseResult = sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
 
@@ -332,7 +332,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_PostCase_CaseReadFirstId()
+        public async Task SQL_PostCase_CaseReadFirstId()
         {
             // Arrance
             Random rnd = new Random();
@@ -437,7 +437,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_PostCase_CaseFindCustomMatchs()
+        public async Task SQL_PostCase_CaseFindCustomMatchs()
         {
 
 
@@ -958,7 +958,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_PostCase_CaseReadByMUId_Returns_ReturnCase()
+        public async Task SQL_PostCase_CaseReadByMUId_Returns_ReturnCase()
         {
             // Arrance
             #region Arrance
@@ -1131,7 +1131,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_PostCase_CaseReadByCaseId_Returns_cDto()
+        public async Task SQL_PostCase_CaseReadByCaseId_Returns_cDto()
         {
             // Arrance
             #region Arrance
@@ -1241,7 +1241,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Postcase_CaseReadByCaseUId_Returns_lstDto()
+        public async Task SQL_Postcase_CaseReadByCaseUId_Returns_lstDto()
         {
             // Arrance
             #region Arrance
@@ -1352,7 +1352,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_PostCase_CaseReadFull()
+        public async Task SQL_PostCase_CaseReadFull()
         {
             // Arrance
             #region Arrance
@@ -1458,32 +1458,32 @@ namespace eFormSDK.Integration.Tests
         }
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

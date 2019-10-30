@@ -59,7 +59,7 @@ namespace eFormSDK.Integration.Tests
         #region Template
 
         [Test]
-        public void Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeDb_ChangesDisplayIndex()
+        public async Task Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeDb_ChangesDisplayIndex()
         {
 
             // Arrange
@@ -78,7 +78,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]//skal bruge mock
-        public void Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeServer_ChangesDisplayIndex()
+        public async Task Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeServer_ChangesDisplayIndex()
         {
 
             //// Arrange
@@ -102,7 +102,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_AdvancedTemplate_Advanced_TemplateUpdateFieldIdsForColumns_ChangesIdsForColumns()
+        public async Task Core_AdvancedTemplate_Advanced_TemplateUpdateFieldIdsForColumns_ChangesIdsForColumns()
         {
             // Arrange
             #region Template1
@@ -278,7 +278,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_AdvancedTemplate_Advanced_TemplateFieldReadAll_returnslistofids()
+        public async Task Core_AdvancedTemplate_Advanced_TemplateFieldReadAll_returnslistofids()
         {
             #region Templates
 
@@ -514,7 +514,7 @@ namespace eFormSDK.Integration.Tests
 
         }
 //        [Test]
-//        public void Core_AdvancedTemplate_Advanced_ConsistencyCheckTemplates()
+//        public async Task Core_AdvancedTemplate_Advanced_ConsistencyCheckTemplates()
 //        {
 //            // Arrange
 //
@@ -925,7 +925,7 @@ namespace eFormSDK.Integration.Tests
         #region site_workers
 
         [Test]//mangler mock
-        public void Core_SiteWorkers_Advanced_SiteWorkerCreate_CreatesWorker()
+        public async Task Core_SiteWorkers_Advanced_SiteWorkerCreate_CreatesWorker()
         {
             // Arrange
             #region site
@@ -961,7 +961,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_SiteWorkers_Advanced_SiteWorkerRead_ReadsSiteWorker()
+        public async Task Core_SiteWorkers_Advanced_SiteWorkerRead_ReadsSiteWorker()
         {
             // Arrange
             #region Arrance
@@ -1207,7 +1207,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_SiteWorkers_Advanced_SiteWorkerDelete_MarksAsRemoved()
+        public async Task Core_SiteWorkers_Advanced_SiteWorkerDelete_MarksAsRemoved()
         {
 
             // Arrange
@@ -1248,7 +1248,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_SiteWorkers_Advanced_WorkerDelete_MarksAsRemoved()
+        public async Task Core_SiteWorkers_Advanced_WorkerDelete_MarksAsRemoved()
         {
             // Arrange
             workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 1);
@@ -1277,7 +1277,7 @@ namespace eFormSDK.Integration.Tests
 
         #region units
         [Test]
-        public void Core_Unit_Advanced_UnitRead_ReadsUnit()
+        public async Task Core_Unit_Advanced_UnitRead_ReadsUnit()
         {
             // Arrange
 //            #region Checklist
@@ -1512,7 +1512,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Unit_Advanced_UnitReadAll_ReturnsListOfUnits()
+        public async Task Core_Unit_Advanced_UnitReadAll_ReturnsListOfUnits()
         {
             #region Arrance
 
@@ -1808,7 +1808,7 @@ namespace eFormSDK.Integration.Tests
 
         #region fields
         [Test]  
-        public void Core_Advanced_FieldRead_ReadsFieldId()
+        public async Task Core_Advanced_FieldRead_ReadsFieldId()
         {
             // Arrance
 
@@ -1884,7 +1884,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Advanced_FieldValueReadList_ReturnsList()
+        public async Task Core_Advanced_FieldValueReadList_ReturnsList()
         {
             // Arrance
             #region Arrance
@@ -2031,7 +2031,7 @@ namespace eFormSDK.Integration.Tests
 
         #region Entitygouplist
         [Test]
-        public void Core_Advanced_DeleteUploadedData_DeletesData()
+        public async Task Core_Advanced_DeleteUploadedData_DeletesData()
         {
             // Arrange
             #region Template1

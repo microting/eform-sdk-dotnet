@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -38,7 +39,7 @@ namespace eFormSDK.Integration.Tests
             sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
         [Test]
-        public void siteSurveyConfiguration_Create_DoesCreate()
+        public async Task siteSurveyConfiguration_Create_DoesCreate()
         {
             // Arrange
             Random rnd = new Random();
@@ -72,7 +73,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(surveyConfiguration.Id, siteSurveyConfiguration.SurveyConfigurationId);
         }
         [Test]
-        public void siteSurveyConfiguration_Update_DoesUpdate()
+        public async Task siteSurveyConfiguration_Update_DoesUpdate()
         {
             // Arrange
             Random rnd = new Random();
@@ -118,7 +119,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(surveyConfiguration2.Id, siteSurveyConfiguration.SurveyConfigurationId);
         }
         [Test]
-        public void siteSurveyConfiguration_Delete_DoesDelete()
+        public async Task siteSurveyConfiguration_Delete_DoesDelete()
         {
             // Arrange
             Random rnd = new Random();

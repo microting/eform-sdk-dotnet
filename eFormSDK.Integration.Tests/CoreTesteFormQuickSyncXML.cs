@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -49,7 +50,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
-        public void Core_eForm_QuickSyncEnabledeFormFromXML_ReturnseMainElement()
+        public async Task Core_eForm_QuickSyncEnabledeFormFromXML_ReturnseMainElement()
         {
             // Arrange
             string xmlstring = @"
@@ -156,7 +157,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void Core_Template_TemplateRead_ReturnsTemplateWithQuickSync()
+        public async Task Core_Template_TemplateRead_ReturnsTemplateWithQuickSync()
         {
             // Arrange
             #region Tempalte

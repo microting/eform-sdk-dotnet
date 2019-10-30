@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -40,7 +41,7 @@ namespace eFormSDK.Integration.Tests
 
         #region notification
         [Test]
-        public void SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
+        public async Task SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
         {
             // Arrance
             Random rnd = new Random();
@@ -60,7 +61,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Notification_NewNotificationCreateCompletedForm_DoesStoreNotification()
+        public async Task SQL_Notification_NewNotificationCreateCompletedForm_DoesStoreNotification()
         {
             // Arrance
             Random rnd = new Random();
@@ -80,7 +81,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Notification_NotificationReadFirst_DoesReturnFirstNotification()
+        public async Task SQL_Notification_NotificationReadFirst_DoesReturnFirstNotification()
         {
             // Arrance
             Random rnd = new Random();
@@ -103,7 +104,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Notification_NotificationUpdate_DoesUpdateNotification()
+        public async Task SQL_Notification_NotificationUpdate_DoesUpdateNotification()
         {
             // Arrance
             Random rnd = new Random();
@@ -125,7 +126,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_Notification_Notificationcreate_isCreated()
+        public async Task SQL_Notification_Notificationcreate_isCreated()
         {
 
 
@@ -148,7 +149,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Notification_NotificationReadFirst_doesReadFirst()
+        public async Task SQL_Notification_NotificationReadFirst_doesReadFirst()
         {
             Random rnd = new Random();
             notifications aNote1 = new notifications();
@@ -176,7 +177,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Notification_NotificationUpdate_doesGetUpdated()
+        public async Task SQL_Notification_NotificationUpdate_doesGetUpdated()
         {
             Random rnd = new Random();
             notifications aNote1 = new notifications();
@@ -204,32 +205,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

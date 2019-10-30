@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -50,7 +51,7 @@ namespace eFormSDK.Integration.Tests
 
         #region Entity
         [Test]
-        public void Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroups()
+        public async Task Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroups()
         {
 
             // Arrance
@@ -713,7 +714,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroupsPaged()
+        public async Task Core_EntityGroup_Advanced_EntityGroupAll_ReturnsEntityGroupsPaged()
         {
 
             // Arrance
@@ -1753,7 +1754,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void Core_EntitySearchItemCreate_CreatesEntitySearchItem()
+        public async Task Core_EntitySearchItemCreate_CreatesEntitySearchItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
@@ -1768,7 +1769,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_EntitySearchItemDelete_DeletesEntitySearchItem()
+        public async Task Core_EntitySearchItemDelete_DeletesEntitySearchItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
@@ -1784,7 +1785,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_EntitySearchItemCreateExistingRemovedItem_ChangesWorkflowStateToCreated()
+        public async Task Core_EntitySearchItemCreateExistingRemovedItem_ChangesWorkflowStateToCreated()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
@@ -1801,7 +1802,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_EntitySelectItemCreate_CreatesEntitySelectItem()
+        public async Task Core_EntitySelectItemCreate_CreatesEntitySelectItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
@@ -1816,7 +1817,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_EntitySelectItemDelete_DeletesEntitySelectItem()
+        public async Task Core_EntitySelectItemDelete_DeletesEntitySelectItem()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
@@ -1832,7 +1833,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_EntitySelectItemCreateExistingRemovedItem_ChangesWorkflowStateToCreated()
+        public async Task Core_EntitySelectItemCreateExistingRemovedItem_ChangesWorkflowStateToCreated()
         {
             // Arrance
             entity_groups eG1 = testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);

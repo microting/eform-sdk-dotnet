@@ -55,7 +55,7 @@ namespace eFormSDK.Integration.Tests
 
         #region case
         [Test]
-        public void Core_Case_CaseDeleteResult_DoesMarkCaseRemoved()
+        public async Task Core_Case_CaseDeleteResult_DoesMarkCaseRemoved()
         {
 
             // Arrance
@@ -82,7 +82,7 @@ namespace eFormSDK.Integration.Tests
             DbContext.SaveChanges();
 
             // Act
-            sut.CaseDeleteResult(aCase.Id);
+            await sut.CaseDeleteResult(aCase.Id);
             Case_Dto theCase = sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
@@ -91,12 +91,12 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]//needs http mock done
-        public void Core_Case_CaseCheck_ChecksCase()
+        public async Task Core_Case_CaseCheck_ChecksCase()
         {
 
         }
         [Test]
-        public void Core_Case_CaseRead_ReadsCase()
+        public async Task Core_Case_CaseRead_ReadsCase()
         {
             // Arrange
             #region Arrance
@@ -336,7 +336,7 @@ namespace eFormSDK.Integration.Tests
            
         }
         [Test]
-        public void Core_Case_CaseReadByCaseId_Returns_cDto()
+        public async Task Core_Case_CaseReadByCaseId_Returns_cDto()
         {
             // Arrance
             #region Arrance
@@ -444,7 +444,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase.Id, match.CaseId);
         }
         [Test]
-        public void Core_Case_CaseReadFirstId()
+        public async Task Core_Case_CaseReadFirstId()
         {
             // Arrance
             #region Arrance
@@ -547,7 +547,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase.Id, match);
         }
         [Test]
-        public void Core_Case_CaseUpdate_ReturnsTrue()
+        public async Task Core_Case_CaseUpdate_ReturnsTrue()
         {
             // Arrange
             #region Arrance
@@ -966,7 +966,7 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match);
         }
         [Test]//skal bruge communicator, mangler mock.
-        public void Core_Case_CaseDelete_ReturnsTrue()
+        public async Task Core_Case_CaseDelete_ReturnsTrue()
         {
             //// Arrange
             //#region Arrance
@@ -1340,7 +1340,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]//skal bruge communicator, mangler mock.
-        public void Core_Case_CaseDelete2_ReturnsTrue()
+        public async Task Core_Case_CaseDelete2_ReturnsTrue()
         {
             //// Arrange
             //#region Arrance
@@ -2067,7 +2067,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_CaseLookupMUId_Returns_ReturnCase()
+        public async Task Core_Case_CaseLookupMUId_Returns_ReturnCase()
         {
             // Arrance
             #region Arrance
@@ -2239,7 +2239,7 @@ namespace eFormSDK.Integration.Tests
 
         } 
         [Test]
-        public void Core_Case_CaseLookupCaseId_Returns_cDto()
+        public async Task Core_Case_CaseLookupCaseId_Returns_cDto()
         {
             // Arrance
             #region Arrance
@@ -2347,7 +2347,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase.Id, match.CaseId);
         }
         [Test]
-        public void Core_Case_CaseLookupCaseUId_Returns_lstDto()
+        public async Task Core_Case_CaseLookupCaseUId_Returns_lstDto()
         {
             // Arrance
             #region Arrance
@@ -2456,7 +2456,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(aCase.CaseUid, match[0].CaseUId);
         }
         [Test]
-        public void Core_Case_CaseIdLookUp_returnsId()
+        public async Task Core_Case_CaseIdLookUp_returnsId()
         {
 
             // Arrange
@@ -2604,7 +2604,7 @@ namespace eFormSDK.Integration.Tests
         
         #region Core_Case_CasesToExcel_returnsPathAndName
 //        [Test]
-//        public void Core_Case_CasesToExcel_returnsPathAndName()
+//        public async Task Core_Case_CasesToExcel_returnsPathAndName()
 //        {
 //            // Arrange
 //            #region Arrance
@@ -3012,7 +3012,7 @@ namespace eFormSDK.Integration.Tests
         #endregion
         
         [Test]
-        public void Core_Case_CasesToCsv_returnsPathAndName()
+        public async Task Core_Case_CasesToCsv_returnsPathAndName()
         {
             // Arrange
             #region Arrance
@@ -3418,7 +3418,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_CaseToJasperXml_ReturnsPath()
+        public async Task Core_Case_CaseToJasperXml_ReturnsPath()
         {
             // Arrange
             #region Arrance
@@ -3827,7 +3827,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_GetJasperPath_returnsPath()
+        public async Task Core_Case_GetJasperPath_returnsPath()
         {
             // Arrange
             #region Arrance
@@ -4232,7 +4232,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_SetJasperPath_returnsTrue()
+        public async Task Core_Case_SetJasperPath_returnsTrue()
         {
 
             // Arrange
@@ -4245,7 +4245,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_GetPicturePath_returnsPath()
+        public async Task Core_Case_GetPicturePath_returnsPath()
         {
             // Arrange
             #region Arrance
@@ -4649,7 +4649,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_SetPicturePath_returnsTrue()
+        public async Task Core_Case_SetPicturePath_returnsTrue()
         {
 
             // Arrange
@@ -4662,7 +4662,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_GetPdfPath_returnsPath()
+        public async Task Core_Case_GetPdfPath_returnsPath()
         {
             // Arrange
             #region Arrance
@@ -5066,7 +5066,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_GetHttpServerAddress_returnsPath()
+        public async Task Core_Case_GetHttpServerAddress_returnsPath()
         {
             // Arrange
             #region Arrance
@@ -5471,7 +5471,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void Core_Case_SetHttpServerAddress_ReturnsTrue()
+        public async Task Core_Case_SetHttpServerAddress_ReturnsTrue()
         {
             // Arrange
 
@@ -5482,7 +5482,7 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match);
         }
         [Test]//can't be done, because of Jaxml file.
-        public void Core_Case_CaseToPdf_returns_Path()
+        public async Task Core_Case_CaseToPdf_returns_Path()
         {
             // Arrange
 

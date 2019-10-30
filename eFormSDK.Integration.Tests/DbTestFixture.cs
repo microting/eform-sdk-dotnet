@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Microting.eForm.Infrastructure;
@@ -35,7 +36,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
 
 //            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -54,7 +55,7 @@ namespace eFormSDK.Integration.Tests
 
             try
             {
-                ClearDb();
+                await ClearDb();
             }
             catch
             {
@@ -74,17 +75,17 @@ namespace eFormSDK.Integration.Tests
         }
       
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
 
-            ClearDb();
+            await ClearDb();
 
-            ClearFile();
+            await ClearFile();
 
             DbContext.Dispose();
         }
 
-        public void ClearDb()
+        public async Task ClearDb()
         {
 
             List<string> modelNames = new List<string>();
@@ -169,7 +170,7 @@ namespace eFormSDK.Integration.Tests
         }
         private string path;
 
-        public void ClearFile()
+        public async Task ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");

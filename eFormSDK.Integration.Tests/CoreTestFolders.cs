@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using eFormCore;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -49,7 +50,7 @@ namespace eFormSDK.Integration.Tests
         #region folder
 
         [Test]
-        public void Core_Folders_CreateFolder_DoesCreateNewFolder()
+        public async Task Core_Folders_CreateFolder_DoesCreateNewFolder()
         {
             // Arrange
             
@@ -83,7 +84,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Folders_CreateSubFolder_DoesCreateSubFolder()
+        public async Task Core_Folders_CreateSubFolder_DoesCreateSubFolder()
         {
             // Arrange
             
@@ -126,7 +127,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Folders_DeleteFolder_DoesMarkFolderAsRemoved()
+        public async Task Core_Folders_DeleteFolder_DoesMarkFolderAsRemoved()
         {
             // Arrange
             
@@ -171,7 +172,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void Core_Folders_UpdateFolder_DoesUpdateFolder()
+        public async Task Core_Folders_UpdateFolder_DoesUpdateFolder()
         {
             // Arrange
             

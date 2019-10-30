@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 
@@ -14,7 +15,7 @@ namespace eFormSDK.Integration.Tests
     public class SqlControllerTestOptions : DbTestFixture
     {
         [Test]
-        public void options_Create_DoesCreate()
+        public async Task options_Create_DoesCreate()
         {        
             // Arrange
             #region QuestionSet
@@ -85,7 +86,7 @@ namespace eFormSDK.Integration.Tests
 
         }
                 [Test]
-        public void options_Update_DoesUpdate()
+        public async Task options_Update_DoesUpdate()
         {        
             // Arrange
             #region QuestionSet
@@ -189,7 +190,7 @@ namespace eFormSDK.Integration.Tests
 
         }
                 [Test]
-        public void options_Delete_DoesDelete()
+        public async Task options_Delete_DoesDelete()
         {        
             // Arrange
             #region QuestionSet

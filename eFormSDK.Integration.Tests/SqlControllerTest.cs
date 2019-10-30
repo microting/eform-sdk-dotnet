@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -42,7 +43,7 @@ namespace eFormSDK.Integration.Tests
         #region check
         
         [Test]
-        public void SQL_Check_ChecksCreate_IsCreated()
+        public async Task SQL_Check_ChecksCreate_IsCreated()
         {
 
 
@@ -333,7 +334,7 @@ namespace eFormSDK.Integration.Tests
 
 
         //[Test]
-        //public void SQL_Check_SubChecks_ReturnsCheckListValue()
+        //public async Task SQL_Check_SubChecks_ReturnsCheckListValue()
         //{
         //    // Arrance
         //    #region Template1
@@ -632,7 +633,7 @@ namespace eFormSDK.Integration.Tests
         //TODOS in here, Migration required
         #region Public WriteLog TODO
         [Test]
-        public void SQL_WriteLog_StartLog_ReturnsLog()
+        public async Task SQL_WriteLog_StartLog_ReturnsLog()
         {
             // Arrance
 
@@ -642,7 +643,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_WriteLog_WriteLogEntry()
+        public async Task SQL_WriteLog_WriteLogEntry()
         {
             // Arrance
 
@@ -653,7 +654,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_WriteLog_WriteLogExceptionEntry()
+        public async Task SQL_WriteLog_WriteLogExceptionEntry()
         {
             // Arrance
 
@@ -664,7 +665,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test] 
-        public void SQL_WriteLog_WriteIfFailed()
+        public async Task SQL_WriteLog_WriteIfFailed()
         {
             // Arrance
 

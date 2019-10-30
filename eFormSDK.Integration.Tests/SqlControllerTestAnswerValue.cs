@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -40,7 +41,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_answerValues_Create_DoesCreate()
+        public async Task SQL_answerValues_Create_DoesCreate()
         {
             // Arrange
             Random rnd = new Random();
@@ -150,7 +151,7 @@ namespace eFormSDK.Integration.Tests
         }
        
         [Test]
-        public void SQL_answerValues_Update_DoesUpdate()
+        public async Task SQL_answerValues_Update_DoesUpdate()
         {
             // Arrange
             Random rnd = new Random();
@@ -320,7 +321,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_answerValues_Delete_DoesDelete()
+        public async Task SQL_answerValues_Delete_DoesDelete()
         {
             // Arrange
             Random rnd = new Random();

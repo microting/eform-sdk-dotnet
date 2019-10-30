@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -39,7 +40,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void questionSet_Create_DoesCreate_AllFalse()
+        public async Task questionSet_Create_DoesCreate_AllFalse()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -65,7 +66,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }  
         [Test]
-        public void questionSet_Create_DoesCreate_AllTrue()
+        public async Task questionSet_Create_DoesCreate_AllTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -91,7 +92,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Create_DoesCreate_ShareTrue()
+        public async Task questionSet_Create_DoesCreate_ShareTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -117,7 +118,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Create_DoesCreate_HasChildTrue()
+        public async Task questionSet_Create_DoesCreate_HasChildTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -143,7 +144,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Create_DoesCreate_PosiblyDeployedTrue()
+        public async Task questionSet_Create_DoesCreate_PosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -169,7 +170,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Create_DoesCreate_ShareAndHasChildTrue()
+        public async Task questionSet_Create_DoesCreate_ShareAndHasChildTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -195,7 +196,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(false, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Create_DoesCreate_ShareAndPosiblyDeployedTrue()
+        public async Task questionSet_Create_DoesCreate_ShareAndPosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -221,7 +222,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Create_DoesCreate_HasChildAndPosiblyDeployedTrue()
+        public async Task questionSet_Create_DoesCreate_HasChildAndPosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -247,7 +248,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(true, dbQuestionSet.PosiblyDeployed);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_AllFalse()
+        public async Task questionSet_Update_DoesUpdate_AllFalse()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -280,7 +281,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }  
         [Test]
-        public void questionSet_Update_DoesUpdate_AllTrue()
+        public async Task questionSet_Update_DoesUpdate_AllTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -312,7 +313,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_ShareTrue()
+        public async Task questionSet_Update_DoesUpdate_ShareTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -344,7 +345,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_HasChildTrue()
+        public async Task questionSet_Update_DoesUpdate_HasChildTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -376,7 +377,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_PosiblyDeployedTrue()
+        public async Task questionSet_Update_DoesUpdate_PosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -408,7 +409,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_ShareAndHasChildTrue()
+        public async Task questionSet_Update_DoesUpdate_ShareAndHasChildTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -440,7 +441,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_ShareAndPosiblyDeployedTrue()
+        public async Task questionSet_Update_DoesUpdate_ShareAndPosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -472,7 +473,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Update_DoesUpdate_HasChildAndPosiblyDeployedTrue()
+        public async Task questionSet_Update_DoesUpdate_HasChildAndPosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -504,7 +505,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(2, dbQuestionSet.Version);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_AllFalse()
+        public async Task questionSet_Delete_DoesDelete_AllFalse()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -538,7 +539,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }  
         [Test]
-        public void questionSet_Delete_DoesDelete_AllTrue()
+        public async Task questionSet_Delete_DoesDelete_AllTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -571,7 +572,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_ShareTrue()
+        public async Task questionSet_Delete_DoesDelete_ShareTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -604,7 +605,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_HasChildTrue()
+        public async Task questionSet_Delete_DoesDelete_HasChildTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -637,7 +638,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_PosiblyDeployedTrue()
+        public async Task questionSet_Delete_DoesDelete_PosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -670,7 +671,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_ShareAndHasChildTrue()
+        public async Task questionSet_Delete_DoesDelete_ShareAndHasChildTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -703,7 +704,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_ShareAndPosiblyDeployedTrue()
+        public async Task questionSet_Delete_DoesDelete_ShareAndPosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -736,7 +737,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbQuestionSet.WorkflowState, Constants.WorkflowStates.Removed);
         }
         [Test]
-        public void questionSet_Delete_DoesDelete_HasChildAndPosiblyDeployedTrue()
+        public async Task questionSet_Delete_DoesDelete_HasChildAndPosiblyDeployedTrue()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -41,7 +42,7 @@ namespace eFormSDK.Integration.Tests
 
         #region tag
         [Test]
-        public void SQL_Tags_CreateTag_DoesCreateNewTag()
+        public async Task SQL_Tags_CreateTag_DoesCreateNewTag()
         {
             // Arrance
             string tagName = "Tag1";
@@ -57,7 +58,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Tags_DeleteTag_DoesMarkTagAsRemoved()
+        public async Task SQL_Tags_DeleteTag_DoesMarkTagAsRemoved()
         {
             // Arrance
             string tagName = "Tag1";
@@ -80,7 +81,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Tags_CreateTag_DoesRecreateRemovedTag()
+        public async Task SQL_Tags_CreateTag_DoesRecreateRemovedTag()
         {
             // Arrance
             string tagName = "Tag1";
@@ -103,7 +104,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Tags_GetAllTags_DoesReturnAllTags()
+        public async Task SQL_Tags_GetAllTags_DoesReturnAllTags()
         {
             // Arrance
             string tagName1 = "Tag1";
@@ -147,7 +148,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_Tags_TemplateSetTags_DoesAssignTagToTemplate()
+        public async Task SQL_Tags_TemplateSetTags_DoesAssignTagToTemplate()
         {
             // Arrance
             check_lists cl1 = new check_lists();
@@ -189,32 +190,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

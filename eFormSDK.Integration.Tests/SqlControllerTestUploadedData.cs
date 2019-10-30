@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -41,7 +42,7 @@ namespace eFormSDK.Integration.Tests
 
         #region uploaded_data
         [Test]
-        public void SQL_UploadedData_FileRead_DoesReturnOneUploadedData()
+        public async Task SQL_UploadedData_FileRead_DoesReturnOneUploadedData()
         {
             // Arrance
             string checksum = "";
@@ -87,7 +88,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
+        public async Task SQL_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
         {
             // Arrance
             string checksum = "";
@@ -136,7 +137,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public void SQL_File_FileRead_doesFileRead()
+        public async Task SQL_File_FileRead_doesFileRead()
         {
             uploaded_data ud = new uploaded_data();
 
@@ -181,7 +182,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_File_FileCaseFindMUId_doesFindMUId()
+        public async Task SQL_File_FileCaseFindMUId_doesFindMUId()
         {
             Random rnd = new Random();
             sites site1 = testHelpers.CreateSite("MySite", 22);
@@ -237,7 +238,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_File_FileProcessed_isProcessed()
+        public async Task SQL_File_FileProcessed_isProcessed()
         {
             uploaded_data ud = new uploaded_data();
 
@@ -270,7 +271,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_File_GetUploadedData_doesGetUploadedData()
+        public async Task SQL_File_GetUploadedData_doesGetUploadedData()
         {
             uploaded_data ud = new uploaded_data();
 
@@ -289,7 +290,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void SQL_File_DeleteFile_doesFileGetDeleted()
+        public async Task SQL_File_DeleteFile_doesFileGetDeleted()
         {
             uploaded_data ud = new uploaded_data();
 
@@ -313,32 +314,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }

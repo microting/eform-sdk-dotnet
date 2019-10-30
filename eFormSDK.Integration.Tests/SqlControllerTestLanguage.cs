@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -39,7 +40,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void languages_Create_DoesCreate()
+        public async Task languages_Create_DoesCreate()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -64,7 +65,7 @@ namespace eFormSDK.Integration.Tests
         }
         
         [Test]
-        public void languages_Update_DoesUpdate()
+        public async Task languages_Update_DoesUpdate()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
@@ -99,7 +100,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public void languages_Delete_DoesDelete()
+        public async Task languages_Delete_DoesDelete()
         {
             // Arrange
             string name = Guid.NewGuid().ToString();

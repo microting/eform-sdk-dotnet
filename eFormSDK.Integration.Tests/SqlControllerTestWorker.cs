@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -42,7 +43,7 @@ namespace eFormSDK.Integration.Tests
         #region Worker
 
         [Test]
-        public void SQL_Worker_WorkerGetAll_ReturnsAllWorkers()
+        public async Task SQL_Worker_WorkerGetAll_ReturnsAllWorkers()
         {
             // Arrance
             #region Arrance
@@ -310,7 +311,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(worker10.LastName, getAllCreatedWorkers[9].LastName);
         }
         [Test]
-        public void SQL_Worker_WorkerCreate_ReturnsWorkerId()
+        public async Task SQL_Worker_WorkerCreate_ReturnsWorkerId()
         {
             // Arrance
 
@@ -325,7 +326,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, workers[0].WorkflowState);
         }
         [Test]
-        public void SQL_Worker_WorkerNameRead_ReadsName()
+        public async Task SQL_Worker_WorkerNameRead_ReadsName()
         {
             // Arrance
             #region Arrance
@@ -569,7 +570,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void SQL_Worker_WorkerRead_ReadsWorker()
+        public async Task SQL_Worker_WorkerRead_ReadsWorker()
         {
             // Arrance
             #region Arrance
@@ -815,7 +816,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]
-        public void SQL_Worker_WorkerUpdate_UpdatesWorker()
+        public async Task SQL_Worker_WorkerUpdate_UpdatesWorker()
         {
             // Arrance
             #region Arrance
@@ -1058,7 +1059,7 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match);
         }
         [Test]
-        public void SQL_Worker_WorkerDelete_DeletesWorker()
+        public async Task SQL_Worker_WorkerDelete_DeletesWorker()
         {
             // Arrance
             #region Arrance
@@ -1303,32 +1304,32 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
-        public void EventCaseCreated(object sender, EventArgs args)
+        public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseRetrived(object sender, EventArgs args)
+        public async Task EventCaseRetrived(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseCompleted(object sender, EventArgs args)
+        public async Task EventCaseCompleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventCaseDeleted(object sender, EventArgs args)
+        public async Task EventCaseDeleted(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventFileDownloaded(object sender, EventArgs args)
+        public async Task EventFileDownloaded(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
 
-        public void EventSiteActivated(object sender, EventArgs args)
+        public async Task EventSiteActivated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
         }
