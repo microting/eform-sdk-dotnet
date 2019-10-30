@@ -126,10 +126,10 @@ namespace Microting.eForm.Infrastructure
 #pragma warning restore 612, 618
         }
         
-        #region DefineLoggerFactory
-        public static readonly LoggerFactory MyLoggerFactory
-            = new LoggerFactory(new[] {new ConsoleLoggerProvider((_, __) => true, true)});
-        #endregion
+//        #region DefineLoggerFactory
+//        public static readonly LoggerFactory MyLoggerFactory
+//            = new LoggerFactory(new[] {new ConsoleLoggerProvider((_, __) => true, true)});
+//        #endregion
         
 
         // dotnet ef migrations add AddingNewModels --project eFormCore --startup-project DBMigrator

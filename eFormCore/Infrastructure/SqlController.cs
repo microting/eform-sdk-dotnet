@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -832,34 +833,22 @@ namespace Microting.eForm.Infrastructure
         /// <param name="microtingUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public bool CaseDelete(int microtingUId)
-
+        public async Task<bool> CaseDelete(int microtingUId)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    List<cases> matches = db.cases.Where(x => x.MicrotingUid == microtingUId && x.WorkflowState != Constants.Constants.WorkflowStates.Removed && x.WorkflowState != Constants.Constants.WorkflowStates.Retracted).ToList();
-                    if (matches.Count() > 1)
+                    cases aCase = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId);
+                    if (aCase != null)
                     {
-                        return false;
-                    }
-                    if (matches != null && matches.Count() == 1)
-                    {
-                        cases aCase = matches.First();
-                        if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                        if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Retracted && aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         {
-                            aCase.Delete(db);
+                            aCase.Delete((db));
                         }
-                        log.LogStandard(t.GetMethodName("SQLController"), "Case successfully marked as removed for microtingUId " + microtingUId);
                         return true;
-                    } else
-                    {
-                        //log.LogStandard(t.GetMethodName("SQLController"), "Could not find a case with microtingUId " + microtingUId);
-                        return false;
                     }
-                    
-                    
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -871,7 +860,6 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public bool CaseDeleteResult(int caseId)
         {
-
             try
             {
                 using (var db = GetContext())

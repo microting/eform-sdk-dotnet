@@ -59,7 +59,7 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                CheckStatusByMicrotingUid(message.MicrotringUUID);
+                await CheckStatusByMicrotingUid(message.MicrotringUUID);
                 sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
             } catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace Microting.eForm.Handlers
             }
         }
 
-        private bool CheckStatusByMicrotingUid(int microtingUid)
+        private async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
             List<Case_Dto> lstCase = new List<Case_Dto>();
             MainElement mainElement = new MainElement();
@@ -169,7 +169,7 @@ namespace Microting.eForm.Handlers
                 }
                 else
                 {
-                    core.CaseDelete((int)aCase.MicrotingUId);
+                    await core.CaseDelete((int)aCase.MicrotingUId);
                 }
             }
             return true;

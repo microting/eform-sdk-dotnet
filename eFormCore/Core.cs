@@ -1402,7 +1402,7 @@ namespace eFormCore
             }
         }
 
-        public bool CaseDelete(int templateId, int siteUId)
+        public async Task<bool> CaseDelete(int templateId, int siteUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1413,7 +1413,7 @@ namespace eFormCore
                     Log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
                     Log.LogVariable(t.GetMethodName("Core"), nameof(siteUId), siteUId);
 
-                    return CaseDelete(templateId, siteUId, "");
+                    return await CaseDelete(templateId, siteUId, "");
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1432,7 +1432,7 @@ namespace eFormCore
             }
         }
 
-        public bool CaseDelete(int templateId, int siteUId, string workflowState)
+        public async Task<bool> CaseDelete(int templateId, int siteUId, string workflowState)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1447,7 +1447,7 @@ namespace eFormCore
                     List<string> errors = new List<string>();
                     foreach (int microtingUId in _sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
                     {
-                        if (!CaseDelete(microtingUId))
+                        if (! await CaseDelete(microtingUId))
                         {
                             string error = $"Failed to delete case with microtingUId: {microtingUId}";
                             errors.Add(error);
@@ -1481,7 +1481,7 @@ namespace eFormCore
         /// Marks a case as deleted, and will remove it from the device, if needed
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
-        public bool CaseDelete(int microtingUId)
+        public async Task<bool> CaseDelete(int microtingUId)
         {
             //bus.SendLocal(new EformDeleteFromServer(microtingUId)).Wait();
             //bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
@@ -1567,7 +1567,7 @@ namespace eFormCore
                 Log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed from server");
                 try
                 {
-                    if (_sqlController.CaseDelete(microtingUId))
+                    if (await _sqlController.CaseDelete(microtingUId))
                     {
                         cDto = _sqlController.CaseReadByMUId(microtingUId);
                         FireHandleCaseDeleted(cDto);
@@ -3190,32 +3190,32 @@ namespace eFormCore
             }
         }
 
-        public void Advanced_ConsistencyCheckTemplates()
-        {
-            string methodName = t.GetMethodName("Core");
-            try
-            {
-                if (Running())
-                {
-                    Log.LogStandard(t.GetMethodName("Core"), "called");
-                    List<int> dummyList = new List<int>();
-                    List<Template_Dto> allTemplates = _sqlController.TemplateItemReadAll(true, Constants.WorkflowStates.Removed, "", false, "", dummyList);
-                    foreach (Template_Dto item in allTemplates)
-                    {
-                        foreach (SiteName_Dto site in item.DeployedSites)
-                        {
-                            CaseDelete(item.Id, site.SiteUId, "");
-                        }
-                    }
-                }
-                else
-                    throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-            }
-        }
+//        public void Advanced_ConsistencyCheckTemplates()
+//        {
+//            string methodName = t.GetMethodName("Core");
+//            try
+//            {
+//                if (Running())
+//                {
+//                    Log.LogStandard(t.GetMethodName("Core"), "called");
+//                    List<int> dummyList = new List<int>();
+//                    List<Template_Dto> allTemplates = _sqlController.TemplateItemReadAll(true, Constants.WorkflowStates.Removed, "", false, "", dummyList);
+//                    foreach (Template_Dto item in allTemplates)
+//                    {
+//                        foreach (SiteName_Dto site in item.DeployedSites)
+//                        {
+//                            await CaseDelete(item.Id, site.SiteUId, "");
+//                        }
+//                    }
+//                }
+//                else
+//                    throw new Exception("Core is not running");
+//            }
+//            catch (Exception ex)
+//            {
+//                Log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+//            }
+//        }
 
         #region sites
         public List<Site_Dto> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
@@ -4615,7 +4615,7 @@ namespace eFormCore
             };
         }
         
-        public bool CheckStatusByMicrotingUid(int microtingUid)
+        public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
             List<Case_Dto> lstCase = new List<Case_Dto>();
             MainElement mainElement = new MainElement();
@@ -4709,7 +4709,7 @@ namespace eFormCore
                 else
                 {
                     //delete eForm on other tablets and update DB to "deleted"
-                    CaseDelete((int)aCase.MicrotingUId);
+                    await CaseDelete((int)aCase.MicrotingUId);
                 }
             }
             return true;

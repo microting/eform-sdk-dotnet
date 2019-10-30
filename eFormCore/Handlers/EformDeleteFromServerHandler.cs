@@ -57,7 +57,7 @@ namespace Microting.eForm.Handlers
 
             try
             {
-                DeleteCase(message);
+                await DeleteCase(message);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace Microting.eForm.Handlers
             }
         }
 
-        private bool DeleteCase(EformDeleteFromServer message)
+        private async Task<bool> DeleteCase(EformDeleteFromServer message)
         {
             int microtingUId = message.MicrotringUUID;
             string methodName = "EformDeleteFromServerHandler";
@@ -131,7 +131,7 @@ namespace Microting.eForm.Handlers
             {
                 try
                 {
-                    sqlController.CaseDelete(microtingUId);
+                    await sqlController.CaseDelete(microtingUId);
 
                     cDto = sqlController.CaseReadByMUId(microtingUId);
                     core.FireHandleCaseDeleted(cDto);
