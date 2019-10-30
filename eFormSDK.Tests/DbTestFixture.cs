@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure;
@@ -59,7 +60,7 @@ namespace eFormSDK.Tests
         }
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
 
 //            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -98,7 +99,7 @@ namespace eFormSDK.Tests
         }
       
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
 
             ClearDb();
@@ -108,7 +109,7 @@ namespace eFormSDK.Tests
             DbContext.Dispose();
         }
 
-        public void ClearDb()
+        public async Task ClearDb()
         {
 
             List<string> modelNames = new List<string>();
@@ -193,7 +194,7 @@ namespace eFormSDK.Tests
         }
         private string path;
 
-        public void ClearFile()
+        public async Task ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");

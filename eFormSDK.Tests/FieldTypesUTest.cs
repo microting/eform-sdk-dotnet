@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace eFormSDK.Tests
     public class FieldTypesUTest : DbTestFixture
     {
         [Test]
-        public void FieldType_Create_DoesCreate()
+        public async Task FieldType_Create_DoesCreate()
         {
             //Arrange
             
@@ -40,7 +41,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void FieldType_Update_DoesUpdate()
+        public async Task FieldType_Update_DoesUpdate()
         {
             //Arrange
             
@@ -70,7 +71,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void FieldType_Delete_DoesDelete()
+        public async Task FieldType_Delete_DoesDelete()
         {
             //Arrange
             

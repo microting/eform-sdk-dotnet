@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace eFormSDK.Tests
 {
@@ -30,7 +31,7 @@ namespace eFormSDK.Tests
     public class CanaryInAColeMine
     {
         [Test]
-        public void CanPeep()
+        public async Task CanPeep()
         {
             Assert.True(true);
         }

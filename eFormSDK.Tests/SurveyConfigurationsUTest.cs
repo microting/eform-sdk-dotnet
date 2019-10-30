@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -12,7 +13,7 @@ namespace eFormSDK.Tests
     public class SurveyConfigurationsUTest : DbTestFixture
     {
         [Test]
-        public void SurveyConfigurations_Create_DoesCreate()
+        public async Task SurveyConfigurations_Create_DoesCreate()
         {
             //Arrange
             Random rnd = new Random();
@@ -63,7 +64,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void SurveyConfigurations_Update_DoesUpdate()
+        public async Task SurveyConfigurations_Update_DoesUpdate()
         {
             //Arrange
             Random rnd = new Random();
@@ -141,7 +142,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void SurveyConfigurations_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task SurveyConfigurations_Delete_DoesSetWorkflowStateToRemoved()
         {
             //Arrange
             Random rnd = new Random();

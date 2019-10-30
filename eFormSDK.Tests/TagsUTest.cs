@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -36,7 +37,7 @@ namespace eFormSDK.Tests
     public class TagsUTest : DbTestFixture
     {
         [Test]
-        public void Tags_Create_DoesCreate()
+        public async Task Tags_Create_DoesCreate()
         {
             //Arrange
             
@@ -78,7 +79,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Tags_Update_DoesUpdate()
+        public async Task Tags_Update_DoesUpdate()
         {
             Random rnd = new Random();
             
@@ -136,7 +137,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Tags_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task Tags_Delete_DoesSetWorkflowStateToRemoved()
         {
             Random rnd = new Random();
             

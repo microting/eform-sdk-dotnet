@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Amazon.Runtime.Internal.Util;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
@@ -37,7 +38,7 @@ namespace eFormSDK.Tests
     public class SitesUTest : DbTestFixture
     {
         [Test]
-        public void Site_Create_DoesCreate()
+        public async Task Site_Create_DoesCreate()
         {
             //Arrange
             Random rnd = new Random();
@@ -68,7 +69,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Sites_Update_DoesUpdate()
+        public async Task Sites_Update_DoesUpdate()
         {
             //Arrange
             
@@ -102,7 +103,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Sites_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task Sites_Delete_DoesSetWorkflowStateToRemoved()
         {
             //Arrange
 

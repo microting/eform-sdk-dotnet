@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -12,7 +13,7 @@ namespace eFormSDK.Tests
     public class FieldValuesUTest : DbTestFixture
     {
         [Test]
-        public void FieldValues_Create_DoesCreate()
+        public async Task FieldValues_Create_DoesCreate()
         {
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
@@ -223,7 +224,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void FieldValues_Update_DoesUpdate()
+        public async Task FieldValues_Update_DoesUpdate()
         {
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
@@ -471,7 +472,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void FieldValues_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task FieldValues_Delete_DoesSetWorkflowStateToRemoved()
         {
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;

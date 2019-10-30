@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -12,7 +13,7 @@ namespace eFormSDK.Tests
     public class EntityGroupsUTest : DbTestFixture
     {
         [Test]
-        public void EntityGroups_Create_DoesCreate()
+        public async Task EntityGroups_Create_DoesCreate()
         {
             entity_groups entityGroup = new entity_groups();
             entityGroup.Name = Guid.NewGuid().ToString();
@@ -55,7 +56,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void EntityGroups_Update_DoesUpdate()
+        public async Task EntityGroups_Update_DoesUpdate()
         {
             entity_groups entityGroup = new entity_groups();
             entityGroup.Name = Guid.NewGuid().ToString();
@@ -118,7 +119,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void EntityGroups_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task EntityGroups_Delete_DoesSetWorkflowStateToRemoved()
         {
             entity_groups entityGroup = new entity_groups();
             entityGroup.Name = Guid.NewGuid().ToString();

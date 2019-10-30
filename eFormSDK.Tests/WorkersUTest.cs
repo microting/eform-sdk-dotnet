@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -36,7 +37,7 @@ namespace eFormSDK.Tests
     public class WorkersUTest : DbTestFixture
     {
         [Test]
-        public void Workers_Create_DoesCreate()
+        public async Task Workers_Create_DoesCreate()
         {
             //Arrange
             Random rnd = new Random();
@@ -86,7 +87,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Workers_Update_DoesUpdate()
+        public async Task Workers_Update_DoesUpdate()
         {
             //Arrange
             
@@ -158,7 +159,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Workers_Delete_DoesSetWorkflowstateToRemoved()
+        public async Task Workers_Delete_DoesSetWorkflowstateToRemoved()
         {
             //Arrange
             

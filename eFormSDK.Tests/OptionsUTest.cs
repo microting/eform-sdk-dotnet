@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
@@ -13,7 +14,7 @@ namespace eFormSDK.Tests
     public class OptionsUTest : DbTestFixture
     {
         [Test]
-        public void Options_Create_DoesCreate()
+        public async Task Options_Create_DoesCreate()
         {
             Random rnd = new Random();
 
@@ -85,7 +86,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Options_Update_DoesUpdate()
+        public async Task Options_Update_DoesUpdate()
         {
             Random rnd = new Random();
             
@@ -178,7 +179,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Options_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task Options_Delete_DoesSetWorkflowStateToRemoved()
         {
             Random rnd = new Random();
             

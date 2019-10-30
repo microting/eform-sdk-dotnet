@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -12,7 +13,7 @@ namespace eFormSDK.Tests
     public class EntityItemsUTest : DbTestFixture
     {
         [Test]
-        public void EntityItems_Create_DoesCreate()
+        public async Task EntityItems_Create_DoesCreate()
         {
             //Arrange
             
@@ -80,7 +81,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void EntityItems_Update_DoesUpdate()
+        public async Task EntityItems_Update_DoesUpdate()
         {
             //Arrange
             
@@ -177,7 +178,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void EntityItems_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task EntityItems_Delete_DoesSetWorkflowStateToRemoved()
         {
             //Arrange
             

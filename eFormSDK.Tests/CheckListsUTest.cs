@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -12,7 +13,7 @@ namespace eFormSDK.Tests
     public class CheckListsUTest : DbTestFixture
     {
         [Test]
-        public void Checklists_create_DoesCreate()
+        public async Task Checklists_create_DoesCreate()
         {
             //Arrange
             
@@ -179,7 +180,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void Checklists_Update_DoesUpdate()
+        public async Task Checklists_Update_DoesUpdate()
         {
             //Arrange
             
@@ -448,7 +449,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void CheckLists_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task CheckLists_Delete_DoesSetWorkflowStateToRemoved()
         {
              //Arrange
             

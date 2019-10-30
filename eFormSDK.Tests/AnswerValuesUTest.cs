@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -13,7 +14,7 @@ namespace eFormSDK.Tests
     public class AnswerValuesUTest : DbTestFixture
     {
         [Test]
-        public void AnswerValues_Create_DoesCreate()
+        public async Task AnswerValues_Create_DoesCreate()
         {
             //Arrange
             
@@ -169,7 +170,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void AnswerValues_Update_DoesUpdate()
+        public async Task AnswerValues_Update_DoesUpdate()
         {
             //Arrange
             
@@ -342,7 +343,7 @@ namespace eFormSDK.Tests
         }
 
         [Test]
-        public void AnswerValues_Delete_DoesSetWorkflowStateToRemoved()
+        public async Task AnswerValues_Delete_DoesSetWorkflowStateToRemoved()
         {
             //Arrange
             
