@@ -30,7 +30,7 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
             siteSurveyConfiguration.SiteId = site.Id;
