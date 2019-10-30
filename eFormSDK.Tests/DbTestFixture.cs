@@ -79,7 +79,7 @@ namespace eFormSDK.Tests
 
             try
             {
-                await ClearDb();
+                ClearDb();
             }
             catch
             {
@@ -101,15 +101,14 @@ namespace eFormSDK.Tests
         [TearDown]
         public async Task TearDown()
         {
-
-            await ClearDb();
-
-            await ClearFile();
-
-            dbContext.Dispose();
+            await Task.Run(() => {
+                ClearDb();
+                ClearFile();
+                dbContext.Dispose();
+            });
         }
 
-        public async Task ClearDb()
+        public void ClearDb()
         {
 
             List<string> modelNames = new List<string>();
@@ -194,7 +193,7 @@ namespace eFormSDK.Tests
         }
         private string path;
 
-        public async Task ClearFile()
+        public void ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");

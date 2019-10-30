@@ -33,7 +33,10 @@ namespace eFormSDK.Tests
         [Test]
         public async Task CanPeep()
         {
-            Assert.True(true);
+            await Task.Run(() =>
+            {
+                Assert.True(true);
+            });
         }
     }
 }

@@ -120,7 +120,7 @@ namespace Microting.eForm.Communication
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(xmlString), xmlString);
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-            return http.Post(xmlString, siteId.ToString());
+            return await http.Post(xmlString, siteId.ToString());
 //            }
         }
 
@@ -239,7 +239,7 @@ namespace Microting.eForm.Communication
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(eFormId), eFormId);
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-            return http.Delete(eFormId, siteId.ToString());
+            return await http.Delete(eFormId, siteId.ToString());
 //            }
         }
         #endregion
@@ -251,7 +251,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
 
-            string response = http.SiteCreate(name);
+            string response = await http.SiteCreate(name);
             var parsedData = JRaw.Parse(response);
 
             int unitId = int.Parse(parsedData["unit_id"].ToString());
@@ -269,7 +269,7 @@ namespace Microting.eForm.Communication
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(name), name);
 
-            return http.SiteUpdate(siteId, name);
+            return await http.SiteUpdate(siteId, name);
         }
 
         public async Task<bool> SiteDelete(int siteId)
@@ -277,7 +277,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
 
-            string response = http.SiteDelete(siteId);
+            string response = await http.SiteDelete(siteId);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
@@ -294,7 +294,7 @@ namespace Microting.eForm.Communication
         {
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
-            var parsedData = JRaw.Parse(http.SiteLoadAllFromRemote());
+            var parsedData = JRaw.Parse(await http.SiteLoadAllFromRemote());
             List<SiteName_Dto> lst = new List<SiteName_Dto>();
 
             foreach (JToken item in parsedData)
@@ -318,7 +318,7 @@ namespace Microting.eForm.Communication
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(lastName), lastName);
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(email), email);
 
-            string result = http.WorkerCreate(firstName, lastName, email);
+            string result = await http.WorkerCreate(firstName, lastName, email);
             var parsedData = JRaw.Parse(result);
             int workerUid = int.Parse(parsedData["id"].ToString());
             DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
@@ -334,7 +334,7 @@ namespace Microting.eForm.Communication
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(lastName), lastName);
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(email), email);
 
-            return http.WorkerUpdate(workerId, firstName, lastName, email);
+            return await http.WorkerUpdate(workerId, firstName, lastName, email);
         }
 
         public async Task<bool> WorkerDelete(int workerId)
@@ -342,7 +342,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
 
-            string response = http.WorkerDelete(workerId);
+            string response = await http.WorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
@@ -355,7 +355,7 @@ namespace Microting.eForm.Communication
         {
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
-            var parsedData = JRaw.Parse(http.WorkerLoadAllFromRemote());
+            var parsedData = JRaw.Parse(await http.WorkerLoadAllFromRemote());
             List<Worker_Dto> lst = new List<Worker_Dto>();
 
             foreach (JToken item in parsedData)
@@ -380,7 +380,7 @@ namespace Microting.eForm.Communication
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(siteId), siteId);
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
 
-            string result = http.SiteWorkerCreate(siteId, workerId);
+            string result = await http.SiteWorkerCreate(siteId, workerId);
             var parsedData = JRaw.Parse(result);
             int workerUid = int.Parse(parsedData["id"].ToString());
             return new Site_Worker_Dto(workerUid, siteId, workerId);
@@ -391,7 +391,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(workerId), workerId);
 
-            string response = http.SiteWorkerDelete(workerId);
+            string response = await http.SiteWorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
@@ -425,7 +425,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtingUid), microtingUid);
 
-            return http.UnitRequestOtp(microtingUid);
+            return await http.UnitRequestOtp(microtingUid);
         }
 
         public async Task<List<Unit_Dto>> UnitLoadAllFromRemote(int customerNo)
@@ -433,7 +433,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(customerNo), customerNo);
 
-            var parsedData = JRaw.Parse(http.UnitLoadAllFromRemote());
+            var parsedData = JRaw.Parse(await http.UnitLoadAllFromRemote());
             List<Unit_Dto> lst = new List<Unit_Dto>();
 
             foreach (JToken item in parsedData)
@@ -461,7 +461,7 @@ namespace Microting.eForm.Communication
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
             await log.LogVariable(t.GetMethodName("Comminicator"), nameof(unitId), unitId);
 
-            string response = http.UnitDelete(unitId);
+            string response = await http.UnitDelete(unitId);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
@@ -490,7 +490,7 @@ namespace Microting.eForm.Communication
             }
             
 
-            JToken orgResult = JRaw.Parse(specialHttp.OrganizationLoadAllFromRemote());
+            JToken orgResult = JRaw.Parse(await specialHttp.OrganizationLoadAllFromRemote());
 
             Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()),
                 orgResult.First.First["name"].ToString(),
@@ -515,7 +515,7 @@ namespace Microting.eForm.Communication
         {
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
-            string rawData = http.FolderLoadAllFromRemote();
+            string rawData = await http.FolderLoadAllFromRemote();
             
             List<Folder_Dto> list = new List<Folder_Dto>();
             if (!string.IsNullOrEmpty(rawData))
@@ -543,23 +543,23 @@ namespace Microting.eForm.Communication
             return list;
         }
         
-        public int FolderCreate(string name, string description, int? parentId)
+        public async Task<int> FolderCreate(string name, string description, int? parentId)
         {
-            var parsedData = JRaw.Parse(http.FolderCreate(name, description, parentId));
+            var parsedData = JRaw.Parse(await http.FolderCreate(name, description, parentId));
 
             int microtingUUID  = int.Parse(parsedData["id"].ToString());
 
             return microtingUUID;
         }
 
-        public void FolderUpdate(int id, string name, string description, int? parentId)
+        public async Task FolderUpdate(int id, string name, string description, int? parentId)
         {
-            http.FolderUpdate(id, name, description, parentId);
+            await http.FolderUpdate(id, name, description, parentId);
         }
 
-        public bool FolderDelete(int id)
+        public async Task<bool> FolderDelete(int id)
         {
-            string response = http.FolderDelete(id);
+            string response = await http.FolderDelete(id);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
@@ -599,7 +599,7 @@ namespace Microting.eForm.Communication
             {
                 if (entityType == Constants.FieldTypes.EntitySearch)
                 {
-                    string microtingUId = http.EntitySearchGroupCreate(name, id);
+                    string microtingUId = await http.EntitySearchGroupCreate(name, id);
 
                     if (microtingUId == null)
                         throw new Exception("EntityGroupCreate failed, due to microtingUId:'null'");
@@ -609,7 +609,7 @@ namespace Microting.eForm.Communication
 
                 if (entityType == Constants.FieldTypes.EntitySelect)
                 {
-                    string microtingUId = http.EntitySelectGroupCreate(name, id);
+                    string microtingUId = await http.EntitySelectGroupCreate(name, id);
 
                     if (microtingUId == null)
                         throw new Exception("EntityGroupCreate failed, due to microtingUId:'null'");
@@ -637,7 +637,7 @@ namespace Microting.eForm.Communication
             {
                 if (entityType == Constants.FieldTypes.EntitySearch)
                 {
-                    if (http.EntitySearchGroupUpdate(id, name, entityGroupMUId))
+                    if (await http.EntitySearchGroupUpdate(id, name, entityGroupMUId))
                         return true;
                     else
                         throw new Exception("EntityGroupUpdate failed");
@@ -645,7 +645,7 @@ namespace Microting.eForm.Communication
 
                 if (entityType == Constants.FieldTypes.EntitySelect)
                 {
-                    if (http.EntitySelectGroupUpdate(id, name, entityGroupMUId))
+                    if (await http.EntitySelectGroupUpdate(id, name, entityGroupMUId))
                         return true;
                     else
                         throw new Exception("EntityGroupUpdate failed");
@@ -669,7 +669,7 @@ namespace Microting.eForm.Communication
             {
                 if (entityType == Constants.FieldTypes.EntitySearch)
                 {
-                    if (http.EntitySearchGroupDelete(entityGroupId))
+                    if (await http.EntitySearchGroupDelete(entityGroupId))
                         return;
                     else
                         throw new Exception("EntitySearchItemDelete failed");
@@ -677,7 +677,7 @@ namespace Microting.eForm.Communication
 
                 if (entityType == Constants.FieldTypes.EntitySelect)
                 {
-                    if (http.EntitySelectGroupDelete(entityGroupId))
+                    if (await http.EntitySelectGroupDelete(entityGroupId))
                         return;
                     else
                         throw new Exception("EntitySearchItemDelete failed");
@@ -703,7 +703,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.EntitySearchItemCreate(entitySearchGroupId, name, description, id);
+                return await http.EntitySearchItemCreate(entitySearchGroupId, name, description, id);
             }
             catch (Exception ex)
             {
@@ -722,7 +722,7 @@ namespace Microting.eForm.Communication
 
             //try
             //{
-            return http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
+            return await http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
             //}
             //catch (Exception ex)
             //{
@@ -737,7 +737,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.EntitySearchItemDelete(entitySearchItemId);
+                return await http.EntitySearchItemDelete(entitySearchItemId);
             }
             catch (Exception ex)
             {
@@ -757,7 +757,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.EntitySelectItemCreate(entitySearchGroupId, name, displayOrder, ownUUID);
+                return await http.EntitySelectItemCreate(entitySearchGroupId, name, displayOrder, ownUUID);
             }
             catch (Exception ex)
             {
@@ -776,7 +776,7 @@ namespace Microting.eForm.Communication
 
             //try
             //{
-            return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
+            return await http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
             //}
             //catch (Exception ex)
             //{
@@ -791,7 +791,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.EntitySelectItemDelete(entitySearchItemId);
+                return await http.EntitySelectItemDelete(entitySearchItemId);
             }
             catch (Exception ex)
             {
@@ -809,7 +809,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.PdfUpload(localPath, hash);
+                return await http.PdfUpload(localPath, hash);
             }
             catch (Exception ex)
             {
@@ -826,7 +826,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.TemplateDisplayIndexChange(microtingUId, siteId, newDisplayIndex);
+                return await http.TemplateDisplayIndexChange(microtingUId, siteId, newDisplayIndex);
             }
             catch (Exception ex)
             {
@@ -843,7 +843,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.SpeechToText(pathToAudioFile, "da-DK");
+                return await http.SpeechToText(pathToAudioFile, "da-DK");
             }
             catch (Exception ex)
             {
@@ -858,7 +858,7 @@ namespace Microting.eForm.Communication
 
             try
             {
-                return http.SpeechToText(requestId);
+                return await http.SpeechToText(requestId);
             }
             catch (Exception ex)
             {

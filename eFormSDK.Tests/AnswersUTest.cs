@@ -197,7 +197,7 @@ namespace eFormSDK.Tests
              answer.UtcAdjusted = randomBool;
              answer.QuestionSetId = questionSet.Id;
              answer.SurveyConfigurationId = surveyConfiguration.Id;
-             answer.Create(dbContext);
+             await answer.Create(dbContext);
             
             //Act
 

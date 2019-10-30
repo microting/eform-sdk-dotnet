@@ -56,7 +56,7 @@ namespace Microting.eForm.Communication
 
         #region public
         #region public API
-        public string Post(string xmlData, string siteId)
+        public async Task<string> Post(string xmlData, string siteId)
         {
             if (xmlData.Contains("throw new Exception"))
                 throw new Exception("Post created 'new' Exception as per request");
@@ -83,92 +83,92 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public string Delete(string elementId, string siteId)
+        public async Task<string> Delete(string elementId, string siteId)
         {
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
         #endregion
 
         #region public EntitySearch
-        public string EntitySearchGroupCreate(string name, string id)
+        public async Task<string> EntitySearchGroupCreate(string name, string id)
         {
             return t.GetRandomInt(6).ToString();
         }
 
-        public bool EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
+        public async Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
         {
             return true;
         }
 
-        public bool EntitySearchGroupDelete(string entityGroupId)
+        public async Task<bool> EntitySearchGroupDelete(string entityGroupId)
         {
             return true;
         }
 
-        public string EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
+        public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
             return t.GetRandomInt(6).ToString();
         }
 
-        public bool EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
             return true;
         }
 
-        public bool EntitySearchItemDelete(string entitySearchItemId)
+        public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
         {
             return true;
         }
         #endregion
 
         #region public EntitySelect
-        public string EntitySelectGroupCreate(string name, string id)
+        public async Task<string> EntitySelectGroupCreate(string name, string id)
         {
             return t.GetRandomInt(6).ToString();
         }
 
-        public bool EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
+        public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
         {
             return true;
         }
 
-        public bool EntitySelectGroupDelete(string entityGroupId)
+        public async Task<bool> EntitySelectGroupDelete(string entityGroupId)
         {
             return true;
         }
 
-        public string EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
+        public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
         {
             return t.GetRandomInt(6).ToString();
         }
 
-        public bool EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
+        public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
         {
             return true;
         }
 
-        public bool EntitySelectItemDelete(string entitySelectItemId)
+        public async Task<bool> EntitySelectItemDelete(string entitySelectItemId)
         {
             return true;
         }
         #endregion
 
         #region public PdfUpload
-        public bool PdfUpload(string name, string hash)
+        public async Task<bool> PdfUpload(string name, string hash)
         {
             return true;
         }
         #endregion
 
         #region public TemplateDisplayIndexChange
-        public string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
+        public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             return "Not implemented!";
         }
         #endregion
 
         #region public site
-        public string SiteCreate(string name)
+        public async Task<string> SiteCreate(string name)
         {
             if (name == "John Noname Doe")
             {
@@ -187,12 +187,12 @@ namespace Microting.eForm.Communication
             //
         }
 
-        public bool SiteUpdate(int id, string name)
+        public async Task<bool> SiteUpdate(int id, string name)
         {
             return true;
         }
 
-        public string SiteDelete(int id)
+        public async Task<string> SiteDelete(int id)
         {
             JObject content_to_microting = JObject.FromObject(new { name = "Some name", id = id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
@@ -208,14 +208,14 @@ namespace Microting.eForm.Communication
 //            }
         }
 
-        public string SiteLoadAllFromRemote()
+        public async Task<string> SiteLoadAllFromRemote()
         {
             return "{}";
         }
         #endregion
 
         #region public Worker
-        public string WorkerCreate(string firstName, string lastName, string email)
+        public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { firstName = firstName, id = id, lastName = lastName, email = email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
@@ -229,12 +229,12 @@ namespace Microting.eForm.Communication
 //            }
         }
 
-        public bool WorkerUpdate(int id, string firstName, string lastName, string email)
+        public async Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email)
         {
             return true;
         }
 
-        public string WorkerDelete(int id)
+        public async Task<string> WorkerDelete(int id)
         {
             string firstName = "John Noname";
             string lastName = "Doe";
@@ -250,21 +250,21 @@ namespace Microting.eForm.Communication
 //            }
         }
 
-        public string WorkerLoadAllFromRemote()
+        public async Task<string> WorkerLoadAllFromRemote()
         {
             return "{}";
         }
         #endregion
 
         #region public SiteWorker
-        public string SiteWorkerCreate(int siteId, int workerId)
+        public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
             return content_to_microting.ToString();
         }
 
-        public string SiteWorkerDelete(int id)
+        public async Task<string> SiteWorkerDelete(int id)
         {
             JObject content_to_microting = JObject.FromObject(new { id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
@@ -287,12 +287,12 @@ namespace Microting.eForm.Communication
             return await _testHelperReturnXml.CreateSiteUnitWorkersForFullLoaed(false);
         }
 
-        public string FolderLoadAllFromRemote()
+        public async Task<string> FolderLoadAllFromRemote()
         {
             return "{}";
         }
 
-        public string FolderCreate(string name, string description, int? parent_id)
+        public async Task<string> FolderCreate(string name, string description, int? parent_id)
         {
             int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new
@@ -300,12 +300,12 @@ namespace Microting.eForm.Communication
             return content_to_microting.ToString();
         }
 
-        public bool FolderUpdate(int id, string name, string description, int? parent_id)
+        public async Task<bool> FolderUpdate(int id, string name, string description, int? parent_id)
         {
             return true;
         }
 
-        public string FolderDelete(int id)
+        public async Task<string> FolderDelete(int id)
         {
             
             JObject content_to_microting = JObject.FromObject(new {name = "Some Name", description = "Some Description", id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
@@ -321,17 +321,17 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public Unit
-        public int UnitRequestOtp(int id)
+        public async Task<int> UnitRequestOtp(int id)
         {
             return 558877;
         }
 
-        public string UnitLoadAllFromRemote()
+        public async Task<string> UnitLoadAllFromRemote()
         {
             return "{}";
         }
 
-        public string UnitDelete(int id)
+        public async Task<string> UnitDelete(int id)
         {
             JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
@@ -339,7 +339,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public Organization
-        public string OrganizationLoadAllFromRemote()
+        public async Task<string> OrganizationLoadAllFromRemote()
         {
 //            int id = t.GetRandomInt(6);
             JObject content_to_microting = JObject.FromObject(new { my_organization = new
@@ -371,12 +371,12 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region SpeechToText
-        public int SpeechToText(string pathToAudioFile, string language)
+        public async Task<int> SpeechToText(string pathToAudioFile, string language)
         {
             throw new NotImplementedException();
         }
 
-        public JToken SpeechToText(int requestId)
+        public async Task<JToken> SpeechToText(int requestId)
         {
             throw new NotImplementedException();
         }

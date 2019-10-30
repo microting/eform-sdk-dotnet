@@ -168,7 +168,7 @@ namespace eFormCore
 
 					//subscriber
 					_subscriber = new Subscriber(_sqlController, log, _bus);
-					await _subscriber.Start();
+					_subscriber.Start();
 					await log.LogStandard(t.GetMethodName("Core"), "Subscriber started");
 
 					await log.LogCritical(t.GetMethodName("Core"), "started");
@@ -399,15 +399,15 @@ namespace eFormCore
                         _coreStatChanging = true;
 
                         _coreAvailable = false;
-                        log.LogCritical(t.GetMethodName("Core"), "called");
+                        log.LogCritical(t.GetMethodName("Core"), "called").RunSynchronously();
 
                         try
                         {
                             if (_subscriber != null)
                             {
-                                log.LogEverything(t.GetMethodName("Core"), "Subscriber requested to close connection");
-                                _subscriber.Close();
-                                log.LogEverything(t.GetMethodName("Core"), "Subscriber closed");
+                                log.LogEverything(t.GetMethodName("Core"), "Subscriber requested to close connection").RunSynchronously();
+                                _subscriber.Close().RunSynchronously();
+                                log.LogEverything(t.GetMethodName("Core"), "Subscriber closed").RunSynchronously();
                                 _bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 _bus.Dispose();
                                 _coreThreadRunning = false;
@@ -415,7 +415,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogException(t.GetMethodName("Core"), "Subscriber failed to close", ex, false);
+                            log.LogException(t.GetMethodName("Core"), "Subscriber failed to close", ex, false).RunSynchronously();
                         }
 
                         int tries = 0;
@@ -425,12 +425,12 @@ namespace eFormCore
                             tries++;
 
                             if (tries > 600)
-                                FatalExpection("Failed to close Core correct after 60 secs", new Exception());
+                                FatalExpection("Failed to close Core correct after 60 secs", new Exception()).RunSynchronously();
                         }
 
                         _updateIsRunningEntities = false;
 
-                        log.LogStandard(t.GetMethodName("Core"), "Core closed");
+                        log.LogStandard(t.GetMethodName("Core"), "Core closed").RunSynchronously();
                         _subscriber = null;
                         _communicator = null;
                         _sqlController = null;
@@ -447,7 +447,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                FatalExpection(t.GetMethodName("Core") + " failed. Core failed to close", ex);
+                FatalExpection(t.GetMethodName("Core") + " failed. Core failed to close", ex).RunSynchronously();
             }
             return true;
         }
@@ -2850,7 +2850,7 @@ namespace eFormCore
                     {
                         apiParentId = (int)FolderRead((int) parent_id).Result.MicrotingUId;
                     }
-                    int id = _communicator.FolderCreate(name, description, apiParentId);
+                    int id = await _communicator.FolderCreate(name, description, apiParentId);
                     int result = await _sqlController.FolderCreate(name, description, parent_id, id);
 
                 }
@@ -2876,7 +2876,7 @@ namespace eFormCore
                     {
                         apiParentId = (int)FolderRead((int) parent_id).Result.MicrotingUId;
                     }
-                    _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId);
+                    await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId);
                     await _sqlController.FolderUpdate(id, name, description, parent_id);
                 }
                 else
@@ -2898,7 +2898,7 @@ namespace eFormCore
                 if (Running())
                 {
                     Folder_Dto folder = await FolderRead(id);
-                    bool success = _communicator.FolderDelete((int)folder.MicrotingUId);
+                    bool success = await _communicator.FolderDelete((int)folder.MicrotingUId);
                     if (success)
                     {
                         await _sqlController.FolderDelete(id);

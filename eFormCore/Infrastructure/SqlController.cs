@@ -2617,220 +2617,239 @@ namespace Microting.eForm.Infrastructure
         public async Task<CaseList> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState,
             string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize)
         {
-                        
-            try
+            int numOfElements = 0;
+            List<Case> rtrnLst = new List<Case>();
+            await Task.Run(() =>
             {
-                using (var db = GetContext())
+                try
                 {
-                    if (start == null)
-                        start = DateTime.MinValue;
-                    if (end == null)
-                        end = DateTime.MaxValue;
-
-                    //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
-
-                    List<cases> matches = null;
-                    IQueryable<cases> sub_query = db.cases.Where(x => x.DoneAt > start && x.DoneAt < end);
-                    switch (workflowState)
+                    using (var db = GetContext())
                     {
-                        case Constants.Constants.WorkflowStates.NotRetracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
-                            break;
-                        case Constants.Constants.WorkflowStates.NotRemoved:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
-                            break;
-                        case Constants.Constants.WorkflowStates.Created:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
-                            break;
-                        case Constants.Constants.WorkflowStates.Retracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
-                            break;
-                        case Constants.Constants.WorkflowStates.Removed:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
-                            break;
-                        default:
-                            break;
+                        if (start == null)
+                            start = DateTime.MinValue;
+                        if (end == null)
+                            end = DateTime.MaxValue;
+
+                        //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+
+                        List<cases> matches = null;
+                        IQueryable<cases> sub_query =
+                            db.cases.Where(x => x.DoneAt > start && x.DoneAt < end);
+                        switch (workflowState)
+                        {
+                            case Constants.Constants.WorkflowStates.NotRetracted:
+                                sub_query = sub_query.Where(x =>
+                                    x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
+                                break;
+                            case Constants.Constants.WorkflowStates.NotRemoved:
+                                sub_query = sub_query.Where(x =>
+                                    x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                                break;
+                            case Constants.Constants.WorkflowStates.Created:
+                                sub_query = sub_query.Where(x =>
+                                    x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                                break;
+                            case Constants.Constants.WorkflowStates.Retracted:
+                                sub_query = sub_query.Where(x =>
+                                    x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
+                                break;
+                            case Constants.Constants.WorkflowStates.Removed:
+                                sub_query = sub_query.Where(x =>
+                                    x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
+                                break;
+                            default:
+                                break;
+                        }
+
+
+                        if (templatId != null)
+                        {
+                            sub_query = sub_query.Where(x => x.CheckListId == templatId);
+                        }
+
+                        if (searchKey != null && searchKey != "")
+                        {
+                            sub_query = sub_query.Where(x =>
+                                x.FieldValue1.Contains(searchKey) || x.FieldValue2.Contains(searchKey) ||
+                                x.FieldValue3.Contains(searchKey) || x.FieldValue4.Contains(searchKey) ||
+                                x.FieldValue5.Contains(searchKey) || x.FieldValue6.Contains(searchKey) ||
+                                x.FieldValue7.Contains(searchKey) || x.FieldValue8.Contains(searchKey) ||
+                                x.FieldValue9.Contains(searchKey) || x.FieldValue10.Contains(searchKey) ||
+                                x.Id.ToString().Contains(searchKey) || x.Site.Name.Contains(searchKey) ||
+                                x.Worker.FirstName.Contains(searchKey) ||
+                                x.Worker.LastName.Contains(searchKey));
+                        }
+
+                        switch (sortParameter)
+                        {
+                            case Constants.Constants.CaseSortParameters.CreatedAt:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.Id);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.Id);
+                                break;
+                            case Constants.Constants.CaseSortParameters.DoneAt:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.DoneAt);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.DoneAt);
+                                break;
+                            case Constants.Constants.CaseSortParameters.WorkerName:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.Worker.FirstName);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.Worker.FirstName);
+                                break;
+                            case Constants.Constants.CaseSortParameters.SiteName:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.Site.Name);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.Site.Name);
+                                break;
+                            case Constants.Constants.CaseSortParameters.UnitId:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.UnitId);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.UnitId);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Status:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.Status);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.Status);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field1:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue1);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue1);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field2:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue2);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue2);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field3:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue3);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue3);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field4:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue4);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue4);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field5:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue5);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue5);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field6:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue6);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue6);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field7:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue7);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue7);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field8:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue8);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue8);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field9:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue9);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue9);
+                                break;
+                            case Constants.Constants.CaseSortParameters.Field10:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.FieldValue10);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.FieldValue10);
+                                break;
+                            default:
+                                if (descendingSort)
+                                    sub_query = sub_query.OrderByDescending(x => x.Id);
+                                else
+                                    sub_query = sub_query.OrderBy(x => x.Id);
+                                break;
+                        }
+
+                        matches = sub_query.ToList();
+
+                        numOfElements = matches.Count();
+                        List<cases> dbCases = null;
+
+                        if (numOfElements < pageSize)
+                        {
+                            dbCases = matches.ToList();
+                        }
+                        else
+                        {
+                            offSet = offSet * pageSize;
+                            dbCases = matches.Skip(offSet).Take(pageSize).ToList();
+                        }
+
+                        #region cases -> Case
+
+                        foreach (var dbCase in dbCases)
+                        {
+                            Case nCase = new Case();
+                            nCase.CaseType = dbCase.Type;
+                            nCase.CaseUId = dbCase.CaseUid;
+                            nCase.CheckUIid = dbCase.MicrotingCheckUid;
+                            nCase.CreatedAt = dbCase.CreatedAt;
+                            nCase.Custom = dbCase.Custom;
+                            nCase.DoneAt = dbCase.DoneAt;
+                            nCase.Id = dbCase.Id;
+                            nCase.MicrotingUId = dbCase.MicrotingUid;
+                            nCase.SiteId = dbCase.Site.MicrotingUid;
+                            nCase.SiteName = dbCase.Site.Name;
+                            nCase.Status = dbCase.Status;
+                            nCase.TemplatId = dbCase.CheckListId;
+                            nCase.UnitId = dbCase.Unit.MicrotingUid;
+                            nCase.UpdatedAt = dbCase.UpdatedAt;
+                            nCase.Version = dbCase.Version;
+                            nCase.WorkerName = dbCase.Worker.FirstName + " " + dbCase.Worker.LastName;
+                            nCase.WorkflowState = dbCase.WorkflowState;
+                            nCase.FieldValue1 = dbCase.FieldValue1;
+                            nCase.FieldValue2 = dbCase.FieldValue2;
+                            nCase.FieldValue3 = dbCase.FieldValue3;
+                            nCase.FieldValue4 = dbCase.FieldValue4;
+                            nCase.FieldValue5 = dbCase.FieldValue5;
+                            nCase.FieldValue6 = dbCase.FieldValue6;
+                            nCase.FieldValue7 = dbCase.FieldValue7;
+                            nCase.FieldValue8 = dbCase.FieldValue8;
+                            nCase.FieldValue9 = dbCase.FieldValue9;
+                            nCase.FieldValue10 = dbCase.FieldValue10;
+
+                            rtrnLst.Add(nCase);
+                        }
+
+                        #endregion
                     }
-
-
-                    if (templatId != null)
-                    {
-                        sub_query = sub_query.Where(x => x.CheckListId == templatId);
-                    }
-                    if (searchKey != null && searchKey != "")
-                    {
-                        sub_query = sub_query.Where(x => x.FieldValue1.Contains(searchKey) || x.FieldValue2.Contains(searchKey) || x.FieldValue3.Contains(searchKey) || x.FieldValue4.Contains(searchKey) || x.FieldValue5.Contains(searchKey) || x.FieldValue6.Contains(searchKey) || x.FieldValue7.Contains(searchKey) || x.FieldValue8.Contains(searchKey) || x.FieldValue9.Contains(searchKey) || x.FieldValue10.Contains(searchKey) || x.Id.ToString().Contains(searchKey) || x.Site.Name.Contains(searchKey) || x.Worker.FirstName.Contains(searchKey) || x.Worker.LastName.Contains(searchKey));
-                    }
-
-                    switch (sortParameter)
-                    {
-                        case Constants.Constants.CaseSortParameters.CreatedAt:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.Id);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.Id);
-                            break;
-                        case Constants.Constants.CaseSortParameters.DoneAt:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.DoneAt);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.DoneAt);
-                            break;
-                        case Constants.Constants.CaseSortParameters.WorkerName:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.Worker.FirstName);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.Worker.FirstName);
-                            break;
-                        case Constants.Constants.CaseSortParameters.SiteName:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.Site.Name);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.Site.Name);
-                            break;
-                        case Constants.Constants.CaseSortParameters.UnitId:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.UnitId);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.UnitId);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Status:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.Status);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.Status);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field1:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue1);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue1);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field2:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue2);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue2);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field3:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue3);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue3);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field4:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue4);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue4);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field5:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue5);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue5);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field6:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue6);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue6);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field7:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue7);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue7);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field8:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue8);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue8);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field9:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue9);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue9);
-                            break;
-                        case Constants.Constants.CaseSortParameters.Field10:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.FieldValue10);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.FieldValue10);
-                            break;
-                        default:
-                            if (descendingSort)
-                                sub_query = sub_query.OrderByDescending(x => x.Id);
-                            else
-                                sub_query = sub_query.OrderBy(x => x.Id);
-                            break;
-                    }
-
-                    matches = sub_query.ToList();
-                    
-                    List<Case> rtrnLst = new List<Case>();
-                    int numOfElements = 0;
-                    numOfElements = matches.Count();
-                    List<cases> dbCases = null;
-
-                    if (numOfElements < pageSize)
-                    {
-                        dbCases = matches.ToList();
-                    }
-                    else
-                    {
-                        offSet = offSet * pageSize;
-                        dbCases = matches.Skip(offSet).Take(pageSize).ToList();
-                    }
-
-                    #region cases -> Case
-                    foreach (var dbCase in dbCases)
-                    {
-                        Case nCase = new Case();
-                        nCase.CaseType = dbCase.Type;
-                        nCase.CaseUId = dbCase.CaseUid;
-                        nCase.CheckUIid = dbCase.MicrotingCheckUid;
-                        nCase.CreatedAt = dbCase.CreatedAt;
-                        nCase.Custom = dbCase.Custom;
-                        nCase.DoneAt = dbCase.DoneAt;
-                        nCase.Id = dbCase.Id;
-                        nCase.MicrotingUId = dbCase.MicrotingUid;
-                        nCase.SiteId = dbCase.Site.MicrotingUid;
-                        nCase.SiteName = dbCase.Site.Name;
-                        nCase.Status = dbCase.Status;
-                        nCase.TemplatId = dbCase.CheckListId;
-                        nCase.UnitId = dbCase.Unit.MicrotingUid;
-                        nCase.UpdatedAt = dbCase.UpdatedAt;
-                        nCase.Version = dbCase.Version;
-                        nCase.WorkerName = dbCase.Worker.FirstName + " " + dbCase.Worker.LastName;
-                        nCase.WorkflowState = dbCase.WorkflowState;
-                        nCase.FieldValue1 = dbCase.FieldValue1;
-                        nCase.FieldValue2 = dbCase.FieldValue2;
-                        nCase.FieldValue3 = dbCase.FieldValue3;
-                        nCase.FieldValue4 = dbCase.FieldValue4;
-                        nCase.FieldValue5 = dbCase.FieldValue5;
-                        nCase.FieldValue6 = dbCase.FieldValue6;
-                        nCase.FieldValue7 = dbCase.FieldValue7;
-                        nCase.FieldValue8 = dbCase.FieldValue8;
-                        nCase.FieldValue9 = dbCase.FieldValue9;
-                        nCase.FieldValue10 = dbCase.FieldValue10;
-
-                        rtrnLst.Add(nCase);
-                    }
-                    #endregion
-
-                    CaseList caseList = new CaseList(numOfElements, pageSize, rtrnLst);
-                    
-                    
-                    return caseList;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("CaseReadFull failed", ex);
-            }
+                catch (Exception ex)
+                {
+                    throw new Exception("CaseReadFull failed", ex);
+                }
+            });
+
+            CaseList caseList = new CaseList(numOfElements, pageSize, rtrnLst);
+
+
+            return caseList;
         }
 
         /// <summary>

@@ -29,83 +29,83 @@ namespace Microting.eForm.Communication
 {
     internal interface IHttp
     {
-        string Post(string xmlData, string siteId);
+        Task<string> Post(string xmlData, string siteId);
 
         Task<string> Status(string elementId, string siteId);
 
         Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);
 
-        string Delete(string elementId, string siteId);
+        Task<string> Delete(string elementId, string siteId);
 
-        string EntitySearchGroupCreate(string name, string id);
+        Task<string> EntitySearchGroupCreate(string name, string id);
 
-        bool EntitySearchGroupUpdate(int id, string name, string entityGroupMUId);
+        Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId);
 
-        bool EntitySearchGroupDelete(string entityGroupId);
+        Task<bool> EntitySearchGroupDelete(string entityGroupId);
 
-        string EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id);
+        Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id);
 
-        bool EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id);
+        Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id);
 
-        bool EntitySearchItemDelete(string entitySearchItemId);
+        Task<bool> EntitySearchItemDelete(string entitySearchItemId);
 
-        string EntitySelectGroupCreate(string name, string id);
+        Task<string> EntitySelectGroupCreate(string name, string id);
 
-        bool EntitySelectGroupUpdate(int id, string name, string entityGroupMUId);
+        Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId);
 
-        bool EntitySelectGroupDelete(string entityGroupId);
+        Task<bool> EntitySelectGroupDelete(string entityGroupId);
 
-        string EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id);
+        Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id);
 
-        bool EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id);
+        Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id);
 
-        bool EntitySelectItemDelete(string entitySelectItemId);
+        Task<bool> EntitySelectItemDelete(string entitySelectItemId);
 
-        bool PdfUpload(string name, string hash);
+        Task<bool> PdfUpload(string name, string hash);
 
-        string TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
+        Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
 
-        string SiteCreate(string name);
+        Task<string> SiteCreate(string name);
 
-        bool SiteUpdate(int id, string name);
+        Task<bool> SiteUpdate(int id, string name);
 
-        string SiteDelete(int id);
+        Task<string> SiteDelete(int id);
 
-        string SiteLoadAllFromRemote();
+        Task<string> SiteLoadAllFromRemote();
 
-        string WorkerCreate(string firstName, string lastName, string email);
+        Task<string> WorkerCreate(string firstName, string lastName, string email);
 
-        bool WorkerUpdate(int id, string firstName, string lastName, string email);
+        Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email);
 
-        string WorkerDelete(int id);
+        Task<string> WorkerDelete(int id);
 
-        string WorkerLoadAllFromRemote();
+        Task<string> WorkerLoadAllFromRemote();
 
-        string SiteWorkerCreate(int siteId, int workerId);
+        Task<string> SiteWorkerCreate(int siteId, int workerId);
 
-        string SiteWorkerDelete(int id);
+        Task<string> SiteWorkerDelete(int id);
 
         Task<string> SiteWorkerLoadAllFromRemote();
 
-        string FolderLoadAllFromRemote();
+        Task<string> FolderLoadAllFromRemote();
 
-        string FolderCreate(string name, string description, int? parent_id);
+        Task<string> FolderCreate(string name, string description, int? parent_id);
 
-        bool FolderUpdate(int id, string name, string description, int? parent_id);
+        Task<bool> FolderUpdate(int id, string name, string description, int? parent_id);
 
-        string FolderDelete(int id);
+        Task<string> FolderDelete(int id);
 
-        int UnitRequestOtp(int id);
+        Task<int> UnitRequestOtp(int id);
 
-        string UnitLoadAllFromRemote();
+        Task<string> UnitLoadAllFromRemote();
 
-        string UnitDelete(int id);
+        Task<string> UnitDelete(int id);
 
-        string OrganizationLoadAllFromRemote();
+        Task<string> OrganizationLoadAllFromRemote();
 
-        int SpeechToText(string pathToAudioFile, string language);
+        Task<int> SpeechToText(string pathToAudioFile, string language);
 
-        JToken SpeechToText(int requestId);
+        Task<JToken> SpeechToText(int requestId);
 
     }
 }
